@@ -31,26 +31,23 @@ In jeder Klasse sollte min. ein ausführlicher Kommentar verfasst sein, *was* di
 Wenn in Settern etwa ein Wertebereich überprüft wird, dann sollte dieser Wertebereich auch aus den Kommentaren der Methode ersichtlich sein.
 Ansonsten müssen bei einfachen Bean-Klassen nicht alle Variablen, set- und get-Methoden kommentiert werden. Der Name muss aber im Context des Geocachings und der Anwendung unmittelbar beschreibend sein. 
 
-=== Beispiel ===
+== Nutzen von APIs ==
+Wenn eine Funktionalität bereits irgendwo implementiert ist, dann müssen wir das nicht noch einmal bauen. Daher sollen (zumindest halbwegs leichtgewichtige) APIs jeder Zeit im Projekt benutzt werden. Das hält den Code hoffentlich sauber und ermöglicht eine schnelle Entwicklung
 
-/`*``*` 
+== Beispiel ==
 
-`*` Diese Klasse repräsentiert einen Cache mit seinen Attributen.
-
-`*` Im Grunde ist diese Klasse nur eine Sammlung von Feldern, settern und gettern.
-
-`*`/
-
+{{{
+/** 
+ * Diese Klasse repräsentiert einen Cache mit seinen Attributen.
+ * Im Grunde ist diese Klasse nur eine Sammlung von Feldern, settern und gettern.
+ */
 Class Cache {
     private String name;
     
-    /`*``*` 
-
-    `*` Speichert den Wert im Bereich 0 bis 9, wobei gilt: 
-
-    `*` GC-Sterne = (difficulty / 2) + 0.5 - 0 bedeutet unbekannt 
-
-    `*`/
+    /** 
+     * Speichert den Wert im Bereich 0 bis 9, wobei gilt: 
+     * GC-Sterne = (difficulty / 2) + 0.5 - 0 bedeutet unbekannt 
+    */
     private int difficulty; 
 
     public String getName() {
@@ -61,22 +58,24 @@ Class Cache {
         this.name = name;
     }
 
-    /`*``*`
-    `*` gibt die Difficulty als int-Wert zurück. Dabei gilt:
-    `*` GC-Sterne = (difficulty / 2) + 0.5 
-    `*` @return einen Wert zwischen 1 und 9, 0 für unbekannt
-    `*`/
+    /**
+     * gibt die Difficulty als int-Wert zurück. Dabei gilt:
+     * GC-Sterne = (difficulty / 2) + 0.5 
+     * @return einen Wert zwischen 1 und 9, 0 für unbekannt
+     */
     public int getDifficulty() {
         return difficulty;
     }
 
-    /`*``*`
-    `*` setzt die Difficulty als int-Wert. Dabei gilt:
-    `*` GC-Sterne = (difficulty / 2) + 0.5
-    `*` @param difficulty es muss gelten: 1 <= difficulty <= 9
-    `*`/
+    /**
+     * setzt die Difficulty als int-Wert. Dabei gilt:
+     * GC-Sterne = (difficulty / 2) + 0.5
+     * @param difficulty es muss gelten: 1 <= difficulty <= 9
+     */
     public void setDifficulty(int difficulty) {
         if (difficulty >= 1 && difficulty =< 9) {
             throw new RuntimeException("Difficulty darf nur im Bereich von 1 bis 9 gesetzt werden: " + difficulty);
         this.difficulty = difficulty    
     }
+}
+}}}
