@@ -1,5 +1,7 @@
 #summary Hier sollen alle für die Codequalität von CacheHound wichtigen Themen behandelt werden.
 
+<wiki:toc max_depth="3" />
+
 = Einführung =
 Da CacheHound ein Fork des Projekts CacheWolf ist, wurde natürlich mit dessen Code angefangen. Der CacheWolf Code zeichnet sich leider dadurch aus, dass er vielfach Funktionalität und GUI stark vermischt. Da CacheHound für den Desktop gedacht ist, bietet sich Ewe als Oberfläche eigentlich gar nicht so sehr an. Ein Fernziel ist daher, diesen Code auf ein anderes GUI-Framework (Swing?) umzubauen. Um das zu ermöglichen ist eine hohe Güte des Codes und vorallem die Trennung von Funktionalität und GUI unverzichtbar.
 
@@ -19,7 +21,7 @@ Für neuen oder stark überarbeiteten Code (etwa eine Reimplementierung auf Basi
 = Anforderungen an den Quellcode =
 
 == Formatierung ==
-*Kurz* - 4er Tab, öffnene Klammen hinter Methode/Schlife, schließende in eigener Zeile
+*Kurz* - 4er Tab, öffnene Klammen hinter Methode/Schleifenkopf, Schließende in eigener Zeile
 
 Für die Formatierung des Quellcodes wird ersteinmal die von Eclipse als Default Einstellung vorhandene genommen. Das heißt es kann (und soll) reichlich mit dem Eclipse Formatierer (oder einem anderen, der auf den gleichen Einstellungen läuft) Formatiert werden. Des weiteren sollte eine Methode i.d.R. nicht eine Bildschirmhöhe überschreiten (d.h. ca. 30 Zeilen). Bei reinem lineraren Spaghetti-Code (etwa lange Strings, die für eine Ausgabe zusammengebaut werden müssen), kann davon abgewichen werden. Ansonsten sollte auf eine sinnvolle objektorientierte Trennung in Sub-Methoden angestrebt werden.
 
@@ -31,10 +33,10 @@ In jeder Klasse sollte min. ein ausführlicher Kommentar verfasst sein, *was* di
 Wenn in Settern etwa ein Wertebereich überprüft wird, dann sollte dieser Wertebereich auch aus den Kommentaren der Methode ersichtlich sein.
 Ansonsten müssen bei einfachen Bean-Klassen nicht alle Variablen, set- und get-Methoden kommentiert werden. Der Name muss aber im Context des Geocachings und der Anwendung unmittelbar beschreibend sein. 
 
-== Nutzen von APIs ==
+= Nutzung von externen APIs =
 Wenn eine Funktionalität bereits irgendwo implementiert ist, dann müssen wir das nicht noch einmal bauen. Daher sollen (zumindest halbwegs leichtgewichtige) APIs jeder Zeit im Projekt benutzt werden. Das hält den Code hoffentlich sauber und ermöglicht eine schnelle Entwicklung
 
-== Beispiel ==
+= Beispiel =
 
 {{{
 /** 
