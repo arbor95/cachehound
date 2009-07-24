@@ -17,7 +17,6 @@ import com.stevesoft.ewe_pat.Regex;
 import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.util.GPSBabel;
-
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Sound;
@@ -32,7 +31,6 @@ import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 import ewe.sys.Date;
 import ewe.sys.Handle;
-import ewe.sys.Process;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.Control;

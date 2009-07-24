@@ -5,7 +5,6 @@ import ewe.fx.IconAndText;
 import ewe.fx.Point;
 import ewe.fx.Rect;
 import ewe.io.File;
-import ewe.io.IOException;
 import ewe.sys.Handle;
 import ewe.sys.Vm;
 import ewe.ui.Control;
@@ -346,25 +345,10 @@ public class myTableControl extends TableControl {
 			if (browserPathIsValid()) {
 				ch = cacheDB.get(tbp.getSelectedCache());
 				CacheHolderDetail chD = ch.getCacheDetails(false, true);
-				try {
-					if (chD != null) {
-						CWWrapper.exec(pref.browser, chD.URL); // maybe this
-																// works on some
-																// PDAs?
-					}
-				} catch (IOException ex) {
-					(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale
-							.getMsg(1034, "Cannot start browser!")
-							+ "\n"
-							+ ex.toString()
-							+ "\n"
-							+ MyLocale.getMsg(1035, "Possible reason:")
-							+ "\n"
-							+ MyLocale.getMsg(1036,
-									"A bug in ewe VM, please be")
-							+ "\n"
-							+ MyLocale.getMsg(1037, "patient for an update"),
-							FormBase.OKB)).execute();
+				if (chD != null) {
+					CWWrapper.exec(pref.browser, chD.URL); // maybe this
+															// works on some
+															// PDAs?
 				}
 			}
 		} else
