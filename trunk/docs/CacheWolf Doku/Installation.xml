@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter>
+  <chapterinfo>
+    <title>Installation</title>
+
+    <date>12.3.2008</date>
+
+    <releaseinfo>CacheWolf 1.0</releaseinfo>
+
+    <author>
+      <surname>Marc Schnitzler</surname>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>7. September 2007</date>
+
+        <author>
+          <surname>Marc Schnitzler</surname>
+        </author>
+
+        <revdescription>
+          <para>Erster Entwurf, kopiert www.cachewolf.de</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.99</revnumber>
+
+        <date>12.3.2008</date>
+
+        <author>
+          <surname>Marc Schnitzler</surname>
+        </author>
+
+        <revdescription>
+          <para>Kapitel fertig</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+  </chapterinfo>
+
+  <title>Installation</title>
+
+  <para>Cachewolf ist verfĂĽgbar in verschiedenen Versionen fĂĽr Windows, Linux,
+  PocketPC (ARM/PPC) und Zaurus. Die primĂ¤re Downloadseite ist BerliOS, als
+  Alternative kannst du dir den Cachewolf auch direkt unter
+  <uri>http://www.cachewolf.de/wiki/pmwiki.php/Main/Download</uri>
+  herunterladen.</para>
+
+  <section>
+    <title>Welche Cachewolf - Version fĂĽr was?</title>
+
+    <para>Cachewolf stellt verschiedene Versionen der Software zur VerfĂĽgung,
+    um verschiedene Betriebssysteme und Laufzeitumgebungen zu
+    unterstĂĽtzen.</para>
+
+    <section>
+      <title>Windows</title>
+
+      <para>Hier gibt es 2 MĂ¶glichkeiten. Eine mit einfacher Installation und
+      eine, bei der Cachewolf schneller arbeitet. Wir empfehlen die Variante,
+      in der CacheWolf schneller arbietet. Dies ist der Fall bei Verwendung
+      der Java-Version. Bitte lies dort, welche Schritte zur Installation
+      notwendig sind.</para>
+
+      <para>Alternativ kannst Du die einfache Installation verwenden: Einfach
+      die .zip-Datei in ein Verzeichnis Deiner Wahl entpacken. Durch einen
+      Doppelklick auf das CacheWolf Icon startet das Programm.</para>
+    </section>
+
+    <section>
+      <title>Java</title>
+
+      <para>FĂĽr den Einsatz der Java-Version benĂ¶tigst du eine Java-Runtime in
+      der Version 1.5 oder hĂ¶her. Diese bekommst du entweder direkt bei Sun
+      ĂĽber http://www.java.com/de/download/ (zumindest fĂĽr Windows) oder ĂĽber
+      die Linux-eigene Paketverwaltung (SuSE: YaST, Debian:
+      apt-get,...).</para>
+
+      <para>Nach der Installation von java klicken Windows-Nutzer klicken
+      einfach auf cachewolf.bat</para>
+
+      <para>Linux-Nutzer starten das Cachewolf ĂĽber die Kommandozeile mittels:
+      <literal>java -jar "/Pfadzucachewolf/CacheWolf.jar"
+      &amp;</literal></para>
+    </section>
+
+    <section>
+      <title>Pocket PC</title>
+
+      <para>Der Cachewolf lĂ¤uft auf PocketPCs ĂĽber eine sogenannte virtuelle
+      Maschine (EWE VM). Diese stellt die Grundlage aller Funktionen des CW
+      dar und dadurch lĂ¤uft er auf fast allen PocketPCs.</para>
+
+      <para>Es existieren zwei optimierte Versionen von Cachewolf fĂĽr den
+      PocketPC: fĂĽr GerĂ¤te mit ARM-Prozessor und fĂĽr GerĂ¤te mit
+      Intel-Prozessor. Welche Version benĂ¶tigt wird, kann man auch durch
+      Probieren ermitteln (teilweise laufen auch beide Versionen). ZusĂ¤tzlich
+      gibt es noch Versionen fĂĽr SH3 und MIPS Prozessoren. </para>
+
+      <para>CacheWolf erkennt ĂĽbrigens VGA-GerĂ¤te und stellt die AuflĂ¶sung
+      entsprechend ein.</para>
+
+      <highlights>
+        <para>Aus der FAQ:</para>
+
+        <para>Frage 3: Welche Version von CacheWolf ist die richtige fĂĽr mein
+        Pocket PC?</para>
+
+        <para>Antwort: Diese Frage ist leider nicht so einfach zu
+        beantworten.</para>
+
+        <para>Auf dieser Seite (www.pocketpc-users.de) gibt es eine sehr gute
+        Beschreibung.</para>
+
+        <para>Vielleicht hilft aber folgende (kurze) Zusammenfassung:</para>
+
+        <para>* Hast Du ein Pocket PC 2000 GerĂ¤t, dann benutzt es
+        wahrscheinlich einen ARM (kompatiblen) Prozessor. Es gibt allerdings
+        Ausnahmen, die einen SH3 oder MIPS Prozessor nutzen.</para>
+
+        <para>* Pocket PC 2002 und 2003 GerĂ¤te nutzen ausschlieĂźlich einen ARM
+        (kompatiblen) Prozessor.</para>
+
+        <para>* Hast Du Dein GerĂ¤t in der zweiten JahreshĂ¤lfte von 2004 oder
+        spĂ¤ter gekauft, dann solltest Du die "PocketPC2003" Version von
+        CacheWolf installieren. Die "ARM" Version sollte zwar auch laufen,
+        kann aber nicht alle Funktionen Deines GerĂ¤ts optimal nutzen.
+        Beispiele (von Nutzern):</para>
+
+        <para>** PocketPCArm: XDA Trion, ASUS632,Yakumo Delta GPS, Loox N520,
+        Compaq IPAQ 6915, Medion MDPPC250, FSC Loox N560, Dell Axim X51V,
+        Yakumo DeltaX5BT, Acer N35</para>
+
+        <para>** PocketPC2003: Loox N520, Mio Digi Walker P550</para>
+
+        <para>** Zaurus: Sharp SL-C1000</para>
+
+        <para>Sagt dir das alles gar nichts, probier einfach die Versionen
+        durch - eine wird auf jeden Fall funktionieren!</para>
+      </highlights>
+
+      <section>
+        <title>Installation</title>
+
+        <itemizedlist>
+          <para>Die Installation ist ein mehrstufiger Prozess:</para>
+
+          <listitem>
+            <para>Zuerst muss die EWE VM (Virtual Machine) installiert
+            werden:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>EWE VM unter
+                <uri>http://www.ewesoft.com/Downloads/Downloads.html#_Toc105819897</uri>
+                herunterladen.</para>
+
+                <para>Hier darauf achten, die richtige Version ("Low
+                Resolution" fĂĽr normale PDAs oder "High Resolution" fĂĽr
+                VGA-PDAs) zu laden.</para>
+              </listitem>
+
+              <listitem>
+                <para>Installation der VM wie unter dem Download-Link
+                beschrieben: die .cab-Datei auf den PDA ĂĽbertragen (mittels
+                Speicherkarte oder ActiveSync) und dann auf dem PDA
+                ausfĂĽhren.</para>
+              </listitem>
+
+              <listitem>
+                <para>Nach erfolgter Installation unter Start -&gt; Programme
+                -&gt; EWE das Programm EWE starten. Damit werden noch
+                notwendige SystemeintrĂ¤ge gemacht und die VM ist nun
+                funktionsfĂ¤hig. Das Programm wieder schlieĂźen und die Funktion
+                ĂĽberprĂĽfen, indem eines der beiligenden Programme (z.B.
+                Solitaire) gestartet wird.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Die entsprechende CacheWolf .zip-Datei auf dem PC
+            entpacken.</para>
+          </listitem>
+
+          <listitem>
+            <para>Die ganzen Dateien dann auf den PocketPC in ein Verzeichnis
+            deiner Wahl kopiert werden.</para>
+          </listitem>
+
+          <listitem>
+            <para>Nach dem Kopieren wird CacheWolf durch Klick auf die
+            Cachewolf.exe gestartet.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Wichtige Information zur Nutzung von GPS EmpfĂ¤ngern</title>
+
+        <para>Bevor der Cachewolf sauber lĂ¤uft gilt es, je nach PDA ein paar
+        Hindernisse zu umschiffen (die aber nicht vom CW stammen!).</para>
+
+        <orderedlist>
+          <listitem>
+            <para><emphasis role="bold">Zugriff auf GPS:</emphasis> Solltest
+            du neben dem CW noch weitere Software einsetzen (z.B.
+            Navi-Software), die Zugriff auf das GPS haben will, so kann es (je
+            nach Software und PDA) vorkommen, dass diese Software - einmal
+            gestartet - den Zugriff auf das GPS exklusiv nimmt und andere
+            Programme das nachsehen haben (auch wenn z.B. die Navi-Software
+            gerade nicht mehr lĂ¤uft!). Die LĂ¶sung besteht darin, das
+            GPS-Signal zu splitten, was beispielsweise der VirtCommMgr
+            kann.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Static Navigation:</emphasis> dies
+            bezeichnet ein "Feature" fĂĽr Navis, die die RoutenfĂĽhrung
+            aussetzt, wenn man sich langsamer als 6 km/h bewegt. FĂĽrs Cachen
+            natĂĽrlich etwas ungĂĽnstig, aber man kann es (ohne Nebenwirkungen
+            fĂĽr Navi-Software) abschalten - z.B. mittels des Programms
+            SirfTech.</para>
+          </listitem>
+        </orderedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Zaurus</title>
+
+      <para>Wie auch beim PocketPC ist die Installation ein mehrstufiger
+      Prozess.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Zuerst muss die EWE VM (Virtual Machine) installiert werden:
+          Download hier:
+          <uri>http://www.ewesoft.com/Downloads/Downloads.html#_Toc105</uri></para>
+        </listitem>
+
+        <listitem>
+          <para>FĂĽr den Zaurus existiert eine .ipk-Datei, womit die
+          Installation recht einfach ist.</para>
+        </listitem>
+
+        <listitem>
+          <para>Danach muss der Inhalt der CacheWolf .zip-Datei in ein
+          Verzeichnis deiner Wahl auf den Zaurus ĂĽbertragen werden.</para>
+        </listitem>
+
+        <listitem>
+          <para>Das Programm wird mit CacheWolf.ewe gestartet.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+</chapter>
