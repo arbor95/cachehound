@@ -1,9 +1,5 @@
 package CacheWolf;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.OCXMLImporter;
 import CacheWolf.imp.OCXMLImporterScreen;
