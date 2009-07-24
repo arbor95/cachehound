@@ -1,9 +1,9 @@
 package CacheWolf;
 
 /**
- * This class represents the settings of the filter that can be done when the users changes the
- * filter in CacheWolf.
- *
+ * This class represents the settings of the filter that can be done when the
+ * users changes the filter in CacheWolf.
+ * 
  */
 public class FilterData {
 
@@ -34,47 +34,61 @@ public class FilterData {
 
 	/**
 	 * Constructor for a profile
-	 *
+	 * 
 	 */
-	public FilterData(){ // public constructor
+	public FilterData() { // public constructor
 	}
 
 	/**
-	 * Returns an XML representation of the filter data. If a non empty String is passed as
-	 * parameter, then this String is used as ID-tag for the filter. If it is empty, then the ID
-	 * tag will not appear in the cache data. The ID tag is the string which is used in the filter
-	 * screen to appear in the filter list.
-	 * @param ID ID tag of filter 
+	 * Returns an XML representation of the filter data. If a non empty String
+	 * is passed as parameter, then this String is used as ID-tag for the
+	 * filter. If it is empty, then the ID tag will not appear in the cache
+	 * data. The ID tag is the string which is used in the filter screen to
+	 * appear in the filter list.
+	 * 
+	 * @param ID
+	 *            ID tag of filter
 	 * @return XML represenation of filter
 	 */
 	public String toXML(String ID) {
-		String saveID="";
-		if (ID != null && ! ID.equals("")) {
-			saveID = "id = \""+SafeXML.strxmlencode(ID)+"\" ";
+		String saveID = "";
+		if (ID != null && !ID.equals("")) {
+			saveID = "id = \"" + SafeXML.strxmlencode(ID) + "\" ";
 		}
-	    return "    <FILTERDATA "+saveID+"rose = \""+getFilterRose()+"\" type = \""+getFilterType()+
-		"\" var = \""+getFilterVar()+"\" dist = \""+getFilterDist().replace('"',' ')+"\" diff = \""+
-		getFilterDiff()+"\" terr = \""+getFilterTerr()+"\" size = \""+getFilterSize()+"\" attributesYes = \""+getFilterAttrYes()+
-		"\" attributesNo = \""+getFilterAttrNo()+"\" attributesChoice = \""+getFilterAttrChoice()+
-		"\" status = \""+SafeXML.strxmlencode(getFilterStatus())+"\" useRegexp = \""+useRegexp()+"\" />\n";	
+		return "    <FILTERDATA " + saveID + "rose = \"" + getFilterRose()
+				+ "\" type = \"" + getFilterType() + "\" var = \""
+				+ getFilterVar() + "\" dist = \""
+				+ getFilterDist().replace('"', ' ') + "\" diff = \""
+				+ getFilterDiff() + "\" terr = \"" + getFilterTerr()
+				+ "\" size = \"" + getFilterSize() + "\" attributesYes = \""
+				+ getFilterAttrYes() + "\" attributesNo = \""
+				+ getFilterAttrNo() + "\" attributesChoice = \""
+				+ getFilterAttrChoice() + "\" status = \""
+				+ SafeXML.strxmlencode(getFilterStatus()) + "\" useRegexp = \""
+				+ useRegexp() + "\" />\n";
 	}
+
 	/**
-	 * Ensure that all filters have the proper length so that the 'charAt' access in the filter do
-	 * not cause nullPointer Exceptions
+	 * Ensure that all filters have the proper length so that the 'charAt'
+	 * access in the filter do not cause nullPointer Exceptions
 	 */
 	public void normaliseFilters() {
 		String manyOnes = "11111111111111111111111111111";
 		if (getFilterRose().length() < FILTERROSE.length()) {
-			setFilterRose((getFilterRose() + manyOnes).substring(0, FILTERROSE.length()));
+			setFilterRose((getFilterRose() + manyOnes).substring(0, FILTERROSE
+					.length()));
 		}
 		if (getFilterVar().length() < FILTERVAR.length()) {
-			setFilterVar((getFilterVar() + manyOnes).substring(0, FILTERVAR.length()));
+			setFilterVar((getFilterVar() + manyOnes).substring(0, FILTERVAR
+					.length()));
 		}
 		if (getFilterType().length() < FILTERTYPE.length()) {
-			setFilterType((getFilterType() + manyOnes).substring(0, FILTERTYPE.length()));
+			setFilterType((getFilterType() + manyOnes).substring(0, FILTERTYPE
+					.length()));
 		}
 		if (getFilterSize().length() < FILTERSIZE.length()) {
-			setFilterSize((getFilterSize() + manyOnes).substring(0, FILTERSIZE.length()));
+			setFilterSize((getFilterSize() + manyOnes).substring(0, FILTERSIZE
+					.length()));
 		}
 		if (getFilterDist().length() == 0)
 			setFilterDist("L");
@@ -167,19 +181,19 @@ public class FilterData {
 	}
 
 	public String getFilterStatus() {
-    	return filterStatus;
-    }
+		return filterStatus;
+	}
 
 	public void setFilterStatus(String filterStatus) {
-    	this.filterStatus = filterStatus;
-    }
+		this.filterStatus = filterStatus;
+	}
 
 	public boolean useRegexp() {
-    	return useRegexp;
-    }
+		return useRegexp;
+	}
 
 	public void setUseRegexp(boolean useRegexp) {
-    	this.useRegexp = useRegexp;
-    }
+		this.useRegexp = useRegexp;
+	}
 
 }

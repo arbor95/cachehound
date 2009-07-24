@@ -1,9 +1,7 @@
 package de.cachehound.imp.mail;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -144,24 +142,26 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * de.flopl.geocaching.mail.IGCMailHandler#handlePocketQuery(javax.mail.
 	 * Message, java.lang.String)
 	 */
-	public boolean handlePocketQuery(Message message, String subject) throws MessagingException, IOException {
+	public boolean handlePocketQuery(Message message, String subject)
+			throws MessagingException, IOException {
 		Multipart mp = (Multipart) message.getContent();
-				
-		 for (int j = 0; j < mp.getCount(); j++) {
+
+		for (int j = 0; j < mp.getCount(); j++) {
 			Part part = mp.getBodyPart(j);
 			String disposition = part.getDisposition();
 
 			if (disposition == null) {
 				MimeBodyPart mimePart = (MimeBodyPart) part;
-				System.out.println("PQuery " + j + ": " + mimePart.getContentType());
-				
-//				if (mimePart.isMimeType("text/plain")) {
-//					BufferedReader in = new BufferedReader(
-//							new InputStreamReader(mimePart.getInputStream()));
-//
-//					for (String line; (line = in.readLine()) != null;)
-//						System.out.println("   " + line);
-//				}
+				System.out.println("PQuery " + j + ": "
+						+ mimePart.getContentType());
+
+				// if (mimePart.isMimeType("text/plain")) {
+				// BufferedReader in = new BufferedReader(
+				// new InputStreamReader(mimePart.getInputStream()));
+				//
+				// for (String line; (line = in.readLine()) != null;)
+				// System.out.println("   " + line);
+				// }
 				if (mimePart.isMimeType("APPLICATION/ZIP")) {
 					InputStream in = mimePart.getInputStream();
 					ZipInputStream zipIn = new ZipInputStream(in);

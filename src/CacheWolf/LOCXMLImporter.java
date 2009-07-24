@@ -28,8 +28,9 @@ package CacheWolf;
 
 //TODO: move to CacheWOlf.imp
 
+import ewe.io.FileReader;
+import ewe.io.Reader;
 import ewe.sys.Vm;
-import ewe.io.*;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 

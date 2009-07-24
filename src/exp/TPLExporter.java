@@ -21,7 +21,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    */
+ */
 
 package exp;
 
@@ -32,102 +32,111 @@ import CacheWolf.CacheHolderDetail;
 import CacheWolf.CacheSize;
 import CacheWolf.CacheTerrDiff;
 import CacheWolf.CacheType;
+import CacheWolf.Common;
 import CacheWolf.Global;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
-import CacheWolf.Common;
 import HTML.Template;
+
+import com.stevesoft.ewe_pat.Regex;
+
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.*;
-import ewe.sys.*;
-import ewe.ui.*;
-import ewe.util.*;
-import com.stevesoft.ewe_pat.*;
+import ewe.io.AsciiCodec;
+import ewe.io.BufferedWriter;
+import ewe.io.File;
+import ewe.io.FileWriter;
+import ewe.io.JavaUtf8Codec;
+import ewe.io.PrintWriter;
+import ewe.io.TextCodec;
+import ewe.sys.Vm;
+import ewe.ui.FormBase;
+import ewe.ui.MessageBox;
+import ewe.ui.ProgressBarForm;
+import ewe.util.Hashtable;
+import ewe.util.Vector;
 
 /**
- * @author Kalle
- * class to export cachedata using a template
+ * @author Kalle class to export cachedata using a template
  */
-class TplFilter implements HTML.Tmpl.Filter
-{
-	private int type=SCALAR;
-	private String newLine="\n";
+class TplFilter implements HTML.Tmpl.Filter {
+	private int type = SCALAR;
+	private String newLine = "\n";
 	TextCodec codec = new AsciiCodec();
 	String badChars;
 	String decSep = ".";
-	
 
-	public TplFilter(){
+	public TplFilter() {
 		codec = new AsciiCodec(AsciiCodec.STRIP_CR);
 		return;
 	}
-	
+
 	public int format() {
 		return this.type;
 	}
-	
+
 	public String parse(String t) {
-		//Vm.debug(t);
+		// Vm.debug(t);
 		Regex rex, rex1;
 		String param, value;
-		// Filter newlines 
-		rex = new Regex("(?m)\n$","");
+		// Filter newlines
+		rex = new Regex("(?m)\n$", "");
 		t = rex.replaceAll(t);
 
 		// Filter comments <#-- and -->
-		rex = new Regex("<#--.*-->","");
+		rex = new Regex("<#--.*-->", "");
 		t = rex.replaceAll(t);
 
 		// replace <br> or <br /> with newline
-		rex = new Regex("<br.*>","");
+		rex = new Regex("<br.*>", "");
 		rex.search(t);
-		if (rex.didMatch()){
+		if (rex.didMatch()) {
 			t = rex.replaceAll(t);
 			t += newLine;
 		}
-		
+
 		// search for parameters
 		rex = new Regex("(?i)<tmpl_par.*>");
 		rex.search(t);
-		if (rex.didMatch()){
+		if (rex.didMatch()) {
 			// get parameter
 			rex1 = new Regex("(?i)name=\"(.*)\"\\svalue=\"(.*)\"[?\\s>]");
 			rex1.search(t);
 			param = rex1.stringMatched(1);
 			value = rex1.stringMatched(2);
-			//Vm.debug("param=" + param + "\nvalue=" + value);
-			//clear t, because we allow only one parameter per line
+			// Vm.debug("param=" + param + "\nvalue=" + value);
+			// clear t, because we allow only one parameter per line
 			t = "";
-			
+
 			// get the values
 			if (param.equals("charset")) {
-				if (value.equals("ASCII")) codec = new AsciiCodec();
-				if (value.equals("UTF8")) codec = new JavaUtf8Codec();
+				if (value.equals("ASCII"))
+					codec = new AsciiCodec();
+				if (value.equals("UTF8"))
+					codec = new JavaUtf8Codec();
 			}
 			if (param.equals("badchars")) {
 				badChars = value;
 			}
-			if (param.equals("newline")){
+			if (param.equals("newline")) {
 				newLine = "";
-				if (value.indexOf("CR") >= 0) newLine += "\r";
-				if (value.indexOf("LF") >= 0) newLine += "\n";
+				if (value.indexOf("CR") >= 0)
+					newLine += "\r";
+				if (value.indexOf("LF") >= 0)
+					newLine += "\n";
 			}
 			if (param.equals("decsep")) {
 				decSep = value;
 			}
 
-
 		}
 		return t;
 	}
-		
-	
-	public String [] parse(String [] t) {
+
+	public String[] parse(String[] t) {
 		throw new UnsupportedOperationException();
 	}
 }
- 
 
 public class TPLExporter {
 	CacheDB cacheDB;
@@ -135,44 +144,50 @@ public class TPLExporter {
 	Profile profile;
 	String tplFile;
 	String expName;
-	Regex rex=null;
-	
-	public TPLExporter(Preferences p, Profile prof, String tpl){
+	Regex rex = null;
+
+	public TPLExporter(Preferences p, Profile prof, String tpl) {
 		pref = p;
-		profile=prof;
+		profile = prof;
 		cacheDB = profile.cacheDB;
 		tplFile = tpl;
 		File tmpFile = new File(tpl);
 		expName = tmpFile.getName();
 		expName = expName.substring(0, expName.indexOf("."));
 	}
-	
-	public void doIt(){
+
+	public void doIt() {
 		CacheHolderDetail det;
 		CacheHolder ch;
 		ProgressBarForm pbf = new ProgressBarForm();
 		ewe.sys.Handle h = new ewe.sys.Handle();
 
-		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref.getExportPath(expName));
+		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref
+				.getExportPath(expName));
 		fc.setTitle("Select target file:");
-		if(fc.execute() == FormBase.IDCANCEL) return;
+		if (fc.execute() == FormBase.IDCANCEL)
+			return;
 		File saveTo = fc.getChosenFile();
 		pref.setExportPath(expName, saveTo.getPath());
 		int counter = cacheDB.countVisible();
 		pbf.showMainTask = false;
-		pbf.setTask(h,"Exporting ...");
+		pbf.setTask(h, "Exporting ...");
 		pbf.exec();
 		Vm.gc(); // all this doesn't really work :-(
 		System.runFinalization();
 		Vm.gc();
-		//Vm.debug("v: "+Vm.countObjects(true));
+		// Vm.debug("v: "+Vm.countObjects(true));
 		try {
-			Vector cache_index = new Vector(); // declare variables inside try {} -> in case of OutOfMemoryError, they can be garbage collected - anyhow it doesn't work :-(
+			Vector cache_index = new Vector(); // declare variables inside try
+												// {} -> in case of
+												// OutOfMemoryError, they can be
+												// garbage collected - anyhow it
+												// doesn't work :-(
 			Hashtable varParams;
 			TplFilter myFilter;
-			Hashtable args = new Hashtable(); 
+			Hashtable args = new Hashtable();
 			myFilter = new TplFilter();
-			//args.put("debug", "true");
+			// args.put("debug", "true");
 			args.put("filename", tplFile);
 			args.put("case_sensitive", "true");
 			args.put("loop_context_vars", Boolean.TRUE);
@@ -180,79 +195,112 @@ public class TPLExporter {
 			args.put("filter", myFilter);
 			Template tpl = new Template(args);
 
-			for(int i = 0; i<counter;i++){
+			for (int i = 0; i < counter; i++) {
 				ch = cacheDB.get(i);
 				det = ch.getExistingDetails();
-				h.progress = (float)i/(float)counter;
+				h.progress = (float) i / (float) counter;
 				h.changed();
-				if(ch.isVisible()){
-					if (ch.pos.isValid() == false) continue;
+				if (ch.isVisible()) {
+					if (ch.pos.isValid() == false)
+						continue;
 					try {
-						Regex dec = new Regex("[,.]",myFilter.decSep);
-						if (myFilter.badChars != null) rex = new Regex("["+myFilter.badChars+"]","");
+						Regex dec = new Regex("[,.]", myFilter.decSep);
+						if (myFilter.badChars != null)
+							rex = new Regex("[" + myFilter.badChars + "]", "");
 						varParams = new Hashtable();
-						varParams.put("TYPE", CacheType.cw2ExportString(ch.getType()));
-						varParams.put("SHORTTYPE", CacheType.getExportShortId(ch.getType()));
-						varParams.put("SIZE", CacheSize.cw2ExportString(ch.getCacheSize()));
-						varParams.put("SHORTSIZE", CacheSize.getExportShortId(ch.getCacheSize()));
+						varParams.put("TYPE", CacheType.cw2ExportString(ch
+								.getType()));
+						varParams.put("SHORTTYPE", CacheType
+								.getExportShortId(ch.getType()));
+						varParams.put("SIZE", CacheSize.cw2ExportString(ch
+								.getCacheSize()));
+						varParams.put("SHORTSIZE", CacheSize
+								.getExportShortId(ch.getCacheSize()));
 						varParams.put("WAYPOINT", ch.getWayPoint());
 						varParams.put("OWNER", ch.getCacheOwner());
-						varParams.put("DIFFICULTY", (ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch.getType())?"":dec.replaceAll(CacheTerrDiff.longDT(ch.getHard())));
-						varParams.put("TERRAIN", (ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch.getType())?"":dec.replaceAll(CacheTerrDiff.longDT(ch.getTerrain())));
-						varParams.put("DISTANCE", dec.replaceAll(ch.getDistance()));
+						varParams
+								.put(
+										"DIFFICULTY",
+										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
+												.getType()) ? "" : dec
+												.replaceAll(CacheTerrDiff
+														.longDT(ch.getHard())));
+						varParams
+								.put(
+										"TERRAIN",
+										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
+												.getType()) ? ""
+												: dec
+														.replaceAll(CacheTerrDiff
+																.longDT(ch
+																		.getTerrain())));
+						varParams.put("DISTANCE", dec.replaceAll(ch
+								.getDistance()));
 						varParams.put("BEARING", ch.bearing);
 						varParams.put("LATLON", ch.LatLon);
-						varParams.put("LAT", dec.replaceAll(ch.pos.getLatDeg(CWPoint.DD)));
-						varParams.put("LON", dec.replaceAll(ch.pos.getLonDeg(CWPoint.DD)));
+						varParams.put("LAT", dec.replaceAll(ch.pos
+								.getLatDeg(CWPoint.DD)));
+						varParams.put("LON", dec.replaceAll(ch.pos
+								.getLonDeg(CWPoint.DD)));
 						varParams.put("STATUS", ch.getCacheStatus());
 						varParams.put("STATUS_DATE", ch.GetStatusDate());
 						varParams.put("STATUS_TIME", ch.GetStatusTime());
 						varParams.put("DATE", ch.getDateHidden());
 						varParams.put("URL", det.URL);
-						varParams.put("GC_LOGTYPE", (ch.is_found()?"Found it":"Didn't find it"));
+						varParams.put("GC_LOGTYPE", (ch.is_found() ? "Found it"
+								: "Didn't find it"));
 						varParams.put("DESCRIPTION", det.LongDescription);
 						if (myFilter.badChars != null) {
-							varParams.put("NAME", rex.replaceAll(ch.getCacheName()));
-							varParams.put("NOTES", rex.replaceAll(det.getCacheNotes()));
+							varParams.put("NAME", rex.replaceAll(ch
+									.getCacheName()));
+							varParams.put("NOTES", rex.replaceAll(det
+									.getCacheNotes()));
 							varParams.put("HINTS", rex.replaceAll(det.Hints));
-							varParams.put("DECRYPTEDHINTS", rex.replaceAll(Common.rot13(det.Hints)));
+							varParams.put("DECRYPTEDHINTS", rex
+									.replaceAll(Common.rot13(det.Hints)));
 						} else {
 							varParams.put("NAME", ch.getCacheName());
 							varParams.put("NOTES", det.getCacheNotes());
 							varParams.put("HINTS", det.Hints);
-							varParams.put("DECRYPTEDHINTS", Common.rot13(det.Hints));
+							varParams.put("DECRYPTEDHINTS", Common
+									.rot13(det.Hints));
 						}
 						cache_index.add(varParams);
-					}catch(Exception e){
-						Vm.debug("Problem getting Parameter, Cache: " + ch.getWayPoint());
+					} catch (Exception e) {
+						Vm.debug("Problem getting Parameter, Cache: "
+								+ ch.getWayPoint());
 						e.printStackTrace();
-						Global.getPref().log("Exception in TplExporter = Problem getting Parameter, Cache: " + ch.getWayPoint(), e, true);
+						Global.getPref().log(
+								"Exception in TplExporter = Problem getting Parameter, Cache: "
+										+ ch.getWayPoint(), e, true);
 					}
 				}
 			}
 
 			tpl.setParam("cache_index", cache_index);
-			PrintWriter detfile; 
+			PrintWriter detfile;
 			FileWriter fw = new FileWriter(saveTo);
 			fw.codec = myFilter.codec;
 			detfile = new PrintWriter(new BufferedWriter(fw));
 			tpl.printTo(detfile);
-			//detfile.print(tpl.output());
+			// detfile.print(tpl.output());
 			detfile.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Global.getPref().log("Exception in TplExporter", e, true);
 		} catch (OutOfMemoryError e) {
-			//Global.getPref().log("OutOfMemeory in TplExporter", e, true);
+			// Global.getPref().log("OutOfMemeory in TplExporter", e, true);
 			Vm.gc(); // this doesn't help :-(
 			System.runFinalization();
 			Vm.gc(); // this doesn't help :-( - I don't know why :-(
-			//Vm.debug("n: "+Vm.countObjects(true));
-			(new MessageBox("Error", "Not enough memory available to load all cache data (incl. description and logs)\nexport aborted\nFilter caches to minimise memory needed for TPL-Export\nWe recommend to restart CacheWolf now", FormBase.OKB)).execute();
-			//Vm.debug("n: "+Vm.countObjects(true));
+			// Vm.debug("n: "+Vm.countObjects(true));
+			(new MessageBox(
+					"Error",
+					"Not enough memory available to load all cache data (incl. description and logs)\nexport aborted\nFilter caches to minimise memory needed for TPL-Export\nWe recommend to restart CacheWolf now",
+					FormBase.OKB)).execute();
+			// Vm.debug("n: "+Vm.countObjects(true));
 		}
 		pbf.exit(0);
 	}
-
 
 }
