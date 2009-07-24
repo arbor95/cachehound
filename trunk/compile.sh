@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ENCODING=${ENCODING:=windows-1252}
+ENCODING=${ENCODING:=utf8}
 
 javac \
 	-source 1.3 \
