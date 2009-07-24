@@ -104,12 +104,12 @@ public class Preferences extends MinML {
 				p_ = p;
 		}
 		pathToConfigFile = STRreplace.replace(p_, "//", "/"); // this is
-																// necessary in
-																// case that the
-																// root dir is
-																// the dir where
-																// the pref.xml
-																// is stored
+		// necessary in
+		// case that the
+		// root dir is
+		// the dir where
+		// the pref.xml
+		// is stored
 		pathToConfigFile = pathToConfigFile.replace('\\', '/');
 	}
 
@@ -590,7 +590,7 @@ public class Preferences extends MinML {
 	public void characters(char ch[], int start, int length) {
 		if (collectElement != null) {
 			collectElement.append(ch, start, length); // Collect the name of the
-														// last profile
+			// last profile
 		}
 	}
 
@@ -738,8 +738,8 @@ public class Preferences extends MinML {
 			}
 			if (debug)
 				outp.print("    <debug value=\"true\" />\n"); // Keep the debug
-																// switch if it
-																// is set
+			// switch if it
+			// is set
 			// save last path of different exporters
 			Iterator itPath = exporterPaths.entries();
 			MapEntry entry;
@@ -833,8 +833,8 @@ public class Preferences extends MinML {
 		f = t.list("*.wfl", FileBase.LIST_DIRECTORIES_ONLY
 				| FileBase.LIST_ALWAYS_INCLUDE_DIRECTORIES);
 		if (f != null && f.length > 0) { // see if in a subdir of
-											// <baseDir>/maps/standard are .wfl
-											// files
+			// <baseDir>/maps/standard are .wfl
+			// files
 			String[] f2;
 			for (int i = 0; i < f.length; i++) {
 				t.set(null, ret + "/" + f[i]);
@@ -892,7 +892,7 @@ public class Preferences extends MinML {
 		String mapsDir = baseDir + mapsPath;
 		if (create && !(new FileBugfix(mapsDir).isDirectory())) { // dir exists?
 			if (new FileBugfix(mapsDir).mkdirs() == false) {// dir creation
-															// failed?
+				// failed?
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
 						+ mapsDir, FormBase.OKB)).exec();
@@ -912,7 +912,7 @@ public class Preferences extends MinML {
 				+ Common.ClearForFileName(mapkind) + "/" + subdir;
 		if (!(new FileBugfix(mapsDir).isDirectory())) { // dir exists?
 			if (new FileBugfix(mapsDir).mkdirs() == false) // dir creation
-															// failed?
+			// failed?
 			{
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
@@ -926,9 +926,9 @@ public class Preferences extends MinML {
 
 	public String getMapExpediaLoadPath() {
 		return Global.getPref().baseDir.replace('\\', '/') + "maps/expedia"; // baseDir
-																				// has
-																				// trailing
-																				// /
+		// has
+		// trailing
+		// /
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
@@ -969,9 +969,9 @@ public class Preferences extends MinML {
 			if (!profileExists
 					|| (showProfileSelector == PROFILE_SELECTOR_FORCED_ON)
 					|| (showProfileSelector == PROFILE_SELECTOR_ONOROFF && !autoReloadLastProfile)) { // Ask
-																										// for
-																										// the
-																										// profile
+				// for
+				// the
+				// profile
 				ProfilesForm f = new ProfilesForm(baseDir, lastProfile,
 						!profileExists || hasNewButton);
 				int code = f.execute();
@@ -1226,21 +1226,15 @@ public class Preferences extends MinML {
 
 	public void setgpsbabel() {
 		try {
-			ewe.sys.Process p = Vm.exec("gpsbabel -V");
+			ProcessBuilder pb = new ProcessBuilder("gpsbabel", "-V");
+			Process p = pb.start();
 			p.waitFor();
 			gpsbabel = "gpsbabel";
-		} catch (IOException ioex) {
-			// Most of the time there will be an exception, so don't complain
-		}
-		if (gpsbabel == null) {
-			try {
-				ewe.sys.Process p = Vm.exec("gpsbabel.exe -V");
-				p.waitFor();
-				gpsbabel = "gpsbabel.exe";
-			} catch (IOException ioex) {
-				// Most of the time there will be an exception, so don't
-				// complain
-			}
+		} catch (java.io.IOException e) {
+			// this is expected if gpsbabel is not found.
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

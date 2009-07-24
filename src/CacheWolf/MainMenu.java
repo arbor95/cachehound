@@ -1,5 +1,9 @@
 package CacheWolf;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.OCXMLImporter;
 import CacheWolf.imp.OCXMLImporterScreen;
@@ -525,35 +529,46 @@ public class MainMenu extends MenuBar {
 				loc.doIt();
 			}
 			if (mev.selectedItem == exportGPS) {
-				String gpsBabelCommand;
 				Vm.showWait(true);
 				LocExporter loc = new LocExporter();
-				// String tmpFileName = FileBase.getProgramDirectory() +
-				// "/temp.loc";
-				// Must not contain special characters, because we don't quote
-				// below, because quoting causes problems on some platforms.
-				// Find another way, when CW can be started from outside the
-				// program directory.
-				String tmpFileName = "temp.loc";
+				String tmpFileName = FileBase.getProgramDirectory() + "/temp.loc";
 				loc.setTmpFileName(tmpFileName);
 				loc.doIt(LocExporter.MODE_AUTO);
 				ProgressBarForm.display(MyLocale.getMsg(950, "Transfer"),
 						MyLocale.getMsg(951, "Sending to GPS"), null);
-				gpsBabelCommand = pref.gpsbabel + " "
-						+ pref.garminGPSBabelOptions + " -i geo -f "
-						+ tmpFileName + " -o garmin -F " + pref.garminConn
-						+ ":";
-				if (pref.debug)
-					pref.log(gpsBabelCommand);
+				List<String> args = new ArrayList<String>();
+				args.add(pref.gpsbabel);
+				for(String arg : Arrays.asList(pref.garminGPSBabelOptions.split(" +"))) {
+					//FIXME: pref.garminGPSBabelOptions should really be an array
+					if (!arg.equals("")) {
+						args.add(arg);
+					}
+				}
+				args.add("-i");
+				args.add("geo");
+				args.add("-f");
+				args.add(tmpFileName);
+				args.add("-o");
+				args.add("garmin");
+				args.add("-F");
+				args.add(pref.garminConn + ":");
+				if (pref.debug) {
+					pref.log(args.toString());
+				}
 				try {
-					// this will *only* work with ewe.jar at the moment
-					ewe.sys.Process p = Vm.exec(gpsBabelCommand);
+					ProcessBuilder pb = new ProcessBuilder(args);
+					Process p = pb.start();
 					p.waitFor();
-				} catch (IOException ioex) {
+				} catch (java.io.IOException e) {
 					Vm.showWait(false);
 					(new MessageBox("Error", "Garmin export unsuccessful",
 							FormBase.OKB)).execute();
-					pref.log("Error exporting to Garmin", ioex, pref.debug);
+					pref.log("Error exporting to Garmin", e, pref.debug);
+				} catch (InterruptedException e) {
+					Vm.showWait(false);
+					(new MessageBox("Error", "Garmin export unsuccessful",
+							FormBase.OKB)).execute();
+					pref.log("Error exporting to Garmin", e, pref.debug);
 				}
 				;
 				ProgressBarForm.clear();
