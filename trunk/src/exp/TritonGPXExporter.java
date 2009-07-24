@@ -17,10 +17,6 @@ import ewe.io.FileInputStream;
 import ewe.sys.Time;
 
 public class TritonGPXExporter extends Exporter {
-	private static final String STRING_TRUE = "True";
-	private static final String STRING_FALSE = "False";
-	private static final String DEFAULT_DATE = "2000-01-01";
-
 	public TritonGPXExporter() {
 		setMask("*.gpx");
 		setNeedCacheDetails(true);
