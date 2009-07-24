@@ -1,0 +1,27 @@
+ď»żZeichen sind als "Quoted printable" kodiert mit einem % Zeichen
+Siehe auch http://de.wikipedia.org/wiki/Quoted-printable
+und http://www.cs.tut.fi/~jkorpela/chars.html
+
+Leertaste: +
+Ă¤ %e4
+Ă¶ %f6
+ĂĽ %fc
+Ăź %df
+Ă„ %c4
+Ă– %d6
+Ăś %dc
+\n %0a
+Ă© %e9
+Ă¨ %e8
+Ă‰ %c9
+Ă� %c8
+Ă  %e0
+Ă€ %c0
+Ăą %f9
+Ă™ %d9
+Ă® %ee
+ĂŽ %ce
+Ă˘ %e2
+Ă‚ %c2
+Ă´ %f4
+Ă” %d4
