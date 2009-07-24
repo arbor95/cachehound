@@ -19,7 +19,6 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Font;
 import ewe.io.FileBase;
-import ewe.io.IOException;
 import ewe.sys.Vm;
 import ewe.ui.ControlEvent;
 import ewe.ui.Event;
