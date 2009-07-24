@@ -20,8 +20,12 @@ Für neuen oder stark überarbeiteten Code (etwa eine Reimplementierung auf Basi
 
 = Anforderungen an den Quellcode =
 
+== Dateiformate ==
+
+Abweichend zum CacheWolf sollen hier nur UTF-8 kodierte Ascii-Dateiformate genutzt werden. Für Zeilenende die Linux-Endungen, wobei das weniger entscheidend ist als, dass ausversehen CP1250 oder ähnliche Kodierung genutzt werden. Gerade beim Übernehmen von neuen Code aus dem CacheWolf muss daher aufgepasst werden, dass dieses ggf. umcodiert wird.
+
 == Formatierung ==
-*Kurz* - 4er Tab, öffnene Klammen hinter Methode/Schleifenkopf, Schließende in eigener Zeile
+*Kurz* - 4er Tab, öffnene Klammen hinter Methode/Schleifenkopf, Schließende in eigener Zeile,
 
 Für die Formatierung des Quellcodes wird ersteinmal die von Eclipse als Default Einstellung vorhandene genommen. Das heißt es kann (und soll) reichlich mit dem Eclipse Formatierer (oder einem anderen, der auf den gleichen Einstellungen läuft) Formatiert werden. Des weiteren sollte eine Methode i.d.R. nicht eine Bildschirmhöhe überschreiten (d.h. ca. 30 Zeilen). Bei reinem lineraren Spaghetti-Code (etwa lange Strings, die für eine Ausgabe zusammengebaut werden müssen), kann davon abgewichen werden. Ansonsten sollte auf eine sinnvolle objektorientierte Trennung in Sub-Methoden angestrebt werden.
 
