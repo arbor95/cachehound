@@ -60,7 +60,7 @@ import exp.TritonGPXExporter;
  */
 public class MainMenu extends MenuBar {
 	private MenuItem preferences, mnuContext, loadcaches, loadOC, /* savenexit, */
-			savenoxit, exit, search, searchAll, searchClr;
+	savenoxit, exit, search, searchAll, searchClr;
 	private MenuItem downloadmap, kalibmap, importmap;
 	private MenuItem spider, spiderAllFinds, update, chkVersion;
 	private MenuItem about, wolflang, sysinfo, legend;
@@ -530,15 +530,18 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == exportGPS) {
 				Vm.showWait(true);
 				LocExporter loc = new LocExporter();
-				String tmpFileName = FileBase.getProgramDirectory() + "/temp.loc";
+				String tmpFileName = FileBase.getProgramDirectory()
+						+ "/temp.loc";
 				loc.setTmpFileName(tmpFileName);
 				loc.doIt(LocExporter.MODE_AUTO);
 				ProgressBarForm.display(MyLocale.getMsg(950, "Transfer"),
 						MyLocale.getMsg(951, "Sending to GPS"), null);
 				List<String> args = new ArrayList<String>();
 				args.add(pref.gpsbabel);
-				for(String arg : Arrays.asList(pref.garminGPSBabelOptions.split(" +"))) {
-					//FIXME: pref.garminGPSBabelOptions should really be an array
+				for (String arg : Arrays.asList(pref.garminGPSBabelOptions
+						.split(" +"))) {
+					// FIXME: pref.garminGPSBabelOptions should really be an
+					// array
 					if (!arg.equals("")) {
 						args.add(arg);
 					}
@@ -607,8 +610,8 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == downloadmap) {
 				MapLoaderGui mLG = new MapLoaderGui(cacheDB);
 				mLG.exec(); // .execute doesn't work because the tcp-socket uses
-							// another thread which cannot be startet if here
-							// .execute() is used!
+				// another thread which cannot be startet if here
+				// .execute() is used!
 			}
 			if (mev.selectedItem == importmap) {
 
@@ -970,9 +973,9 @@ public class MainMenu extends MenuBar {
 				} else {
 					if (ch.isAddiWpt() && ch.mainCache != null
 							&& !ch.mainCache.is_Checked && !alreadySaid2) { // Is
-																			// the
-																			// father
-																			// ticked?
+						// the
+						// father
+						// ticked?
 						alreadySaid2 = true;
 						(new MessageBox(
 								MyLocale.getMsg(327, "Information"),
@@ -999,9 +1002,9 @@ public class MainMenu extends MenuBar {
 
 		int spiderErrors = 0;
 		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
-															// spiderSingle only
-															// logs in once if
-															// forcedLogin=true
+		// spiderSingle only
+		// logs in once if
+		// forcedLogin=true
 		for (int j = 0; j < cachesToUpdate.size(); j++) {
 			int i = ((Integer) cachesToUpdate.get(j)).intValue();
 			ch = cacheDB.get(i);
