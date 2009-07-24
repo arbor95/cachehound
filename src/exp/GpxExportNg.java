@@ -16,6 +16,8 @@ import CacheWolf.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 import com.stevesoft.ewe_pat.Transformer;
 
+import de.cachehound.util.GPSBabel;
+
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Sound;
@@ -27,7 +29,6 @@ import ewe.io.FileWriter;
 import ewe.io.IOException;
 import ewe.io.InputStream;
 import ewe.io.PrintWriter;
-import ewe.io.StreamReader;
 import ewe.sys.Convert;
 import ewe.sys.Date;
 import ewe.sys.Handle;
@@ -157,7 +158,7 @@ public class GpxExportNg {
 
 		hasGarminMap = new File(garminMapFileName).exists();
 		hasBitmaps = new File(bitmapFileName).exists();
-		hasGpsbabel = Global.getPref().gpsbabel != null;
+		hasGpsbabel = GPSBabel.isPresent();
 
 		finderid = Global.getPref().gcMemberId;
 		if (finderid.equals(""))
@@ -344,38 +345,13 @@ public class GpxExportNg {
 						}
 
 						if (exportTarget == OUTPUT_POI) {
-							String[] cmdStack = new String[9];
-							cmdStack[0] = Global.getPref().gpsbabel;
-							cmdStack[1] = "-i";
-							cmdStack[2] = "gpx";
-							cmdStack[3] = "-f";
-							cmdStack[4] = tempDir + FileBase.separator + prefix
-									+ key + ".gpx";
-							cmdStack[5] = "-o";
-							cmdStack[6] = "garmin_gpi,sleep=1,category="
-									+ prefix + key + ",bitmap=" + tempDir
-									+ FileBase.separator + prefix + key
-									+ ".bmp";
-							cmdStack[7] = "-F";
-							cmdStack[8] = outDir + FileBase.separator + prefix
-									+ key + ".gpi";
-
-							Process babelProcess = startProcess(cmdStack);
-							StreamReader errorStream = new StreamReader(
-									babelProcess.getErrorStream());
-							while (errorStream.isOpen()) {
-								String errorMsg = errorStream.readALine();
-								if (errorMsg != null) {
-									Global.getPref().log(
-											"GPX Export: " + errorMsg);
-									exportErrors++;
-								}
-								try {
-									babelProcess.exitValue();
-									errorStream.close();
-								} catch (IllegalThreadStateException e) {
-									// still running
-								}
+							try {
+								GPSBabel.convert("gpx",
+										tempDir	+ FileBase.separator + prefix + key	+ ".gpx",
+										"garmin_gpi,sleep=1,category=" + prefix + key + ",bitmap=" + tempDir + FileBase.separator + prefix + key + ".bmp",
+										outDir + FileBase.separator	+ prefix + key + ".gpi");
+							} catch (java.io.IOException e) {
+								exportErrors++;
 							}
 						}
 
@@ -501,38 +477,9 @@ public class GpxExportNg {
 
 			if (sendToGarmin) {
 				try {
-					String[] cmdStack = new String[9];
-					cmdStack[0] = Global.getPref().gpsbabel;
-					cmdStack[1] = "-i";
-					cmdStack[2] = "gpx";
-					cmdStack[3] = "-f";
-					cmdStack[4] = file.getCreationName();
-					cmdStack[5] = "-o";
-					cmdStack[6] = "garmin";
-					cmdStack[7] = "-F";
-					cmdStack[8] = Global.getPref().garminConn.concat(":");
-
-					Process babelProcess = this.startProcess(cmdStack);
-					if (babelProcess != null) {
-						StreamReader errorStream = new StreamReader(
-								babelProcess.getErrorStream());
-						while (errorStream.isOpen()) {
-							String errorMsg = errorStream.readALine();
-							if (errorMsg != null) {
-								Global.getPref().log("GPX Export: " + errorMsg);
-								exportErrors++;
-							}
-							try {
-								babelProcess.exitValue();
-								errorStream.close();
-							} catch (IllegalThreadStateException e) {
-								// still running
-							}
-						}
-					}
-				} catch (Exception ex) {
-					Global.getPref().log("GPX Export error :", ex,
-							Global.getPref().debug);
+					GPSBabel.convert(GPSBabel.Filetype.gpx, file.getCreationName(),GPSBabel.Filetype.garmin,Global.getPref().garminConn.concat(":"));
+				} catch (java.io.IOException e) {
+					//already handled by GPSBabel class
 				}
 				file.delete();
 			}

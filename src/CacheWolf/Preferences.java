@@ -1221,20 +1221,4 @@ public class Preferences extends MinML {
 		Utils.sort(result, comp, false);
 		return result;
 	}
-
-	public String gpsbabel = null;
-
-	public void setgpsbabel() {
-		try {
-			ProcessBuilder pb = new ProcessBuilder("gpsbabel", "-V");
-			Process p = pb.start();
-			p.waitFor();
-			gpsbabel = "gpsbabel";
-		} catch (java.io.IOException e) {
-			// this is expected if gpsbabel is not found.
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
