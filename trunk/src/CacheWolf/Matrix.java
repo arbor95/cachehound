@@ -1,93 +1,90 @@
 package CacheWolf;
 
-import ewe.sys.*;
+import ewe.sys.Vm;
 
-public class Matrix{
+public class Matrix {
 	int iDF = 0;
-	
+
 	public double matrix[][] = new double[0][0];
-	
-	public Matrix (int rows, int cols){
+
+	public Matrix(int rows, int cols) {
 		matrix = new double[rows][cols];
 	}
-	
-	public Matrix (Matrix srcMatrix){
+
+	public Matrix(Matrix srcMatrix) {
 		matrix = new double[srcMatrix.matrix.length][srcMatrix.matrix[0].length];
 		for (int i = 0; i < srcMatrix.matrix.length; i++)
 			for (int j = 0; j < srcMatrix.matrix[i].length; j++)
 				matrix[i][j] = srcMatrix.matrix[i][j];
 	}
-	
+
 	/**
-	*	Method to multiply this matrix with another matrix.
-	*	The result is stored in this matrix!
-	*/
-	public void Multiply(Matrix srcMatrix){
+	 * Method to multiply this matrix with another matrix. The result is stored
+	 * in this matrix!
+	 */
+	public void Multiply(Matrix srcMatrix) {
 		double m[][] = new double[matrix.length][srcMatrix.matrix[0].length];
 		for (int i = 0; i < m.length; i++)
-			for (int j = 0; j < m[i].length; j++){
-				//Vm.debug("i: " + i + " j: " + j);
-				m[i][j] = calculateRowColumnProduct(matrix,i,srcMatrix.matrix,j);
+			for (int j = 0; j < m[i].length; j++) {
+				// Vm.debug("i: " + i + " j: " + j);
+				m[i][j] = calculateRowColumnProduct(matrix, i,
+						srcMatrix.matrix, j);
 			}
-		
+
 		matrix = new double[m.length][m[0].length];
 		for (int i = 0; i < m.length; i++)
 			for (int j = 0; j < m[i].length; j++)
 				matrix[i][j] = m[i][j];
 	}
-	
+
 	/**
-	*	Method to calculate the row column product of two matrices.
-	*	Is used by the Multiply method.
-	*/
-	private double calculateRowColumnProduct(double[][] A, int row, double[][] B, int col){
+	 * Method to calculate the row column product of two matrices. Is used by
+	 * the Multiply method.
+	 */
+	private double calculateRowColumnProduct(double[][] A, int row,
+			double[][] B, int col) {
 		double product = 0;
-		for(int i = 0; i < A[row].length; i++){
-			//Vm.debug("i = " + i + " row = " + row + " col = " + col);
-			product +=A[row][i]*B[i][col];
+		for (int i = 0; i < A[row].length; i++) {
+			// Vm.debug("i = " + i + " row = " + row + " col = " + col);
+			product += A[row][i] * B[i][col];
 		}
 		return product;
 	}
-	
-	public void MultiplyByScalar (double f) {
+
+	public void MultiplyByScalar(double f) {
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[0].length; j++)
 				matrix[i][j] = matrix[i][j] * f;
 	}
-	
-	public void add (Matrix a) {
+
+	public void add(Matrix a) {
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[0].length; j++)
 				matrix[i][j] = matrix[i][j] + a.matrix[i][j];
 	}
-	
+
 	/**
-	*	Method to transpose a matrix
-	*	example:	| 1 2 |
-	*			| 3 4 |
-	*			| 5 6 |
-	*	would become:	|1 3 5 |
-	*			|2 4 6 |
-	*/
-	public void Transpose(){
-		
+	 * Method to transpose a matrix example: | 1 2 | | 3 4 | | 5 6 | would
+	 * become: |1 3 5 | |2 4 6 |
+	 */
+	public void Transpose() {
+
 		double m[][] = new double[matrix[0].length][matrix.length];
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[i].length; j++)
 				m[j][i] = matrix[i][j];
-			
+
 		matrix = new double[m.length][m[0].length];
 		for (int i = 0; i < m.length; i++)
 			for (int j = 0; j < m[i].length; j++)
 				matrix[i][j] = m[i][j];
 	}
-	
+
 	/**
-	*	private version of the Transpose method.
-	*	used internally in this class
-	*/
+	 * private version of the Transpose method. used internally in this class
+	 */
 	private double[][] Transpose2(double[][] a) {
-		
+
 		double m[][] = new double[a[0].length][a.length];
 
 		for (int i = 0; i < a.length; i++)
@@ -95,24 +92,24 @@ public class Matrix{
 				m[j][i] = a[i][j];
 		return m;
 	}
-	
+
 	/**
-	*	Method to display the contents of a matrix.
-	*/
-	public void DumpMatrix(){
+	 * Method to display the contents of a matrix.
+	 */
+	public void DumpMatrix() {
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[i].length; j++)
-				Vm.debug("[ "+i+ " " + j + " ] " + matrix[i][j]);
+				Vm.debug("[ " + i + " " + j + " ] " + matrix[i][j]);
 	}
-	
+
 	/**
-	*	Method used to help calculate determinate
-	*/
+	 * Method used to help calculate determinate
+	 */
 	private double[][] UpperTriangle(double[][] m) {
 		double f1 = 0;
 		double temp = 0;
 		int tms = m.length; // get This Matrix Size (could be smaller than
-							// global)
+		// global)
 		int v = 1;
 		iDF = 1;
 
@@ -133,7 +130,7 @@ public class Matrix{
 						}
 						v++; // count row switchs
 						iDF = iDF * -1; // each switch changes determinant
-										// factor
+						// factor
 					}
 				}
 				if (m[col][col] != 0) {
@@ -150,10 +147,10 @@ public class Matrix{
 		}
 		return m;
 	}
-	
+
 	/**
-	*	Method to calculate the determinate of a matrix
-	*/
+	 * Method to calculate the determinate of a matrix
+	 */
 	public double Determinant(double[][] pMatrix) {
 		int tms = pMatrix.length;
 		double det = 1;
@@ -164,17 +161,15 @@ public class Matrix{
 		det = det * iDF; // adjust w/ determinant factor
 		return det;
 	}
-	
-	
-	
+
 	/**
-	*	Method to calculate the inverse of this matrix.
-	*	The result is stored in this matrix!
-	*/
+	 * Method to calculate the inverse of this matrix. The result is stored in
+	 * this matrix!
+	 */
 	public void Inverse() {
 		// Formula used to Calculate Inverse:
 		// inv(A) = 1/det(A) * adj(A)
-		
+
 		int tms = matrix.length;
 
 		double m[][] = new double[tms][tms];
@@ -192,18 +187,18 @@ public class Matrix{
 			for (int j = 0; j < tms; j++) {
 				m[i][j] = dd * mm[i][j];
 			}
-			
-		//Store back results
+
+		// Store back results
 		matrix = new double[m.length][m[0].length];
 		for (int i = 0; i < m.length; i++)
 			for (int j = 0; j < m[i].length; j++)
 				matrix[i][j] = m[i][j];
 	}
-	
+
 	/**
-	*	Method to calculate the adjoint of a matrix.
-	*	Required to calculate the inverse of a matrix.
-	*/
+	 * Method to calculate the adjoint of a matrix. Required to calculate the
+	 * inverse of a matrix.
+	 */
 	private double[][] Adjoint(double[][] a) {
 		int tms = a.length;
 
@@ -234,47 +229,52 @@ public class Matrix{
 		m = Transpose2(m);
 		return m;
 	}
-	
+
 	/**
-	*	"Old" helper method used by some other classes in cachewolf.
-	*/
-	//  No reason for deprecation, so I removed it. Or is there a better substitution for this
-	//  method?
-	//	@deprecated Do not use when coding new classes!
-	public static double dot(double p1, double p2, double q1, double q2, double x1, double x2){
-		double dt,AB0,AB1,BC0,BC1 = 0;
+	 * "Old" helper method used by some other classes in cachewolf.
+	 */
+	// No reason for deprecation, so I removed it. Or is there a better
+	// substitution for this
+	// method?
+	// @deprecated Do not use when coding new classes!
+	public static double dot(double p1, double p2, double q1, double q2,
+			double x1, double x2) {
+		double dt, AB0, AB1, BC0, BC1 = 0;
 		AB0 = q1 - p1;
 		AB1 = q2 - p2;
-		BC0 = x1-q1;
-		BC1 = x2-q2;
+		BC0 = x1 - q1;
+		BC1 = x2 - q2;
 		dt = AB0 * BC0 + AB1 * BC1;
 		return dt;
 	}
-	
+
 	/**
-	*	"Old" helper method used by some other classes in cachewolf.
-	*/
-	//  No reason for deprecation, so I removed it. Or is there a better substitution for this
-	//  method?
-	//	@deprecated Do not use when coding new classes!
-	public static double cross(double p1, double p2, double q1, double q2, double x1, double x2){
-		double cr,AB0,AB1,AC0,AC1 = 0;
+	 * "Old" helper method used by some other classes in cachewolf.
+	 */
+	// No reason for deprecation, so I removed it. Or is there a better
+	// substitution for this
+	// method?
+	// @deprecated Do not use when coding new classes!
+	public static double cross(double p1, double p2, double q1, double q2,
+			double x1, double x2) {
+		double cr, AB0, AB1, AC0, AC1 = 0;
 		AB0 = q1 - p1;
 		AB1 = q2 - p2;
-		AC0 = x1-p1;
-		AC1 = x2-p2;
-		cr= AB0 * AC1 - AB1 * AC0;
+		AC0 = x1 - p1;
+		AC1 = x2 - p2;
+		cr = AB0 * AC1 - AB1 * AC0;
 		return cr;
 	}
-	
+
 	/**
-	*	"Old" helper method used by some other classes in cachewolf.
-	*/
-	//  No reason for deprecation, so I removed it. Or is there a better substitution for this
-	//  method?
-	//	@deprecated Do not use when coding new classes!
-	public static double dist(double p1, double p2, double q1, double q2){
-		double d1, d2,dt = 0;
+	 * "Old" helper method used by some other classes in cachewolf.
+	 */
+	// No reason for deprecation, so I removed it. Or is there a better
+	// substitution for this
+	// method?
+	// @deprecated Do not use when coding new classes!
+	public static double dist(double p1, double p2, double q1, double q2) {
+		double d1, d2, dt = 0;
 		d1 = p1 - q1;
 		d2 = p2 - q2;
 		dt = d1 * d1 + d2 * d2;

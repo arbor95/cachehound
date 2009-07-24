@@ -15,35 +15,36 @@ public class DataMoverForm extends Form {
 	mButton yesButton;
 	mButton noButton;
 	mLabel firstLine;
-	
-	public DataMoverForm ()
-	{
-		title = MyLocale.getMsg(144,"Warning");
-		ticked = new mCheckBox (MyLocale.getMsg(254, "All visible"));
+
+	public DataMoverForm() {
+		title = MyLocale.getMsg(144, "Warning");
+		ticked = new mCheckBox(MyLocale.getMsg(254, "All visible"));
 		ticked.setGroup(chkFormat);
-		visible = new mCheckBox (MyLocale.getMsg(255, "All ticked"));
+		visible = new mCheckBox(MyLocale.getMsg(255, "All ticked"));
 		visible.setGroup(chkFormat);
-		tickedVisible = new mCheckBox (MyLocale.getMsg(256, "All visible and ticked"));
+		tickedVisible = new mCheckBox(MyLocale.getMsg(256,
+				"All visible and ticked"));
 		tickedVisible.setGroup(chkFormat);
-		firstLine = new mLabel ("");
+		firstLine = new mLabel("");
 		firstLine.anchor = CellConstants.CENTER;
-		addLast (firstLine);
-		addLast (visible);
-		addLast (ticked);
-		addLast (tickedVisible);
-		mLabel continueQuestion =new mLabel (MyLocale.getMsg(259, "Do You really want to continue?"));
+		addLast(firstLine);
+		addLast(visible);
+		addLast(ticked);
+		addLast(tickedVisible);
+		mLabel continueQuestion = new mLabel(MyLocale.getMsg(259,
+				"Do You really want to continue?"));
 		continueQuestion.anchor = CellConstants.CENTER;
-		addLast (continueQuestion);
-		doButtons(FormBase.YESB|FormBase.CANCELB);
+		addLast(continueQuestion);
+		doButtons(FormBase.YESB | FormBase.CANCELB);
 		setModefromPref();
 	}
 
 	/**
 	 * Gets the last mode from the preferences
 	 */
-	private void setModefromPref (){
+	private void setModefromPref() {
 		Preferences prefObject = Preferences.getPrefObject();
-		switch (prefObject.processorMode){
+		switch (prefObject.processorMode) {
 		case 1:
 			ticked.setState(true);
 			break;
@@ -55,13 +56,14 @@ public class DataMoverForm extends Form {
 			break;
 		}
 	}
+
 	public void onEvent(Event ev) {
-		if (ev.target == yes || ev.target == no){
+		if (ev.target == yes || ev.target == no) {
 			Preferences.getPrefObject().processorMode = getMode();
 		}
 		super.onEvent(ev);
 	}
-	
+
 	public void setTickedText(String value) {
 		ticked.text = value;
 	}
@@ -73,23 +75,20 @@ public class DataMoverForm extends Form {
 	public void setTickedVisibleText(String value) {
 		tickedVisible.text = value;
 	}
-	
-	public void setFirstLineText (String value){
+
+	public void setFirstLineText(String value) {
 		firstLine.text = value;
 	}
-	
-	public int getMode (){
-		if (visible.getState()){
+
+	public int getMode() {
+		if (visible.getState()) {
 			return 0;
-		}
-		else if (ticked.getState()){
+		} else if (ticked.getState()) {
 			return 1;
-		}
-		else if (tickedVisible.getState()){
+		} else if (tickedVisible.getState()) {
 			return 2;
-		}
-		else{
-			throw new IllegalStateException ("No radiobutton selected");
+		} else {
+			throw new IllegalStateException("No radiobutton selected");
 		}
 	}
 }

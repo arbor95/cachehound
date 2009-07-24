@@ -37,6 +37,7 @@ public interface IGCMailHandler {
 	public abstract boolean needMaintenance(String gcNumber, Message message,
 			String subject, String text);
 
-	public abstract boolean handlePocketQuery(Message message, String subject) throws MessagingException, IOException;
+	public abstract boolean handlePocketQuery(Message message, String subject)
+			throws MessagingException, IOException;
 
 }

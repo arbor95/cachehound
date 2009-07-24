@@ -2,7 +2,6 @@ package CacheWolf.imp;
 
 import utils.CWWrapper;
 import CacheWolf.CacheHolder;
-import CacheWolf.CacheType;
 import CacheWolf.Global;
 import ewe.sys.Handle;
 import ewe.ui.ProgressBarForm;

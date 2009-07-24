@@ -19,20 +19,28 @@ import ewe.ui.ProgressBarForm;
  * This class holds a profile, i.e. a group of caches with a centre location
  * 
  * @author salzkammergut
- *
+ * 
  */
 public class Profile {
 
-	/** The list of caches (CacheHolder objects). A pointer to this object exists in many classes in parallel to
-	 *  this object, i.e. the respective class contains both a {@link Profile} object and a cacheDB Vector. 
+	/**
+	 * The list of caches (CacheHolder objects). A pointer to this object exists
+	 * in many classes in parallel to this object, i.e. the respective class
+	 * contains both a {@link Profile} object and a cacheDB Vector.
 	 */
-	public CacheDB cacheDB=new CacheDB();
-	/** The centre point of this group of caches. Read from ans stored to index.xml file */
-	public CWPoint centre=new CWPoint();
-	/** The name of the profile. The baseDir in preferences is appended this name to give the dataDir where
-	 *  the index.xml and cache files live. (Excuse the English spelling of centre)     */
-	public String name=new String();
-	/** This is the directory for the profile. It contains a closing /.   	 */
+	public CacheDB cacheDB = new CacheDB();
+	/**
+	 * The centre point of this group of caches. Read from ans stored to
+	 * index.xml file
+	 */
+	public CWPoint centre = new CWPoint();
+	/**
+	 * The name of the profile. The baseDir in preferences is appended this name
+	 * to give the dataDir where the index.xml and cache files live. (Excuse the
+	 * English spelling of centre)
+	 */
+	public String name = new String();
+	/** This is the directory for the profile. It contains a closing /. */
 	public String dataDir = new String();
 
 	/** Last sync date for opencaching caches */
@@ -53,9 +61,12 @@ public class Profile {
 	private boolean showBlacklisted = false;
 	private boolean showSearchResult = false;
 
-	public boolean selectionChanged = true; // ("Häckchen") used by movingMap to get to knao if it should update the caches in the map 
-	/** True if the profile has been modified and not saved
-	 * The following modifications set this flag: New profile centre, Change of waypoint data 
+	public boolean selectionChanged = true; // ("Häckchen") used by movingMap to
+											// get to knao if it should update
+											// the caches in the map
+	/**
+	 * True if the profile has been modified and not saved The following
+	 * modifications set this flag: New profile centre, Change of waypoint data
 	 */
 	private boolean hasUnsavedChanges = false;
 	public boolean byPassIndexActive = false;
@@ -63,20 +74,20 @@ public class Profile {
 	/** version number of current format for index.xml and waypoint.xml */
 	protected static int CURRENTFILEFORMAT = 3;
 
-	//TODO Add other settings, such as max. number of logs to spider
-	//TODO Add settings for the preferred mapper to allow for maps other than expedia and other resolutions
+	// TODO Add other settings, such as max. number of logs to spider
+	// TODO Add settings for the preferred mapper to allow for maps other than
+	// expedia and other resolutions
 
 	/**
 	 * Constructor for a profile
-	 *
+	 * 
 	 */
-	public Profile(){ // public constructor
+	public Profile() { // public constructor
 	}
 
-
 	/**
-	 * Returns <code>true</code> if profile needs to be changed when profile is left. Returns
-	 * <code>false</code> if no relevant changes have been made.
+	 * Returns <code>true</code> if profile needs to be changed when profile is
+	 * left. Returns <code>false</code> if no relevant changes have been made.
 	 * 
 	 * @return hasUnsavedChanges
 	 */
@@ -85,8 +96,9 @@ public class Profile {
 	}
 
 	/**
-	 * Remember that profile needs to be saved. Flag is set <code>true</code> when parameter is
-	 * true, but it's not set to <code>false</code> when parameter is <code>false</code>.<br>
+	 * Remember that profile needs to be saved. Flag is set <code>true</code>
+	 * when parameter is true, but it's not set to <code>false</code> when
+	 * parameter is <code>false</code>.<br>
 	 * This is only done internally on saving the cache.
 	 * 
 	 * @param hasUnsavedChanges
@@ -95,7 +107,7 @@ public class Profile {
 	public void notifyUnsavedChanges(boolean changes) {
 		hasUnsavedChanges = hasUnsavedChanges || changes;
 	}
-	
+
 	public void resetUnsavedChanges() {
 		hasUnsavedChanges = false;
 	}
@@ -116,79 +128,93 @@ public class Profile {
 		this.notifyUnsavedChanges(coords.equals(this.centre));
 		this.centre.set(coords);
 	}
-	
-	/**
-	 *	Method to save the index.xml file that holds the total information
-	 *	on available caches in the database. The database is nothing else
-	 *	than the collection of caches in a directory.
-	 *   
-	 *   Not sure whether we need to keep 'pref' in method signature. May eventually remove it. 
-	 *   
-	 *   Saves the index with the filter settings from Filter
-	 */
-//	public void saveIndex(Preferences pref, boolean showprogress){
-//		saveIndex(pref,showprogress, Filter.filterActive,Filter.filterInverted);
-//	}
 
-	
-	/** Save index with filter settings given */ 
-	public void saveIndex(Preferences pref, boolean showprogress) { 
+	/**
+	 * Method to save the index.xml file that holds the total information on
+	 * available caches in the database. The database is nothing else than the
+	 * collection of caches in a directory.
+	 * 
+	 * Not sure whether we need to keep 'pref' in method signature. May
+	 * eventually remove it.
+	 * 
+	 * Saves the index with the filter settings from Filter
+	 */
+	// public void saveIndex(Preferences pref, boolean showprogress){
+	// saveIndex(pref,showprogress, Filter.filterActive,Filter.filterInverted);
+	// }
+
+	/** Save index with filter settings given */
+	public void saveIndex(Preferences pref, boolean showprogress) {
 		ProgressBarForm pbf = new ProgressBarForm();
 		Handle h = new Handle();
-		if(showprogress){
+		if (showprogress) {
 			pbf.showMainTask = false;
-			pbf.setTask(h,"Saving Index");
+			pbf.setTask(h, "Saving Index");
 			pbf.exec();
 		}
-		CacheHolder.saveAllModifiedDetails(); // this must be called first as it makes some calculations
+		CacheHolder.saveAllModifiedDetails(); // this must be called first as it
+												// makes some calculations
 		PrintWriter detfile;
 		CacheHolder ch;
 		try {
-			File backup=new File(dataDir+"index.bak");
-			if (backup.exists()) backup.delete();
-			File index=new File(dataDir+"index.xml");
+			File backup = new File(dataDir + "index.bak");
+			if (backup.exists())
+				backup.delete();
+			File index = new File(dataDir + "index.xml");
 			index.rename("index.bak");
 		} catch (Exception ex) {
 			pref.log("Error deleting backup or renaming index.xml");
 		}
-		try{
-			detfile = new PrintWriter(new BufferedWriter(new FileWriter(dataDir + "index.xml")));
+		try {
+			detfile = new PrintWriter(new BufferedWriter(new FileWriter(dataDir
+					+ "index.xml")));
 		} catch (Exception e) {
-			Vm.debug("Problem creating index file "+e.toString()+"\nFilename="+dataDir + "index.xml");
+			Vm.debug("Problem creating index file " + e.toString()
+					+ "\nFilename=" + dataDir + "index.xml");
 			return;
 		}
-		CWPoint savedCentre=centre;
-		if (centre==null || !centre.isValid() || (savedCentre.latDec==0.0 && savedCentre.lonDec==0.0)) savedCentre=pref.curCentrePt;
+		CWPoint savedCentre = centre;
+		if (centre == null || !centre.isValid()
+				|| (savedCentre.latDec == 0.0 && savedCentre.lonDec == 0.0))
+			savedCentre = pref.curCentrePt;
 
-		try{
+		try {
 			detfile.print("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
 			detfile.print("<CACHELIST format=\"decimal\">\n");
 			detfile.print("    <VERSION value = \"3\"/>\n");
 			if (savedCentre.isValid())
-				detfile.print("    <CENTRE lat=\""+savedCentre.latDec+"\" lon=\""+savedCentre.lonDec+"\"/>\n");
-			if(getLast_sync_opencaching() == null || getLast_sync_opencaching().endsWith("null") || getLast_sync_opencaching().equals("")){
+				detfile.print("    <CENTRE lat=\"" + savedCentre.latDec
+						+ "\" lon=\"" + savedCentre.lonDec + "\"/>\n");
+			if (getLast_sync_opencaching() == null
+					|| getLast_sync_opencaching().endsWith("null")
+					|| getLast_sync_opencaching().equals("")) {
 				setLast_sync_opencaching("20050801000000");
 			}
-			if (getDistOC() == null || getDistOC().endsWith("null") || getDistOC().equals("")) {
+			if (getDistOC() == null || getDistOC().endsWith("null")
+					|| getDistOC().equals("")) {
 				setDistOC("0.0");
 			}
-			if (getDistGC() == null || getDistGC().endsWith("null") || getDistGC().equals("")) {
+			if (getDistGC() == null || getDistGC().endsWith("null")
+					|| getDistGC().equals("")) {
 				setDistGC("0.0");
 			}
 
 			// If the current filter is a CacheTour filter, then save it as
-			// normal filter, because after loading there is no cache tour defined
+			// normal filter, because after loading there is no cache tour
+			// defined
 			// which could be used as filter criterium.
 			int activeFilterForSave;
-			if (getFilterActive()==Filter.FILTER_CACHELIST) {
+			if (getFilterActive() == Filter.FILTER_CACHELIST) {
 				activeFilterForSave = Filter.FILTER_ACTIVE;
 			} else {
 				activeFilterForSave = getFilterActive();
 			}
-			detfile.print("    <FILTERCONFIG status = \""+activeFilterForSave+
-					(isFilterInverted()?"T":"F")+"\" showBlacklist = \""+showBlacklisted()+"\" />\n");
+			detfile.print("    <FILTERCONFIG status = \"" + activeFilterForSave
+					+ (isFilterInverted() ? "T" : "F")
+					+ "\" showBlacklist = \"" + showBlacklisted() + "\" />\n");
 			detfile.print(this.getCurrentFilter().toXML(""));
-			detfile.print("    <SYNCOC date = \""+getLast_sync_opencaching()+"\" dist = \""+getDistOC()+"\"/>\n");
+			detfile.print("    <SYNCOC date = \"" + getLast_sync_opencaching()
+					+ "\" dist = \"" + getDistOC() + "\"/>\n");
 			detfile.print("    <SPIDERGC dist = \"" + getDistGC() + "\"/>\n");
 			int size = cacheDB.size();
 			for (int i = 0; i < size; i++) {
@@ -198,18 +224,20 @@ public class Profile {
 				}
 				ch = cacheDB.get(i);
 				// //Vm.debug("Saving: " + ch.CacheName);
-				if (ch.getWayPoint().length() > 0) { 
+				if (ch.getWayPoint().length() > 0) {
 					detfile.print(ch.toXML());
 				}
 			}
 			detfile.print("</CACHELIST>\n");
 			detfile.close();
-			buildReferences(); //TODO Why is this needed here?
-			if(showprogress) pbf.exit(0);
-		}catch(Exception e){
-			Vm.debug("Problem writing to index file "+e.toString());
+			buildReferences(); // TODO Why is this needed here?
+			if (showprogress)
+				pbf.exit(0);
+		} catch (Exception e) {
+			Vm.debug("Problem writing to index file " + e.toString());
 			detfile.close();
-			if(showprogress) pbf.exit(0);
+			if (showprogress)
+				pbf.exit(0);
 		}
 		resetUnsavedChanges();
 	}
@@ -217,97 +245,124 @@ public class Profile {
 	public void readIndex() {
 		readIndex(null);
 	}
+
 	/**
-	 *	Method to read the index.xml file that holds the total information
-	 *	on available caches in the database. The database in nothing else
-	 *	than the collection of caches in a directory.
+	 * Method to read the index.xml file that holds the total information on
+	 * available caches in the database. The database in nothing else than the
+	 * collection of caches in a directory.
 	 */
 	public void readIndex(InfoBox infoBox) {
 
 		try {
 			selectionChanged = true;
 			boolean fmtDec = false;
-			String mainInfoText = MyLocale.getMsg(5000,"Loading Cache-List");
-			int wptNo=1;
-			int lastShownWpt=0;
+			String mainInfoText = MyLocale.getMsg(5000, "Loading Cache-List");
+			int wptNo = 1;
+			int lastShownWpt = 0;
 			char decSep = MyLocale.getDigSeparator().charAt(0);
 			char notDecSep = decSep == '.' ? ',' : '.';
 			FileReader in = new FileReader(dataDir + "index.xml");
 			indexXmlVersion = 1; // Initial guess
 			in.readLine(); // <?xml version= ...
 			String text = in.readLine(); // <CACHELIST>
-			if (text!=null && text.indexOf("decimal")>0) fmtDec=true;
+			if (text != null && text.indexOf("decimal") > 0)
+				fmtDec = true;
 			Extractor ex = new Extractor(null, " = \"", "\" ", 0, true);
-			
-			//ewe.sys.Time startT=new ewe.sys.Time();
+
+			// ewe.sys.Time startT=new ewe.sys.Time();
 			boolean convertWarningDisplayed = false;
-			while ((text = in.readLine()) != null){
+			while ((text = in.readLine()) != null) {
 				// Check for Line with cache data
-				if (text.indexOf("<CACHE ")>=0){
-					if (indexXmlVersion < CURRENTFILEFORMAT && !convertWarningDisplayed) {
+				if (text.indexOf("<CACHE ") >= 0) {
+					if (indexXmlVersion < CURRENTFILEFORMAT
+							&& !convertWarningDisplayed) {
 						if (indexXmlVersion < CURRENTFILEFORMAT) {
 							convertWarningDisplayed = true;
-							new MessageBox(MyLocale.getMsg(144, "Warning"), MyLocale.getMsg(4407, "The profile files are not in the current format.%0aTherefore they are now converted to the current format. Depending of the size of the profile and the computer involved this may take some minutes. Please bear with us until the conversion is done."), FormBase.OKB).execute();
+							new MessageBox(
+									MyLocale.getMsg(144, "Warning"),
+									MyLocale
+											.getMsg(
+													4407,
+													"The profile files are not in the current format.%0aTherefore they are now converted to the current format. Depending of the size of the profile and the computer involved this may take some minutes. Please bear with us until the conversion is done."),
+									FormBase.OKB).execute();
 						}
 					}
-					if (infoBox!=null) {
+					if (infoBox != null) {
 						if (wptNo - 10 >= lastShownWpt) {
-							infoBox.setInfo(mainInfoText+"\n"+String.valueOf(wptNo));
+							infoBox.setInfo(mainInfoText + "\n"
+									+ String.valueOf(wptNo));
 							lastShownWpt = wptNo;
 						}
 						wptNo++;
 					}
-					CacheHolder ch=new CacheHolder(text,indexXmlVersion);
+					CacheHolder ch = new CacheHolder(text, indexXmlVersion);
 					cacheDB.add(ch);
-				} else if (text.indexOf("<CENTRE")>=0) { // lat=  lon=
+				} else if (text.indexOf("<CENTRE") >= 0) { // lat= lon=
 					if (fmtDec) {
-						int start=text.indexOf("lat=\"")+5;
-						String lat=text.substring(start,text.indexOf("\"",start)).replace(notDecSep,decSep);
-						start=text.indexOf("lon=\"")+5;
-						String lon=text.substring(start,text.indexOf("\"",start)).replace(notDecSep,decSep);
-						centre.set(Convert.parseDouble(lat),Convert.parseDouble(lon));
-					} else {	
-						int start=text.indexOf("lat=\"")+5;
-						String lat=SafeXML.cleanback(text.substring(start,text.indexOf("\"",start)));
-						start=text.indexOf("long=\"")+6;
-						String lon=SafeXML.cleanback(text.substring(start,text.indexOf("\"",start)));
-						centre.set(lat+" "+lon,CWPoint.CW); // Fast parse
-					}	
-				} else if (text.indexOf("<VERSION")>=0) {
-					int start=text.indexOf("value = \"")+9;
-					indexXmlVersion  = Integer.valueOf(text.substring(start,text.indexOf("\"",start))).intValue();
+						int start = text.indexOf("lat=\"") + 5;
+						String lat = text.substring(start,
+								text.indexOf("\"", start)).replace(notDecSep,
+								decSep);
+						start = text.indexOf("lon=\"") + 5;
+						String lon = text.substring(start,
+								text.indexOf("\"", start)).replace(notDecSep,
+								decSep);
+						centre.set(Convert.parseDouble(lat), Convert
+								.parseDouble(lon));
+					} else {
+						int start = text.indexOf("lat=\"") + 5;
+						String lat = SafeXML.cleanback(text.substring(start,
+								text.indexOf("\"", start)));
+						start = text.indexOf("long=\"") + 6;
+						String lon = SafeXML.cleanback(text.substring(start,
+								text.indexOf("\"", start)));
+						centre.set(lat + " " + lon, CWPoint.CW); // Fast parse
+					}
+				} else if (text.indexOf("<VERSION") >= 0) {
+					int start = text.indexOf("value = \"") + 9;
+					indexXmlVersion = Integer.valueOf(
+							text.substring(start, text.indexOf("\"", start)))
+							.intValue();
 					if (indexXmlVersion > CURRENTFILEFORMAT) {
 						Global.getPref().log("unsupported file format");
 						clearProfile();
 						return;
 					}
-				} else if (text.indexOf("<SYNCOC")>=0) {
-					int start=text.indexOf("date = \"")+8;
-					setLast_sync_opencaching(text.substring(start,text.indexOf("\"",start)));
-					start=text.indexOf("dist = \"")+8;
-					setDistOC(text.substring(start,text.indexOf("\"",start)));
-				} else if (text.indexOf("<SPIDERGC")>=0) {
-					int start=text.indexOf("dist = \"")+8;
-					setDistGC(text.substring(start,text.indexOf("\"",start)));
-				} else if (indexXmlVersion <=2 && text.indexOf("<FILTER")>=0){
+				} else if (text.indexOf("<SYNCOC") >= 0) {
+					int start = text.indexOf("date = \"") + 8;
+					setLast_sync_opencaching(text.substring(start, text
+							.indexOf("\"", start)));
+					start = text.indexOf("dist = \"") + 8;
+					setDistOC(text.substring(start, text.indexOf("\"", start)));
+				} else if (text.indexOf("<SPIDERGC") >= 0) {
+					int start = text.indexOf("dist = \"") + 8;
+					setDistGC(text.substring(start, text.indexOf("\"", start)));
+				} else if (indexXmlVersion <= 2 && text.indexOf("<FILTER") >= 0) {
 					// Read filter data of file versions 1 and 2. (Legacy code)
 					ex.setSource(text.substring(text.indexOf("<FILTER")));
-					String temp=ex.findNext(); // Filter status is now first, need to deal with old versions which don't have filter status
-					if (temp.length()==2) {
+					String temp = ex.findNext(); // Filter status is now first,
+													// need to deal with old
+													// versions which don't have
+													// filter status
+					if (temp.length() == 2) {
 						// Compatibility with previous versions
-						if (temp.charAt(0)=='T') 
+						if (temp.charAt(0) == 'T')
 							setFilterActive(Filter.FILTER_ACTIVE);
 						else
-							setFilterActive(Common.parseInt(temp.substring(0,1)));
-						setFilterInverted(temp.charAt(1)=='T');
+							setFilterActive(Common.parseInt(temp
+									.substring(0, 1)));
+						setFilterInverted(temp.charAt(1) == 'T');
 						setFilterRose(ex.findNext());
-					} else 
+					} else
 						setFilterRose(temp);
 					setFilterType(ex.findNext());
-					//Need this to stay "downward" compatible. New type introduced
-					//if(filterType.length()<=17) filterType = filterType + "1";
-					//Vm.debug("fil len: " +filterType.length());
-					//This is handled by "normaliseFilters" which is called at the end.
+					// Need this to stay "downward" compatible. New type
+					// introduced
+					// if(filterType.length()<=17) filterType = filterType +
+					// "1";
+					// Vm.debug("fil len: " +filterType.length());
+					// This is handled by "normaliseFilters" which is called at
+					// the end.
 					setFilterVar(ex.findNext());
 					setFilterDist(ex.findNext());
 					setFilterDiff(ex.findNext());
@@ -322,15 +377,19 @@ public class Profile {
 					attr = ex.findNext();
 					if (attr != null && !attr.equals(""))
 						setFilterAttrChoice(Convert.parseInt(attr));
-					setShowBlacklisted(Boolean.valueOf(ex.findNext()).booleanValue());
-				} else if (text.indexOf("<FILTERDATA")>=0){
+					setShowBlacklisted(Boolean.valueOf(ex.findNext())
+							.booleanValue());
+				} else if (text.indexOf("<FILTERDATA") >= 0) {
 					ex.setSource(text.substring(text.indexOf("<FILTERDATA")));
 					setFilterRose(ex.findNext());
 					setFilterType(ex.findNext());
-					//Need this to stay "downward" compatible. New type introduced
-					//if(filterType.length()<=17) filterType = filterType + "1";
-					//Vm.debug("fil len: " +filterType.length());
-					//This is handled by "normaliseFilters" which is called at the end.
+					// Need this to stay "downward" compatible. New type
+					// introduced
+					// if(filterType.length()<=17) filterType = filterType +
+					// "1";
+					// Vm.debug("fil len: " +filterType.length());
+					// This is handled by "normaliseFilters" which is called at
+					// the end.
 					setFilterVar(ex.findNext());
 					setFilterDist(ex.findNext());
 					setFilterDiff(ex.findNext());
@@ -343,64 +402,77 @@ public class Profile {
 					attr = ex.findNext();
 					setFilterAttrChoice(Convert.parseInt(attr));
 					setFilterStatus(SafeXML.strxmldecode(ex.findNext()));
-					setFilterUseRegexp(Boolean.valueOf(ex.findNext()).booleanValue());
-				} else if (text.indexOf("<FILTERCONFIG")>=0){
+					setFilterUseRegexp(Boolean.valueOf(ex.findNext())
+							.booleanValue());
+				} else if (text.indexOf("<FILTERCONFIG") >= 0) {
 					ex.setSource(text.substring(text.indexOf("<FILTERCONFIG")));
-					String temp=ex.findNext();
-					setFilterActive(Common.parseInt(temp.substring(0,1)));
-					setFilterInverted(temp.charAt(1)=='T');
-					setShowBlacklisted(Boolean.valueOf(ex.findNext()).booleanValue());
+					String temp = ex.findNext();
+					setFilterActive(Common.parseInt(temp.substring(0, 1)));
+					setFilterInverted(temp.charAt(1) == 'T');
+					setShowBlacklisted(Boolean.valueOf(ex.findNext())
+							.booleanValue());
 				}
 			}
 			in.close();
-			//ewe.sys.Time endT=new ewe.sys.Time();
-			//Vm.debug("Time="+((((endT.hour*60+endT.minute)*60+endT.second)*1000+endT.millis)-(((startT.hour*60+startT.minute)*60+startT.second)*1000+startT.millis)));
-			//Vm.debug("Start:"+startT.format("H:mm:ss.SSS"));
-			//Vm.debug("End  :"+endT.format("H:mm:ss.SSS"));	
+			// ewe.sys.Time endT=new ewe.sys.Time();
+			// Vm.debug("Time="+((((endT.hour*60+endT.minute)*60+endT.second)*1000+endT.millis)-(((startT.hour*60+startT.minute)*60+startT.second)*1000+startT.millis)));
+			// Vm.debug("Start:"+startT.format("H:mm:ss.SSS"));
+			// Vm.debug("End  :"+endT.format("H:mm:ss.SSS"));
 			// Build references between caches and addi wpts
 			buildReferences();
 			if (indexXmlVersion < CURRENTFILEFORMAT) {
 				saveIndex(Global.getPref(), true);
 			}
 		} catch (FileNotFoundException e) {
-			Global.getPref().log("index.xml not found in directory "+dataDir); // Normal when profile is opened for first time
-			//e.printStackTrace();
-		} catch (IOException e){
-			Global.getPref().log("Problem reading index.xml in dir: "+dataDir,e,true); 
+			Global.getPref().log("index.xml not found in directory " + dataDir); // Normal
+																					// when
+																					// profile
+																					// is
+																					// opened
+																					// for
+																					// first
+																					// time
+			// e.printStackTrace();
+		} catch (IOException e) {
+			Global.getPref().log(
+					"Problem reading index.xml in dir: " + dataDir, e, true);
 		}
 		// TODO Brauchen wir das noch?
 		this.getCurrentFilter().normaliseFilters();
 		resetUnsavedChanges();
 	}
 
-	/** Restore the filter to the values stored in this profile 
-	 *  Called from Main Form and MainMenu 
-	 *  The values of Filter.isActive and Filter.isInactive are set by the filter 
+	/**
+	 * Restore the filter to the values stored in this profile Called from Main
+	 * Form and MainMenu The values of Filter.isActive and Filter.isInactive are
+	 * set by the filter
 	 **/
 	public void restoreFilter() {
-		restoreFilter( true );		
+		restoreFilter(true);
 	}
-	
+
 	void restoreFilter(boolean clearIfInactive) {
-		boolean inverted=isFilterInverted(); // Save it as doFilter will clear filterInverted
-		Filter flt=new Filter();
-		if (getFilterActive()==Filter.FILTER_ACTIVE) {
+		boolean inverted = isFilterInverted(); // Save it as doFilter will clear
+												// filterInverted
+		Filter flt = new Filter();
+		if (getFilterActive() == Filter.FILTER_ACTIVE) {
 			flt.setFilter();
 			flt.doFilter();
 			if (inverted) {
 				flt.invertFilter();
-				setFilterInverted(true); // Needed because previous line inverts filterInverted
+				setFilterInverted(true); // Needed because previous line inverts
+											// filterInverted
 			}
-		} else if (getFilterActive()==Filter.FILTER_CACHELIST) {
+		} else if (getFilterActive() == Filter.FILTER_CACHELIST) {
 			Global.mainForm.cacheList.applyCacheList();
-			//flt.filterActive=filterActive;
-		} else if (getFilterActive()==Filter.FILTER_INACTIVE) {
+			// flt.filterActive=filterActive;
+		} else if (getFilterActive() == Filter.FILTER_INACTIVE) {
 			if (clearIfInactive) {
 				flt.clearFilter();
 			}
 		}
 	}
-	
+
 	public int getCacheIndex(String wp) {
 		return cacheDB.getIndex(wp);
 	}
@@ -422,20 +494,23 @@ public class Profile {
 
 	/**
 	 * 
-	 * @param forcache maincache
+	 * @param forcache
+	 *            maincache
 	 * @return
 	 */
 	public String getNewAddiWayPointName(String forcache) {
 		int wptNo = -1;
 		String waypoint;
 		do {
-			waypoint = MyLocale.formatLong(++wptNo, "00") + forcache.substring(2);
+			waypoint = MyLocale.formatLong(++wptNo, "00")
+					+ forcache.substring(2);
 		} while (Global.getProfile().getCacheIndex(waypoint) >= 0);
 		return waypoint;
 	}
 
 	/**
-	 * Call this after getNewAddiWayPointName to set the references between main and addi correctly
+	 * Call this after getNewAddiWayPointName to set the references between main
+	 * and addi correctly
 	 * 
 	 * @param ch
 	 */
@@ -447,15 +522,18 @@ public class Profile {
 		if (mainindex < 0)
 			mainindex = getCacheIndex("CW" + mainwpt);
 		if (mainindex < 0)
-			throw new IllegalArgumentException("no main cache found for: " + ch.getWayPoint());
+			throw new IllegalArgumentException("no main cache found for: "
+					+ ch.getWayPoint());
 		CacheHolder mainch = cacheDB.get(mainindex);
 		mainch.addiWpts.add(ch);
 		ch.mainCache = mainch;
 	}
 
 	public String toString() {
-		return "Profile: Name="+name+"\nCentre="+centre.toString()+"\ndataDir="+dataDir+"\nlastSyncOC="+
-		getLast_sync_opencaching()+"\ndistOC="+getDistOC()+"\ndistGC="+getDistGC();
+		return "Profile: Name=" + name + "\nCentre=" + centre.toString()
+				+ "\ndataDir=" + dataDir + "\nlastSyncOC="
+				+ getLast_sync_opencaching() + "\ndistOC=" + getDistOC()
+				+ "\ndistGC=" + getDistGC();
 	}
 
 	public void setSelectForAll(boolean selectStatus) {
@@ -471,7 +549,8 @@ public class Profile {
 	public int numCachesInArea; // only valid after calling getSourroundingArea
 
 	public Area getSourroundingArea(boolean onlyOfSelected) {
-		if (cacheDB == null || cacheDB.size() == 0) return null;
+		if (cacheDB == null || cacheDB.size() == 0)
+			return null;
 		CacheHolder ch;
 		CWPoint topleft = null;
 		CWPoint bottomright = null;
@@ -485,15 +564,62 @@ public class Profile {
 					tmpca.set(ch.LatLon);
 					ch.pos = new CWPoint(tmpca);
 				}
-				if (ch.pos.isValid() ){ // done: && ch.pos.latDec != 0 && ch.pos.lonDec != 0 TO-DO != 0 sollte rausgenommen werden sobald in der Liste vernünftig mit nicht gesetzten pos umgegangen wird
+				if (ch.pos.isValid()) { // done: && ch.pos.latDec != 0 &&
+										// ch.pos.lonDec != 0 TO-DO != 0 sollte
+										// rausgenommen werden sobald in der
+										// Liste vernünftig mit nicht gesetzten
+										// pos umgegangen wird
 					isAddi = ch.isAddiWpt();
-				if (!isAddi || (isAddi && ch.mainCache != null && ch.pos.getDistance(ch.mainCache.pos) < 1000)) { // test for plausiblity of coordinates of Additional Waypoints: more then 1000 km away from main Waypoint is unplausible -> ignore it // && ch.mainCache != null is only necessary because the data base may be corrupted
-						if (topleft == null) topleft = new CWPoint(ch.pos);
-						if (bottomright == null) bottomright = new CWPoint(ch.pos);
-						if (topleft.latDec < ch.pos.latDec) topleft.latDec = ch.pos.latDec;
-						if (topleft.lonDec > ch.pos.lonDec) topleft.lonDec = ch.pos.lonDec;
-						if (bottomright.latDec > ch.pos.latDec) bottomright.latDec = ch.pos.latDec;
-						if (bottomright.lonDec < ch.pos.lonDec) bottomright.lonDec = ch.pos.lonDec;
+					if (!isAddi
+							|| (isAddi && ch.mainCache != null && ch.pos
+									.getDistance(ch.mainCache.pos) < 1000)) { // test
+																				// for
+																				// plausiblity
+																				// of
+																				// coordinates
+																				// of
+																				// Additional
+																				// Waypoints:
+																				// more
+																				// then
+																				// 1000
+																				// km
+																				// away
+																				// from
+																				// main
+																				// Waypoint
+																				// is
+																				// unplausible
+																				// ->
+																				// ignore
+																				// it
+																				// //
+																				// &&
+																				// ch.mainCache
+																				// !=
+																				// null
+																				// is
+																				// only
+																				// necessary
+																				// because
+																				// the
+																				// data
+																				// base
+																				// may
+																				// be
+																				// corrupted
+						if (topleft == null)
+							topleft = new CWPoint(ch.pos);
+						if (bottomright == null)
+							bottomright = new CWPoint(ch.pos);
+						if (topleft.latDec < ch.pos.latDec)
+							topleft.latDec = ch.pos.latDec;
+						if (topleft.lonDec > ch.pos.lonDec)
+							topleft.lonDec = ch.pos.lonDec;
+						if (bottomright.latDec > ch.pos.latDec)
+							bottomright.latDec = ch.pos.latDec;
+						if (bottomright.lonDec < ch.pos.lonDec)
+							bottomright.lonDec = ch.pos.lonDec;
 						numCachesInArea++;
 					}
 				}
@@ -501,35 +627,42 @@ public class Profile {
 		}
 		if (topleft != null && bottomright != null)
 			return new Area(topleft, bottomright);
-		else return null;
+		else
+			return null;
 	}
 
 	/**
-	 *	Method to calculate bearing and distance of a cache in the index
-	 *	list.
-	 *	@see	CacheHolder
-	 *	@see	Extractor
+	 * Method to calculate bearing and distance of a cache in the index list.
+	 * 
+	 * @see CacheHolder
+	 * @see Extractor
 	 */
-	public void updateBearingDistance(){
-		CWPoint centerPoint = new CWPoint(Global.getPref().curCentrePt); // Clone current centre to be sure
+	public void updateBearingDistance() {
+		CWPoint centerPoint = new CWPoint(Global.getPref().curCentrePt); // Clone
+																			// current
+																			// centre
+																			// to
+																			// be
+																			// sure
 		int anz = cacheDB.size();
 		CacheHolder ch;
 		// Jetzt durch die CacheDaten schleifen
-		while(--anz >= 0){
-			ch = cacheDB.get(anz); // This returns a pointer to the CacheHolder object
+		while (--anz >= 0) {
+			ch = cacheDB.get(anz); // This returns a pointer to the CacheHolder
+									// object
 			ch.calcDistance(centerPoint);
 		}
 		// The following call is not very clean as it mixes UI with base classes
 		// However, calling it from here allows us to recenter the
 		// radar panel with only one call
-		if (Global.mainTab!=null) Global.mainTab.radarP.recenterRadar();
-	} //updateBearingDistance
+		if (Global.mainTab != null)
+			Global.mainTab.radarP.recenterRadar();
+	} // updateBearingDistance
 
 	/**
-	 * Method to build the reference between addi wpt
-	 * and main cache.
+	 * Method to build the reference between addi wpt and main cache.
 	 */
-	public void buildReferences(){
+	public void buildReferences() {
 		CacheHolder ch, mainCh;
 
 		// Build index for faster search and clear all references
@@ -538,7 +671,7 @@ public class Profile {
 			ch.addiWpts.clear();
 			ch.mainCache = null;
 		}
-		
+
 		// Build references
 		int max = cacheDB.size();
 		for (int i = 0; i < max; i++) {
@@ -546,9 +679,13 @@ public class Profile {
 			if (ch.isAddiWpt()) {
 				// search main cache
 				mainCh = cacheDB.get("GC" + ch.getWayPoint().substring(2));
-				if (mainCh == null)  // TODO save the source (GC or OC or Custom) of the maincache somewhere else to avoid ambiguity of addi-wpt-names
+				if (mainCh == null) // TODO save the source (GC or OC or Custom)
+									// of the maincache somewhere else to avoid
+									// ambiguity of addi-wpt-names
 					mainCh = cacheDB.get("OC" + ch.getWayPoint().substring(2));
-				if (mainCh == null)  // TODO save the source (GC or OC or Custom) of the maincache somewhere else to avoid ambiguity of addi-wpt-names
+				if (mainCh == null) // TODO save the source (GC or OC or Custom)
+									// of the maincache somewhere else to avoid
+									// ambiguity of addi-wpt-names
 					mainCh = cacheDB.get("CW" + ch.getWayPoint().substring(2));
 
 				if (mainCh != null) {
@@ -568,7 +705,7 @@ public class Profile {
 				ch.addiWpts.sort(new ewe.util.Comparer() {
 					public int compare(Object o1, Object o2) {
 						return ((CacheHolder) o1).getWayPoint().compareTo(
-						        ((CacheHolder) o2).getWayPoint());
+								((CacheHolder) o2).getWayPoint());
 					}
 				}, false);
 			}
@@ -670,21 +807,23 @@ public class Profile {
 	}
 
 	/**
-	 * If <code>true</code> then the cache list will only display the
-	 * caches that are result of a search.   
+	 * If <code>true</code> then the cache list will only display the caches
+	 * that are result of a search.
+	 * 
 	 * @return <code>True</code> if list should only display search results
 	 */
 	public boolean showSearchResult() {
 		return showSearchResult;
 	}
-	
+
 	/**
 	 * Sets parameter if cache list should only display the caches that are
 	 * results of a search.
-	 * @param showSearchResult <code>True</code>: List should only display search
-	 * results.
+	 * 
+	 * @param showSearchResult
+	 *            <code>True</code>: List should only display search results.
 	 */
-	public void setShowSearchResult(boolean showSearchResult){
+	public void setShowSearchResult(boolean showSearchResult) {
 		this.showSearchResult = showSearchResult;
 	}
 
@@ -711,34 +850,36 @@ public class Profile {
 	}
 
 	public void setFilterAttrChoice(int filterAttrChoice) {
-		this.notifyUnsavedChanges(filterAttrChoice != this.getFilterAttrChoice());
+		this.notifyUnsavedChanges(filterAttrChoice != this
+				.getFilterAttrChoice());
 		this.currentFilter.setFilterAttrChoice(filterAttrChoice);
 	}
 
 	public String getFilterStatus() {
-    	return currentFilter.getFilterStatus();
-    }
+		return currentFilter.getFilterStatus();
+	}
 
 	public void setFilterStatus(String filterStatus) {
 		this.notifyUnsavedChanges(filterStatus != this.getFilterStatus());
-    	this.currentFilter.setFilterStatus(filterStatus);
-    }
+		this.currentFilter.setFilterStatus(filterStatus);
+	}
 
 	public boolean getFilterUseRegexp() {
-    	return currentFilter.useRegexp();
-    }
+		return currentFilter.useRegexp();
+	}
 
 	public void setFilterUseRegexp(boolean useRegexp) {
 		this.notifyUnsavedChanges(useRegexp != this.getFilterUseRegexp());
-    	this.currentFilter.setUseRegexp(useRegexp);
-    }
-	
+		this.currentFilter.setUseRegexp(useRegexp);
+	}
+
 	public String getLast_sync_opencaching() {
 		return last_sync_opencaching;
 	}
 
 	public void setLast_sync_opencaching(String last_sync_opencaching) {
-		this.notifyUnsavedChanges(!last_sync_opencaching.equals(this.last_sync_opencaching));
+		this.notifyUnsavedChanges(!last_sync_opencaching
+				.equals(this.last_sync_opencaching));
 		this.last_sync_opencaching = last_sync_opencaching;
 	}
 
@@ -762,13 +903,14 @@ public class Profile {
 
 	/**
 	 * Returns the currently active FilterData object for the profile.
+	 * 
 	 * @return Object representing the setting of the filter
 	 */
 	public FilterData getCurrentFilter() {
-    	return currentFilter;
-    }
+		return currentFilter;
+	}
 
 	public void setCurrentFilter(FilterData currentFilter) {
-    	this.currentFilter = currentFilter;
-    }
+		this.currentFilter = currentFilter;
+	}
 }
