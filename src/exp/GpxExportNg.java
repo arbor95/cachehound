@@ -1009,40 +1009,6 @@ public class GpxExportNg {
 	}
 
 	/**
-	 * Execute the command defined by cmd
-	 * 
-	 * @param cmd
-	 *            command and options to execute. if command or options include
-	 *            a space quatation marks are added. this will not wirk with the
-	 *            java version on unix systems
-	 * @return a handle to the process on success or null otherwise
-	 */
-	Process startProcess(String[] cmd) {
-		String command = "";
-		if (cmd.length == 0) {
-			exportErrors++;
-			Global.getPref().log("GPX Export: empty gpsbabel command");
-			return null;
-		}
-
-		for (int i = 0; i < cmd.length; i++) {
-			if (cmd[i].indexOf(" ") > -1) {
-				cmd[i] = "\"" + cmd[i] + "\"";
-			}
-			command = command.concat(cmd[i]).concat(" ");
-		}
-
-		try {
-			return Vm.exec(command);
-		} catch (IOException e) {
-			Global.getPref().log("error excuting " + command, e,
-					Global.getPref().debug);
-			exportErrors++;
-			return null;
-		}
-	}
-
-	/**
 	 * dialog to set the GPX exporter options
 	 */
 	private class GpxExportNgForm extends Form {
