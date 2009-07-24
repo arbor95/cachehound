@@ -39,12 +39,23 @@ public class MyComparer implements Comparer {
 		} else if (colToCompare == 4) {
 			for (int i = 0; i < visibleSize; i++) {
 				CacheHolder ch = cacheDB.get(i);
-				ch.sort = ch.getWayPoint().toUpperCase();
+				// We sort...
+				// * first by the two-letter-prefix (so that GC caches and OC
+				// caches aren't mixed)
+				// * then by the _length_ of the id (so that GCFFFF sorts before
+				// GC10000)
+				// * then the rest of the id
+				ch.sort = (ch.getWayPoint().substring(0, 2)
+						+ ch.getWayPoint().length() + ch.getWayPoint()
+						.substring(2)).toUpperCase();
 			}
 		} else if (colToCompare == 5) {
 			for (int i = 0; i < visibleSize; i++) {
 				CacheHolder ch = cacheDB.get(i);
-				ch.sort = ch.getCacheName().toLowerCase();
+				// Ignore some funny characters - users expect e.g. "Finde mich"
+				// to sort under F and not under "
+				ch.sort = ch.getCacheName().toLowerCase().replaceAll(
+						"[\\p{Punct}]", "").replaceAll("^\\s*", "");
 			}
 		} else if (colToCompare == 6) {
 			for (int i = 0; i < visibleSize; i++) {
@@ -54,7 +65,10 @@ public class MyComparer implements Comparer {
 		} else if (colToCompare == 7) {
 			for (int i = 0; i < visibleSize; i++) {
 				CacheHolder ch = cacheDB.get(i);
-				ch.sort = ch.getCacheOwner().toLowerCase();
+				// Ignore some funny characters - users expect e.g. "Finde mich"
+				// to sort under F and not under "
+				ch.sort = ch.getCacheOwner().toLowerCase().replaceAll(
+						"[\\p{Punct}]", "").replaceAll("^\\s*", "");
 			}
 		} else if (colToCompare == 8) {
 			for (int i = 0; i < visibleSize; i++) {
