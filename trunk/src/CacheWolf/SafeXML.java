@@ -519,4 +519,49 @@ public class SafeXML{
 				dst.append(tmp[i++]);
 		return (dst.toString());
 	}
+	
+	public static String removeHtml(String src) {
+		int posStart = 0;
+
+		if (src == null)
+			return null;
+		String dst = src;
+
+		while (posStart >= 0) {
+			if ((posStart = dst.indexOf("<")) >= 0) {
+				int posEnd;
+				if ((posEnd = dst.indexOf(">", posStart)) < 0)
+					break;
+				if (posEnd < dst.length()) {
+					String temp = dst.substring(posStart, posEnd + 1);
+					dst = STRreplace.replace(dst,temp, " ");
+				}
+
+			}
+
+		}
+
+		for (int i = 1; i <= 31; ++i) {
+			if ((i == 10) || (i == 13)) {
+				continue;
+			}
+			char chDelete = (char) i;
+			dst = dst.replace(chDelete, ' ');
+		}
+
+		String chLF = "\n";
+		dst = STRreplace.replace(dst,chLF, " \n");
+
+		dst = STRreplace.replace(dst,"", " ");
+
+		dst = STRreplace.replace(dst,"<", "lt");
+		dst = STRreplace.replace(dst,">", "gt");
+
+		dst = STRreplace.replace(dst,"#nbsp;", " ");
+		dst = STRreplace.replace(dst,"#amp;", "+");
+		dst = STRreplace.replace(dst,"&", "+");
+
+		return dst.toString();
+	}
+	
 }

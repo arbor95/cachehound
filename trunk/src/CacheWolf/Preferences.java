@@ -237,6 +237,11 @@ public class Preferences extends MinML{
 	/** keep own logs even when excessing <code>maxLogsToKeep</code> */
 	public boolean alwaysKeepOwnLogs = true;
 
+	public String mailHost = "";
+	public String mailLoginName = "";
+	public String mailPassword = "";
+	public String mailProtocol = "";
+	
 	//////////////////////////////////////////////
 	/** The debug switch (Can be used to activate dormant code) by adding
 	 * the line: <pre><debug value="true" /></pre>
@@ -483,6 +488,20 @@ public class Preferences extends MinML{
 			if (tmp != null)
 				alwaysKeepOwnLogs = Boolean.valueOf(tmp).booleanValue();  
 		}
+		
+		else if(name.equals("mailhost")) {
+			mailHost = atts.getValue("value");
+		}
+		else if(name.equals("maillogin")) {
+			mailLoginName = atts.getValue("value");
+		}
+		else if(name.equals("mailpassword")) {
+			mailPassword = atts.getValue("value");
+		}
+		else if(name.equals("mailprotocol")) {
+			mailProtocol = atts.getValue("value");
+		}
+		
 	}
 
 	public void characters( char ch[], int start, int length ) {
@@ -567,6 +586,12 @@ public class Preferences extends MinML{
 			}
 			if (rater != null) outp.print("    <rater tool=\"".concat(SafeXML.strxmlencode(rater)).concat("\"/>\n"));
 			outp.print("    <logkeeping maximum=\""+SafeXML.strxmlencode(maxLogsToKeep)+"\" keepown=\""+SafeXML.strxmlencode(alwaysKeepOwnLogs)+"\" />\n");
+			
+			outp.print("    <mailhost value=\"" + SafeXML.strxmlencode(mailHost) + "\"/>\n");
+			outp.print("    <maillogin value=\"" + SafeXML.strxmlencode(mailLoginName) + "\"/>\n");
+			outp.print("    <mailpassword value=\"" + SafeXML.strxmlencode(mailPassword) + "\"/>\n");
+			outp.print("    <mailprotocol value=\"" + SafeXML.strxmlencode(mailProtocol) + "\"/>\n");
+			
 			outp.print("</preferences>");
 			outp.close();
 		} catch (Exception e) {
