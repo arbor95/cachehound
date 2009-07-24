@@ -15,6 +15,7 @@ import CacheWolf.navi.SelectMap;
 import de.cachehound.imp.mail.CacheWolfMailHandler;
 import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
+import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Font;
@@ -84,8 +85,6 @@ public class MainMenu extends MenuBar {
 
 	public MainMenu(Form f) {
 
-		Global.getPref().setgpsbabel();
-
 		father = f;
 
 		// /////////////////////////////////////////////////////////////////////
@@ -140,7 +139,7 @@ public class MainMenu extends MenuBar {
 				"to MS AutoRoute CSV"));
 		exitems[7] = exportLOC = new MenuItem(MyLocale.getMsg(215, "to LOC"));
 		exitems[8] = exportGPS = new MenuItem(MyLocale.getMsg(122, "to GPS"));
-		if (Global.getPref().gpsbabel == null) {
+		if (!GPSBabel.isPresent()) {
 			exitems[8].modifiers = MenuItem.Disabled;
 		}
 		exitems[9] = exportOZI = new MenuItem(MyLocale.getMsg(124, "to OZI"));
@@ -536,43 +535,13 @@ public class MainMenu extends MenuBar {
 				loc.doIt(LocExporter.MODE_AUTO);
 				ProgressBarForm.display(MyLocale.getMsg(950, "Transfer"),
 						MyLocale.getMsg(951, "Sending to GPS"), null);
-				List<String> args = new ArrayList<String>();
-				args.add(pref.gpsbabel);
-				for (String arg : Arrays.asList(pref.garminGPSBabelOptions
-						.split(" +"))) {
-					// FIXME: pref.garminGPSBabelOptions should really be an
-					// array
-					if (!arg.equals("")) {
-						args.add(arg);
-					}
-				}
-				args.add("-i");
-				args.add("geo");
-				args.add("-f");
-				args.add(tmpFileName);
-				args.add("-o");
-				args.add("garmin");
-				args.add("-F");
-				args.add(pref.garminConn + ":");
-				if (pref.debug) {
-					pref.log(args.toString());
-				}
 				try {
-					ProcessBuilder pb = new ProcessBuilder(args);
-					Process p = pb.start();
-					p.waitFor();
+					GPSBabel.convert(GPSBabel.Filetype.geo, tmpFileName,
+							GPSBabel.Filetype.garmin, pref.garminConn + ":");
 				} catch (java.io.IOException e) {
-					Vm.showWait(false);
 					(new MessageBox("Error", "Garmin export unsuccessful",
 							FormBase.OKB)).execute();
-					pref.log("Error exporting to Garmin", e, pref.debug);
-				} catch (InterruptedException e) {
-					Vm.showWait(false);
-					(new MessageBox("Error", "Garmin export unsuccessful",
-							FormBase.OKB)).execute();
-					pref.log("Error exporting to Garmin", e, pref.debug);
 				}
-				;
 				ProgressBarForm.clear();
 				Vm.showWait(false);
 			}
