@@ -1,5 +1,12 @@
 package CacheWolf;
 
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+
+import de.cachehound.imp.mail.CacheWolfMailHandler;
+import de.cachehound.imp.mail.DummyGCMailHandler;
+import de.cachehound.imp.mail.GeocachingMailReader;
+import de.cachehound.imp.mail.IGCMailHandler;
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.OCXMLImporter;
 import CacheWolf.imp.OCXMLImporterScreen;
@@ -41,6 +48,7 @@ import exp.OVLExporter;
 import exp.OziExporter;
 import exp.TPLExporter;
 import exp.TomTomExporter;
+import exp.TritonGPXExporter;
 
 /**
  *	This class creates the menu for cachewolf. It is also responsible
@@ -57,7 +65,8 @@ public class MainMenu extends MenuBar {
 	private MenuItem spider, spiderAllFinds, update, chkVersion;
 	private MenuItem about, wolflang, sysinfo, legend;
 	private MenuItem exportGpxNg, exporthtml, exporttop50, exportGPX, exportASC, exportTomTom, exportMSARCSV;
-	private MenuItem exportOZI, exportKML, exportTPL, exportExplorist;
+	private MenuItem exportOZI, exportKML, exportTPL, exportExplorist, exportTriton;
+	private MenuItem importMail;
 	private MenuItem filtCreate, filtClear, filtInvert, filtSelected, filtNonSelected, filtBlack, filtApply;
 	private MenuItem exportLOC, exportGPS, mnuSeparator;
 	private MenuItem orgNewWP, orgCopy, orgMove, orgDelete,orgRebuild,orgCheckNotesAndSolver, orgRater;
@@ -86,21 +95,23 @@ public class MainMenu extends MenuBar {
 		///////////////////////////////////////////////////////////////////////
 		// subMenu for import, part of "Application" menu below
 		///////////////////////////////////////////////////////////////////////
-		MenuItem[] mnuImport = new MenuItem[7];
+		MenuItem[] mnuImport = new MenuItem[8];
 		mnuImport[0] = loadcaches  = new MenuItem(MyLocale.getMsg(129,"Import GPX")); //TODO internationalization
 		mnuImport[1] = loadOC      = new MenuItem(MyLocale.getMsg(130,"Download von opencaching.de")); 
 		mnuImport[2] = spider      = new MenuItem(MyLocale.getMsg(131,"Spider von geocaching.com")); 
 		mnuImport[3] = spiderAllFinds = new MenuItem(MyLocale.getMsg(217,"Spider all finds from geocaching.com")); 
 		mnuImport[4] = update         = new MenuItem(MyLocale.getMsg(1014,"Update cache data"));
-		mnuImport[5] = mnuSeparator   = new MenuItem("-"); 
-		mnuImport[6] = mnuForceLogin  = new MenuItem(MyLocale.getMsg(216,"Always login to GC")); 
+		mnuImport[5] = importMail     = new MenuItem("import Mails");
+		mnuImport[6] = mnuSeparator   = new MenuItem("-"); 
+		mnuImport[7] = mnuForceLogin  = new MenuItem(MyLocale.getMsg(216,"Always login to GC"));
+		
 		Menu importMenu = new Menu(mnuImport, MyLocale.getMsg(175,"Import"));
 		if (Global.getPref().forceLogin) mnuForceLogin.modifiers^=MenuItem.Checked;
 
 		///////////////////////////////////////////////////////////////////////
 		// subMenu for export, part of "Application" menu below
 		///////////////////////////////////////////////////////////////////////
-		MenuItem[] exitems = new MenuItem[13];
+		MenuItem[] exitems = new MenuItem[14];
 		//Vm.debug("Hi in MainMenu "+lr);
 		exitems[0] = exporthtml = new MenuItem(MyLocale.getMsg(100,"to HTML"));
 		exitems[1] = exportGpxNg = new MenuItem(MyLocale.getMsg(101,"to GPX Test"));
@@ -118,6 +129,7 @@ public class MainMenu extends MenuBar {
 		exitems[10] = exportKML = new MenuItem(MyLocale.getMsg(125,"to Google Earth"));
 		exitems[11] = exportExplorist = new MenuItem(MyLocale.getMsg(132,"to Explorist"));
 		exitems[12] = exportTPL = new MenuItem(MyLocale.getMsg(128,"via Template"));
+		exitems[13] = exportTriton = new MenuItem(MyLocale.getMsg(138,"GPX for VantagePoint (Triton)"));
 
 		Menu exportMenu = new Menu(exitems, MyLocale.getMsg(107,"Export"));
 
@@ -378,6 +390,25 @@ public class MainMenu extends MenuBar {
 				Global.getPref().forceLogin=(mnuForceLogin.modifiers&MenuItem.Checked)!=0;
 				Global.getPref().savePreferences();
 			}
+			
+			if (mev.selectedItem == importMail) {
+				try {
+					IGCMailHandler handler = new CacheWolfMailHandler(pref, profile);
+					GeocachingMailReader mailReader = new GeocachingMailReader(pref.mailProtocol, pref.mailHost, pref.mailLoginName, pref.mailPassword, "INBOX", handler);
+					mailReader.connect(true);
+					mailReader.readMessages(true, true, false);
+					mailReader.disconnect(true);
+				} catch (Exception e) {
+					Vm.showWait(false);
+					(new MessageBox("Error", "Mail import unsuccessful", FormBase.OKB)).execute();
+					pref.log("Mail import unsuccessful", e, pref.debug);
+				}
+				tbp.resetModel();
+			}
+				
+			
+			
+			
 			///////////////////////////////////////////////////////////////////////
 			// subMenu for export, part of "Application" menu 
 			///////////////////////////////////////////////////////////////////////
@@ -457,6 +488,10 @@ public class MainMenu extends MenuBar {
 			}
 			if(mev.selectedItem == exportExplorist) {
 				ExploristExporter mag = new ExploristExporter( pref, profile);
+				mag.doIt();
+			}
+			if(mev.selectedItem == exportTriton) {
+				TritonGPXExporter mag = new TritonGPXExporter( pref, profile);
 				mag.doIt();
 			}
 			///////////////////////////////////////////////////////////////////////
@@ -781,7 +816,7 @@ public class MainMenu extends MenuBar {
 						|| ch.getWayPoint().substring(0,2).equalsIgnoreCase("OC")))
 //					if ( (ch.wayPoint.length() > 1 && ch.wayPoint.substring(0,2).equalsIgnoreCase("GC")))
 //					Notiz: Wenn es ein addi Wpt ist, sollte eigentlich der Maincache gespidert werden
-//					Alter code prüft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
+//					Alter code pr�ft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
 				{
 					cachesToUpdate.add(new Integer(i));
 				} else {

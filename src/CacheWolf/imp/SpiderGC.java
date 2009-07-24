@@ -282,7 +282,9 @@ public class SpiderGC{
 					CacheImages.cleanupOldImages(cacheInDB.getExistingDetails().images, ch.getFreshDetails().images);
 				} else {
 					// preserve images if not downloaded
-					ch.getFreshDetails().images = cacheInDB.getExistingDetails().images;
+					// Änderung Florian für Mailupdate
+					//ch.getFreshDetails().images = cacheInDB.getExistingDetails().images;
+					ch.getFreshDetails().images = cacheInDB.getFreshDetails().images;
 				}
 				cacheInDB.update(ch);
 				cacheInDB.save();

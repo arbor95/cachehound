@@ -20,6 +20,7 @@ public class PreferencesScreen extends Form {
 	mChoice inpLanguage, inpMetric, inpSpiderUpdates;
 	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, Browser, fontSize, 
 	       inpLogsPerPage,inpMaxLogsToSpider,inpPassword;
+	mInput inputMailHost, inputMailLogin, inputMailPassword, inputMailProtocol;
 	mCheckBox chkAutoLoad, chkShowDeletedImg, chkMenuAtTop, chkTabsAtTop, chkShowStatus,chkHasCloseButton,
 	          chkSynthShort,chkProxyActive, chkDescShowImg, chkAddDetailsToWaypoint, chkAddDetailsToName;
 	mTabbedPanel mTab;
@@ -32,6 +33,7 @@ public class PreferencesScreen extends Form {
 	CellPanel pnlGeneral = new CellPanel();
 	CellPanel pnlDisplay = new CellPanel();
 	CellPanel pnlMore = new CellPanel();
+	CellPanel pnlMail = new CellPanel();
 	CellPanel pnlTB = new CellPanel();
 	//Frame frmGarmin = new Frame();
 	ScrollBarPanel scp; // TODO not neede any more?
@@ -223,13 +225,36 @@ public class PreferencesScreen extends Form {
 		pnlMore.addNext(new mLabel(MyLocale.getMsg(588, "Length units")),DONTSTRETCH,DONTFILL|WEST);
 		int currMetrik = pref.metricSystem == Metrics.METRIC ? 0 : 1;
 		pnlMore.addLast(inpMetric=new mChoice(metriken, currMetrik),DONTSTRETCH,DONTFILL|WEST);
+		
 		/////////////////////////////////////////////////////////
-		// Fourth/Fifth panel - Listview and Travelbugs
+		// Fourth panel - Mail
+		/////////////////////////////////////////////////////////
+		pnlMail=new CellPanel();
+		pnlMail.addNext(new mLabel("Host"),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		pnlMail.addLast(inputMailHost = new mInput(),CellConstants.HSTRETCH, (CellConstants.HFILL|CellConstants.WEST)).setTag(SPAN,new Dimension(2,1));
+		inputMailHost.setText(pref.mailHost);
+		pnlMail.addNext(new mLabel("Login"),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		pnlMail.addLast(inputMailLogin = new mInput(),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		inputMailLogin.setText(pref.mailLoginName);
+		pnlMail.addNext(new mLabel("Password"),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		pnlMail.addLast(inputMailPassword = new mInput(),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		inputMailPassword.setText(pref.mailPassword);
+		pnlMail.addNext(new mLabel("Protocol"),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		pnlMail.addLast(inputMailProtocol = new mInput(),CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		inputMailProtocol.setText(pref.mailProtocol);
+		pnlMail.addLast(new mLabel("Erlaubte Werte für Protocol (sicher):"),HSTRETCH,HFILL);
+		pnlMail.addLast(new mLabel("'imap', 'imaps'"),HSTRETCH,HFILL);
+		pnlMail.addLast(new mLabel("Unsichere Werte für Protocol (Mails löschen?):"),HSTRETCH,HFILL);
+		pnlMail.addLast(new mLabel("'pop3', 'pop3s'"),HSTRETCH,HFILL);
+		
+		/////////////////////////////////////////////////////////
+		// Fifth/Sixth panel - Listview and Travelbugs
 		/////////////////////////////////////////////////////////
 
         mTab.addCard(pnlGeneral,MyLocale.getMsg(621,"General"),null);
 		mTab.addCard(pnlDisplay,MyLocale.getMsg(622,"Screen"),null);
 		mTab.addCard(pnlMore,MyLocale.getMsg(632,"More"),null);
+		mTab.addCard(pnlMail, "Mail", null);
 		mTab.addCard(tccList=new TableColumnChooser(new String[] {
 				MyLocale.getMsg(599,"checkbox"),
 				MyLocale.getMsg(598,"type"),
@@ -274,6 +299,7 @@ public class PreferencesScreen extends Form {
 		applyB = new mButton(MyLocale.getMsg(615,"Apply"));
 		applyB.setHotKey(0, IKeys.ACTION);
 		addLast(applyB,CellConstants.DONTSTRETCH, (CellConstants.DONTFILL|CellConstants.WEST));
+		
 	}
 	
 	public void onEvent(Event ev){
@@ -327,6 +353,11 @@ public class PreferencesScreen extends Form {
 				pref.addDetailsToWaypoint = chkAddDetailsToWaypoint.getState();
 				pref.addDetailsToName = chkAddDetailsToName.getState();
 
+				pref.mailHost = inputMailHost.getText();
+				pref.mailLoginName = inputMailLogin.getText();
+				pref.mailPassword = inputMailPassword.getText();
+				pref.mailProtocol = inputMailProtocol.getText();
+				
 				pref.savePreferences();
 				pref.dirty = true; // Need to update table in case columns were enabled/disabled
 				this.close(0);
