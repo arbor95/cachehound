@@ -840,7 +840,7 @@ public class Parser {
 	}
 
 	/** Replace all occurrences of a string with another string */
-	private String funcReplace() throws Exception {
+	private String funcReplace()  {
 		String replaceWith = popCalcStackAsString();
 		String whatToReplace = popCalcStackAsString();
 		String s = popCalcStackAsString();

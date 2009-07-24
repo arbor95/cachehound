@@ -8,11 +8,8 @@ import com.stevesoft.ewe_pat.Regex;
 import ewe.io.BufferedWriter;
 import ewe.io.FileBase;
 import ewe.io.FileWriter;
-import ewe.io.IOException;
 import ewe.io.PrintWriter;
 import ewe.sys.Vm;
-import ewe.ui.FormBase;
-import ewe.ui.MessageBox;
 import ewe.util.Hashtable;
 import ewe.util.Vector;
 
@@ -233,8 +230,8 @@ public class ShowCacheInBrowser {
 								.toHtml(),
 								"http://www.geocaching.com/images/icons/", "");
 						int posGt = log.indexOf('>'); // Find the icon which
-														// defines the type of
-														// log
+						// defines the type of
+						// log
 						if (posGt < 0) {
 							logs.put("LOG", log);
 							logs.put("LOGTYPE", "");
@@ -273,14 +270,14 @@ public class ShowCacheInBrowser {
 									+ "\">");
 							addis.put("LONGDESC",
 									ch.getExistingDetails().LongDescription); // Do
-																				// we
-																				// need
-																				// to
-																				// treat
-																				// longDesc
-																				// as
-																				// above
-																				// ?
+							// we
+							// need
+							// to
+							// treat
+							// longDesc
+							// as
+							// above
+							// ?
 							addiVect.add(addis);
 						}
 						tpl.setParam("ADDIS", addiVect);
@@ -300,29 +297,12 @@ public class ShowCacheInBrowser {
 			tpl.printTo(detfile);
 			// detfile.print(tpl.output());
 			detfile.close();
-			try {
-				CWWrapper.exec(Global.getPref().browser, "file://" + saveTo); // maybe
-																				// this
-																				// works
-																				// on
-																				// some
-																				// PDAs?
-			} catch (IOException ex) {
-				(new MessageBox(MyLocale.getMsg(321, "Error"),
-						MyLocale.getMsg(1034, "Cannot start browser!")
-								+ "\n"
-								+ ex.toString()
-								+ "\n"
-								+ MyLocale.getMsg(1035, "Possible reason:")
-								+ "\n"
-								+ MyLocale.getMsg(1036,
-										"A bug in ewe VM, please be")
-								+ "\n"
-								+ MyLocale
-										.getMsg(1037, "patient for an update"),
-						FormBase.OKB)).execute();
-			}
-
+			CWWrapper.exec(Global.getPref().browser, "file://" + saveTo); // maybe
+																			// this
+																			// works
+																			// on
+																			// some
+																			// PDAs?
 		} catch (Exception e) {
 			e.printStackTrace();
 			Global.getPref().log("Error in ShowCache " + e.toString());

@@ -19,12 +19,11 @@ public class CWWrapper {
 	 *            (only one argument)
 	 * @throws ewe.io.IOException
 	 */
-	public static void exec(String cmd, String arg) throws ewe.io.IOException {
+	public static void exec(String cmd, String arg) {
 		exec(cmd, arg, false);
 	}
 
-	public static int exec(String cmd, String arg, boolean wait)
-			throws ewe.io.IOException {
+	public static int exec(String cmd, String arg, boolean wait) {
 		if (Vm.getPlatform().equals("WinCE")
 				|| Vm.getPlatform().equals("Win32")) {
 			/* we need extra quotes here, see vm/nmwin32_c.c */
