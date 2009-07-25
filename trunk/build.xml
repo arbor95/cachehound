@@ -35,10 +35,10 @@
 	<property name="build.type" value="3" />
 
 	<!-- define output directorties -->
-	<property name="pkg.dir" value="published" />
 	<property name="classes.dir" value="bin" />
 	<property name="assemble.dir" value="assemble" />
 	<property name="dist.dir" value="dist" />
+	<property name="work.dir" value="work" />
 
 	<!-- lists of files to be packaged, this should become less confusing later on -->
 	<property name="template.files" value="templates/*.tpl" />
@@ -48,7 +48,7 @@
 	<property name="icons.browser.files" value="g.png,g2.png,y.png,y2.png" />
 	<property name="doc.files" value="wolflang.html,GCTemplate.html,info.html,legende.html" />
 
-	<property name="verbose.mode" value="false"/>
+	<property name="verbose.mode" value="false" />
 
 
 
@@ -71,7 +71,7 @@
 
 
 
-<!--	<target name="fixreleasenumber" description="fix the release number in " depends="clean">
+	<!--	<target name="fixreleasenumber" description="fix the release number in " depends="clean">
 		<echo message="setting build version: ${build.version}" />
 		<replaceregexp file="src/CacheWolf/Version.java" match="static final int SVN_REVISION = (.*);" replace="static final int SVN_REVISION = ${build.version};" />
 		<echo message="setting build type: ${build.type}" />
@@ -87,24 +87,38 @@
 		<jar jarfile="${assemble.dir}/someClasses.jar" basedir="lib" includes="com/**,ewesoft/**,HTML/**" />
 
 		<copy file="lib/java_ewe.dll" todir="${assemble.dir}" />
-		<copy todir="${assemble.dir}" failonerror="true" verbose="${verbose.mode}" >
+		<copy todir="${assemble.dir}" failonerror="true" verbose="${verbose.mode}">
 			<fileset dir="lib" includes="*.jar" />
 		</copy>
 		<copy file="docs/cachewolf.svg" todir="${assemble.dir}" />
 
 		<antcall target="copyres" />
+		<antcall target="create_test_directory" />
 
-		<mkdir dir="${pkg.dir}" />
 		<zip destfile="dist/CacheHound-${revision.number}.zip" basedir="${assemble.dir}" />
 		<delete dir="${assemble.dir}" />
 	</target>
 
+	<target name="clean_work" description="cleans up the work directory build">
+		<delete>
+			<fileset dir="${work.dir}" includes="*,**/*" excludes="pref.xml,garminmap.xml" />
+			<dirset dir="${work.dir}" />
+		</delete>
+	</target>
 
-	<target name="clean" description="clean up before build">
+		
+	<target name="clean" depends="clean_work" description="clean up before build">
 		<delete dir="${pkg.dir}" />
 		<delete dir="${classes.dir}" />
 		<delete dir="programs/CacheWolf" />
-		<delete dir="${assemble.dir}" />
+	</target>
+
+	<target name="create_test_directory" description="creates a directory for testing">
+		<mkdir dir="${work.dir}" />
+		<antcall target="clean_work" />
+		<copy todir="${work.dir}" failonerror="true" verbose="${verbose.mode}">
+			<fileset dir="${assemble.dir}" />
+		</copy>
 	</target>
 
 	<target name="compile" description="compile sources with java">
@@ -114,12 +128,12 @@
 
 	<target name="copyres" description="copy images to the assembly directory">
 		<!-- copy start scripts -->
-		<copy todir="${assemble.dir}" failonerror="true" >
+		<copy todir="${assemble.dir}" failonerror="true">
 			<fileset dir="resources/scripts" includes="cachehound.*" />
 		</copy>
-		
+
 		<!-- copy templates -->
-		<copy todir="${assemble.dir}" failonerror="true" >
+		<copy todir="${assemble.dir}" failonerror="true">
 			<fileset dir="res_noewe">
 				<include name="${template.files}" />
 			</fileset>
@@ -152,7 +166,7 @@
 		<copy todir="${assemble.dir}/attributes" failonerror="true" verbose="${verbose.mode}">
 			<fileset dir="resources/attributes" />
 		</copy>
-	
+
 		<!-- copy exporticons -->
 		<copy todir="${assemble.dir}/exporticons" failonerror="true" verbose="${verbose.mode}">
 			<fileset dir="res_noewe/exporticons" />
