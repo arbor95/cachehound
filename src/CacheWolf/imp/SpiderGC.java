@@ -52,6 +52,8 @@ import CacheWolf.navi.Metrics;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.types.LogType;
+
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.File;
@@ -1413,7 +1415,7 @@ public class SpiderGC {
 	 * @return A HTML string containing the logs
 	 */
 	private LogList getLogs(String doc, CacheHolderDetail chD) throws Exception {
-		String icon = "";
+		LogType type;
 		String name = "";
 		String logText = "";
 		String logId = "";
@@ -1453,24 +1455,23 @@ public class SpiderGC {
 			// Vm.debug(exDate.findNext());
 			// Vm.debug(exLog.findNext());
 			// Vm.debug("--------------------------------------------");
-			icon = exIcon.findNext();
+			
+			type = LogType.getLogTypeFromIconString(exIcon.findNext());
 			name = exName.findNext();
 			logText = exLog.findNext();
 			logId = exLogId.findNext();
 			String d = DateFormat.logdate2YMD(exDate.findNext());
-			if ((icon.equals(p.getProp("icon_smile"))
-					|| icon.equals(p.getProp("icon_camera")) || icon.equals(p
-					.getProp("icon_attended")))
+			if ((type == LogType.FOUND || type == LogType.PHOTO_TAKEN || type == LogType.ATTENDED)
 					&& (name.equalsIgnoreCase(SafeXML.clean(pref.myAlias)) || (pref.myAlias2
 							.length() > 0 && name.equalsIgnoreCase(SafeXML
 							.clean(pref.myAlias2))))) {
 				chD.getParent().setFound(true);
 				chD.getParent().setCacheStatus(d);
 				chD.OwnLogId = logId;
-				chD.OwnLog = new Log(icon, d, name, logText);
+				chD.OwnLog = new Log(type, d, name, logText);
 			}
 			if (nLogs <= pref.maxLogsToSpider)
-				reslts.add(new Log(icon, d, name, logText));
+				reslts.add(new Log(type, d, name, logText));
 
 			singleLog = exSingleLog.findNext();
 			exIcon.setSource(singleLog);
@@ -1489,7 +1490,9 @@ public class SpiderGC {
 				break;
 		}
 		if (nLogs > pref.maxLogsToSpider) {
+
 			reslts.add(Log.maxLog());
+			
 			pref.log("Too many logs. MAXLOGS reached (" + pref.maxLogsToSpider
 					+ ")");
 		} else

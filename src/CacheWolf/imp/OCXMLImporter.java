@@ -86,9 +86,10 @@ public class OCXMLImporter extends MinML {
 			+ "/viewcache.php?cacheid=");
 	String cacheID = new String();
 
-	String logData, logIcon, logDate, logFinder, logId;
+	String logData, logDate, logFinder, logId;
+	LogType logType;
 	boolean loggerRecommended;
-	int logtype;
+	int logTypeOC;
 	String user;
 	double longitude;
 
@@ -397,7 +398,7 @@ public class OCXMLImporter extends MinML {
 		if (name.equals("cachelog")) {
 			state = STAT_CACHE_LOG;
 			numLogImported++;
-			logtype = 0;
+			logTypeOC = 0;
 		}
 		if (name.equals("picture")) {
 			state = STAT_PICTURE;
@@ -542,17 +543,17 @@ public class OCXMLImporter extends MinML {
 		inf.setInfo(MyLocale.getMsg(1612, "Importing Cachlog:") + " "
 				+ numLogImported);
 		if (name.equals("logtype")) {
-			logtype = Convert.toInt(atts.getValue("id"));
-			switch (logtype) {
+			logTypeOC = Convert.toInt(atts.getValue("id"));
+			switch (logTypeOC) {
 			case 1:
-				logIcon = LogType.typeText2Image("Found");
+				logType = LogType.FOUND;
 				break;
 			case 2:
-				logIcon = LogType.typeText2Image("Not Found");
+				logType = LogType.DID_NOT_FOUND;
 				holder.setNoFindLogs((byte) (holder.getNoFindLogs() + 1));
 				break;
 			case 3:
-				logIcon = LogType.typeText2Image("Note");
+				logType = LogType.NOTE;
 			}
 			loggerRecommended = atts.getValue("recommended").equals("1");
 			return;
@@ -889,15 +890,15 @@ public class OCXMLImporter extends MinML {
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getFreshDetails().CacheLogs.merge(new Log(logIcon, logDate,
+			holder.getFreshDetails().CacheLogs.merge(new Log(logType, logDate,
 					logFinder, logData, loggerRecommended));
 			if ((logFinder.toLowerCase().compareTo(user) == 0 || logFinder
 					.equalsIgnoreCase(pref.myAlias2))
-					&& logtype == 1) {
+					&& logTypeOC == 1) {
 				holder.setCacheStatus(logDate);
 				holder.setFound(true);
 				holder.getFreshDetails().OwnLogId = logId;
-				holder.getFreshDetails().OwnLog = new Log(logIcon, logDate,
+				holder.getFreshDetails().OwnLog = new Log(logType, logDate,
 						logFinder, logData, loggerRecommended);
 			}
 			holder.getFreshDetails().hasUnsavedChanges = true; // chD.saveCacheDetails(profile.dataDir);

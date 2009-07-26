@@ -174,7 +174,7 @@ public class GPXExporter extends Exporter {
 							.append(":00</groundspeak:date>\r\n");
 					if (det.OwnLog != null) {
 						strBuf.append("          <groundspeak:type>").append(
-								LogType.image2TypeText(det.OwnLog.getIcon())).append(
+								det.OwnLog.getLogType().toGcComType()).append(
 								"</groundspeak:type>\r\n");
 					} else {
 						strBuf
@@ -215,8 +215,8 @@ public class GPXExporter extends Exporter {
 										.getDate())).append(
 								"T00:00:00</groundspeak:date>\r\n");
 						strBuf.append("          <groundspeak:type>").append(
-								LogType.image2TypeText(det.CacheLogs.getLog(i)
-										.getIcon())).append(
+								det.CacheLogs.getLog(i).getLogType()
+										.toGcComType()).append(
 								"</groundspeak:type>\r\n");
 						strBuf.append("          <groundspeak:finder id=\"\">")
 								.append(
@@ -275,7 +275,5 @@ public class GPXExporter extends Exporter {
 	public String trailer(int total) {
 		return "</gpx>\r\n";
 	}
-
-
 
 }

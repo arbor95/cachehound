@@ -181,7 +181,7 @@ public class HTMLExporter {
 														"http://www.geocaching.com/images/icons/",
 														null));
 								sb.append("<br>");
-								icon = det.CacheLogs.getLog(j).getIcon();
+								icon = det.CacheLogs.getLog(j).getLogType().toIconString();
 								if (logIcons.find(icon) < 0)
 									logIcons.add(icon); // Add the icon to list
 														// of icons to copy to

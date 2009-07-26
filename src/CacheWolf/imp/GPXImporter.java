@@ -40,7 +40,8 @@ public class GPXImporter extends MinML {
 	Profile profile;
 	CacheDB cacheDB;
 	CacheHolder holder;
-	String strData, saveDir, logData, logIcon, logDate, logFinder, logId;
+	String strData, saveDir, logData, logDate, logFinder, logId;
+	LogType logType;
 	boolean inWpt, inCache, inLogs, inBug;
 	public XMLElement document;
 	private Vector files = new Vector();
@@ -283,7 +284,7 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:type") || name.equals("type")
 					|| name.equals("terra:type")) {
-				logIcon = new String(LogType.typeText2Image(strData));
+				logType = LogType.getLogTypeFromGcTypeText(strData);
 				return;
 			}
 			if (name.equals("groundspeak:finder") || name.equals("geocacher")
@@ -298,18 +299,16 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:log") || name.equals("log")
 					|| name.equals("terra:log")) {
-				holder.getFreshDetails().CacheLogs.add(new Log(logIcon,
+				holder.getFreshDetails().CacheLogs.add(new Log(logType,
 						logDate, logFinder, logData));
-				if ((logIcon.equals("icon_smile.gif")
-						|| logIcon.equals("icon_camera.gif") || logIcon
-						.equals("icon_attended.gif"))
+				if ((logType == LogType.FOUND || logType == LogType.PHOTO_TAKEN || logType == LogType.ATTENDED)
 						&& (logFinder.equalsIgnoreCase(pref.myAlias) || (pref.myAlias2
 								.length() > 0 && logFinder
 								.equalsIgnoreCase(pref.myAlias2)))) {
 					holder.setCacheStatus(logDate);
 					holder.setFound(true);
 					holder.getFreshDetails().OwnLogId = logId;
-					holder.getFreshDetails().OwnLog = new Log(logIcon, logDate,
+					holder.getFreshDetails().OwnLog = new Log(logType, logDate,
 							logFinder, logData);
 				}
 				return;

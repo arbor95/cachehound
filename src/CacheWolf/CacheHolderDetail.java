@@ -1,5 +1,6 @@
 package CacheWolf;
 
+import de.cachehound.types.LogType;
 import utils.FileBugfix;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -257,7 +258,7 @@ public class CacheHolderDetail {
 			if (ownLogText.indexOf("<img src='") >= 0) {
 				OwnLog = new Log(ownLogText + "]]>");
 			} else {
-				OwnLog = new Log("icon_smile.gif", "1900-01-01", Global
+				OwnLog = new Log(LogType.FOUND, "1900-01-01", Global
 						.getPref().myAlias, ownLogText);
 			}
 		} else {

@@ -1,5 +1,6 @@
 package CacheWolf;
 
+import de.cachehound.types.LogType;
 import ewe.util.Vector;
 
 public class LogList {
@@ -31,7 +32,7 @@ public class LogList {
 
 	/** Add a Log to the list */
 	public void add(Log log) {
-		if (log.getIcon() != null)
+		if (log.getLogType() != null)
 			logList.add(log); // Don't add invalid logs
 	}
 
@@ -76,12 +77,12 @@ public class LogList {
 		int firstLog = i;
 		// Check whether we have any logs with same date by same user
 		String newLogger = newLog.getLogger();
-		String newIcon = newLog.getIcon();
+		LogType newLogType = newLog.getLogType();
 		while (i < size
 				&& newDate.equals(((Log) logList.elementAt(i)).getDate())) {
 			Log log = (Log) logList.elementAt(i);
 			if (log.getLogger().equals(newLogger)
-					&& log.getIcon().equals(newIcon)) {
+					&& log.getLogType() == newLogType) {
 				// Has the log message changed vs. the one we have in cache.xml?
 				if (!log.getMessage().equals(newLog.getMessage())) {
 					replace(i, newLog);
@@ -106,7 +107,7 @@ public class LogList {
 	public byte countNotFoundLogs() {
 		byte countNoFoundLogs = 0;
 		while (countNoFoundLogs < size() && countNoFoundLogs < 5) {
-			if (getLog(countNoFoundLogs).getIcon().startsWith("icon_sad")) {
+			if (getLog(countNoFoundLogs).getLogType() == LogType.DID_NOT_FOUND) {
 				countNoFoundLogs++;
 			} else
 				break;
