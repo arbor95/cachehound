@@ -19,6 +19,8 @@ import CacheWolf.UrlFetcher;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.types.LogType;
+
 import ewe.io.BufferedReader;
 import ewe.io.File;
 import ewe.io.FileOutputStream;
@@ -543,14 +545,14 @@ public class OCXMLImporter extends MinML {
 			logtype = Convert.toInt(atts.getValue("id"));
 			switch (logtype) {
 			case 1:
-				logIcon = GPXImporter.typeText2Image("Found");
+				logIcon = LogType.typeText2Image("Found");
 				break;
 			case 2:
-				logIcon = GPXImporter.typeText2Image("Not Found");
+				logIcon = LogType.typeText2Image("Not Found");
 				holder.setNoFindLogs((byte) (holder.getNoFindLogs() + 1));
 				break;
 			case 3:
-				logIcon = GPXImporter.typeText2Image("Note");
+				logIcon = LogType.typeText2Image("Note");
 			}
 			loggerRecommended = atts.getValue("recommended").equals("1");
 			return;

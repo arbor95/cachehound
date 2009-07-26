@@ -12,6 +12,8 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.MimeBodyPart;
 
+import de.cachehound.types.LogType;
+
 import CacheWolf.CacheHolder;
 import CacheWolf.Global;
 import CacheWolf.InfoBox;
@@ -31,7 +33,7 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		this.profile = prof;
 	}
 
-	private Log createLog(String icon, String messageText) {
+	private Log createLog(LogType logType, String messageText) {
 		// parse Date
 		int indexOfDate = messageText.indexOf("Log Date: ");
 		int indexOfEndDate = messageText.indexOf('\n', indexOfDate);

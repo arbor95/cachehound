@@ -1,6 +1,6 @@
 package CacheWolf;
 
-import CacheWolf.imp.GPXImporter;
+import de.cachehound.types.LogType;
 
 public class Log {
 	private static String MAXLOGICON = "MAXLOG";
@@ -113,7 +113,7 @@ public class Log {
 	}
 
 	public boolean isFoundLog() {
-		return icon.equals(GPXImporter.typeText2Image("Found"));
+		return icon.equals(LogType.typeText2Image("Found"));
 	}
 
 	/** log was written by one of the aliases defined in preferences */

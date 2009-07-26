@@ -17,6 +17,7 @@ import CacheWolf.Preferences;
 import CacheWolf.Profile;
 import CacheWolf.SafeXML;
 import CacheWolf.Travelbug;
+import de.cachehound.types.LogType;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
@@ -282,7 +283,7 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:type") || name.equals("type")
 					|| name.equals("terra:type")) {
-				logIcon = new String(typeText2Image(strData));
+				logIcon = new String(LogType.typeText2Image(strData));
 				return;
 			}
 			if (name.equals("groundspeak:finder") || name.equals("geocacher")
@@ -565,52 +566,7 @@ public class GPXImporter extends MinML {
 			Vm.debug("Char: " + strBuf.toString());
 	}
 
-	// if you change any of these make sure to check image2TypeText in the GPX
-	// exporters
-	public static String typeText2Image(String typeText) {
-		if (typeText.equals("Found it") || typeText.equals("Found")
-				|| typeText.equals("find"))
-			return "icon_smile.gif";
-		if (typeText.equals("Didn't find it") || typeText.equals("Not Found")
-				|| typeText.equals("no_find"))
-			return "icon_sad.gif";
-		if (typeText.equals("Write note") || typeText.equals("Note")
-				|| typeText.equals("note") || typeText.equals("Not Attempted")
-				|| typeText.equals("Other"))
-			return "icon_note.gif";
-		if (typeText.equals("Enable Listing"))
-			return "icon_enabled.gif";
-		if (typeText.equals("Temporarily Disable Listing"))
-			return "icon_disabled.gif";
-		if (typeText.equals("Webcam Photo Taken"))
-			return "icon_camera.gif";
-		if (typeText.equals("Attended"))
-			return "icon_attended.gif";
-		if (typeText.equals("Publish Listing"))
-			return "icon_greenlight.gif";
-		if (typeText.equals("Will Attend"))
-			return "icon_rsvp.gif";
-		if (typeText.equals("Post Reviewer Note"))
-			return "big_smile.gif";
-		if (typeText.equals("Unarchive"))
-			return "traffic_cone.gif";
-		if (typeText.equals("Archive"))
-			return "traffic_cone.gif";
-		if (typeText.equals("Owner Maintenance"))
-			return "icon_maint.gif";
-		if (typeText.equals("Needs Maintenance"))
-			return "icon_needsmaint.gif";
-		if (typeText.equals("Needs Archived"))
-			return "icon_remove.gif";
-		if (typeText.equals("Update Coordinates"))
-			return "coord_update.gif";
-		if (typeText.equals("Retract Listing"))
-			return "img_redlight.gif";
-		Global.getPref().log(
-				"GPX Import: warning, unknown logtype " + typeText
-						+ " assuming Write note");
-		return "icon_note.gif";
-	}
+
 
 	public static String TCSizetoText(String size) {
 		if (size.equals("1"))

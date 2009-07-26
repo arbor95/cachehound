@@ -1,5 +1,6 @@
 package exp;
 
+import de.cachehound.types.LogType;
 import CacheWolf.CacheHolder;
 import CacheWolf.CacheHolderDetail;
 import CacheWolf.CacheSize;
@@ -173,7 +174,7 @@ public class GPXExporter extends Exporter {
 							.append(":00</groundspeak:date>\r\n");
 					if (det.OwnLog != null) {
 						strBuf.append("          <groundspeak:type>").append(
-								image2TypeText(det.OwnLog.getIcon())).append(
+								LogType.image2TypeText(det.OwnLog.getIcon())).append(
 								"</groundspeak:type>\r\n");
 					} else {
 						strBuf
@@ -214,7 +215,7 @@ public class GPXExporter extends Exporter {
 										.getDate())).append(
 								"T00:00:00</groundspeak:date>\r\n");
 						strBuf.append("          <groundspeak:type>").append(
-								image2TypeText(det.CacheLogs.getLog(i)
+								LogType.image2TypeText(det.CacheLogs.getLog(i)
 										.getIcon())).append(
 								"</groundspeak:type>\r\n");
 						strBuf.append("          <groundspeak:finder id=\"\">")
@@ -275,41 +276,6 @@ public class GPXExporter extends Exporter {
 		return "</gpx>\r\n";
 	}
 
-	public static String image2TypeText(String image) {
-		if (image.equals("icon_smile.gif"))
-			return "Found it";
-		if (image.equals("icon_sad.gif"))
-			return "Didn't find it";
-		if (image.equals("icon_note.gif"))
-			return "Write note";
-		if (image.equals("icon_enabled.gif"))
-			return "Enable Listing";
-		if (image.equals("icon_disabled.gif"))
-			return "Temporarily Disable Listing";
-		if (image.equals("icon_camera.gif"))
-			return "Webcam Photo Taken";
-		if (image.equals("11.png"))
-			return "Webcam Photo Taken";
-		if (image.equals("icon_attended.gif"))
-			return "Attended";
-		if (image.equals("icon_greenlight.gif"))
-			return "Publish Listing";
-		if (image.equals("icon_rsvp.gif"))
-			return "Will Attend";
-		if (image.equals("big_smile.gif"))
-			return "Post Reviewer Note";
-		if (image.equals("traffic_cone.gif"))
-			return "Archive (show)";
-		if (image.equals("icon_maint.gif"))
-			return "Owner Maintenance";
-		if (image.equals("icon_needsmaint.gif"))
-			return "Needs Maintenance";
-		if (image.equals("coord_update.gif"))
-			return "Update Coordinates";
-		if (image.equals("icon_remove.gif"))
-			return "Needs Archived";
 
-		return image;
-	}
 
 }
