@@ -5,8 +5,8 @@ import de.cachehound.types.LogType;
 public class Log {
 	private static String MAXLOGICON = "MAXLOG";
 	private static String INVALIDLOGICON = null;
-	/** The icon which describes the log e.g. icon_sad */
-	private String icon;
+	/** The LogType of this Log */
+	private LogType logType;
 	/** The date in format yyyy-mm-dd */
 	private String date;
 	/** The person who logged the cache */
@@ -37,7 +37,15 @@ public class Log {
 				recommended = false;
 			ic1 = logLine.indexOf("<img src='");
 			int ic2 = logLine.indexOf("'", ic1 + 10);
-			icon = logLine.substring(ic1 + 10, ic2);
+			String iconString = logLine.substring(ic1 + 10, ic2);
+			int indexLogType = logLine.indexOf("logType='");
+			if (indexLogType != -1) {
+				int indexEndLogType = logLine.indexOf("'", indexLogType + 9);
+				logType = logType.valueOf(logLine.substring(indexLogType + 9, indexEndLogType));
+			}
+			else {
+				logType = LogType.getLogTypeFromIconString(iconString);
+			}
 			int d1 = logLine.indexOf(";");
 			date = logLine.substring(d1 + 1, d1 + 11);
 			int l1 = d1 + 12;
@@ -49,23 +57,26 @@ public class Log {
 		} catch (Exception ex) {
 			if (logLine.indexOf("<img") < 0) { // Have we reached the line that
 												// states max logs reached
-				icon = MAXLOGICON;
+//				iconString = MAXLOGICON;
+				logType = LogType.UNKNOWN;
 			} else {
 				Global.getPref().log("Error parsing log: " + logLine);
-				icon = INVALIDLOGICON;
+				logType = LogType.UNKNOWN;
+//				iconString = INVALIDLOGICON;
 			}
 			date = "1900-00-00";
 			logger = message = "";
 		}
 	}
 
-	public Log(String icon, String date, String logger, String message) {
-		this(icon, date, logger, message, false);
+	public Log(LogType logType, String date, String logger, String message) {
+		this(logType, date, logger, message, false);
 	}
 
-	public Log(String icon, String date, String logger, String message,
+	public Log(LogType logType, String date, String logger, String message,
 			boolean recommended_) {
-		this.icon = icon;
+		//this.iconString = icon;
+		this.logType = logType;
 		this.date = date;
 		this.logger = logger;
 		this.message = message.trim();
@@ -73,15 +84,19 @@ public class Log {
 	}
 
 	public static Log maxLog() {
-		return new Log(MAXLOGICON, "1900-00-00", "", "");
+		return new Log(LogType.UNKNOWN, "1900-00-00", "CacheHound", "Die maximale Anzahl an Logs wurde erreicht.");
 	}
 
-	public String getIcon() {
-		return icon;
-	}
+//	public String getIcon() {
+//		return logType.toIconString();
+//	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setLogType(LogType logType) {
+		this.logType = logType;
+	}
+	
+	public LogType getLogType() {
+		return logType;
 	}
 
 	public String getDate() {
@@ -113,7 +128,7 @@ public class Log {
 	}
 
 	public boolean isFoundLog() {
-		return icon.equals(LogType.typeText2Image("Found"));
+		return logType == LogType.FOUND;
 	}
 
 	/** log was written by one of the aliases defined in preferences */
@@ -137,11 +152,13 @@ public class Log {
 
 	/** Return HTML representation of log for display on screen */
 	public String toHtml() {
-		// <img src='icon_smile.gif'>&nbsp;2007-01-14 xyz<br>a wonderful log
-		if (icon.equals(MAXLOGICON))
-			return "<hr>" + MyLocale.getMsg(736, "Too many logs") + "<hr>";
+		// Example: <img src='icon_smile.gif'>&nbsp;2007-01-14 xyz<br>a wonderful log
+		
+//		if (iconString.equals(MAXLOGICON))
+//			return "<hr>" + MyLocale.getMsg(736, "Too many logs") + "<hr>";
+		
 		StringBuffer s = new StringBuffer(300);
-		s.append("<img src='" + icon + "'>");
+		s.append("<img src='" + logType.toIconString() + "' logType='" + logType.toString() + "'>");
 		if (recommended)
 			s.append("<img src='recommendedlog.gif'>");
 		s.append("&nbsp;");

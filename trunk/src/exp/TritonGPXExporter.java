@@ -1,5 +1,6 @@
 package exp;
 
+import de.cachehound.types.LogType;
 import CacheWolf.CacheHolder;
 import CacheWolf.CacheHolderDetail;
 import CacheWolf.CacheSize;
@@ -156,10 +157,9 @@ public class TritonGPXExporter extends Exporter {
 					logCount = 5;
 				}
 				for (int i = 0; i < logCount; ++i) {
-					if (chdetail.CacheLogs.getLog(i).getIcon().indexOf("smile") >= 0) {
+					if (chdetail.CacheLogs.getLog(i).getLogType() == LogType.FOUND) {
 						strBuf.append("[FOUND]");
-					} else if (chdetail.CacheLogs.getLog(i).getIcon().indexOf(
-							"sad") >= 0) {
+					} else if (chdetail.CacheLogs.getLog(i).getLogType() == LogType.DID_NOT_FOUND) {
 						strBuf.append("[DNF]");
 					} else {
 						strBuf.append("[NOTE]");
