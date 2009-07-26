@@ -358,6 +358,7 @@ public class PreferencesScreen extends Form {
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		inputMailPassword.setText(pref.mailPassword);
+		inputMailPassword.isPassword=true;
 		pnlMail.addNext(new mLabel("Protocol"), CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		pnlMail.addLast(inputMailProtocol = new mInput(),
