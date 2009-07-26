@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.StringTokenizer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,6 +15,7 @@ import javax.mail.internet.MimeBodyPart;
 import CacheWolf.CacheHolder;
 import CacheWolf.Global;
 import CacheWolf.InfoBox;
+import CacheWolf.Log;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
 import CacheWolf.imp.GPXImporter;
@@ -29,6 +31,30 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		this.profile = prof;
 	}
 
+	private Log createLog(String icon, String messageText) {
+		// parse Date
+		int indexOfDate = messageText.indexOf("Log Date: ");
+		int indexOfEndDate = messageText.indexOf('\n', indexOfDate);
+		String dateString = messageText.substring(indexOfDate + 10 , indexOfEndDate);
+		StringTokenizer tokenizer = new StringTokenizer(dateString, "/");
+		String day = tokenizer.nextToken();
+		day = day.length() > 1 ? day : "0" + day;
+		String month = tokenizer.nextToken();
+		month = month.length() > 1 ? month : "0" + month;
+		String year = tokenizer.nextToken();
+		String date = year + "-" + month + "-" + day;
+		
+		int indexOfFooter = messageText.indexOf("Visit this log entry", indexOfEndDate);
+		String logText = messageText.substring(indexOfEndDate + 1, indexOfFooter - 2);
+		
+		
+		
+		// TODO: remove
+		return null;
+	}
+
+		
+
 	public boolean archived(String gcNumber, Message message, String subject,
 			String text) {
 		CacheHolder holder = profile.cacheDB.get(gcNumber);
@@ -38,7 +64,9 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		}
 		holder.setArchived(true);
 		System.out.println("Konnte Cache archivieren: " + gcNumber);
+		
 		return true;
+		
 	}
 
 	public boolean disabled(String gcNumber, Message message, String subject,
@@ -175,8 +203,8 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 			}
 		}
 
-		System.out.println("PQ könnte gelesen sein: " + subject);
-		return false;
+		System.out.println("PQ konnte gelesen sein: " + subject);
+		return true;
 	}
 
 }
