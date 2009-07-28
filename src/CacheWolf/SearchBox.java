@@ -8,8 +8,8 @@ import ewe.ui.mCheckBox;
 
 /**
  * A SearchBox is a customized input box optimized for searching in CacheWolf.
- * The actual implementation is able to display a CheckBox which with label
- * "in Notes/Description".
+ * The actual implementation is able to display a CheckBox which with label "in
+ * Notes/Description".
  * 
  * @author Engywuck
  */
@@ -39,8 +39,7 @@ public class SearchBox extends InputBox {
 	 *            Initial value for check box
 	 * @param checkUseLogs
 	 *            Initial value for check box
-	 * @param pWidth
-	 *            ?
+	 * @param pWidth ?
 	 * @return String to search for if ok is pressed and a string is entered,
 	 *         <code>null</code> otherwise.
 	 */
@@ -56,10 +55,10 @@ public class SearchBox extends InputBox {
 		buildingForm = true;
 		useNoteDesc = new mCheckBox(MyLocale.getMsg(218,
 				"Also in description/notes"));// ,CellConstants.DONTSTRETCH,
-												// (CellConstants.DONTFILL|CellConstants.WEST));
+		// (CellConstants.DONTFILL|CellConstants.WEST));
 		useNoteDesc.setState(checkUseNoteDesc);
 		useLogs = new mCheckBox(MyLocale.getMsg(225, "Also in logs"));// ,CellConstants.DONTSTRETCH,
-																		// (CellConstants.DONTFILL|CellConstants.WEST));
+		// (CellConstants.DONTFILL|CellConstants.WEST));
 		useLogs.setState(checkUseLogs);
 		result = super.input(pParent, initialValue, pWidth);
 		return result;
@@ -69,8 +68,8 @@ public class SearchBox extends InputBox {
 	 * Queries the check box to search in Notes and Description if it is checked
 	 * or not.
 	 * 
-	 * @return <code>True</code> if check box is checked, <code>false</code> if
-	 *         not.
+	 * @return <code>True</code> if check box is checked, <code>false</code>
+	 *         if not.
 	 */
 	public boolean useNoteDesc() {
 		boolean result = false;
@@ -83,8 +82,8 @@ public class SearchBox extends InputBox {
 	/**
 	 * Queries the check box to search in Logs if it is checked or not.
 	 * 
-	 * @return <code>True</code> if check box is checked, <code>false</code> if
-	 *         not.
+	 * @return <code>True</code> if check box is checked, <code>false</code>
+	 *         if not.
 	 */
 	public boolean useLogs() {
 		boolean result = false;

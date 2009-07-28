@@ -22,10 +22,10 @@ import ewe.io.IOException;
  */
 public class MapImage extends AniImage {
 	public Point locAlways = new Point(); // contains the theoretical location
-											// even if it the location is out of
-											// the screen. If the image is on
-											// the screen, it contains the same
-											// as location
+	// even if it the location is out of
+	// the screen. If the image is on
+	// the screen, it contains the same
+	// as location
 	public static Dimension screenDim;
 	boolean hidden = false;
 
@@ -53,12 +53,13 @@ public class MapImage extends AniImage {
 			// that's why readallBytes will call the original File
 			// implementation and cause and NullpointerException
 			setImage(new Image(new FileInputStream(f).toReadableStream(), 0), 0); // copied
-																					// from
-																					// super()
+			// from
+			// super()
 			freeSource(); // copied from super()
 		} catch (IOException e) {
-			throw new ImageNotFoundException(f); // in order to behave the same
-													// way as super would have
+			throw new ImageNotFoundException(f); // in order to behave the
+													// same
+			// way as super would have
 		}
 	}
 

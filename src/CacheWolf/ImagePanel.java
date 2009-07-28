@@ -166,7 +166,7 @@ public class ImagePanel extends InteractivePanel {
 				location = NO_IMAGE;
 				if (!pref.showDeletedImages)
 					continue; // Don't show the deleted Image if user does not
-								// want it
+				// want it
 			}
 			try {
 				mI = new mImage(location);
@@ -200,8 +200,9 @@ public class ImagePanel extends InteractivePanel {
 				ipi.freeSource();
 				// mI.free(); --> this only works in java-VM, in ewe it will
 				// delete the image, so leave it commented out
-				ipi.fileName = location; // this is set only to easily identify
-											// the filename of the image clicked
+				ipi.fileName = location; // this is set only to easily
+											// identify
+				// the filename of the image clicked
 				ipi.setLocation(locX, locY);
 				addImage(ipi);
 				// Name of picture:
@@ -229,21 +230,22 @@ public class ImagePanel extends InteractivePanel {
 					locY = locY + thumb_size + padding;
 				}
 			} catch (IllegalArgumentException imex) { // file not found, could
-														// not decode etc.
+				// not decode etc.
 				MessageBox tmp = new MessageBox(MyLocale.getMsg(321, "Fehler"),
 						MyLocale.getMsg(322, "Kann Bild/Karte nicht laden")
 								+ ":\n" + imex.getMessage(), FormBase.OKB); // @todo:
-																			// language
-																			// support
+				// language
+				// support
 				tmp.exec();
 			} catch (OutOfMemoryError e) { // TODO show an error icon in the
-											// panel instead of nothing
+				// panel instead of nothing
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						343, "Not enough free memory to load cache image")
 						+ ":\n" + location, FormBase.OKB)).exec();
-			} catch (SystemResourceException e) { // TODO show an error icon in
-													// the panel instead of
-													// nothing
+			} catch (SystemResourceException e) { // TODO show an error icon
+													// in
+				// the panel instead of
+				// nothing
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						343, "Not enough free memory to load cache image")
 						+ "\n" + location, FormBase.OKB)).exec();
@@ -276,7 +278,8 @@ public class ImagePanel extends InteractivePanel {
 	 * clicked, a dialogue to delete the image wil be displayed
 	 */
 	public void imageClicked(AniImage which, Point pos) {
-		// Vm.debug("Clicked"+pos.x+","+pos.y+" "+(((Control.currentPenEvent.modifiers&PenEvent.RIGHT_BUTTON)==PenEvent.RIGHT_BUTTON)?"RIGHT":"LEFT")
+		// Vm.debug("Clicked"+pos.x+","+pos.y+"
+		// "+(((Control.currentPenEvent.modifiers&PenEvent.RIGHT_BUTTON)==PenEvent.RIGHT_BUTTON)?"RIGHT":"LEFT")
 		// );
 		if ((ControlBase.currentPenEvent.modifiers & PenEvent.RIGHT_BUTTON) == PenEvent.RIGHT_BUTTON
 				|| duration > LONG_PEN_DOWN_DURATION) {
@@ -312,8 +315,8 @@ public class ImagePanel extends InteractivePanel {
 					MessageBox tmp = new MessageBox(MyLocale.getMsg(321,
 							"Fehler"), MyLocale.getMsg(322,
 							"Kann Bild/Karte nicht finden"), FormBase.OKB); // @todo:
-																			// language
-																			// support
+					// language
+					// support
 					tmp.exec();
 				} catch (OutOfMemoryError e) {
 					(new MessageBox(

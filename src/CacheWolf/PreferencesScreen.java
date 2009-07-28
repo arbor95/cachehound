@@ -301,14 +301,14 @@ public class PreferencesScreen extends Form {
 				"Language (needs restart)")), DONTSTRETCH, DONTFILL | WEST);
 		String[] tmp = (new FileBugfix(FileBase.getProgramDirectory()
 				+ "/languages").list("*.cfg", FileBase.LIST_FILES_ONLY)); // "*.xyz"
-																			// doesn't
-																			// work
-																			// on
-																			// some
-																			// systems
-																			// ->
-																			// use
-																			// FileBugFix
+		// doesn't
+		// work
+		// on
+		// some
+		// systems
+		// ->
+		// use
+		// FileBugFix
 		if (tmp == null)
 			tmp = new String[0];
 		String[] langs = new String[tmp.length + 1];
@@ -358,7 +358,7 @@ public class PreferencesScreen extends Form {
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		inputMailPassword.setText(pref.mailPassword);
-		inputMailPassword.isPassword=true;
+		inputMailPassword.isPassword = true;
 		pnlMail.addNext(new mLabel("Protocol"), CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		pnlMail.addLast(inputMailProtocol = new mInput(),
@@ -467,16 +467,16 @@ public class PreferencesScreen extends Form {
 				pref.proxyActive = chkProxyActive.getState();
 				HttpConnection.setProxy(pref.myproxy, Common
 						.parseInt(pref.myproxyport), pref.proxyActive); // TODO
-																		// generate
-																		// an
-																		// error
-																		// message
-																		// if
-																		// proxy
-																		// port
-																		// is
-																		// not a
-																		// number
+				// generate
+				// an
+				// error
+				// message
+				// if
+				// proxy
+				// port
+				// is
+				// not a
+				// number
 				// myPreferences.nLogs = Convert.parseInt(nLogs.getText());
 				pref.autoReloadLastProfile = chkAutoLoad.getState();
 				pref.showDeletedImages = chkShowDeletedImg.getState();
@@ -503,7 +503,7 @@ public class PreferencesScreen extends Form {
 
 				pref.savePreferences();
 				pref.dirty = true; // Need to update table in case columns were
-									// enabled/disabled
+				// enabled/disabled
 				this.close(0);
 			}
 			if (ev.target == brwBt) {

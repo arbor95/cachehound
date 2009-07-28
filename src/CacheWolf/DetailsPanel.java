@@ -382,14 +382,14 @@ public class DetailsPanel extends CellPanel {
 						.startsWith("CW")) && wpt.startsWith("CW")) {
 			// for what was this?:
 			Global.mainTab.lastselected = Global.mainTab.mainCache; // I don't
-																	// know
-																	// exactly,
-																	// but it's
-																	// needed
-																	// for
-																	// creating
-																	// a series
-																	// of Addis
+			// know
+			// exactly,
+			// but it's
+			// needed
+			// for
+			// creating
+			// a series
+			// of Addis
 
 			inpWaypoint.setText(Global.getProfile().getNewAddiWayPointName(
 					Global.mainTab.mainCache));

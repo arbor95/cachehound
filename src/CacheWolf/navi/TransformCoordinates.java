@@ -19,8 +19,8 @@ import CacheWolf.MyLocale;
  * more precise method right now published by the Bundesamt für Kartographie und
  * Geodäsie for whole Germany: see: *
  * http://crs.bkg.bund.de/crseu/crs/descrtrans/BeTA/BETA2007dokumentation.pdf *
- * http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN
- * / GK_3 -> DE_DHDN (BeTA, 2007) to ETRS89
+ * http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN /
+ * GK_3 -> DE_DHDN (BeTA, 2007) to ETRS89
  * 
  * Start offset in languages file: 4900
  * 
@@ -209,7 +209,7 @@ public class TransformCoordinates {
 		if (gk.northing <= 6089288.064
 				&& gk.northing >= 5585291.767
 				&& // these coordinates are transformed ones from the invers
-					// routine
+				// routine
 				(gk.getStripe() == 4
 						&& gk.getGkEasting(GkPoint.GERMAN_GK) >= 4404124.247 && gk
 						.getGkEasting(GkPoint.GERMAN_GK) <= 4679300.398)
@@ -289,7 +289,7 @@ public class TransformCoordinates {
 			TrackPoint ll) {
 		if (FORMER_GDR.isInBound(ll))
 			return GK_GERMANY_2001; // exlcude former GDR from the splitting
-									// germany in north/middel/south
+		// germany in north/middel/south
 		if (ll.latDec <= 55 && ll.latDec >= 52.33333334)
 			return GK_NORD_GERMANY;
 		if (ll.latDec <= 52.33333334 && ll.latDec >= 50.33333334)
@@ -570,7 +570,7 @@ public class TransformCoordinates {
 		double r2 = N / 6 * Math.pow(Math.cos(B), 3) * (1 - t * t + nue * nue)
 				* l * l * l;
 		double easting = (r1 + r2) * scale; // + stripe / stripewidth * 1000000
-											// + 500000;
+		// + 500000;
 		GkPoint ret = new GkPoint();
 		ret.set(easting, northing, stripe, stripewidth, degreeOfStripe0);
 		return ret;
@@ -589,7 +589,7 @@ public class TransformCoordinates {
 	private static CWPoint gk2LatLon(GkPoint gkp, Ellipsoid ellipsoid,
 			double scale) {
 		double L0 = gkp.getStripeLon(); // decimal degree of the center of the
-										// stripe
+		// stripe
 		double y = gkp.getRawEasting() / scale;
 
 		double e2 = (ellipsoid.a * ellipsoid.a - ellipsoid.b * ellipsoid.b)

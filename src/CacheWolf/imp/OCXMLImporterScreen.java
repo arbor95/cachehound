@@ -34,8 +34,8 @@ public class OCXMLImporterScreen extends Form {
 	mInput distanceInput;
 	mInput maxNumberInput;
 	mInput maxLogsInput;
-	mCheckBox imagesCheckBox, /* mapsCheckBox, */missingCheckBox, foundCheckBox,
-			travelbugsCheckBox;
+	mCheckBox imagesCheckBox, /* mapsCheckBox, */missingCheckBox,
+			foundCheckBox, travelbugsCheckBox;
 	mLabel distLbl;
 	mLabel maxNumberLbl;
 	mLabel distUnit;
@@ -53,7 +53,7 @@ public class OCXMLImporterScreen extends Form {
 	public OCXMLImporterScreen(String title, int options) {
 		super();
 		pref = Global.getPref(); // myPreferences sollte später auch diese
-									// Einstellungen speichern
+		// Einstellungen speichern
 
 		isGC = ((options & ISGC) > 0);
 

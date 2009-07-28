@@ -47,43 +47,43 @@ import ewe.util.mString;
  * response from the server. If redirectTo() returns a new HttpConnection
  * object, then close the open Socket and go back to step 2 using the new
  * HttpConnection object instead.
- * <li>Call readInData() with the connected Socket to read in the raw data bytes
- * of the requested document or call readInText() to read in and convert the
- * document to text.
+ * <li>Call readInData() with the connected Socket to read in the raw data
+ * bytes of the requested document or call readInText() to read in and convert
+ * the document to text.
  * </ol>
- **/
+ */
 // ##################################################################
 public class HttpConnection {
 	// ##################################################################
 	/**
 	 * The host to connect to.
-	 **/
+	 */
 	public String host;
 	/**
 	 * The port to connect to.
-	 **/
+	 */
 	public int port;
 	/**
 	 * The document to fetch/submit.
-	 **/
+	 */
 	public String document;
 	/**
 	 * This is the command to be sent to the server. By default it is "GET". If
 	 * you call setPostData() and command is "GET" then the command will be
 	 * replaced by "POST".
-	 **/
+	 */
 	public String command = "GET";
 	/**
 	 * This is the version sent to the server. By default it is "HTTP/1.1". You
 	 * could change it to something else if necessary.
-	 **/
+	 */
 	public String requestVersion = "HTTP/1.1";
 	/**
 	 * These are the properties that will be sent to the WebServer. These are
 	 * sent after the initial GET/POST line. This is initially null, so you will
 	 * have to create a new PropertyList for it, or use one of the
 	 * setRequestorProperty() or addRequestorProperty() methods.
-	 **/
+	 */
 	public ewe.data.PropertyList requestorProperties;
 	/**
 	 * This is the list of properties for the server and document. It is only
@@ -92,30 +92,30 @@ public class HttpConnection {
 	 * "response" (the first line sent by the server in response to the
 	 * request). All other properties will be as specified by the server, and
 	 * <b>the property names will be converted to all lowercase letters</b>.
-	 **/
+	 */
 	public ewe.data.PropertyList documentProperties;
 	/**
 	 * This is the response code from the server. It is only valid after a
 	 * connection has been made.
-	 **/
+	 */
 	public int responseCode;
 	/**
 	 * If the document you supplied is already URL encoded, set this to true.
-	 **/
+	 */
 	public boolean documentIsEncoded;
 	/**
 	 * Set this to true for keep alive mode requests.
-	 **/
+	 */
 	public boolean keepAliveMode;
 	/**
 	 * This is the length of the document <b>read in</b>, valid after a
 	 * connection call. If it is -1, then the web server has not provided the
 	 * length of the document.
-	 **/
+	 */
 	public int contentLength = -1;
 	/**
 	 * This is the codec used when sending data to the server.
-	 **/
+	 */
 	public TextCodec textCodec;
 
 	Stream bytesToPost;
@@ -616,10 +616,9 @@ public class HttpConnection {
 	 * ba = new ByteArray(); while(true){ handle.setProgress(-1f); int size =
 	 * readInChunkedHeader(connection,null,null); if (size == 0) break; if
 	 * (buffer == null) buffer = new byte[10240]; while(size > 0){ int toRead =
-	 * size > buffer.length ? buffer.length : size;
-	 * //ewe.sys.Vm.debug("Reading: "+toRead); toRead =
-	 * connection.read(buffer,0,toRead); if (toRead <= 0) throw new
-	 * IOException(); ba.append(buffer,0,toRead); size -= toRead;
+	 * size > buffer.length ? buffer.length : size; //ewe.sys.Vm.debug("Reading:
+	 * "+toRead); toRead = connection.read(buffer,0,toRead); if (toRead <= 0)
+	 * throw new IOException(); ba.append(buffer,0,toRead); size -= toRead;
 	 * handle.setProgress(-1f); } // // Should be a CRLF after the data. //
 	 * while(true){ int got = connection.read(); if (got == -1) throw new
 	 * IOException(); if (got == '\n') break; } } handle.returnValue = ba;
@@ -663,7 +662,7 @@ public class HttpConnection {
 	/**
 	 * Get an InputStream to read in the data. This is a very important method
 	 * as it is used by the readInData() method.
-	 **/
+	 */
 	// ===================================================================
 	public InputStream getInputStream()
 	// ===================================================================

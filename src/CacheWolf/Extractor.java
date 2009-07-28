@@ -68,11 +68,12 @@ public class Extractor {
 		// //Vm.debug("Start: " + Convert.toString(idxStart) + " End: " +
 		// Convert.toString(idxEnd));
 		if (idxEnd == -1)
-			idxEnd = searchText.length(); // index counts from zero length from
-											// 1 but the last char is not
-											// included in substr and substr
-											// accepts length +1 (but not
-											// length+2)
+			idxEnd = searchText.length(); // index counts from zero length
+											// from
+		// 1 but the last char is not
+		// included in substr and substr
+		// accepts length +1 (but not
+		// length+2)
 		startOffset = idxEnd;
 		tst = new String();
 		if (idxStart > -1) {

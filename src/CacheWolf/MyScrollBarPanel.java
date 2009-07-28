@@ -16,14 +16,14 @@ public class MyScrollBarPanel extends ScrollBarPanel {
 	public MyScrollBarPanel(ScrollClient client, int options) {
 		super(client, options);
 		int s = java.lang.Math.round(Global.getPref().fontSize / 11f * 15f); // standard
-																				// fontsize
-																				// =
-																				// 1,
-																				// standard
-																				// bottum
-																				// size
-																				// =
-																				// 15
+		// fontsize
+		// =
+		// 1,
+		// standard
+		// bottum
+		// size
+		// =
+		// 15
 		setScrollBarSize(s, s, s);
 	}
 

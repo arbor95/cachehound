@@ -264,15 +264,16 @@ public class ExploristExporter {
 		if (!add.equals("")) { // Set Picture in Explorist to Virtual
 			sb.append("Virtual Cache");
 		} else if (ch.getType() != CacheType.CW_TYPE_UNKNOWN) { // Rewrite
-																// Unknown
-																// Caches
+			// Unknown
+			// Caches
 			sb.append(CacheType.cw2ExportString(ch.getType()));
 		} else {
 			sb.append("Mystery Cache");
 		}
 		sb.append(",");
-		sb.append(toGsDateFormat(ch.getDateHidden())); // created - DDMMYYY, YYY
-														// = year - 1900
+		sb.append(toGsDateFormat(ch.getDateHidden())); // created - DDMMYYY,
+														// YYY
+		// = year - 1900
 		sb.append(",");
 		String lastFound = "0000";
 		for (int i = 0; i < det.CacheLogs.size(); i++) {
@@ -282,8 +283,9 @@ public class ExploristExporter {
 			}
 		}
 
-		sb.append(toGsDateFormat(lastFound)); // lastFound - DDMMYYY, YYY = year
-												// - 1900
+		sb.append(toGsDateFormat(lastFound)); // lastFound - DDMMYYY, YYY =
+												// year
+		// - 1900
 		sb.append(",");
 		sb.append(CacheTerrDiff.longDT(ch.getHard()));
 		sb.append(",");

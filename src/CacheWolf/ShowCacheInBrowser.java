@@ -130,15 +130,13 @@ public class ShowCacheInBrowser {
 								chD.getExistingDetails().Travelbugs.toHtml());
 					if (chD.getExistingDetails().getCacheNotes().trim()
 							.length() > 0)
-						tpl.setParam("NOTES", STRreplace.replace(chD
-								.getExistingDetails().getCacheNotes(), "\n",
-								"<br/>\n"));
+						tpl.setParam("NOTES", chD.getExistingDetails()
+								.getCacheNotes().replace("\n", "<br/>\n"));
 					if (chD.getExistingDetails().getSolver() != null
 							&& chD.getExistingDetails().getSolver().trim()
 									.length() > 0)
-						tpl.setParam("SOLVER", STRreplace.replace(chD
-								.getExistingDetails().getSolver(), "\n",
-								"<br/>\n"));
+						tpl.setParam("SOLVER", chD.getExistingDetails()
+								.getSolver().replace("\n", "<br/>\n"));
 					// Look for images
 
 					StringBuffer s = new StringBuffer(
@@ -225,9 +223,8 @@ public class ShowCacheInBrowser {
 					for (int i = 0; i < chD.getExistingDetails().CacheLogs
 							.size(); i++) {
 						Hashtable logs = new Hashtable();
-						String log = STRreplace.replace(chD
-								.getExistingDetails().CacheLogs.getLog(i)
-								.toHtml(),
+						String log = chD.getExistingDetails().CacheLogs.getLog(
+								i).toHtml().replace(
 								"http://www.geocaching.com/images/icons/", "");
 						int posGt = log.indexOf('>'); // Find the icon which
 						// defines the type of
@@ -298,11 +295,11 @@ public class ShowCacheInBrowser {
 			// detfile.print(tpl.output());
 			detfile.close();
 			CWWrapper.exec(Global.getPref().browser, "file://" + saveTo); // maybe
-																			// this
-																			// works
-																			// on
-																			// some
-																			// PDAs?
+			// this
+			// works
+			// on
+			// some
+			// PDAs?
 		} catch (Exception e) {
 			e.printStackTrace();
 			Global.getPref().log("Error in ShowCache " + e.toString());

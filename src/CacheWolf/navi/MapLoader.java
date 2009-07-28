@@ -6,7 +6,6 @@ import CacheWolf.Common;
 import CacheWolf.HttpConnection;
 import CacheWolf.InfoBox;
 import CacheWolf.MyLocale;
-import CacheWolf.STRreplace;
 import ewe.fx.Point;
 import ewe.io.File;
 import ewe.io.FileBase;
@@ -33,7 +32,6 @@ import ewe.util.mString;
 // http://www.expedia.de/pub/agent.dll?qscr=mrdt&ID=3kQaz.&CenP=48.09901667,11.35688333&Lang=EUR0407&Alti=1&Size=600,600&Offs=0.000000,0.000000&Pins=|5748|
 // oder
 // http://www.expedia.de/pub/agent.dll?qscr=mrdt&ID=3kQaz.&CenP=48.15,11.5833&Alti=2&Lang=EUR0407&Size=900,900&Offs=0,0&MapS=0&Pins=|48.15,11.5833|4|48.15,11.5833&Pins=|48.15,11.5833|1|48.15,%2011.5833||
-
 public class MapLoader {
 	InfoBox progressInfobox;
 
@@ -67,24 +65,25 @@ public class MapLoader {
 		OnlineMapService tempOMS;
 		MessageBox f = null;
 		dateien = files.list("*.wms", FileBase.LIST_FILES_ONLY); // "*.xyz"
-																	// doesn't
-																	// work on
-																	// some
-																	// systems
-																	// -> use
-																	// FileBugFix
+		// doesn't
+		// work on
+		// some
+		// systems
+		// -> use
+		// FileBugFix
 		for (int i = 0; i < dateien.length; i++) {
 			FileName = dateien[i];
 			try {
 				if (!showprogress && ((i & 0) == 0)
-						&& (new Time().getTime() - start > 100)) { // reason for
-																	// (i & 7 ==
-																	// 0): test
-																	// time only
-																	// after i
-																	// is
-																	// incremented
-																	// 15 times
+						&& (new Time().getTime() - start > 100)) { // reason
+																	// for
+					// (i & 7 ==
+					// 0): test
+					// time only
+					// after i
+					// is
+					// incremented
+					// 15 times
 					showprogress = true;
 					progressBox = new InfoBox(
 							MyLocale.getMsg(327, "Info"),
@@ -94,8 +93,8 @@ public class MapLoader {
 					progressBox.waitUntilPainted(500);
 					ewe.sys.Vm.showWait(true);
 				}
-				tempOMS = new WebMapService(STRreplace.replace(wmspath + "/"
-						+ FileName, "//", "/"));
+				tempOMS = new WebMapService((wmspath + "/" + FileName).replace(
+						"//", "/"));
 				onlineMapServices.add(tempOMS);
 			} catch (Exception ex) {
 				if (f == null)
@@ -185,7 +184,8 @@ public class MapLoader {
 			Point size, int overlapping) {
 		// if (toplefti.latDec <= buttomrighti.latDec || toplefti.lonDec >=
 		// toplefti.lonDec) throw new
-		// IllegalArgumentException("topleft must be left and above buttom right");
+		// IllegalArgumentException("topleft must be left and above buttom
+		// right");
 		topleft = new CWPoint(toplefti);
 		buttomright = new CWPoint(buttomrighti);
 		double metersPerLat = (1000 * (new CWPoint(0, 0))
@@ -360,34 +360,34 @@ public class MapLoader {
 				boolean redirrected = false;
 				while (i < 5
 						&& (quelle != null || (forceredirect && !redirrected))) { // this
-																					// is
-																					// necessary
-																					// because
-																					// expedia
-																					// sometimes
-																					// doesn't
-																					// directly
-																					// anser
-																					// with
-																					// the
-																					// redirect
-																					// to
-																					// the
-																					// map-image,
-																					// but
-																					// give
-																					// a
-																					// page
-																					// in
-																					// between.
-																					// Solved
-																					// the
-																					// problem
-																					// by
-																					// retrying
-																					// see
-																					// also:
-																					// http://www.geoclub.de/viewtopic.php?p=305071#305071
+					// is
+					// necessary
+					// because
+					// expedia
+					// sometimes
+					// doesn't
+					// directly
+					// anser
+					// with
+					// the
+					// redirect
+					// to
+					// the
+					// map-image,
+					// but
+					// give
+					// a
+					// page
+					// in
+					// between.
+					// Solved
+					// the
+					// problem
+					// by
+					// retrying
+					// see
+					// also:
+					// http://www.geoclub.de/viewtopic.php?p=305071#305071
 					// Vm.debug("Redirect: " + i + connImg.getRedirectTo());
 					if (quelle != null) {
 						redirrected = true;
@@ -407,23 +407,23 @@ public class MapLoader {
 						"content-type", "");
 				if (!ct.substring(0, 5).equalsIgnoreCase("image")) {
 					String tmp = connImg.readText(sockImg, null).toString(); // TODO
-																				// if
-																				// the
-																				// content
-																				// is
-																				// binary
-																				// will
-																				// will
-																				// get
-																				// an
-																				// Exception
-																				// in
-																				// InfoBox,
-																				// trying
-																				// to
-																				// display
-																				// the
-																				// content
+					// if
+					// the
+					// content
+					// is
+					// binary
+					// will
+					// will
+					// get
+					// an
+					// Exception
+					// in
+					// InfoBox,
+					// trying
+					// to
+					// display
+					// the
+					// content
 					tmp = tmp.substring(0, (tmp.length() < 1000 ? tmp.length()
 							: 1000));
 					sockImg.close();
@@ -437,10 +437,10 @@ public class MapLoader {
 				}
 				daten = connImg.readData(sockImg);
 				fos = new FileOutputStream(datei); // note: using the
-													// constructor (File)
-													// instead of (String) will
-													// cause not to use the fake
-													// file system
+				// constructor (File)
+				// instead of (String) will
+				// cause not to use the fake
+				// file system
 				fos.write(daten.toBytes());
 				fos.close();
 				sockImg.close();
@@ -709,8 +709,8 @@ class WebMapService extends OnlineMapService {
 		maxscaleWMS = Common.parseDouble(wms.getProperty("MaxScale",
 				Convert.toString(java.lang.Double.MAX_VALUE)).trim());
 		minscale = minscaleWMS / Math.sqrt(2); // in WMS scale is measured
-												// diagonal while in CacheWolf
-												// it is measured vertical
+		// diagonal while in CacheWolf
+		// it is measured vertical
 		maxscale = maxscaleWMS / Math.sqrt(2);
 		imageFileExt = wms.getProperty("ImageFileExtension", "").trim();
 		if (imageFileExt == "")
@@ -821,10 +821,10 @@ class WebMapService extends OnlineMapService {
 		double scalev = maparea.topleft.getDistance(topright) * 1000
 				/ pixelsize.y;
 		double scale = Math.sqrt(scaleh * scaleh + scalev * scalev); // meters
-																		// per
-																		// pixel
-																		// measured
-																		// diagonal
+		// per
+		// pixel
+		// measured
+		// diagonal
 		if (scale < minscaleWMS || scale > maxscaleWMS)
 			throw new IllegalArgumentException(
 					MyLocale.getMsg(4825, "scale")
@@ -891,25 +891,25 @@ class WebMapService extends OnlineMapService {
 			int region = TransformCoordinates
 					.getGkRegion(coordinateReferenceSystem[0]);
 			GkPoint gkbl = TransformCoordinates.wgs84ToGk(p, region); // TODO:
-																		// think
-																		// /
-																		// read
-																		// about
-																		// what
-																		// to do
-																		// if
-																		// buttom
-																		// left
-																		// and
-																		// top
-																		// right
-																		// ae
-																		// not
-																		// in
-																		// the
-																		// same
-																		// Gauß-Krüger
-																		// stripe?
+			// think
+			// /
+			// read
+			// about
+			// what
+			// to do
+			// if
+			// buttom
+			// left
+			// and
+			// top
+			// right
+			// ae
+			// not
+			// in
+			// the
+			// same
+			// Gauß-Krüger
+			// stripe?
 			crs = TransformCoordinates.whichEpsg(coordinateReferenceSystem,
 					gkbl);
 			if (crs < 0)
@@ -1042,41 +1042,41 @@ class ExpediaMapService extends OnlineMapService {
 		name = "Expedia";
 		filename = "expedia";
 		MainUrl = "Rhttp://www.expedia.de/pub/agent.dll?qscr=mrdt&ID=3kQaz."; // "Rhttp://"
-																				// forces
-																				// doenloadUrl
-																				// to
-																				// retry
-																				// the
-																				// URL
-																				// until
-																				// it
-																				// gets
-																				// an
-																				// http-redirect
-																				// and
-																				// then
-																				// downloads
-																				// from
-																				// there
+		// forces
+		// doenloadUrl
+		// to
+		// retry
+		// the
+		// URL
+		// until
+		// it
+		// gets
+		// an
+		// http-redirect
+		// and
+		// then
+		// downloads
+		// from
+		// there
 		imageFileExt = ".gif";
 		mapType = "expedia";
 		recommendedScale = 5;
 		minscale = getMetersPerPixel(0.00000000000000000000001f);
 		maxscale = getMetersPerPixel((float) new CWPoint(0, 0)
 				.getDistance(new CWPoint(0, 180)) * 2 * 1000 / 1000); // whole
-																		// world
-																		// *
-																		// 1000
-																		// because
-																		// of km
-																		// -> m.
-																		// /1000
-																		// because
-																		// we
-																		// have
-																		// 1000x1000
-																		// Pixel
-																		// usually
+		// world
+		// *
+		// 1000
+		// because
+		// of km
+		// -> m.
+		// /1000
+		// because
+		// we
+		// have
+		// 1000x1000
+		// Pixel
+		// usually
 		boundingBox = new Area(new CWPoint(90, -180), new CWPoint(-90, 180));
 	}
 
@@ -1100,7 +1100,16 @@ class ExpediaMapService extends OnlineMapService {
 		String quelle = MainUrl + "&CenP=" + center.toString(CWPoint.LAT_LON);
 		quelle = quelle + "&Alti=" + Convert.toString(zoomlevel) + "&Lang="
 				+ zone + "&Size=" + Convert.toString(pixelsize.x) + ","
-				+ Convert.toString(pixelsize.y) + "&Offs=0,0&MapS=0"; // &Pins=|" + latD.toString().replace(',', '.') + "," + lonD.toString().replace(',', '.') + "|5|";
+				+ Convert.toString(pixelsize.y) + "&Offs=0,0&MapS=0"; // &Pins=|"
+																		// +
+																		// latD.toString().replace(',',
+																		// '.')
+																		// + ","
+																		// +
+																		// lonD.toString().replace(',',
+																		// '.')
+																		// +
+																		// "|5|";
 		return quelle;
 	}
 

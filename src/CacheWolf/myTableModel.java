@@ -196,7 +196,7 @@ public class myTableModel extends TableModel {
 					if (ch.mainCache != null) { // parent exists
 						if (!ch.mainCache.isVisible())
 							sortDB.add(ch); // Unfiltered Addi Wpt with filtered
-											// Main Wpt, show it on its own
+						// Main Wpt, show it on its own
 						// else Main cache is not filtered, Addi will be added
 						// below main cache further down
 					} else { // Addi without main Cache
@@ -227,7 +227,7 @@ public class myTableModel extends TableModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see ewe.ui.TableModel#getCellAttributes(int, int, boolean,
-	 * ewe.ui.TableCellAttributes)
+	 *      ewe.ui.TableCellAttributes)
 	 */
 	public TableCellAttributes getCellAttributes(int row, int col,
 			boolean isSelected, TableCellAttributes ta) {
@@ -351,7 +351,7 @@ public class myTableModel extends TableModel {
 		try { // Access to row can fail if many caches are deleted
 			CacheHolder ch = cacheDB.get(row);
 			if (ch != null /* ch.isVisible() */) { // Check of visibility
-													// needed here??
+				// needed here??
 				switch (colMap[col]) { // Faster than using column names
 				case 0: // Checkbox
 					if (ch.is_Checked)
@@ -493,13 +493,14 @@ public class myTableModel extends TableModel {
 				Global.getProfile().selectionChanged = true;
 				if ((penEventModifiers & IKeys.SHIFT) > 0) {
 					if (tcControl.cursor.y >= 0) { // Second row being marked
-													// with shift key pressed
+						// with shift key pressed
 						if (tcControl.cursor.y < cell.y)
 							toggleSelect(tcControl.cursor.y + 1, cell.y, cell.x);
 						else
 							toggleSelect(cell.y, tcControl.cursor.y - 1, cell.x);
-					} else { // Remember this row as start of range, but don't
-								// toggle yet
+					} else { // Remember this row as start of range, but
+								// don't
+						// toggle yet
 					}
 				} else { // Single row marked
 					toggleSelect(cell.y, cell.y, cell.x);

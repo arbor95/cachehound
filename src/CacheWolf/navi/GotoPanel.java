@@ -183,10 +183,10 @@ public class GotoPanel extends CellPanel {
 		icRose = new ImageControl(compassRose);
 		icRose.setMenu(mnuContextRose);
 		icRose.modifyAll(ControlConstants.WantHoldDown, 0); // this is necessary
-															// in order to make
-															// PenHold on a PDA
-															// work as right
-															// click
+		// in order to make
+		// PenHold on a PDA
+		// work as right
+		// click
 		roseP.addLast(icRose, CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.NORTH));
 
@@ -220,10 +220,10 @@ public class GotoPanel extends CellPanel {
 		 * test =
 		 * myGPS.examine("$GPGSA,A,3,10,28,26,29,09,,,,,,,,04.1,02.6,03.2*0F");
 		 * test =myGPS.examine(
-		 * "$GPGSV,4,1,13,08,40,072,28,10,29,201,47,27,15,079,29,28,62,102,44*7E"
-		 * ); test =myGPS.examine(
-		 * "$GPGSV,4,2,13,29,72,289,38,26,63,296,41,09,12,259,35,18,14,324,*79"
-		 * ); test =myGPS.examine(
+		 * "$GPGSV,4,1,13,08,40,072,28,10,29,201,47,27,15,079,29,28,62,102,44*7E" );
+		 * test =myGPS.examine(
+		 * "$GPGSV,4,2,13,29,72,289,38,26,63,296,41,09,12,259,35,18,14,324,*79" );
+		 * test =myGPS.examine(
 		 * "$GPGSV,4,3,13,19,09,025,,17,06,138,,21,06,300,,37,29,171,40*7A");
 		 * test = myGPS.examine("$GPGSV,4,4,13,39,29,166,38*40");
 		 */
@@ -231,11 +231,11 @@ public class GotoPanel extends CellPanel {
 		// while (true){
 		// int notinterpreted = 0;
 		// if
-		// (myGPS.examine("@ďż˝ďż˝H @ďż˝ďż˝Hďż˝@ďż˝ďż˝HHďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝H"))
+		// (myGPS.examine("@ďż˝ďż˝H
+		// @ďż˝ďż˝Hďż˝@ďż˝ďż˝HHďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝H"))
 		// { notinterpreted = 0;} else notinterpreted++;
 		// if (notinterpreted > 5) myGPS.noInterpretableData();
 		// // myGPS.noInterpretableData();
-
 		// }
 	}
 
@@ -381,7 +381,7 @@ public class GotoPanel extends CellPanel {
 		btnGPS.setText(MyLocale.getMsg(1504, "Start"));
 		gpsStatus = this.backGround;
 		this.repaintNow(); // without this the change in the background color
-							// will not be displayed
+		// will not be displayed
 	}
 
 	private String getGotoBtnText() {
@@ -394,8 +394,9 @@ public class GotoPanel extends CellPanel {
 	public void switchToMovingMap() {
 		CWPoint centerTo = null;
 		if (myNavigation.isGpsPosValid())
-			centerTo = new CWPoint(myNavigation.gpsPos); // set gps-pos if gps
-															// is on
+			centerTo = new CWPoint(myNavigation.gpsPos); // set gps-pos if
+															// gps
+		// is on
 		else {
 			// setze Zielpunkt als Ausgangspunkt, wenn GPS aus ist und lade
 			// entsprechende Karte
@@ -538,8 +539,8 @@ public class GotoPanel extends CellPanel {
 				ch.LatLon = myNavigation.gpsPos.toString();
 				ch.pos = new CWPoint(myNavigation.gpsPos);
 				ch.setType(CacheType.CW_TYPE_STAGE); // see
-														// CacheType.GC_AW_STAGE_OF_MULTI
-														// // TODO unfertig
+				// CacheType.GC_AW_STAGE_OF_MULTI
+				// // TODO unfertig
 				mainT.newWaypoint(ch);
 			}
 			// change destination waypoint

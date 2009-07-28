@@ -15,19 +15,20 @@ import ewe.util.Properties;
 public class Version {
 	static final int VER_MAJOR = 1;
 	static final int VER_MINOR = 1;
-	static final String VER_SVN = "$LastChangedRevision: 1846 $"; // the number
-																	// is
-																	// automatically
-																	// replaced
-																	// by
-																	// subversion
-																	// to the
-																	// latest
-																	// versionnumer
-																	// of this
-																	// file
-																	// (svn:keywords
-																	// LastChangedRevision)
+	static final String VER_SVN = "$LastChangedRevision: 1846 $"; // the
+																	// number
+	// is
+	// automatically
+	// replaced
+	// by
+	// subversion
+	// to the
+	// latest
+	// versionnumer
+	// of this
+	// file
+	// (svn:keywords
+	// LastChangedRevision)
 	static final int SVN_REVISION = Common.parseInt(VER_SVN.substring(VER_SVN
 			.indexOf(" ") + 1, VER_SVN.lastIndexOf(" ")));
 	static final int VERSION_TYPE = 3;
@@ -68,9 +69,9 @@ public class Version {
 		versionnumbers = new String[updateavailabe.length];
 		for (int i = updateavailabe.length - 1; i >= 1; i--) {
 			updateavailabe[i] = checkVersion(curvers, "T" + (i - 1), i); // this
-																			// also
-																			// sets
-																			// versionnumber[i]
+			// also
+			// sets
+			// versionnumber[i]
 		}
 		updateavailabe[0] = Convert.toInt(curvers.getProperty(
 				"RecommendedType", "0"));
@@ -143,7 +144,7 @@ public class Version {
 					tmp = UrlFetcher.fetchString(svnRString.substring(0, i));
 					s = new Regex(svnRString.substring(i + 1, svnRString
 							.length())); // flyingfish works 3/2008 with
-											// ("(?i)Revision[\\s]*[:=][\\s]*[\\\\r]*[\\\\n]*[\\s]*([0-9]*)");
+					// ("(?i)Revision[\\s]*[:=][\\s]*[\\\\r]*[\\\\n]*[\\s]*([0-9]*)");
 				} else {
 					versionnumbers[t] = "error: no RegEx";
 					return 3;

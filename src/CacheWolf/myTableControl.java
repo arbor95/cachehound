@@ -49,7 +49,7 @@ public class myTableControl extends TableControl {
 		pref = Global.getPref();
 		tbp = tablePanel;
 		allowDragSelection = false; // allow only one row to be selected at one
-									// time
+		// time
 
 		MenuItem[] mnuFull = new MenuItem[13];
 		mnuFull[0] = miOpen = new MenuItem(MyLocale.getMsg(1021,
@@ -109,9 +109,9 @@ public class myTableControl extends TableControl {
 		if (cacheDB.size() > 0) { // No context menu when DB is empty
 			adjustAddiHideUnhideMenu();
 			menuState.doShowMenu(p, true, null); // direct call (not through
-													// doMenu) is neccesary
-													// because it will exclude
-													// the whole table
+			// doMenu) is neccesary
+			// because it will exclude
+			// the whole table
 
 		}
 	}
@@ -125,10 +125,10 @@ public class myTableControl extends TableControl {
 	public void onKeyEvent(KeyEvent ev) {
 		if (ev.type == KeyEvent.KEY_PRESS && ev.target == this) {
 			if ((ev.modifiers & IKeys.CONTROL) > 0 && ev.key == 1) { // <ctrl-a>
-																		// gives
-																		// 1,
-																		// <ctrl-b>
-																		// == 2
+				// gives
+				// 1,
+				// <ctrl-b>
+				// == 2
 				// select all on <ctrl-a>
 				setSelectForAll(true);
 				ev.consumed = true;
@@ -141,23 +141,23 @@ public class myTableControl extends TableControl {
 				else if (ev.key == IKeys.PAGE_DOWN)
 					Global.mainTab.tbP.selectRow(java.lang.Math.min(cursor.y
 							+ getOnScreen(null).height - 1, model.numRows - 1)); // cursorTo(java.lang.Math.min(cursor.y+
-																					// getOnScreen(null).height-1,
-																					// model.numRows-1),cursor.x+listMode,true);
-																					// //
-																					// I
-																					// don't
-																					// know
-																					// why
-																					// this
-																					// doesn't
-																					// work:
-																					// tbp.doScroll(IScroll.Vertical,
-																					// IScroll.PageHigher,
-																					// 1);
+				// getOnScreen(null).height-1,
+				// model.numRows-1),cursor.x+listMode,true);
+				// //
+				// I
+				// don't
+				// know
+				// why
+				// this
+				// doesn't
+				// work:
+				// tbp.doScroll(IScroll.Vertical,
+				// IScroll.PageHigher,
+				// 1);
 				else if (ev.key == IKeys.PAGE_UP)
 					Global.mainTab.tbP.selectRow(java.lang.Math.max(cursor.y
 							- getOnScreen(null).height + 1, 0)); // cursorTo(java.lang.Math.max(cursor.y-getOnScreen(null).height+1,
-																	// 0),cursor.x+listMode,true);
+				// 0),cursor.x+listMode,true);
 				else if (ev.key == IKeys.ACTION || ev.key == IKeys.ENTER)
 					Global.mainTab.select(Global.mainTab.descP);
 				else if (ev.key == IKeys.DOWN)
@@ -266,11 +266,12 @@ public class myTableControl extends TableControl {
 					pbf.exec();
 					int nDeleted = 0;
 					int size = cacheDB.size();
-					for (int i = size - 1; i >= 0; i--) {// Start Counting down,
-															// as the size
-															// decreases with
-															// each deleted
-															// cache
+					for (int i = size - 1; i >= 0; i--) {// Start Counting
+															// down,
+						// as the size
+						// decreases with
+						// each deleted
+						// cache
 						ch = cacheDB.get(i);
 						if (ch.is_Checked && (ch.isVisible() || deleteFiltered)) {
 							nDeleted++;
@@ -314,8 +315,9 @@ public class myTableControl extends TableControl {
 				tmpMB.execute();
 			} else {
 				pref.curCentrePt.set(cp);
-				Global.mainTab.updateBearDist(); // Update the distances with a
-													// warning message
+				Global.mainTab.updateBearDist(); // Update the distances with
+													// a
+				// warning message
 				// tbp.refreshTable();
 			}
 		} else
@@ -347,8 +349,8 @@ public class myTableControl extends TableControl {
 				CacheHolderDetail chD = ch.getCacheDetails(false, true);
 				if (chD != null) {
 					CWWrapper.exec(pref.browser, chD.URL); // maybe this
-															// works on some
-															// PDAs?
+					// works on some
+					// PDAs?
 				}
 			}
 		} else
@@ -453,7 +455,7 @@ public class myTableControl extends TableControl {
 
 	public void stopDragging(DragContext dc) {
 		if (wayPoint != null && !dc.cancelled) {
-			// Vm.debug("Stop  Dragging"+dc.curPoint.x+"/"+dc.curPoint.y);
+			// Vm.debug("Stop Dragging"+dc.curPoint.x+"/"+dc.curPoint.y);
 			dc.stopImageDrag(true);
 			Point p = Gui.getPosInParent(this, getWindow());
 			p.x += dc.curPoint.x;
@@ -507,7 +509,7 @@ public class myTableControl extends TableControl {
 		Rect sel = getSelection(null);
 		if ((sel.height == 0 || sel.height == 0) && p2 != null)
 			cursorTo(p2.y, p2.x, true); // if the selection is gone -> reselect
-										// it
+		// it
 
 	}
 

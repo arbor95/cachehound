@@ -37,7 +37,8 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		// parse Date
 		int indexOfDate = messageText.indexOf("Log Date: ");
 		int indexOfEndDate = messageText.indexOf('\n', indexOfDate);
-		String dateString = messageText.substring(indexOfDate + 10 , indexOfEndDate);
+		String dateString = messageText.substring(indexOfDate + 10,
+				indexOfEndDate);
 		StringTokenizer tokenizer = new StringTokenizer(dateString, "/");
 		String day = tokenizer.nextToken();
 		day = day.length() > 1 ? day : "0" + day;
@@ -45,17 +46,15 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		month = month.length() > 1 ? month : "0" + month;
 		String year = tokenizer.nextToken();
 		String date = year + "-" + month + "-" + day;
-		
-		int indexOfFooter = messageText.indexOf("Visit this log entry", indexOfEndDate);
-		String logText = messageText.substring(indexOfEndDate + 1, indexOfFooter - 2);
-		
-		
-		
+
+		int indexOfFooter = messageText.indexOf("Visit this log entry",
+				indexOfEndDate);
+		String logText = messageText.substring(indexOfEndDate + 1,
+				indexOfFooter - 2);
+
 		// TODO: remove
 		return null;
 	}
-
-		
 
 	public boolean archived(String gcNumber, Message message, String subject,
 			String text) {
@@ -66,9 +65,9 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		}
 		holder.setArchived(true);
 		System.out.println("Konnte Cache archivieren: " + gcNumber);
-		
+
 		return true;
-		
+
 	}
 
 	public boolean disabled(String gcNumber, Message message, String subject,
@@ -150,9 +149,9 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 		int index = profile.cacheDB.getIndex(holder);
 
 		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
-															// spiderSingle only
-															// logs in once if
-															// forcedLogin=true
+		// spiderSingle only
+		// logs in once if
+		// forcedLogin=true
 		boolean loadAllLogs = false;
 
 		InfoBox infB = new InfoBox("Info", "Loading",

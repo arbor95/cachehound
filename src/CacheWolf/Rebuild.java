@@ -32,10 +32,11 @@ public class Rebuild {
 			if (pos < 0)
 				continue;
 			String wayPoint = xmlFiles[i].substring(0, pos).toUpperCase();
-			if (wayPoint.equalsIgnoreCase("index") || // Check for index.xml and
-														// index.bak
+			if (wayPoint.equalsIgnoreCase("index") || // Check for index.xml
+														// and
+					// index.bak
 					prof.getCacheIndex(wayPoint) >= 0) // Check for waypoints
-														// already in database
+				// already in database
 				xmlFiles[i] = null; // Remove existing caches or index.xml
 			else {
 				// ewe.sys.Vm.debug("Orphan: "+wayPoint);
@@ -51,8 +52,8 @@ public class Rebuild {
 					h.changed();
 					String details = getCacheDetails(prof.dataDir + xmlFiles[i]);
 					if (details != null) { // In older Versions of CW the
-											// <CACHE... /> line was not stored
-											// in the cache.xml
+						// <CACHE... /> line was not stored
+						// in the cache.xml
 						CacheHolder ch = new CacheHolder(details,
 								cacheXmlVersion);
 						prof.cacheDB.add(ch);

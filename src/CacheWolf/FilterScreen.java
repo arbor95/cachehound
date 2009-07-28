@@ -462,7 +462,7 @@ public class FilterScreen extends Form {
 		addLast(cp, VSTRETCH, FILL);
 
 		CellPanel savDelPanel = new CellPanel(); // Panel for "save" and
-													// "delete" button
+		// "delete" button
 		savDelPanel.equalWidths = true;
 		mImage savImg = new mImage("clsave.png");
 		savImg.transparentColor = new Color(255, 0, 0);
@@ -712,9 +712,9 @@ public class FilterScreen extends Form {
 		// Panel 5 - Addi Waypoints
 		if (chkParking.state || chkStage.state || chkQuestion.state
 				|| chkFinal.state || chkTrailhead.state || chkReference.state) { // At
-																					// least
-																					// one
-																					// tick
+			// least
+			// one
+			// tick
 			btnAddi.backGround = COLOR_FILTERACTIVE;
 			addiWptChk.state = true;
 			if (chkParking.state && chkStage.state && chkQuestion.state
@@ -876,7 +876,7 @@ public class FilterScreen extends Form {
 					}
 				}
 			} else if (ev.target == addiWptChk) { // Set all addi filters to
-													// value of main addi filter
+				// value of main addi filter
 				chkParking.setState(addiWptChk.state);
 				chkStage.setState(addiWptChk.state);
 				chkQuestion.setState(addiWptChk.state);
@@ -923,7 +923,8 @@ public class FilterScreen extends Form {
 						this.repaintNow();
 					}
 				}
-				// Vm.debug("Event: "+ev.toString()+"; Target: "+ev.target+"; Liste: "+fltList.getText()+
+				// Vm.debug("Event: "+ev.toString()+"; Target: "+ev.target+";
+				// Liste: "+fltList.getText()+
 				// " (alt: "+fltList.oldText+")");
 				// setColors();
 			}

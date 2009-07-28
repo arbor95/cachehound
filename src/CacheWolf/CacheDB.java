@@ -157,8 +157,7 @@ public class CacheDB {
 
 	/**
 	 * Same as <br>
-	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br></code>but
-	 * optimized to reduce object creation. <br>
+	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br></code>but optimized to reduce object creation. <br>
 	 * Thus builds cacheDB out of caches of vectors cachesA and cachesB, added
 	 * in this order.
 	 * 

@@ -111,7 +111,8 @@ public class GpxExportNg {
 			.concat("<time>@@CREATEDATE@@T00:00:00Z</time>\n").concat(
 					"<keywords>cache, geocache, waypoints</keywords>\n")
 	// TODO: is it worth a second loop?
-	// .concat("<bounds minlat=\"50.91695\" minlon=\"6.876383\" maxlat=\"50.935183\" maxlon=\"6.918817\" />")
+	// .concat("<bounds minlat=\"50.91695\" minlon=\"6.876383\"
+	// maxlat=\"50.935183\" maxlon=\"6.918817\" />")
 	;
 
 	final static String GPXLOG = "\t\t\t\t<groundspeak:log id=\"@@LOGID@@\">\n"
@@ -344,10 +345,15 @@ public class GpxExportNg {
 
 						if (exportTarget == OUTPUT_POI) {
 							try {
-								GPSBabel.convert("gpx",
-										tempDir	+ FileBase.separator + prefix + key	+ ".gpx",
-										"garmin_gpi,sleep=1,category=" + prefix + key + ",bitmap=" + tempDir + FileBase.separator + prefix + key + ".bmp",
-										outDir + FileBase.separator	+ prefix + key + ".gpi");
+								GPSBabel.convert("gpx", tempDir
+										+ FileBase.separator + prefix + key
+										+ ".gpx",
+										"garmin_gpi,sleep=1,category=" + prefix
+												+ key + ",bitmap=" + tempDir
+												+ FileBase.separator + prefix
+												+ key + ".bmp", outDir
+												+ FileBase.separator + prefix
+												+ key + ".gpi");
 							} catch (java.io.IOException e) {
 								exportErrors++;
 							}
@@ -475,9 +481,11 @@ public class GpxExportNg {
 
 			if (sendToGarmin) {
 				try {
-					GPSBabel.convert(GPSBabel.Filetype.gpx, file.getCreationName(),GPSBabel.Filetype.garmin,Global.getPref().garminConn.concat(":"));
+					GPSBabel.convert(GPSBabel.Filetype.gpx, file
+							.getCreationName(), GPSBabel.Filetype.garmin,
+							Global.getPref().garminConn.concat(":"));
 				} catch (java.io.IOException e) {
-					//already handled by GPSBabel class
+					// already handled by GPSBabel class
 				}
 				file.delete();
 			}
@@ -815,13 +823,18 @@ public class GpxExportNg {
 			// if (exportStyle == STYLE_GPX_MYFINDS)
 			// logId = log.getLogId();
 
-			// ret.append("        <groundspeak:log id=\"".concat(log.getLogId()).concat("@@LOGID@@\">\n")
-			// ret.append("        <groundspeak:log id=\"31415\">\n"
-			// .concat("          <groundspeak:date>").concat(log.getDate()).concat("</groundspeak:date>\n")
-			// .concat("          <groundspeak:type>").concat(image2TypeText(log.getIcon())).concat("</groundspeak:type>\n")
-			// .concat("          <groundspeak:finder id=\"@@LOGFINDERID@@\">@@LOGFINDER@@</groundspeak:finder>\n")
-			// .concat("          <groundspeak:text encoded=\"@@LOGENCODE@@\">@@LOGTEXT@@</groundspeak:text>\n")
-			// .concat("        </groundspeak:log>\n"));
+			// ret.append(" <groundspeak:log
+			// id=\"".concat(log.getLogId()).concat("@@LOGID@@\">\n")
+			// ret.append(" <groundspeak:log id=\"31415\">\n"
+			// .concat("
+			// <groundspeak:date>").concat(log.getDate()).concat("</groundspeak:date>\n")
+			// .concat("
+			// <groundspeak:type>").concat(image2TypeText(log.getIcon())).concat("</groundspeak:type>\n")
+			// .concat(" <groundspeak:finder
+			// id=\"@@LOGFINDERID@@\">@@LOGFINDER@@</groundspeak:finder>\n")
+			// .concat(" <groundspeak:text
+			// encoded=\"@@LOGENCODE@@\">@@LOGTEXT@@</groundspeak:text>\n")
+			// .concat(" </groundspeak:log>\n"));
 			Transformer trans = new Transformer(true);
 			trans.add(new Regex("@@LOGID@@", logId));
 			trans.add(new Regex("@@LOGDATE@@", log.getDate()));
@@ -907,46 +920,45 @@ public class GpxExportNg {
 	 *            name of the image to display
 	 * @return log type. will default to "Write note" for unknown logtypes
 	 */
-//	public String image2TypeText(String image) {
-//		if (image.equals("icon_smile.gif"))
-//			return "Found it";
-//		if (image.equals("icon_sad.gif"))
-//			return "Didn't find it";
-//		if (image.equals("icon_note.gif"))
-//			return "Write note";
-//		if (image.equals("icon_enabled.gif"))
-//			return "Enable Listing";
-//		if (image.equals("icon_disabled.gif"))
-//			return "Temporarily Disable Listing";
-//		if (image.equals("icon_camera.gif"))
-//			return "Webcam Photo Taken";
-//		if (image.equals("icon_attended.gif"))
-//			return "Attended";
-//		if (image.equals("icon_greenlight.gif"))
-//			return "Publish Listing";
-//		if (image.equals("icon_rsvp.gif"))
-//			return "Will Attend";
-//		if (image.equals("big_smile.gif"))
-//			return "Post Reviewer Note";
-//		if (image.equals("traffic_cone.gif"))
-//			return "Archive";
-//		if (image.equals("icon_maint.gif"))
-//			return "Owner Maintenance";
-//		if (image.equals("icon_needsmaint.gif"))
-//			return "Needs Maintenance";
-//		if (image.equals("coord_update.gif"))
-//			return "Update Coordinates";
-//		if (image.equals("icon_remove.gif"))
-//			return "Needs Archived";
-//		if (image.equals("icon_redlight.gif"))
-//			return "Retract Listing";
-//		Global.getPref().log(
-//				"GPX Export: warning - unknown logtype " + image
-//						+ " was changed to 'Write note'");
-//		exportErrors++;
-//		return "Write note";
-//	}
-
+	// public String image2TypeText(String image) {
+	// if (image.equals("icon_smile.gif"))
+	// return "Found it";
+	// if (image.equals("icon_sad.gif"))
+	// return "Didn't find it";
+	// if (image.equals("icon_note.gif"))
+	// return "Write note";
+	// if (image.equals("icon_enabled.gif"))
+	// return "Enable Listing";
+	// if (image.equals("icon_disabled.gif"))
+	// return "Temporarily Disable Listing";
+	// if (image.equals("icon_camera.gif"))
+	// return "Webcam Photo Taken";
+	// if (image.equals("icon_attended.gif"))
+	// return "Attended";
+	// if (image.equals("icon_greenlight.gif"))
+	// return "Publish Listing";
+	// if (image.equals("icon_rsvp.gif"))
+	// return "Will Attend";
+	// if (image.equals("big_smile.gif"))
+	// return "Post Reviewer Note";
+	// if (image.equals("traffic_cone.gif"))
+	// return "Archive";
+	// if (image.equals("icon_maint.gif"))
+	// return "Owner Maintenance";
+	// if (image.equals("icon_needsmaint.gif"))
+	// return "Needs Maintenance";
+	// if (image.equals("coord_update.gif"))
+	// return "Update Coordinates";
+	// if (image.equals("icon_remove.gif"))
+	// return "Needs Archived";
+	// if (image.equals("icon_redlight.gif"))
+	// return "Retract Listing";
+	// Global.getPref().log(
+	// "GPX Export: warning - unknown logtype " + image
+	// + " was changed to 'Write note'");
+	// exportErrors++;
+	// return "Write note";
+	// }
 	/**
 	 * create a position information suitable for a gc.com PQlike export
 	 * 
@@ -1066,7 +1078,8 @@ public class GpxExportNg {
 			// if you change the order of strings make sure to fix the event
 			// handler as well
 			chTarget.addItem(MyLocale.getMsg(31415, "Single GPX")); // index 0
-			chTarget.addItem(MyLocale.getMsg(31415, "Separate GPX")); // index 1
+			chTarget.addItem(MyLocale.getMsg(31415, "Separate GPX")); // index
+																		// 1
 			if (hasBitmaps && hasGarminMap && hasGpsbabel) {
 				chTarget.addItem(MyLocale.getMsg(31415, "POI")); // index 2
 			}
@@ -1159,7 +1172,8 @@ public class GpxExportNg {
 
 						if (ibPrefix.change(ControlConstants.Disabled, 0))
 							ibPrefix.repaint();
-					} else if (chStyle.selectedIndex == 1) { // PQ like export
+					} else if (chStyle.selectedIndex == 1) { // PQ like
+																// export
 						if (chIds.change(0, ControlConstants.Disabled))
 							chIds.repaint();
 

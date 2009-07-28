@@ -29,8 +29,9 @@ public class Attribute {
 	 * The attribute names are identical to the image names. Internally the
 	 * first image name has number 0, the next number 1 and so on.
 	 */
-	public static final String[] attributeNames = { "error.gif", // 00 Unknown
-																	// attribute
+	public static final String[] attributeNames = { "error.gif", // 00
+			// Unknown
+			// attribute
 			"available-no.gif", // 01 not 24-7
 			"available-yes.gif", // 02 available 24-7
 			"bicycles-no.gif", // 03 no bikes
@@ -122,9 +123,8 @@ public class Attribute {
 			"flashlight-yes.gif" // 89 Flashlight required
 	};
 	private static mImage[] attributeImages = new mImage[90];
-	private static String IMAGEDIR = STRreplace.replace(FileBase
-			.getProgramDirectory()
-			+ "/attributes/", "//", "/");
+	private static String IMAGEDIR = (FileBase.getProgramDirectory() + "/attributes/")
+			.replace("//", "/");
 
 	public static String getImageDir() {
 		return IMAGEDIR;

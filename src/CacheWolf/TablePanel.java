@@ -108,13 +108,13 @@ public class TablePanel extends CellPanel {
 		Vector oldVisibleCaches = null;
 		int sel = getSelectedCache();
 		if ((sel >= 0) && (sel < cacheDB.size())) // sel > cacheDB.size() can
-													// happen if you load a new
-													// profile, which is smaller
-													// than the old profile and
-													// you selected one cache
-													// that exceeds the number
-													// of caches in the new
-													// profile
+			// happen if you load a new
+			// profile, which is smaller
+			// than the old profile and
+			// you selected one cache
+			// that exceeds the number
+			// of caches in the new
+			// profile
 			wayPoint = cacheDB.get(sel).getWayPoint();
 		else
 			wayPoint = null;

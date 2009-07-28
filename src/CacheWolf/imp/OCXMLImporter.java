@@ -126,7 +126,7 @@ public class OCXMLImporter extends MinML {
 	public boolean syncSingle(int number, InfoBox infB) {
 		ch = cacheDB.get(number);
 		holder = null; // new CacheHolderDetail(ch); //TODO is this still
-						// correct? use getDetails ?
+		// correct? use getDetails ?
 
 		if (infB.isClosed) {
 			if (askForOptions)
@@ -189,7 +189,7 @@ public class OCXMLImporter extends MinML {
 
 		String lastS = profile.getLast_sync_opencaching();
 		CWPoint centre = pref.curCentrePt; // No need to clone curCentrePt as
-											// centre is only read
+		// centre is only read
 		if (!centre.isValid()) {
 			(new MessageBox("Error", "Coordinates for centre must be set",
 					FormBase.OKB)).execute();
@@ -310,15 +310,15 @@ public class OCXMLImporter extends MinML {
 			} else {
 				if (e.getMessage().equalsIgnoreCase("could not connect")
 						|| e.getMessage().equalsIgnoreCase("unkown host")) { // is
-																				// there
-																				// a
-																				// better
-																				// way
-																				// to
-																				// find
-																				// out
-																				// what
-																				// happened?
+					// there
+					// a
+					// better
+					// way
+					// to
+					// find
+					// out
+					// what
+					// happened?
 					finalMessage = MyLocale
 							.getMsg(1616,
 									"Error: could not download udpate file from opencaching.de");
@@ -490,25 +490,25 @@ public class OCXMLImporter extends MinML {
 			holder.setWayPoint(atts.getValue("oc"));
 			if (holder.getWayPoint().length() == 0)
 				throw new IllegalArgumentException("empty waypointname"); // this
-																			// should
-																			// not
-																			// happen
-																			// -
-																			// it
-																			// is
-																			// likey
-																			// a
-																			// bug
-																			// in
-																			// opencaching.de
-																			// /
-																			// it
-																			// happens
-																			// on
-																			// 27-12-2006
-																			// on
-																			// cache
-																			// OC143E
+			// should
+			// not
+			// happen
+			// -
+			// it
+			// is
+			// likey
+			// a
+			// bug
+			// in
+			// opencaching.de
+			// /
+			// it
+			// happens
+			// on
+			// 27-12-2006
+			// on
+			// cache
+			// OC143E
 			return;
 		}
 
@@ -592,13 +592,13 @@ public class OCXMLImporter extends MinML {
 
 			// save all
 			holder.getFreshDetails().hasUnsavedChanges = true; // this makes
-																// CachHolder
-																// save the
-																// details in
-																// case that
-																// they are
-																// unloaded from
-																// memory
+			// CachHolder
+			// save the
+			// details in
+			// case that
+			// they are
+			// unloaded from
+			// memory
 			// chD.saveCacheDetails(profile.dataDir);
 			// profile.saveIndex(pref,Profile.NO_SHOW_PROGRESS_BAR); // this is
 			// done after .xml is completly processed
@@ -659,15 +659,15 @@ public class OCXMLImporter extends MinML {
 					String fetchUrl, imgTag, imgAltText;
 					Regex imgRegexUrl = new Regex(
 							"(<img[^>]*src=[\"\']([^>^\"^\']*)[^>]*>|<img[^>]*src=([^>^\"^\'^ ]*)[^>]*>)"); // Ergebnis
-																											// enthält
-																											// keine
-																											// Anführungszeichen
+					// enthält
+					// keine
+					// Anführungszeichen
 					Regex imgRegexAlt = new Regex(
 							"(?:alt=[\"\']([^>^\"^\']*)|alt=([^>^\"^\'^ ]*))"); // get
-																				// alternative
-																				// text
-																				// for
-																				// Pic
+					// alternative
+					// text
+					// for
+					// Pic
 					imgRegexAlt.setIgnoreCase(true);
 					imgRegexUrl.setIgnoreCase(true);
 					int descIndex = 0;
@@ -677,28 +677,28 @@ public class OCXMLImporter extends MinML {
 									holder.getFreshDetails().LongDescription,
 									descIndex)) { // "img" found
 						imgTag = imgRegexUrl.stringMatched(1); // (1) enthält
-																// das gesamte
-																// <img ...>-tag
+						// das gesamte
+						// <img ...>-tag
 						fetchUrl = imgRegexUrl.stringMatched(2); // URL in
-																	// Anführungszeichen
-																	// in (2)
-																	// falls
-																	// ohne in
-																	// (3)
-																	// Ergebnis
-																	// ist auf
-																	// jeden
-																	// Fall ohne
-																	// Anführungszeichen
+						// Anführungszeichen
+						// in (2)
+						// falls
+						// ohne in
+						// (3)
+						// Ergebnis
+						// ist auf
+						// jeden
+						// Fall ohne
+						// Anführungszeichen
 						if (fetchUrl == null) {
 							fetchUrl = imgRegexUrl.stringMatched(3);
 						}
 						if (fetchUrl == null) { // TODO Fehler ausgeben: nicht
-												// abgedeckt ist der Fall, dass
-												// in einem Cache Links auf
-												// Bilder mit unterschiedlichen
-												// URL, aber gleichem Dateinamen
-												// sind.
+							// abgedeckt ist der Fall, dass
+							// in einem Cache Links auf
+							// Bilder mit unterschiedlichen
+							// URL, aber gleichem Dateinamen
+							// sind.
 							inf
 									.addWarning(MyLocale
 											.getMsg(
@@ -727,18 +727,18 @@ public class OCXMLImporter extends MinML {
 									.indexOf("opencaching.de") > 0
 									|| fetchUrl.toLowerCase().indexOf(
 											"geocaching.com") > 0) // wenn von
-																	// Opencaching
-																	// oder
-																	// geocaching
-																	// ist
-																	// Dateiname
-																	// doch
-																	// nicht so
-																	// toll,
-																	// weil nur
-																	// aus
-																	// Nummer
-																	// bestehend
+								// Opencaching
+								// oder
+								// geocaching
+								// ist
+								// Dateiname
+								// doch
+								// nicht so
+								// toll,
+								// weil nur
+								// aus
+								// Nummer
+								// bestehend
 								imgAltText = new String("No image title");
 							else
 								imgAltText = fetchUrl.substring(fetchUrl
@@ -786,16 +786,17 @@ public class OCXMLImporter extends MinML {
 	}
 
 	private void getPic(String fetchURL, String picDesc) { // TODO handling of
-															// relativ URLs
+		// relativ URLs
 		try {
 			if (!fetchURL.startsWith("http://"))
 				fetchURL = new URL(new URL("http://" + OPENCACHING_HOST + "/"),
-						fetchURL).toString(); // TODO this is not quite correct:
-												// actually the "base" URL must
-												// be known... but anyway a
-												// different baseURL should not
-												// happen very often - it
-												// doesn't in my area
+						fetchURL).toString(); // TODO this is not quite
+												// correct:
+			// actually the "base" URL must
+			// be known... but anyway a
+			// different baseURL should not
+			// happen very often - it
+			// doesn't in my area
 			String fileName = createPicFilename(fetchURL);
 			ImageInfo imageInfo = new ImageInfo();
 			// add title
@@ -821,15 +822,15 @@ public class OCXMLImporter extends MinML {
 				if (e.getMessage().toLowerCase().equalsIgnoreCase(
 						"could not connect")
 						|| e.getMessage().equalsIgnoreCase("unkown host")) { // is
-																				// there
-																				// a
-																				// better
-																				// way
-																				// to
-																				// find
-																				// out
-																				// what
-																				// happened?
+					// there
+					// a
+					// better
+					// way
+					// to
+					// find
+					// out
+					// what
+					// happened?
 					ErrMessage = MyLocale.getMsg(1618,
 							"Ignoring error in cache: ")
 							+ holder.getCacheName()

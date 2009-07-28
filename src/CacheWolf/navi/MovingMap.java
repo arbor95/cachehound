@@ -62,11 +62,11 @@ public class MovingMap extends Form {
 	public final static int lostFix = 3; // yellow
 	public final static int noGPSData = 2; // red
 	public final static int noGPS = 1; // no GPS-Position marker, manually
-										// disconnected
+	// disconnected
 	public final static int ignoreGPS = -1; // ignore even changes in GPS-signal
-											// (eg. from lost fix to gotFix)
-											// this is wanted when the map is
-											// moved manually
+	// (eg. from lost fix to gotFix)
+	// this is wanted when the map is
+	// moved manually
 
 	public MapSymbol gotoPos = null;
 	public int GpsStatus;
@@ -108,13 +108,14 @@ public class MovingMap extends Form {
 	FontMetrics fm;
 
 	boolean dontUpdatePos = false; // this is only internaly used to avoid
-									// multi-threading problems
+	// multi-threading problems
 	boolean ignoreGps = false; // ignores updateGps-calls if true
 	boolean autoSelectMap = true;
-	boolean forceMapLoad = true; // only needed to force updateposition to try
-									// to load the best map again after
-									// OutOfMemoryError after an repeated click
-									// on snap-to-gps
+	boolean forceMapLoad = true; // only needed to force updateposition to
+									// try
+	// to load the best map again after
+	// OutOfMemoryError after an repeated click
+	// on snap-to-gps
 	boolean mapHidden = false;
 	boolean noMapsAvailable;
 	boolean zoomingMode = false;
@@ -141,14 +142,14 @@ public class MovingMap extends Form {
 		this.setPreferredSize(pref.myAppWidth, pref.myAppHeight);
 		this.title = "Moving Map";
 		this.backGround = new Color(254, 254, 254); // background must not be
-													// black because black is
-													// interpreted as
-													// transparent and
-													// transparent images above
-													// (eg trackoverlay) want be
-													// drawn in windows-VM, so
-													// be care, don|t use white
-													// either
+		// black because black is
+		// interpreted as
+		// transparent and
+		// transparent images above
+		// (eg trackoverlay) want be
+		// drawn in windows-VM, so
+		// be care, don|t use white
+		// either
 		// this.mapPath = Global.getPref().getMapLoadPath();
 
 		mmp = new MovingMapPanel(this);
@@ -213,7 +214,7 @@ public class MovingMap extends Form {
 		DistanceImage = new AniImage();
 		DistanceImage.setImage(new Image(MyLocale.getScreenWidth() / 2, fm
 				.getHeight()), Color.White); // consider the size of the font
-												// used
+		// used
 		DistanceImageGraphics = new Graphics(DistanceImage.image);
 		DistanceImageGraphics.setFont(imageFont);
 		DistanceImage.properties = mImage.AlwaysOnTop;
@@ -222,7 +223,7 @@ public class MovingMap extends Form {
 		ScaleImage = new AniImage();
 		ScaleImage.setImage(new Image(MyLocale.getScreenWidth() / 2, fm
 				.getHeight()), Color.White); // consider the size of the font
-												// used
+		// used
 		ScaleImageGraphics = new Graphics(ScaleImage.image);
 		ScaleImageGraphics.setFont(imageFont);
 		ScaleImage.properties = mImage.AlwaysOnTop;
@@ -279,7 +280,7 @@ public class MovingMap extends Form {
 		if (tracks != null)
 			rebuildOverlaySet();
 		if (symbols != null) { // TODO: see if the rest of the code works with
-								// symbols = null
+			// symbols = null
 			for (int i = symbols.size() - 1; i >= 0; i--) {
 				((MapSymbol) symbols.get(i)).screenDimChanged();
 			}
@@ -323,9 +324,9 @@ public class MovingMap extends Form {
 		} else
 			noMapsAvailable = false;
 		maps.addEmptyMaps(lat); // the empty maps must be added last, otherwise
-								// in method setBestMap, when no mapt is
-								// available, a malfunction will happen, see
-								// there
+		// in method setBestMap, when no mapt is
+		// available, a malfunction will happen, see
+		// there
 		dontUpdatePos = saveGpsIgnoreStatus;
 		inf.close(0);
 		Vm.showWait(this, false);
@@ -426,35 +427,35 @@ public class MovingMap extends Form {
 
 		ScaleImageGraphics.drawImage(ScaleImage.image, null, Color.LightBlue,
 				0, 0, ScaleImage.location.width, ScaleImage.location.height); // changing
-																				// the
-																				// mask
-																				// forces
-																				// graphics
-																				// to
-																				// copy
-																				// from
-																				// image._awtImage
-																				// to
-																				// image.bufferedImage,
-																				// which
-																				// is
-																				// displayed
+		// the
+		// mask
+		// forces
+		// graphics
+		// to
+		// copy
+		// from
+		// image._awtImage
+		// to
+		// image.bufferedImage,
+		// which
+		// is
+		// displayed
 		ScaleImageGraphics.drawImage(ScaleImage.image, null, Color.White, 0, 0,
 				ScaleImage.location.width, ScaleImage.location.height); // these
-																		// 2
-																		// commands
-																		// are
-																		// necessary
-																		// because
-																		// of a
-																		// bug
-																		// or
-																		// near
-																		// to a
-																		// bug
-																		// in
-																		// the
-																		// ewe-vm
+		// 2
+		// commands
+		// are
+		// necessary
+		// because
+		// of a
+		// bug
+		// or
+		// near
+		// to a
+		// bug
+		// in
+		// the
+		// ewe-vm
 	}
 
 	public void updateDistance(boolean repaint) {
@@ -508,17 +509,17 @@ public class MovingMap extends Form {
 				DistanceImageGraphics.drawImage(DistanceImage.image, null,
 						Color.LightBlue, 0, 0, DistanceImage.location.width,
 						DistanceImage.location.height); // changing the mask
-														// forces graphics to
-														// copy from
-														// image._awtImage to
-														// image.bufferedImage,
-														// which is displayed
+				// forces graphics to
+				// copy from
+				// image._awtImage to
+				// image.bufferedImage,
+				// which is displayed
 				DistanceImageGraphics.drawImage(DistanceImage.image, null,
 						Color.White, 0, 0, DistanceImage.location.width,
 						DistanceImage.location.height); // these 2 commands are
-														// necessary because of
-														// a bug or near to a
-														// bug in the ewe-vm
+				// necessary because of
+				// a bug or near to a
+				// bug in the ewe-vm
 				if (repaint) {
 					DistanceImage.refreshNow();
 				}
@@ -527,23 +528,23 @@ public class MovingMap extends Form {
 			DistanceImageGraphics.drawImage(DistanceImage.image, null,
 					Color.LightBlue, 0, 0, DistanceImage.location.width,
 					DistanceImage.location.height); // changing the mask forces
-													// graphics to copy from
-													// image._awtImage to
-													// image.bufferedImage,
-													// which is displayed
+			// graphics to copy from
+			// image._awtImage to
+			// image.bufferedImage,
+			// which is displayed
 			DistanceImageGraphics.drawImage(DistanceImage.image, null,
 					Color.White, 0, 0, DistanceImage.location.width,
 					DistanceImage.location.height); // these 2 commands are
-													// necessary because of a
-													// bug or near to a bug in
-													// the ewe-vm
+			// necessary because of a
+			// bug or near to a bug in
+			// the ewe-vm
 		}
 	}
 
 	public void forceMapLoad() {
 		forceMapLoad = true;
 		updatePosition(posCircle.where); // this sets forceMapLoad to false
-											// after loading a map
+		// after loading a map
 	}
 
 	public final FormFrame myExec() {
@@ -567,8 +568,9 @@ public class MovingMap extends Form {
 		addTrack(myNavigation.curTrack);
 		if (tracks != null && tracks.size() > 0
 				&& ((Track) tracks.get(0)).num > 0)
-			rebuildOverlaySet(); // show points which where added when MavingMap
-									// was not running
+			rebuildOverlaySet(); // show points which where added when
+									// MavingMap
+		// was not running
 		if (myNavigation.destinationIsCache) {
 			destChanged(myNavigation.destinationCache);
 		} else {
@@ -659,19 +661,19 @@ public class MovingMap extends Form {
 		if (currentMap == null || (!posCircle.where.isValid()) || width == 0
 				|| height == 0)
 			return; // height == 0 happens if this is called before the form ist
-					// displayed on the screen
+		// displayed on the screen
 		if (TrackOverlays == null) {
 			TrackOverlays = new TrackOverlay[9];
 			TrackOverlaySetCenterTopLeft = ScreenXY2LatLon(100, 100);
 		}
 		boolean saveGPSIgnoreStatus = dontUpdatePos; // avoid multi-threading
-														// problems
+		// problems
 		dontUpdatePos = true;
 		Point upperleftOf4 = getXYonScreen(TrackOverlaySetCenterTopLeft); // TrackOverlay[4]
-																			// ==
-																			// center
-																			// of
-																			// Trackoverlays
+		// ==
+		// center
+		// of
+		// Trackoverlays
 		// upperleftOf4.x = (upperleftOf4.x + 1* width) % (width * 2) - 1 *
 		// width;
 		// upperleftOf4.y = (upperleftOf4.y + 1* height) % (height * 2) - 1 *
@@ -686,21 +688,21 @@ public class MovingMap extends Form {
 									+ (yi - 1) * height), width, height,
 							currentMap);
 					TrackOverlays[i].setLocation(width + 1, height + 1); // outside
-																			// of
-																			// the
-																			// screen
-																			// will
-																			// hide
-																			// it
-																			// automatically
-																			// it
-																			// will
-																			// get
-																			// the
-																			// correct
-																			// position
-																			// in
-																			// upadteOverlayposition
+					// of
+					// the
+					// screen
+					// will
+					// hide
+					// it
+					// automatically
+					// it
+					// will
+					// get
+					// the
+					// correct
+					// position
+					// in
+					// upadteOverlayposition
 					TrackOverlays[i].tracks = this.tracks;
 					TrackOverlays[i].paintTracks();
 					mmp.addImage(TrackOverlays[i]);
@@ -810,9 +812,11 @@ public class MovingMap extends Form {
 						destroyOverlay(3);
 						destroyOverlay(4);
 						destroyOverlay(5);
-					} else { // it is important to test for diagonal only if the
-								// other didn't match
-						if (TrackOverlays[0].isOnScreen()) { // links oben raus
+					} else { // it is important to test for diagonal only if
+								// the
+						// other didn't match
+						if (TrackOverlays[0].isOnScreen()) { // links oben
+																// raus
 							TrackOverlaySetCenterTopLeft.set(ScreenXY2LatLon(
 									oldp.x - 2 * width, oldp.y - 2 * height));
 							destroyOverlay(8);
@@ -828,8 +832,9 @@ public class MovingMap extends Form {
 							destroyOverlay(6);
 							destroyOverlay(7);
 						} else {
-							if (TrackOverlays[2].isOnScreen()) { // rechts oben
-																	// raus
+							if (TrackOverlays[2].isOnScreen()) { // rechts
+																	// oben
+								// raus
 								TrackOverlaySetCenterTopLeft
 										.set(ScreenXY2LatLon(
 												oldp.x + 2 * width, oldp.y - 2
@@ -848,8 +853,8 @@ public class MovingMap extends Form {
 								destroyOverlay(8);
 							} else {
 								if (TrackOverlays[6].isOnScreen()) { // links
-																		// unten
-																		// raus
+									// unten
+									// raus
 									TrackOverlaySetCenterTopLeft
 											.set(ScreenXY2LatLon(oldp.x - 2
 													* width, oldp.y + 2
@@ -868,8 +873,8 @@ public class MovingMap extends Form {
 									destroyOverlay(8);
 								} else {
 									if (TrackOverlays[8].isOnScreen()) { // rechts
-																			// unten
-																			// raus
+										// unten
+										// raus
 										TrackOverlaySetCenterTopLeft
 												.set(ScreenXY2LatLon(oldp.x + 2
 														* width, oldp.y + 2
@@ -892,7 +897,7 @@ public class MovingMap extends Form {
 											TrackOverlaySetCenterTopLeft = ScreenXY2LatLon(
 													100, 100);
 										} // this happens if a position jump
-											// occured
+									// occured
 								}
 							}
 						}
@@ -962,14 +967,15 @@ public class MovingMap extends Form {
 			posCircleY = height / 2;
 		} else {
 			posCircleX = pref.myAppWidth / 2; // maybe this could /should be
-												// repleced to windows size
+			// repleced to windows size
 			posCircleY = pref.myAppHeight / 2;
 		}
 		posCircle.hidden = false;
 		posCircle.move(posCircleX - posCircle.getWidth() / 2, posCircleY
-				- posCircle.getHeight() / 2); // posCircle.setLocation caused a
-												// problem -> hiding the
-												// posCircle in some situation
+				- posCircle.getHeight() / 2); // posCircle.setLocation caused
+												// a
+		// problem -> hiding the
+		// posCircle in some situation
 	}
 
 	public void movePosCircleToLatLon(CWPoint p, boolean repaint) {
@@ -1027,17 +1033,17 @@ public class MovingMap extends Form {
 	public Point getMapPositionOnScreen() {
 		if (currentMap == null || !posCircle.where.isValid())
 			return new Point(pref.myAppWidth + 1, pref.myAppHeight + 1); // in
-																			// case
-																			// no
-																			// calculation
-																			// is
-																			// possible
-																			// return
-																			// somthing
-																			// outside
-																			// of
-																			// the
-																			// screen
+		// case
+		// no
+		// calculation
+		// is
+		// possible
+		// return
+		// somthing
+		// outside
+		// of
+		// the
+		// screen
 		Point mapPos = new Point();
 		// if (mmp.mapImage != null) mmp.mapImage.getLocation(mapPos);
 		// else {
@@ -1148,10 +1154,11 @@ public class MovingMap extends Form {
 		// updateDistance(); - this is called from updatePosition
 		forceMapLoad = true;
 		if (this.width != 0)
-			updatePosition(posCircle.where); // dirty hack: if this.width == 0,
-												// then the symbols are not on
-												// the screen and get hidden by
-												// updateSymbolPositions
+			updatePosition(posCircle.where); // dirty hack: if this.width ==
+												// 0,
+		// then the symbols are not on
+		// the screen and get hidden by
+		// updateSymbolPositions
 	}
 
 	public void destChanged(CacheHolder ch) {
@@ -1165,10 +1172,11 @@ public class MovingMap extends Form {
 		// updateDistance(); - this is called from updatePosition
 		forceMapLoad = true;
 		if (this.width != 0)
-			updatePosition(posCircle.where); // dirty hack: if this.width == 0,
-												// then the symbols are not on
-												// the screen and get hidden by
-												// updateSymbolPositions
+			updatePosition(posCircle.where); // dirty hack: if this.width ==
+												// 0,
+		// then the symbols are not on
+		// the screen and get hidden by
+		// updateSymbolPositions
 	}
 
 	public void removeGotoPosition() {
@@ -1287,16 +1295,16 @@ public class MovingMap extends Form {
 						|| mapPos.y + mmp.mapImage.getHeight() < this.height || mapPos.x
 						+ mmp.mapImage.getWidth() < this.width));
 		if (forceMapLoad || wantMapTest || screenNotCompletlyCovered) { // if
-																		// force
-																		// ||
-																		// want
-																		// ||
-																		// map
-																		// doesn't
-																		// cover
-																		// the
-																		// scree
-																		// completly
+			// force
+			// ||
+			// want
+			// ||
+			// map
+			// doesn't
+			// cover
+			// the
+			// scree
+			// completly
 			// Vm.debug("Screen not completly covered by map");
 			if (forceMapLoad
 					|| (java.lang.Math.abs(lastCompareX - mapPos.x) > this.width / 10 || java.lang.Math
@@ -1317,9 +1325,9 @@ public class MovingMap extends Form {
 		// runMovingMap neccessary in case of multi-threaded Java-VM: ticked
 		// could be called during load of mmp
 		if ((fix > 0) && (myNavigation.gpsPos.getSats() >= 0)) { // TODO is
-																	// getSats
-																	// really
-																	// necessary?
+			// getSats
+			// really
+			// necessary?
 			directionArrows.setDirections((float) myNavigation.gpsPos
 					.getBearing(myNavigation.destination),
 					(float) myNavigation.skyOrientationDir.lonDec,
@@ -1346,23 +1354,23 @@ public class MovingMap extends Form {
 	int mapChangeModus = HIGHEST_RESOLUTION_GPS_DEST;
 	float scaleWanted;
 	boolean wantMapTest = true; // if true updateposition calls setBestMap
-								// regulary even if the currentmap covers the
-								// whole screen
+	// regulary even if the currentmap covers the
+	// whole screen
 	public final static int NORMAL_KEEP_RESOLUTION = 1; // keeps the choosen
-														// resolution as long as
-														// a map is available
-														// that overlaps with
-														// the screen and with
-														// the PosCircle - it
-														// changes the
-														// resolution if no such
-														// map is available. It
-														// wil cahnge back to
-														// the wanted scale as
-														// soon as a map becomes
-														// available (through
-														// movement of the
-														// GPS-receiver)
+	// resolution as long as
+	// a map is available
+	// that overlaps with
+	// the screen and with
+	// the PosCircle - it
+	// changes the
+	// resolution if no such
+	// map is available. It
+	// wil cahnge back to
+	// the wanted scale as
+	// soon as a map becomes
+	// available (through
+	// movement of the
+	// GPS-receiver)
 	public final static int HIGHEST_RESOLUTION = 2;
 	public final static int HIGHEST_RESOLUTION_GPS_DEST = 3;
 	boolean inBestMap = false; // to avoid multi-threading problems
@@ -1417,37 +1425,37 @@ public class MovingMap extends Form {
 							lastHighestResolutionGPSDestScale, false);
 				} else {
 					newmap = maps.getMapForArea(posCircle.where, gotoPos.where); // TODO
-																					// use
-																					// home-coos
-																					// if
-																					// no
-																					// gps?
-																					// -
-																					// consider
-																					// start
-																					// from
-																					// details
-																					// panel
-																					// and
-																					// from
-																					// gotopanel
+					// use
+					// home-coos
+					// if
+					// no
+					// gps?
+					// -
+					// consider
+					// start
+					// from
+					// details
+					// panel
+					// and
+					// from
+					// gotopanel
 					if (newmap == null)
 						newmap = maps.getBestMap(cll, screen,
 								10000000000000000000000000000000000f, false); // use
-																				// map
-																				// with
-																				// most
-																				// available
-																				// overview
-																				// if
-																				// no
-																				// map
-																				// containing
-																				// PosCircle
-																				// and
-																				// GotoPos
-																				// is
-																				// available
+					// map
+					// with
+					// most
+					// available
+					// overview
+					// if
+					// no
+					// map
+					// containing
+					// PosCircle
+					// and
+					// GotoPos
+					// is
+					// available
 
 					if (newmap != null) {
 						lastHighestResolutionGPSDestScale = newmap.scale;
@@ -1486,15 +1494,16 @@ public class MovingMap extends Form {
 		}
 		if (currentMap == null && newmap == null) {
 			// (new MessageBox("Information",
-			// "Fďż˝r die aktuelle Position steht keine Karte zur Verfďż˝ng, bitte wďż˝hlen Sie eine manuell",
+			// "Fďż˝r die aktuelle Position steht keine Karte zur Verfďż˝ng,
+			// bitte wďż˝hlen Sie eine manuell",
 			// MessageBox.OKB)).execute();
 			posCircle.where.set(cll); // choosemap calls setmap with
-										// posCircle-coos
+			// posCircle-coos
 			try {
 				setMap(((MapListEntry) maps.elementAt(maps.getCount() - 4))
 						.getMap(), where); // beware: "-4" only works if the
-											// empty maps were added last see
-											// MapsList.addEmptyMaps
+				// empty maps were added last see
+				// MapsList.addEmptyMaps
 			} catch (IOException e) {
 				(new MessageBox(
 						MyLocale.getMsg(4207, "Error"),
@@ -1505,9 +1514,9 @@ public class MovingMap extends Form {
 								+ where.toString(), FormBase.OKB)).exec();
 			}
 			while (currentMap == null) { // this actually cannot happen, but
-											// maybe in case of an inconstistent
-											// code change (esp. regarding empty
-											// maps)
+				// maybe in case of an inconstistent
+				// code change (esp. regarding empty
+				// maps)
 				mmp.chooseMap(); // force the user to select a scale
 				if (currentMap == null)
 					(new MessageBox(
@@ -1547,9 +1556,9 @@ public class MovingMap extends Form {
 	 */
 	public Object[] getRectForMapChange(CWPoint ll) {
 		int w = (width != 0 ? width : pref.myAppWidth); // width == 0 happens if
-														// this routine is run
-														// before the windows is
-														// on the screen
+		// this routine is run
+		// before the windows is
+		// on the screen
 		int h = (height != 0 ? height : pref.myAppHeight);
 		int pX, pY;
 		CWPoint cll;
@@ -1558,15 +1567,17 @@ public class MovingMap extends Form {
 				&& posCircleY <= h && ll.isValid()) {
 			posCircleOnScreen = java.lang.Boolean.TRUE;
 			pX = posCircleX; // posCircle is inside the screen
-			pY = posCircleY; // TODO eigentlich interessiert, ob nach dem evtl.
-								// Kartenwechsel PosCircle on Screen ist. So wie
-								// es jetzt ist, kann 2mal der gleiche Aufruf
-								// zum laden unterschiedlicher Karten fďż˝hren,
-								// wenn vorher PosCircle nicht auf dem SChirm
-								// war, nach dem ersten Laden aber schon.
+			pY = posCircleY; // TODO eigentlich interessiert, ob nach dem
+								// evtl.
+			// Kartenwechsel PosCircle on Screen ist. So wie
+			// es jetzt ist, kann 2mal der gleiche Aufruf
+			// zum laden unterschiedlicher Karten fďż˝hren,
+			// wenn vorher PosCircle nicht auf dem SChirm
+			// war, nach dem ersten Laden aber schon.
 			cll = new CWPoint(ll);
-		} else { // when posCircle out of screen - use centre of screen as point
-					// which as to be included in the map
+		} else { // when posCircle out of screen - use centre of screen as
+					// point
+			// which as to be included in the map
 			cll = ScreenXY2LatLon(w / 2, h / 2);
 			pX = w / 2;
 			pY = h / 2;
@@ -1586,9 +1597,9 @@ public class MovingMap extends Form {
 	 */
 	public void loadMoreDetailedMap(boolean betterOverview) {
 		int w = (width != 0 ? width : pref.myAppWidth); // width == 0 happens if
-														// this routine is run
-														// before the windows is
-														// on the screen
+		// this routine is run
+		// before the windows is
+		// on the screen
 		int h = (height != 0 ? height : pref.myAppHeight);
 		Rect screen = new Rect(w / 2, h / 2, w, h);
 
@@ -1625,41 +1636,42 @@ public class MovingMap extends Form {
 			return;
 		}
 		MapInfoObject newmap = maps.getMapForArea(sur.topleft, sur.buttomright);
-		if (newmap == null) { // no map that includs all caches is available ->
-								// load map with lowest resolution
+		if (newmap == null) { // no map that includs all caches is available
+								// ->
+			// load map with lowest resolution
 			Object[] s = getRectForMapChange(posCircle.where);
 			CWPoint cll = (CWPoint) s[0];
 			Rect screen = (Rect) s[1];
 			newmap = maps.getBestMap(cll, screen, Float.MAX_VALUE - 1, false);
 		}
 		if (newmap == null) { // no map is covering any area of the caches ->
-								// zoom an empty map to cover all caches on
-								// screen
+			// zoom an empty map to cover all caches on
+			// screen
 			try {
 				Object[] s = getRectForMapChange(posCircle.where);
 				// CWPoint cll = (CWPoint) s[0];
 				Rect screen = (Rect) s[1];
 				float neededscalex = (float) (sur.topleft.getDistance(
 						sur.topleft.latDec, sur.buttomright.lonDec) * 1000 / (screen.width - 15)); // 15
-																									// for
-																									// the
-																									// size
-																									// of
-																									// the
-																									// cache
-																									// image
+				// for
+				// the
+				// size
+				// of
+				// the
+				// cache
+				// image
 				float neededscaley = (float) (sur.topleft.getDistance(
 						sur.buttomright.latDec, sur.topleft.lonDec) * 1000 / (screen.height - 15)); // 15
-																									// for
-																									// the
-																									// size
-																									// of
-																									// the
-																									// cache
-																									// image
+				// for
+				// the
+				// size
+				// of
+				// the
+				// cache
+				// image
 				newmap = ((MapListEntry) maps.elementAt(maps.getCount() - 4))
 						.getMap(); // beware: "-4" only works if the empty maps
-									// were added last see MapsList.addEmptyMaps
+				// were added last see MapsList.addEmptyMaps
 				newmap.zoom(newmap.scale
 						* newmap.zoomFactor
 						/ (neededscalex > neededscaley ? neededscalex
@@ -1685,7 +1697,7 @@ public class MovingMap extends Form {
 	public void setGpsStatus(int status) {
 		if (status == GpsStatus)
 			return; // if ignoreGpsStatutsChanges == true than the Map is in
-					// manual-mode
+		// manual-mode
 		GpsStatus = status;
 		dontUpdatePos = false;
 		ignoreGps = false;
@@ -1709,8 +1721,8 @@ public class MovingMap extends Form {
 		}
 		}
 		mapMoved(0, 0); // positions the posCircle correctly accourding to its
-						// size (which can change when the image changes, e.g.
-						// from null to something else
+		// size (which can change when the image changes, e.g.
+		// from null to something else
 		posCircle.refreshNow();
 	}
 
@@ -1719,8 +1731,8 @@ public class MovingMap extends Form {
 		dontUpdatePos = false;
 		ignoreGps = false;
 		lastCompareX = Integer.MAX_VALUE; // neccessary to make updateposition
-											// to test if the current map is the
-											// best one for the GPS-Position
+		// to test if the current map is the
+		// best one for the GPS-Position
 		lastCompareY = Integer.MAX_VALUE;
 		autoSelectMap = true;
 		forceMapLoad = true;
@@ -1744,17 +1756,18 @@ public class MovingMap extends Form {
 	public void setMap(MapInfoObject newmap, CWPoint where) {
 		if (currentMap != null && newmap.mapName.equals(currentMap.mapName)
 				&& !forceMapLoad) { // note: newmap.mapName ==
-									// currentMap.mapName won't work because
-									// they are different String containing the
-									// same text
+			// currentMap.mapName won't work because
+			// they are different String containing the
+			// same text
 			updateOnlyPosition(where, true);
 			return;
 		}
 		Vm.showWait(true);
 		boolean saveIgnoreStatus;
 		saveIgnoreStatus = dontUpdatePos;
-		dontUpdatePos = true; // make updatePosition ignore calls during loading
-								// new map
+		dontUpdatePos = true; // make updatePosition ignore calls during
+								// loading
+		// new map
 		InfoBox inf;
 		inf = new InfoBox(MyLocale.getMsg(4201, "Information"), MyLocale
 				.getMsg(4216, "Loading map..."));
@@ -1764,23 +1777,25 @@ public class MovingMap extends Form {
 			this.currentMap = newmap;
 			this.title = currentMap.mapName;
 			lastCompareX = Integer.MAX_VALUE; // neccessary to make
-												// updateposition to test if the
-												// current map is the best one
-												// for the GPS-Position
+			// updateposition to test if the
+			// current map is the best one
+			// for the GPS-Position
 			lastCompareY = Integer.MAX_VALUE;
 			if (mmp.mapImage != null) {
-				// Vm.debug("free: "+Vm.getUsedMemory(false)+"classMemory: "+Vm.getClassMemory()+
+				// Vm.debug("free: "+Vm.getUsedMemory(false)+"classMemory:
+				// "+Vm.getClassMemory()+
 				// "after garbage collection: "+Vm.getUsedMemory(false));
 				mmp.removeImage(mmp.mapImage);
 				mmp.mapImage.free();
 				mmp.mapImage = null;
 				mapImage1to1 = mmp.mapImage;
 
-				// Vm.debug("free: "+Vm.getUsedMemory(false)+"classMemory: "+Vm.getClassMemory()+
+				// Vm.debug("free: "+Vm.getUsedMemory(false)+"classMemory:
+				// "+Vm.getClassMemory()+
 				// "after garbage collection: "+Vm.getUsedMemory(false));
 				Vm.getUsedMemory(true); // calls the garbage collection
 			} // give memory free before loading the new map to avoid out of
-				// memory error
+			// memory error
 			String ImageFilename = currentMap.getImageFilename();
 			if (ImageFilename == null) {
 				mmp.mapImage = new MapImage();
@@ -1792,18 +1807,18 @@ public class MovingMap extends Form {
 			} else {
 				if (ImageFilename.length() > 0)
 					mmp.mapImage = new MapImage(ImageFilename); // attention:
-																// when running
-																// in native
-																// java-vm, no
-																// exception
-																// will be
-																// thrown, not
-																// even
-																// OutOfMemeoryError
+				// when running
+				// in native
+				// java-vm, no
+				// exception
+				// will be
+				// thrown, not
+				// even
+				// OutOfMemeoryError
 				else
 					mmp.mapImage = new MapImage(); // no image associated with
-													// the calibration info
-													// ("empty map")
+				// the calibration info
+				// ("empty map")
 			}
 			mapImage1to1 = mmp.mapImage;
 			mmp.mapImage.properties = mmp.mapImage.properties
@@ -1819,13 +1834,14 @@ public class MovingMap extends Form {
 			forceMapLoad = false;
 			directionArrows.setMap(currentMap);
 			updateScale();
-			inf.close(0); // this doesn't work in a ticked-thread in the ewe-vm.
-							// That's why i made a new mThread in gotoPanel for
-							// ticked
+			inf.close(0); // this doesn't work in a ticked-thread in the
+							// ewe-vm.
+			// That's why i made a new mThread in gotoPanel for
+			// ticked
 			Vm.showWait(false);
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (IllegalArgumentException e) { // thrown by new AniImage() in
-												// ewe-vm if file not found;
+			// ewe-vm if file not found;
 			if (mmp.mapImage != null) {
 				mmp.removeImage(mmp.mapImage);
 				mmp.mapImage.free();
@@ -1869,15 +1885,15 @@ public class MovingMap extends Form {
 			}
 			rebuildOverlaySet();
 			updateOnlyPosition(where, false); // TODO this doesn't work
-												// correctly if the resolution
-												// changed, I guess because the
-												// pixels of PosCircle will be
-												// interpreted from the new
-												// resolution, but should be
-												// interpreted using the old
-												// resolution to test: select a
-												// map with a much greater value
-												// of m per pixel manually
+			// correctly if the resolution
+			// changed, I guess because the
+			// pixels of PosCircle will be
+			// interpreted from the new
+			// resolution, but should be
+			// interpreted using the old
+			// resolution to test: select a
+			// map with a much greater value
+			// of m per pixel manually
 			inf.close(0);
 			Vm.showWait(false);
 			(new MessageBox(
@@ -1900,9 +1916,9 @@ public class MovingMap extends Form {
 		Point circlePosOnMap = currentMap.calcMapXY(posCircle.where);
 		Point centerOnMap = currentMap.calcMapXY(newCenter);
 		int w = (width != 0 ? width : pref.myAppWidth); // width == 0 happens if
-														// this routine is run
-														// before the windows is
-														// on the screen
+		// this routine is run
+		// before the windows is
+		// on the screen
 		int h = (height != 0 ? height : pref.myAppHeight);
 		int mapPosX = w / 2 - centerOnMap.x;
 		int mapPosY = h / 2 - centerOnMap.y;
@@ -1953,23 +1969,23 @@ public class MovingMap extends Form {
 	 */
 	public void zoomScreenRect(Point firstclickpoint, int w, int h) {
 		int newImageWidth = (int) (this.width * (this.width < 481 ? 2 : 1.6)); // (maximal)
-																				// size
-																				// of
-																				// the
-																				// zoomed
-																				// image
+		// size
+		// of
+		// the
+		// zoomed
+		// image
 		int newImageHeight = (int) (this.height * (this.width < 481 ? 2 : 1.6)); // dont
-																					// make
-																					// this
-																					// to
-																					// big,
-																					// otherwise
-																					// it
-																					// causes
-																					// out
-																					// of
-																					// memory
-																					// errors
+		// make
+		// this
+		// to
+		// big,
+		// otherwise
+		// it
+		// causes
+		// out
+		// of
+		// memory
+		// errors
 		CWPoint center = ScreenXY2LatLon(firstclickpoint.x + w / 2,
 				firstclickpoint.y + h / 2);
 		float zoomFactor;
@@ -1982,8 +1998,9 @@ public class MovingMap extends Form {
 					(float) this.height / (float) h);
 		} else { // zoom out
 			w = java.lang.Math.abs(w);
-			firstclickpoint.x = firstclickpoint.x - w; // make firstclickedpoint
-														// the upper left corner
+			firstclickpoint.x = firstclickpoint.x - w; // make
+														// firstclickedpoint
+			// the upper left corner
 			zoomFactor = java.lang.Math.max((float) w / (float) this.width,
 					(float) h / (float) this.height);
 		}
@@ -2008,10 +2025,10 @@ public class MovingMap extends Form {
 				newImageRect.y = 0;
 			if (newImageRect.x + newImageRect.width >= mapImage1to1.getWidth())
 				newImageRect.x = mapImage1to1.getWidth() - newImageWidth; // align
-																			// right
-																			// if
-																			// right
-																			// overlaping
+			// right
+			// if
+			// right
+			// overlaping
 			if (newImageRect.y + newImageRect.height >= mapImage1to1
 					.getHeight())
 				newImageRect.y = mapImage1to1.getHeight() - newImageHeight;
@@ -2084,7 +2101,7 @@ public class MovingMap extends Form {
 			} // if (tmp != null) currentMap.zoom();}
 			Vm.getUsedMemory(true);
 			mmp.mapImage = tmp; // use unscaled or no image in case of
-								// OutOfMemoryError
+			// OutOfMemoryError
 			mmp.mapImage.properties = saveprop;
 			if (mapHidden)
 				mmp.mapImage.hide();
@@ -2113,8 +2130,8 @@ public class MovingMap extends Form {
 
 	/*
 	 * public void gotFocus(int how) { super.gotFocus(how); Dimension ws =
-	 * getSize(null); onWindowResize(ws.width, ws.height); Vm.debug(ws.width +
-	 * " h: "+ws.height); this.setPreferredSize(width, height) }
+	 * getSize(null); onWindowResize(ws.width, ws.height); Vm.debug(ws.width + "
+	 * h: "+ws.height); this.setPreferredSize(width, height) }
 	 */
 	public void onEvent(Event ev) {
 		if (ev instanceof FormEvent && (ev.type == FormEvent.CLOSED)) {
@@ -2167,7 +2184,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			new mImage("res_gps_goto.png"), MyLocale.getMsg(4245,
 					"Highest res. containing dest. & cur. position"), null,
 			CellConstants.RIGHT)); // immer hďż˝chste Auflďż˝sung wďż˝hlen, die
-									// akt. Pos. und Ziel enthalten
+	// akt. Pos. und Ziel enthalten
 	MenuItem highestResolutionMI = new MenuItem(MyLocale.getMsg(4246,
 			"Highest resolution"), new IconAndText(new mImage("res_high.png"),
 			MyLocale.getMsg(4247, "Highest resolution"), null,
@@ -2176,7 +2193,8 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			"Keep manual resolution"), new IconAndText(new mImage(
 			"res_manuell.png"),
 			MyLocale.getMsg(4249, "Keep manual resolution"), null,
-			CellConstants.RIGHT)); // manuell gewďż˝hlte Auflďż˝sung beibehalten
+			CellConstants.RIGHT)); // manuell gewďż˝hlte Auflďż˝sung
+									// beibehalten
 	// manuell
 	MenuItem mapChangeResMI = new MenuItem(MyLocale.getMsg(4250,
 			"Change resolution manually"), MenuItem.Separator, null);;
@@ -2189,24 +2207,24 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			"Load a map with more details"), new IconAndText(new mImage(
 			"loupe_more_details.png"), MyLocale.getMsg(4255,
 			"Load a map with more details"), null, CellConstants.RIGHT)); // laod
-																			// a
-																			// map
-																			// with
-																			// more
-																			// details
+	// a
+	// map
+	// with
+	// more
+	// details
 	MenuItem moreOverviewMI = new MenuItem(MyLocale.getMsg(4256,
 			"Load a map for a better overview"), new IconAndText(new mImage(
 			"loupe_better_overview.png"), MyLocale.getMsg(4257,
 			"Load a map for a better overview"), null, CellConstants.RIGHT)); // Load
-																				// a
-																				// map
-																				// for
-																				// a
-																				// better
-																				// overview
-																				// -->
-																				// lesser
-																				// details
+	// a
+	// map
+	// for
+	// a
+	// better
+	// overview
+	// -->
+	// lesser
+	// details
 	// move map to
 	MenuItem moveToMI = new MenuItem(MyLocale.getMsg(4258,
 			"Move map to and load map"), MenuItem.Separator, null);;
@@ -2214,7 +2232,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			"Move to goto point"), new IconAndText(new mImage("move2goto.png"),
 			MyLocale.getMsg(4261, "Move to goto point"), null,
 			CellConstants.RIGHT)); // * Karte zum Ziel verschieben (und ggf.
-									// entsprechende Karte laden)
+	// entsprechende Karte laden)
 	MenuItem moveToGpsMI = new MenuItem(MyLocale.getMsg(4262,
 			"Move to GPS position"), new IconAndText(
 			new mImage("move2gps.png"), MyLocale.getMsg(4263,
@@ -2239,12 +2257,12 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			miLuminary[i] = new MenuItem(SkyOrientation.getLuminaryName(i));
 		}
 		set(ControlConstants.WantHoldDown, true); // want to get simulated
-													// right-clicks
+		// right-clicks
 	}
 
 	public boolean imageBeginDragged(AniImage which, Point pos) {
 		if (mm.zoomingMode == true) { // zoom
-		// saveMapLoc = pos;
+			// saveMapLoc = pos;
 			// saveGpsIgnoreStatus = mm.ignoreGps;
 			// mm.ignoreGps = true;
 			return false;
@@ -2299,7 +2317,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 					|| java.lang.Math.abs(lastZoomHeight) < 15) {
 				repaintNow();
 				return; // dont make to big zoom jumps - it is most probable not
-						// an intentional zoom
+				// an intentional zoom
 			}
 			mm.zoomScreenRect(saveMapLoc, lastZoomWidth, lastZoomHeight);
 		}
@@ -2325,12 +2343,12 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			if (left < 0)
 				left = 0;
 			if ((lastZoomWidth <= 0) && (ev.x - saveMapLoc.x > 0)) { // changed
-																		// from
-																		// zooming
-																		// out
-																		// to
-																		// zooming
-																		// in
+				// from
+				// zooming
+				// out
+				// to
+				// zooming
+				// in
 				removeImage(mm.buttonImageLensActivated);
 				removeImage(mm.buttonImageLensActivatedZoomOut);
 				addImage(mm.buttonImageLensActivatedZoomIn);
@@ -2341,12 +2359,12 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						mm.buttonImageLensActivatedZoomIn.getHeight()));
 			}
 			if ((lastZoomWidth >= 0) && (ev.x - saveMapLoc.x < 0)) { // changed
-																		// from
-																		// zooming
-																		// out
-																		// to
-																		// zooming
-																		// in
+				// from
+				// zooming
+				// out
+				// to
+				// zooming
+				// in
 				removeImage(mm.buttonImageLensActivated);
 				removeImage(mm.buttonImageLensActivatedZoomIn);
 				addImage(mm.buttonImageLensActivatedZoomOut);
@@ -2372,9 +2390,9 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			dr.setPen(new Pen(new Color(255, 0, 0), Pen.SOLID, 3));
 			dr.drawRect(left, top, java.lang.Math.abs(lastZoomWidth),
 					java.lang.Math.abs(lastZoomHeight), 0); // bug in ewe:
-															// thickness
-															// parameter is
-															// ignored
+			// thickness
+			// parameter is
+			// ignored
 		}
 		super.onPenEvent(ev);
 	}
@@ -2444,10 +2462,11 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				mm.ignoreGps = true;
 				mm.setMap(l.selectedMap, mm.posCircle.where);
 				if (mm.currentMap.fileNameWFL.length() > 0)
-					mm.setCenterOfScreen(l.selectedMap.center, true); // if map
-																		// has
-																		// an
-																		// image
+					mm.setCenterOfScreen(l.selectedMap.center, true); // if
+																		// map
+				// has
+				// an
+				// image
 				mm.setResModus(MovingMap.NORMAL_KEEP_RESOLUTION);
 				// Point posCXY = new Point (0,0);
 				// mm.getXYinMap(mm.posCircleLat, mm.posCircleLat);
@@ -2566,8 +2585,8 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 												.getCacheName()
 												: clickedCache.getWayPoint())
 										+ "'$o"); // clickedCache == null can
-													// happen if clicked on the
-													// goto-symbol
+						// happen if clicked on the
+						// goto-symbol
 						kontextMenu.addItem(openCacheDescMenuItem);
 						gotoCacheMenuItem = new MenuItem(
 								MyLocale.getMsg(4279, "Goto")
@@ -2576,8 +2595,8 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 												.getCacheName()
 												: clickedCache.getWayPoint())
 										+ "'$g"); // clickedCache == null can
-													// happen if clicked on the
-													// goto-symbol
+						// happen if clicked on the
+						// goto-symbol
 						kontextMenu.addItem(gotoCacheMenuItem);
 						if (Global.mainForm.cacheListVisible) {
 							addCachetoListMenuItem = new MenuItem(MyLocale
@@ -2935,12 +2954,12 @@ class ListBox extends Form {
 				this.close(FormBase.IDCANCEL);
 			}
 			if (ev.target == okButton || ev.target == list) { // ev.target ==
-																// list is
-																// posted by
-																// mList if a
-																// selection was
-																// double
-																// clicked
+				// list is
+				// posted by
+				// mList if a
+				// selection was
+				// double
+				// clicked
 				mapSelected();
 			}
 		}
@@ -3000,9 +3019,9 @@ class ArrowsOnMap extends AniImage {
 
 	public void setDirections(float gd, float sd, float md) {
 		if (java.lang.Math.abs(gotoDir - gd) > 1 // to save cpu-usage only
-													// update if the is a change
-													// of directions of more
-													// than 1 degree
+				// update if the is a change
+				// of directions of more
+				// than 1 degree
 				|| java.lang.Math.abs(sunDir - sd) > 1
 				|| java.lang.Math.abs(moveDir - md) > 1) {
 			// dirsChanged = false;
@@ -3066,20 +3085,20 @@ class ArrowsOnMap extends AniImage {
 		} else
 			sunDirArrow = null;
 		if (java.lang.Math.abs(map.rotationRad) > 1.5 / 180 * java.lang.Math.PI) { // show
-																					// northth
-																					// arrow
-																					// only
-																					// if
-																					// it
-																					// has
-																					// more
-																					// than
-																					// 1.5
-																					// degree
-																					// deviation
-																					// from
-																					// vertical
-																					// direction
+			// northth
+			// arrow
+			// only
+			// if
+			// it
+			// has
+			// more
+			// than
+			// 1.5
+			// degree
+			// deviation
+			// from
+			// vertical
+			// direction
 			if (northDirArrow == null)
 				northDirArrow = new Point[2];
 			makeArrow(northDirArrow, 0, 1.0f); // north direction

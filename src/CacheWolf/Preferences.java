@@ -79,9 +79,8 @@ public class Preferences extends MinML {
 		if (p == null) {
 			/*
 			 * String test; test = Vm.getenv("APPDATA", "/"); // returns in
-			 * java-vm on win xp: c:\<dokumente und
-			 * Einstellungen>\<username>\<application data>
-			 * log("Vm.getenv(APPDATA: " + test); // this works also in
+			 * java-vm on win xp: c:\<dokumente und Einstellungen>\<username>\<application
+			 * data> log("Vm.getenv(APPDATA: " + test); // this works also in
 			 * win32.exe (ewe-vm on win xp) test = Vm.getenv("HOME", "/"); //
 			 * This should return on *nix system the home dir
 			 * log("Vm.getenv(HOME: " + test); test =
@@ -103,7 +102,7 @@ public class Preferences extends MinML {
 			else
 				p_ = p;
 		}
-		pathToConfigFile = STRreplace.replace(p_, "//", "/"); // this is
+		pathToConfigFile = p_.replace("//", "/"); // this is
 		// necessary in
 		// case that the
 		// root dir is
@@ -589,7 +588,8 @@ public class Preferences extends MinML {
 
 	public void characters(char ch[], int start, int length) {
 		if (collectElement != null) {
-			collectElement.append(ch, start, length); // Collect the name of the
+			collectElement.append(ch, start, length); // Collect the name of
+														// the
 			// last profile
 		}
 	}
@@ -737,7 +737,8 @@ public class Preferences extends MinML {
 				outp.print(this.getFilter(filterIDs[i]).toXML(filterIDs[i]));
 			}
 			if (debug)
-				outp.print("    <debug value=\"true\" />\n"); // Keep the debug
+				outp.print("    <debug value=\"true\" />\n"); // Keep the
+																// debug
 			// switch if it
 			// is set
 			// save last path of different exporters
@@ -890,7 +891,8 @@ public class Preferences extends MinML {
 	 */
 	public String getMapManuallySavePath(boolean create) {
 		String mapsDir = baseDir + mapsPath;
-		if (create && !(new FileBugfix(mapsDir).isDirectory())) { // dir exists?
+		if (create && !(new FileBugfix(mapsDir).isDirectory())) { // dir
+																	// exists?
 			if (new FileBugfix(mapsDir).mkdirs() == false) {// dir creation
 				// failed?
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
@@ -1075,11 +1077,11 @@ public class Preferences extends MinML {
 	 *            the pref.xml file or by manually setting it (i.e. in BE
 	 *            versions or RC versions) by including the line
 	 * 
-	 *            <pre>
+	 * <pre>
 	 * Global.getPref().debug = true;
 	 * </pre>
 	 * 
-	 *            in Version.getRelease()
+	 * in Version.getRelease()
 	 */
 	public void log(String text, Throwable e, boolean withStackTrace) {
 		String msg;
@@ -1151,8 +1153,8 @@ public class Preferences extends MinML {
 	}
 
 	/**
-	 * <code>True</code> or <code>false</code>, depending if a filter with the
-	 * given ID is saved in the preferences.
+	 * <code>True</code> or <code>false</code>, depending if a filter with
+	 * the given ID is saved in the preferences.
 	 * 
 	 * @param filterID
 	 *            ID of the filter to check

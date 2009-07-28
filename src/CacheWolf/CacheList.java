@@ -33,7 +33,7 @@ import ewe.ui.mLabel;
 import ewe.ui.mList;
 import ewe.util.Comparer;
 
-/********************************************************
+/*******************************************************************************
  * This class implements the core functionality of a flexible cachelist for
  * collecting "Cachetours". Caches can be dragged into the list from the main
  * list view and from the radar panel view. Caches can be removed from the list
@@ -43,13 +43,14 @@ import ewe.util.Comparer;
  * stored. The list can be applied as a filter to the main list, thereby hiding
  * all caches that are not in the list and sorting the caches according to the
  * list. Created by skg, Februar 2007
- ********************************************************/
+ ******************************************************************************/
 public class CacheList extends CellPanel {
 	/** The extension for cachelists (CL) */
 	private final String EXTENSION = "CL";
 	private final String TITLE = MyLocale.getMsg(188, "CACHETOUR: NEW");
 	private static int applyCount = 0; // Counts the number of times we apply
-										// the list
+
+	// the list
 
 	CacheList() {
 		this.setPreferredSize(100, -1);

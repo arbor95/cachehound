@@ -71,16 +71,17 @@ public class DescriptionPanel extends CellPanel {
 		// HtmlDisplay does not show the <sup> tag correctly, so we need to
 		// replace with ^
 		if (desc.indexOf("<sup>") >= 0) {
-			desc = STRreplace.replace(desc, "<sup>", "^(");
-			desc = STRreplace.replace(desc, "</sup>", ")");
+			desc = desc.replace("<sup>", "^(");
+			desc = desc.replace("</sup>", ")");
 		}
 		Vm.showWait(true);
 		if (cache != null && isHtml) {
 			int imageNo = 0;
 			if (Global.getPref().descShowImg) {
 				CacheImages Images;
-				CacheHolder chImages; // cache which supplies the images (could
-										// be main cache)
+				CacheHolder chImages; // cache which supplies the images
+				// (could
+				// be main cache)
 				if (cache.isAddiWpt()) {
 					chImages = cache.mainCache;
 				} else {

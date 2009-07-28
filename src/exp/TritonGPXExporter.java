@@ -9,7 +9,6 @@ import CacheWolf.CacheType;
 import CacheWolf.Common;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
-import CacheWolf.STRreplace;
 import CacheWolf.SafeXML;
 import ewe.io.ByteArrayOutputStream;
 import ewe.io.File;
@@ -114,9 +113,11 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("      <groundspeak:container>").append(
 						CacheSize.cw2ExportString(ch.getCacheSize())).append(
 						"</groundspeak:container>\r\n");
-				// strBuf.append("      <groundspeak:difficulty>").append(ch.hard.replace(',',
+				// strBuf.append("
+				// <groundspeak:difficulty>").append(ch.hard.replace(',',
 				// '.')).append("</groundspeak:difficulty>\r\n");
-				// strBuf.append("      <groundspeak:terrain>").append(ch.terrain.replace(',',
+				// strBuf.append("
+				// <groundspeak:terrain>").append(ch.terrain.replace(',',
 				// '.')).append("</groundspeak:terrain>\r\n");
 
 				String s = "abbc";
@@ -177,13 +178,13 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
 
 				if (chdetail.Hints.length() == 0)
-					// strBuf.append("\t  <groundspeak:encoded_hints>No " +
+					// strBuf.append("\t <groundspeak:encoded_hints>No " +
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>No "
 							+ ch.LatLon + "</groundspeak:encoded_hints>\r\n");
 				else {
-					// strBuf.append("\t  <groundspeak:encoded_hints>Yes " +
+					// strBuf.append("\t <groundspeak:encoded_hints>Yes " +
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>Yes "
@@ -250,9 +251,9 @@ public class TritonGPXExporter extends Exporter {
 			}
 
 			GPXImages = GPXImages + "    <multimedia name=\""
-					+ STRreplace.replace(imageName, GPXextenion, "")
-					+ "\" type=\"image/" + Type + "\">\r\n <data><![CDATA["
-					+ GPX + "]]></data>\r\n</multimedia>\r\n";
+					+ imageName.replace(GPXextenion, "") + "\" type=\"image/"
+					+ Type + "\">\r\n <data><![CDATA[" + GPX
+					+ "]]></data>\r\n</multimedia>\r\n";
 		}
 
 		return GPXImages;

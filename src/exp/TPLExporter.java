@@ -179,10 +179,10 @@ public class TPLExporter {
 		// Vm.debug("v: "+Vm.countObjects(true));
 		try {
 			Vector cache_index = new Vector(); // declare variables inside try
-												// {} -> in case of
-												// OutOfMemoryError, they can be
-												// garbage collected - anyhow it
-												// doesn't work :-(
+			// {} -> in case of
+			// OutOfMemoryError, they can be
+			// garbage collected - anyhow it
+			// doesn't work :-(
 			Hashtable varParams;
 			TplFilter myFilter;
 			Hashtable args = new Hashtable();

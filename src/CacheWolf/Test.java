@@ -155,10 +155,10 @@ public class Test extends mThread {
 				CWPoint.CW);
 		testPassedRegex(" S17° 23 13.12345 w 127° 34 34.567 ",
 				"S 17° 23' 13.1\" W 127° 34' 34.6\"", CWPoint.DMS); // Deg Min
-																	// Sek
+		// Sek
 		testPassedRegex(" S17° 23 ' 13.12345    \" w 127° 34'34.567\" ",
 				"S 17° 23' 13.1\" W 127° 34' 34.6\"", CWPoint.DMS); // Deg Min
-																	// Sek
+		// Sek
 		testPassedRegex("12.3456 23.4567", "N 12.34560° E 023.45670°",
 				CWPoint.DD);
 		testPassedRegex("12.3456° 23.4567°", "N 12.34560° E 023.45670°",

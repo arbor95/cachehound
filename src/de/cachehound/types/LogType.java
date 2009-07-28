@@ -3,12 +3,11 @@ package de.cachehound.types;
 import CacheWolf.Global;
 
 public enum LogType {
-	
+
 	PUBLISH {
 		public String toIconString() {
 			return "icon_greenlight.gif";
 		}
-
 
 		public String toGcComType() {
 			return "Publish Listing";
@@ -18,6 +17,7 @@ public enum LogType {
 		public String toIconString() {
 			return "icon_smile.gif";
 		}
+
 		public String toGcComType() {
 			return "Found it";
 		}
@@ -43,7 +43,6 @@ public enum LogType {
 		}
 	},
 
-	
 	NOTE {
 		public String toIconString() {
 			return "icon_note.gif";
@@ -170,7 +169,7 @@ public enum LogType {
 		public String toGcComType() {
 			return "Update Coordinates";
 		}
-	}, 
+	},
 	UNKNOWN {
 		public String toIconString() {
 			return "unknown Type";
@@ -185,7 +184,7 @@ public enum LogType {
 	public abstract String toIconString();
 
 	public abstract String toGcComType();
-	
+
 	public static LogType getLogTypeFromIconString(String image) {
 		if (image.equals("icon_smile.gif"))
 			return LogType.FOUND;
@@ -226,7 +225,7 @@ public enum LogType {
 		// TODO: Fehler loggen
 		throw new RuntimeException("Fehler bei der Umwandlung der Logtypes");
 	}
-	
+
 	public static LogType getLogTypeFromGcTypeText(String typeText) {
 		if (typeText.equals("Found it") || typeText.equals("Found")
 				|| typeText.equals("find"))
@@ -271,92 +270,92 @@ public enum LogType {
 						+ " assuming Write note");
 		return LogType.UNKNOWN;
 	}
-	
 
-	// Diese beiden alten Methoden sind zu Dokumentationszwecken hier stehen gelassen worden.
+	// Diese beiden alten Methoden sind zu Dokumentationszwecken hier stehen
+	// gelassen worden.
 
-//	public static String image2TypeText(String image) {
-//		if (image.equals("icon_smile.gif"))
-//			return "Found it";
-//		if (image.equals("icon_sad.gif"))
-//			return "Didn't find it";
-//		if (image.equals("icon_note.gif"))
-//			return "Write note";
-//		if (image.equals("icon_enabled.gif"))
-//			return "Enable Listing";
-//		if (image.equals("icon_disabled.gif"))
-//			return "Temporarily Disable Listing";
-//		if (image.equals("icon_camera.gif"))
-//			return "Webcam Photo Taken";
-//		if (image.equals("11.png"))
-//			return "Webcam Photo Taken";
-//		if (image.equals("icon_attended.gif"))
-//			return "Attended";
-//		if (image.equals("icon_greenlight.gif"))
-//			return "Publish Listing";
-//		if (image.equals("icon_rsvp.gif"))
-//			return "Will Attend";
-//		if (image.equals("big_smile.gif"))
-//			return "Post Reviewer Note";
-//		if (image.equals("traffic_cone.gif"))
-//			return "Archive (show)";
-//		if (image.equals("icon_maint.gif"))
-//			return "Owner Maintenance";
-//		if (image.equals("icon_needsmaint.gif"))
-//			return "Needs Maintenance";
-//		if (image.equals("coord_update.gif"))
-//			return "Update Coordinates";
-//		if (image.equals("icon_remove.gif"))
-//			return "Needs Archived";
-//		// TODO: Fehler loggen
-//		return image;
-//	}
+	// public static String image2TypeText(String image) {
+	// if (image.equals("icon_smile.gif"))
+	// return "Found it";
+	// if (image.equals("icon_sad.gif"))
+	// return "Didn't find it";
+	// if (image.equals("icon_note.gif"))
+	// return "Write note";
+	// if (image.equals("icon_enabled.gif"))
+	// return "Enable Listing";
+	// if (image.equals("icon_disabled.gif"))
+	// return "Temporarily Disable Listing";
+	// if (image.equals("icon_camera.gif"))
+	// return "Webcam Photo Taken";
+	// if (image.equals("11.png"))
+	// return "Webcam Photo Taken";
+	// if (image.equals("icon_attended.gif"))
+	// return "Attended";
+	// if (image.equals("icon_greenlight.gif"))
+	// return "Publish Listing";
+	// if (image.equals("icon_rsvp.gif"))
+	// return "Will Attend";
+	// if (image.equals("big_smile.gif"))
+	// return "Post Reviewer Note";
+	// if (image.equals("traffic_cone.gif"))
+	// return "Archive (show)";
+	// if (image.equals("icon_maint.gif"))
+	// return "Owner Maintenance";
+	// if (image.equals("icon_needsmaint.gif"))
+	// return "Needs Maintenance";
+	// if (image.equals("coord_update.gif"))
+	// return "Update Coordinates";
+	// if (image.equals("icon_remove.gif"))
+	// return "Needs Archived";
+	// // TODO: Fehler loggen
+	// return image;
+	// }
 
 	// if you change any of these make sure to check image2TypeText in the GPX
 	// exporters
-//	public static String typeText2Image(String typeText) {
-//		if (typeText.equals("Found it") || typeText.equals("Found")
-//				|| typeText.equals("find"))
-//			return "icon_smile.gif";
-//		if (typeText.equals("Didn't find it") || typeText.equals("Not Found")
-//				|| typeText.equals("no_find"))
-//			return "icon_sad.gif";
-//		if (typeText.equals("Write note") || typeText.equals("Note")
-//				|| typeText.equals("note") || typeText.equals("Not Attempted")
-//				|| typeText.equals("Other"))
-//			return "icon_note.gif";
-//		if (typeText.equals("Enable Listing"))
-//			return "icon_enabled.gif";
-//		if (typeText.equals("Temporarily Disable Listing"))
-//			return "icon_disabled.gif";
-//		if (typeText.equals("Webcam Photo Taken"))
-//			return "icon_camera.gif";
-//		if (typeText.equals("Attended"))
-//			return "icon_attended.gif";
-//		if (typeText.equals("Publish Listing"))
-//			return "icon_greenlight.gif";
-//		if (typeText.equals("Will Attend"))
-//			return "icon_rsvp.gif";
-//		if (typeText.equals("Post Reviewer Note"))
-//			return "big_smile.gif";
-//		if (typeText.equals("Unarchive"))
-//			return "traffic_cone.gif";
-//		if (typeText.equals("Archive"))
-//			return "traffic_cone.gif";
-//		if (typeText.equals("Owner Maintenance"))
-//			return "icon_maint.gif";
-//		if (typeText.equals("Needs Maintenance"))
-//			return "icon_needsmaint.gif";
-//		if (typeText.equals("Needs Archived"))
-//			return "icon_remove.gif";
-//		if (typeText.equals("Update Coordinates"))
-//			return "coord_update.gif";
-//		if (typeText.equals("Retract Listing"))
-//			return "img_redlight.gif";
-//		Global.getPref().log(
-//				"GPX Import: warning, unknown logtype " + typeText
-//						+ " assuming Write note");
-//		return "icon_note.gif";
-//	}
+	// public static String typeText2Image(String typeText) {
+	// if (typeText.equals("Found it") || typeText.equals("Found")
+	// || typeText.equals("find"))
+	// return "icon_smile.gif";
+	// if (typeText.equals("Didn't find it") || typeText.equals("Not Found")
+	// || typeText.equals("no_find"))
+	// return "icon_sad.gif";
+	// if (typeText.equals("Write note") || typeText.equals("Note")
+	// || typeText.equals("note") || typeText.equals("Not Attempted")
+	// || typeText.equals("Other"))
+	// return "icon_note.gif";
+	// if (typeText.equals("Enable Listing"))
+	// return "icon_enabled.gif";
+	// if (typeText.equals("Temporarily Disable Listing"))
+	// return "icon_disabled.gif";
+	// if (typeText.equals("Webcam Photo Taken"))
+	// return "icon_camera.gif";
+	// if (typeText.equals("Attended"))
+	// return "icon_attended.gif";
+	// if (typeText.equals("Publish Listing"))
+	// return "icon_greenlight.gif";
+	// if (typeText.equals("Will Attend"))
+	// return "icon_rsvp.gif";
+	// if (typeText.equals("Post Reviewer Note"))
+	// return "big_smile.gif";
+	// if (typeText.equals("Unarchive"))
+	// return "traffic_cone.gif";
+	// if (typeText.equals("Archive"))
+	// return "traffic_cone.gif";
+	// if (typeText.equals("Owner Maintenance"))
+	// return "icon_maint.gif";
+	// if (typeText.equals("Needs Maintenance"))
+	// return "icon_needsmaint.gif";
+	// if (typeText.equals("Needs Archived"))
+	// return "icon_remove.gif";
+	// if (typeText.equals("Update Coordinates"))
+	// return "coord_update.gif";
+	// if (typeText.equals("Retract Listing"))
+	// return "img_redlight.gif";
+	// Global.getPref().log(
+	// "GPX Import: warning, unknown logtype " + typeText
+	// + " assuming Write note");
+	// return "icon_note.gif";
+	// }
 
 }

@@ -106,10 +106,10 @@ class mySerialThread extends mThread {
 		boolean ret;
 		if (comSp != null) {
 			ret = comSp.close(); // compSp == null can happen if a exception
-									// occured
+			// occured
 			try {
 				ewe.sys.mThread.sleep(500); // wait in order to give the system
-											// time to close the serial port
+				// time to close the serial port
 			} catch (InterruptedException e) {
 				Global.getPref().log("Ignored exception", e, true);
 			}
@@ -160,10 +160,10 @@ class GpsdThread extends mThread {
 
 	private String getGpsdData(String command) {
 		byte[] rcvBuff = new byte[1024 * 10]; // when some action takes a long
-												// time (eg. loading or zooming
-												// a map), a lot of data can be
-												// in the buffer, read that at
-												// once
+		// time (eg. loading or zooming
+		// a map), a lot of data can be
+		// in the buffer, read that at
+		// once
 		int rcvLength = 0;
 		try {
 			gpsdSocket.write(command.getBytes());
@@ -327,14 +327,14 @@ public class GPSPortOptions extends SerialPortOptions {
 								"Stop")));
 						btnScan.repaintNow();
 						String[] ports = SerialPort.enumerateAvailablePorts(); // in
-																				// case
-																				// of
-																				// bluethooth
-																				// this
-																				// can
-																				// take
-																				// several
-																				// seconds
+						// case
+						// of
+						// bluethooth
+						// this
+						// can
+						// take
+						// several
+						// seconds
 						if (ports == null) {
 							txtOutput
 									.appendText(
@@ -350,8 +350,9 @@ public class GPSPortOptions extends SerialPortOptions {
 								if (interruptScan) {
 									txtOutput.appendText(MyLocale.getMsg(7120,
 											"Canceled"), true); // MyLocale.getMsg(7109,
-																// "Could not get list of available serial ports\n"),
-																// true);
+									// "Could not get list of available serial
+									// ports\n"),
+									// true);
 									fin();
 									return;
 								}
@@ -500,10 +501,10 @@ public class GPSPortOptions extends SerialPortOptions {
 					txtOutput.appendText(MyLocale.getMsg(7113,
 							" - got some data\n"), true);
 					now = new Time().getTime(); // if receiced some data, give
-												// the GPS some extra time to
-												// send NMEA data (e.g. Sirf
-												// initially sends some non-NMEA
-												// text info about it self)
+					// the GPS some extra time to
+					// send NMEA data (e.g. Sirf
+					// initially sends some non-NMEA
+					// text info about it self)
 				}
 				if (gpsPort.nonBlockingRead().indexOf("$GP", 0) >= 0)
 					gpsfound = true;

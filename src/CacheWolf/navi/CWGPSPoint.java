@@ -35,7 +35,7 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 	public String Date;
 	public int Fix; // Fix
 	public int numSat; // Satellites in use, -1 indicates no data, -2 that data
-						// could not be interpreted
+	// could not be interpreted
 	public int numSatsInView; // Satellites in view
 	public double HDOP; // Horizontal dilution of precision
 	public double Alt; // Altitude
@@ -204,8 +204,7 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 			// Vm.debug(NMEA);
 			/*
 			 * if (writeLog && (logFlag & LOGRAW) > 0){ try {
-			 * logFile.write(NMEA); writeLog = false; } catch (IOException e) {}
-			 * }
+			 * logFile.write(NMEA); writeLog = false; } catch (IOException e) {} }
 			 */while (true) {
 				start = NMEA.indexOf("$GP", end);
 				if (start == -1)
@@ -237,24 +236,25 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 					// Vm.debug("In $GPGGA");
 					i = 0;
 					while (ex.endOfSearch() != true) {
-						boolean latlonerror = false; // indicate that some error
-														// occured in the data
-														// -> in this case frace
-														// fix to non-fixed in
-														// order to avoid
-														// invalid coordinates
-														// when a fix is
-														// indicated to the
-														// higher level API
+						boolean latlonerror = false; // indicate that some
+														// error
+						// occured in the data
+						// -> in this case frace
+						// fix to non-fixed in
+						// order to avoid
+						// invalid coordinates
+						// when a fix is
+						// indicated to the
+						// higher level API
 						currToken = ex.findNext();
 						i++;
 						if (currToken.length() == 0) {
 							if (i >= 2 && i <= 5)
 								latlonerror = true; // force non-fix if lat-lon
-													// not contained
+							// not contained
 							continue; // sometimes there are 2 colons directly
-										// one after the other like ",," (e.g.
-										// loox)
+							// one after the other like ",," (e.g.
+							// loox)
 						}
 						switch (i) {
 						case 1:
@@ -379,10 +379,10 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 						if (currToken.length() == 0) {
 							if (i >= 2 && i <= 6)
 								latlonerror = true; // force non-fix if lat-lon
-													// not contained
+							// not contained
 							continue; // sometimes there are 2 colons directly
-										// one after the other like ",," (e.g.
-										// loox)
+							// one after the other like ",," (e.g.
+							// loox)
 						}
 						if (currToken.length() == 0)
 							continue;
@@ -496,8 +496,8 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 						i++;
 						if (currToken.length() == 0)
 							continue; // sometimes there are 2 colons directly
-										// one after the other like ",," (e.g.
-										// loox)
+						// one after the other like ",," (e.g.
+						// loox)
 						switch (i) {
 						case 3:
 							this.numSatsInView = Convert.toInt(currToken);
