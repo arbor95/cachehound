@@ -1,5 +1,8 @@
 package CacheWolf;
 
+import java.awt.Desktop;
+import java.net.URI;
+
 import utils.CWWrapper;
 import HTML.Template;
 
@@ -294,12 +297,13 @@ public class ShowCacheInBrowser {
 			tpl.printTo(detfile);
 			// detfile.print(tpl.output());
 			detfile.close();
-			CWWrapper.exec(Global.getPref().browser, "file://" + saveTo); // maybe
-			// this
-			// works
-			// on
-			// some
-			// PDAs?
+			
+			if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop().browse(new URI("file://" + saveTo));
+			}
+			else {
+				Global.getPref().log("Das System unterstützt das Java Feature 'Desktop' nicht");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			Global.getPref().log("Error in ShowCache " + e.toString());

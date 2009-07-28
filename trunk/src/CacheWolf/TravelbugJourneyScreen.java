@@ -11,6 +11,9 @@ package CacheWolf;
  * @author salzkammergut
  */
 
+import java.awt.Desktop;
+import java.net.URI;
+
 import utils.CWWrapper;
 import CacheWolf.imp.SpiderGC;
 import ewe.fx.Color;
@@ -720,10 +723,12 @@ public class TravelbugJourneyScreen extends Form {
 							s = "http://www.geocaching.com/track/details.aspx?id="
 									+ tbj.getTb().getGuid();
 
-						CWWrapper.exec(Global.getPref().browser, s);
-						Global.getPref().log(
-								"Executing: \"" + Global.getPref().browser
-										+ "\" \"" + s + "\"");
+						if (Desktop.isDesktopSupported()) {
+							Desktop.getDesktop().browse(new URI(s));
+						}
+						else {
+							Global.getPref().log("Das System unterstützt das Java Feature 'Desktop' nicht");
+						}
 					} catch (Exception ioex) {
 						Global.getPref().log("Ignored Exception", ioex, true);
 					}
