@@ -1,7 +1,7 @@
 package CacheWolf;
 
-import utils.FileBugfix;
-import ewe.io.File;
+import java.io.File;
+
 import ewe.sys.Convert;
 
 public final class Common {
@@ -106,12 +106,10 @@ public final class Common {
 	 */
 	static public String getImageName(String name) {
 		String fileName;
-		File tmp;
 		String[] t = { ".png", ".gif", ".jpg", ".bmp" };
 		int i;
 		for (i = 0; i < t.length; i++) {
-			tmp = new FileBugfix(name + t[i]);
-			if (tmp.exists())
+			if ((new File(name + t[i])).exists())
 				break;
 		}
 		if (i >= t.length)
