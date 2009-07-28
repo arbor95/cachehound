@@ -1,12 +1,13 @@
 package CacheWolf;
 
+import java.io.IOException;
+
 import CacheWolf.navi.Metrics;
 
 import com.stevesoft.ewe_pat.Regex;
 
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
-import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
@@ -771,7 +772,7 @@ public class CacheHolder {
 			details = new CacheHolderDetail(this);
 			try {
 				details.readCache(Global.getProfile().dataDir);
-			} catch (java.io.IOException e) {
+			} catch (IOException e) {
 				if (!maybenew) {
 					if (alarmuser) {
 						// FIXME: put a message to languages file
