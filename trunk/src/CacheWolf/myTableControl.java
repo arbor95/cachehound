@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import utils.CWWrapper;
 import ewe.fx.IconAndText;
 import ewe.fx.Point;
 import ewe.fx.Rect;
