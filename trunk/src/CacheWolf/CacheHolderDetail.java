@@ -216,8 +216,8 @@ public class CacheHolderDetail {
 		if (this.getParent().getWayPoint().equals(CacheHolder.EMPTY))
 			return;
 
-		File cacheFile = new File(dir
-				+ getParent().getWayPoint().toLowerCase() + ".xml");
+		File cacheFile = new File(dir, getParent().getWayPoint().toLowerCase()
+				+ ".xml");
 		if (Global.getPref().debug)
 			Global.getPref().log("Reading file " + cacheFile.getPath());
 
@@ -365,13 +365,12 @@ public class CacheHolderDetail {
 	public void saveCacheDetails(String dir) {
 		BufferedWriter detfile;
 
-		File cacheFile = new File(dir
-				+ getParent().getWayPoint().toLowerCase() + ".xml");
+		File cacheFile = new File(dir, getParent().getWayPoint().toLowerCase()
+				+ ".xml");
 		cacheFile.delete();
 
 		try {
-			detfile = new BufferedWriter(new FileWriter(
-					cacheFile));
+			detfile = new BufferedWriter(new FileWriter(cacheFile));
 		} catch (Exception e) {
 			Global.getPref().log("Problem creating details file", e, true);
 			return;
@@ -596,8 +595,10 @@ public class CacheHolderDetail {
 			for (int i = 0; i < srcFiles.length; i++) {
 				String newfile = newWptId.concat(srcFiles[i]
 						.substring(oldWptLength));
-				ewe.io.File srcFile = new ewe.io.File(profiledir.concat(srcFiles[i]));
-				ewe.io.File dstFile = new ewe.io.File(profiledir.concat(newfile));
+				ewe.io.File srcFile = new ewe.io.File(profiledir
+						.concat(srcFiles[i]));
+				ewe.io.File dstFile = new ewe.io.File(profiledir
+						.concat(newfile));
 				srcFile.move(dstFile);
 			}
 			success = true;
