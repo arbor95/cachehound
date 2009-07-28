@@ -22,7 +22,7 @@ public class ProfileDataForm extends Form {
 	CellPanel content = new CellPanel();
 
 	/**
-	*/
+	 */
 	public ProfileDataForm(Preferences p, Profile prof) {
 		super();
 		pref = p;

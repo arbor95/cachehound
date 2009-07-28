@@ -24,8 +24,9 @@ import ewe.util.Vector;
  */
 public class MapsList extends Vector {
 	public static float scaleTolerance = 1.15f; // absolute deviations from this
-												// factor are seen to have the
-												// same scale
+
+	// factor are seen to have the
+	// same scale
 
 	/**
 	 * loads all the maps in mapsPath in all subDirs recursive
@@ -41,7 +42,7 @@ public class MapsList extends Vector {
 		String[] dirstmp;
 		Vector dirs = new Vector();
 		dirs.add(""); // start with the mapsPath (only this one , without its
-						// subdirs)
+		// subdirs)
 		MapListEntry tempMIO;
 		MessageBox f = null;
 		// sort(new StandardComparer(), false);
@@ -62,14 +63,14 @@ public class MapsList extends Vector {
 			}
 
 			dateien = files.list("*.wfl", FileBase.LIST_FILES_ONLY); // "*.xyz"
-																		// doesn't
-																		// work
-																		// on
-																		// some
-																		// systems
-																		// ->
-																		// use
-																		// FileBugFix
+			// doesn't
+			// work
+			// on
+			// some
+			// systems
+			// ->
+			// use
+			// FileBugFix
 			if (dateien == null)
 				continue;
 			for (int i = 0; i < dateien.length; i++) {
@@ -77,9 +78,10 @@ public class MapsList extends Vector {
 				rawFileName = dateien[i].substring(0, dateien[i]
 						.lastIndexOf("."));
 				try {
-					if (dirs.get(j).equals(".")) // the notation dir/./filename
-													// doesn't work on all
-													// platforms anyhow
+					if (dirs.get(j).equals(".")) // the notation
+													// dir/./filename
+						// doesn't work on all
+						// platforms anyhow
 						tempMIO = new MapListEntry(mapsPath + "/", rawFileName);
 					else
 						tempMIO = new MapListEntry(mapsPath + "/" + dirs.get(j)
@@ -88,8 +90,9 @@ public class MapsList extends Vector {
 						add(tempMIO);
 					// ewe.sys.Vm.debug(tempMIO.getEasyFindString() +
 					// tempMIO.mapName);
-				} catch (Exception ex) { // TODO exception ist, glaub ich evtl
-											// überflüssig
+				} catch (Exception ex) { // TODO exception ist, glaub ich
+											// evtl
+					// überflüssig
 					if (f == null)
 						(f = new MessageBox(
 								MyLocale.getMsg(144, "Warning"),
@@ -98,11 +101,12 @@ public class MapsList extends Vector {
 												"Ignoring error while \n reading calibration file \n")
 										+ ex.toString(), FormBase.OKB)).exec();
 				} /*
-				 * catch(ArithmeticException ex){ // affine contain not allowed
-				 * values if (f == null) (f=new MessageBox("Warning",
-				 * "Ignoring error while \n reading calibration file \n"
-				 * +ex.toString(), MessageBox.OKB)).exec(); }
-				 */
+					 * catch(ArithmeticException ex){ // affine contain not
+					 * allowed values if (f == null) (f=new
+					 * MessageBox("Warning", "Ignoring error while \n reading
+					 * calibration file \n" +ex.toString(),
+					 * MessageBox.OKB)).exec(); }
+					 */
 			}
 		}
 		if (MapListEntry.rename == 1)
@@ -114,9 +118,9 @@ public class MapsList extends Vector {
 		tempMIO = new MapListEntry(1.0, lat);
 		add(tempMIO);
 		tempMIO = new MapListEntry(5.0, lat); // this one ( the 4th last) is
-												// automatically used when no
-												// real map is available, see
-												// MovingMap.setBestMap
+		// automatically used when no
+		// real map is available, see
+		// MovingMap.setBestMap
 		add(tempMIO);
 		tempMIO = new MapListEntry(50.0, lat);
 		add(tempMIO);
@@ -139,17 +143,17 @@ public class MapsList extends Vector {
 	 * @param lat
 	 *            a point to be inside the map
 	 * @param lon
-	 * @param screen
-	 *            : width, height of the screen. The map must overlap the
-	 *            screen. xy: where is lat/lon on screen
+	 * @param screen :
+	 *            width, height of the screen. The map must overlap the screen.
+	 *            xy: where is lat/lon on screen
 	 * @param scale
 	 *            scale wanted currently the best map is the one, whose center
 	 *            is nearest to lat/lon and in Area with its scale nearest to
 	 *            scale. it always returns a map (if the list is not empty) as
 	 *            long as it overlaps the screen
-	 * @param forceScale
-	 *            : when true, return null if no map with specified scale could
-	 *            be found
+	 * @param forceScale :
+	 *            when true, return null if no map with specified scale could be
+	 *            found
 	 */
 	public MapInfoObject getBestMap(CWPoint ll, Rect screen, float scale,
 			boolean forceScale) {
@@ -167,18 +171,18 @@ public class MapsList extends Vector {
 		boolean latNearer, lonNearer;
 		boolean better = false;
 		Area screenArea = null; // getAreaForScreen(screen, lat, lon,
-								// bestMap.scale, bestMap);
+		// bestMap.scale, bestMap);
 		float lastscale = -1;
 		int testkw = 0;
 		for (int i = size() - 1; i >= 0; i--) {
 			if (!showprogress && ((i & 31) == 0)
 					&& (new Time().getTime() - start > 100)) { // reason for (i
-																// & 7 == 0):
-																// test time
-																// only after i
-																// is
-																// incremented
-																// 15 times
+				// & 7 == 0):
+				// test time
+				// only after i
+				// is
+				// incremented
+				// 15 times
 				showprogress = true;
 				progressBox = new InfoBox(MyLocale.getMsg(327, "Info"),
 						MyLocale.getMsg(4701, "Searching for best map"));
@@ -205,15 +209,15 @@ public class MapsList extends Vector {
 			}
 			if (screenArea.isOverlapping(mi)) { // is on screen
 				if (!forceScale || (forceScale && !scaleEquals(scale, mi))) { // different
-																				// scale?
+					// scale?
 					if (!forceScale
 							&& (mi.isInBound(ll) && (bestMap == null
 									|| scaleNearer(mi.scale, bestMap.scale,
 											scale) || !bestMap.isInBound(ll))))
 						better = true; // inbound and resolution nearer at
-										// wanted resolution or old one is on
-										// screen but lat/long not inbound->
-										// better
+					// wanted resolution or old one is on
+					// screen but lat/long not inbound->
+					// better
 					else {
 						if (bestMap == null
 								|| scaleNearerOrEuqal(mi.scale, bestMap.scale,
@@ -226,9 +230,9 @@ public class MapsList extends Vector {
 									/ mi.sizeKm < minDistLon;
 							if (latNearer && lonNearer)
 								better = true; // for faster processing: if lat
-												// and lon are nearer then the
-												// distancance doesn't need to
-												// be calculated
+							// and lon are nearer then the
+							// distancance doesn't need to
+							// be calculated
 							else {
 								if ((latNearer || lonNearer)) {
 									if (bestMap == null
@@ -258,9 +262,10 @@ public class MapsList extends Vector {
 		}
 		if (bestMap == null)
 			return null;
-		return new MapInfoObject(bestMap); // return a copy of the MapInfoObject
-											// so that zooming won't change the
-											// MapInfoObject in the list
+		return new MapInfoObject(bestMap); // return a copy of the
+											// MapInfoObject
+		// so that zooming won't change the
+		// MapInfoObject in the list
 	}
 
 	/*
@@ -272,11 +277,12 @@ public class MapsList extends Vector {
 	/**
 	 * @return a map which includs topleft and bottomright, if no map includes
 	 *         both it returns null
-	 * @param if more than one map includes topleft and bottomright than the one
-	 *        will be returned which has its center nearest to topleft. If you
-	 *        have gps-pos and goto-pos as topleft and buttomright use gps as
-	 *        topleft. if topleft is really topleft or if it is buttomright is
-	 *        not relevant.
+	 * @param if
+	 *            more than one map includes topleft and bottomright than the
+	 *            one will be returned which has its center nearest to topleft.
+	 *            If you have gps-pos and goto-pos as topleft and buttomright
+	 *            use gps as topleft. if topleft is really topleft or if it is
+	 *            buttomright is not relevant.
 	 */
 
 	public MapInfoObject getMapForArea(CWPoint topleft, CWPoint bottomright) {
@@ -295,12 +301,12 @@ public class MapsList extends Vector {
 		for (int i = size() - 1; i >= 0; i--) {
 			if (!showprogress && ((i & 31) == 0)
 					&& (new Time().getTime() - start > 100)) { // reason for (i
-																// & 7 == 0):
-																// test time
-																// only after i
-																// is
-																// incremented
-																// 15 times
+				// & 7 == 0):
+				// test time
+				// only after i
+				// is
+				// incremented
+				// 15 times
 				showprogress = true;
 				progressBox = new InfoBox(MyLocale.getMsg(327, "Info"),
 						MyLocale.getMsg(4701, "Searching for best map"));
@@ -320,21 +326,22 @@ public class MapsList extends Vector {
 			} // could not read .wfl-file
 			better = false;
 			if (mi.isInBound(topleft) && mi.isInBound(bottomright)) { // both
-																		// points
-																		// are
-																		// inside
-																		// the
-																		// map
+				// points
+				// are
+				// inside
+				// the
+				// map
 				if (fittingmap == null
 						|| fittingmap.scale > mi.scale * scaleTolerance) {
-					better = true; // mi map has a better (lower) scale than the
-									// last knwon good map
+					better = true; // mi map has a better (lower) scale than
+									// the
+					// last knwon good map
 				} else {
 					if (scaleEquals(mi, fittingmap)) { // same scale as bestmap
-														// till now -> test if
-														// its center is nearer
-														// to the gps-point =
-														// topleft
+						// till now -> test if
+						// its center is nearer
+						// to the gps-point =
+						// topleft
 						latNearer = java.lang.Math.abs(topleft.latDec
 								- mi.center.latDec)
 								/ mi.sizeKm < minDistLat;
@@ -343,9 +350,9 @@ public class MapsList extends Vector {
 								/ mi.sizeKm < minDistLon;
 						if (latNearer && lonNearer)
 							better = true; // for faster processing: if lat and
-											// lon are nearer then the
-											// distancance doesn't need to be
-											// calculated
+						// lon are nearer then the
+						// distancance doesn't need to be
+						// calculated
 						else {
 							if ((latNearer || lonNearer)) {
 								if (mi.center.getDistanceRad(topleft) < fittingmap.center
@@ -371,12 +378,13 @@ public class MapsList extends Vector {
 		}
 		if (fittingmap == null)
 			return null;
-		return new MapInfoObject(fittingmap); // TODO in case that this one and
-												// the old one are identical
-												// this instantiation could
-												// eventually be avoided as it
-												// is done at every greater
-												// shift of the map
+		return new MapInfoObject(fittingmap); // TODO in case that this one
+												// and
+		// the old one are identical
+		// this instantiation could
+		// eventually be avoided as it
+		// is done at every greater
+		// shift of the map
 	}
 
 	/**
@@ -384,9 +392,9 @@ public class MapsList extends Vector {
 	 * @param lat
 	 *            a point to be inside the map
 	 * @param lon
-	 * @param screen
-	 *            : width, height of the screen. The map must overlap the
-	 *            screen. xy: where is lat/lon on screen
+	 * @param screen :
+	 *            width, height of the screen. The map must overlap the screen.
+	 *            xy: where is lat/lon on screen
 	 * @param curScale
 	 *            reference scale to be changed
 	 * @param moreDetails
@@ -409,18 +417,18 @@ public class MapsList extends Vector {
 		boolean latNearer, lonNearer;
 		boolean better = false;
 		Area screenArea = null; // getAreaForScreen(screen, lat, lon,
-								// bestMap.scale, bestMap);
+		// bestMap.scale, bestMap);
 		float lastscale = -1;
 		String cmp = "FF1" + Area.getEasyFindString(ll, 30);
 		for (int i = size() - 1; i >= 0; i--) {
 			if (!showprogress && ((i & 31) == 0)
 					&& (new Time().getTime() - start > 100)) { // reason for (i
-																// & 7 == 0):
-																// test time
-																// only after i
-																// is
-																// incremented
-																// 15 times
+				// & 7 == 0):
+				// test time
+				// only after i
+				// is
+				// incremented
+				// 15 times
 				showprogress = true;
 				progressBox = new InfoBox(MyLocale.getMsg(327, "Info"),
 						MyLocale.getMsg(4701, "Searching for best map"));
@@ -441,56 +449,56 @@ public class MapsList extends Vector {
 			} // could not read .wfl-file
 			if (mi.fileNameWFL == "")
 				continue; // exclude "maps" without image // TODO make this a
-							// boolean in MapInfoObject
+			// boolean in MapInfoObject
 			if (screenArea == null || !scaleEquals(lastscale, mi)) {
 				screenArea = getAreaForScreen(screen, ll, mi.scale, mi);
 				lastscale = mi.scale;
 			}
 			if (screenArea.isOverlapping(mi)) { // is on screen
 				if (bestMap == null || !scaleEquals(mi, bestMap)) { // different
-																	// scale
-																	// than
-																	// known
-																	// bestMap?
+					// scale
+					// than
+					// known
+					// bestMap?
 					if (mi.isInBound(ll) && ( // more details wanted and this
-												// map has more details? // less
-												// details than bestmap
+							// map has more details? // less
+							// details than bestmap
 							(moreDetails
 									&& (curScale > mi.scale * scaleTolerance) && (bestMap == null || mi.scale > bestMap.scale
 									* scaleTolerance)) // higher resolution
-														// wanted and mi has
-														// higher res and a
-														// lower res than
-														// bestmap, because we
-														// dont want to overjump
-														// one resolution step
+							// wanted and mi has
+							// higher res and a
+							// lower res than
+							// bestmap, because we
+							// dont want to overjump
+							// one resolution step
 							|| (!moreDetails
 									&& (curScale * scaleTolerance < mi.scale) && (bestMap == null || mi.scale
 									* scaleTolerance < bestMap.scale)) // lower
-																		// resolution
-																		// wanted
-																		// and
-																		// mi
-																		// has
-																		// lower
-																		// res
-																		// and a
-																		// higher
-																		// res
-																		// than
-																		// bestmap,
-																		// because
-																		// we
-																		// dont
-																		// want
-																		// to
-																		// overjump
-																		// one
-																		// resolution
-																		// step
+							// resolution
+							// wanted
+							// and
+							// mi
+							// has
+							// lower
+							// res
+							// and a
+							// higher
+							// res
+							// than
+							// bestmap,
+							// because
+							// we
+							// dont
+							// want
+							// to
+							// overjump
+							// one
+							// resolution
+							// step
 							))
 						better = true; // inbound and higher resolution if
-										// higher res wanted -> better
+					// higher res wanted -> better
 				} else { // same scale as bestmap -> look if naerer
 					latNearer = java.lang.Math
 							.abs(ll.latDec - mi.center.latDec)
@@ -500,8 +508,8 @@ public class MapsList extends Vector {
 							/ mi.sizeKm < minDistLon;
 					if (latNearer && lonNearer)
 						better = true; // for faster processing: if lat and lon
-										// are nearer then the distancance
-										// doesn't need to be calculated
+					// are nearer then the distancance
+					// doesn't need to be calculated
 					else {
 						if ((latNearer || lonNearer)) {
 							if (mi.center.getDistanceRad(ll) < bestMap.center
@@ -621,10 +629,10 @@ public class MapsList extends Vector {
 	/*
 	 * may be the following code is used same time later to further enhance the
 	 * speed of finding the best map public int getQuickMap(String search){
-	 * boolean found = false; // TODO unfertig int upperbound = 0; int downbound
-	 * = size(); int test; while (!found) { test = (upperbound + downbound)/2;
-	 * if ( ((Comparable)(get(test))).compareTo(search) < 0) downbound = test;
-	 * else upperbound = test; } return 1; }
+	 * boolean found = false; // TODO unfertig int upperbound = 0; int downbound =
+	 * size(); int test; while (!found) { test = (upperbound + downbound)/2; if (
+	 * ((Comparable)(get(test))).compareTo(search) < 0) downbound = test; else
+	 * upperbound = test; } return 1; }
 	 */
 	/**
 	 * for determining if a new map should be downloaded public boolean
@@ -652,8 +660,7 @@ class MapListEntry /* implements Comparable */{
 		sortEntryBBox = null;
 		map = null;
 		/*
-		 * try {map = new MapInfoObject(path, filename); } catch (Exception e) {
-		 * }
+		 * try {map = new MapInfoObject(path, filename); } catch (Exception e) { }
 		 * 
 		 * ewe.sys.Vm.debug("centerID: "+map.getCenterID());
 		 * ewe.sys.Vm.debug("PxID: "+map.getPxSizeID());
@@ -665,8 +672,9 @@ class MapListEntry /* implements Comparable */{
 		} catch (IndexOutOfBoundsException ex) {
 			Global.getPref().log("Ignored Exception", ex, true);
 		}
-		if (sortEntryBBox == null) { // || sortEntryScaleCenterPx.length() < 16)
-										// {
+		if (sortEntryBBox == null) { // || sortEntryScaleCenterPx.length() <
+										// 16)
+			// {
 			try {
 				map = new MapInfoObject(path, filename);
 				sortEntryBBox = "FF1" + map.getEasyFindString();

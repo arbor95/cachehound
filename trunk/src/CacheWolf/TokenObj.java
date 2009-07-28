@@ -20,7 +20,7 @@ public class TokenObj {
 	public static final int TT_OPENBRACKET = 9;
 	public static final int TT_CLOSEBRACKET = 10;
 	public static final int TT_LT = 20; // Don't change the sequence from LT to
-										// NT
+	// NT
 	public static final int TT_GT = 21;
 	public static final int TT_LE = 22;
 	public static final int TT_GE = 23;

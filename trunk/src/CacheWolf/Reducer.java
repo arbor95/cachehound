@@ -34,17 +34,17 @@ public class Reducer {
 
 	private static String removeVow(String str) {
 		String dummy = str.substring(1);
-		dummy = STRreplace.replace(dummy, "a", "");
-		dummy = STRreplace.replace(dummy, "e", "");
-		dummy = STRreplace.replace(dummy, "i", "");
-		dummy = STRreplace.replace(dummy, "o", "");
-		dummy = STRreplace.replace(dummy, "u", "");
-		dummy = STRreplace.replace(dummy, "A", "");
-		dummy = STRreplace.replace(dummy, "E", "");
-		dummy = STRreplace.replace(dummy, "I", "");
-		dummy = STRreplace.replace(dummy, "O", "");
-		dummy = STRreplace.replace(dummy, "U", "");
-		dummy = STRreplace.replace(dummy, ",", "");
+		dummy = dummy.replace("a", "");
+		dummy = dummy.replace("e", "");
+		dummy = dummy.replace("i", "");
+		dummy = dummy.replace("o", "");
+		dummy = dummy.replace("u", "");
+		dummy = dummy.replace("A", "");
+		dummy = dummy.replace("E", "");
+		dummy = dummy.replace("I", "");
+		dummy = dummy.replace("O", "");
+		dummy = dummy.replace("U", "");
+		dummy = dummy.replace(",", "");
 		dummy = str.substring(0, 1) + dummy;
 		return dummy;
 	}

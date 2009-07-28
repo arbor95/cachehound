@@ -346,8 +346,9 @@ public class Exporter {
 			return null;
 		} else {
 			String s = (String) iso2simpleMappings.get(new Integer(c));
-			if (s == null) // not in table, replace with empty string just to be
-							// sure
+			if (s == null) // not in table, replace with empty string just to
+							// be
+				// sure
 				return "";
 			else
 				return s;

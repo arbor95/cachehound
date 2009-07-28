@@ -12,8 +12,8 @@ import ewesoft.xml.sax.AttributeList;
 
 /**
  * Class to import coordinates from a KML file generated from google earth. it
- * looks for <placemark><MultiGeometry><LineString><coordinates> and gathers all
- * coordinated in a vector
+ * looks for <placemark><MultiGeometry><LineString><coordinates> and gathers
+ * all coordinated in a vector
  * 
  * @author Bilbowolf
  * 

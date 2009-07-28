@@ -126,9 +126,10 @@ public class CacheImages {
 
 	/**
 	 * Returns a CacheImage collection of the images that should be displayed in
-	 * the image panel. An image should <b>not</b> be present in this collection
-	 * if its title is starting with the indicated prefix and if there is
-	 * another image referring to the same file but with a different title.<br>
+	 * the image panel. An image should <b>not</b> be present in this
+	 * collection if its title is starting with the indicated prefix and if
+	 * there is another image referring to the same file but with a different
+	 * title.<br>
 	 * Normally, the results are cached and don't need to be evaluated again. If
 	 * they should be reevaluated for whatever reason, then pass
 	 * <code>true</code> as parameter.
@@ -152,9 +153,9 @@ public class CacheImages {
 
 	/**
 	 * Returns a CacheImage collection of the images that should be displayed in
-	 * the image panel. An image should <b>not</b> be present in this collection
-	 * if its title is equivalent to its filename and if there is another image
-	 * referring to the same file but with a different title.
+	 * the image panel. An image should <b>not</b> be present in this
+	 * collection if its title is equivalent to its filename and if there is
+	 * another image referring to the same file but with a different title.
 	 * 
 	 * @param prefix
 	 *            The prefix which is used to name default image titles
@@ -169,15 +170,15 @@ public class CacheImages {
 	 * need to be spidered if the following conditions meet:
 	 * <ul>
 	 * <li>The url is from <code>http://img.geocaching.com/cache/</code> or
-	 * <code>http://img.groundspeak.com/cache/</code>. (Reason: Images at these
-	 * places don't change - if images change, they get a new url.)</li>
+	 * <code>http://img.groundspeak.com/cache/</code>. (Reason: Images at
+	 * these places don't change - if images change, they get a new url.)</li>
 	 * <li>An image with the given URL is among the images of the caches image
 	 * object.</li>
 	 * <li>The intended file name is the same.</li>
 	 * <li>The image is present in the file system.</li>
 	 * </ul>
-	 * If no spidering is needed, then the <code>ImageInfo</code> object of the
-	 * equivalent image is returned, otherwise (when spidering is needed)
+	 * If no spidering is needed, then the <code>ImageInfo</code> object of
+	 * the equivalent image is returned, otherwise (when spidering is needed)
 	 * <code>null</code> is returned.
 	 * 
 	 * @param pNewUrl
@@ -210,8 +211,8 @@ public class CacheImages {
 	 * 
 	 * @param filename
 	 *            Filename to check
-	 * @return <code>true</code> if there is such a file, <code>false</code> if
-	 *         not.
+	 * @return <code>true</code> if there is such a file, <code>false</code>
+	 *         if not.
 	 */
 	private boolean hasFile(String filename) {
 		boolean result = false;
@@ -230,9 +231,9 @@ public class CacheImages {
 	 * as arguments, one as a collection of images before an update, the other
 	 * after. Then every file in the old collection is checked if it is also
 	 * present in the new collection. If not, the file is deleted. Note that the
-	 * <i>content</i> of the files is irrelevant. It is only important to remove
-	 * files - regardles of their contents - if they are no longer referenced
-	 * after a cache update.
+	 * <i>content</i> of the files is irrelevant. It is only important to
+	 * remove files - regardles of their contents - if they are no longer
+	 * referenced after a cache update.
 	 * 
 	 * @param oldImages
 	 *            Set of images before update

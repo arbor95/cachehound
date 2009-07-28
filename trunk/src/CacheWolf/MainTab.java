@@ -67,7 +67,7 @@ public class MainTab extends mTabbedPanel {
 		if (Vm.isMobile() && sw >= 400)
 			imagesize = "_vga";
 		calcP = new CalcPanel(); // Init here so that Global.MainT is already
-									// set
+		// set
 		tbP = new TablePanel(pref, profile, statBar);
 		Card c = this.addCard(new TableForm(tbP),
 				MyLocale.getMsg(1200, "List"), null);
@@ -111,7 +111,7 @@ public class MainTab extends mTabbedPanel {
 	}
 
 	public void selectAndActive(int rownum) {// Called from
-												// myInteractivePanel.imageClicked
+		// myInteractivePanel.imageClicked
 		tbP.selectRow(rownum);
 		this.selectAndExpand(0);
 	}
@@ -175,7 +175,7 @@ public class MainTab extends mTabbedPanel {
 				detP.saveDirtyWaypoint();
 				if (needTableUpdate) {
 					tbP.myMod.updateRows();// This sorts the waypoint (if it is
-											// new) into the right position
+					// new) into the right position
 					tbP.selectRow(profile.getCacheIndex(detP.thisCache
 							.getWayPoint()));
 				}
@@ -201,7 +201,8 @@ public class MainTab extends mTabbedPanel {
 							solverP.getInstructions());
 					if (oldHasSolver != chMain.hasSolver())
 						tbP.tc.update(true);
-					chMain.save();// Vm.debug("mainT:SaveCache "+chMain.wayPoint+"/S:"+chMain.Solver);
+					chMain.save();// Vm.debug("mainT:SaveCache
+									// "+chMain.wayPoint+"/S:"+chMain.Solver);
 					chMain = null;
 				}
 			}
@@ -213,7 +214,8 @@ public class MainTab extends mTabbedPanel {
 	 * number)
 	 * 
 	 */
-	private void onEnteringPanel(int panelNo) {// Vm.debug("Entering "+panelNo);
+	private void onEnteringPanel(int panelNo) {// Vm.debug("Entering
+												// "+panelNo);
 		switch (panelNo) {// Switch by panel number
 		case 0:
 			MyLocale.setSIPOff();
@@ -278,7 +280,7 @@ public class MainTab extends mTabbedPanel {
 	 * Update the distances of all caches to the centre and display a message
 	 */
 	public void updateBearDist() {// Called from DetailsPanel, GotoPanel and
-									// myTableControl
+		// myTableControl
 		MessageBox info = new MessageBox(
 				MyLocale.getMsg(327, "Information"),
 				MyLocale
@@ -380,8 +382,8 @@ public class MainTab extends mTabbedPanel {
 			}
 			if (forceCenter)
 				mm.setGpsStatus(MovingMap.noGPS); // disconnect movingMap from
-													// GPS TODO only if GPS-pos
-													// is not on the screen
+			// GPS TODO only if GPS-pos
+			// is not on the screen
 			mm.updatePosition(centerTo);
 			mm.myExec();
 			if (forceCenter) {
@@ -391,8 +393,8 @@ public class MainTab extends mTabbedPanel {
 						i++;
 						ewe.sys.mThread.sleep(100);
 					} // wait until the window size of the moving map is known
-						// note: ewe.sys.sleep() will pause the whole vm - no
-						// other thread will run
+					// note: ewe.sys.sleep() will pause the whole vm - no
+					// other thread will run
 					if (i >= 10 * 60) {
 						(new MessageBox(
 								"Error",
@@ -401,11 +403,11 @@ public class MainTab extends mTabbedPanel {
 						return;
 					}
 					mm.setCenterOfScreen(centerTo, false); // this can only be
-															// executed if mm
-															// knows its window
-															// size that's why
-															// myExec must be
-															// executed before
+					// executed if mm
+					// knows its window
+					// size that's why
+					// myExec must be
+					// executed before
 					mm.updatePosition(centerTo);
 					/*
 					 * if(!mm.posCircle.isOnScreen()) { // TODO this doesn't
@@ -415,9 +417,10 @@ public class MainTab extends mTabbedPanel {
 					 * screen mm.setResModus(MovingMap.HIGHEST_RESOLUTION);
 					 * mm.updatePosition(centerTo.latDec, centerTo.lonDec);
 					 * mm.setCenterOfScreen(centerTo, true); }
-					 */// TODO what to do, if there is a map at centerTo, but it
-						// is not loaded because of mapSwitchMode == dest &
-						// cuurpos und dafür gibt es keine Karte
+					 */// TODO what to do, if there is a map at centerTo, but
+						// it
+					// is not loaded because of mapSwitchMode == dest &
+					// cuurpos und dafür gibt es keine Karte
 				} catch (InterruptedException e) {
 					Global.getPref()
 							.log(

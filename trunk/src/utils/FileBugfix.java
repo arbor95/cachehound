@@ -3,7 +3,6 @@
  */
 package utils;
 
-import CacheWolf.STRreplace;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.util.FileComparer;
@@ -16,7 +15,7 @@ import ewe.util.mString;
  */
 public class FileBugfix extends File {
 	public FileBugfix(String path) {
-		super(STRreplace.replace(path, "//", "/"));
+		super(path.replace("//", "/"));
 	}
 
 	public String[] list(final String mask, final int listAndSortOptions) {
@@ -46,24 +45,25 @@ public class FileBugfix extends File {
 
 		String mask = (compositeMask == null) ? "*.*" : compositeMask;
 		String[] found; // the following code is mainly copied from
-						// FileBase.listmultiple to avoid recursion it is not
-						// called
+		// FileBase.listmultiple to avoid recursion it is not
+		// called
 		char c = mask.indexOf(',') == -1 ? ';' : ',';
 		String masks[] = mString.split(mask, c);
 		String dirs[] = new String[0];
 		if ((listAndSortOptions & LIST_FILES_ONLY) == 0)
-			dirs = ewefile.list(null, LIST_DIRECTORIES_ONLY); // add dirs if not
-																// only asked
-																// for files
+			dirs = ewefile.list(null, LIST_DIRECTORIES_ONLY); // add dirs if
+																// not
+		// only asked
+		// for files
 		if ((listAndSortOptions & LIST_DIRECTORIES_ONLY) == 0)
 			found = ewefile.list(null, FileBase.LIST_FILES_ONLY
 					| listAndSortOptions); // add files if not dirs only
 		else {
 			found = dirs; // if dirs only -> apply masks to the dirs
 			dirs = new String[0]; // this line is missing in ewe
-									// FileBase.listmultiple -> doubled dirs
-									// when using listmultiple with the option
-									// dirs_only
+			// FileBase.listmultiple -> doubled dirs
+			// when using listmultiple with the option
+			// dirs_only
 		}
 		if (found == null)
 			return null;
@@ -89,12 +89,16 @@ public class FileBugfix extends File {
 		String[] isMatching = new String[dirs.length + left];
 		ewe.sys.Vm.copyArray(dirs, 0, isMatching, 0, dirs.length);
 		for (int i = 0; i < dirs.length; i++)
-			isMatching[i] = isMatching[i].replace('\\', '/'); // on some PDAs a
-																// "\" in the path seems to make problems, but it seems that is ewe (files.list) returns sometimes a path containing a "\"
+			isMatching[i] = isMatching[i].replace('\\', '/'); // on some PDAs
+																// a
+		// "\" in the path seems to make problems, but it seems that is ewe
+		// (files.list) returns sometimes a path containing a "\"
 		for (int i = 0, d = dirs.length; i < found.length; i++)
 			if (found[i] != null)
-				isMatching[d++] = found[i].replace('\\', '/'); // on some PDAs a
-																// "\" in the path seems to make problems, but it seems that is ewe (files.list) returns sometimes a path containing a "\"
+				isMatching[d++] = found[i].replace('\\', '/'); // on some PDAs
+																// a
+		// "\" in the path seems to make problems, but it seems that is ewe
+		// (files.list) returns sometimes a path containing a "\"
 		found = isMatching;
 		return found;
 	}

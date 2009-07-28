@@ -500,8 +500,8 @@ public class CacheHolder {
 	 * @param ch
 	 *            The cache who's information is updating the current one
 	 * @param overwrite
-	 *            If <code>true</code>, then <i>status</i>, <i>is_found</i> and
-	 *            <i>position</i> is updated, otherwise not.
+	 *            If <code>true</code>, then <i>status</i>, <i>is_found</i>
+	 *            and <i>position</i> is updated, otherwise not.
 	 */
 	public void update(CacheHolder ch, boolean overwrite) {
 		this.recommendationScore = ch.recommendationScore;
@@ -793,7 +793,7 @@ public class CacheHolder {
 			}
 			if (details != null
 			// for importing/spidering reasons helper objects with same waypoint
-			// are created
+					// are created
 					&& !cachesWithLoadedDetails.contains(this.getWayPoint())
 					// helper objects may have empty waypoint
 					&& !this.getWayPoint().equals(CacheHolder.EMPTY)) {
@@ -978,8 +978,8 @@ public class CacheHolder {
 
 	/**
 	 * Creates a bit field of boolean values of the cache, represented as a long
-	 * value. Boolean value of <code>true</code> results in <code>1</code> in
-	 * the long values bits, and, vice versa, 0 for false.
+	 * value. Boolean value of <code>true</code> results in <code>1</code>
+	 * in the long values bits, and, vice versa, 0 for false.
 	 * 
 	 * @return long value representing the boolean bit field
 	 */
@@ -1352,13 +1352,14 @@ public class CacheHolder {
 	}
 
 	/**
-	 * If this returns <code>true</code>, then the additional waypoints for this
-	 * cache should be displayed regardless how the filter is set. If it is
+	 * If this returns <code>true</code>, then the additional waypoints for
+	 * this cache should be displayed regardless how the filter is set. If it is
 	 * <code>false</code>, then the normal filter settings apply.<br>
 	 * This property is not saved in index.xml, so if you reload the data, then
 	 * this information is gone.
 	 * 
-	 * @return <code>True</code>: Always display additional waypoints for cache.
+	 * @return <code>True</code>: Always display additional waypoints for
+	 *         cache.
 	 */
 	public boolean showAddis() {
 		return this.showAddis;
@@ -1367,8 +1368,8 @@ public class CacheHolder {
 	/**
 	 * Setter for <code>showAddis()</code>. If this returns <code>true</code>,
 	 * then the additional waypoints for this cache should be displayed
-	 * regardless how the filter is set. If it is <code>false</code>, then the
-	 * normal filter settings apply.<br>
+	 * regardless how the filter is set. If it is <code>false</code>, then
+	 * the normal filter settings apply.<br>
 	 * This property is not saved in index.xml, so if you reload the data, then
 	 * this information is gone.
 	 * 
@@ -1410,8 +1411,8 @@ public class CacheHolder {
 	 * <li>Applying a cache tour filter</li>
 	 * <li>Switching between normal view and blacklist view</li>
 	 * <li>Performing searches</li>
-	 * <li>Anything else that isn't directly connected to filters in it's proper
-	 * sense.</li>
+	 * <li>Anything else that isn't directly connected to filters in it's
+	 * proper sense.</li>
 	 * </ul>
 	 * The new method for deciding if a cache is visible or not is
 	 * <code>isVisible()

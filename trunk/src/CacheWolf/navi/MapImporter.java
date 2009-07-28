@@ -67,7 +67,7 @@ public class MapImporter extends Form {
 	public MapImporter(Preferences pref) {
 		this.pref = pref;
 		mapsPath = pref.getMapManuallySavePath(true) + "/"; // File.getProgramDirectory()
-															// + "/maps/";
+		// + "/maps/";
 	}
 
 	/**
@@ -100,8 +100,8 @@ public class MapImporter extends Form {
 		this.setPreferredSize(pref.myAppWidth, pref.myAppHeight);
 		thisMap = mapToLoad;
 		mapsPath = pref.getMapManuallySavePath(true) + "/"; // File.getProgramDirectory()
-															// + "/maps/"; //
-															// TDO veraltet
+		// + "/maps/"; //
+		// TDO veraltet
 		try {
 			wfl.loadwfl(mapsPath, thisMap);
 		} catch (FileNotFoundException ex) {
@@ -220,21 +220,21 @@ public class MapImporter extends Form {
 						imageWidth = tmpII.width;
 						imageHeight = tmpII.height;
 						out = new FileOutputStream(curOutFullPath); // only
-																	// create
-																	// outfile
-																	// if
-																	// geImageInfo
-																	// didn't
-																	// throw an
-																	// exception
-																	// so do it
-																	// only here
-																	// not
-																	// directly
-																	// after
-																	// opening
-																	// input
-																	// stream
+						// create
+						// outfile
+						// if
+						// geImageInfo
+						// didn't
+						// throw an
+						// exception
+						// so do it
+						// only here
+						// not
+						// directly
+						// after
+						// opening
+						// input
+						// stream
 					}
 					out.write(buf, 0, len);
 				}
@@ -247,10 +247,10 @@ public class MapImporter extends Form {
 						+ curOutFullPath + MyLocale.getMsg(4114, " error: ")
 						+ ex.getMessage());
 			} catch (IllegalArgumentException e) { // thrown from
-													// Image.getImageInfo when
-													// it could not interprete
-													// the header (e.g. bmp with
-													// 32 bits per pixel)
+				// Image.getImageInfo when
+				// it could not interprete
+				// the header (e.g. bmp with
+				// 32 bits per pixel)
 				imageerror = true;
 				inf.addWarning("\n"
 						+ MyLocale.getMsg(4115,
@@ -388,12 +388,12 @@ public class MapImporter extends Form {
 					} // while
 					inMap.close();
 				} catch (IllegalArgumentException ex) { // is thrown from
-														// Convert.toDouble and
-														// saveWFL if
-														// affine[0-5]==0
-														// NumberFormatException
-														// is a subclass of
-														// IllegalArgumentExepction
+					// Convert.toDouble and
+					// saveWFL if
+					// affine[0-5]==0
+					// NumberFormatException
+					// is a subclass of
+					// IllegalArgumentExepction
 					inf.addWarning("\n"
 							+ MyLocale.getMsg(4117,
 									"Error while importing .map-file: ")
@@ -502,8 +502,8 @@ class mapInteractivePanel extends InteractivePanel {
 		f.updatePosition(pos.x, pos.y);
 
 		CoordsScreen cooS = new CoordsScreen(); // (String)lr.get(4108,"Coordinates:"),
-												// (String)lr.get(4108,"Coordinates:"),
-												// InfoBox.INPUT);
+		// (String)lr.get(4108,"Coordinates:"),
+		// InfoBox.INPUT);
 		if (cooS.execute() == FormBase.IDOK) {
 			GCPoint gcp = new GCPoint(cooS.getCoords());
 			gcp.bitMapX = pos.x;

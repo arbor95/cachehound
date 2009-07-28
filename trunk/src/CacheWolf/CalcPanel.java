@@ -145,7 +145,7 @@ public class CalcPanel extends CellPanel {
 
 		// Output
 		txtOutput = new TextDisplay(3, 1); // Need to limit size for small
-											// screens
+		// screens
 		ScrollBarPanel sbp = new MyScrollBarPanel(txtOutput);
 		BottomP.addLast(sbp.setTag(CellConstants.SPAN, new Dimension(4, 1)),
 				CellConstants.STRETCH,
@@ -153,7 +153,7 @@ public class CalcPanel extends CellPanel {
 
 		// add Panels
 		this.addLast(TopP, CellConstants.HSTRETCH, CellConstants.WEST);// .setTag(SPAN,new
-																		// Dimension(4,1));
+		// Dimension(4,1));
 		this.addLast(BottomP, CellConstants.VSTRETCH, CellConstants.VFILL
 				| CellConstants.WEST); // .setTag(SPAN,new Dimension(4,1));
 

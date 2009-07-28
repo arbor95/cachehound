@@ -34,8 +34,8 @@ public class SelectMap extends Form {
 
 	public SelectMap() {
 		mapsPath = Global.getPref().getMapManuallySavePath(false) + "/"; // File.getProgramDirectory()
-																			// +
-																			// "/maps/";
+		// +
+		// "/maps/";
 		top = new CacheWolf.MyScrollBarPanel(CMaps);
 		bot = new CacheWolf.MyScrollBarPanel(nonCMaps);
 		this.title = MyLocale.getMsg(4101, "Maps");

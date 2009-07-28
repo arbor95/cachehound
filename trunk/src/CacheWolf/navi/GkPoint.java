@@ -9,8 +9,8 @@ package CacheWolf.navi;
 public class GkPoint {
 	double northing; // TODO make these private
 	private double easting; // because it is not clear for routines from outside
-							// if the stripe number is included, make this
-							// available only through methods
+	// if the stripe number is included, make this
+	// available only through methods
 	int stripe;
 	int stripewidth;
 	float lengthOfStripe0; // e.g. in italien GK stripe 1 is at 9 degree
@@ -131,7 +131,7 @@ public class GkPoint {
 			e = easting + 500000 + stripe * 1000000;
 			if (stripe == 2)
 				e += 20000; // because of an unknown reason the second stripe in
-							// EPSG:3004 has an false easting of 2520000
+			// EPSG:3004 has an false easting of 2520000
 			break;
 		default:
 			throw new IllegalArgumentException("getGkEasting: area code "
@@ -162,8 +162,7 @@ public class GkPoint {
 	 * assumes _German_ Gauß-Krüger
 	 */
 	/*
-	 * public String toString() { return toString(0, "R: ", " H: ", GERMAN_GK);
-	 * }
+	 * public String toString() { return toString(0, "R: ", " H: ", GERMAN_GK); }
 	 */
 
 	public String toString(int decimalplaces, String prefix, String seperator,
@@ -188,7 +187,7 @@ public class GkPoint {
 	 */
 	public void shift(double meters, int direction) {
 		switch (direction) { // TODO this works corectly only within an 3
-								// degrees stripe
+		// degrees stripe
 		case 0:
 			northing += meters;
 			return;

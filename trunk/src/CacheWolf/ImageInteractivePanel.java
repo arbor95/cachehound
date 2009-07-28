@@ -14,7 +14,7 @@ import ewe.ui.ScrollBarPanel;
  */
 public class ImageInteractivePanel extends InteractivePanel {
 	int state = -1; // 0 = nothing, -1 = scaled to window, 1 = scaled to
-					// original size
+	// original size
 	ScrollBarPanel scp;
 	String imgLoc = new String();
 	AniImage pic = null;
@@ -88,9 +88,10 @@ public class ImageInteractivePanel extends InteractivePanel {
 	}
 
 	public void penRightReleased(Point p) {
-		menuState.doShowMenu(p, true, null); // direct call (not through doMenu)
-												// is neccesary because it will
-												// exclude the whole table
+		menuState.doShowMenu(p, true, null); // direct call (not through
+												// doMenu)
+		// is neccesary because it will
+		// exclude the whole table
 	}
 
 	public void penHeld(Point p) {

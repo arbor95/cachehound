@@ -36,22 +36,23 @@ public class MapInfoObject extends Area {
 	private double[] affine = { 0, 0, 0, 0 };
 	private CWPoint affineTopleft = new CWPoint();;
 	private double transLatX, transLatY, transLonX, transLonY; // this are
-																// needed for
-																// the inervers
-																// calculation
-																// from lat/lon
-																// to x/y
+	// needed for
+	// the inervers
+	// calculation
+	// from lat/lon
+	// to x/y
 	public CWPoint center = new CWPoint();
 	public float sizeKm = 0; // diagonale
 	public float scale; // in meters per pixel, note: it is assumed that this
-						// scale identifying the scale of the map, automatically
-						// adjusted when zooming
-	public float zoomFactor = 1; // if the image is zoomed, direct after laoding
-									// always 1
+	// scale identifying the scale of the map, automatically
+	// adjusted when zooming
+	public float zoomFactor = 1; // if the image is zoomed, direct after
+									// laoding
+	// always 1
 	public Point shift = new Point(0, 0);
 	public CWPoint origAffineUpperLeft; // this is only valid after zooming
 	public float rotationRad; // contains the rotation of the map == north
-								// direction in rad
+	// direction in rad
 	/** full path to the respective worldfile, including ".wfl" */
 	public String fileNameWFL = new String();
 	/** filename wihout directory */
@@ -172,7 +173,7 @@ public class MapInfoObject extends Area {
 		if (fileNameWFL.length() == 0)
 			return ""; // no image associated (empty map)
 		String n = fileNameWFL.substring(0, fileNameWFL.lastIndexOf("."));
-		return Common.getImageName(CacheWolf.STRreplace.replace(n, "//", "/"));
+		return Common.getImageName(n.replace("//", "/"));
 	}
 
 	/**
@@ -192,8 +193,8 @@ public class MapInfoObject extends Area {
 	 */
 	public void loadwfl(String mapsPath, String thisMap) throws IOException,
 			ArithmeticException {
-		FileInputStream instream = new FileInputStream(CacheWolf.STRreplace
-				.replace(mapsPath + thisMap + ".wfl", "//", "/"));
+		FileInputStream instream = new FileInputStream(
+				(mapsPath + thisMap + ".wfl").replace("//", "/"));
 		InputStreamReader in = new InputStreamReader(instream);
 
 		String line = new String();
@@ -211,7 +212,7 @@ public class MapInfoObject extends Area {
 			line = in.readLine();
 			buttomright.lonDec = Common.parseDoubleException(line);
 			line = in.readLine(); // readLine returns null, if End of File
-									// reached
+			// reached
 			if (line != null)
 				coordTrans = Common.parseInt(line);
 			else
@@ -231,8 +232,8 @@ public class MapInfoObject extends Area {
 						+ mapsPath + thisMap + ".wfl"));
 			}
 		} catch (NullPointerException e) { // in.readline liefert null zurück,
-											// wenn keine Daten mehr vorhanden
-											// sind
+			// wenn keine Daten mehr vorhanden
+			// sind
 			throw (new IOException(MyLocale.getMsg(4303,
 					"not enough lines in file ")
 					+ mapsPath + thisMap + ".wfl"));
@@ -337,7 +338,7 @@ public class MapInfoObject extends Area {
 			// calculate reverse affine
 			double nenner = (-affine[1] * affine[2] + affine[0] * affine[3]);
 			transLatX = affine[3] / nenner; // nenner == 0 cannot happen as long
-											// als affine is correct
+			// als affine is correct
 			transLonX = -affine[2] / nenner;
 			transLatY = -affine[1] / nenner;
 			transLonY = affine[0] / nenner;
@@ -347,27 +348,27 @@ public class MapInfoObject extends Area {
 			int heightpixel = c.y * 2;
 			c.y -= 1000;
 			rotationRad = (float) (center.getBearing(calcLatLon(c)) / 180 * Math.PI); // note:
-																						// the
-																						// direction
-																						// of
-																						// nord
-																						// can
-																						// vary
-																						// across
-																						// the
-																						// image.
-																						// In
-																						// Gauß-Krüger
-																						// Projection
-																						// it
-																						// does
-																						// change
-																						// about
-																						// 1
-																						// degree
-																						// per
-																						// 10km!
-																						// //(float)java.lang.Math.atan(rotationX2y);
+			// the
+			// direction
+			// of
+			// nord
+			// can
+			// vary
+			// across
+			// the
+			// image.
+			// In
+			// Gauß-Krüger
+			// Projection
+			// it
+			// does
+			// change
+			// about
+			// 1
+			// degree
+			// per
+			// 10km!
+			// //(float)java.lang.Math.atan(rotationX2y);
 			if (rotationRad > Math.PI)
 				rotationRad -= 2 * Math.PI;
 
@@ -386,7 +387,7 @@ public class MapInfoObject extends Area {
 	public void saveWFL() throws IOException, IllegalArgumentException {
 		File dateiF = new FileBugfix(fileNameWFL);
 		String tmp = dateiF.getDrivePath(); // contains the name and the
-											// extension
+		// extension
 		saveWFL(tmp, mapName);
 	}
 
@@ -456,7 +457,7 @@ public class MapInfoObject extends Area {
 			upperleft = TransformCoordinatesProperties.fromWgs84(upperleft,
 					coordTrans);
 		affineTopleft.latDec = upperleft.latDec; // TODO nachdenken
-													// affineTopleft
+		// affineTopleft
 		affineTopleft.lonDec = upperleft.lonDec;
 		affine[0] = affine[0] / zf;
 		affine[1] = affine[1] / zf;
@@ -490,7 +491,8 @@ public class MapInfoObject extends Area {
 		double mapy = transLatY * b0 + transLonY * b1;
 		coords.x = (int) Math.round(mapx);
 		coords.y = (int) Math.round(mapy);
-		// Vm.debug("mapX=mapx2: "+mapx+"="+mapx2+"; mapy=mapy2: "+mapy+"="+mapy2);
+		// Vm.debug("mapX=mapx2: "+mapx+"="+mapx2+"; mapy=mapy2:
+		// "+mapy+"="+mapy2);
 		return coords;
 	}
 

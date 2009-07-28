@@ -165,11 +165,11 @@ public class RadarPanel extends CellPanel {
 					rpi.setLocation(centerX + drX - 7, centerY + drY - 7);
 					iActP.addImage(rpi);
 					if (holder.getWayPoint().equals(selectedWaypoint)) { // Draw
-																			// red
-																			// circle
-																			// around
-																			// selected
-																			// wpt
+						// red
+						// circle
+						// around
+						// selected
+						// wpt
 						Image imgCircle = new Image(20, 20);
 						Graphics gCircle = new Graphics(imgCircle);
 						gCircle.setColor(Color.Black);

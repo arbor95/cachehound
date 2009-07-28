@@ -23,11 +23,12 @@ public class TrackOverlay extends MapImage {
 	public Color trackPixelsColor[] = null;
 	public int numPixels = 0;
 	final static int maxPixelsInCache = 100;
-	final static Color transparentColorForOverlay = Color.White; // only for use
-																	// when
-																	// transparent
-																	// color is
-																	// used
+	final static Color transparentColorForOverlay = Color.White; // only for
+																	// use
+	// when
+	// transparent
+	// color is
+	// used
 	static boolean useTransparentColor;
 
 	public TrackOverlay(TrackPoint topLefti, int widthi, int highti,
@@ -41,55 +42,56 @@ public class TrackOverlay extends MapImage {
 		if (ewe.sys.Vm.getPlatform().equalsIgnoreCase("java")) {
 			useTransparentColor = true;
 			setImage(new Image(widthi, highti), transparentColorForOverlay); // java-vm:
-																				// transparency
-																				// with
-																				// a
-																				// mask
-																				// is
-																				// very
-																				// memory
-																				// consuming,
-																				// but
-																				// transparency
-																				// with
-																				// a
-																				// mask
-																				// is
-																				// much
-																				// faster
-																				// in
-																				// ewe-vm
-																				// and
-																				// doesn't
-																				// consume
-																				// more
-																				// memory
-																				// than
-																				// a
-																				// transparency
-																				// color
-																				// (ewe
-																				// 1.49)
+			// transparency
+			// with
+			// a
+			// mask
+			// is
+			// very
+			// memory
+			// consuming,
+			// but
+			// transparency
+			// with
+			// a
+			// mask
+			// is
+			// much
+			// faster
+			// in
+			// ewe-vm
+			// and
+			// doesn't
+			// consume
+			// more
+			// memory
+			// than
+			// a
+			// transparency
+			// color
+			// (ewe
+			// 1.49)
 		} else {
-			useTransparentColor = false; // // momentanously this it not used,
-											// but this is only because ewe
-											// treats areas as opaque which has
-											// a non white color in the image,
-											// so that the mask doesn't need to
-											// be changed
+			useTransparentColor = false; // // momentanously this it not
+											// used,
+			// but this is only because ewe
+			// treats areas as opaque which has
+			// a non white color in the image,
+			// so that the mask doesn't need to
+			// be changed
 			Image maski = new Image(widthi, highti);
 			drawMask = new Graphics(maski);
 			drawMask.setColor(Color.White);
 			drawMask.fillRect(0, 0, maski.getWidth(), maski.getHeight());
 			setImage(new Image(widthi, highti), maski); // java-vm: transparency
-														// with a mask is very
-														// memory consuming, but
-														// transparency with a
-														// mask is much faster
-														// in ewe-vm and doesn't
-														// consume more memory
-														// than a transparency
-														// color (ewe 1.49)
+			// with a mask is very
+			// memory consuming, but
+			// transparency with a
+			// mask is much faster
+			// in ewe-vm and doesn't
+			// consume more memory
+			// than a transparency
+			// color (ewe 1.49)
 			maski.free(); // setimage produces an inverted copy of the mask
 			maski = null;
 		}
@@ -182,12 +184,13 @@ public class TrackOverlay extends MapImage {
 				|| where.lonDec < topLeft.lonDec
 				|| where.lonDec > bottomRight.lonDec)
 			return false;
-		// ewe.sys.Vm.debug("showlastaddedpoint, lat: "+lat+"   lon: "+lon);
+		// ewe.sys.Vm.debug("showlastaddedpoint, lat: "+lat+" lon: "+lon);
 		Point p = trans.calcMapXY(where);
 		int x = p.x - pixelShift.x;
 		int y = p.y - pixelShift.y;
 		// draw.drawLine(x, y, x, y);
-		// ewe.sys.Vm.debug("showlastaddedpoint, x: "+x+"   y: "+y+"loc.x: "+location.x+"  loc.y:"+location.y);
+		// ewe.sys.Vm.debug("showlastaddedpoint, x: "+x+" y: "+y+"loc.x:
+		// "+location.x+" loc.y:"+location.y);
 		draw.fillRect(x - 1, y - 1, 3, 3);
 		// drawMask.fillRect(x-1, y-1, 3, 3);
 		/*
@@ -200,9 +203,10 @@ public class TrackOverlay extends MapImage {
 		if (imageChangesDontShow) {
 			try {
 				addPixelIfNeccessary(x, y, f);
-			} catch (IndexOutOfBoundsException e) // thrown when there are more
-													// than pixels stored than
-													// possible
+			} catch (IndexOutOfBoundsException e) // thrown when there are
+													// more
+			// than pixels stored than
+			// possible
 			{
 				fixate();
 			}
@@ -221,10 +225,11 @@ public class TrackOverlay extends MapImage {
 		// draw.drawImage(image,null,Color.DarkBlue,0,0,location.width,location.height);
 		// // changing the mask forces graphics to copy from image._awtImage to
 		// image.bufferedImage, which is displayed
-		draw.drawImage(image, null, Color.Pink, 0, 0, 1, 1); // width and height
-																// is anyway
-																// ignored,
-																// evtl. testen,
+		draw.drawImage(image, null, Color.Pink, 0, 0, 1, 1); // width and
+																// height
+		// is anyway
+		// ignored,
+		// evtl. testen,
 		imageChangesDontShow = false;
 		removeAllPixels();
 	}
@@ -242,7 +247,7 @@ public class TrackOverlay extends MapImage {
 			trackPixelsColor = new Color[maxPixelsInCache];
 		}
 		trackPixels[numPixels] = new Point(x, y); // IndexOutOfBoundsException
-													// is handled in PaintPoint
+		// is handled in PaintPoint
 		trackPixelsColor[numPixels] = f.getCopy();
 		numPixels++;
 	}
@@ -250,14 +255,14 @@ public class TrackOverlay extends MapImage {
 	public void addPixelIfNeccessary(int x, int y, Color f) {
 		if (trackPixels != null) {
 			int ll = (numPixels < 30 ? 0 : numPixels - 30); // look in the last
-															// 50 added Pixels
-															// if the same Pixel
-															// is already in the
-															// list (for
-															// performance
-															// reasons dont look
-															// in the whole
-															// list)
+			// 50 added Pixels
+			// if the same Pixel
+			// is already in the
+			// list (for
+			// performance
+			// reasons dont look
+			// in the whole
+			// list)
 			for (int i = numPixels - 1; i >= ll; i--) {
 				if (trackPixels[i].x == x && trackPixels[i].y == y
 						&& f.equals(trackPixelsColor[i])) {
@@ -279,19 +284,19 @@ public class TrackOverlay extends MapImage {
 		else
 			notOnThisOverlaySince++;
 		if (notOnThisOverlaySince > FIXATE_IF_NO_PIXELS_NUM) { // zur
-																// Performanceverbesserung:
-																// wenn in den
-																// letzten 60
-																// Updates
-																// keines mehr
-																// für dieses
-																// Overlay dabei
-																// war, Overlay
-																// Pixels fest
-																// schreiben,
-																// damit doDraw
-																// entlastet
-																// wird.
+			// Performanceverbesserung:
+			// wenn in den
+			// letzten 60
+			// Updates
+			// keines mehr
+			// für dieses
+			// Overlay dabei
+			// war, Overlay
+			// Pixels fest
+			// schreiben,
+			// damit doDraw
+			// entlastet
+			// wird.
 			fixate();
 			notOnThisOverlaySince = 0;
 		}
@@ -299,16 +304,17 @@ public class TrackOverlay extends MapImage {
 	}
 
 	public void doDraw(Graphics g, int options) { // this is automatically
-													// called when the image
-													// need to be (re-)drawn on
-													// the screen
+		// called when the image
+		// need to be (re-)drawn on
+		// the screen
 		super.doDraw(g, options);
-		imageChangesDontShow = true; // g.drawImage (in super) copies _awtImage
-										// into bufferedImage, any later changes
-										// to _awtImage dont show up until the
-										// mask or the image has changed -
-										// unfortunately bufferedImage is not
-										// accessable from outside
+		imageChangesDontShow = true; // g.drawImage (in super) copies
+										// _awtImage
+		// into bufferedImage, any later changes
+		// to _awtImage dont show up until the
+		// mask or the image has changed -
+		// unfortunately bufferedImage is not
+		// accessable from outside
 		// draw trackpoints which were added after image changes don't show up
 		// on the screen
 		if (tracks == null || tracks.size() == 0)

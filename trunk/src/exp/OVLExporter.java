@@ -88,12 +88,12 @@ public class OVLExporter extends Exporter {
 	 * created for(int i = 0; i<cacheDB.size(); i++){
 	 * holder=(CacheHolder)cacheDB.get(i); if(holder.is_black == false &&
 	 * holder.is_filtered == false){ pll = new ParseLatLon(holder.LatLon,".");
-	 * pll.parse(); //the circle!
-	 * outp.print("[Symbol "+Convert.toString(symCounter)+"]\r\n");
-	 * outp.print("Typ=6\r\n"); outp.print("Width=15\r\n");
-	 * outp.print("Height=15\r\n"); outp.print("Col=1\r\n");
-	 * outp.print("Zoom=1\r\n"); outp.print("Size=2\r\n");
-	 * outp.print("Area=2\r\n"); outp.print("XKoord="+pll.getLonDeg()+"\r\n");
+	 * pll.parse(); //the circle! outp.print("[Symbol
+	 * "+Convert.toString(symCounter)+"]\r\n"); outp.print("Typ=6\r\n");
+	 * outp.print("Width=15\r\n"); outp.print("Height=15\r\n");
+	 * outp.print("Col=1\r\n"); outp.print("Zoom=1\r\n");
+	 * outp.print("Size=2\r\n"); outp.print("Area=2\r\n");
+	 * outp.print("XKoord="+pll.getLonDeg()+"\r\n");
 	 * outp.print("YKoord="+pll.getLatDeg()+"\r\n"); symCounter++; //the text
 	 * outp.print("[Symbol "+Convert.toString(symCounter)+"]\r\n");
 	 * outp.print("Typ=2\r\n"); outp.print("Col=1\r\n");
@@ -107,10 +107,9 @@ public class OVLExporter extends Exporter {
 	 * }//if holder... }//for ... i < cacheDB ... // overlay section
 	 * outp.print("[Overlay]\r\n");
 	 * outp.print("Symbols="+Convert.toString(symCounter-1)+"\r\n"); // maplage
-	 * section outp.print("[MapLage]\r\n");
-	 * outp.print("MapName=Gesamtes Bundesgebiet (D1000)\r\n");
-	 * outp.print("DimmFc=100\r\n"); outp.print("ZoomFc=100\r\n");
-	 * outp.print("CenterLat="
+	 * section outp.print("[MapLage]\r\n"); outp.print("MapName=Gesamtes
+	 * Bundesgebiet (D1000)\r\n"); outp.print("DimmFc=100\r\n");
+	 * outp.print("ZoomFc=100\r\n"); outp.print("CenterLat="
 	 * +myPreferences.curCentrePt.getLatDeg(CWPoint.CW)+".00\r\n");
 	 * outp.print("CenterLong="
 	 * +myPreferences.curCentrePt.getLonDeg(CWPoint.CW)+".00\r\n");
@@ -118,7 +117,7 @@ public class OVLExporter extends Exporter {
 	 * outp.print("RefLine=6\r\n"); outp.print("RefOn=0\r\n");
 	 * outp.print("\r\n");
 	 * 
-	 * outp.close(); }catch(Exception e){
-	 * Vm.debug("Error writing to OVL file! "+e.toString()); } } // if execute }
+	 * outp.close(); }catch(Exception e){ Vm.debug("Error writing to OVL file!
+	 * "+e.toString()); } } // if execute }
 	 */
 }

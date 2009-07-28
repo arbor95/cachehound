@@ -26,11 +26,12 @@ public class UrlFetcher {
 	}
 
 	/**
-	 * @param url
-	 *            - if url-not-allowed chars are contained, they will be
+	 * @param url -
+	 *            if url-not-allowed chars are contained, they will be
 	 *            automatically encoded
-	 * @param if non null, realurl will be filled with the real url, which can
-	 *        differ from the given url, in case url returns a http-redirect
+	 * @param if
+	 *            non null, realurl will be filled with the real url, which can
+	 *            differ from the given url, in case url returns a http-redirect
 	 * @return
 	 * @throws IOException
 	 */

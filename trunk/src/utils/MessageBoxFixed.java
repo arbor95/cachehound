@@ -46,10 +46,11 @@ public class MessageBoxFixed {
 		 * needed Vm.debug("t ." + mThread.inThread()); MessageBox mb = new
 		 * MessageBox(title, text, type); ret = mb.execute();
 		 */
-		MBThread t = new MBThread(); // start a new thread is necessary because
-										// the simple ewe v1.49 threading model
-										// doesn't allow displaying of a
-										// messageBox in this kind of thread
+		MBThread t = new MBThread(); // start a new thread is necessary
+										// because
+		// the simple ewe v1.49 threading model
+		// doesn't allow displaying of a
+		// messageBox in this kind of thread
 		t.start();
 		done = false;
 		while (!done) {

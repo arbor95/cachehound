@@ -45,7 +45,6 @@ import CacheWolf.LogList;
 import CacheWolf.MyLocale;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
-import CacheWolf.STRreplace;
 import CacheWolf.SafeXML;
 import CacheWolf.Travelbug;
 import CacheWolf.navi.Metrics;
@@ -53,7 +52,6 @@ import CacheWolf.navi.Metrics;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.LogType;
-
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.File;
@@ -146,7 +144,8 @@ public class SpiderGC {
 		// Get password
 		InfoBox localInfB = new InfoBox(MyLocale.getMsg(5506, "Password"),
 				MyLocale.getMsg(5505, "Enter Password"), InfoBox.INPUT);
-		localInfB.feedback.setText(passwort); // Remember the PWD for next time
+		localInfB.feedback.setText(passwort); // Remember the PWD for next
+		// time
 		localInfB.feedback.isPassword = true;
 		int code = FormBase.IDOK;
 		if (passwort.equals("")) {
@@ -324,7 +323,7 @@ public class SpiderGC {
 		ch.setWayPoint(cacheDB.get(number).getWayPoint());
 		if (ch.isAddiWpt())
 			return -1; // No point re-spidering an addi waypoint, comes with
-						// parent
+		// parent
 
 		// check if we need to login
 		if (!loggedIn || forceLogin) {
@@ -422,7 +421,7 @@ public class SpiderGC {
 		Regex lineRex;
 		CacheHolder holder;
 		CWPoint origin = pref.curCentrePt; // No need to copy curCentrePt as it
-											// is only read and not written
+		// is only read and not written
 		if (!spiderAllFinds && !origin.isValid()) {
 			(new MessageBox(MyLocale.getMsg(5500, "Error"), MyLocale.getMsg(
 					5509, "Coordinates for centre must be set"), FormBase.OKB))
@@ -589,7 +588,8 @@ public class SpiderGC {
 		// String lineBlck = "";
 		int page_number = 4;
 		try {
-			lineRex = new Regex(p.getProp("lineRex")); // "<tr bgcolor=((?s).*?)</tr>"
+			lineRex = new Regex(p.getProp("lineRex")); // "<tr
+			// bgcolor=((?s).*?)</tr>"
 		} catch (Exception ex) {
 			infB.close(0);
 			Vm.showWait(false);
@@ -632,7 +632,8 @@ public class SpiderGC {
 				}
 
 				// Vm.debug("In loop");
-				Regex listBlockRex = new Regex(p.getProp("listBlockRex")); // "<table id=\"dlResults\"((?s).*?)</table>"
+				Regex listBlockRex = new Regex(p.getProp("listBlockRex")); // "<table
+				// id=\"dlResults\"((?s).*?)</table>"
 				listBlockRex.search(start);
 				dummy = listBlockRex.stringMatched(1);
 				try {
@@ -687,12 +688,12 @@ public class SpiderGC {
 							boolean is_available_GC = lineRex.stringMatched(1)
 									.indexOf("<strike>") == -1;
 							if (ch.is_archived() != is_archived_GC) { // Update
-																		// the
-																		// database
-																		// with
-																		// the
-																		// cache
-																		// status
+								// the
+								// database
+								// with
+								// the
+								// cache
+								// status
 								pref.log("Updating status of "
 										+ waypoint
 										+ " to "
@@ -703,12 +704,12 @@ public class SpiderGC {
 								}
 								ch.setArchived(is_archived_GC);
 							} else if (ch.is_available() != is_available_GC) { // Update
-																				// the
-																				// database
-																				// with
-																				// the
-																				// cache
-																				// status
+								// the
+								// database
+								// with
+								// the
+								// cache
+								// status
 								pref.log("Updating status of "
 										+ waypoint
 										+ " to "
@@ -716,12 +717,12 @@ public class SpiderGC {
 												: "not available"));
 								ch.setAvailable(is_available_GC);
 							} else if (spiderAllFinds && !ch.is_found()) { // Update
-																			// the
-																			// database
-																			// with
-																			// the
-																			// cache
-																			// status
+								// the
+								// database
+								// with
+								// the
+								// cache
+								// status
 								pref.log("Updating status of " + waypoint
 										+ " to found");
 								ch.setFound(true);
@@ -910,16 +911,21 @@ public class SpiderGC {
 	 * 
 	 * @param CacheHolderDetail
 	 *            chD The element wayPoint must be set to the name of a waypoint
-	 * @param boolean isUpdate True if an existing cache is being updated, false
-	 *        if it is a new cache
-	 * @param boolean fetchImages True if the pictures are to be fetched
-	 * @param boolean fetchTBs True if the TBs are to be fetched
-	 * @param boolean doNotGetFound True if the cache is not to be spidered if
-	 *        it has already been found
-	 * @param boolean fetchAllLogs True if all logs are to be fetched (by adding
-	 *        option '&logs=y' to command line). This is normally false when
-	 *        spidering from GPXImport as the logs are part of the GPX file, and
-	 *        true otherwise
+	 * @param boolean
+	 *            isUpdate True if an existing cache is being updated, false if
+	 *            it is a new cache
+	 * @param boolean
+	 *            fetchImages True if the pictures are to be fetched
+	 * @param boolean
+	 *            fetchTBs True if the TBs are to be fetched
+	 * @param boolean
+	 *            doNotGetFound True if the cache is not to be spidered if it
+	 *            has already been found
+	 * @param boolean
+	 *            fetchAllLogs True if all logs are to be fetched (by adding
+	 *            option '&logs=y' to command line). This is normally false when
+	 *            spidering from GPXImport as the logs are part of the GPX file,
+	 *            and true otherwise
 	 * @return -1 if the infoBox was closed (cancel spidering), 0 if there was
 	 *         an error (continue with next cache), 1 if everything ok
 	 */
@@ -1191,7 +1197,7 @@ public class SpiderGC {
 			break;
 		}// while(true)
 		if (infB.isClosed) {// If the infoBox was closed before getting here, we
-							// return -1
+			// return -1
 			return SPIDER_CANCEL;
 		}
 		return ret;
@@ -1427,7 +1433,7 @@ public class SpiderGC {
 		Extractor exSingleLog = new Extractor(doc, p
 				.getProp("singleLogExStart"), p.getProp("singleLogExEnd"), 0,
 				false); // maybe here is some change neccessary because findnext
-						// now gives the whole endstring back???
+		// now gives the whole endstring back???
 		singleLog = exSingleLog.findNext();
 		Extractor exIcon = new Extractor(singleLog, p.getProp("iconExStart"), p
 				.getProp("iconExEnd"), 0, true);
@@ -1455,7 +1461,7 @@ public class SpiderGC {
 			// Vm.debug(exDate.findNext());
 			// Vm.debug(exLog.findNext());
 			// Vm.debug("--------------------------------------------");
-			
+
 			type = LogType.getLogTypeFromIconString(exIcon.findNext());
 			name = exName.findNext();
 			logText = exLog.findNext();
@@ -1492,7 +1498,7 @@ public class SpiderGC {
 		if (nLogs > pref.maxLogsToSpider) {
 
 			reslts.add(Log.maxLog());
-			
+
 			pref.log("Too many logs. MAXLOGS reached (" + pref.maxLogsToSpider
 					+ ")");
 		} else
@@ -1543,8 +1549,8 @@ public class SpiderGC {
 					Extractor exGuid = new Extractor(bugDetails,
 							"details.aspx?guid=", "\" id=\"aspnetForm", 0,
 							Extractor.EXCLUDESTARTEND); // TODO Replace with
-														// spider.def see also
-														// further down
+					// spider.def see also
+					// further down
 					tb.setGuid(exGuid.findNext());
 					chD.Travelbugs.add(tb);
 				} catch (Exception ex) {
@@ -1593,9 +1599,9 @@ public class SpiderGC {
 				longDesc = doc;
 			else
 				longDesc = getLongDesc(doc);
-			longDesc = STRreplace.replace(longDesc, "<img", "<IMG");
-			longDesc = STRreplace.replace(longDesc, "src=", "SRC=");
-			longDesc = STRreplace.replace(longDesc, "'", "\"");
+			longDesc = longDesc.replace("<img", "<IMG");
+			longDesc = longDesc.replace("src=", "SRC=");
+			longDesc = longDesc.replace("'", "\"");
 			exImgBlock = new Extractor(longDesc, p.getProp("imgBlockExStart"),
 					p.getProp("imgBlockExEnd"), 0, false);
 		} catch (Exception ex) {// Missing property in spider.def
@@ -1646,7 +1652,8 @@ public class SpiderGC {
 							}
 							spideredUrls.add(imgUrl);
 							spiderCounter++;
-						} else { // Image already spidered as wayPoint_'idxUrl'
+						} else { // Image already spidered as
+							// wayPoint_'idxUrl'
 							fileName = chD.getParent().getWayPoint() + "_"
 									+ Convert.toString(idxUrl);
 							pref.log("Already loaded image: " + imgUrl + " as "
@@ -1661,7 +1668,8 @@ public class SpiderGC {
 						chD.images.add(imageInfo);
 					}
 				} catch (IndexOutOfBoundsException e) {
-					// Vm.debug("IndexOutOfBoundsException not in image span"+e.toString()+"imgURL:"+imgUrl);
+					// Vm.debug("IndexOutOfBoundsException not in image
+					// span"+e.toString()+"imgURL:"+imgUrl);
 					pref.log("Problem loading image. imgURL:" + imgUrl);
 				}
 			}
@@ -1723,7 +1731,8 @@ public class SpiderGC {
 							}
 							spideredUrls.add(imgUrl);
 							spiderCounter++;
-						} else { // Image already spidered as wayPoint_'idxUrl'
+						} else { // Image already spidered as
+							// wayPoint_'idxUrl'
 							fileName = chD.getParent().getWayPoint() + "_"
 									+ Convert.toString(idxUrl);
 							pref.log("Already loaded image: " + imgUrl + " as "
@@ -1813,12 +1822,13 @@ public class SpiderGC {
 	 * @param target
 	 *            The bytes of the image
 	 */
-	private void spiderImage(String imgUrl, String target) { // TODO implement a
-																// fetch(URL,
-																// filename) in
-																// HttpConnection
-																// and use that
-																// one
+	private void spiderImage(String imgUrl, String target) { // TODO
+		// implement a
+		// fetch(URL,
+		// filename) in
+		// HttpConnection
+		// and use that
+		// one
 		HttpConnection connImg;
 		Socket sockImg;
 		// InputStream is;
@@ -1832,7 +1842,9 @@ public class SpiderGC {
 		if (imgUrl.indexOf('%') >= 0)
 			connImg.documentIsEncoded = true;
 		connImg.setRequestorProperty("Connection", "close");
-		// connImg.setRequestorProperty("User-Agent","Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.12) Gecko/20080201 Firefox/2.0.0.12");
+		// connImg.setRequestorProperty("User-Agent","Mozilla/5.0 (Windows; U;
+		// Windows NT 5.1; en-US; rv:1.8.1.12) Gecko/20080201
+		// Firefox/2.0.0.12");
 		// connImg.setRequestorProperty("Accept","text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
 		try {
 			pref.log("Trying to fetch image from: " + imgUrl);
@@ -1845,8 +1857,8 @@ public class SpiderGC {
 					pref.log("Redirect to " + redirect);
 				}
 			} while (redirect != null); // TODO this can end up in an endless
-										// loop if trying to load from a
-										// malicous site
+			// loop if trying to load from a
+			// malicous site
 			daten = connImg.readData(sockImg);
 			fos = new FileOutputStream(new File(datei));
 			fos.write(daten.toBytes());
@@ -1912,8 +1924,9 @@ public class SpiderGC {
 					// file
 					hd = new CacheHolder();
 					hd.setWayPoint(adWayPoint);
-					hd.getExistingDetails(); // Accessing Details reads file if
-												// not yet done
+					hd.getExistingDetails(); // Accessing Details reads file
+					// if
+					// not yet done
 				} else {
 					hd = new CacheHolder();
 					hd.setWayPoint(adWayPoint);
@@ -1942,9 +1955,9 @@ public class SpiderGC {
 				} else {
 					CacheHolder cx = cacheDB.get(idx);
 					if (cx.is_Checked && // Only re-spider existing addi
-											// waypoints that are ticked
+							// waypoints that are ticked
 							cx.isVisible()) { // and are visible (i.e. not
-												// filtered)
+						// filtered)
 						cx.initStates(false);
 						cx.update(hd);
 						cx.is_Checked = true;
@@ -2092,8 +2105,9 @@ public class SpiderGC {
 
 	public String encodeUTF8URL(byte[] what) {
 		int max = what.length;
-		char[] dest = new char[6 * max]; // Assume each char is a UTF char and
-											// encoded into 6 chars
+		char[] dest = new char[6 * max]; // Assume each char is a UTF char
+		// and
+		// encoded into 6 chars
 		char d = 0;
 		for (int i = 0; i < max; i++) {
 			char c = (char) what[i];
@@ -2124,7 +2138,7 @@ public class SpiderGC {
 			// infB.setInfo(oldInfoBox+"\nGetting bug: "+bug);
 			pref.log("Fetching bugId: " + name);
 			bugList = fetch(p.getProp("getBugByName")
-					+ STRreplace.replace(SafeXML.clean(name), " ", "+"));
+					+ SafeXML.clean(name).replace(" ", "+"));
 		} catch (Exception ex) {
 			pref.log("Could not fetch bug list");
 			bugList = "";

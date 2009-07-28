@@ -255,7 +255,7 @@ public class CWPoint extends TrackPoint {
 						+ "[Rr]:?\\s*([+-]?[0-9]{1,7})\\s+[Hh]:?\\s*([+-]?[0-9]{1,7})"
 						+ ")");
 		this.latDec = -91; // return unset / unvalid values if parsing was not
-							// successfull
+		// successfull
 		this.lonDec = -361;
 		rex.search(coord);
 		if (rex.stringMatched(1) != null) { // Std format
@@ -287,8 +287,9 @@ public class CWPoint extends TrackPoint {
 							+ rex.stringMatched(16), null, null, DD);
 		} else if (rex.stringMatched(17) != null) { // UTM
 			set(rex.stringMatched(17), rex.stringMatched(19), rex
-					.stringMatched(18)); // parse sequence is E N, but set needs
-											// N E
+					.stringMatched(18)); // parse sequence is E N, but set
+											// needs
+			// N E
 		} else if (rex.stringMatched(20) != null) { // GK
 			set(rex.stringMatched(20), rex.stringMatched(21));
 		}
@@ -365,7 +366,7 @@ public class CWPoint extends TrackPoint {
 		double meters2deglon = 1 / (1000 * (new CWPoint(0, 0))
 				.getDistance(new CWPoint(1, 0)));
 		switch (direction) { // TODO use ellipsoid distance calculations for
-								// better accuracy
+		// better accuracy
 		case 0:
 			latDec += meters * meters2deglon;
 			return;
@@ -780,10 +781,9 @@ public class CWPoint extends TrackPoint {
 			return MyLocale.getMsg(999, "not set");
 		switch (format) {
 		case DD:
-			return getNSLetter() + " "
-					+ STRreplace.replace(getLatDeg(format), "-", "") + "° "
-					+ getEWLetter() + " "
-					+ STRreplace.replace(getLonDeg(format), "-", "") + "°";
+			return getNSLetter() + " " + getLatDeg(format).replace("-", "")
+					+ "° " + getEWLetter() + " "
+					+ getLonDeg(format).replace("-", "") + "°";
 		case CW:
 			format = DMM;
 			return getNSLetter() + " " + getLatDeg(format) + "° "

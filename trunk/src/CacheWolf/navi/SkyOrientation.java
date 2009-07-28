@@ -17,61 +17,62 @@ public class SkyOrientation {
 	public final static int SUN = 0;
 	public final static int MOON = 1;
 	public static final int ALIOTH = 2; // brightest star in Grater Bear
-										// (Grosser Wagen) Rektaszension 12 h 54
-										// m 2 s Deklination +55 Grad 57' 36"
+	// (Grosser Wagen) Rektaszension 12 h 54
+	// m 2 s Deklination +55 Grad 57' 36"
 	public static final int GREATER_BEAR = ALIOTH;
 	public static final int ALNILAM = 3; // Orion = Alnilam = mittlerer
-											// Guertelstern Aequinoktium 2000):
-											// Rektaszension 5h36m13s;
-											// Deklination -1 Grad 12'7"
+	// Guertelstern Aequinoktium 2000):
+	// Rektaszension 5h36m13s;
+	// Deklination -1 Grad 12'7"
 	public static final int ORION = ALNILAM;
 	public static final int CASSIOPEIA_GAMMA = 4; // Kassiopeia Gamma: 00h 56m
-													// 42.50s +60 Grad 43' 00.3"
+	// 42.50s +60 Grad 43' 00.3"
 	public static final int CASSIOPEIA = CASSIOPEIA_GAMMA;
 	public static final int DENEB = 5;
 	public static final int CYGNUS = DENEB; // Cygnus = Schwan
 	public static final int MIMOSA = 6; // second brightest star in Southern
-										// Cross
-	public static final int SOUTHERN_CROSS = MIMOSA; // SOUTHERN_CROSS = Kreus
-														// des Südens = Crux
-														// australia
+	// Cross
+	public static final int SOUTHERN_CROSS = MIMOSA; // SOUTHERN_CROSS =
+														// Kreus
+	// des Südens = Crux
+	// australia
 
 	public static final CWPoint[] STARS = {
-			// (Deklination, Rektaszension)
+	// (Deklination, Rektaszension)
 			/* ALIOTH */new CWPoint(55. + 57. / 60. + 36. / 3600.,
 					(12. + 54. / 60. + 2. / 3600.) * 15.), // ALIOTH:
-															// Rektaszension 12
-															// h 54 m 2 s
-															// Deklination +55
-															// Grad 57' 36"
+			// Rektaszension 12
+			// h 54 m 2 s
+			// Deklination +55
+			// Grad 57' 36"
 			/* ALNILAM */new CWPoint(-1. - 12. / 60. - 7. / 3600.,
 					(5. + 36. / 60. + 13. / 3600.) * 15.), // (-1. -12./60.
-															// -7./3600., (5. +
-															// 36./60. +
-															// 13./3600.)*15.)
-															// <- wikipedia //
-															// -1.19748, 5.60978
-															// * 15.) <- www....
-															// // (-1. -11./60.
-															// -52./3600., (5. +
-															// 36./60. +
-															// 35./3600.)*15.)
-															// <- Stellarium
+			// -7./3600., (5. +
+			// 36./60. +
+			// 13./3600.)*15.)
+			// <- wikipedia //
+			// -1.19748, 5.60978
+			// * 15.) <- www....
+			// // (-1. -11./60.
+			// -52./3600., (5. +
+			// 36./60. +
+			// 35./3600.)*15.)
+			// <- Stellarium
 			/* Cassiopeia */new CWPoint(60. + 43. / 60. + 0.3 / 3600.,
 					(0 + 56. / 60. + 42.5 / 3600.) * 15.), // CASSIOPALA_GAMMA
-															// 00h 56m 42.50s,
-															// 60 Grad 43'
-															// 00.3" <-- wikipedia, Stellarium: 57m 11s, 60 Grad 45' 29"
+			// 00h 56m 42.50s,
+			// 60 Grad 43'
+			// 00.3" <-- wikipedia, Stellarium: 57m 11s, 60 Grad 45' 29"
 			/* Deneb */new CWPoint(45. + 16. / 60. + 49.2 / 3600.,
 					(20 + 41. / 60. + 25.6 / 3600.) * 15.), // im Schwan
-															// (Sommerdreieck)
-															// Quelle:
-															// Stellarium
+			// (Sommerdreieck)
+			// Quelle:
+			// Stellarium
 			/* Mimosa */new CWPoint(-59. - 41. / 60. - 19. / 3600.,
 					(12 + 47. / 60. + 43.2 / 3600.) * 15.) // im Schwan
-															// (Sommerdreieck)
-															// Quelle:
-															// Stellarium
+	// (Sommerdreieck)
+	// Quelle:
+	// Stellarium
 	// Sirius
 	};
 
@@ -155,19 +156,19 @@ public class SkyOrientation {
 			stunde = Convert.parseInt(utc.substring(0, 2));
 			minute = Convert.parseInt(utc.substring(2, 4));
 			sekunde = Convert.parseInt(utc.substring(4, 6)); // Kommastellen
-																// werden
-																// abgeschnitten
+			// werden
+			// abgeschnitten
 			// julianisches "Datum" jd berechnen (see
 			// http://de.wikipedia.org/wiki/Julianisches_Datum )
 			if (monat < 2) {
 				jahr--;
 				monat += 12;
 			} // verlegung des Jahres Endes auf Feb macht Berechnung von
-				// SChaltjahren einfacher
+			// SChaltjahren einfacher
 			double a = (int) java.lang.Math.floor(jahr / 100.); // Alle hundert
-																// Jahre kein
-																// Schlatjahr
-																// (abrunden)
+			// Jahre kein
+			// Schlatjahr
+			// (abrunden)
 			double b = 2 - a + java.lang.Math.floor(a / 4.);
 			double jd = java.lang.Math.floor(365.25 * (jahr + 4716.))
 					+ java.lang.Math.floor(30.6001 * (monat + 1.)) + tag
@@ -209,19 +210,19 @@ public class SkyOrientation {
 			stunde = Convert.parseInt(utc.substring(0, 2));
 			minute = Convert.parseInt(utc.substring(2, 4));
 			sekunde = Convert.parseInt(utc.substring(4, 6)); // Kommastellen
-																// werden
-																// abgeschnitten
+			// werden
+			// abgeschnitten
 			// julianisches "Datum" jd berechnen (see
 			// http://de.wikipedia.org/wiki/Julianisches_Datum )
 			if (monat < 2) {
 				jahr--;
 				monat += 12;
 			} // verlegung des Jahres Endes auf Feb macht Berechnung von
-				// SChaltjahren einfacher
+			// SChaltjahren einfacher
 			double a = (int) java.lang.Math.floor(jahr / 100.); // Alle hundert
-																// Jahre kein
-																// Schlatjahr
-																// (abrunden)
+			// Jahre kein
+			// Schlatjahr
+			// (abrunden)
 			double b = 2 - a + java.lang.Math.floor(a / 4.);
 			double jd = java.lang.Math.floor(365.25 * (jahr + 4716.))
 					+ java.lang.Math.floor(30.6001 * (monat + 1.)) + tag
@@ -258,7 +259,7 @@ public class SkyOrientation {
 			}
 			// Azimut
 			double t0 = (jd0 - 2451545.) / 36525.; // schon in t0 bzw jd0
-													// richtig berechnet?
+			// richtig berechnet?
 			double thetaHG = 6.697376 + 2400.05134 * t0 + 1.002738
 					* (stunde + minute / 60. + sekunde / 3600.);
 			double theta = thetaHG * 15. + lon;
@@ -325,31 +326,31 @@ public class SkyOrientation {
 		// Source: wikipedia
 		return equatorial2AzimutCoos(onEarth, jd, new CWPoint(-1. - 12. / 60.
 				- 7. / 3600., (5. + 36. / 60. + 13. / 3600.) * 15.)); // (-1.
-																		// -12./60.
-																		// -7./3600.,
-																		// (5. +
-																		// 36./60.
-																		// +
-																		// 13./3600.)*15.)
-																		// <-
-																		// wikipedia
-																		// //
-																		// -1.19748,
-																		// 5.60978
-																		// *
-																		// 15.)
-																		// <-
-																		// www....
-																		// //
-																		// (-1.
-																		// -11./60.
-																		// -52./3600.,
-																		// (5. +
-																		// 36./60.
-																		// +
-																		// 35./3600.)*15.)
-																		// <-
-																		// Stellarium
+		// -12./60.
+		// -7./3600.,
+		// (5. +
+		// 36./60.
+		// +
+		// 13./3600.)*15.)
+		// <-
+		// wikipedia
+		// //
+		// -1.19748,
+		// 5.60978
+		// *
+		// 15.)
+		// <-
+		// www....
+		// //
+		// (-1.
+		// -11./60.
+		// -52./3600.,
+		// (5. +
+		// 36./60.
+		// +
+		// 35./3600.)*15.)
+		// <-
+		// Stellarium
 	}
 
 	/**
@@ -389,7 +390,7 @@ public class SkyOrientation {
 		double l = 13.1763966 * DEG * D + l0;
 		double MMoon = l - 0.1114041 * DEG * D - P0; // Moon's mean anomaly M
 		double N = N0 - 0.0529539 * DEG * D; // Moon's mean ascending node
-												// longitude
+		// longitude
 
 		double sunlon = getSunEclipticCoos(julianDate).lonDec;
 		double C = l - sunlon;
@@ -417,26 +418,23 @@ public class SkyOrientation {
 		 * double e = 0.054900; double a = 384401; // km double diameter0 =
 		 * 0.5181*DEG; // angular diameter of Moon at a distance double
 		 * parallax0 = 0.9507*DEG; // parallax at distance a
-		 * 
-		 * // relative distance to semi mayor axis of lunar oribt
+		 *  // relative distance to semi mayor axis of lunar oribt
 		 * moonCoor.distance = (1-sqr(e)) / (1+e*Math.cos(MMoon2+Ec) );
 		 * moonCoor.diameter = diameter0/moonCoor.distance; // angular diameter
 		 * in radians moonCoor.parallax = parallax0/moonCoor.distance; //
 		 * horizontal parallax in radians moonCoor.distance *= a; // distance in
 		 * km
-		 * 
-		 * // Age of Moon in radians since New Moon (0) - Full Moon (pi)
+		 *  // Age of Moon in radians since New Moon (0) - Full Moon (pi)
 		 * moonCoor.moonAge = Mod2Pi(l3-sunCoor.lon); moonCoor.phase =
 		 * 0.5*(1-Math.cos(moonCoor.moonAge)); // Moon phase, 0-1
 		 * 
-		 * var phases = new Array("Neumond", "Zunehmende Sichel",
-		 * "Erstes Viertel", "Zunnehmender Mond", "Vollmond",
-		 * "Abnehmender Mond", "Letztes Viertel", "Abnehmende Sichel",
-		 * "Neumond"); var mainPhase = 1./29.53*360*DEG; // show 'Newmoon,
-		 * 'Quarter' for +/-1 day arond the actual event var p =
-		 * Mod(moonCoor.moonAge, 90.*DEG); if (p < mainPhase || p >
-		 * 90*DEG-mainPhase) p = 2*Math.round(moonCoor.moonAge / (90.*DEG));
-		 * else p = 2*Math.floor(moonCoor.moonAge / (90.*DEG))+1;
+		 * var phases = new Array("Neumond", "Zunehmende Sichel", "Erstes
+		 * Viertel", "Zunnehmender Mond", "Vollmond", "Abnehmender Mond",
+		 * "Letztes Viertel", "Abnehmende Sichel", "Neumond"); var mainPhase =
+		 * 1./29.53*360*DEG; // show 'Newmoon, 'Quarter' for +/-1 day arond the
+		 * actual event var p = Mod(moonCoor.moonAge, 90.*DEG); if (p <
+		 * mainPhase || p > 90*DEG-mainPhase) p = 2*Math.round(moonCoor.moonAge /
+		 * (90.*DEG)); else p = 2*Math.floor(moonCoor.moonAge / (90.*DEG))+1;
 		 * moonCoor.moonPhase = phases[p];
 		 * 
 		 * moonCoor.sign = Sign(moonCoor.lon); return (float) moonCoor.lonDec;
@@ -456,8 +454,8 @@ public class SkyOrientation {
 	 * @param onEarth
 	 *            pos. on earth for which the azimut is wanted
 	 * @param julianDate
-	 * @param equatorial
-	 *            : lonDec = rektaszension (alpha), latDec = Deklination (delta)
+	 * @param equatorial :
+	 *            lonDec = rektaszension (alpha), latDec = Deklination (delta)
 	 * @return lonDec: azimuth in degrees from north, lat: elevation in degrees
 	 *         from horizont alogithism from wikipedia sonnenbahn
 	 */
@@ -466,9 +464,9 @@ public class SkyOrientation {
 		double stunde = ((julianDate + 0.5) % 1) * 24;
 		double jd0 = julianDate - stunde / 24; // julian date at UTC 0:00
 		double t0 = (jd0 - 2451545.) / 36525.; // schon in t0 bzw jd0 richtig
-												// berechnet?
+		// berechnet?
 		double thetaHG = 6.697376 + 2400.05134 * t0 + 1.002738 * stunde; // +
-																			// (double)minute/60.);
+		// (double)minute/60.);
 		double theta = thetaHG * 15. + onEarth.lonDec;
 		double tau = (theta - equatorial.lonDec) / 180 * Math.PI;
 		double phi = onEarth.latDec / 180 * Math.PI;
@@ -506,7 +504,8 @@ public class SkyOrientation {
 	 */
 	public static CWPoint ecliptic2Equatorial(CWPoint eklipCoo,
 			double juliandate) {
-		double T = (juliandate - 2451545.0) / 36525.; // Epoch 2000 January 1.5
+		double T = (juliandate - 2451545.0) / 36525.; // Epoch 2000 January
+														// 1.5
 		double eps = (23. + (26 + 21.45 / 60) / 60 + T
 				* (-46.815 + T * (-0.0006 + T * 0.00181)) / 3600)
 				/ 180 * java.lang.Math.PI; // schiefe der Ekliptik
@@ -518,7 +517,7 @@ public class SkyOrientation {
 		equatorial.lonDec = (180 / Math.PI * Math.atan2((sinlon * coseps - Math
 				.tan(eklipCoo.latDec / 180 * Math.PI)
 				* sineps), Math.cos(eklipCoo.lonDec / 180 * Math.PI))) % 360; // rektaszension
-																				// (alpha)
+		// (alpha)
 		equatorial.latDec = 180
 				/ Math.PI
 				* Math.asin(Math.sin(eklipCoo.latDec / 180 * Math.PI) * coseps

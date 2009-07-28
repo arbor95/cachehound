@@ -526,8 +526,8 @@ public class GPXImporter extends MinML {
 				holder.getFreshDetails().LongDescription = SafeXML
 						.cleanback(strData)
 						+ "<br>"; // <br> needed because we also use a <br> in
-									// SpiderGC. Without it the comparison in
-									// ch.update fails
+			// SpiderGC. Without it the comparison in
+			// ch.update fails
 			else
 				holder.getFreshDetails().LongDescription = strData + "\n";
 			return;
@@ -565,8 +565,6 @@ public class GPXImporter extends MinML {
 			Vm.debug("Char: " + strBuf.toString());
 	}
 
-
-
 	public static String TCSizetoText(String size) {
 		if (size.equals("1"))
 			return "Micro";
@@ -590,8 +588,8 @@ public class GPXImporter extends MinML {
 	 * private int searchWpt(Vector db, String wpt){ if(wpt.length()>0){ wpt =
 	 * wpt.toUpperCase(); CacheHolder ch = new CacheHolder(); //Search through
 	 * complete database for(int i = 0;i < db.size();i++){ ch =
-	 * (CacheHolder)db.get(i); if(ch.wayPoint.indexOf(wpt) >=0 ){ return i; } }
-	 * // for } // if return -1; }
+	 * (CacheHolder)db.get(i); if(ch.wayPoint.indexOf(wpt) >=0 ){ return i; } } //
+	 * for } // if return -1; }
 	 */
 
 	private void spiderImagesUsingSpider() {

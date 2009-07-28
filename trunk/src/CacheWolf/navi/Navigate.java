@@ -58,19 +58,19 @@ public class Navigate {
 			try {
 				gpsdThread = new GpsdThread(gpsPos);
 				if (gpsPos.latDec == 0 && gpsPos.lonDec == 0) { // TODO use
-																// isValid() //
-																// TODO raus
-																// damit?
+					// isValid() //
+					// TODO raus
+					// damit?
 					gpsPos.latDec = destination.latDec; // setze Zielpunkt als
-														// Ausgangspunkt
+					// Ausgangspunkt
 					gpsPos.lonDec = destination.lonDec;
 				}
 				gpsdThread.start();
 				startDisplayTimer();
 				gpsRunning = true;
 				curTrack = new Track(trackColor); // TODO addTrack here to
-													// MovingMap? see
-													// MovingMapPanel.snapToGps
+				// MovingMap? see
+				// MovingMapPanel.snapToGps
 				if (lograw)
 					gpsPos.startLog(Global.getProfile().dataDir, logIntervall,
 							CWGPSPoint.LOGALL);
@@ -109,19 +109,19 @@ public class Navigate {
 							FormBase.OKB)).exec();
 				}
 				if (gpsPos.latDec == 0 && gpsPos.lonDec == 0) { // TODO use
-																// isValid() //
-																// TODO raus
-																// damit?
+					// isValid() //
+					// TODO raus
+					// damit?
 					gpsPos.latDec = destination.latDec; // setze Zielpunkt als
-														// Ausgangspunkt
+					// Ausgangspunkt
 					gpsPos.lonDec = destination.lonDec;
 				}
 				serThread.start();
 				startDisplayTimer();
 				gpsRunning = true;
 				curTrack = new Track(trackColor); // TODO addTrack here to
-													// MovingMap? see
-													// MovingMapPanel.snapToGps
+				// MovingMap? see
+				// MovingMapPanel.snapToGps
 				if (lograw)
 					gpsPos.startLog(Global.getProfile().dataDir, logIntervall,
 							CWGPSPoint.LOGALL);
@@ -158,7 +158,7 @@ public class Navigate {
 	public void setRawLogging(boolean on, int intervall) {
 		lograw = on;
 		logIntervall = intervall; // TODO switch on and off during serthread
-									// running
+		// running
 	}
 
 	public void startDisplayTimer() {
@@ -233,7 +233,7 @@ public class Navigate {
 			try {
 				curTrack.add(gpsPos);
 			} catch (IndexOutOfBoundsException e) { // track full -> create a
-													// new one
+				// new one
 				curTrack = new Track(trackColor);
 				curTrack.add(gpsPos);
 				if (movingMap != null)
@@ -249,21 +249,22 @@ public class Navigate {
 				// ewe.sys.Vm.debug("neu: "+ skyOrientationDir.lonDec+ "jd: " +
 				// jd);
 			} catch (NumberFormatException e) { // irgendeine Info zu Berechnung
-												// des Sonnenaziumt fehlt
-												// (insbesondere Datum und
-												// Uhrzeit sind nicht unbedingt
-												// gleichzeitig verfügbar wenn
-												// es einen Fix gibt)
+				// des Sonnenaziumt fehlt
+				// (insbesondere Datum und
+				// Uhrzeit sind nicht unbedingt
+				// gleichzeitig verfügbar wenn
+				// es einen Fix gibt)
 				skyOrientationDir.set(-361, -361); // any value out of range
-													// (bigger than 360) will
-													// prevent drawArrows from
-													// drawing it
+				// (bigger than 360) will
+				// prevent drawArrows from
+				// drawing it
 			}
 
 		} else {
-			skyOrientationDir.set(-361, -361); // any value out of range (bigger
-												// than 360) will prevent
-												// drawArrows from drawing it
+			skyOrientationDir.set(-361, -361); // any value out of range
+												// (bigger
+			// than 360) will prevent
+			// drawArrows from drawing it
 		}
 		gotoPanel.updateGps(fix);
 		if (movingMap != null)
@@ -322,10 +323,10 @@ class GpsdThread extends mThread {
 
 	private String getGpsdData(String command) {
 		byte[] rcvBuff = new byte[1024 * 10]; // when some action takes a long
-												// time (eg. loading or zooming
-												// a map), a lot of data can be
-												// in the buffer, read that at
-												// once
+		// time (eg. loading or zooming
+		// a map), a lot of data can be
+		// in the buffer, read that at
+		// once
 		int rcvLength = 0;
 		try {
 			gpsdSocket.write(command.getBytes());
@@ -362,10 +363,11 @@ class GpsdThread extends mThread {
  */
 class SerialThread extends mThread {
 	SerialPort comSp;
-	byte[] comBuff = new byte[1024 * 10]; // when some action takes a long time
-											// (eg. loading or zooming a map), a
-											// lot of data can be in the buffer,
-											// read that at once
+	byte[] comBuff = new byte[1024 * 10]; // when some action takes a long
+											// time
+	// (eg. loading or zooming a map), a
+	// lot of data can be in the buffer,
+	// read that at once
 	int comLength = 0;
 	CWGPSPoint myGPS;
 	boolean run, tcpForward;

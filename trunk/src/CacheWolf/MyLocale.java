@@ -60,53 +60,53 @@ public class MyLocale {
 	 */
 	private static void setLocale(String language_) {
 		int tmp = Locale.createID(language_, "", 0); // in ewe-vm v1.49 this
-														// call is enough to set
-														// the locale correctly
-														// and this works even
-														// with not supported
-														// languages like FR
-														// (french), e.g. it
-														// works even if tmp ==
-														// -1, call new Locale()
-														// instead of new
-														// Locale(tmp) then.
+		// call is enough to set
+		// the locale correctly
+		// and this works even
+		// with not supported
+		// languages like FR
+		// (french), e.g. it
+		// works even if tmp ==
+		// -1, call new Locale()
+		// instead of new
+		// Locale(tmp) then.
 		tmp = (tmp >= 1024 ? tmp - 1024 : tmp); // ewe-vm v1.49 some times
-												// returns the correct value +
-												// 1024
+		// returns the correct value +
+		// 1024
 		// Vm.debug("spec-lang: " + tmp);
 		if (tmp > -1)
 			l = new Locale(tmp);
 		else
 			l = Locale.createFor("EN", "", 0 /* Locale.FORCE_CREATION */); // forcing
-																			// the
-																			// requiered
-																			// language
-																			// doesn't
-																			// work,
-																			// because
-																			// Locale.numberformat
-																			// and
-																			// so
-																			// on
-																			// cannot
-																			// determine
-																			// the
-																			// requested
-																			// format
-																			// then.
-																			// BTW:
-																			// if
-																			// French
-																			// is
-																			// system
-																			// language
-																			// new
-																			// Locale()
-																			// works
-																			// even
-																			// in
-																			// ewe-vm
-																			// v1.49
+		// the
+		// requiered
+		// language
+		// doesn't
+		// work,
+		// because
+		// Locale.numberformat
+		// and
+		// so
+		// on
+		// cannot
+		// determine
+		// the
+		// requested
+		// format
+		// then.
+		// BTW:
+		// if
+		// French
+		// is
+		// system
+		// language
+		// new
+		// Locale()
+		// works
+		// even
+		// in
+		// ewe-vm
+		// v1.49
 		resourcelanguage = language_;
 	}
 
@@ -120,44 +120,44 @@ public class MyLocale {
 	private static void init() throws IllegalThreadStateException {
 		if (inInit) {
 			throw new IllegalThreadStateException("init may not be run twice"); // this
-																				// can
-																				// happen,
-																				// if
-																				// ewe
-																				// is
-																				// loading
-																				// another
-																				// class
-																				// in
-																				// background,
-																				// which
-																				// causes
-																				// a
-																				// call
-																				// to
-																				// e.g.
-																				// MyLocale.getDigSeperator
-																				// (most
-																				// likely
-																				// in
-																				// a
-																				// static
-																				// statement).
-																				// Ewe-Vm
-																				// v1.49
-																				// seems
-																				// to
-																				// be
-																				// loading
-																				// static
-																				// classes
-																				// ahead,
-																				// causing
-																				// the
-																				// danger
-																				// of
-																				// this
-																				// problem.
+			// can
+			// happen,
+			// if
+			// ewe
+			// is
+			// loading
+			// another
+			// class
+			// in
+			// background,
+			// which
+			// causes
+			// a
+			// call
+			// to
+			// e.g.
+			// MyLocale.getDigSeperator
+			// (most
+			// likely
+			// in
+			// a
+			// static
+			// statement).
+			// Ewe-Vm
+			// v1.49
+			// seems
+			// to
+			// be
+			// loading
+			// static
+			// classes
+			// ahead,
+			// causing
+			// the
+			// danger
+			// of
+			// this
+			// problem.
 		}
 		inInit = true;
 		initErrors = "";
@@ -166,32 +166,33 @@ public class MyLocale {
 		// use hard coded messages
 		l = null;
 		if ((language.length() != 0) && (!language.equalsIgnoreCase("auto"))) { // Was
-																				// a
-																				// language
-																				// explicitly
-																				// specified?
+			// a
+			// language
+			// explicitly
+			// specified?
 			setLocale(language);
 			if (!(new FileBugfix(getLocaleFileName(resourcelanguage)).exists())) {
 				l = null; // language file not found
 				initErrors += "Language " + language
-						+ " not found - using system language\n";// don't copy
-																	// this
-																	// messagebox
-																	// into a
-																	// language
-																	// file,
-																	// because
-																	// it is
-																	// only used
-																	// if no
-																	// languages
-																	// file can
-																	// be
-																	// accessed
+						+ " not found - using system language\n";// don't
+																	// copy
+				// this
+				// messagebox
+				// into a
+				// language
+				// file,
+				// because
+				// it is
+				// only used
+				// if no
+				// languages
+				// file can
+				// be
+				// accessed
 			}
 		}
 		if (l == null) { // no language specified OR specified language not
-							// available -> use system default
+			// available -> use system default
 			setLocale(Vm.getLocale().getString(Locale.LANGUAGE_SHORT, 0, 0));
 			// test if a localisation file for the system language exists
 			if (!(new FileBugfix(getLocaleFileName(resourcelanguage)).exists())) {
@@ -206,8 +207,8 @@ public class MyLocale {
 				 * i++){ ltmp.set(all[i]); String lg =
 				 * ltmp.getString(Locale.LANGUAGE_SHORT,0,0); Vm.debug(i +
 				 * "sprache: " + lg + " (" + ltmp.getString(Locale.LANGUAGE, 0,
-				 * 0) + ", " + ltmp.getString(Locale.LANGUAGE_ENGLISH, 0, 0) +
-				 * ") land: " + ltmp.getString(Locale.COUNTRY, 0, 0)); }
+				 * 0) + ", " + ltmp.getString(Locale.LANGUAGE_ENGLISH, 0, 0) + ")
+				 * land: " + ltmp.getString(Locale.COUNTRY, 0, 0)); }
 				 */
 			}
 		}
@@ -220,9 +221,9 @@ public class MyLocale {
 					public String getString(int what, int forValue, int options) {
 						if (what == LANGUAGE_SHORT)
 							return resourcelanguage; // this is necessary
-														// because French cannot
-														// be set in ewe-vm
-														// v1.49
+						// because French cannot
+						// be set in ewe-vm
+						// v1.49
 						else
 							return super.getString(what, forValue, options);
 					}
@@ -343,8 +344,8 @@ public class MyLocale {
 	 *            indicates that a currency symbol should be used. </br> ','
 	 *            indicates that thousands groupings should be used. </br> '.'
 	 *            separates formatting before the decimal point and after the
-	 *            decimal point.</br> '0' before the decimal point indicates the
-	 *            number of digits before the decimal point.</br>
+	 *            decimal point.</br> '0' before the decimal point indicates
+	 *            the number of digits before the decimal point.</br>
 	 * @return The formatted number
 	 */
 	public static String formatLong(Long number, String fmt) {

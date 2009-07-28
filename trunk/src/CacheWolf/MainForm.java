@@ -49,8 +49,8 @@ public class MainForm extends Editor {
 	public MainForm(boolean dbg, String pathtoprefxml) {
 		pref.debug = dbg;
 		pref.setPathToConfigFile(pathtoprefxml); // in case pathtoprefxml ==
-													// null the preferences will
-													// determine the path itself
+		// null the preferences will
+		// determine the path itself
 		doIt();
 	}
 
@@ -181,7 +181,7 @@ public class MainForm extends Editor {
 	}
 
 	public void onEvent(Event ev) { // Preferences have been changed by
-									// PreferencesScreen
+		// PreferencesScreen
 		if (pref.dirty == true) {
 			mTab.getTablePanel().myMod.setColumnNamesAndWidths();
 			mTab.getTablePanel().refreshControl();

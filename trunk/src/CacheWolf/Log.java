@@ -41,9 +41,9 @@ public class Log {
 			int indexLogType = logLine.indexOf("logType='");
 			if (indexLogType != -1) {
 				int indexEndLogType = logLine.indexOf("'", indexLogType + 9);
-				logType = logType.valueOf(logLine.substring(indexLogType + 9, indexEndLogType));
-			}
-			else {
+				logType = logType.valueOf(logLine.substring(indexLogType + 9,
+						indexEndLogType));
+			} else {
 				logType = LogType.getLogTypeFromIconString(iconString);
 			}
 			int d1 = logLine.indexOf(";");
@@ -56,13 +56,13 @@ public class Log {
 			message = logLine.substring(l2 + 4, logLine.indexOf("]]>", l1));
 		} catch (Exception ex) {
 			if (logLine.indexOf("<img") < 0) { // Have we reached the line that
-												// states max logs reached
-//				iconString = MAXLOGICON;
+				// states max logs reached
+				// iconString = MAXLOGICON;
 				logType = LogType.UNKNOWN;
 			} else {
 				Global.getPref().log("Error parsing log: " + logLine);
 				logType = LogType.UNKNOWN;
-//				iconString = INVALIDLOGICON;
+				// iconString = INVALIDLOGICON;
 			}
 			date = "1900-00-00";
 			logger = message = "";
@@ -75,7 +75,7 @@ public class Log {
 
 	public Log(LogType logType, String date, String logger, String message,
 			boolean recommended_) {
-		//this.iconString = icon;
+		// this.iconString = icon;
 		this.logType = logType;
 		this.date = date;
 		this.logger = logger;
@@ -84,17 +84,18 @@ public class Log {
 	}
 
 	public static Log maxLog() {
-		return new Log(LogType.UNKNOWN, "1900-00-00", "CacheHound", "Die maximale Anzahl an Logs wurde erreicht.");
+		return new Log(LogType.UNKNOWN, "1900-00-00", "CacheHound",
+				"Die maximale Anzahl an Logs wurde erreicht.");
 	}
 
-//	public String getIcon() {
-//		return logType.toIconString();
-//	}
+	// public String getIcon() {
+	// return logType.toIconString();
+	// }
 
 	public void setLogType(LogType logType) {
 		this.logType = logType;
 	}
-	
+
 	public LogType getLogType() {
 		return logType;
 	}
@@ -152,13 +153,15 @@ public class Log {
 
 	/** Return HTML representation of log for display on screen */
 	public String toHtml() {
-		// Example: <img src='icon_smile.gif'>&nbsp;2007-01-14 xyz<br>a wonderful log
-		
-//		if (iconString.equals(MAXLOGICON))
-//			return "<hr>" + MyLocale.getMsg(736, "Too many logs") + "<hr>";
-		
+		// Example: <img src='icon_smile.gif'>&nbsp;2007-01-14 xyz<br>a
+		// wonderful log
+
+		// if (iconString.equals(MAXLOGICON))
+		// return "<hr>" + MyLocale.getMsg(736, "Too many logs") + "<hr>";
+
 		StringBuffer s = new StringBuffer(300);
-		s.append("<img src='" + logType.toIconString() + "' logType='" + logType.toString() + "'>");
+		s.append("<img src='" + logType.toIconString() + "' logType='"
+				+ logType.toString() + "'>");
 		if (recommended)
 			s.append("<img src='recommendedlog.gif'>");
 		s.append("&nbsp;");

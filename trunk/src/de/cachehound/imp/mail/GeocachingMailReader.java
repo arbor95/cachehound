@@ -103,8 +103,8 @@ public class GeocachingMailReader {
 		} else if (subject.contains(" unarchived ")) {
 			return handler.unarchived(gcNumber, message, subject, text);
 		} else if (subject.contains("retract")) { // noch nie gesehen ... aber
-													// soll ja vorkommen können
-													// ...
+			// soll ja vorkommen können
+			// ...
 			return handler.retracted(gcNumber, message, subject, text);
 		} else if (subject.contains(" disabled ")) {
 			return handler.disabled(gcNumber, message, subject, text);

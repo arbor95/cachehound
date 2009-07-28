@@ -65,7 +65,8 @@ public class ProfilesForm extends Form {
 	private mButton btnCancel, btnNew, btnOK;
 	private String baseDir;
 	public String newSelectedProfile; // This is only used if a new profile is
-										// being created
+
+	// being created
 
 	/**
 	 * Constructor to create a form to select profiles. It requires that the

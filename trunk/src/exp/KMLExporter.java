@@ -327,7 +327,7 @@ public class KMLExporter extends Exporter {
 		strBuf.append("      <Style>\r\n");
 		strBuf.append("      <IconStyle>\r\n");
 		strBuf.append("         <Icon>\r\n");
-		// strBuf.append("            <href>"+ File.getProgramDirectory()+ "/" +
+		// strBuf.append(" <href>"+ File.getProgramDirectory()+ "/" +
 		// CacheType.type2pic(Convert.parseInt(ch.type))+ "</href>\r\n");
 		strBuf.append("            <href>"
 				+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");

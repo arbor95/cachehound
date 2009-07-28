@@ -310,13 +310,11 @@ public class CoordsScreen extends Form {
 			chcNS.setInt(coords.getNSLetter().equals("N") ? 0 : 1);
 			chcEW.setInt(coords.getEWLetter().equals("E") ? 0 : 1);
 
-			inpNSDeg.setText(STRreplace.replace(coords.getLatDeg(format), "-",
-					""));
+			inpNSDeg.setText(coords.getLatDeg(format).replace("-", ""));
 			inpNSm.setText(coords.getLatMin(format));
 			inpNSs.setText(coords.getLatSec(format));
 
-			inpEWDeg.setText(STRreplace.replace(coords.getLonDeg(format), "-",
-					""));
+			inpEWDeg.setText(coords.getLonDeg(format).replace("-", ""));
 			inpEWm.setText(coords.getLonMin(format));
 			inpEWs.setText(coords.getLonSec(format));
 		}

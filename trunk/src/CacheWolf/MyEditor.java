@@ -35,9 +35,10 @@ public class MyEditor extends Editor {
 				} else {
 					CellPanel p = new CellPanel();
 					p.defaultTags.set(INSETS, new Insets(0, 1, 0, 1));
-					p.modify(AlwaysEnabled | NotAnEditor, 0); // Just in case a
-																// dialog pops
-																// up
+					p.modify(AlwaysEnabled | NotAnEditor, 0); // Just in case
+																// a
+					// dialog pops
+					// up
 					// with global disabling.
 					for (int i = 0; i < buttons.size(); i++) {
 						p.addNext((Control) buttons.get(i));
@@ -53,7 +54,7 @@ public class MyEditor extends Editor {
 					// buttonConstraints
 					//
 					p2.addLast(p).setControl(buttonConstraints);// p2.borderStyle
-																// =
+					// =
 					// Graphics.EDGE_SUNKEN;
 				}
 			}

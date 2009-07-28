@@ -229,9 +229,7 @@ public class HintLogPanel extends CellPanel {
 
 	private void resetHintText() {
 		if (!currCache.Hints.equals("null"))
-			hint
-					.setText(STRreplace.replace(this.currCache.Hints, "<br>",
-							"\n"));
+			hint.setText(this.currCache.Hints.replace("<br>", "\n"));
 		else
 			hint.setText("");
 		decodeButton.setText(this.decodeCaption);
@@ -241,8 +239,8 @@ public class HintLogPanel extends CellPanel {
 }
 
 class fastScrollText extends InteractivePanel { // TODO extend this class in a
-												// way that text can be marked
-												// and copied
+	// way that text can be marked
+	// and copied
 	public boolean scrollVertical = true;
 	public boolean scrollHorizontal = false;
 
@@ -292,7 +290,7 @@ class fastScrollText extends InteractivePanel { // TODO extend this class in a
 					dy = scrollStep;
 				if (where.y >= origin.y + r.height)
 					dy = -scrollStep; // here +/- is wrong in
-										// InteractivePanel.java
+				// InteractivePanel.java
 				dc.start.x = where.x;
 				dc.start.y = where.y;
 			}

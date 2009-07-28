@@ -8,9 +8,10 @@ public class Area {
 	public final static int AT_RIGHT_EDGE = 2;
 	public final static int AT_BUTTOM_EDGE = 3;
 	public final static int AT_LEFT_EDGE = 4;
-	public static double edgeTolerance = 3 * 360 / 40000000; // approx 3m will
-																// be seen as
-																// the same
+	public static double edgeTolerance = 3 * 360 / 40000000; // approx 3m
+																// will
+	// be seen as
+	// the same
 
 	CWPoint topleft;
 	CWPoint buttomright;
@@ -59,16 +60,16 @@ public class Area {
 		if (isInBound(a.topleft)
 				|| isInBound(a.buttomright)
 				|| isInBound(a.buttomright.latDec, a.topleft.lonDec) // buttom
-																		// left
+				// left
 				|| isInBound(a.topleft.latDec, a.buttomright.lonDec) // top
-																		// right
+				// right
 				// in case this is completly within a, the above tests will give
 				// false, so testing the otherway around
 				|| a.isInBound(this.topleft) || a.isInBound(this.buttomright)
 				|| a.isInBound(this.buttomright.latDec, this.topleft.lonDec) // buttom
-																				// left
+				// left
 				|| a.isInBound(this.topleft.latDec, this.buttomright.lonDec)) // top
-																				// right
+			// right
 			return true;
 		else
 			return false;

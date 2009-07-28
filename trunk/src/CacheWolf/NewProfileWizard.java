@@ -16,7 +16,7 @@ public class NewProfileWizard {
 			profile.clearProfile();
 			pref.lastProfile = profile.name = f.profileDir;
 			pref.savePreferences(); // Remember that this was the last profile
-									// used
+			// used
 			profile.dataDir = pref.baseDir + f.profileDir + "/";
 
 			CoordsScreen cs = new CoordsScreen();

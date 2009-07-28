@@ -37,16 +37,14 @@ public class Track {
 	 * 
 	 * public void saveTrack(String filename){ // TODO untested! //ByteArray
 	 * ba=new ByteArray(); byte[] ba = new byte[8*2*num+4]; // 8 bytes is one
-	 * double int has size 4 Utils.writeInt(num, ba, 0, 4); for (int i=0;
-	 * i<=num; i++){
-	 * Utils.writeLong(Double.doubleToLongBits(TrackPoints[i].latDec), ba,
+	 * double int has size 4 Utils.writeInt(num, ba, 0, 4); for (int i=0; i<=num;
+	 * i++){ Utils.writeLong(Double.doubleToLongBits(TrackPoints[i].latDec), ba,
 	 * (i*2)*8 + 4);
 	 * Utils.writeLong(Double.doubleToLongBits(TrackPoints[i].lonDec), ba,
 	 * (i*2+1)*8 + 4); } try{ PrintWriter outp = new PrintWriter(new
 	 * BufferedWriter(new FileWriter(filename))); outp.print(ba.toString());
-	 * }catch (IOException e) { (new MessageBox("Error",
-	 * "Error reading trackfile:\n"+e.toString(), MessageBox.OKB)).execute();} }
-	 * =====
+	 * }catch (IOException e) { (new MessageBox("Error", "Error reading
+	 * trackfile:\n"+e.toString(), MessageBox.OKB)).execute();} } =====
 	 */
 
 }

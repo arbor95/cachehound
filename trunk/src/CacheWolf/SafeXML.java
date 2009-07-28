@@ -16,8 +16,9 @@ public class SafeXML {
 	static {
 		String[] mappingArray = new String[] {
 				"&apos;",
-				"'", // Added 20061227 - not a valid HTML entity but sometimes
-						// used
+				"'", // Added 20061227 - not a valid HTML entity but
+				// sometimes
+				// used
 				"&quot;", "\"", "&amp;", "&", "&lt;", "<", "&gt;", ">",
 				"&nbsp;", " ", "&iexcl;", "ˇ", "&cent;", "˘", "&pound;", "Ł",
 				"&curren;", "¤", "&yen;", "Ą", "&brvbar;", "¦", "&sect;", "§",
@@ -235,13 +236,13 @@ public class SafeXML {
 	public static String cleanGPX(String str) {
 		String dummy = new String();
 
-		dummy = STRreplace.replace(str, "&", "&amp;");
-		dummy = STRreplace.replace(dummy, "<", "&lt;");
-		dummy = STRreplace.replace(dummy, ">", "&gt;");
+		dummy = str.replace("&", "&amp;");
+		dummy = dummy.replace("<", "&lt;");
+		dummy = dummy.replace(">", "&gt;");
 		// dummy = replace(dummy, "&nbsp;", "&amp;nbsp;");
-		dummy = STRreplace.replace(dummy, "\"", "&quot;");
-		dummy = STRreplace.replace(dummy, "'", "&apos;");
-		dummy = STRreplace.replace(dummy, "]]>", "]] >");
+		dummy = dummy.replace("\"", "&quot;");
+		dummy = dummy.replace("'", "&apos;");
+		dummy = dummy.replace("]]>", "]] >");
 
 		return dummy;
 	}
@@ -394,7 +395,7 @@ public class SafeXML {
 					break;
 				if (posEnd < dst.length()) {
 					String temp = dst.substring(posStart, posEnd + 1);
-					dst = STRreplace.replace(dst, temp, " ");
+					dst = dst.replace(temp, " ");
 				}
 
 			}
@@ -410,16 +411,16 @@ public class SafeXML {
 		}
 
 		String chLF = "\n";
-		dst = STRreplace.replace(dst, chLF, " \n");
+		dst = dst.replace(chLF, " \n");
 
-		dst = STRreplace.replace(dst, "", " ");
+		dst = dst.replace("", " ");
 
-		dst = STRreplace.replace(dst, "<", "lt");
-		dst = STRreplace.replace(dst, ">", "gt");
+		dst = dst.replace("<", "lt");
+		dst = dst.replace(">", "gt");
 
-		dst = STRreplace.replace(dst, "#nbsp;", " ");
-		dst = STRreplace.replace(dst, "#amp;", "+");
-		dst = STRreplace.replace(dst, "&", "+");
+		dst = dst.replace("#nbsp;", " ");
+		dst = dst.replace("#amp;", "+");
+		dst = dst.replace("&", "+");
 
 		return dst.toString();
 	}

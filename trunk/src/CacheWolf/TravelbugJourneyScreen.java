@@ -458,7 +458,7 @@ public class TravelbugJourneyScreen extends Form {
 		public boolean penPressed(Point onTable, Point cell) {
 			boolean retval = false;
 			if (cell != null && cell.y == -1) { // Hit a header => sort the
-												// table accordingly
+				// table accordingly
 				Vm.showWait(true);
 				if (cell.x == sortedBy)
 					sortAsc = !sortAsc;
@@ -481,8 +481,9 @@ public class TravelbugJourneyScreen extends Form {
 					&& (penEventModifiers & IKeys.SHIFT) > 0) {
 				// A range of rows can be marked by shift-click on the first and
 				// last row
-				if (lastRow != -1) { // Second row being marked with shift key
-										// pressed
+				if (lastRow != -1) { // Second row being marked with shift
+										// key
+					// pressed
 					if (lastRow < cell.y)
 						toggleSelect(lastRow, cell.y);
 					else
@@ -490,7 +491,7 @@ public class TravelbugJourneyScreen extends Form {
 					lastRow = -1;
 					retval = true;
 				} else { // Remember this row as start of range, but don't
-							// toggle yet
+					// toggle yet
 					lastRow = cell.y;
 				}
 			} else { // Single row marked
@@ -596,9 +597,9 @@ public class TravelbugJourneyScreen extends Form {
 
 		public void penRightReleased(Point p) {
 			menuState.doShowMenu(p, true, null); // direct call (not through
-													// doMenu) is neccesary
-													// because it will exclude
-													// the whole table
+			// doMenu) is neccesary
+			// because it will exclude
+			// the whole table
 		}
 
 		public void penHeld(Point p) {

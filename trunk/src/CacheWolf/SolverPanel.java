@@ -98,7 +98,7 @@ public class SolverPanel extends CellPanel {
 		public void penRightReleased(Point p) {
 			setMenu(mnuContext);
 			doShowMenu(p); // direct call (not through doMenu) is neccesary
-							// because it will exclude the whole table
+			// because it will exclude the whole table
 		}
 
 		public void penHeld(Point p) {
@@ -196,7 +196,7 @@ public class SolverPanel extends CellPanel {
 	private void processCommand(String s) {
 		msgFIFO.clear();
 		tokeniser.tokenizeSource(s, msgFIFO); // Tokeniser sets message if an
-												// error occurred
+		// error occurred
 		if (msgFIFO.size() == 0)
 			parser.parse(tokeniser.TokenStack, msgFIFO);
 		String msgStr = "";
@@ -240,22 +240,21 @@ public class SolverPanel extends CellPanel {
 			 * mText.setText(""); try { InputStreamReader inp = new
 			 * InputStreamReader( new FileInputStream(currFile));
 			 * mText.setText(inp.readAll()); inp.close();
-			 * 
-			 * } catch (Exception e) { Vm.debug("Error reading file " +
+			 *  } catch (Exception e) { Vm.debug("Error reading file " +
 			 * e.toString()); } } } if((ev.target == btnSave) && (currFile !=
 			 * null)){ try { OutputStreamWriter outp = new OutputStreamWriter(
 			 * new FileOutputStream(currFile)); outp.write(mText.getText());
-			 * outp.close(); } catch (Exception e) {
-			 * Vm.debug("Error writing file "); } } if((ev.target ==
-			 * btnSaveAs)||((ev.target == btnSave) && (currFile == null))){
-			 * FileChooser fc = new FileChooser(FileChooser.SAVE,
-			 * profile.dataDir); fc.addMask(currCh.wayPoint + ".wl");
-			 * fc.addMask("*.wl"); fc.setTitle("Select File"); if(fc.execute()
-			 * != FileChooser.IDCANCEL){ File saveFile = fc.getChosenFile();
+			 * outp.close(); } catch (Exception e) { Vm.debug("Error writing
+			 * file "); } } if((ev.target == btnSaveAs)||((ev.target == btnSave) &&
+			 * (currFile == null))){ FileChooser fc = new
+			 * FileChooser(FileChooser.SAVE, profile.dataDir);
+			 * fc.addMask(currCh.wayPoint + ".wl"); fc.addMask("*.wl");
+			 * fc.setTitle("Select File"); if(fc.execute() !=
+			 * FileChooser.IDCANCEL){ File saveFile = fc.getChosenFile();
 			 * currFile = fc.getChosen(); try { OutputStreamWriter outp = new
 			 * OutputStreamWriter( new FileOutputStream(saveFile));
-			 * outp.write(mText.getText()); outp.close(); } catch (Exception e)
-			 * { Vm.debug("Error writing file "); } } }
+			 * outp.write(mText.getText()); outp.close(); } catch (Exception e) {
+			 * Vm.debug("Error writing file "); } } }
 			 */
 		}
 	}

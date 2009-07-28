@@ -204,7 +204,8 @@ public class TravelbugJourneyList extends MinML {
 	 * non-logged journeys, which are at the start of the list
 	 * 
 	 * @param column
-	 *            Column to sort by @see TravelbugJourney
+	 *            Column to sort by
+	 * @see TravelbugJourney
 	 * @param ascending
 	 *            Sort order
 	 * @param nElem

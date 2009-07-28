@@ -62,8 +62,8 @@ public class Profile {
 	private boolean showSearchResult = false;
 
 	public boolean selectionChanged = true; // ("Häckchen") used by movingMap to
-											// get to knao if it should update
-											// the caches in the map
+	// get to knao if it should update
+	// the caches in the map
 	/**
 	 * True if the profile has been modified and not saved The following
 	 * modifications set this flag: New profile centre, Change of waypoint data
@@ -86,8 +86,9 @@ public class Profile {
 	}
 
 	/**
-	 * Returns <code>true</code> if profile needs to be changed when profile is
-	 * left. Returns <code>false</code> if no relevant changes have been made.
+	 * Returns <code>true</code> if profile needs to be changed when profile
+	 * is left. Returns <code>false</code> if no relevant changes have been
+	 * made.
 	 * 
 	 * @return hasUnsavedChanges
 	 */
@@ -142,7 +143,6 @@ public class Profile {
 	// public void saveIndex(Preferences pref, boolean showprogress){
 	// saveIndex(pref,showprogress, Filter.filterActive,Filter.filterInverted);
 	// }
-
 	/** Save index with filter settings given */
 	public void saveIndex(Preferences pref, boolean showprogress) {
 		ProgressBarForm pbf = new ProgressBarForm();
@@ -152,8 +152,9 @@ public class Profile {
 			pbf.setTask(h, "Saving Index");
 			pbf.exec();
 		}
-		CacheHolder.saveAllModifiedDetails(); // this must be called first as it
-												// makes some calculations
+		CacheHolder.saveAllModifiedDetails(); // this must be called first as
+												// it
+		// makes some calculations
 		PrintWriter detfile;
 		CacheHolder ch;
 		try {
@@ -316,7 +317,8 @@ public class Profile {
 						start = text.indexOf("long=\"") + 6;
 						String lon = SafeXML.cleanback(text.substring(start,
 								text.indexOf("\"", start)));
-						centre.set(lat + " " + lon, CWPoint.CW); // Fast parse
+						centre.set(lat + " " + lon, CWPoint.CW); // Fast
+																	// parse
 					}
 				} else if (text.indexOf("<VERSION") >= 0) {
 					int start = text.indexOf("value = \"") + 9;
@@ -340,10 +342,11 @@ public class Profile {
 				} else if (indexXmlVersion <= 2 && text.indexOf("<FILTER") >= 0) {
 					// Read filter data of file versions 1 and 2. (Legacy code)
 					ex.setSource(text.substring(text.indexOf("<FILTER")));
-					String temp = ex.findNext(); // Filter status is now first,
-													// need to deal with old
-													// versions which don't have
-													// filter status
+					String temp = ex.findNext(); // Filter status is now
+													// first,
+					// need to deal with old
+					// versions which don't have
+					// filter status
 					if (temp.length() == 2) {
 						// Compatibility with previous versions
 						if (temp.charAt(0) == 'T')
@@ -417,7 +420,7 @@ public class Profile {
 			// ewe.sys.Time endT=new ewe.sys.Time();
 			// Vm.debug("Time="+((((endT.hour*60+endT.minute)*60+endT.second)*1000+endT.millis)-(((startT.hour*60+startT.minute)*60+startT.second)*1000+startT.millis)));
 			// Vm.debug("Start:"+startT.format("H:mm:ss.SSS"));
-			// Vm.debug("End  :"+endT.format("H:mm:ss.SSS"));
+			// Vm.debug("End :"+endT.format("H:mm:ss.SSS"));
 			// Build references between caches and addi wpts
 			buildReferences();
 			if (indexXmlVersion < CURRENTFILEFORMAT) {
@@ -425,13 +428,13 @@ public class Profile {
 			}
 		} catch (FileNotFoundException e) {
 			Global.getPref().log("index.xml not found in directory " + dataDir); // Normal
-																					// when
-																					// profile
-																					// is
-																					// opened
-																					// for
-																					// first
-																					// time
+			// when
+			// profile
+			// is
+			// opened
+			// for
+			// first
+			// time
 			// e.printStackTrace();
 		} catch (IOException e) {
 			Global.getPref().log(
@@ -446,22 +449,24 @@ public class Profile {
 	 * Restore the filter to the values stored in this profile Called from Main
 	 * Form and MainMenu The values of Filter.isActive and Filter.isInactive are
 	 * set by the filter
-	 **/
+	 */
 	public void restoreFilter() {
 		restoreFilter(true);
 	}
 
 	void restoreFilter(boolean clearIfInactive) {
-		boolean inverted = isFilterInverted(); // Save it as doFilter will clear
-												// filterInverted
+		boolean inverted = isFilterInverted(); // Save it as doFilter will
+												// clear
+		// filterInverted
 		Filter flt = new Filter();
 		if (getFilterActive() == Filter.FILTER_ACTIVE) {
 			flt.setFilter();
 			flt.doFilter();
 			if (inverted) {
 				flt.invertFilter();
-				setFilterInverted(true); // Needed because previous line inverts
-											// filterInverted
+				setFilterInverted(true); // Needed because previous line
+											// inverts
+				// filterInverted
 			}
 		} else if (getFilterActive() == Filter.FILTER_CACHELIST) {
 			Global.mainForm.cacheList.applyCacheList();
@@ -565,49 +570,49 @@ public class Profile {
 					ch.pos = new CWPoint(tmpca);
 				}
 				if (ch.pos.isValid()) { // done: && ch.pos.latDec != 0 &&
-										// ch.pos.lonDec != 0 TO-DO != 0 sollte
-										// rausgenommen werden sobald in der
-										// Liste vernünftig mit nicht gesetzten
-										// pos umgegangen wird
+					// ch.pos.lonDec != 0 TO-DO != 0 sollte
+					// rausgenommen werden sobald in der
+					// Liste vernünftig mit nicht gesetzten
+					// pos umgegangen wird
 					isAddi = ch.isAddiWpt();
 					if (!isAddi
 							|| (isAddi && ch.mainCache != null && ch.pos
 									.getDistance(ch.mainCache.pos) < 1000)) { // test
-																				// for
-																				// plausiblity
-																				// of
-																				// coordinates
-																				// of
-																				// Additional
-																				// Waypoints:
-																				// more
-																				// then
-																				// 1000
-																				// km
-																				// away
-																				// from
-																				// main
-																				// Waypoint
-																				// is
-																				// unplausible
-																				// ->
-																				// ignore
-																				// it
-																				// //
-																				// &&
-																				// ch.mainCache
-																				// !=
-																				// null
-																				// is
-																				// only
-																				// necessary
-																				// because
-																				// the
-																				// data
-																				// base
-																				// may
-																				// be
-																				// corrupted
+						// for
+						// plausiblity
+						// of
+						// coordinates
+						// of
+						// Additional
+						// Waypoints:
+						// more
+						// then
+						// 1000
+						// km
+						// away
+						// from
+						// main
+						// Waypoint
+						// is
+						// unplausible
+						// ->
+						// ignore
+						// it
+						// //
+						// &&
+						// ch.mainCache
+						// !=
+						// null
+						// is
+						// only
+						// necessary
+						// because
+						// the
+						// data
+						// base
+						// may
+						// be
+						// corrupted
 						if (topleft == null)
 							topleft = new CWPoint(ch.pos);
 						if (bottomright == null)
@@ -639,17 +644,17 @@ public class Profile {
 	 */
 	public void updateBearingDistance() {
 		CWPoint centerPoint = new CWPoint(Global.getPref().curCentrePt); // Clone
-																			// current
-																			// centre
-																			// to
-																			// be
-																			// sure
+		// current
+		// centre
+		// to
+		// be
+		// sure
 		int anz = cacheDB.size();
 		CacheHolder ch;
 		// Jetzt durch die CacheDaten schleifen
 		while (--anz >= 0) {
 			ch = cacheDB.get(anz); // This returns a pointer to the CacheHolder
-									// object
+			// object
 			ch.calcDistance(centerPoint);
 		}
 		// The following call is not very clean as it mixes UI with base classes
@@ -680,12 +685,12 @@ public class Profile {
 				// search main cache
 				mainCh = cacheDB.get("GC" + ch.getWayPoint().substring(2));
 				if (mainCh == null) // TODO save the source (GC or OC or Custom)
-									// of the maincache somewhere else to avoid
-									// ambiguity of addi-wpt-names
+					// of the maincache somewhere else to avoid
+					// ambiguity of addi-wpt-names
 					mainCh = cacheDB.get("OC" + ch.getWayPoint().substring(2));
 				if (mainCh == null) // TODO save the source (GC or OC or Custom)
-									// of the maincache somewhere else to avoid
-									// ambiguity of addi-wpt-names
+					// of the maincache somewhere else to avoid
+					// ambiguity of addi-wpt-names
 					mainCh = cacheDB.get("CW" + ch.getWayPoint().substring(2));
 
 				if (mainCh != null) {

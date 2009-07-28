@@ -11,7 +11,6 @@ import CacheWolf.DataMover;
 import CacheWolf.Global;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
-import CacheWolf.STRreplace;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
@@ -163,8 +162,8 @@ public class HTMLExporter {
 								page_tpl.setParam("DESCRIPTION",
 										modifyLongDesc(det, targetDir));
 							} else {
-								page_tpl.setParam("DESCRIPTION", STRreplace
-										.replace(det.LongDescription, "\n",
+								page_tpl.setParam("DESCRIPTION",
+										det.LongDescription.replace("\n",
 												"<br>"));
 							}
 							page_tpl.setParam("HINTS", det.Hints);
@@ -174,23 +173,24 @@ public class HTMLExporter {
 							StringBuffer sb = new StringBuffer(2000);
 							for (int j = 0; j < det.CacheLogs.size(); j++) {
 								sb
-										.append(STRreplace
+										.append(det.CacheLogs
+												.getLog(j)
+												.toHtml()
 												.replace(
-														det.CacheLogs.getLog(j)
-																.toHtml(),
 														"http://www.geocaching.com/images/icons/",
-														null));
+														""));
 								sb.append("<br>");
-								icon = det.CacheLogs.getLog(j).getLogType().toIconString();
+								icon = det.CacheLogs.getLog(j).getLogType()
+										.toIconString();
 								if (logIcons.find(icon) < 0)
 									logIcons.add(icon); // Add the icon to list
-														// of icons to copy to
-														// dest directory
+								// of icons to copy to
+								// dest directory
 							}
 
 							page_tpl.setParam("LOGS", sb.toString());
-							page_tpl.setParam("NOTES", STRreplace.replace(det
-									.getCacheNotes(), "\n", "<br>"));
+							page_tpl.setParam("NOTES", det.getCacheNotes()
+									.replace("\n", "<br>"));
 
 							cacheImg.clear();
 							for (int j = 0; j < det.images.size(); j++) {

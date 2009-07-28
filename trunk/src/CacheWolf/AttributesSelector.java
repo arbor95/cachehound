@@ -13,7 +13,7 @@ import ewe.ui.mLabel;
 
 public class AttributesSelector extends Panel {
 	protected static int TILESIZE = 22; // Here we always use the small icons
-										// thus tilesize=22
+	// thus tilesize=22
 	public long selectionMaskYes = 0;
 	public long selectionMaskNo = 0;
 	protected mLabel mInfo;
@@ -63,11 +63,12 @@ public class AttributesSelector extends Panel {
 
 	protected class attInteractivePanel extends InteractivePanel {
 		public boolean imageMovedOn(AniImage which) {
-			if (!((attAniImage) which).info.startsWith("*")) { // If text starts
-																// with * we
-																// have no
-																// explanation
-																// yet
+			if (!((attAniImage) which).info.startsWith("*")) { // If text
+																// starts
+				// with * we
+				// have no
+				// explanation
+				// yet
 				mInfo.setText(((attAniImage) which).info);
 				mInfo.repaintNow();
 			}
@@ -147,7 +148,8 @@ public class AttributesSelector extends Panel {
 					myY += TILESIZE;
 				}
 				img.location = new Rect(myX, myY, TILESIZE, TILESIZE);
-				// System.out.println("img.location=new Rect("+x+","+y+","+TILESIZE+","+TILESIZE+");");
+				// System.out.println("img.location=new
+				// Rect("+x+","+y+","+TILESIZE+","+TILESIZE+");");
 				iap.addImage(img);
 				myX += TILESIZE;
 			}

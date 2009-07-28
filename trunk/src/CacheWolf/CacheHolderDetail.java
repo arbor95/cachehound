@@ -20,7 +20,7 @@ public class CacheHolderDetail {
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
 	 * creating detail!
-	 **/
+	 */
 	private CacheHolder parent = null;
 	public String LongDescription = CacheHolder.EMPTY;
 	public String LastUpdate = CacheHolder.EMPTY;
@@ -105,7 +105,7 @@ public class CacheHolderDetail {
 	public void setCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must
-												// start with oldest log
+			// start with oldest log
 			if (CacheLogs.merge(newLogs.getLog(i)) >= 0)
 				getParent().setLog_updated(true);
 		}
@@ -258,8 +258,8 @@ public class CacheHolderDetail {
 			if (ownLogText.indexOf("<img src='") >= 0) {
 				OwnLog = new Log(ownLogText + "]]>");
 			} else {
-				OwnLog = new Log(LogType.FOUND, "1900-01-01", Global
-						.getPref().myAlias, ownLogText);
+				OwnLog = new Log(LogType.FOUND, "1900-01-01",
+						Global.getPref().myAlias, ownLogText);
 			}
 		} else {
 			OwnLog = null;
@@ -485,7 +485,7 @@ public class CacheHolderDetail {
 				detfile.print("<SOLVER><![CDATA[" + getSolver()
 						+ "]]></SOLVER>\r\n");
 				detfile.print(getParent().toXML()); // This will allow
-													// restoration of index.xml
+				// restoration of index.xml
 				detfile.print("</CACHEDETAILS>\n");
 				Global.getPref().log(
 						"Writing file: "

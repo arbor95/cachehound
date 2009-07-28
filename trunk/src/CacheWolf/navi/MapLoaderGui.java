@@ -87,7 +87,7 @@ public class MapLoaderGui extends Form {
 		super();
 		this.title = MyLocale.getMsg(1800, "Download georeferenced maps");
 		pref = Global.getPref(); // myPreferences sollte später auch diese
-									// Einstellungen speichern
+		// Einstellungen speichern
 		center = new CWPoint(pref.curCentrePt);
 		cacheDB = cacheDBi;
 		mapLoader = new MapLoader(FileBase.getProgramDirectory() + "/"
@@ -271,12 +271,12 @@ public class MapLoaderGui extends Form {
 		mapLoader.setProgressInfoBox(progressBox);
 		Vm.showWait(true);
 		ewe.fx.Point size = new ewe.fx.Point(1000, 1000); // Size of the
-															// downloaded maps
+		// downloaded maps
 		if (forCachesChkBox.getState() || perCache) {
 			Area surArea = Global.getProfile()
 					.getSourroundingArea(onlySelected); // calculate map
-														// boundaries from
-														// cacheDB
+			// boundaries from
+			// cacheDB
 			if (surArea == null) {
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						1817, "No Caches are seleted"), FormBase.OKB))
@@ -311,7 +311,7 @@ public class MapLoaderGui extends Form {
 			CWPoint tmpca = new CWPoint();
 			int numdownloaded = 0;
 			Global.getProfile().getSourroundingArea(onlySelected); // calculate
-																	// numCachesInArea
+			// numCachesInArea
 			int numCaches = Global.getProfile().numCachesInArea;
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
@@ -322,10 +322,10 @@ public class MapLoaderGui extends Form {
 					}
 					if (ch.pos.isValid() && ch.pos.latDec != 0
 							&& ch.pos.lonDec != 0) { // TODO != 0 sollte
-														// verschwinden, sobald
-														// das handling von
-														// nicht gesetzten Koos
-														// überall korrekt ist
+						// verschwinden, sobald
+						// das handling von
+						// nicht gesetzten Koos
+						// überall korrekt ist
 						numdownloaded++;
 						progressBox.setInfo(MyLocale.getMsg(1820,
 								"Downloading map '")

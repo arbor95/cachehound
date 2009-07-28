@@ -13,7 +13,9 @@ import ewe.sys.Time;
 
 public class TravelbugJourney {
 	/**
-	 * The travelbug concerned @see Travelbug
+	 * The travelbug concerned
+	 * 
+	 * @see Travelbug
 	 */
 	private Travelbug tb;
 	/**

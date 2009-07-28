@@ -136,8 +136,8 @@ public class LogList {
 			l = getLog(i);
 			if (l.getDate().compareTo("2007-01-14") < 0)
 				break; // this is the date when the recommendation system was
-						// introdueced in opencaching.de see:
-						// http://www.geoclub.de/viewtopic.php?t=14901&highlight=formel
+			// introdueced in opencaching.de see:
+			// http://www.geoclub.de/viewtopic.php?t=14901&highlight=formel
 			if (l.isRecomended())
 				numRecommended++;
 			if (l.isFoundLog())

@@ -82,7 +82,8 @@ public class Parser {
 		public String funcName; // the function name in the user input
 		public String alias; // the funcName is mapped to this alias
 		public int nargs; // bitmap for number of args, i.e. 14 = 1 or 2 or 3
-							// args; 5 = 0 or 2 args
+
+		// args; 5 = 0 or 2 args
 
 		// i.e. 1<<nargs ORed together
 		fnType(String funcName, String alias, int nargs) {
@@ -177,11 +178,8 @@ public class Parser {
 			if (globals == varName.startsWith("$")) {
 				String value = (String) getVariable(varName);
 				if (java.lang.Double.isNaN(toNumber(value)))
-					messageStack.add(varName
-							+ " = \""
-							+ STRreplace
-									.replace(value.toString(), "\"", "\"\"")
-							+ "\"");
+					messageStack.add(varName + " = \""
+							+ value.toString().replace("\"", "\"\"") + "\"");
 				else
 					messageStack.add(varName + " = " + value);
 			}
@@ -201,12 +199,14 @@ public class Parser {
 		}
 		Double pi = new Double(java.lang.Math.PI);
 		symbolTable.put("PI", pi);
-		symbolTable.put("pi", pi); // To make it easier for the user we also add
-									// a lowercase version of pi
+		symbolTable.put("pi", pi); // To make it easier for the user we also
+		// add
+		// a lowercase version of pi
 	}
 
 	private boolean isVariable(String varName) {
-		return varName.startsWith("$") || // Global variables exist per default
+		return varName.startsWith("$") || // Global variables exist per
+				// default
 				symbolTable
 						.containsKey(Global.getPref().solverIgnoreCase ? varName
 								.toUpperCase()
@@ -233,7 +233,7 @@ public class Parser {
 					return cwPt.toString();
 				else
 					return ""; // Convert invalid coordinates (N 0 0.0 E 0 0.0)
-								// into empty string
+				// into empty string
 			}
 		}
 		Object result = symbolTable
@@ -307,7 +307,7 @@ public class Parser {
 				s = L.toString();
 			} else { // Use the default Double format
 				s = D.toString().replace(',', '.'); // always show numbers with
-													// decimal point;
+				// decimal point;
 				if (s.endsWith(".0"))
 					s = s.substring(0, s.length() - 2);
 			}
@@ -453,7 +453,7 @@ public class Parser {
 
 	/**
 	 * count(string1,string2)
-	 * */
+	 */
 	private void funcCount() throws Exception {
 		String s2 = popCalcStackAsString();
 		String s1 = popCalcStackAsString();
@@ -607,7 +607,7 @@ public class Parser {
 		// Don't want to switch to goto panel, just set the values
 		nav.setDestination(coord);
 		if (nargs == 2) { // Now set the value of the addi waypoint (it must
-							// exist already)
+			// exist already)
 			cwPt.set(coord);
 			CacheHolder ch = Global.getProfile().cacheDB.get(waypointName);
 			if (ch == null) {
@@ -618,11 +618,12 @@ public class Parser {
 			ch.LatLon = cwPt.toString(CWPoint.CW);
 			ch.pos.set(cwPt);
 			ch.calcDistance(Global.getPref().curCentrePt); // Update
-															// distance/bearing
+			// distance/bearing
 			nav.setDestination(ch);
-			Global.getProfile().selectionChanged = true; // Tell moving map to
-															// updated displayed
-															// waypoints
+			Global.getProfile().selectionChanged = true; // Tell moving map
+			// to
+			// updated displayed
+			// waypoints
 		}
 	}
 
@@ -638,7 +639,7 @@ public class Parser {
 
 	/**
 	 * VB instr function instr([start],string1,string2)
-	 * */
+	 */
 	private int funcInstr(int nargs) throws Exception {
 		String s2 = popCalcStackAsString();
 		String s1 = popCalcStackAsString();
@@ -840,13 +841,13 @@ public class Parser {
 	}
 
 	/** Replace all occurrences of a string with another string */
-	private String funcReplace()  {
+	private String funcReplace() {
 		String replaceWith = popCalcStackAsString();
 		String whatToReplace = popCalcStackAsString();
 		String s = popCalcStackAsString();
 		if (whatToReplace.equals(""))
 			return s;
-		return STRreplace.replace(s, whatToReplace, replaceWith);
+		return s.replace(whatToReplace, replaceWith);
 	}
 
 	/** Reverse a string */
@@ -863,6 +864,7 @@ public class Parser {
 	 * <pre>
 	 * sk()                Create skeleton for current cache (must have addi wpts)
 	 * sk(number)          Create skeleton for number variables
+	 * 
 	 */
 	private void funcSkeleton(int nargs) throws Exception {
 		String waypointName = Global.mainTab.lastselected;
@@ -938,9 +940,8 @@ public class Parser {
 					if (addiWpt.getExistingDetails().LongDescription.trim()
 							.length() > 0)
 						op.append("\n   \""
-								+ STRreplace.replace(addiWpt
-										.getExistingDetails().LongDescription,
-										"\"", "\"\"") + "\"");
+								+ addiWpt.getExistingDetails().LongDescription
+										.replace("\"", "\"\"") + "\"");
 					op.append("\n   goto($");
 					op.append(addiWpt.getWayPoint());
 					op.append("); STOP\nENDIF\n\n");
@@ -1041,7 +1042,7 @@ public class Parser {
 					.get(Global.getPref().solverIgnoreCase ? varName
 							.toUpperCase() : varName);
 			if (result == null) { // Var not found check whether it is a
-									// waypoint
+				// waypoint
 				if (varName.startsWith("$")) { // Could be a cachename
 					varName = varName.substring(1);
 					compRes = Global.getProfile().getCacheIndex(varName) != -1;
@@ -1061,7 +1062,7 @@ public class Parser {
 			checkNextSymIs("THEN");
 			getNextTokenOtherThanSemi();
 			boolean compAsString = false; // calcStack.get(calcStack.size()-2)
-											// instanceof String;
+			// instanceof String;
 			// If we can parse the first argument as a double, we will do a
 			// numeric comparison
 			try {
@@ -1123,9 +1124,10 @@ public class Parser {
 			if (thisToken.tt != TokenObj.TT_ENDIF) {
 				parseSimpleCommand();
 				while (thisToken.token.equals(";")) {
-					getNextTokenOtherThanSemi(); // Now we have either an ENDIF
-													// or the start of a
-													// simpleexpression
+					getNextTokenOtherThanSemi(); // Now we have either an
+					// ENDIF
+					// or the start of a
+					// simpleexpression
 					if (thisToken.tt == TokenObj.TT_ENDIF)
 						break;
 					parseSimpleCommand();
@@ -1156,18 +1158,19 @@ public class Parser {
 				String coord = popCalcStackAsString();
 				cwPt.set(coord);
 				if (cwPt.isValid() || coord.equals("")) { // Can clear coord
-															// with empty string
+					// with empty string
 					ch.LatLon = cwPt.toString(CWPoint.CW);
 					ch.pos.set(cwPt);
 					ch.calcDistance(Global.getPref().curCentrePt); // Update
-																	// distance
-																	// and
-																	// bearing
-					Global.getProfile().selectionChanged = true; // Tell moving
-																	// map to
-																	// updated
-																	// displayed
-																	// waypoints
+					// distance
+					// and
+					// bearing
+					Global.getProfile().selectionChanged = true; // Tell
+					// moving
+					// map to
+					// updated
+					// displayed
+					// waypoints
 					return;
 				} else
 					err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);
@@ -1276,12 +1279,12 @@ public class Parser {
 						+ thisToken.token);
 			else {// Must be a function definition
 				funcDef = getFunctionDefinition(thisToken.token); // Does not
-																	// return if
-																	// function
-																	// not
-																	// defined
-																	// or
-																	// ambiguous
+				// return if
+				// function
+				// not
+				// defined
+				// or
+				// ambiguous
 				parseFunction(funcDef);
 			}
 		} else if (thisToken.tt == TokenObj.TT_NUMBER) {

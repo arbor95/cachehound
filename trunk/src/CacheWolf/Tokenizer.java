@@ -151,8 +151,9 @@ public class Tokenizer {
 	}
 
 	private void streamDigits() {
-		boolean foundDecSep = false; // To check that only one decimal point is
-										// allowed in a number
+		boolean foundDecSep = false; // To check that only one decimal point
+										// is
+		// allowed in a number
 		startToken();
 		while (getChar()) {
 			look = standardiseSourceChar(look);
@@ -229,7 +230,7 @@ public class Tokenizer {
 				return;
 			}
 			backUp(); // Not a valid comparison symbol, forget the last
-						// character
+			// character
 			currentStream = currentStream.substring(0, 1);
 			if (currentStream.equals("="))
 				emitToken(TokenObj.TT_EQ);
