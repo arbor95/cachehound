@@ -5,10 +5,16 @@ import java.io.Reader;
 
 public class AllReader extends Reader {
 	private Reader r;
-	private int bufSize = 1024;
+	private int bufSize;;
 
 	public AllReader(Reader r) {
 		this.r = r;
+		this.bufSize = 1024;
+	}
+	
+	public AllReader(Reader r, int bufSize) {
+		this.r = r;
+		this.bufSize = bufSize;
 	}
 
 	@Override

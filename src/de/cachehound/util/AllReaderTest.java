@@ -45,4 +45,11 @@ public class AllReaderTest {
 		
 		assertEquals("abcd", ar.readAll());
 	}
+	
+	@Test public void testReadAllMaximumChunks() throws IOException {
+		Reader fr = new FakeReader(new char[]{'a', 'b'}, new char[] {'c', 'd'} );
+		AllReader ar = new AllReader(fr, 2);
+		
+		assertEquals("abcd", ar.readAll());
+	}
 }
