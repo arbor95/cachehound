@@ -1,5 +1,10 @@
 package CacheWolf;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import utils.CWWrapper;
 import ewe.fx.IconAndText;
 import ewe.fx.Point;
@@ -267,7 +272,7 @@ public class myTableControl extends TableControl {
 					int nDeleted = 0;
 					int size = cacheDB.size();
 					for (int i = size - 1; i >= 0; i--) {// Start Counting
-															// down,
+						// down,
 						// as the size
 						// decreases with
 						// each deleted
@@ -316,7 +321,7 @@ public class myTableControl extends TableControl {
 			} else {
 				pref.curCentrePt.set(cp);
 				Global.mainTab.updateBearDist(); // Update the distances with
-													// a
+				// a
 				// warning message
 				// tbp.refreshTable();
 			}
@@ -348,9 +353,24 @@ public class myTableControl extends TableControl {
 				ch = cacheDB.get(tbp.getSelectedCache());
 				CacheHolderDetail chD = ch.getCacheDetails(false, true);
 				if (chD != null) {
-					CWWrapper.exec(pref.browser, chD.URL); // maybe this
-					// works on some
-					// PDAs?
+
+					if (Desktop.isDesktopSupported()) {
+						try {
+							Desktop.getDesktop().browse(new URI(chD.URL));
+						} catch (IOException e) {
+							Global.getPref().log(
+									"Fehler beim Aufrufen des Browsers.", e);
+						} catch (URISyntaxException e) {
+							Global.getPref().log(
+									"Fehler beim Aufrufen des Browsers.", e);
+						}
+
+					} else {
+						Global
+								.getPref()
+								.log(
+										"Das System unterstützt das Java Feature 'Desktop' nicht");
+					}
 				}
 			}
 		} else
