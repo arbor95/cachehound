@@ -581,9 +581,9 @@ public class CacheHolder {
 				CacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
 					chD.CacheLogs.calcRecommendations();
-					recommendationScore = chD.CacheLogs.recommendationRating;
-					setNumFoundsSinceRecommendation(chD.CacheLogs.foundsSinceRecommendation);
-					setNumRecommended(chD.CacheLogs.numRecommended);
+					recommendationScore = chD.CacheLogs.getRecommendationRating();
+					setNumFoundsSinceRecommendation(chD.CacheLogs.getFoundsSinceRecommendation());
+					setNumRecommended(chD.CacheLogs.getNumRecommended());
 				} else { // cache doesn't have details
 					recommendationScore = -1;
 					setNumFoundsSinceRecommendation(-1);

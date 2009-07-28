@@ -175,4 +175,11 @@ public class DummyGCMailHandler implements IGCMailHandler {
 		return false;
 	}
 
+	@Override
+	public boolean maintenancePferformed(String gcNumber, Message message,
+			String subject, String text) {
+		System.out.println("performed Maintenance " + gcNumber);
+		return false;
+	}
+
 }

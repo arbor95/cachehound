@@ -38,7 +38,7 @@ public class GeocachingMailReader {
 		store = session.getStore(protocol);
 		store.connect(host, user, password);
 		folder = store.getFolder(mailbox);
-		if (readonly) {
+		if (readonly || protocol.toLowerCase().startsWith("pop")) {
 			folder.open(Folder.READ_ONLY);
 		} else {
 			folder.open(Folder.READ_WRITE);
@@ -117,11 +117,13 @@ public class GeocachingMailReader {
 		} else if (subject.contains(" reported ")
 				&& subject.contains(" needs maintenance")) {
 			return handler.needMaintenance(gcNumber, message, subject, text);
+		} else if (subject.contains(" performed maintenance for ")) {
+			return handler.maintenancePferformed(gcNumber, message, subject, text);
 		} else { // hmm, doch keine Mail mit der wir was anfangen können?
 			System.out.println("Notify-Message nicht erkannt: " + subject);
 			return false;
 		}
-
+		
 	}
 
 	public void disconnect(boolean write) throws MessagingException {

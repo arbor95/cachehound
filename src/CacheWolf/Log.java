@@ -41,7 +41,7 @@ public class Log {
 			int indexLogType = logLine.indexOf("logType='");
 			if (indexLogType != -1) {
 				int indexEndLogType = logLine.indexOf("'", indexLogType + 9);
-				logType = logType.valueOf(logLine.substring(indexLogType + 9,
+				logType = LogType.valueOf(logLine.substring(indexLogType + 9,
 						indexEndLogType));
 			} else {
 				logType = LogType.getLogTypeFromIconString(iconString);
@@ -171,5 +171,19 @@ public class Log {
 		s.append("<br>");
 		s.append(message.trim());
 		return s.toString();
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Log) {
+			Log log = (Log) o;
+			return logType == log.logType && recommended == log.recommended && date.equals(log.date) && log.logger.equals(log.logger) && log.message.equals(log.message);
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public int hashCode() {
+		return ((date.hashCode() + logger.hashCode() * 17 ) + message.hashCode() * 17 + logType.hashCode());
 	}
 }

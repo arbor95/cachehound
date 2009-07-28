@@ -1,23 +1,34 @@
 package CacheWolf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cachehound.types.LogType;
-import ewe.util.Vector;
+
 
 public class LogList {
 	/**
 	 * The Vector containing the Log objects The list is always sorted in
 	 * descending order
 	 */
-	private Vector logList = new Vector(10);
+	private List<Log> logList = new ArrayList<Log>(10);
 	private static final StringBuffer buffer = new StringBuffer();
 
+	/** only valid after calling calcRecommendations() */
+	private int numRecommended = -1;
+	/** only valid after calling calcRecommendations() */
+	private int foundsSinceRecommendation = -1;
+	/** only valid after calling calcRecommendations() */
+	private int recommendationRating = -1;
+
+	
 	/** Construct an empty Log list */
 	public LogList() { // Public constructor
 	}
 
 	/** Get the Log at a certain position in the list */
 	public Log getLog(int i) {
-		return (Log) logList.elementAt(i);
+		return logList.get(i);
 	}
 
 	/** Return the size of the list */
@@ -30,15 +41,22 @@ public class LogList {
 		logList.clear();
 	}
 
-	/** Add a Log to the list */
-	public void add(Log log) {
-		if (log.getLogType() != null)
-			logList.add(log); // Don't add invalid logs
+	/** 
+	 * Add a Log to the list 
+	 * @return the position where the log was placed or -1 if it is already in
+	 *         the list
+	 */
+	public int add(Log log) {
+		if (log.getLogType() != null) {
+			return merge(log);
+			//logList.add(log); // Don't add invalid logs
+		}
+		return -1;
 	}
 
 	/** Remove a Log from the list */
 	public void remove(int i) {
-		logList.removeElementAt(i);
+		logList.remove(i);
 	}
 
 	/** Replace a Log in the list */
@@ -54,15 +72,15 @@ public class LogList {
 	 *         the list
 	 */
 
-	public int merge(Log newLog) {
+	private int merge(Log newLog) {
 		String newDate = newLog.getDate();
 		int size = size();
 		int i;
 		for (i = 0; i < size; i++) {
 			int comp = newDate
-					.compareTo(((Log) logList.elementAt(i)).getDate());
+					.compareTo(((Log) logList.get(i)).getDate());
 			if (comp > 0) {
-				logList.insertElementAt(newLog, i);
+				logList.add(i, newLog);
 				return i;
 			}
 			if (comp == 0)
@@ -71,32 +89,24 @@ public class LogList {
 		// Now i points to the first log with same date as the new log or
 		// i==size()
 		if (i == size) {
-			add(newLog);
+			logList.add(newLog);
 			return size;
 		}
 		int firstLog = i;
-		// Check whether we have any logs with same date by same user
-		String newLogger = newLog.getLogger();
-		LogType newLogType = newLog.getLogType();
+		// Check whether we already have this log.
 		while (i < size
-				&& newDate.equals(((Log) logList.elementAt(i)).getDate())) {
-			Log log = (Log) logList.elementAt(i);
-			if (log.getLogger().equals(newLogger)
-					&& log.getLogType() == newLogType) {
-				// Has the log message changed vs. the one we have in cache.xml?
-				if (!log.getMessage().equals(newLog.getMessage())) {
-					replace(i, newLog);
-					return i;
-				} else
-					return -1; // Log already in list
+				&& newDate.equals(((Log) logList.get(i)).getDate())) {
+			Log oldLog = (Log) logList.get(i);
+			if (newLog.equals(oldLog)) {
+				return -1; // Log already in list
 			}
 			i++;
 		}
 		if (i == size) {
-			add(newLog);
+			logList.add(newLog);
 			return i;
 		} else {
-			logList.insertElementAt(newLog, firstLog);
+			logList.add(firstLog, newLog);
 			return firstLog;
 		}
 	}
@@ -115,12 +125,28 @@ public class LogList {
 		return countNoFoundLogs;
 	}
 
-	/** only valid after calling calcRecommendations() */
-	int numRecommended = 0;
-	/** only valid after calling calcRecommendations() */
-	int foundsSinceRecommendation = 0;
-	/** only valid after calling calcRecommendations() */
-	int recommendationRating = 0;
+
+	
+	public int getNumRecommended() {
+		if (numRecommended == -1) {
+			calcRecommendations();
+		}
+		return numRecommended;
+	}
+
+	public int getFoundsSinceRecommendation() {
+		if (numRecommended == -1) {
+			calcRecommendations();
+		}
+		return foundsSinceRecommendation;
+	}
+
+	public int getRecommendationRating() {
+		if (numRecommended == -1) {
+			calcRecommendations();
+		}
+		return recommendationRating;
+	}
 
 	/**
 	 * call this to
