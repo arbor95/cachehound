@@ -3,7 +3,6 @@ package CacheWolf;
 import java.awt.Desktop;
 import java.net.URI;
 
-import utils.CWWrapper;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;

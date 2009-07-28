@@ -1,6 +1,5 @@
 package CacheWolf.imp;
 
-import utils.CWWrapper;
 import CacheWolf.CacheHolder;
 import CacheWolf.Global;
 import ewe.sys.Handle;
@@ -42,7 +41,9 @@ public class Rating {
 				if (ch.isCacheWpt()) {
 					int rate;
 					try {
-						rate = CWWrapper.exec(rater, ch.getWayPoint(), true);
+						ProcessBuilder pb = new ProcessBuilder(rater, ch.getWayPoint());
+						Process p = pb.start();
+						rate = p.waitFor();
 						ch.setNumRecommended(rate);
 					} catch (Exception ex) {
 						ex.printStackTrace();

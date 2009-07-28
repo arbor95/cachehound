@@ -14,7 +14,6 @@ package CacheWolf;
 import java.awt.Desktop;
 import java.net.URI;
 
-import utils.CWWrapper;
 import CacheWolf.imp.SpiderGC;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
