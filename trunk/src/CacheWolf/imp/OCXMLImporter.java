@@ -891,7 +891,7 @@ public class OCXMLImporter extends MinML {
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getFreshDetails().CacheLogs.merge(new Log(logType, logDate,
+			holder.getFreshDetails().CacheLogs.add(new Log(logType, logDate,
 					logFinder, logData, loggerRecommended));
 			if ((logFinder.toLowerCase().compareTo(user) == 0 || logFinder
 					.equalsIgnoreCase(pref.myAlias2))

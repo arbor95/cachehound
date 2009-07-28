@@ -23,108 +23,82 @@ import CacheWolf.Profile;
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.SpiderGC;
 
-public class CacheWolfMailHandler extends DummyGCMailHandler {
+public class CacheWolfMailHandler implements IGCMailHandler {
 
 	private Preferences prefs;
 	private Profile profile;
+
+	private boolean spiderIfNotExists = true; // should be in the preferences,
+
+	// perhaps for every logtype?
 
 	public CacheWolfMailHandler(Preferences pf, Profile prof) {
 		this.prefs = pf;
 		this.profile = prof;
 	}
 
-	private Log createLog(LogType logType, String messageText) {
-		// parse Date
-		int indexOfDate = messageText.indexOf("Log Date: ");
-		int indexOfEndDate = messageText.indexOf('\n', indexOfDate);
-		String dateString = messageText.substring(indexOfDate + 10,
-				indexOfEndDate);
-		StringTokenizer tokenizer = new StringTokenizer(dateString, "/");
-		String day = tokenizer.nextToken();
-		day = day.length() > 1 ? day : "0" + day;
-		String month = tokenizer.nextToken();
-		month = month.length() > 1 ? month : "0" + month;
-		String year = tokenizer.nextToken();
-		String date = year + "-" + month + "-" + day;
-
-		int indexOfFooter = messageText.indexOf("Visit this log entry",
-				indexOfEndDate);
-		String logText = messageText.substring(indexOfEndDate + 1,
-				indexOfFooter - 2);
-
-		// TODO: remove
-		return null;
-	}
-
 	public boolean archived(String gcNumber, Message message, String subject,
 			String text) {
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		holder.setArchived(true);
-		System.out.println("Konnte Cache archivieren: " + gcNumber);
-
-		return true;
-
+		holder.save();
+		return addLogEntry(gcNumber, LogType.ARCHIVE, text, spiderIfNotExists);
 	}
 
 	public boolean disabled(String gcNumber, Message message, String subject,
 			String text) {
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		holder.setAvailable(false);
-		System.out.println("Konnte Cache disablen: " + gcNumber);
-		return true;
+		holder.save();
+		return addLogEntry(gcNumber, LogType.DISABLE_LISTING, text,
+				spiderIfNotExists);
 	}
 
 	public boolean enabled(String gcNumber, Message message, String subject,
 			String text) {
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		holder.setAvailable(true);
-		System.out.println("Konnte Cache enablen: " + gcNumber);
-		return true;
+		holder.save();
+		return addLogEntry(gcNumber, LogType.ENABLE_LISTING, text,
+				spiderIfNotExists);
 	}
 
 	public boolean unarchived(String gcNumber, Message message, String subject,
 			String text) {
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		holder.setArchived(false);
-		System.out.println("Konnte Cache unarchivieren: " + gcNumber);
-		return true;
+		holder.save();
+		return addLogEntry(gcNumber, LogType.UNARCHIVE, text, spiderIfNotExists);
 	}
 
 	public boolean retracted(String gcNumber, Message message, String subject,
 			String text) {
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		holder.setArchived(true);
-		System.out
-				.println("Konnte Cache zwar nicht retracten, aber archivieren: "
-						+ gcNumber);
-		return true;
+		holder.save();
+		return addLogEntry(gcNumber, LogType.RETRACT, text, spiderIfNotExists);
 	}
 
 	public boolean published(String gcNumber, Message message, String subject,
 			String text) {
-		System.out.println("Published" + gcNumber);
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
+			// always spider a published cache
 			holder = new CacheHolder(gcNumber);
 			holder.getCacheDetails(true); // work around
 			profile.cacheDB.add(holder);
@@ -134,40 +108,52 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 
 	public boolean updated(String gcNumber, Message message, String subject,
 			String text) {
-		System.out.println("UPDATED: " + gcNumber);
-		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
-			System.out.println("Konnte Cache nicht finden: " + gcNumber);
 			return false;
 		}
 		return updateCache(holder);
 	}
 
-	private boolean updateCache(CacheHolder holder) {
-		SpiderGC spider = new SpiderGC(prefs, profile, false);
+	@Override
+	public boolean didNotFound(String gcNumber, Message message,
+			String subject, String text) {
+		return addLogEntry(gcNumber, LogType.DID_NOT_FOUND, text,
+				spiderIfNotExists);
+	}
 
-		int index = profile.cacheDB.getIndex(holder);
+	@Override
+	public boolean found(String gcNumber, Message message, String subject,
+			String text) {
+		return addLogEntry(gcNumber, LogType.FOUND, text, spiderIfNotExists);
+	}
 
-		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
-		// spiderSingle only
-		// logs in once if
-		// forcedLogin=true
-		boolean loadAllLogs = false;
-
-		InfoBox infB = new InfoBox("Info", "Loading",
-				InfoBox.PROGRESS_WITH_WARNINGS);
-		int test = spider.spiderSingle(index, infB, forceLogin, loadAllLogs);
-		if (test == SpiderGC.SPIDER_CANCEL) {
-			infB.close(0);
-			System.out.println("SPIDER_CANCLE");
+	@Override
+	public boolean needMaintenance(String gcNumber, Message message,
+			String subject, String text) {
+		CacheHolder holder = getCacheHolder(gcNumber);
+		if (holder == null) {
 			return false;
-		} else if (test == SpiderGC.SPIDER_ERROR) {
-			System.out.println("SPIDER_ERROR");
-			return false;
-		} else {
-			System.out.println("Neue Daten im Cachewolf");
-			return true;
 		}
+		holder.getFreshDetails().attributes.add("firstaid-yes.gif");
+		holder.setUpdated(true);
+		holder.save();
+		return addLogEntry(gcNumber, LogType.NEEDS_MAINTENANCE, text,
+				spiderIfNotExists);
+	}
+
+	@Override
+	public boolean maintenancePferformed(String gcNumber, Message message,
+			String subject, String text) {
+		CacheHolder holder = getCacheHolder(gcNumber);
+		if (holder == null) {
+			return false;
+		}
+		updateCache(holder); // for removing needs maintenance attribute and
+		// perhaps there is something new in the
+		// description
+		return addLogEntry(gcNumber, LogType.MAINTENANCE_DONE, text,
+				spiderIfNotExists);
 	}
 
 	public boolean handlePocketQuery(Message message, String subject)
@@ -206,6 +192,86 @@ public class CacheWolfMailHandler extends DummyGCMailHandler {
 
 		System.out.println("PQ konnte gelesen sein: " + subject);
 		return true;
+	}
+
+	private Log createLogEntry(LogType logType, String messageText) {
+		// parse Date
+		int indexOfDate = messageText.indexOf("Log Date: ");
+		int indexOfEndDate = messageText.indexOf('\n', indexOfDate);
+		String dateString = messageText.substring(indexOfDate + 10,
+				indexOfEndDate);
+		StringTokenizer tokenizer = new StringTokenizer(dateString, "/");
+		String month = tokenizer.nextToken();
+		month = month.length() > 1 ? month : "0" + month;
+		String day = tokenizer.nextToken();
+		day = day.length() > 1 ? day : "0" + day;
+		String year = tokenizer.nextToken();
+		String date = year + "-" + month + "-" + day;
+
+		int indexOfFooter = messageText.indexOf("Visit this log entry",
+				indexOfEndDate);
+		String logText = messageText.substring(indexOfEndDate + 1,
+				indexOfFooter - 2);
+
+		logText = logText.replace("\n", "<br />");
+
+		int indexOfProfile = messageText.indexOf("Profile for ");
+		int indexOfEndProfile = messageText.indexOf('\n', indexOfProfile);
+		String logger = messageText.substring(indexOfProfile + 12,
+				indexOfEndProfile - 1);
+
+		return new Log(logType, date, logger, logText);
+	}
+
+	private boolean addLogEntry(String gcNumber, LogType logType,
+			String messageText, boolean spiderCacheIfNotExisting) {
+		CacheHolder holder = getCacheHolder(gcNumber);
+		if (holder == null) {
+			return false;
+		}
+		Log log = createLogEntry(logType, messageText);
+		holder.getFreshDetails().CacheLogs.add(log);
+		holder.setLog_updated(true);
+		holder.save();
+		return true;
+	}
+
+	private boolean updateCache(CacheHolder holder) {
+		SpiderGC spider = new SpiderGC(prefs, profile, false);
+
+		int index = profile.cacheDB.getIndex(holder);
+
+		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
+		// spiderSingle only
+		// logs in once if
+		// forcedLogin=true
+		boolean loadAllLogs = false;
+
+		InfoBox infB = new InfoBox("Info", "Loading",
+				InfoBox.PROGRESS_WITH_WARNINGS);
+		int test = spider.spiderSingle(index, infB, forceLogin, loadAllLogs);
+		if (test == SpiderGC.SPIDER_CANCEL) {
+			infB.close(0);
+			System.out.println("SPIDER_CANCLE");
+			return false;
+		} else if (test == SpiderGC.SPIDER_ERROR) {
+			System.out.println("SPIDER_ERROR");
+			return false;
+		} else {
+			System.out.println("Neue Daten im Cachewolf");
+			return true;
+		}
+	}
+
+	private CacheHolder getCacheHolder(String gcNumber) {
+		CacheHolder holder = profile.cacheDB.get(gcNumber);
+		if (holder == null && spiderIfNotExists) {
+			holder = new CacheHolder(gcNumber);
+			holder.getCacheDetails(true); // work around
+			profile.cacheDB.add(holder);
+			updateCache(holder);
+		}
+		return holder;
 	}
 
 }

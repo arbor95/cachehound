@@ -482,6 +482,7 @@ public class MainMenu extends MenuBar {
 					Vm.showWait(false);
 					(new MessageBox("Error", "Mail import unsuccessful",
 							FormBase.OKB)).execute();
+					e.printStackTrace();
 					pref.log("Mail import unsuccessful", e, pref.debug);
 				}
 				tbp.resetModel();
