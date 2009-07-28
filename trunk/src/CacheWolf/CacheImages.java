@@ -3,8 +3,8 @@
  */
 package CacheWolf;
 
-import utils.FileBugfix;
-import ewe.io.File;
+import java.io.File;
+
 import ewe.util.Vector;
 
 /**
@@ -194,8 +194,7 @@ public class CacheImages {
 				ImageInfo img = this.get(i);
 				if (CacheImages.optimizeLink(img.getURL()).equals(newUrl)
 						&& img.getFilename().equals(pFilename)) {
-					String location = Global.getProfile().dataDir + pFilename;
-					if ((new FileBugfix(location)).exists()) {
+					if ((new File(Global.getProfile().dataDir, pFilename)).exists()) {
 						result = img;
 						break;
 					}
@@ -247,9 +246,7 @@ public class CacheImages {
 			// Check if image file is present in new collection
 			String obsoleteFilename = oldImages.get(i).getFilename();
 			if (!newImages.hasFile(obsoleteFilename)) {
-				String location = Global.getProfile().dataDir
-						+ obsoleteFilename;
-				File tmpFile = new File(location);
+				File tmpFile = new File(Global.getProfile().dataDir, obsoleteFilename);
 				if (tmpFile.exists() && tmpFile.canWrite()) {
 					Global.getPref().log(
 							"Image not longer needed. Deleting: "
