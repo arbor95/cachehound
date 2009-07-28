@@ -771,7 +771,7 @@ public class CacheHolder {
 			details = new CacheHolderDetail(this);
 			try {
 				details.readCache(Global.getProfile().dataDir);
-			} catch (IOException e) {
+			} catch (java.io.IOException e) {
 				if (!maybenew) {
 					if (alarmuser) {
 						// FIXME: put a message to languages file

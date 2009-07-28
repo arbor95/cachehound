@@ -1,16 +1,15 @@
 package CacheWolf;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import de.cachehound.types.LogType;
-import utils.FileBugfix;
+import de.cachehound.util.AllReader;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileNotFoundException;
-import ewe.io.FileReader;
-import ewe.io.FileWriter;
-import ewe.io.IOException;
-import ewe.io.PrintWriter;
 import ewe.ui.FormBase;
 import ewe.ui.InputBox;
 import ewe.util.Vector;
@@ -176,7 +175,7 @@ public class CacheHolderDetail {
 	 * @param profile
 	 */
 	public void addUserImage(Profile profile) {
-		File imgFile;
+		ewe.io.File imgFile;
 		String imgDesc, imgDestName;
 
 		// Get Image and description
@@ -209,7 +208,6 @@ public class CacheHolderDetail {
 	 */
 	void readCache(String dir) throws IOException {
 		String dummy;
-		FileReader in = null;
 		ImageInfo imageInfo;
 		// If parent cache has empty waypoint then don't do anything. This might
 		// happen
@@ -218,23 +216,15 @@ public class CacheHolderDetail {
 		if (this.getParent().getWayPoint().equals(CacheHolder.EMPTY))
 			return;
 
-		if (new FileBugfix(dir + getParent().getWayPoint().toLowerCase()
-				+ ".xml").exists())
-			in = new FileReader(dir + getParent().getWayPoint().toLowerCase()
-					+ ".xml");
-		if (in == null) {
-			if (new FileBugfix(dir + getParent().getWayPoint() + ".xml")
-					.exists())
-				in = new FileReader(dir + getParent().getWayPoint() + ".xml");
-		}
-		if (in == null)
-			throw new FileNotFoundException(dir
-					+ getParent().getWayPoint().toLowerCase() + ".xml");
+		File cacheFile = new File(dir
+				+ getParent().getWayPoint().toLowerCase() + ".xml");
 		if (Global.getPref().debug)
-			Global.getPref().log(
-					"Reading file " + getParent().getWayPoint() + ".xml");
+			Global.getPref().log("Reading file " + cacheFile.getPath());
+
+		AllReader in = new AllReader(new FileReader(cacheFile));
 		String text = in.readAll();
 		in.close();
+
 		Extractor ex = new Extractor(text, "<DETAILS><![CDATA[",
 				"]]></DETAILS>", 0, true);
 		LongDescription = ex.findNext();
@@ -373,32 +363,15 @@ public class CacheHolderDetail {
 	 * Method to save a cache.xml file.
 	 */
 	public void saveCacheDetails(String dir) {
-		PrintWriter detfile;
+		BufferedWriter detfile;
 
-		// File exists?
-		boolean exists = (new File(dir + getParent().getWayPoint() + ".xml"))
-				.exists();
-		// yes: then delete
-		if (exists) {
-			boolean ok = (new File(dir + getParent().getWayPoint() + ".xml"))
-					.delete();
-			if (ok)
-				ok = true;
-		}
-		boolean exists2 = (new File(dir
-				+ getParent().getWayPoint().toLowerCase() + ".xml")).exists();
-		// yes: delete
-		if (exists2) {
-			boolean ok2 = (new File(dir
-					+ getParent().getWayPoint().toLowerCase() + ".xml"))
-					.delete();
-			if (ok2)
-				ok2 = true;
-		}
-		// Vm.debug("Writing to: " +dir + "for: " + wayPoint);
+		File cacheFile = new File(dir
+				+ getParent().getWayPoint().toLowerCase() + ".xml");
+		cacheFile.delete();
+
 		try {
-			detfile = new PrintWriter(new BufferedWriter(new FileWriter(dir
-					+ getParent().getWayPoint().toLowerCase() + ".xml")));
+			detfile = new BufferedWriter(new FileWriter(
+					cacheFile));
 		} catch (Exception e) {
 			Global.getPref().log("Problem creating details file", e, true);
 			return;
@@ -406,87 +379,113 @@ public class CacheHolderDetail {
 		try {
 			if (getParent().getWayPoint().length() > 0) {
 				detfile
-						.print("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n");
-				detfile.print("<CACHEDETAILS>\r\n");
-				detfile.print("<VERSION value = \"3\"/>\n");
-				detfile.print("<DETAILS><![CDATA[" + LongDescription
-						+ "]]></DETAILS>\r\n");
-				detfile.print("<COUNTRY><![CDATA[" + Country
-						+ "]]></COUNTRY>\n");
-				detfile.print("<STATE><![CDATA[" + State + "]]></STATE>\n");
-				detfile.print(attributes.XmlAttributesWrite());
-				detfile.print("<HINTS><![CDATA[" + Hints + "]]></HINTS>\r\n");
-				detfile.print("<LOGS>\r\n");
-				detfile.print("<OWNLOGID>" + OwnLogId + "</OWNLOGID>\r\n");
+						.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+				detfile.newLine();
+				detfile.write("<CACHEDETAILS>");
+				detfile.newLine();
+				detfile.write("<VERSION value = \"3\"/>");
+				detfile.newLine();
+				detfile.write("<DETAILS><![CDATA[" + LongDescription
+						+ "]]></DETAILS>");
+				detfile.newLine();
+				detfile.write("<COUNTRY><![CDATA[" + Country + "]]></COUNTRY>");
+				detfile.newLine();
+				detfile.write("<STATE><![CDATA[" + State + "]]></STATE>");
+				detfile.newLine();
+				detfile.write(attributes.XmlAttributesWrite());
+				detfile.newLine();
+				detfile.write("<HINTS><![CDATA[" + Hints + "]]></HINTS>");
+				detfile.newLine();
+				detfile.write("<LOGS>");
+				detfile.newLine();
+				detfile.write("<OWNLOGID>" + OwnLogId + "</OWNLOGID>");
+				detfile.newLine();
 				if (OwnLog != null) {
-					detfile.print("<OWNLOG><![CDATA[" + OwnLog.toHtml()
-							+ "]]></OWNLOG>\r\n");
+					detfile.write("<OWNLOG><![CDATA[" + OwnLog.toHtml()
+							+ "]]></OWNLOG>");
+					detfile.newLine();
 				} else {
-					detfile.print("<OWNLOG><![CDATA[]]></OWNLOG>\r\n");
+					detfile.write("<OWNLOG><![CDATA[]]></OWNLOG>");
+					detfile.newLine();
 				}
 				for (int i = 0; i < CacheLogs.size(); i++) {
-					detfile.print(CacheLogs.getLog(i).toXML());
+					detfile.write(CacheLogs.getLog(i).toXML());
+					detfile.newLine();
 				}
-				detfile.print("</LOGS>\r\n");
-
-				detfile
-						.print("<NOTES><![CDATA[" + CacheNotes
-								+ "]]></NOTES>\n");
-				detfile.print("<IMAGES>\n");
+				detfile.write("</LOGS>");
+				detfile.newLine();
+				detfile.write("<NOTES><![CDATA[" + CacheNotes + "]]></NOTES>");
+				detfile.newLine();
+				detfile.write("<IMAGES>\n");
+				detfile.newLine();
 				String stbuf = new String();
 				for (int i = 0; i < images.size(); i++) {
 					stbuf = images.get(i).getFilename();
 					String urlBuf = images.get(i).getURL();
 					if (urlBuf != null && !urlBuf.equals("")) {
-						detfile.print("    <IMG>" + SafeXML.strxmlencode(stbuf)
+						detfile.write("    <IMG>" + SafeXML.strxmlencode(stbuf)
 								+ "<URL>" + SafeXML.strxmlencode(urlBuf)
-								+ "</URL></IMG>\n");
+								+ "</URL></IMG>");
+						detfile.newLine();
 					} else {
-						detfile.print("    <IMG>" + SafeXML.strxmlencode(stbuf)
-								+ "</IMG>\n");
+						detfile.write("    <IMG>" + SafeXML.strxmlencode(stbuf)
+								+ "</IMG>");
+						detfile.newLine();
 					}
 				}
 				int iis = images.size();
 				for (int i = 0; i < iis; i++) {
 					stbuf = images.get(i).getTitle();
-					if (i < iis && images.get(i).getComment() != null)
-						detfile.print("    <IMGTEXT>" + stbuf + "<DESC>"
+					if (i < iis && images.get(i).getComment() != null) {
+						detfile.write("    <IMGTEXT>" + stbuf + "<DESC>"
 								+ images.get(i).getComment()
-								+ "</DESC></IMGTEXT>\n");
-					else
-						detfile.print("    <IMGTEXT>" + stbuf + "</IMGTEXT>\n");
+								+ "</DESC></IMGTEXT>");
+						detfile.newLine();
+					} else {
+						detfile.write("    <IMGTEXT>" + stbuf + "</IMGTEXT>");
+						detfile.newLine();
+					}
 				}
 
 				for (int i = 0; i < logImages.size(); i++) {
 					stbuf = logImages.get(i).getFilename();
-					detfile.print("    <LOGIMG>" + stbuf + "</LOGIMG>\n");
+					detfile.write("    <LOGIMG>" + stbuf + "</LOGIMG>");
+					detfile.newLine();
 				}
 				for (int i = 0; i < logImages.size(); i++) {
 					stbuf = logImages.get(i).getTitle();
-					detfile.print("    <LOGIMGTEXT>" + stbuf
-							+ "</LOGIMGTEXT>\n");
+					detfile.write("    <LOGIMGTEXT>" + stbuf + "</LOGIMGTEXT>");
+					detfile.newLine();
 				}
 				for (int i = 0; i < userImages.size(); i++) {
 					stbuf = userImages.get(i).getFilename();
-					detfile.print("    <USERIMG>" + stbuf + "</USERIMG>\n");
+					detfile.write("    <USERIMG>" + stbuf + "</USERIMG>");
+					detfile.newLine();
 				}
 				for (int i = 0; i < userImages.size(); i++) {
 					stbuf = userImages.get(i).getTitle();
-					detfile.print("    <USERIMGTEXT>" + stbuf
-							+ "</USERIMGTEXT>\n");
+					detfile.write("    <USERIMGTEXT>" + stbuf
+							+ "</USERIMGTEXT>");
+					detfile.newLine();
 				}
 
-				detfile.print("</IMAGES>\n");
-				// detfile.print("<BUGS><![CDATA[\n");
-				// detfile.print(Bugs+"\n");
-				// detfile.print("]]></BUGS>\n");
-				detfile.print(Travelbugs.toXML());
-				detfile.print("<URL><![CDATA[" + URL + "]]></URL>\r\n");
-				detfile.print("<SOLVER><![CDATA[" + getSolver()
-						+ "]]></SOLVER>\r\n");
-				detfile.print(getParent().toXML()); // This will allow
+				detfile.write("</IMAGES>");
+				detfile.newLine();
+				// detfile.write("<BUGS><![CDATA[");
+				// detfile.write(Bugs+"");
+				// detfile.write("]]></BUGS>");
+				detfile.write(Travelbugs.toXML());
+				detfile.newLine();
+				detfile.write("<URL><![CDATA[" + URL + "]]></URL>");
+				detfile.newLine();
+				detfile.write("<SOLVER><![CDATA[" + getSolver()
+						+ "]]></SOLVER>");
+				detfile.newLine();
+				detfile.write(getParent().toXML()); // This will allow
 				// restoration of index.xml
-				detfile.print("</CACHEDETAILS>\n");
+				detfile.newLine();
+				detfile.write("</CACHEDETAILS>");
+				detfile.newLine();
 				Global.getPref().log(
 						"Writing file: "
 								+ getParent().getWayPoint().toLowerCase()
@@ -527,7 +526,7 @@ public class CacheHolderDetail {
 	 *            new id of the waypoint
 	 * @return true on success, false for failure
 	 */
-	protected boolean rename(String newWptId) {
+	boolean rename(String newWptId) {
 		boolean success = false;
 		String profiledir = Global.getProfile().dataDir;
 		int oldWptLength = getParent().getWayPoint().length();
@@ -591,14 +590,14 @@ public class CacheHolderDetail {
 		// rename the files
 		try {
 			// since we use *.* we do not need FileBugFix
-			String srcFiles[] = new File(profiledir).list(getParent()
+			String srcFiles[] = new ewe.io.File(profiledir).list(getParent()
 					.getWayPoint().concat("*.*"),
 					ewe.io.FileBase.LIST_FILES_ONLY);
 			for (int i = 0; i < srcFiles.length; i++) {
 				String newfile = newWptId.concat(srcFiles[i]
 						.substring(oldWptLength));
-				File srcFile = new File(profiledir.concat(srcFiles[i]));
-				File dstFile = new File(profiledir.concat(newfile));
+				ewe.io.File srcFile = new ewe.io.File(profiledir.concat(srcFiles[i]));
+				ewe.io.File dstFile = new ewe.io.File(profiledir.concat(newfile));
 				srcFile.move(dstFile);
 			}
 			success = true;
