@@ -1,5 +1,8 @@
 package CacheWolf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import utils.FileBugfix;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;
@@ -14,7 +17,6 @@ import ewe.io.PrintWriter;
 import ewe.io.SerialPort;
 import ewe.io.SerialPortOptions;
 import ewe.sys.Convert;
-import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
@@ -36,6 +38,8 @@ import ewesoft.xml.sax.AttributeList;
  * the current settings of preferences.
  */
 public class Preferences extends MinML {
+
+	private static Logger logger = LoggerFactory.getLogger(Preferences.class);
 
 	public final int DEFAULT_MAX_LOGS_TO_SPIDER = 250;
 	public final int DEFAULT_LOGS_PER_PAGE = 5;
@@ -79,8 +83,9 @@ public class Preferences extends MinML {
 		if (p == null) {
 			/*
 			 * String test; test = Vm.getenv("APPDATA", "/"); // returns in
-			 * java-vm on win xp: c:\<dokumente und Einstellungen>\<username>\<application
-			 * data> log("Vm.getenv(APPDATA: " + test); // this works also in
+			 * java-vm on win xp: c:\<dokumente und
+			 * Einstellungen>\<username>\<application data>
+			 * log("Vm.getenv(APPDATA: " + test); // this works also in
 			 * win32.exe (ewe-vm on win xp) test = Vm.getenv("HOME", "/"); //
 			 * This should return on *nix system the home dir
 			 * log("Vm.getenv(HOME: " + test); test =
@@ -311,7 +316,8 @@ public class Preferences extends MinML {
 	 * 
 	 * to the pref.xml file.
 	 */
-	public boolean debug = false;
+	@Deprecated
+	public boolean debug = true;
 	// ////////////////////////////////////////////
 
 	// ////////////////////////////////////////////////////////////////////////////////////
@@ -589,7 +595,7 @@ public class Preferences extends MinML {
 	public void characters(char ch[], int start, int length) {
 		if (collectElement != null) {
 			collectElement.append(ch, start, length); // Collect the name of
-														// the
+			// the
 			// last profile
 		}
 	}
@@ -738,7 +744,7 @@ public class Preferences extends MinML {
 			}
 			if (debug)
 				outp.print("    <debug value=\"true\" />\n"); // Keep the
-																// debug
+			// debug
 			// switch if it
 			// is set
 			// save last path of different exporters
@@ -892,7 +898,7 @@ public class Preferences extends MinML {
 	public String getMapManuallySavePath(boolean create) {
 		String mapsDir = baseDir + mapsPath;
 		if (create && !(new FileBugfix(mapsDir).isDirectory())) { // dir
-																	// exists?
+			// exists?
 			if (new FileBugfix(mapsDir).mkdirs() == false) {// dir creation
 				// failed?
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
@@ -1007,20 +1013,6 @@ public class Preferences extends MinML {
 	// Log functions
 	// ////////////////////////////////////////////////////////////////////////////////////
 
-	/** Log file is in program directory and called log.txt */
-	private final String LOGFILENAME = FileBase.getProgramDirectory()
-			+ "/log.txt";
-
-	/**
-	 * Method to delete an existing log file. Called on every SpiderGC. The log
-	 * file is also cleared when Preferences is created and the filesize > 60KB
-	 */
-	public void logInit() {
-		File logFile = new FileBugfix(LOGFILENAME);
-		logFile.delete();
-		log("CW Version " + Version.getReleaseDetailed());
-	}
-
 	/**
 	 * Method to log messages to a file called log.txt It will always append to
 	 * an existing file. To show the message on the console, the global variable
@@ -1035,31 +1027,18 @@ public class Preferences extends MinML {
 	 * @param text
 	 *            to log
 	 */
+	@Deprecated
 	public void log(String text) {
-		Time dtm = new Time();
-		dtm.getTime();
-		dtm.setFormat("dd.MM.yyyy'/'HH:mm:ss.SSS");
-		text = dtm.toString() + ": " + text;
-		if (debug)
-			Vm.debug(text);
-		text = text + "\n";
-		FileWriter logFile = null;
-		try {
-			logFile = new FileWriter(LOGFILENAME, true);
-			// Stream strout = null;
-			// strout = logFile.toWritableStream(true);
-			logFile.println(text);
-			// Vm.debug(text); Not needed - put <debug value="true"> into
-			// pref.xml
-		} catch (Exception ex) {
-			Vm.debug("Error writing to log file!");
-		} finally {
-			if (logFile != null)
-				try {
-					logFile.close();
-				} catch (IOException ioe) {
-					Global.getPref().log("Ignored Exception", ioe, true);
-				}
+		if (logger.isWarnEnabled()) {
+			try {
+				throw new Exception();
+			} catch (Throwable e) {
+				e = e.fillInStackTrace();
+				StackTraceElement element = e.getStackTrace()[1];
+				logger
+						.warn("OldLogging ({}): {}", element.getClassName(),
+								text);
+			}
 		}
 	}
 
@@ -1077,25 +1056,24 @@ public class Preferences extends MinML {
 	 *            the pref.xml file or by manually setting it (i.e. in BE
 	 *            versions or RC versions) by including the line
 	 * 
-	 * <pre>
+	 *            <pre>
 	 * Global.getPref().debug = true;
 	 * </pre>
 	 * 
-	 * in Version.getRelease()
+	 *            in Version.getRelease()
 	 */
+	@Deprecated
 	public void log(String text, Throwable e, boolean withStackTrace) {
-		String msg;
-		if (text.equals(""))
-			msg = text;
-		else
-			msg = text + "\n";
-		if (e != null) {
-			if (withStackTrace && debug)
-				msg += ewe.sys.Vm.getAStackTrace(e);
-			else
-				msg += e.toString();
+		if (logger.isErrorEnabled()) {
+			try {
+				throw new Exception();
+			} catch (Throwable e2) {
+				e2 = e2.fillInStackTrace();
+				StackTraceElement element = e2.getStackTrace()[1];
+				logger.error("OldLogging (" + element.getClassName()
+						+ "): text", e);
+			}
 		}
-		log(msg);
 	}
 
 	/**
@@ -1108,8 +1086,19 @@ public class Preferences extends MinML {
 	 * @param e
 	 *            The exception
 	 */
-	public void log(String message, Exception e) {
-		log(message, e, false);
+	@Deprecated
+	public void log(String message, Throwable e) {
+
+		if (logger.isErrorEnabled()) {
+			try {
+				throw new Exception();
+			} catch (Throwable e2) {
+				e2 = e2.fillInStackTrace();
+				StackTraceElement element = e2.getStackTrace()[1];
+				logger.error("OldLogging (" + element.getClassName()
+						+ "): text", e);
+			}
+		}
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
@@ -1153,8 +1142,8 @@ public class Preferences extends MinML {
 	}
 
 	/**
-	 * <code>True</code> or <code>false</code>, depending if a filter with
-	 * the given ID is saved in the preferences.
+	 * <code>True</code> or <code>false</code>, depending if a filter with the
+	 * given ID is saved in the preferences.
 	 * 
 	 * @param filterID
 	 *            ID of the filter to check
