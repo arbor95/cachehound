@@ -51,6 +51,18 @@
 	<property name="verbose.mode" value="false" />
 
 
+	<path id="libraries">
+		<pathelement location="./lib/CompileEwe.zip" />
+		<pathelement location="./lib/mail.jar" />
+		<pathelement location="./lib/slf4j-api-1.5.8.jar" />
+		<pathelement location="./lib/slf4j-ext-1.5.8.jar" />
+		<pathelement location="./lib/logback-core-0.9.16.jar" />
+		<pathelement location="./logback-classic-0.9.16.jar" />
+		<pathelement location="./lib/" />
+		<pathelement location="./lib/junit-4.6.jar" />
+	</path>
+
+
 
 	<target name="find_revision" description="Sets property 'revision.number' to the head svn revision">
 		<exec executable="svn" outputproperty="revision.number">
@@ -106,7 +118,7 @@
 		</delete>
 	</target>
 
-		
+
 	<target name="clean" depends="clean_work" description="clean up before build">
 		<delete dir="${pkg.dir}" />
 		<delete dir="${classes.dir}" />
@@ -123,10 +135,15 @@
 
 	<target name="compile" description="compile sources with java">
 		<mkdir dir="${classes.dir}" />
-		<javac encoding="utf8" classpath="./lib/CompileEwe.zip:./lib/:./lib/mail.jar" destdir="${classes.dir}" deprecation="off" nowarn="on" srcdir="src" includes="**/*.java" />
+		<javac encoding="utf8" classpathref="libraries" destdir="${classes.dir}" deprecation="off" nowarn="on" srcdir="src" includes="**/*.java" />
 	</target>
 
 	<target name="copyres" description="copy images to the assembly directory">
+		<!-- copy config -->
+		<copy todir="${assemble.dir}/config" failonerror="true" verbose="true">
+			<fileset dir="resources/config" />
+		</copy>
+
 		<!-- copy start scripts -->
 		<copy todir="${assemble.dir}" failonerror="true">
 			<fileset dir="resources/scripts" includes="cachehound.*" />
