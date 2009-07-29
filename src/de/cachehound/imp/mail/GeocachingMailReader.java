@@ -25,7 +25,8 @@ public class GeocachingMailReader {
 	private Folder folder;
 	private IGCMailHandler handler;
 	
-	private static Logger logger = LoggerFactory.getLogger(GeocachingMailReader.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(GeocachingMailReader.class);
 
 	public GeocachingMailReader(String protocol, String host, String user,
 			String password, String mailbox, IGCMailHandler handler) {
@@ -43,6 +44,7 @@ public class GeocachingMailReader {
 		store = session.getStore(protocol);
 		store.connect(host, user, password);
 		folder = store.getFolder(mailbox);
+		// open Pop Mailboxes in ReadOnly-Mode
 		if (readonly || protocol.toLowerCase().startsWith("pop")) {
 			folder.open(Folder.READ_ONLY);
 		} else {
@@ -53,12 +55,11 @@ public class GeocachingMailReader {
 	public void readMessages(boolean onlyNew, boolean markAsRead, boolean remove)
 			throws MessagingException, IOException {
 		int countMessages = folder.getMessageCount();
-		logger.info("Found {} Caches in Mailbox", countMessages);
+		logger.info("Found {} Caches in Mailbox {}:{}", new Object[] {countMessages, host, mailbox});
 
 		Message message = null;
 		for (int i = 0; i < countMessages; i++) {
 			message = folder.getMessage(i + 1);
-			System.out.println("Message: " + i);
 			boolean newMessage = !message.getFlags().contains(Flag.SEEN);
 			if (newMessage || !onlyNew) {
 				readMessage(message, markAsRead, remove);
@@ -69,13 +70,16 @@ public class GeocachingMailReader {
 	private void readMessage(Message message, boolean markAsRead, boolean remove)
 			throws MessagingException, IOException {
 		String subject = message.getSubject();
+		logger.debug("Reading Message: {}", subject);
 		boolean readed = false;
 		if (subject.startsWith("[GEO] Pocket Query:")) {
+			logger.debug("Handle Pocket Query: {}", subject);
 			readed = handler.handlePocketQuery(message, subject);
 		} else if (subject.startsWith("[GEO] Notify:")) {
+			logger.debug("Handle Notify: {}", subject);
 			readed = readNotify(message, subject);
 		} else {
-			System.out.println("Message nicht erkannt: " + subject);
+			logger.warn("Can't parse Subject of Message: {}", subject);
 			return;
 		}
 		if (readed) {
@@ -124,7 +128,7 @@ public class GeocachingMailReader {
 		} else if (subject.contains(" performed maintenance for ")) {
 			return handler.maintenancePferformed(gcNumber, message, subject, text);
 		} else { // hmm, doch keine Mail mit der wir was anfangen können?
-			System.out.println("Notify-Message nicht erkannt: " + subject);
+			logger.error("Notify-Message-Header not parsable: {}", subject);
 			return false;
 		}
 		

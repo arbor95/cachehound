@@ -94,7 +94,7 @@ public class TritonGPXExporter extends Exporter {
 				String dummyArchived = (ch.is_archived()) ? "True" : "False";
 				strBuf
 						.append("    <groundspeak:cache id=\"")
-						.append(ch.GetCacheID())
+						.append(ch.getCacheID())
 						.append("\" available=\"")
 						.append(dummyAvailable)
 						.append("\" archived=\"")

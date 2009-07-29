@@ -720,7 +720,7 @@ public class GpxExportNg {
 			return "";
 
 		return "    <groundspeak:cache id=\""
-				.concat(ch.GetCacheID())
+				.concat(ch.getCacheID())
 				.concat("\" available=\"")
 				.concat(ch.is_available() ? TRUE : FALSE)
 				.concat("\" archived=\"")

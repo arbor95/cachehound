@@ -110,7 +110,7 @@ public class GPXExporter extends Exporter {
 						: STRING_FALSE;
 				strBuf
 						.append("    <groundspeak:cache id=\"")
-						.append(ch.GetCacheID())
+						.append(ch.getCacheID())
 						.append("\" available=\"")
 						.append(dummyAvailable)
 						.append("\" archived=\"")
