@@ -120,7 +120,6 @@ public class SpiderGC {
 		this.cacheDB = profile.cacheDB;
 		pref = prf;
 		if (p == null) {
-			pref.logInit();
 			p = new SpiderProperties();
 		}
 	}
