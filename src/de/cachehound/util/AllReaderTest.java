@@ -9,7 +9,7 @@ import org.junit.Test;
 
 
 public class AllReaderTest {
-	private class FakeReader extends Reader {
+	private static class FakeReader extends Reader {
 		private char[][] chunks;
 		private int chunksread = 0;
 		
