@@ -12,6 +12,9 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.MimeBodyPart;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.cachehound.types.LogType;
 
 import CacheWolf.CacheHolder;
@@ -28,8 +31,10 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 	private Preferences prefs;
 	private Profile profile;
 
-	private boolean spiderIfNotExists = true; // should be in the preferences,
+	private static Logger logger = LoggerFactory
+			.getLogger(CacheWolfMailHandler.class);
 
+	private boolean spiderIfNotExists = true; // should be in the preferences,
 	// perhaps for every logtype?
 
 	public CacheWolfMailHandler(Preferences pf, Profile prof) {
@@ -166,9 +171,6 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 
 			if (disposition == null) {
 				MimeBodyPart mimePart = (MimeBodyPart) part;
-				System.out.println("PQuery " + j + ": "
-						+ mimePart.getContentType());
-
 				if (mimePart.isMimeType("APPLICATION/ZIP")) {
 					File file = new File("mail-tmp.zip");
 					InputStream in = mimePart.getInputStream();
@@ -190,7 +192,6 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 			}
 		}
 
-		System.out.println("PQ konnte gelesen sein: " + subject);
 		return true;
 	}
 
@@ -252,13 +253,16 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		int test = spider.spiderSingle(index, infB, forceLogin, loadAllLogs);
 		if (test == SpiderGC.SPIDER_CANCEL) {
 			infB.close(0);
-			System.out.println("SPIDER_CANCLE");
+			logger.info("Spidering canceled: {}", holder.getCacheID());
 			return false;
 		} else if (test == SpiderGC.SPIDER_ERROR) {
-			System.out.println("SPIDER_ERROR");
+			logger.error("Spidering failed: {}", holder.getCacheID());
+			return false;
+		} else if (test == SpiderGC.SPIDER_IGNORE_PREMIUM) {
+			logger.info("Spidering failed due to PM-only-cache: {}", holder
+					.getCacheID());
 			return false;
 		} else {
-			System.out.println("Neue Daten im Cachewolf");
 			return true;
 		}
 	}

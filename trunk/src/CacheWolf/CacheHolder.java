@@ -921,7 +921,7 @@ public class CacheHolder {
 		return statusTime;
 	}
 
-	public String GetCacheID() {
+	public String getCacheID() {
 		String result = "";
 
 		if (getWayPoint().toUpperCase().startsWith("GC")) {
