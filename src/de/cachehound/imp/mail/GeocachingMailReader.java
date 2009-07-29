@@ -10,6 +10,9 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Flags.Flag;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GeocachingMailReader {
 
 	private String protocol;
@@ -21,6 +24,8 @@ public class GeocachingMailReader {
 	private Store store;
 	private Folder folder;
 	private IGCMailHandler handler;
+	
+	private static Logger logger = LoggerFactory.getLogger(GeocachingMailReader.class);
 
 	public GeocachingMailReader(String protocol, String host, String user,
 			String password, String mailbox, IGCMailHandler handler) {
@@ -48,8 +53,7 @@ public class GeocachingMailReader {
 	public void readMessages(boolean onlyNew, boolean markAsRead, boolean remove)
 			throws MessagingException, IOException {
 		int countMessages = folder.getMessageCount();
-		System.out.println("Anzahl Nachrichten in '" + mailbox + "': "
-				+ countMessages);
+		logger.info("Found {} Caches in Mailbox", countMessages);
 
 		Message message = null;
 		for (int i = 0; i < countMessages; i++) {
