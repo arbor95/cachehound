@@ -10,7 +10,7 @@ Hier sollen nun kurz die Schritte zum selbstständigen Bauen des CacheHounds bes
 
 Die folgenden 3 Werkzeuge müssen Installiert werden. Ich geh davon aus, dass die Werkzeuge auf der Konsole genutzt werden. 
 
- * JDK Version 6 (5 geht vermutlich bisher auch, nur ungetestet)
+ * JDK Version 6
  * SVN Client
  * ANT
 
