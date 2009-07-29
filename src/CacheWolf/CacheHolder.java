@@ -1645,24 +1645,4 @@ public class CacheHolder {
 		Global.getProfile().notifyUnsavedChanges(hasNote != this.hasNote);
 		this.hasNote = hasNote;
 	}
-
-	/**
-	 * rename a waypoint and all its associated files
-	 * 
-	 * @param newWptId
-	 *            new waypoint id (will be converted to upper case)
-	 * @return true on success, false on error
-	 */
-	public boolean rename(String newWptId) {
-		newWptId = newWptId.toUpperCase();
-		getFreshDetails();
-		if (details.rename(newWptId)) {
-			setWayPoint(newWptId);
-			save();
-			Global.getProfile().notifyUnsavedChanges(true);
-			return true;
-		} else {
-			return false;
-		}
-	}
 }
