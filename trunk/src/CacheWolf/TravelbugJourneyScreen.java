@@ -15,8 +15,6 @@ import java.awt.Desktop;
 import java.net.URI;
 
 import de.cachehound.util.SpiderService;
-
-import CacheWolf.imp.SpiderGC;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
 import ewe.fx.FontMetrics;

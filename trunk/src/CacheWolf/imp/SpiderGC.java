@@ -1208,7 +1208,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Distance
 	 */
-	private double getDist(String doc) throws Exception {
+	private double getDist(String doc) {
 		inRex = new Regex(p.getProp("distRex"));
 		inRex.search(doc);
 		if (doc.indexOf("Here") >= 0)
@@ -1227,7 +1227,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Name of waypoint to add to list
 	 */
-	private String getWP(String doc) throws Exception {
+	private String getWP(String doc) {
 		inRex = new Regex(p.getProp("waypointRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1242,7 +1242,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Cache coordinates
 	 */
-	private String getLatLon(String doc) throws Exception {
+	private String getLatLon(String doc) {
 		inRex = new Regex(p.getProp("latLonRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1257,7 +1257,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the long description
 	 */
-	private String getLongDesc(String doc) throws Exception {
+	private String getLongDesc(String doc) {
 		String res = "";
 		inRex = new Regex(p.getProp("shortDescRex"));
 		Regex rex2 = new Regex(p.getProp("longDescRex"));
@@ -1276,7 +1276,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the location (country and state) of the cache
 	 */
-	private String getLocation(String doc) throws Exception {
+	private String getLocation(String doc) {
 		inRex = new Regex(p.getProp("cacheLocationRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1292,7 +1292,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the name of the cache
 	 */
-	private String getName(String doc) throws Exception {
+	private String getName(String doc) {
 		inRex = new Regex(p.getProp("cacheNameRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1307,7 +1307,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the cache owner
 	 */
-	private String getOwner(String doc) throws Exception {
+	private String getOwner(String doc) {
 		inRex = new Regex(p.getProp("cacheOwnerRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1322,7 +1322,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Hidden date
 	 */
-	private String getDateHidden(String doc) throws Exception {
+	private String getDateHidden(String doc) {
 		inRex = new Regex(p.getProp("dateHiddenRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1337,7 +1337,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Cachehints
 	 */
-	private String getHints(String doc) throws Exception {
+	private String getHints(String doc) {
 		inRex = new Regex(p.getProp("hintsRex"));
 		inRex.search(doc);
 		if (!inRex.didMatch())
@@ -1352,7 +1352,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Cache size
 	 */
-	private String getSize(String doc) throws Exception {
+	private String getSize(String doc) {
 		inRex = new Regex(p.getProp("sizeRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1368,7 +1368,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return The cache difficulty
 	 */
-	private String getDiff(String doc) throws Exception {
+	private String getDiff(String doc) {
 		inRex = new Regex(p.getProp("difficultyRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1384,7 +1384,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Terrain rating
 	 */
-	private String getTerr(String doc) throws Exception {
+	private String getTerr(String doc) {
 		inRex = new Regex(p.getProp("terrainRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1418,7 +1418,7 @@ public class SpiderGC {
 	 *            Cache Details
 	 * @return A HTML string containing the logs
 	 */
-	private LogList getLogs(String doc, CacheHolderDetail chD) throws Exception {
+	private LogList getLogs(String doc, CacheHolderDetail chD) {
 		LogType type;
 		String name = "";
 		String logText = "";
@@ -1512,7 +1512,7 @@ public class SpiderGC {
 	 *            The previously fetched cachepage
 	 * @return A HTML formatted string with bug names and there purpose
 	 */
-	private void getBugs(CacheHolderDetail chD, String doc) throws Exception {
+	private void getBugs(CacheHolderDetail chD, String doc) {
 		Extractor exBlock = new Extractor(doc, p.getProp("blockExStart"), p
 				.getProp("blockExEnd"), 0, Extractor.EXCLUDESTARTEND);
 		String bugBlock = exBlock.findNext();

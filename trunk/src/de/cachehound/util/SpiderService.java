@@ -16,7 +16,7 @@ public class SpiderService {
 	private String lastProfileName;
 
 	private SpiderService() {
-
+		// Singleton: Do not instantiate.
 	}
 
 	public static SpiderService getInstance() {
