@@ -78,7 +78,7 @@ public class LogList {
 		int i;
 		for (i = 0; i < size; i++) {
 			int comp = newDate
-					.compareTo(((Log) logList.get(i)).getDate());
+					.compareTo(logList.get(i).getDate());
 			if (comp > 0) {
 				logList.add(i, newLog);
 				return i;
@@ -95,8 +95,8 @@ public class LogList {
 		int firstLog = i;
 		// Check whether we already have this log.
 		while (i < size
-				&& newDate.equals(((Log) logList.get(i)).getDate())) {
-			Log oldLog = (Log) logList.get(i);
+				&& newDate.equals(logList.get(i).getDate())) {
+			Log oldLog = logList.get(i);
 			if (newLog.equals(oldLog)) {
 				return -1; // Log already in list
 			}
@@ -187,7 +187,7 @@ public class LogList {
 	public String allMessages() {
 		buffer.setLength(0);
 		for (int i = 0; i < logList.size(); i++) {
-			buffer.append(((Log) logList.get(i)).getMessage());
+			buffer.append(logList.get(i).getMessage());
 		}
 		return buffer.toString();
 	}
