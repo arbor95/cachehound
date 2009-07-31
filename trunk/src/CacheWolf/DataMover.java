@@ -1,5 +1,7 @@
 package CacheWolf;
 
+import java.util.Iterator;
+
 import utils.FileBugfix;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -10,7 +12,6 @@ import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.Gui;
 import ewe.ui.ProgressBarForm;
-import ewe.util.Iterator;
 
 /**
  * This class moves or copies the database files of selected caches from one
@@ -67,8 +68,8 @@ public class DataMover {
 		// Now repair the cache-Vector:
 		for (int i = 0; i < srcDB.size(); i++) {
 			CacheHolder holder = srcDB.get(i);
-			for (Iterator j = holder.addiWpts.iterator(); j.hasNext();) {
-				CacheHolder element = (CacheHolder) j.next();
+			for (Iterator<CacheHolder> j = holder.addiWpts.iterator(); j.hasNext();) {
+				CacheHolder element = j.next();
 				element.mainCache = holder;
 			}
 		}

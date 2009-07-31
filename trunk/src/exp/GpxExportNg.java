@@ -1,5 +1,7 @@
 package exp;
 
+import java.util.Iterator;
+
 import utils.FileBugfix;
 import CacheWolf.CWPoint;
 import CacheWolf.CacheHolder;
@@ -49,7 +51,6 @@ import ewe.ui.mInput;
 import ewe.ui.mLabel;
 import ewe.util.Enumeration;
 import ewe.util.Hashtable;
-import ewe.util.Iterator;
 import ewe.util.zip.ZipEntry;
 import ewe.util.zip.ZipException;
 import ewe.util.zip.ZipFile;
@@ -892,9 +893,9 @@ public class GpxExportNg {
 					ret.append("\n\nAdditional Waypoints\n");
 				}
 
-				Iterator iter = ch.addiWpts.iterator();
+				Iterator<CacheHolder> iter = ch.addiWpts.iterator();
 				while (iter.hasNext()) {
-					CacheHolder addi = (CacheHolder) iter.next();
+					CacheHolder addi = iter.next();
 					Transformer trans = new Transformer(true);
 					trans.add(new Regex("@@ADDIID@@", addi.getWayPoint()));
 					trans.add(new Regex("@@ADDISHORT@@", addi.getCacheName()));

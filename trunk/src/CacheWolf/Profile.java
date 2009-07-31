@@ -1,5 +1,8 @@
 package CacheWolf;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import CacheWolf.navi.Area;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
@@ -707,12 +710,12 @@ public class Profile {
 				// ch.addiWpts.sort(new
 				// MyComparer(ch.addiWpts,MyLocale.getMsg(1002,"Waypoint"),ch.addiWpts.size()),
 				// false);
-				ch.addiWpts.sort(new ewe.util.Comparer() {
-					public int compare(Object o1, Object o2) {
-						return ((CacheHolder) o1).getWayPoint().compareTo(
-								((CacheHolder) o2).getWayPoint());
+				Collections.sort(ch.addiWpts, new Comparator<CacheHolder>() {
+					public int compare(CacheHolder ch1, CacheHolder ch2) {
+						return ch1.getWayPoint().compareTo(
+								ch2.getWayPoint());
 					}
-				}, false);
+				});
 			}
 		}
 

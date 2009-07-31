@@ -260,7 +260,7 @@ public class ShowCacheInBrowser {
 						Vector addiVect = new Vector(chD.addiWpts.size());
 						for (int i = 0; i < chD.addiWpts.size(); i++) {
 							Hashtable addis = new Hashtable();
-							CacheHolder ch = (CacheHolder) chD.addiWpts.get(i);
+							CacheHolder ch = chD.addiWpts.get(i);
 							addis.put("WAYPOINT", ch.getWayPoint());
 							addis.put("NAME", ch.getCacheName());
 							addis.put("LATLON", ch.LatLon);

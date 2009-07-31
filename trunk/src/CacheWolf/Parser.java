@@ -923,8 +923,8 @@ public class Parser {
 			CacheHolder addiWpt;
 			if (ch.hasAddiWpt()) {
 				op.append("cls()\n");
-				for (int j = 0; j < ch.addiWpts.getCount(); j++) {
-					addiWpt = (CacheHolder) ch.addiWpts.get(j);
+				for (int j = 0; j < ch.addiWpts.size(); j++) {
+					addiWpt = ch.addiWpts.get(j);
 					op.append("IF $");
 					op.append(addiWpt.getWayPoint());
 					op.append("=\"\" THEN\n   $");
