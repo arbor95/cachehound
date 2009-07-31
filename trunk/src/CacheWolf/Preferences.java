@@ -161,7 +161,7 @@ public class Preferences extends MinML {
 	 */
 	public String myAlias2 = "";
 	/** The path to the browser */
-	public String browser = "";
+	private String browser = ""; 	// remove? still in here for holding this information in pref.xml for cachewolf Profiles
 	/** Name of proxy for spidering */
 	public String myproxy = "";
 	/** Proxyport when spidering */

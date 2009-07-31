@@ -330,7 +330,10 @@ public class KMLExporter extends Exporter {
 		// strBuf.append(" <href>"+ File.getProgramDirectory()+ "/" +
 		// CacheType.type2pic(Convert.parseInt(ch.type))+ "</href>\r\n");
 		strBuf.append("            <href>"
-				+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");
+		+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");
+		// Die Grafiken sind eigentlich schöner, aber leider nicht alle verfügbar bzw. müssten korrekt kopiert werden.
+//		strBuf.append("            <href>"
+//		+ ch.getType() + ".gif" + "</href>\r\n");
 		strBuf.append("         </Icon>\r\n");
 		strBuf.append("      </IconStyle>\r\n");
 		strBuf.append("      <LabelStyle>\r\n");

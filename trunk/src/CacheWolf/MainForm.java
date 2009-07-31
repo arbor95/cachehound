@@ -109,14 +109,14 @@ public class MainForm extends Editor {
 			GuiImageBroker.customizedSymbols();
 
 			// Load CacheList
-			infB = new InfoBox("CacheWolf", MyLocale.getMsg(5000,
+			infB = new InfoBox("CacheHound", MyLocale.getMsg(5000,
 					"Loading Cache-List"));
 			infB.exec();
 			infB.waitUntilPainted(100);
 			profile.readIndex(infB);
 			pref.curCentrePt.set(profile.centre);
 			profile.updateBearingDistance();
-			setTitle("Cachewolf " + Version.getRelease() + " - " + profile.name);
+			setTitle("CacheHound " + Version.getRelease() + " - " + profile.name);
 		} catch (Exception e) {
 			if (pref.debug == true)
 				Vm.debug("MainForm:: Exception:: " + e.toString());

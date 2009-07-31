@@ -1,6 +1,7 @@
 package CacheWolf;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 
 import HTML.Template;
