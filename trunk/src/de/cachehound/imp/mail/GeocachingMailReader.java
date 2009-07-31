@@ -78,9 +78,9 @@ public class GeocachingMailReader {
 		int countMessages = inFolder.getMessageCount();
 		logger.info("Found {} Caches in Mailbox {}:{}", new Object[] {countMessages, host, inBox});
 
-		// TODO: Weiter entwickeln
-//		HoldFolderOpenThread holdOpenThread = new HoldFolderOpenThread();
-//		holdOpenThread.start();
+		// holds up MailConnection while parsing long PQ and spider them
+		HoldFolderOpenThread holdOpenThread = new HoldFolderOpenThread();
+		holdOpenThread.start();
 		
 		Message message = null;
 		for (int i = 0; i < countMessages; i++) {
@@ -90,17 +90,8 @@ public class GeocachingMailReader {
 			if (newMessage || !onlyNew) {
 				readMessage(message);
 			}
-			// TODO: Rausnehmen, nur für TESTS!!!
-//			message.getContent();
-//			try {
-//				Thread.sleep(930 * 1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.out.println("Nachricht i+1 'abgewartet'");
 		}
-//		holdOpenThread.stopFolderOpenThread();
+		holdOpenThread.stopFolderOpenThread();
 	}
 
 	private void readMessage(Message message)
@@ -184,6 +175,10 @@ public class GeocachingMailReader {
 		store.close();
 	}
 
+	/**
+	 * This thread tries to hold up the Connection to the Mailserver which is connected with the "inFolder" 
+	 * @author tweety
+	 */
 	private class HoldFolderOpenThread extends Thread {
 
 		private boolean active = true;
@@ -197,7 +192,7 @@ public class GeocachingMailReader {
 					return;
 				}
 				try {
-					sleep(30 * 1000);
+					sleep(30 * 1000); // wait 30 seconds
 				} catch (InterruptedException e) {
 					// nothing to do;
 				}
@@ -206,7 +201,7 @@ public class GeocachingMailReader {
 		
 		public void stopFolderOpenThread() {
 			active = false;
-			this.interrupt();
+			this.interrupt(); // the thread will stop short after waking up
 		}
 		
 	}

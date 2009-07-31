@@ -975,10 +975,6 @@ public class MainMenu extends MenuBar {
 		}
 
 		int spiderErrors = 0;
-		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
-		// spiderSingle only
-		// logs in once if
-		// forcedLogin=true
 		for (int j = 0; j < cachesToUpdate.size(); j++) {
 			int i = ((Integer) cachesToUpdate.get(j)).intValue();
 			ch = cacheDB.get(i);
@@ -996,7 +992,6 @@ public class MainMenu extends MenuBar {
 				} else {
 					// profile.hasUnsavedChanges=true;
 				}
-				forceLogin = false;
 			} else {
 				if (!ocSync.syncSingle(i, infB)) {
 					infB.close(0);
