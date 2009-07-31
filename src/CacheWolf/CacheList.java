@@ -1,5 +1,7 @@
 package CacheWolf;
 
+import java.util.Comparator;
+
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -31,7 +33,6 @@ import ewe.ui.mButton;
 import ewe.ui.mCheckBox;
 import ewe.ui.mLabel;
 import ewe.ui.mList;
-import ewe.util.Comparer;
 
 /*******************************************************************************
  * This class implements the core functionality of a flexible cachelist for
@@ -211,11 +212,9 @@ public class CacheList extends CellPanel {
 	} // ******************* myList
 
 	/** Simple sort to ensure that the main list keeps the order of this list */
-	private class mySort implements Comparer {
-		public int compare(Object o1, Object o2) {
-			CacheHolder oo1 = (CacheHolder) o1;
-			CacheHolder oo2 = (CacheHolder) o2;
-			return oo1.sort.compareTo(oo2.sort);
+	private class mySort implements Comparator<CacheHolder> {
+		public int compare(CacheHolder ch1, CacheHolder ch2) {
+			return ch1.sort.compareTo(ch2.sort);
 		}
 	}
 
