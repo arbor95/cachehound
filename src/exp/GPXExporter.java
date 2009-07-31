@@ -1,6 +1,5 @@
 package exp;
 
-import de.cachehound.types.LogType;
 import CacheWolf.CacheHolder;
 import CacheWolf.CacheHolderDetail;
 import CacheWolf.CacheSize;

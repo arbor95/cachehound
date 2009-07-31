@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import ewe.fx.IconAndText;
 import ewe.fx.Point;
 import ewe.fx.Rect;
-import ewe.io.File;
 import ewe.sys.Handle;
 import ewe.sys.Vm;
 import ewe.ui.Control;
