@@ -1,49 +1,31 @@
 package CacheWolf;
 
-import utils.MutableInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.cachehound.util.ComparatorHelper;
+import de.cachehound.util.EweCollections;
 import ewe.util.Comparer;
-import ewe.util.Hashtable;
-import ewe.util.Iterator;
 import ewe.util.Vector;
-import ewe.util.Map.MapEntry;
 
 /**
  * @author torsti
  *
- */
-/**
- * @author torsti
- * 
  */
 public class CacheDB {
 
 	/**
 	 * Stores the CacheHolder objects
 	 */
-	private Vector vectorDB = new Vector();
+	private List<CacheHolder> vectorDB = new ArrayList<CacheHolder>();
 	/**
 	 * Stores the reference of waypoints to index positions (in vectorDB).
 	 */
-	private Hashtable hashDB = new Hashtable();
-
-	/**
-	 * Gets the existing MutableInteger object from a given waypoint, or, if not
-	 * existant, creates a new one, and fills it with the given integer.
-	 * 
-	 * @param waypoint
-	 *            The waypoint whos MutableIntger object is to use
-	 * @param newValue
-	 *            The integer value you want to assign to the object
-	 * @return The newly created or reused and freshly assigned object
-	 */
-	private MutableInteger getIntObj(String waypoint, int newValue) {
-		MutableInteger obj = (MutableInteger) hashDB.get(waypoint);
-		if (obj == null) {
-			obj = new MutableInteger();
-		}
-		obj.setInt(newValue);
-		return obj;
-	}
+	private Map<String, Integer> hashDB = new HashMap<String, Integer>();
 
 	/**
 	 * Gets the stored CacheHolder object by its position in the Cache List.
@@ -53,7 +35,7 @@ public class CacheDB {
 	 * @return CacheHolder object with corresponding index
 	 */
 	public CacheHolder get(int index) {
-		return (CacheHolder) vectorDB.get(index);
+		return vectorDB.get(index);
 	}
 
 	/**
@@ -65,10 +47,11 @@ public class CacheDB {
 	 * @return CacheHolder object with corresponding waypoint
 	 */
 	public CacheHolder get(String waypoint) {
-		int idx = this.getIndex(waypoint);
-		if (idx < 0)
+		if (hashDB.containsKey(waypoint)) {
+			return vectorDB.get(hashDB.get(waypoint));
+		} else {
 			return null;
-		return this.get(idx);
+		}
 	}
 
 	/**
@@ -79,14 +62,11 @@ public class CacheDB {
 	 * @return Index of CacheHolder object in cache list.
 	 */
 	public int getIndex(String waypoint) {
-		Object obj = hashDB.get(waypoint);
-		int result;
-		if (obj == null) {
-			result = -1;
+		if (hashDB.containsKey(waypoint)) {
+			return hashDB.get(waypoint);
 		} else {
-			result = ((MutableInteger) obj).getInt();
+			return -1;
 		}
-		return result;
 	}
 
 	/**
@@ -110,9 +90,9 @@ public class CacheDB {
 	 *            CacheHolder object to set
 	 */
 	public void set(int index, CacheHolder ch) {
-		CacheHolder oldObj = (CacheHolder) vectorDB.get(index);
+		CacheHolder oldObj = vectorDB.get(index);
 		vectorDB.set(index, ch);
-		hashDB.put(ch.getWayPoint(), this.getIntObj(ch.getWayPoint(), index));
+		hashDB.put(ch.getWayPoint(), index);
 		if (oldObj != null
 				&& !oldObj.getWayPoint().equals(oldObj.getWayPoint())) {
 			hashDB.remove(oldObj.getWayPoint());
@@ -133,8 +113,7 @@ public class CacheDB {
 			this.set(this.getIndex(ch), ch);
 		} else {
 			vectorDB.add(ch);
-			hashDB.put(ch.getWayPoint(), this.getIntObj(ch.getWayPoint(),
-					vectorDB.size() - 1));
+			hashDB.put(ch.getWayPoint(), vectorDB.size() - 1);
 		}
 	}
 
@@ -157,82 +136,106 @@ public class CacheDB {
 
 	/**
 	 * Same as <br>
-	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br></code>but optimized to reduce object creation. <br>
+	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br>
 	 * Thus builds cacheDB out of caches of vectors cachesA and cachesB, added
 	 * in this order.
+	 * 
+	 * @param cachesA
+	 *            First List of CacheHolder object to add to CacheDB
+	 * @param cachesB
+	 *            Second List of CacheHolder object to add to CacheDB
+	 */
+	public void rebuild(List<CacheHolder> cachesA, List<CacheHolder> cachesB) {
+		clear();
+		addAll(cachesA);
+		addAll(cachesB);
+	}
+
+	/**
+	 * Same as <br>
+	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br></code>but
+	 * optimized to reduce object creation. <br>
+	 * Thus builds cacheDB out of caches of vectors cachesA and cachesB, added
+	 * in this order.
+	 * 
+	 * ... und natuerlich, wie aller CW-Code, vollkommen unlesbar...
 	 * 
 	 * @param cachesA
 	 *            First Vector of CacheHolder object to add to CacheDB
 	 * @param cachesB
 	 *            Second Vector of CacheHolder object to add to CacheDB
 	 */
+	@Deprecated
 	public void rebuild(Vector cachesA, Vector cachesB) {
-		int vectorSize = vectorDB.size();
-		int cachesAsize = 0;
-		int cachesBsize = 0;
-		// First negate all hashtable position values, to distinguish the old
-		// from the new values
-		Iterator iter = hashDB.entries();
-		while (iter.hasNext()) {
-			MutableInteger mInt = (MutableInteger) ((MapEntry) iter.next())
-					.getValue();
-			mInt.setInt(-mInt.getInt());
-		}
-		// Then set all vector elements at the proper position
-		for (int abc = 1; abc <= 2; abc++) {
-			Vector cachesAB = null;
-			int offset = 0;
-			if (abc == 1) {
-				cachesAB = cachesA;
-				if (cachesA != null)
-					cachesAsize = cachesA.size();
-			} else {
-				cachesAB = cachesB;
-				if (cachesA != null)
-					offset = cachesA.size();
-				if (cachesB != null)
-					cachesBsize = cachesB.size();
-			}
-			if (cachesAB == null)
-				continue;
-			for (int i = offset; i < cachesAB.size() + offset; i++) {
-				CacheHolder ch = (CacheHolder) cachesAB.get(i - offset);
-				if (i < vectorSize) {
-					vectorDB.set(i, ch);
-				} else {
-					vectorDB.add(ch);
-				}
-				hashDB.put(ch.getWayPoint(), this
-						.getIntObj(ch.getWayPoint(), i));
-			}
-		}
-		// If there are more elements in vectorDB than in the sum of sizes of
-		// cachesA and cachesB
-		// then the rest has to be deleted.
-		for (int i = vectorDB.size() - 1; i >= cachesAsize + cachesBsize; i--) {
-			vectorDB.del(i);
-		}
-		// Now delete any element from hashDB which still has a negative
-		// position value
-		Vector wpToDelete = null;
-		MapEntry me = null;
-		iter = hashDB.entries();
-		while (iter.hasNext()) {
-			me = (MapEntry) iter.next();
-			MutableInteger mInt = (MutableInteger) me.getValue();
-			if (mInt.getInt() < 0) {
-				if (wpToDelete == null)
-					wpToDelete = new Vector();
-				String wp = (String) me.getKey();
-				wpToDelete.add(wp);
-			}
-		}
-		if (wpToDelete != null) {
-			for (int i = 0; i < wpToDelete.size(); i++) {
-				String wp = (String) wpToDelete.get(i);
-				hashDB.remove(wp);
-			}
-		}
+		rebuild(EweCollections.<CacheHolder> vectorToList(cachesA),
+				EweCollections.<CacheHolder> vectorToList(cachesB));
+		// int vectorSize = vectorDB.size();
+		// int cachesAsize = 0;
+		// int cachesBsize = 0;
+		// // First negate all hashtable position values, to distinguish the old
+		// // from the new values
+		// Iterator iter = hashDB.entries();
+		// while (iter.hasNext()) {
+		// MutableInteger mInt = (MutableInteger) ((MapEntry) iter.next())
+		// .getValue();
+		// mInt.setInt(-mInt.getInt());
+		// }
+		// // Then set all vector elements at the proper position
+		// for (int abc = 1; abc <= 2; abc++) {
+		// Vector cachesAB = null;
+		// int offset = 0;
+		// if (abc == 1) {
+		// cachesAB = cachesA;
+		// if (cachesA != null)
+		// cachesAsize = cachesA.size();
+		// } else {
+		// cachesAB = cachesB;
+		// if (cachesA != null)
+		// offset = cachesA.size();
+		// if (cachesB != null)
+		// cachesBsize = cachesB.size();
+		// }
+		// if (cachesAB == null)
+		// continue;
+		// for (int i = offset; i < cachesAB.size() + offset; i++) {
+		// CacheHolder ch = (CacheHolder) cachesAB.get(i - offset);
+		// if (i < vectorSize) {
+		// vectorDB.set(i, ch);
+		// } else {
+		// vectorDB.add(ch);
+		// }
+		// hashDB.put(ch.getWayPoint(), this
+		// .getIntObj(ch.getWayPoint(), i));
+		// }
+		// }
+		// // If there are more elements in vectorDB than in the sum of sizes of
+		// // cachesA and cachesB
+		// // then the rest has to be deleted.
+		// for (int i = vectorDB.size() - 1; i >= cachesAsize + cachesBsize;
+		// i--) {
+		// vectorDB.del(i);
+		// }
+		// // Now delete any element from hashDB which still has a negative
+		// // position value
+		// Vector wpToDelete = null;
+		// MapEntry me = null;
+		// iter = hashDB.entries();
+		// while (iter.hasNext()) {
+		// me = (MapEntry) iter.next();
+		// MutableInteger mInt = (MutableInteger) me.getValue();
+		// if (mInt.getInt() < 0) {
+		// if (wpToDelete == null)
+		// wpToDelete = new Vector();
+		// String wp = (String) me.getKey();
+		// wpToDelete.add(wp);
+		// }
+		// }
+		// if (wpToDelete != null) {
+		// for (int i = 0; i < wpToDelete.size(); i++) {
+		// String wp = (String) wpToDelete.get(i);
+		// hashDB.remove(wp);
+		// }
+		// }
 	}
 
 	/**
@@ -247,14 +250,29 @@ public class CacheDB {
 	public void removeElementAt(int index) {
 		CacheHolder ch = this.get(index);
 		ch.releaseCacheDetails();
-		vectorDB.removeElementAt(index);
+		vectorDB.remove(index);
 		hashDB.remove(ch.getWayPoint());
 		// When one element has been removed, we have to update the index
 		// references in the hashtable, as the indexes of waypoints changed.
-		for (int i = index; i < vectorDB.size(); i++) {
-			CacheHolder ch2 = this.get(i);
-			hashDB.put(ch2.getWayPoint(), this.getIntObj(ch2.getWayPoint(), i));
+		rebuildIndices(index);
+	}
+
+	/**
+	 * Sorts the caches in the list
+	 * 
+	 * @param comp
+	 *            Comparator
+	 * @param descending
+	 *            descending or not
+	 */
+	public void sort(Comparator<CacheHolder> comp, boolean descending) {
+		// FIXME: is this the right way round?
+		if (descending) {
+			Collections.sort(vectorDB, ComparatorHelper.invert(comp));
+		} else {
+			Collections.sort(vectorDB, comp);
 		}
+		rebuildIndices(0);
 	}
 
 	/**
@@ -265,14 +283,10 @@ public class CacheDB {
 	 * @param descending
 	 *            descending or not
 	 */
+	@Deprecated
 	public void sort(Comparer comparer, boolean descending) {
-		vectorDB.sort(comparer, descending);
-		// When elements have been sorted we have to update the index
-		// references in the hashtable, as the indexes of waypoints changed.
-		for (int i = 0; i < vectorDB.size(); i++) {
-			CacheHolder ch = this.get(i);
-			hashDB.put(ch.getWayPoint(), this.getIntObj(ch.getWayPoint(), i));
-		}
+		sort(EweCollections.<CacheHolder> comparerToComparator(comparer),
+				descending);
 	}
 
 	/**
@@ -287,22 +301,28 @@ public class CacheDB {
 	}
 
 	/**
+	 * Adds a List of CacheHolder objects to current database. Caches are
+	 * appended at the end.
+	 * 
+	 * @param caches
+	 *            Vector of caches to append
+	 */
+	public void addAll(List<CacheHolder> caches) {
+		int oldSize = vectorDB.size();
+		vectorDB.addAll(caches);
+		rebuildIndices(oldSize);
+	}
+
+	/**
 	 * Adds a Vector of CacheHolder objects to current database. Caches are
 	 * appended at the end.
 	 * 
 	 * @param caches
 	 *            Vector of caches to append
 	 */
+	@Deprecated
 	public void addAll(Vector caches) {
-		int oldSize = vectorDB.size();
-		vectorDB.addAll(caches);
-		for (int i = 0; i < caches.size(); i++) {
-			int pos;
-			CacheHolder currCache = (CacheHolder) vectorDB.get(i + oldSize);
-			pos = i + oldSize;
-			hashDB.put(currCache.getWayPoint(), this.getIntObj(currCache
-					.getWayPoint(), pos));
-		}
+		addAll(EweCollections.<CacheHolder> vectorToList(caches));
 	}
 
 	/**
@@ -323,4 +343,10 @@ public class CacheDB {
 		return c;
 	}
 
+	private void rebuildIndices(int startAt) {
+		for (int i = startAt; i < vectorDB.size(); i++) {
+			CacheHolder ch2 = this.get(i);
+			hashDB.put(ch2.getWayPoint(), i);
+		}
+	}
 }
