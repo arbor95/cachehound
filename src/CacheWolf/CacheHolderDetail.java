@@ -12,7 +12,6 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.ui.FormBase;
 import ewe.ui.InputBox;
-import ewe.util.Vector;
 
 public class CacheHolderDetail {
 
@@ -30,7 +29,6 @@ public class CacheHolderDetail {
 	public CacheImages logImages = new CacheImages();
 	public CacheImages userImages = new CacheImages();
 	public Attributes attributes = new Attributes();
-	public Vector CacheIcons = new Vector();
 	public TravelbugList Travelbugs = new TravelbugList();
 	// public String Bugs = EMPTY; Superceded by Travelbugs
 	public String URL = CacheHolder.EMPTY;
