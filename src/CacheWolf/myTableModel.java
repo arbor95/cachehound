@@ -1,5 +1,8 @@
 package CacheWolf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ewe.fx.Color;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -13,7 +16,6 @@ import ewe.ui.CellConstants;
 import ewe.ui.IKeys;
 import ewe.ui.TableCellAttributes;
 import ewe.ui.TableModel;
-import ewe.util.Vector;
 
 /**
  * Table model used to display the cache list. Used by the table control in the
@@ -179,8 +181,8 @@ public class myTableModel extends TableModel {
 	}
 
 	public void updateRows() {
-		Vector sortDB = new Vector();
-		Vector notVisibleDB = new Vector();
+		List<CacheHolder> visibleDB = new ArrayList<CacheHolder>();
+		List<CacheHolder> notVisibleDB = new ArrayList<CacheHolder>();
 		CacheHolder ch, addiWpt;
 		// sort cacheDB:
 		// - addi wpts are listet behind the main cache
@@ -195,28 +197,28 @@ public class myTableModel extends TableModel {
 					// check if main wpt is filtered
 					if (ch.mainCache != null) { // parent exists
 						if (!ch.mainCache.isVisible())
-							sortDB.add(ch); // Unfiltered Addi Wpt with filtered
+							visibleDB.add(ch); // Unfiltered Addi Wpt with filtered
 						// Main Wpt, show it on its own
 						// else Main cache is not filtered, Addi will be added
 						// below main cache further down
 					} else { // Addi without main Cache
-						sortDB.add(ch);
+						visibleDB.add(ch);
 					}
 				} else { // Main Wpt, not filtered. Check for Addis
-					sortDB.add(ch);
+					visibleDB.add(ch);
 					if (ch.hasAddiWpt()) {
 						for (int j = 0; j < ch.addiWpts.getCount(); j++) {
 							addiWpt = (CacheHolder) ch.addiWpts.get(j);
 							if (addiWpt.isVisible())
-								sortDB.add(addiWpt);
+								visibleDB.add(addiWpt);
 						}
 					}// if hasAddiWpt
 				} // if AddiWpt
 			} // if filtered
 		}
 		// rebuild database
-		cacheDB.rebuild(sortDB, notVisibleDB);
-		this.numRows = sortDB.getCount();
+		cacheDB.rebuild(visibleDB, notVisibleDB);
+		this.numRows = visibleDB.size();
 	}
 
 	/**
