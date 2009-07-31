@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.cachehound.types.LogType;
 import de.cachehound.util.AllReader;
 import ewe.filechooser.FileChooser;
@@ -15,6 +18,8 @@ import ewe.ui.InputBox;
 
 public class CacheHolderDetail {
 
+	private static Logger logger = LoggerFactory.getLogger(CacheHolderDetail.class);
+	
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
 	 * creating detail!
@@ -216,8 +221,7 @@ public class CacheHolderDetail {
 
 		File cacheFile = new File(dir, getParent().getWayPoint().toLowerCase()
 				+ ".xml");
-		if (Global.getPref().debug)
-			Global.getPref().log("Reading file " + cacheFile.getPath());
+		logger.debug("Reading file {}", cacheFile.getPath());
 
 		AllReader in = new AllReader(new FileReader(cacheFile));
 		String text = in.readAll();
@@ -369,8 +373,8 @@ public class CacheHolderDetail {
 
 		try {
 			detfile = new BufferedWriter(new FileWriter(cacheFile));
-		} catch (Exception e) {
-			Global.getPref().log("Problem creating details file", e, true);
+		} catch (IOException e) {
+			logger.error("Problem creating details file for cache " + getParent().getWayPoint(), e);
 			return;
 		}
 		try {
@@ -483,22 +487,17 @@ public class CacheHolderDetail {
 				detfile.newLine();
 				detfile.write("</CACHEDETAILS>");
 				detfile.newLine();
-				Global.getPref().log(
-						"Writing file: "
-								+ getParent().getWayPoint().toLowerCase()
-								+ ".xml");
+				logger.debug ("Writing file: {}.xml",getParent().getWayPoint().toLowerCase()); 
 			} // if length
 		} catch (Exception e) {
-			Global.getPref().log(
-					"Problem waypoint " + getParent().getWayPoint()
-							+ " writing to a details file: " + e.getMessage());
+			logger. error("Problem waypoint " + getParent().getWayPoint()
+							+ " writing to a details file. ", e);
 		}
 		try {
 			detfile.close();
-		} catch (Exception e) {
-			Global.getPref().log(
-					"Problem waypoint " + getParent().getWayPoint()
-							+ " writing to a details file: " + e.getMessage());
+		} catch (IOException e) {
+			logger.error("Problem at closing the writing for waypoint " + getParent().getWayPoint()
+							+ " to a details file: ", e);
 		}
 		hasUnsavedChanges = false;
 	}

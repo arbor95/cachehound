@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.navi.Metrics;
 
 import com.stevesoft.ewe_pat.Regex;
@@ -22,6 +25,9 @@ import ewe.util.Vector;
  * 
  */
 public class CacheHolder {
+
+	private static Logger logger = LoggerFactory.getLogger(CacheHolder.class);
+
 	protected static final String NOBEARING = "?";
 	protected static final String EMPTY = "";
 
@@ -203,8 +209,7 @@ public class CacheHolder {
 							start + 1, end))));
 				} catch (IllegalArgumentException ex) {
 					setType(CacheType.CW_TYPE_ERROR);
-					if (Global.getPref().debug)
-						Global.getPref().log(wayPoint, ex, true);
+					logger.error("Failure at Parsing CacheType in CacheHolder for Cache " + wayPoint, ex);
 				}
 
 				start = xmlString.indexOf('"', end + 1);
@@ -218,8 +223,7 @@ public class CacheHolder {
 					} catch (IllegalArgumentException ex) {
 						setHard(CacheTerrDiff.CW_DT_ERROR);
 						setIncomplete(true);
-						if (Global.getPref().debug)
-							Global.getPref().log(wayPoint, ex, true);
+						logger.error("Failure at parsing hard for cache " + wayPoint, ex);
 					}
 				}
 				start = xmlString.indexOf('"', end + 1);
@@ -233,8 +237,7 @@ public class CacheHolder {
 					} catch (IllegalArgumentException ex) {
 						setTerrain(CacheTerrDiff.CW_DT_ERROR);
 						setIncomplete(true);
-						if (Global.getPref().debug)
-							Global.getPref().log(wayPoint, ex, true);
+						logger.error("Failure at parsing terrain for cache " + wayPoint, ex);
 					}
 				}
 				// The next item was 'dirty' but this is no longer used.
@@ -253,8 +256,7 @@ public class CacheHolder {
 					} catch (IllegalArgumentException ex) {
 						setCacheSize(CacheSize.CW_SIZE_ERROR);
 						setIncomplete(true);
-						if (Global.getPref().debug)
-							Global.getPref().log(wayPoint, ex, true);
+						logger.error("Failure at parsing cachesize for cache " + wayPoint, ex);
 					}
 				}
 				start = xmlString.indexOf('"', end + 1);
@@ -439,9 +441,8 @@ public class CacheHolder {
 				setHasNote(!details.getCacheNotes().equals(""));
 				setHasSolver(!details.getSolver().equals(""));
 			}
-		} catch (Exception ex) {
-			Global.getPref()
-					.log("Ignored Exception in CacheHolder()", ex, true);
+		} catch (Throwable ex) {
+			logger.error("Ignored and unexpected exception in CacheHolder(String, int): " + wayPoint, ex);
 		}
 	}
 
@@ -503,8 +504,8 @@ public class CacheHolder {
 	 * @param ch
 	 *            The cache who's information is updating the current one
 	 * @param overwrite
-	 *            If <code>true</code>, then <i>status</i>, <i>is_found</i>
-	 *            and <i>position</i> is updated, otherwise not.
+	 *            If <code>true</code>, then <i>status</i>, <i>is_found</i> and
+	 *            <i>position</i> is updated, otherwise not.
 	 */
 	public void update(CacheHolder ch, boolean overwrite) {
 		this.recommendationScore = ch.recommendationScore;
@@ -584,8 +585,10 @@ public class CacheHolder {
 				CacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
 					chD.CacheLogs.calcRecommendations();
-					recommendationScore = chD.CacheLogs.getRecommendationRating();
-					setNumFoundsSinceRecommendation(chD.CacheLogs.getFoundsSinceRecommendation());
+					recommendationScore = chD.CacheLogs
+							.getRecommendationRating();
+					setNumFoundsSinceRecommendation(chD.CacheLogs
+							.getFoundsSinceRecommendation());
 					setNumRecommended(chD.CacheLogs.getNumRecommended());
 				} else { // cache doesn't have details
 					recommendationScore = -1;
@@ -776,6 +779,7 @@ public class CacheHolder {
 				details.readCache(Global.getProfile().dataDir);
 			} catch (IOException e) {
 				if (!maybenew) {
+					logger.error("Could not read details for waypoint " + getWayPoint(), e);
 					if (alarmuser) {
 						// FIXME: put a message to languages file
 						(new MessageBox(
@@ -785,10 +789,6 @@ public class CacheHolder {
 												"Could not read cache details for cache: ")
 										+ this.getWayPoint(), FormBase.OKB))
 								.execute();
-					} else {
-						Global.getPref().log(
-								"Could not read details for waypoint "
-										+ getWayPoint());
 					}
 					details = null;
 					this.setIncomplete(true);
@@ -981,8 +981,8 @@ public class CacheHolder {
 
 	/**
 	 * Creates a bit field of boolean values of the cache, represented as a long
-	 * value. Boolean value of <code>true</code> results in <code>1</code>
-	 * in the long values bits, and, vice versa, 0 for false.
+	 * value. Boolean value of <code>true</code> results in <code>1</code> in
+	 * the long values bits, and, vice versa, 0 for false.
 	 * 
 	 * @return long value representing the boolean bit field
 	 */
@@ -1355,14 +1355,13 @@ public class CacheHolder {
 	}
 
 	/**
-	 * If this returns <code>true</code>, then the additional waypoints for
-	 * this cache should be displayed regardless how the filter is set. If it is
+	 * If this returns <code>true</code>, then the additional waypoints for this
+	 * cache should be displayed regardless how the filter is set. If it is
 	 * <code>false</code>, then the normal filter settings apply.<br>
 	 * This property is not saved in index.xml, so if you reload the data, then
 	 * this information is gone.
 	 * 
-	 * @return <code>True</code>: Always display additional waypoints for
-	 *         cache.
+	 * @return <code>True</code>: Always display additional waypoints for cache.
 	 */
 	public boolean showAddis() {
 		return this.showAddis;
@@ -1371,8 +1370,8 @@ public class CacheHolder {
 	/**
 	 * Setter for <code>showAddis()</code>. If this returns <code>true</code>,
 	 * then the additional waypoints for this cache should be displayed
-	 * regardless how the filter is set. If it is <code>false</code>, then
-	 * the normal filter settings apply.<br>
+	 * regardless how the filter is set. If it is <code>false</code>, then the
+	 * normal filter settings apply.<br>
 	 * This property is not saved in index.xml, so if you reload the data, then
 	 * this information is gone.
 	 * 
@@ -1414,8 +1413,8 @@ public class CacheHolder {
 	 * <li>Applying a cache tour filter</li>
 	 * <li>Switching between normal view and blacklist view</li>
 	 * <li>Performing searches</li>
-	 * <li>Anything else that isn't directly connected to filters in it's
-	 * proper sense.</li>
+	 * <li>Anything else that isn't directly connected to filters in it's proper
+	 * sense.</li>
 	 * </ul>
 	 * The new method for deciding if a cache is visible or not is
 	 * <code>isVisible()
