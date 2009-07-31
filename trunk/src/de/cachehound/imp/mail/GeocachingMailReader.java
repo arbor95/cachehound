@@ -23,7 +23,6 @@ public class GeocachingMailReader {
 	private String password;
 	private String inBox;
 	private String outBox = "CacheHoundReaded";
-	private boolean readOnly;
 	private boolean moveMessages;
 	private boolean markMessagesReaded;
 	private boolean deleteMessages;
