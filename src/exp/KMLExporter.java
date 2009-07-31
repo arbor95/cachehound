@@ -128,7 +128,7 @@ public class KMLExporter extends Exporter {
 						if (ch.hasAddiWpt()) {
 							boolean createdAdditionalWaypointsFolder = false;
 							for (int j = 0; j < ch.addiWpts.size(); j++) {
-								addiWpt = (CacheHolder) ch.addiWpts.get(j);
+								addiWpt = ch.addiWpts.get(j);
 								expCount++;
 								if (ch.pos.isValid() && addiWpt.isVisible()) {
 									if (!createdAdditionalWaypointsFolder) {

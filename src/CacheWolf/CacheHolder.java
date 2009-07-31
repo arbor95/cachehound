@@ -1,6 +1,8 @@
 package CacheWolf;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import CacheWolf.navi.Metrics;
 
@@ -110,7 +112,7 @@ public class CacheHolder {
 	/** True if the cache description is stored in HTML format */
 	private boolean html = true;
 	/** List of additional waypoints associated with this waypoint */
-	public Vector addiWpts = new Vector();
+	public List<CacheHolder> addiWpts = new ArrayList<CacheHolder>();
 	/**
 	 * in range is used by the route filter to identify caches in range of a
 	 * segment
@@ -661,7 +663,7 @@ public class CacheHolder {
 	}
 
 	public boolean hasAddiWpt() {
-		if (this.addiWpts.getCount() > 0)
+		if (this.addiWpts.size() > 0)
 			return true;
 		else
 			return false;
@@ -693,8 +695,8 @@ public class CacheHolder {
 	public void setAttributesToAddiWpts() {
 		if (this.hasAddiWpt()) {
 			CacheHolder addiWpt;
-			for (int i = this.addiWpts.getCount() - 1; i >= 0; i--) {
-				addiWpt = (CacheHolder) this.addiWpts.get(i);
+			for (int i = this.addiWpts.size() - 1; i >= 0; i--) {
+				addiWpt = this.addiWpts.get(i);
 				addiWpt.setAttributesFromMainCache();
 			}
 		}
@@ -972,7 +974,7 @@ public class CacheHolder {
 		this.setIncomplete(false);
 		if (!pNewCache && this.hasAddiWpt()) {
 			for (int i = 0; i < this.addiWpts.size(); i++) {
-				((CacheHolder) this.addiWpts.get(i)).initStates(pNewCache);
+				this.addiWpts.get(i).initStates(pNewCache);
 			}
 		}
 	}
@@ -1389,7 +1391,7 @@ public class CacheHolder {
 		if (mc.showAddis != value) {
 			mc.showAddis = value;
 			for (int i = 0; i < mc.addiWpts.size(); i++) {
-				CacheHolder ac = (CacheHolder) mc.addiWpts.get(i);
+				CacheHolder ac = mc.addiWpts.get(i);
 				ac.showAddis = value;
 			}
 		}

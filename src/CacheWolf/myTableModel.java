@@ -207,8 +207,8 @@ public class myTableModel extends TableModel {
 				} else { // Main Wpt, not filtered. Check for Addis
 					visibleDB.add(ch);
 					if (ch.hasAddiWpt()) {
-						for (int j = 0; j < ch.addiWpts.getCount(); j++) {
-							addiWpt = (CacheHolder) ch.addiWpts.get(j);
+						for (int j = 0; j < ch.addiWpts.size(); j++) {
+							addiWpt = ch.addiWpts.get(j);
 							if (addiWpt.isVisible())
 								visibleDB.add(addiWpt);
 						}
@@ -580,9 +580,9 @@ public class myTableModel extends TableModel {
 			// set the ceckbox also for addi wpts
 			if (ch.hasAddiWpt() && singleRow) {
 				CacheHolder addiWpt;
-				int addiCount = ch.addiWpts.getCount();
+				int addiCount = ch.addiWpts.size();
 				for (int i = 0; i < addiCount; i++) {
-					addiWpt = (CacheHolder) ch.addiWpts.get(i);
+					addiWpt = ch.addiWpts.get(i);
 					addiWpt.is_Checked = ch.is_Checked;
 					if (addiWpt.isVisible()) {
 						tcControl.repaintCell(cacheDB.getIndex(addiWpt), x);
