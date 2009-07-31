@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,7 @@ import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.ui.Window;
 import ewe.ui.WindowConstants;
-import ewe.util.Hashtable;
-import ewe.util.Iterator;
 import ewe.util.StringTokenizer;
-import ewe.util.Map.MapEntry;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
@@ -750,19 +748,16 @@ public class Preferences extends MinML {
 			// switch if it
 			// is set
 			// save last path of different exporters
-			Iterator itPath = exporterPaths.entries();
-			MapEntry entry;
-			while (itPath.hasNext()) {
-				entry = (MapEntry) itPath.next();
+			Set<Map.Entry<String,String>> expEntrys = exporterPaths.entrySet();
+			for (Map.Entry<String,String> entry : expEntrys) {
 				outp.print("    <expPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
 						+ SafeXML.strxmlencode(entry.getValue().toString()
 								.replace('\\', '/')) + "\"/>\n");
 			}
-			itPath = importerPaths.entries();
-			while (itPath.hasNext()) {
-				entry = (MapEntry) itPath.next();
+			Set<Map.Entry<String,String>> impEntrys = importerPaths.entrySet();
+			for (Map.Entry<String,String> entry : impEntrys) {
 				outp.print("    <impPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
@@ -1108,7 +1103,7 @@ public class Preferences extends MinML {
 	// ////////////////////////////////////////////////////////////////////////////////////
 
 	/** Hashtable for storing the last export path */
-	private Hashtable exporterPaths = new Hashtable();
+	private Map<String, String> exporterPaths = new HashMap<String, String>();
 
 	public void setExportPath(String exporter, String path) {
 		exporterPaths.put(exporter, path);
@@ -1129,7 +1124,7 @@ public class Preferences extends MinML {
 		return dir;
 	}
 
-	private Hashtable importerPaths = new Hashtable();
+	private Map<String, String> importerPaths = new HashMap<String, String>();
 
 	public void setImporterPath(String importer, String directory) {
 		importerPaths.put(importer, directory);
