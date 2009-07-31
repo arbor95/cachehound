@@ -161,7 +161,9 @@ public class Preferences extends MinML {
 	 */
 	public String myAlias2 = "";
 	/** The path to the browser */
-	private String browser = ""; 	// remove? still in here for holding this information in pref.xml for cachewolf Profiles
+	private String browser = ""; // remove? still in here for holding this
+	// information in pref.xml for cachewolf
+	// Profiles
 	/** Name of proxy for spidering */
 	public String myproxy = "";
 	/** Proxyport when spidering */
@@ -304,6 +306,11 @@ public class Preferences extends MinML {
 	public String mailLoginName = "";
 	public String mailPassword = "";
 	public String mailProtocol = "";
+	public String mailInbox = "INBOX";
+	public String mailMoveBox = "CacheHoundReaded";
+	public boolean mailMoveMessages = false;
+	public boolean mailMarkMailsAsReaded = true;
+	public boolean mailDeleteMessages = false;
 
 	// ////////////////////////////////////////////
 	/**
@@ -588,8 +595,18 @@ public class Preferences extends MinML {
 			mailPassword = atts.getValue("value");
 		} else if (name.equals("mailprotocol")) {
 			mailProtocol = atts.getValue("value");
+		} else if (name.equals("mailInbox")) {
+			mailInbox = atts.getValue("value");
+		} else if (name.equals("mailMoveBox")) {
+			mailMoveBox = atts.getValue("value");
+		} else if (name.equals("mailMoveMessages")) {
+			mailMoveMessages = Boolean.parseBoolean(atts.getValue("value"));
+		} else if (name.equals("mailMarkMailsAsReaded")) {
+			mailMarkMailsAsReaded = Boolean
+					.parseBoolean(atts.getValue("value"));
+		} else if (name.equals("mailDeleteMessages")) {
+			mailDeleteMessages = Boolean.parseBoolean(atts.getValue("value"));
 		}
-
 	}
 
 	public void characters(char ch[], int start, int length) {
@@ -780,6 +797,18 @@ public class Preferences extends MinML {
 			outp.print("    <mailprotocol value=\""
 					+ SafeXML.strxmlencode(mailProtocol) + "\"/>\n");
 
+			outp.print("    <mailInbox value=\""
+					+ SafeXML.strxmlencode(mailInbox) + "\"/>\n");
+			outp.print("    <mailMoveBox value=\""
+					+ SafeXML.strxmlencode(mailMoveBox) + "\"/>\n");
+			outp.print("    <mailMoveMessages value=\""
+					+ SafeXML.strxmlencode(mailMoveMessages) + "\"/>\n");
+			outp.print("    <mailMarkMailsAsReaded value=\""
+					+ SafeXML.strxmlencode(mailMarkMailsAsReaded) + "\"/>\n");
+			outp.print("    <mailDeleteMessages value=\""
+					+ SafeXML.strxmlencode(mailDeleteMessages) + "\"/>\n");
+		
+			
 			outp.print("</preferences>");
 			outp.close();
 		} catch (Exception e) {

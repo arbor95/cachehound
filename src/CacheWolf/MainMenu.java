@@ -440,13 +440,17 @@ public class MainMenu extends MenuBar {
 							loc.doIt();
 						} else {
 							try {
-							GPXImporter gpx = new GPXImporter(pref, profile,
-									file);
+								GPXImporter gpx = new GPXImporter(pref,
+										profile, file);
 								gpx.doIt(0);
 							} catch (Throwable e) {
-								Global.getPref().log("Fehler beim Importieren von GPX Datei.", e);
+								Global
+										.getPref()
+										.log(
+												"Fehler beim Importieren von GPX Datei.",
+												e);
 							}
-							
+
 						}
 					}
 				}
@@ -478,11 +482,9 @@ public class MainMenu extends MenuBar {
 					IGCMailHandler handler = new CacheWolfMailHandler(pref,
 							profile);
 					GeocachingMailReader mailReader = new GeocachingMailReader(
-							pref.mailProtocol, pref.mailHost,
-							pref.mailLoginName, pref.mailPassword, "INBOX",
-							handler);
+							pref, handler);
 					mailReader.connect(true);
-					mailReader.readMessages(true, true, false);
+					mailReader.readMessages(true);
 					mailReader.disconnect(true);
 				} catch (Exception e) {
 					Vm.showWait(false);
@@ -985,8 +987,7 @@ public class MainMenu extends MenuBar {
 					+ " (" + (j + 1) + " / " + cachesToUpdate.size() + ")");
 			infB.redisplay();
 			if (ch.getWayPoint().substring(0, 2).equalsIgnoreCase("GC")) {
-				int test = spider
-						.spiderSingle(ch, infB, loadAllLogs);
+				int test = spider.spiderSingle(ch, infB, loadAllLogs);
 				if (test == SpiderGC.SPIDER_CANCEL) {
 					infB.close(0);
 					break;
