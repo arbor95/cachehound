@@ -1,7 +1,5 @@
 package CacheWolf;
 
-import com.stevesoft.ewe_pat.Regex;
-
 import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
