@@ -92,7 +92,7 @@ public class ExploristExporter {
 								+ ".gs";
 						coordinate = tokenizer.nextToken().trim();
 						CWPoint point = new CWPoint(coordinate);
-						DistanceComparer dc = new DistanceComparer(point);
+						DistanceComparator dc = new DistanceComparator(point);
 						cacheDB.sort(dc, false);
 						doIt(fileName);
 					}
@@ -110,7 +110,7 @@ public class ExploristExporter {
 									+ e.getMessage()));
 					info.show();
 				} finally {
-					cacheDB.sort(new DistanceComparer(centre), false);
+					cacheDB.sort(new DistanceComparator(centre), false);
 				}
 			}
 		} else {

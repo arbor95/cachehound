@@ -5,10 +5,10 @@ import java.util.Comparator;
 import CacheWolf.CWPoint;
 import CacheWolf.CacheHolder;
 
-public class DistanceComparer implements Comparator<CacheHolder> {
+public class DistanceComparator implements Comparator<CacheHolder> {
 	private CWPoint centre;
 
-	public DistanceComparer(CWPoint centre) {
+	public DistanceComparator(CWPoint centre) {
 		this.centre = centre;
 	}
 

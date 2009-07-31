@@ -9,8 +9,8 @@ import java.util.Comparator;
  * @see MyTableModel
  * @see DistComparer
  */
-public class MyComparer implements Comparator<CacheHolder> {
-	public MyComparer(CacheDB cacheDB, int colToCompare, int visibleSize) {
+public class MyComparator implements Comparator<CacheHolder> {
+	public MyComparator(CacheDB cacheDB, int colToCompare, int visibleSize) {
 		// visibleSize=Global.mainTab.tbP.myMod.numRows;
 		if (visibleSize < 2)
 			return;
