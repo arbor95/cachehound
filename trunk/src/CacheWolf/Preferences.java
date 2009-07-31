@@ -1,5 +1,10 @@
 package CacheWolf;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +27,9 @@ import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.ui.Window;
 import ewe.ui.WindowConstants;
-import ewe.util.Comparer;
-import ewe.util.Enumeration;
 import ewe.util.Hashtable;
 import ewe.util.Iterator;
 import ewe.util.StringTokenizer;
-import ewe.util.Utils;
 import ewe.util.Map.MapEntry;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
@@ -49,7 +51,7 @@ public class Preferences extends MinML {
 	public static final int NO = 1;
 	public static final int ASK = 2;
 	// Hashtable is saving filter data objects the user wants to save
-	private Hashtable filterList = new Hashtable(15);
+	private Map<String, FilterData> filterList = new HashMap<String, FilterData>();
 
 	// ////////////////////////////////////////////////////////////////////////////////////
 	// Constructor
@@ -1196,20 +1198,14 @@ public class Preferences extends MinML {
 	 * @return Array of IDs
 	 */
 	public String[] getFilterIDs() {
-		String[] result;
-		result = new String[this.filterList.size()];
-		Enumeration en = this.filterList.keys();
-		int i = 0;
-		while (en.hasMoreElements()) {
-			result[i++] = (String) en.nextElement();
-		}
+		String[] result = this.filterList.keySet().toArray(new String[0]);
 		// Now sorting the array of filter IDs
-		Comparer comp = new ewe.util.Comparer() {
-			public int compare(Object o1, Object o2) {
-				return ((String) o1).compareTo((String) o2);
+		Comparator<String> comp = new Comparator<String>() {
+			public int compare(String s1, String s2) {
+				return s1.compareTo(s2);
 			}
 		};
-		Utils.sort(result, comp, false);
+		Arrays.sort(result, comp);
 		return result;
 	}
 }
