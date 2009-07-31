@@ -18,6 +18,7 @@ import CacheWolf.Profile;
 import CacheWolf.SafeXML;
 import CacheWolf.Travelbug;
 import de.cachehound.types.LogType;
+import de.cachehound.util.SpiderService;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
@@ -58,7 +59,7 @@ public class GPXImporter extends MinML {
 	public static final int DOIT_NOSPOILER = 1;
 	public static final int DOIT_WITHSPOILER = 2;
 	boolean getMaps = false;
-	SpiderGC imgSpider;
+	SpiderService spider;
 	StringBuffer strBuf;
 
 	public GPXImporter(Preferences p, Profile prof, String f) {
@@ -73,6 +74,7 @@ public class GPXImporter extends MinML {
 		inCache = false;
 		inLogs = false;
 		inBug = false;
+		spider = SpiderService.getInstance();
 	}
 
 	/*
@@ -108,7 +110,6 @@ public class GPXImporter extends MinML {
 			doSpider = false;
 			if (getImages) {
 				doSpider = true;
-				imgSpider = new SpiderGC(pref, profile, false);
 			}
 			options.close(0);
 
@@ -588,8 +589,8 @@ public class GPXImporter extends MinML {
 	 * private int searchWpt(Vector db, String wpt){ if(wpt.length()>0){ wpt =
 	 * wpt.toUpperCase(); CacheHolder ch = new CacheHolder(); //Search through
 	 * complete database for(int i = 0;i < db.size();i++){ ch =
-	 * (CacheHolder)db.get(i); if(ch.wayPoint.indexOf(wpt) >=0 ){ return i; } } //
-	 * for } // if return -1; }
+	 * (CacheHolder)db.get(i); if(ch.wayPoint.indexOf(wpt) >=0 ){ return i; } }
+	 * // for } // if return -1; }
 	 */
 
 	private void spiderImagesUsingSpider() {
@@ -597,25 +598,22 @@ public class GPXImporter extends MinML {
 		String cacheText;
 
 		// just to be sure to have a spider object
-		if (imgSpider == null)
-			imgSpider = new SpiderGC(pref, profile, false);
 
 		if (fromTC) {
-			imgSpider.getImages(holder.getFreshDetails().LongDescription,
+			spider.getImages(holder.getFreshDetails().LongDescription,
 					holder.getFreshDetails());
 		} else {
 			addr = "http://www.geocaching.com/seek/cache_details.aspx?wp="
 					+ holder.getWayPoint();
 			// Vm.debug(addr + "|");
-			cacheText = SpiderGC.fetch(addr);
-			imgSpider.getImages(cacheText, holder.getFreshDetails());
+			cacheText = spider.fetchGCSite(addr);
+			spider.getImages(cacheText, holder.getFreshDetails());
 			try {
-				imgSpider.getAttributes(cacheText, holder.getFreshDetails());
+				spider.getAttributes(cacheText, holder.getFreshDetails());
 			} catch (Exception e) {
-				if (Global.getPref().debug)
-					Global.getPref().log(
-							"unable to fetch attrivbutes for"
-									+ holder.getWayPoint(), e);
+				Global.getPref().log(
+						"unable to fetch attrivbutes for "
+								+ holder.getWayPoint(), e);
 			}
 		}
 	}

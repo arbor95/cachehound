@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.cachehound.types.LogType;
+import de.cachehound.util.SpiderService;
 
 import CacheWolf.CacheHolder;
 import CacheWolf.Global;
@@ -238,19 +239,13 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 	}
 
 	private boolean updateCache(CacheHolder holder) {
-		SpiderGC spider = new SpiderGC(prefs, profile, false);
+		SpiderService spider = SpiderService.getInstance();
 
-		int index = profile.cacheDB.getIndex(holder);
-
-		boolean forceLogin = Global.getPref().forceLogin; // To ensure that
-		// spiderSingle only
-		// logs in once if
-		// forcedLogin=true
 		boolean loadAllLogs = false;
 
 		InfoBox infB = new InfoBox("Info", "Loading",
 				InfoBox.PROGRESS_WITH_WARNINGS);
-		int test = spider.spiderSingle(index, infB, forceLogin, loadAllLogs);
+		int test = spider.spiderSingle(holder, infB, loadAllLogs);
 		if (test == SpiderGC.SPIDER_CANCEL) {
 			infB.close(0);
 			logger.info("Spidering canceled: {}", holder.getCacheID());

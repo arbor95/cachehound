@@ -14,6 +14,8 @@ package CacheWolf;
 import java.awt.Desktop;
 import java.net.URI;
 
+import de.cachehound.util.SpiderService;
+
 import CacheWolf.imp.SpiderGC;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
@@ -667,8 +669,7 @@ public class TravelbugJourneyScreen extends Form {
 			if (selectedItem == mnuGetMission && selectedRow > -1) {
 				TravelbugJourney tbj = tblMyTravelbugJourneys
 						.getTBJourney(selectedRow);
-				SpiderGC spider = new SpiderGC(Global.getPref(), Global
-						.getProfile(), false);
+				SpiderService spider = SpiderService.getInstance();
 				Vm.showWait(true);
 
 				// if we have an ID, get mission by ID
@@ -705,8 +706,7 @@ public class TravelbugJourneyScreen extends Form {
 			if (selectedItem == mnuOpenOnline && selectedRow >= 0) {
 				TravelbugJourney tbj = tblMyTravelbugJourneys
 						.getTBJourney(selectedRow);
-				SpiderGC spider = new SpiderGC(Global.getPref(), Global
-						.getProfile(), false);
+				SpiderService spider = SpiderService.getInstance();
 				Vm.showWait(true);
 				// First check whether ID is set, if not get it
 				if (tbj.getTb().getGuid().length() == 0)
