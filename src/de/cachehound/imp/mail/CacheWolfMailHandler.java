@@ -15,17 +15,15 @@ import javax.mail.internet.MimeBodyPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.cachehound.types.LogType;
-import de.cachehound.util.SpiderService;
-
 import CacheWolf.CacheHolder;
-import CacheWolf.Global;
 import CacheWolf.InfoBox;
 import CacheWolf.Log;
 import CacheWolf.Preferences;
 import CacheWolf.Profile;
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.SpiderGC;
+import de.cachehound.types.LogType;
+import de.cachehound.util.SpiderService;
 
 public class CacheWolfMailHandler implements IGCMailHandler {
 

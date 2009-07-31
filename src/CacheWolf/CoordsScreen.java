@@ -1,8 +1,7 @@
 package CacheWolf;
 
-import de.cachehound.util.SpiderService;
-import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Navigate;
+import de.cachehound.util.SpiderService;
 import ewe.fx.Dimension;
 import ewe.sys.Vm;
 import ewe.ui.CellConstants;

@@ -77,18 +77,6 @@ public class GPXImporter extends MinML {
 		spider = SpiderService.getInstance();
 	}
 
-	/*
-	 * skg: This Constructor is not referenced, therefore commented out public
-	 * GPXImporter(Vector DB, String[] f,String d, Preferences p) { pref = p;
-	 * cacheDB = DB; saveDir = pref.mydatadir; for (int i=0;i<f.length;i++){
-	 * files.add(d + "/" + f[i]); }
-	 * 
-	 * //msgA = msgArea; inWpt = false; inCache = false; inLogs = false; inBug
-	 * =false; strData = new String(); //index db for faster search CacheHolder
-	 * ch; for(int i = 0; i<cacheDB.size();i++){ ch =
-	 * (CacheHolder)cacheDB.get(i); DBindex.put((String)ch.wayPoint, new
-	 * Integer(i)); }//for }
-	 */
 	public void doIt(int how) {
 		Filter flt = new Filter();
 		boolean wasFiltered = (profile.getFilterActive() == Filter.FILTER_ACTIVE);
