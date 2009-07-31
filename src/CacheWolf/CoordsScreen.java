@@ -1,5 +1,6 @@
 package CacheWolf;
 
+import de.cachehound.util.SpiderService;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Navigate;
 import ewe.fx.Dimension;
@@ -404,8 +405,7 @@ public class CoordsScreen extends Form {
 				CWPoint coord;
 				String inp = inpText.getText().trim().toUpperCase();
 				if (inp.startsWith("GC")) {
-					SpiderGC spider = new SpiderGC(Global.getPref(), Global
-							.getProfile(), false);
+					SpiderService spider = SpiderService.getInstance();
 					coord = new CWPoint(spider.getCacheCoordinates(inp));
 				} else {
 					coord = new CWPoint(inp);

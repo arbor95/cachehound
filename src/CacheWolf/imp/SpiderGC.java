@@ -115,7 +115,11 @@ public class SpiderGC {
 	private InfoBox infB;
 	private static SpiderProperties p = null;
 
-	public SpiderGC(Preferences prf, Profile profile, boolean bypass) {
+	/**
+	 * Use the new Class de.cachehound.util.SpiderService instead.
+	 */
+	@Deprecated
+	public SpiderGC(Preferences prf, Profile profile) {
 		this.profile = profile;
 		this.cacheDB = profile.cacheDB;
 		pref = prf;
@@ -130,7 +134,7 @@ public class SpiderGC {
 	 * password is cleared. If the login fails, an appropriate message is
 	 * displayed.
 	 */
-	public int login() {
+	private int login() {
 		loggedIn = false;
 		String start, loginPage, loginSuccess, nextPage;
 		try {
@@ -910,21 +914,16 @@ public class SpiderGC {
 	 * 
 	 * @param CacheHolderDetail
 	 *            chD The element wayPoint must be set to the name of a waypoint
-	 * @param boolean
-	 *            isUpdate True if an existing cache is being updated, false if
-	 *            it is a new cache
-	 * @param boolean
-	 *            fetchImages True if the pictures are to be fetched
-	 * @param boolean
-	 *            fetchTBs True if the TBs are to be fetched
-	 * @param boolean
-	 *            doNotGetFound True if the cache is not to be spidered if it
-	 *            has already been found
-	 * @param boolean
-	 *            fetchAllLogs True if all logs are to be fetched (by adding
-	 *            option '&logs=y' to command line). This is normally false when
-	 *            spidering from GPXImport as the logs are part of the GPX file,
-	 *            and true otherwise
+	 * @param boolean isUpdate True if an existing cache is being updated, false
+	 *        if it is a new cache
+	 * @param boolean fetchImages True if the pictures are to be fetched
+	 * @param boolean fetchTBs True if the TBs are to be fetched
+	 * @param boolean doNotGetFound True if the cache is not to be spidered if
+	 *        it has already been found
+	 * @param boolean fetchAllLogs True if all logs are to be fetched (by adding
+	 *        option '&logs=y' to command line). This is normally false when
+	 *        spidering from GPXImport as the logs are part of the GPX file, and
+	 *        true otherwise
 	 * @return -1 if the infoBox was closed (cancel spidering), 0 if there was
 	 *         an error (continue with next cache), 1 if everything ok
 	 */
@@ -1513,7 +1512,7 @@ public class SpiderGC {
 	 *            The previously fetched cachepage
 	 * @return A HTML formatted string with bug names and there purpose
 	 */
-	public void getBugs(CacheHolderDetail chD, String doc) throws Exception {
+	private void getBugs(CacheHolderDetail chD, String doc) throws Exception {
 		Extractor exBlock = new Extractor(doc, p.getProp("blockExStart"), p
 				.getProp("blockExEnd"), 0, Extractor.EXCLUDESTARTEND);
 		String bugBlock = exBlock.findNext();
@@ -1885,7 +1884,7 @@ public class SpiderGC {
 	 *            Found status of the cached (is inherited by the additional
 	 *            waypoints)
 	 */
-	public void getAddWaypoints(String doc, String wayPoint, boolean is_found)
+	private void getAddWaypoints(String doc, String wayPoint, boolean is_found)
 			throws Exception {
 		Extractor exWayBlock = new Extractor(doc, p.getProp("wayBlockExStart"),
 				p.getProp("wayBlockExEnd"), 0, false);
@@ -1969,8 +1968,7 @@ public class SpiderGC {
 		}
 	}
 
-	public void getAttributes(String doc, CacheHolderDetail chD)
-			throws Exception {
+	public void getAttributes(String doc, CacheHolderDetail chD) {
 		Extractor attBlock = new Extractor(doc, p.getProp("attBlockExStart"), p
 				.getProp("attBlockExEnd"), 0, true);
 		String atts = attBlock.findNext();
@@ -1991,7 +1989,7 @@ public class SpiderGC {
 	 * gc.com address. This method is used to obtain the result of a search for
 	 * caches screen.
 	 */
-	public static String fetch(String address) {
+	public String fetch(String address) {
 		CharArray c_data;
 		try {
 			HttpConnection conn;
@@ -2102,7 +2100,7 @@ public class SpiderGC {
 
 	final static String hex = ewe.util.TextEncoder.hex;
 
-	public String encodeUTF8URL(byte[] what) {
+	private String encodeUTF8URL(byte[] what) {
 		int max = what.length;
 		char[] dest = new char[6 * max]; // Assume each char is a UTF char
 		// and
@@ -2213,7 +2211,7 @@ public class SpiderGC {
 	 *            the tracking number of the travelbug
 	 * @return The mission
 	 */
-	public String getBugMissionByTrackNr(String trackNr) {
+	private String getBugMissionByTrackNr(String trackNr) {
 		String bugDetails;
 		try {
 			pref.log("Fetching bug detailsByTrackNr: " + trackNr);
@@ -2276,7 +2274,7 @@ public class SpiderGC {
 		}
 	}
 
-	public class SpiderProperties extends Properties {
+	class SpiderProperties extends Properties {
 		SpiderProperties() {
 			super();
 			try {
@@ -2299,13 +2297,14 @@ public class SpiderGC {
 		 * @throws Exception
 		 *             When a key is requested which doesn't exist
 		 */
-		public String getProp(String key) throws Exception {
+		public String getProp(String key) {
 			String s = super.getProperty(key);
 			if (s == null) {
 				(new MessageBox(MyLocale.getMsg(5500, "Error"), MyLocale
 						.getMsg(5497, "Error missing tag in spider.def")
 						+ ": " + key, FormBase.OKB)).execute();
-				throw new Exception("Missing tag in spider.def: " + key);
+				Global.getPref().log("Missing tag in spider.def: " + key);
+				throw new RuntimeException("Missing tag in spider.def: " + key);
 			}
 			return s;
 		}

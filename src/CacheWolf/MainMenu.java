@@ -12,6 +12,7 @@ import de.cachehound.imp.mail.CacheWolfMailHandler;
 import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
 import de.cachehound.util.GPSBabel;
+import de.cachehound.util.SpiderService;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Font;
@@ -398,17 +399,17 @@ public class MainMenu extends MenuBar {
 			// subMenu for import, part of "Application" menu
 			// /////////////////////////////////////////////////////////////////////
 			if (mev.selectedItem == spider) {
-				SpiderGC spGC = new SpiderGC(pref, profile, true);
+				SpiderService spider = SpiderService.getInstance();
 				Global.mainTab.saveUnsavedChanges(false);
-				spGC.doIt();
+				spider.spiderAroundCenterCoordinates(false);
 				cacheDB.clear();
 				profile.readIndex();
 				tbp.resetModel();
 			}
 			if (mev.selectedItem == spiderAllFinds) {
-				SpiderGC spGC = new SpiderGC(pref, profile, true);
+				SpiderService spider = SpiderService.getInstance();
 				Global.mainTab.saveUnsavedChanges(false);
-				spGC.doIt(true);
+				spider.spiderAroundCenterCoordinates(true);
 				cacheDB.clear();
 				profile.readIndex();
 				tbp.resetModel();
@@ -912,7 +913,7 @@ public class MainMenu extends MenuBar {
 			return;
 		}
 
-		SpiderGC spider = new SpiderGC(pref, profile, false);
+		SpiderService spider = SpiderService.getInstance();
 		OCXMLImporter ocSync = new OCXMLImporter(pref, profile);
 		// Vm.debug("ByPass? " + profile.byPassIndexActive);
 		Vm.showWait(true);
@@ -985,7 +986,7 @@ public class MainMenu extends MenuBar {
 			infB.redisplay();
 			if (ch.getWayPoint().substring(0, 2).equalsIgnoreCase("GC")) {
 				int test = spider
-						.spiderSingle(i, infB, forceLogin, loadAllLogs);
+						.spiderSingle(ch, infB, loadAllLogs);
 				if (test == SpiderGC.SPIDER_CANCEL) {
 					infB.close(0);
 					break;
