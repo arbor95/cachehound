@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.cachehound.util.ComparatorHelper;
-import de.cachehound.util.EweCollections;
-import ewe.util.Comparer;
-import ewe.util.Vector;
 
 /**
  * @author torsti
@@ -152,93 +149,6 @@ public class CacheDB {
 	}
 
 	/**
-	 * Same as <br>
-	 * <code>clear();<br>addAll(cachesA);<br>addAll(cachesB);<br></code>but
-	 * optimized to reduce object creation. <br>
-	 * Thus builds cacheDB out of caches of vectors cachesA and cachesB, added
-	 * in this order.
-	 * 
-	 * ... und natuerlich, wie aller CW-Code, vollkommen unlesbar...
-	 * 
-	 * @param cachesA
-	 *            First Vector of CacheHolder object to add to CacheDB
-	 * @param cachesB
-	 *            Second Vector of CacheHolder object to add to CacheDB
-	 */
-	@Deprecated
-	public void rebuild(Vector cachesA, Vector cachesB) {
-		rebuild(EweCollections.<CacheHolder> vectorToList(cachesA),
-				EweCollections.<CacheHolder> vectorToList(cachesB));
-		// int vectorSize = vectorDB.size();
-		// int cachesAsize = 0;
-		// int cachesBsize = 0;
-		// // First negate all hashtable position values, to distinguish the old
-		// // from the new values
-		// Iterator iter = hashDB.entries();
-		// while (iter.hasNext()) {
-		// MutableInteger mInt = (MutableInteger) ((MapEntry) iter.next())
-		// .getValue();
-		// mInt.setInt(-mInt.getInt());
-		// }
-		// // Then set all vector elements at the proper position
-		// for (int abc = 1; abc <= 2; abc++) {
-		// Vector cachesAB = null;
-		// int offset = 0;
-		// if (abc == 1) {
-		// cachesAB = cachesA;
-		// if (cachesA != null)
-		// cachesAsize = cachesA.size();
-		// } else {
-		// cachesAB = cachesB;
-		// if (cachesA != null)
-		// offset = cachesA.size();
-		// if (cachesB != null)
-		// cachesBsize = cachesB.size();
-		// }
-		// if (cachesAB == null)
-		// continue;
-		// for (int i = offset; i < cachesAB.size() + offset; i++) {
-		// CacheHolder ch = (CacheHolder) cachesAB.get(i - offset);
-		// if (i < vectorSize) {
-		// vectorDB.set(i, ch);
-		// } else {
-		// vectorDB.add(ch);
-		// }
-		// hashDB.put(ch.getWayPoint(), this
-		// .getIntObj(ch.getWayPoint(), i));
-		// }
-		// }
-		// // If there are more elements in vectorDB than in the sum of sizes of
-		// // cachesA and cachesB
-		// // then the rest has to be deleted.
-		// for (int i = vectorDB.size() - 1; i >= cachesAsize + cachesBsize;
-		// i--) {
-		// vectorDB.del(i);
-		// }
-		// // Now delete any element from hashDB which still has a negative
-		// // position value
-		// Vector wpToDelete = null;
-		// MapEntry me = null;
-		// iter = hashDB.entries();
-		// while (iter.hasNext()) {
-		// me = (MapEntry) iter.next();
-		// MutableInteger mInt = (MutableInteger) me.getValue();
-		// if (mInt.getInt() < 0) {
-		// if (wpToDelete == null)
-		// wpToDelete = new Vector();
-		// String wp = (String) me.getKey();
-		// wpToDelete.add(wp);
-		// }
-		// }
-		// if (wpToDelete != null) {
-		// for (int i = 0; i < wpToDelete.size(); i++) {
-		// String wp = (String) wpToDelete.get(i);
-		// hashDB.remove(wp);
-		// }
-		// }
-	}
-
-	/**
 	 * Removes a CacheHolder object at the specified position in the cache list.
 	 * The following elements are renumbered.<br>
 	 * Additionally the cache details are unloaded and saved to file, if
@@ -276,20 +186,6 @@ public class CacheDB {
 	}
 
 	/**
-	 * Sorts the caches in the list
-	 * 
-	 * @param comparer
-	 *            Comparer object
-	 * @param descending
-	 *            descending or not
-	 */
-	@Deprecated
-	public void sort(Comparer comparer, boolean descending) {
-		sort(EweCollections.<CacheHolder> comparerToComparator(comparer),
-				descending);
-	}
-
-	/**
 	 * Adds the caches of one CacheDB to current one. Caches are appended at the
 	 * end.
 	 * 
@@ -311,18 +207,6 @@ public class CacheDB {
 		int oldSize = vectorDB.size();
 		vectorDB.addAll(caches);
 		rebuildIndices(oldSize);
-	}
-
-	/**
-	 * Adds a Vector of CacheHolder objects to current database. Caches are
-	 * appended at the end.
-	 * 
-	 * @param caches
-	 *            Vector of caches to append
-	 */
-	@Deprecated
-	public void addAll(Vector caches) {
-		addAll(EweCollections.<CacheHolder> vectorToList(caches));
 	}
 
 	/**
