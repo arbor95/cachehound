@@ -1,7 +1,6 @@
 package CacheWolf;
 
-import ewe.util.Comparer;
-import ewe.util.Vector;
+import java.util.Comparator;
 
 /**
  * This class handles the sorting for most of the sorting tasks. If a cache is
@@ -10,9 +9,7 @@ import ewe.util.Vector;
  * @see MyTableModel
  * @see DistComparer
  */
-public class MyComparer implements Comparer {
-	Vector cacheDB;
-
+public class MyComparer implements Comparator<CacheHolder> {
 	public MyComparer(CacheDB cacheDB, int colToCompare, int visibleSize) {
 		// visibleSize=Global.mainTab.tbP.myMod.numRows;
 		if (visibleSize < 2)
@@ -40,10 +37,10 @@ public class MyComparer implements Comparer {
 			for (int i = 0; i < visibleSize; i++) {
 				CacheHolder ch = cacheDB.get(i);
 				// We sort...
-				// * first by the two-letter-prefix (so that GC caches and OC
-				// caches aren't mixed)
-				// * then by the _length_ of the id (so that GCFFFF sorts before
-				// GC10000)
+				// * first by the two-letter-prefix
+				// (so that GC caches and OC caches aren't mixed)
+				// * then by the _length_ of the id
+				// (so that GCFFFF sorts before GC10000)
 				// * then the rest of the id
 				ch.sort = (ch.getWayPoint().substring(0, 2)
 						+ ch.getWayPoint().length() + ch.getWayPoint()
@@ -148,9 +145,7 @@ public class MyComparer implements Comparer {
 		}
 	}
 
-	public int compare(Object o1, Object o2) {
-		CacheHolder oo1 = (CacheHolder) o1;
-		CacheHolder oo2 = (CacheHolder) o2;
-		return oo1.sort.compareTo(oo2.sort);
+	public int compare(CacheHolder ch1, CacheHolder ch2) {
+		return ch1.sort.compareTo(ch2.sort);
 	}
 }
