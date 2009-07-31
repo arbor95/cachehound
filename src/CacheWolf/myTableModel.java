@@ -530,7 +530,7 @@ public class myTableModel extends TableModel {
 				else
 					sortAsc = false;
 				sortedBy = mappedCol;
-				cacheDB.sort(new MyComparer(cacheDB, mappedCol, numRows),
+				cacheDB.sort(new MyComparator(cacheDB, mappedCol, numRows),
 						sortAsc);
 				updateRows();
 				if (a != null && ch != null) {
