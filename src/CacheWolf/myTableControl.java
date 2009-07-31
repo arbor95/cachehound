@@ -348,57 +348,39 @@ public class myTableControl extends TableControl {
 		} else
 
 		if (selectedItem == miOpenOnline) {
-			if (browserPathIsValid()) {
-				ch = cacheDB.get(tbp.getSelectedCache());
-				CacheHolderDetail chD = ch.getCacheDetails(false, true);
-				if (chD != null) {
+			ch = cacheDB.get(tbp.getSelectedCache());
+			CacheHolderDetail chD = ch.getCacheDetails(false, true);
+			if (chD != null) {
 
-					if (Desktop.isDesktopSupported()) {
-						try {
-							Desktop.getDesktop().browse(new URI(chD.URL));
-						} catch (IOException e) {
-							Global.getPref().log(
-									"Fehler beim Aufrufen des Browsers.", e);
-						} catch (URISyntaxException e) {
-							Global.getPref().log(
-									"Fehler beim Aufrufen des Browsers.", e);
-						}
-
-					} else {
-						Global
-								.getPref()
-								.log(
-										"Das System unterstützt das Java Feature 'Desktop' nicht");
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI(chD.URL));
+					} catch (IOException e) {
+						Global.getPref().log(
+								"Fehler beim Aufrufen des Browsers.", e);
+					} catch (URISyntaxException e) {
+						Global.getPref().log(
+								"Fehler beim Aufrufen des Browsers.", e);
 					}
+
+				} else {
+					Global
+							.getPref()
+							.log(
+									"Das System unterstützt das Java Feature 'Desktop' nicht");
 				}
 			}
 		} else
 
 		if (selectedItem == miOpenOffline) {
-			if (browserPathIsValid()) {
-				ShowCacheInBrowser sc = new ShowCacheInBrowser();
-				sc.showCache(cacheDB.get(tbp.getSelectedCache()));
-			}
+			ShowCacheInBrowser sc = new ShowCacheInBrowser();
+			sc.showCache(cacheDB.get(tbp.getSelectedCache()));
 		} else
 
 		if (selectedItem == miOpen) {
 			penDoubleClicked(null);
 		}
 
-	}
-
-	public boolean browserPathIsValid() {
-		if (!new File(pref.browser).exists()) {
-			(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
-					1032, "Path to browser:")
-					+ "\n"
-					+ pref.browser
-					+ "\n"
-					+ MyLocale.getMsg(1033, "is incorrect!"), FormBase.OKB))
-					.execute();
-			return false;
-		} else
-			return true;
 	}
 
 	public void penDoubleClicked(Point where) {

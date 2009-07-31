@@ -438,9 +438,14 @@ public class MainMenu extends MenuBar {
 									profile, file);
 							loc.doIt();
 						} else {
+							try {
 							GPXImporter gpx = new GPXImporter(pref, profile,
 									file);
-							gpx.doIt(0);
+								gpx.doIt(0);
+							} catch (Throwable e) {
+								Global.getPref().log("Fehler beim Importieren von GPX Datei.", e);
+							}
+							
 						}
 					}
 				}

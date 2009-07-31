@@ -38,7 +38,7 @@ import ewe.ui.mTabbedPanel;
 public class PreferencesScreen extends Form {
 	mButton cancelB, applyB, brwBt, gpsB;
 	mChoice inpLanguage, inpMetric, inpSpiderUpdates;
-	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, Browser, fontSize,
+	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, fontSize,
 			inpLogsPerPage, inpMaxLogsToSpider, inpPassword;
 	mInput inputMailHost, inputMailLogin, inputMailPassword, inputMailProtocol;
 	mCheckBox chkAutoLoad, chkShowDeletedImg, chkMenuAtTop, chkTabsAtTop,
@@ -119,12 +119,6 @@ public class PreferencesScreen extends Form {
 
 		CellPanel pnlBrowser = new CellPanel();
 		pnlBrowser.setTag(INSETS, new Insets(2, 0, 0, 0));
-		pnlBrowser.addNext(new mLabel("Browser:"), CellConstants.DONTSTRETCH,
-				(CellConstants.DONTFILL | CellConstants.WEST));
-		Browser = new mInput();
-		Browser.setText(pref.browser);
-		pnlBrowser.addLast(Browser, CellConstants.HSTRETCH,
-				(CellConstants.HFILL | CellConstants.WEST));
 
 		pnlBrowser.addNext(new mLabel(MyLocale.getMsg(601, "Your Alias:")),
 				CellConstants.DONTSTRETCH,
@@ -460,8 +454,6 @@ public class PreferencesScreen extends Form {
 						.trim();
 				MyLocale.saveLanguage(MyLocale.language = inpLanguage.getText()
 						.toUpperCase().trim());
-				pref.browser = Browser.getText();
-				// Vm.debug(myPreferences.browser);
 				pref.myproxy = Proxy.getText();
 				pref.myproxyport = ProxyPort.getText();
 				pref.proxyActive = chkProxyActive.getState();
