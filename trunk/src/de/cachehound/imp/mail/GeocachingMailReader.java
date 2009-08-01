@@ -63,7 +63,9 @@ public class GeocachingMailReader {
 					outFolder = null;
 				}
 			}
-			outFolder.open(Folder.READ_WRITE);
+			if (outFolder != null) {
+				outFolder.open(Folder.READ_WRITE);
+			}
 		}
 		// open Pop Mailboxes in ReadOnly-Mode
 		if (readOnly || protocol.toLowerCase().startsWith("pop")) {
