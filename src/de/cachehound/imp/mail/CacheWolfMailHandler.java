@@ -186,7 +186,10 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 							.getName());
 					gpx.doIt(0);
 
-					file.delete();
+					boolean deleted = file.delete();
+					if (!deleted) {
+						logger.warn("Can't delete pq-file after reading: fileName = {}", file.getName());
+					}
 				}
 			}
 		}
