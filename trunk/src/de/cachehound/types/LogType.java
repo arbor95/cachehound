@@ -1,6 +1,6 @@
 package de.cachehound.types;
 
-import CacheWolf.Global;
+import CacheWolf.beans.Global;
 
 public enum LogType {
 

@@ -25,29 +25,29 @@
 
 package CacheWolf.imp;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheHolderDetail;
-import CacheWolf.CacheImages;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheTerrDiff;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.DateFormat;
-import CacheWolf.Extractor;
-import CacheWolf.Global;
-import CacheWolf.HttpConnection;
-import CacheWolf.ImageInfo;
-import CacheWolf.InfoBox;
-import CacheWolf.Log;
-import CacheWolf.LogList;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
-import CacheWolf.SafeXML;
-import CacheWolf.Travelbug;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheHolderDetail;
+import CacheWolf.beans.CacheImages;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheTerrDiff;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.ImageInfo;
+import CacheWolf.beans.Log;
+import CacheWolf.beans.LogList;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.beans.Travelbug;
+import CacheWolf.gui.InfoBox;
 import CacheWolf.navi.Metrics;
+import CacheWolf.util.Common;
+import CacheWolf.util.DateFormat;
+import CacheWolf.util.Extractor;
+import CacheWolf.util.HttpConnection;
+import CacheWolf.util.MyLocale;
+import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 

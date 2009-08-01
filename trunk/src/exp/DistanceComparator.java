@@ -2,8 +2,8 @@ package exp;
 
 import java.util.Comparator;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheHolder;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
 
 public class DistanceComparator implements Comparator<CacheHolder> {
 	private CWPoint centre;

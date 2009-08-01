@@ -1,16 +1,16 @@
 package exp;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheHolderDetail;
-import CacheWolf.CacheTerrDiff;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.InfoBox;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheHolderDetail;
+import CacheWolf.beans.CacheTerrDiff;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedReader;

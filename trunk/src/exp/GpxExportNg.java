@@ -3,17 +3,17 @@ package exp;
 import java.util.Iterator;
 
 import utils.FileBugfix;
-import CacheWolf.CWPoint;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheTerrDiff;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.Global;
-import CacheWolf.Log;
-import CacheWolf.LogList;
-import CacheWolf.MyLocale;
-import CacheWolf.SafeXML;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheTerrDiff;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Log;
+import CacheWolf.beans.LogList;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
+import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 import com.stevesoft.ewe_pat.Transformer;

@@ -1,8 +1,8 @@
 package exp;
 
-import CacheWolf.CacheHolder;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
 
 /**
  * Class to export cache database to an ASCII (CSV!) file. This file can be used

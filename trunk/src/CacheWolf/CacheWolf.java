@@ -1,5 +1,7 @@
 package CacheWolf;
 
+import CacheWolf.gui.MainForm;
+import CacheWolf.util.MyLocale;
 import ewe.sys.Device;
 import ewe.sys.Vm;
 import ewe.ui.Editor;
@@ -35,10 +37,6 @@ public class CacheWolf extends Editor {
 		String configfile = null;
 		boolean debug = false;
 		if (args.length > 0) {
-			if (args[0].equals("test")) {
-				Test t = new Test();
-				t.testAll();
-			}
 			for (int i = 0; i < args.length; i++) {
 				Vm.debug("prog: " + args[i]);
 				Vm.debug("vm: " + vmargs[i]);

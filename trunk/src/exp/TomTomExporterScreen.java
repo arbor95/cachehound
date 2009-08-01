@@ -1,6 +1,6 @@
 package exp;
 
-import CacheWolf.MyLocale;
+import CacheWolf.util.MyLocale;
 import ewe.ui.CellConstants;
 import ewe.ui.CheckBoxGroup;
 import ewe.ui.ControlConstants;

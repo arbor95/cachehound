@@ -1,10 +1,10 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheHolder;
-import CacheWolf.Global;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.util.MyLocale;
 import ewe.fx.Color;
 import ewe.io.IOException;
 import ewe.io.SerialPort;
@@ -377,7 +377,7 @@ class SerialThread extends mThread {
 	public SerialThread(SerialPortOptions spo, CWGPSPoint GPSPoint,
 			String forwardIP) throws IOException {
 		try {
-			spo.portName = CacheWolf.Common.fixSerialPortName(spo.portName);
+			spo.portName = CacheWolf.util.Common.fixSerialPortName(spo.portName);
 			comSp = new SerialPort(spo);
 		} catch (IOException e) {
 			throw new IOException(spo.portName);

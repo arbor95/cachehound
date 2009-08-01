@@ -6,10 +6,10 @@
  */
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.Common;
-import CacheWolf.Extractor;
-import CacheWolf.Global;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.Global;
+import CacheWolf.util.Common;
+import CacheWolf.util.Extractor;
 
 import com.stevesoft.ewe_pat.Regex;
 

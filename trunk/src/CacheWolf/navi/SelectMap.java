@@ -1,9 +1,9 @@
 package CacheWolf.navi;
 
 import utils.FileBugfix;
-import CacheWolf.Global;
-import CacheWolf.InfoBox;
-import CacheWolf.MyLocale;
+import CacheWolf.beans.Global;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.MyLocale;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.ui.CellConstants;
@@ -36,8 +36,8 @@ public class SelectMap extends Form {
 		mapsPath = Global.getPref().getMapManuallySavePath(false) + "/"; // File.getProgramDirectory()
 		// +
 		// "/maps/";
-		top = new CacheWolf.MyScrollBarPanel(CMaps);
-		bot = new CacheWolf.MyScrollBarPanel(nonCMaps);
+		top = new CacheWolf.gui.MyScrollBarPanel(CMaps);
+		bot = new CacheWolf.gui.MyScrollBarPanel(nonCMaps);
 		this.title = MyLocale.getMsg(4101, "Maps");
 		this.addLast(new mLabel(MyLocale.getMsg(4102, "Calibrated Maps")),
 				CellConstants.STRETCH, CellConstants.FILL);

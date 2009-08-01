@@ -1,10 +1,10 @@
 package exp;
 
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheType;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
 
 /**
  * Class to export the cache database (index) to an CSV File which can bei easy

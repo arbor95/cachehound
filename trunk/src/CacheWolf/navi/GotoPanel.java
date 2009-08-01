@@ -1,16 +1,16 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheType;
-import CacheWolf.CoordsScreen;
-import CacheWolf.DetailsPanel;
-import CacheWolf.Global;
-import CacheWolf.MainTab;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.gui.CoordsScreen;
+import CacheWolf.gui.DetailsPanel;
+import CacheWolf.gui.MainTab;
+import CacheWolf.util.MyLocale;
 import ewe.fx.Brush;
 import ewe.fx.Color;
 import ewe.fx.Dimension;

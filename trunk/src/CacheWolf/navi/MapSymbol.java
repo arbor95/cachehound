@@ -1,6 +1,6 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
+import CacheWolf.beans.CWPoint;
 import ewe.fx.Image;
 
 public class MapSymbol extends MapImage {

@@ -1,7 +1,7 @@
 package CacheWolf.imp;
 
-import CacheWolf.CacheHolder;
-import CacheWolf.Global;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Global;
 import ewe.sys.Handle;
 import ewe.ui.ProgressBarForm;
 

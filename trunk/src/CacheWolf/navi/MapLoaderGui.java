@@ -1,13 +1,13 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CoordsScreen;
-import CacheWolf.Global;
-import CacheWolf.InfoBox;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.gui.CoordsScreen;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.MyLocale;
 import ewe.io.FileBase;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
@@ -412,9 +412,9 @@ public class MapLoaderGui extends Form {
 					else
 						onlySelected = true;
 					overviewmap = overviewChkBox.getState();
-					radius = (float) CacheWolf.Common.parseDouble(distanceInput
+					radius = (float) CacheWolf.util.Common.parseDouble(distanceInput
 							.getText());
-					scale = (float) CacheWolf.Common.parseDouble(scaleInput
+					scale = (float) CacheWolf.util.Common.parseDouble(scaleInput
 							.getText());
 					overlapping = Convert.toInt(overlappingInput.getText());
 					if (!forCachesChkBox.getState()) {
@@ -452,7 +452,7 @@ public class MapLoaderGui extends Form {
 					else
 						onlySelected = true;
 					overviewmap = overviewChkBoxPerCache.getState();
-					scale = (float) CacheWolf.Common
+					scale = (float) CacheWolf.util.Common
 							.parseDouble(scaleInputPerCache.getText());
 				}
 				if (scale < mapLoader.currentOnlineMapService.minscale

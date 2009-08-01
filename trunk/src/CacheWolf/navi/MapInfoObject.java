@@ -1,10 +1,10 @@
 package CacheWolf.navi;
 
 import utils.FileBugfix;
-import CacheWolf.CWPoint;
-import CacheWolf.Common;
-import CacheWolf.Matrix;
-import CacheWolf.MyLocale;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.Matrix;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
 import ewe.io.BufferedWriter;
 import ewe.io.File;

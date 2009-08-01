@@ -1,12 +1,12 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.Common;
-import CacheWolf.CoordsScreen;
-import CacheWolf.Global;
-import CacheWolf.InfoBox;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.gui.CoordsScreen;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -113,7 +113,7 @@ public class MapImporter extends Form {
 			Vm.debug("Cannot load world file!");
 		}
 		mapInteractivePanel pane = new mapInteractivePanel(this);
-		scp = new CacheWolf.MyScrollBarPanel(pane);
+		scp = new CacheWolf.gui.MyScrollBarPanel(pane);
 		Image img = new Image(Common.getImageName(mapsPath + thisMap));
 		PixelBuffer pB = new PixelBuffer(img);
 		// pB =
