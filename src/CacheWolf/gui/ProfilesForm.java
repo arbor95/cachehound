@@ -1,9 +1,9 @@
 package CacheWolf.gui;
 
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.Global;
 import CacheWolf.util.MyLocale;
-import utils.FileBugfix;
 import ewe.fx.Graphics;
 import ewe.fx.Insets;
 import ewe.fx.Rect;

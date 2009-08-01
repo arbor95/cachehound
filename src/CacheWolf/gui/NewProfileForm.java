@@ -1,9 +1,9 @@
 package CacheWolf.gui;
 
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.Global;
 import CacheWolf.util.MyLocale;
-import utils.FileBugfix;
 import ewe.io.File;
 import ewe.ui.ControlEvent;
 import ewe.ui.Event;

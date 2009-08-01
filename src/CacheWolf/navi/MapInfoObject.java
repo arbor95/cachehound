@@ -1,6 +1,6 @@
 package CacheWolf.navi;
 
-import utils.FileBugfix;
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Matrix;
 import CacheWolf.util.Common;

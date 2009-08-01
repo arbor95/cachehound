@@ -2,6 +2,8 @@ package CacheWolf.util;
 
 import java.util.Iterator;
 
+import de.cachehound.util.FileBugfix;
+
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Global;
@@ -9,7 +11,6 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.DataMoverForm;
 
-import utils.FileBugfix;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.File;

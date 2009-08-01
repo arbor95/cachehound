@@ -1,6 +1,5 @@
 package CacheWolf.imp;
 
-import utils.FileBugfix;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -20,6 +19,7 @@ import CacheWolf.util.UrlFetcher;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.LogType;
+import de.cachehound.util.FileBugfix;
 
 import ewe.io.BufferedReader;
 import ewe.io.File;

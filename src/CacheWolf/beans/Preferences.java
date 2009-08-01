@@ -9,7 +9,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import utils.FileBugfix;
+import de.cachehound.util.FileBugfix;
+
 import CacheWolf.gui.ProfilesForm;
 import CacheWolf.gui.myTableModel;
 import CacheWolf.imp.SpiderGC;
