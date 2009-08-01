@@ -9,13 +9,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.cachehound.util.FileBugfix;
 
 import CacheWolf.gui.ProfilesForm;
 import CacheWolf.gui.myTableModel;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import ewe.filechooser.FileChooser;

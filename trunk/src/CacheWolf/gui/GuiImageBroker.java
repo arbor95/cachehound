@@ -1,7 +1,7 @@
 package CacheWolf.gui;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CacheType;
+import CacheWolf.util.FileBugfix;
 import ewe.fx.Image;
 import ewe.io.FileBase;
 

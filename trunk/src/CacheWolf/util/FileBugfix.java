@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.cachehound.util;
+package CacheWolf.util;
 
 import ewe.io.File;
 import ewe.io.FileBase;

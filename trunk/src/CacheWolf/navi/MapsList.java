@@ -1,10 +1,10 @@
 package CacheWolf.navi;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Global;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
 import ewe.fx.Rect;

@@ -1,8 +1,8 @@
 package CacheWolf.navi;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Global;
 import CacheWolf.gui.InfoBox;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import ewe.io.File;
 import ewe.io.FileBase;

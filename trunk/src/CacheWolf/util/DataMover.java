@@ -2,7 +2,6 @@ package CacheWolf.util;
 
 import java.util.Iterator;
 
-import de.cachehound.util.FileBugfix;
 
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;

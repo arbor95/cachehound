@@ -1,11 +1,11 @@
 package CacheWolf.gui;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import ewe.fx.Color;

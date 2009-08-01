@@ -12,6 +12,7 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import CacheWolf.util.UrlFetcher;
@@ -19,7 +20,6 @@ import CacheWolf.util.UrlFetcher;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.LogType;
-import de.cachehound.util.FileBugfix;
 
 import ewe.io.BufferedReader;
 import ewe.io.File;
