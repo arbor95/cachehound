@@ -3,8 +3,8 @@
  */
 package CacheWolf.imp;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC.SpiderProperties;
 import CacheWolf.util.Common;

@@ -1,11 +1,11 @@
 package CacheWolf.exporter;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import ewe.filechooser.FileChooser;

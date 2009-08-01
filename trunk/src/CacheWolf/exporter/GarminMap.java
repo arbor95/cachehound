@@ -1,9 +1,9 @@
 package CacheWolf.exporter;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
-import CacheWolf.beans.Global;
 import ewe.io.FileBase;
 import ewe.util.Vector;
 import ewesoft.xml.MinML;

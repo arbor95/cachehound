@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import CacheWolf.Global;
 import CacheWolf.gui.ProfilesForm;
 import CacheWolf.gui.myTableModel;
 import CacheWolf.imp.SpiderGC;

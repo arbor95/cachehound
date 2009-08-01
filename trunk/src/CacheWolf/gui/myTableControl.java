@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheHolderDetail;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.DataMover;

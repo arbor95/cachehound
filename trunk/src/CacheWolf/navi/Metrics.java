@@ -3,7 +3,7 @@
  */
 package CacheWolf.navi;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 
 /**
  * @author Engywuck

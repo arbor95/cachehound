@@ -1,10 +1,10 @@
 package CacheWolf.gui;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Filter;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Version;

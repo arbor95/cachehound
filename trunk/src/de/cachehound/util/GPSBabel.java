@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 
 public class GPSBabel {
 	public enum Filetype {

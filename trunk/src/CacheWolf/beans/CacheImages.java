@@ -5,6 +5,8 @@ package CacheWolf.beans;
 
 import java.io.File;
 
+import CacheWolf.Global;
+
 
 import ewe.util.Vector;
 

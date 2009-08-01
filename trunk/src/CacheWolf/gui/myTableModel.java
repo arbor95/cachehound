@@ -3,12 +3,12 @@ package CacheWolf.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.util.MyComparator;
 import CacheWolf.util.MyLocale;
 

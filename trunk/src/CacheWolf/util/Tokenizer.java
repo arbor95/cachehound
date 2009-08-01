@@ -1,6 +1,6 @@
 package CacheWolf.util;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import ewe.util.Vector;
 
 /**

@@ -1,8 +1,8 @@
 package CacheWolf.navi;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Color;

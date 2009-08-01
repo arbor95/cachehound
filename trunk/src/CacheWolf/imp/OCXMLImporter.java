@@ -7,7 +7,6 @@ import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
-import CacheWolf.beans.Log;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
@@ -19,8 +18,8 @@ import CacheWolf.util.UrlFetcher;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
-
 import ewe.io.BufferedReader;
 import ewe.io.File;
 import ewe.io.FileOutputStream;
@@ -891,7 +890,7 @@ public class OCXMLImporter extends MinML {
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getFreshDetails().CacheLogs.add(new Log(logType, logDate,
+			holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance().createLog(logType, logDate,
 					logFinder, logData, loggerRecommended));
 			if ((logFinder.toLowerCase().compareTo(user) == 0 || logFinder
 					.equalsIgnoreCase(pref.myAlias2))
@@ -899,7 +898,7 @@ public class OCXMLImporter extends MinML {
 				holder.setCacheStatus(logDate);
 				holder.setFound(true);
 				holder.getFreshDetails().OwnLogId = logId;
-				holder.getFreshDetails().OwnLog = new Log(logType, logDate,
+				holder.getFreshDetails().OwnLog = LogFactory.getInstance().createLog(logType, logDate,
 						logFinder, logData, loggerRecommended);
 			}
 			holder.getFreshDetails().hasUnsavedChanges = true; // chD.saveCacheDetails(profile.dataDir);

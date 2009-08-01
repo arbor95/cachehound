@@ -1,5 +1,6 @@
 package CacheWolf.beans;
 
+import CacheWolf.Global;
 import CacheWolf.imp.KMLImporter;
 import CacheWolf.util.Common;
 

@@ -1,6 +1,6 @@
 package CacheWolf.navi;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;

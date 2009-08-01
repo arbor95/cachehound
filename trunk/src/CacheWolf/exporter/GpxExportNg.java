@@ -2,14 +2,12 @@ package CacheWolf.exporter;
 
 import java.util.Iterator;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
-import CacheWolf.beans.Log;
-import CacheWolf.beans.LogList;
 import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
@@ -18,6 +16,8 @@ import CacheWolf.util.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 import com.stevesoft.ewe_pat.Transformer;
 
+import de.cachehound.beans.Log;
+import de.cachehound.beans.LogList;
 import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;

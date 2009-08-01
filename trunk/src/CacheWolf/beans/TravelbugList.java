@@ -4,6 +4,7 @@ package CacheWolf.beans;
  * A list of GC travelbugs
  * @author salzkammergut
  */
+import CacheWolf.Global;
 import ewe.io.StringReader;
 import ewe.util.Vector;
 import ewesoft.xml.MinML;

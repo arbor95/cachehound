@@ -9,11 +9,15 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import CacheWolf.Global;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 
+import de.cachehound.beans.Log;
+import de.cachehound.beans.LogList;
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
 import de.cachehound.util.AllReader;
 import ewe.filechooser.FileChooser;
@@ -23,8 +27,9 @@ import ewe.ui.InputBox;
 
 public class CacheHolderDetail {
 
-	private static Logger logger = LoggerFactory.getLogger(CacheHolderDetail.class);
-	
+	private static Logger logger = LoggerFactory
+			.getLogger(CacheHolderDetail.class);
+
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
 	 * creating detail!
@@ -116,7 +121,9 @@ public class CacheHolderDetail {
 			if (CacheLogs.add(newLogs.getLog(i)) >= 0)
 				getParent().setLog_updated(true);
 		}
-		if (CacheLogs.purgeLogs() > 0)
+		int maxKeep = Global.getPref().maxLogsToKeep;
+		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
+		if (CacheLogs.purgeLogs(maxKeep, keepOwn) > 0)
 			hasUnsavedChanges = true;
 		getParent().setNoFindLogs(CacheLogs.countNotFoundLogs());
 	}
@@ -253,10 +260,11 @@ public class CacheHolderDetail {
 		String ownLogText = ex.findNext();
 		if (ownLogText.length() > 0) {
 			if (ownLogText.indexOf("<img src='") >= 0) {
-				OwnLog = new Log(ownLogText + "]]>");
+				OwnLog = LogFactory.getInstance().createFromProfileLine(
+						ownLogText + "]]>");
 			} else {
-				OwnLog = new Log(LogType.FOUND, "1900-01-01",
-						Global.getPref().myAlias, ownLogText);
+				OwnLog = LogFactory.getInstance().createLog(LogType.FOUND,
+						"1900-01-01", Global.getPref().myAlias, ownLogText);
 			}
 		} else {
 			OwnLog = null;
@@ -266,7 +274,8 @@ public class CacheHolderDetail {
 
 		dummy = ex.findNext();
 		while (ex.endOfSearch() == false) {
-			CacheLogs.add(new Log(dummy));
+			CacheLogs
+					.add(LogFactory.getInstance().createFromProfileLine(dummy));
 			dummy = ex.findNext();
 		}
 		ex = new Extractor(text, "<NOTES><![CDATA[", "]]></NOTES>", 0, true);
@@ -379,7 +388,8 @@ public class CacheHolderDetail {
 		try {
 			detfile = new BufferedWriter(new FileWriter(cacheFile));
 		} catch (IOException e) {
-			logger.error("Problem creating details file for cache " + getParent().getWayPoint(), e);
+			logger.error("Problem creating details file for cache "
+					+ getParent().getWayPoint(), e);
 			return;
 		}
 		try {
@@ -407,7 +417,8 @@ public class CacheHolderDetail {
 				detfile.write("<OWNLOGID>" + OwnLogId + "</OWNLOGID>");
 				detfile.newLine();
 				if (OwnLog != null) {
-					detfile.write("<OWNLOG><![CDATA[" + OwnLog.toHtml()
+					detfile.write("<OWNLOG><![CDATA["
+							+ LogFactory.getInstance().toHtml(OwnLog)
 							+ "]]></OWNLOG>");
 					detfile.newLine();
 				} else {
@@ -415,7 +426,8 @@ public class CacheHolderDetail {
 					detfile.newLine();
 				}
 				for (int i = 0; i < CacheLogs.size(); i++) {
-					detfile.write(CacheLogs.getLog(i).toXML());
+					detfile.write(LogFactory.getInstance().toXMLSnippet(
+							CacheLogs.getLog(i)));
 					detfile.newLine();
 				}
 				detfile.write("</LOGS>");
@@ -492,17 +504,18 @@ public class CacheHolderDetail {
 				detfile.newLine();
 				detfile.write("</CACHEDETAILS>");
 				detfile.newLine();
-				logger.debug ("Writing file: {}.xml",getParent().getWayPoint().toLowerCase()); 
+				logger.debug("Writing file: {}.xml", getParent().getWayPoint()
+						.toLowerCase());
 			} // if length
 		} catch (Exception e) {
-			logger. error("Problem waypoint " + getParent().getWayPoint()
-							+ " writing to a details file. ", e);
+			logger.error("Problem waypoint " + getParent().getWayPoint()
+					+ " writing to a details file. ", e);
 		}
 		try {
 			detfile.close();
 		} catch (IOException e) {
-			logger.error("Problem at closing the writing for waypoint " + getParent().getWayPoint()
-							+ " to a details file: ", e);
+			logger.error("Problem at closing the writing for waypoint "
+					+ getParent().getWayPoint() + " to a details file: ", e);
 		}
 		hasUnsavedChanges = false;
 	}

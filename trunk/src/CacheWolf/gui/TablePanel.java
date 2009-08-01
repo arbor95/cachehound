@@ -1,8 +1,8 @@
 package CacheWolf.gui;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import ewe.fx.Dimension;

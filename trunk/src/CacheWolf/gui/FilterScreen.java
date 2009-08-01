@@ -1,9 +1,9 @@
 package CacheWolf.gui;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.FilterData;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.MyLocale;

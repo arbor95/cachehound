@@ -44,12 +44,12 @@ number -> valid number
 
 package CacheWolf.util;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.navi.Metrics;
 import CacheWolf.navi.Navigate;
 

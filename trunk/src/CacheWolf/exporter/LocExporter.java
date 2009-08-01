@@ -1,9 +1,9 @@
 package CacheWolf.exporter;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheHolderDetail;
-import CacheWolf.beans.Global;
 import CacheWolf.util.Common;
 import ewe.io.File;
 import ewe.io.FileBase;

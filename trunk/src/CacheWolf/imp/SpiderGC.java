@@ -25,6 +25,7 @@
 
 package CacheWolf.imp;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -33,10 +34,7 @@ import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.ImageInfo;
-import CacheWolf.beans.Log;
-import CacheWolf.beans.LogList;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Travelbug;
@@ -51,6 +49,8 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.beans.LogList;
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
 import ewe.data.Property;
 import ewe.data.PropertyList;
@@ -1472,11 +1472,13 @@ public class SpiderGC {
 				chD.getParent().setFound(true);
 				chD.getParent().setCacheStatus(d);
 				chD.OwnLogId = logId;
-				chD.OwnLog = new Log(type, d, name, logText);
+				chD.OwnLog = LogFactory.getInstance().createLog(type, d, name,
+						logText);
 			}
-			if (nLogs <= pref.maxLogsToSpider)
-				reslts.add(new Log(type, d, name, logText));
-
+			if (nLogs <= pref.maxLogsToSpider) {
+				reslts.add(LogFactory.getInstance().createLog(type, d, name,
+						logText));
+			}
 			singleLog = exSingleLog.findNext();
 			exIcon.setSource(singleLog);
 			exNameTemp.setSource(singleLog);
@@ -1495,7 +1497,7 @@ public class SpiderGC {
 		}
 		if (nLogs > pref.maxLogsToSpider) {
 
-			reslts.add(Log.maxLog());
+			reslts.add(LogFactory.getInstance().createMaxLog());
 
 			pref.log("Too many logs. MAXLOGS reached (" + pref.maxLogsToSpider
 					+ ")");
@@ -1820,12 +1822,8 @@ public class SpiderGC {
 	 * @param target
 	 *            The bytes of the image
 	 */
-	private void spiderImage(String imgUrl, String target) { // TODO
-		// implement a
-		// fetch(URL,
-		// filename) in
-		// HttpConnection
-		// and use that
+	private void spiderImage(String imgUrl, String target) {
+		// TODO implement a fetch(URL, filename) in HttpConnection and use that
 		// one
 		HttpConnection connImg;
 		Socket sockImg;

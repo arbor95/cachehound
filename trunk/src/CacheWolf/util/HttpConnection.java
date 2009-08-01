@@ -1,6 +1,6 @@
 package CacheWolf.util;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.AsciiCodec;

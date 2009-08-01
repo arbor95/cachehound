@@ -5,7 +5,7 @@ package CacheWolf.util;
  * 
  */
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import CacheWolf.beans.Preferences;
 import ewe.fx.Rect;
 import ewe.io.File;

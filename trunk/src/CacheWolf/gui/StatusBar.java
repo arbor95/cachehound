@@ -1,9 +1,9 @@
 package CacheWolf.gui;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.DBStats;
 import CacheWolf.beans.Filter;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Color;

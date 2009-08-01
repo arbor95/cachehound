@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package CacheWolf.util;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import CacheWolf.gui.MyEditor;
 import CacheWolf.gui.MyScrollBarPanel;
 import ewe.io.IOException;

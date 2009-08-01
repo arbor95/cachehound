@@ -25,6 +25,7 @@
 
 package CacheWolf.exporter;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -32,7 +33,6 @@ import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;

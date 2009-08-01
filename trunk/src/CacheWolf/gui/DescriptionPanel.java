@@ -1,9 +1,9 @@
 package CacheWolf.gui;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
-import CacheWolf.beans.Global;
 import CacheWolf.util.MyLocale;
 
 import com.stevesoft.ewe_pat.Regex;
