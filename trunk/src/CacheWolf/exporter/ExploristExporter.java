@@ -10,6 +10,7 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
+import CacheWolf.util.DistanceComparator;
 import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
