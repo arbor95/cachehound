@@ -1,10 +1,10 @@
 package de.cachehound.util;
 
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheHolderDetail;
-import CacheWolf.Global;
-import CacheWolf.InfoBox;
-import CacheWolf.Travelbug;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheHolderDetail;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Travelbug;
+import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.SpiderGC;
 
 public class SpiderService {

@@ -3,12 +3,12 @@
  */
 package CacheWolf.imp;
 
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.Global;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC.SpiderProperties;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
 import ewe.sys.Convert;
 import ewe.ui.CellConstants;
 import ewe.ui.ControlEvent;

@@ -15,11 +15,11 @@ import javax.mail.internet.MimeBodyPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import CacheWolf.CacheHolder;
-import CacheWolf.InfoBox;
-import CacheWolf.Log;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Log;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.SpiderGC;
 import de.cachehound.types.LogType;

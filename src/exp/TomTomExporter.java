@@ -1,14 +1,14 @@
 package exp;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.Global;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.util.Common;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.File;

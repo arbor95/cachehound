@@ -1,16 +1,16 @@
 package exp;
 
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheHolderDetail;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheTerrDiff;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.DataMover;
-import CacheWolf.Global;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheHolderDetail;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheTerrDiff;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.util.Common;
+import CacheWolf.util.DataMover;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;

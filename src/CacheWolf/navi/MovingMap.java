@@ -1,14 +1,14 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.Global;
-import CacheWolf.GuiImageBroker;
-import CacheWolf.InfoBox;
-import CacheWolf.MainTab;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Global;
+import CacheWolf.beans.Preferences;
+import CacheWolf.gui.GuiImageBroker;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.gui.MainTab;
+import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -2906,7 +2906,7 @@ class ListBox extends Form {
 			}
 		}
 		list.selectItem(oldmap, true);
-		this.addLast(new CacheWolf.MyScrollBarPanel(list),
+		this.addLast(new CacheWolf.gui.MyScrollBarPanel(list),
 				CellConstants.STRETCH, CellConstants.FILL);
 		cancelButton = new mButton(MyLocale.getMsg(4276, "Cancel"));
 		cancelButton.setHotKey(0, KeyEvent.getCancelKey(true));

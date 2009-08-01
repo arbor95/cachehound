@@ -13,7 +13,7 @@ import javax.mail.Flags.Flag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import CacheWolf.Preferences;
+import CacheWolf.beans.Preferences;
 
 public class GeocachingMailReader {
 

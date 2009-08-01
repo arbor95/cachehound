@@ -1,10 +1,10 @@
 package exp;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheHolder;
-import CacheWolf.Common;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.util.Common;
 import ewe.sys.Convert;
 
 /**

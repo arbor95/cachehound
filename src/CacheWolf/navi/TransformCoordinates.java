@@ -1,8 +1,8 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.Matrix;
-import CacheWolf.MyLocale;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.Matrix;
+import CacheWolf.util.MyLocale;
 
 /**
  * Class to transform coordinates and shift datums it uses the 7 parameter

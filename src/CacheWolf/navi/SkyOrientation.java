@@ -1,7 +1,7 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
-import CacheWolf.MyLocale;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.util.MyLocale;
 import ewe.sys.Convert;
 
 /**

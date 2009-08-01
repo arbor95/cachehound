@@ -1,21 +1,21 @@
 package CacheWolf.imp;
 
 import utils.FileBugfix;
-import CacheWolf.CWPoint;
-import CacheWolf.CacheDB;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheSize;
-import CacheWolf.CacheTerrDiff;
-import CacheWolf.CacheType;
-import CacheWolf.Common;
-import CacheWolf.ImageInfo;
-import CacheWolf.InfoBox;
-import CacheWolf.Log;
-import CacheWolf.MyLocale;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
-import CacheWolf.SafeXML;
-import CacheWolf.UrlFetcher;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheSize;
+import CacheWolf.beans.CacheTerrDiff;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.ImageInfo;
+import CacheWolf.beans.Log;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.Common;
+import CacheWolf.util.MyLocale;
+import CacheWolf.util.SafeXML;
+import CacheWolf.util.UrlFetcher;
 
 import com.stevesoft.ewe_pat.Regex;
 

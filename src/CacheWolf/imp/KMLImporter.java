@@ -1,6 +1,6 @@
 package CacheWolf.imp;
 
-import CacheWolf.CWPoint;
+import CacheWolf.beans.CWPoint;
 import ewe.io.FileReader;
 import ewe.io.Reader;
 import ewe.sys.Convert;

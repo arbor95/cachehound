@@ -1,12 +1,12 @@
 package exp;
 
-import CacheWolf.CWPoint;
-import CacheWolf.CacheHolder;
-import CacheWolf.CacheHolderDetail;
-import CacheWolf.CacheType;
-import CacheWolf.Preferences;
-import CacheWolf.Profile;
-import CacheWolf.SafeXML;
+import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheHolderDetail;
+import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
+import CacheWolf.util.SafeXML;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
 import ewe.io.FileBase;

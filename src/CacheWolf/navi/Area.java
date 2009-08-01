@@ -1,6 +1,6 @@
 package CacheWolf.navi;
 
-import CacheWolf.CWPoint;
+import CacheWolf.beans.CWPoint;
 
 public class Area {
 	public final static int NOT_ON_EDGE = -1;
