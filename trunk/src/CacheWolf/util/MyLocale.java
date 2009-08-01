@@ -5,9 +5,9 @@ package CacheWolf.util;
  * 
  */
 
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
-import utils.FileBugfix;
 import ewe.fx.Rect;
 import ewe.io.File;
 import ewe.io.FileBase;

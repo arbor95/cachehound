@@ -1,5 +1,6 @@
 package CacheWolf.gui;
 
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.Global;
@@ -7,7 +8,6 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
-import utils.FileBugfix;
 import ewe.fx.Color;
 import ewe.fx.Font;
 import ewe.fx.FontMetrics;

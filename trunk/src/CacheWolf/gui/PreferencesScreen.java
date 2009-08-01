@@ -1,6 +1,6 @@
 package CacheWolf.gui;
 
-import utils.FileBugfix;
+import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC;

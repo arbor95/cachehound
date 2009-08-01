@@ -1,8 +1,7 @@
-package exp;
+package CacheWolf.exporter;
 
 import java.util.Iterator;
 
-import utils.FileBugfix;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
@@ -18,6 +17,7 @@ import CacheWolf.util.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 import com.stevesoft.ewe_pat.Transformer;
 
+import de.cachehound.util.FileBugfix;
 import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;

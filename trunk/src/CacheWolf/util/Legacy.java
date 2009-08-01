@@ -3,8 +3,8 @@
  */
 package CacheWolf.util;
 
+import de.cachehound.util.MutableInteger;
 import CacheWolf.beans.CacheSize;
-import utils.MutableInteger;
 
 /**
  * Utility class for converting data from old version files to current version
