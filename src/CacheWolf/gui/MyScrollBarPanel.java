@@ -1,6 +1,6 @@
 package CacheWolf.gui;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import ewe.ui.ScrollBarPanel;
 import ewe.ui.ScrollClient;
 import ewe.ui.ScrollablePanel;

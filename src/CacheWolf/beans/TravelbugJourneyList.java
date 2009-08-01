@@ -3,6 +3,7 @@ package CacheWolf.beans;
 /**
  * A list of @see TravelbugJourney s.
  */
+import CacheWolf.Global;
 import CacheWolf.util.SafeXML;
 import ewe.io.BufferedWriter;
 import ewe.io.File;

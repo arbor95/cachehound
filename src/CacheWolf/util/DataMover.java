@@ -3,9 +3,9 @@ package CacheWolf.util;
 import java.util.Iterator;
 
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.DataMoverForm;

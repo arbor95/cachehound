@@ -1,7 +1,7 @@
 package CacheWolf.navi;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.gui.CoordsScreen;
 import CacheWolf.gui.InfoBox;

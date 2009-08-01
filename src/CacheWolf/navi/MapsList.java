@@ -1,7 +1,7 @@
 package CacheWolf.navi;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
-import CacheWolf.beans.Global;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;

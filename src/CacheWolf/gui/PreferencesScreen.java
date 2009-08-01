@@ -1,6 +1,6 @@
 package CacheWolf.gui;
 
-import CacheWolf.beans.Global;
+import CacheWolf.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;

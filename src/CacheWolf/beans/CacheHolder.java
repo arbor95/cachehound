@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import CacheWolf.Global;
 import CacheWolf.gui.GuiImageBroker;
 import CacheWolf.gui.myTableModel;
 import CacheWolf.navi.Metrics;
@@ -15,6 +16,8 @@ import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
+
+import de.cachehound.beans.LogList;
 
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -589,7 +592,6 @@ public class CacheHolder {
 			if (this.detailsLoaded()) {
 				CacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
-					chD.CacheLogs.calcRecommendations();
 					recommendationScore = chD.CacheLogs
 							.getRecommendationRating();
 					setNumFoundsSinceRecommendation(chD.CacheLogs

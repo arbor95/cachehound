@@ -2,6 +2,7 @@ package CacheWolf.beans;
 
 import java.util.Comparator;
 
+import CacheWolf.Global;
 import CacheWolf.gui.GuiImageBroker;
 import CacheWolf.gui.MyScrollBarPanel;
 import CacheWolf.util.MyLocale;

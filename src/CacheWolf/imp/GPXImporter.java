@@ -1,13 +1,12 @@
 package CacheWolf.imp;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
-import CacheWolf.beans.Global;
-import CacheWolf.beans.Log;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Travelbug;
@@ -17,6 +16,7 @@ import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.ParseLatLon;
 import CacheWolf.util.SafeXML;
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
 import de.cachehound.util.SpiderService;
 import ewe.sys.Time;
@@ -288,7 +288,7 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:log") || name.equals("log")
 					|| name.equals("terra:log")) {
-				holder.getFreshDetails().CacheLogs.add(new Log(logType,
+				holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance().createLog(logType,
 						logDate, logFinder, logData));
 				if ((logType == LogType.FOUND || logType == LogType.PHOTO_TAKEN || logType == LogType.ATTENDED)
 						&& (logFinder.equalsIgnoreCase(pref.myAlias) || (pref.myAlias2
@@ -297,7 +297,7 @@ public class GPXImporter extends MinML {
 					holder.setCacheStatus(logDate);
 					holder.setFound(true);
 					holder.getFreshDetails().OwnLogId = logId;
-					holder.getFreshDetails().OwnLog = new Log(logType, logDate,
+					holder.getFreshDetails().OwnLog = LogFactory.getInstance().createLog(logType, logDate,
 							logFinder, logData);
 				}
 				return;

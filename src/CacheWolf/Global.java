@@ -1,5 +1,7 @@
-package CacheWolf.beans;
+package CacheWolf;
 
+import CacheWolf.beans.Preferences;
+import CacheWolf.beans.Profile;
 import CacheWolf.gui.MainForm;
 import CacheWolf.gui.MainTab;
 

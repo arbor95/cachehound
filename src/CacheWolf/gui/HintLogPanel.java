@@ -1,7 +1,8 @@
 package CacheWolf.gui;
 
+import de.cachehound.factory.LogFactory;
+import CacheWolf.Global;
 import CacheWolf.beans.CacheHolderDetail;
-import CacheWolf.beans.Global;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Dimension;
@@ -121,7 +122,8 @@ public class HintLogPanel extends CellPanel {
 		int nLogs = currCache.CacheLogs.size();
 		int logsPerPage = Global.getPref().logsPerPage;
 		for (int i = crntLogPosition; i < nLogs; i++) {
-			dummy.append(currCache.CacheLogs.getLog(i).toHtml());
+			dummy.append(LogFactory.getInstance().toHtml(
+					currCache.CacheLogs.getLog(i)));
 			dummy.append("<br>");
 			if (++counter >= logsPerPage)
 				break;
@@ -303,12 +305,9 @@ class fastScrollText extends InteractivePanel { // TODO extend this class in a
 				scroll(dx, dy);
 			refresh();
 			return true;
-		} else if (true || where.x < origin.x || where.x >= origin.x + r.width
-				|| where.y < origin.y || where.y >= origin.y + r.height) {
-			if (autoScrolling) {
-				didAutoScroll = true;
-				scroll(-to.x, -to.y);
-			}
+		} else if (autoScrolling) {
+			didAutoScroll = true;
+			scroll(-to.x, -to.y);
 		}
 		/*
 		 * if (moving.canGo(to)) { moving.move(to.x,to.y); draggingImage(dc); if

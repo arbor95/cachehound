@@ -6,8 +6,8 @@
  */
 package CacheWolf.navi;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
-import CacheWolf.beans.Global;
 import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 

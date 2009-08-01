@@ -1,8 +1,8 @@
 package CacheWolf.util;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.CWProgressBar;
 

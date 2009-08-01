@@ -1,19 +1,17 @@
-package CacheWolf.beans;
+package de.cachehound.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
-
 
 public class LogList {
 	/**
-	 * The Vector containing the Log objects The list is always sorted in
-	 * descending order
+	 * The List containing the Log objects. The list is always sorted in
+	 * descending order of the Logdate
 	 */
 	private List<Log> logList = new ArrayList<Log>(10);
-	private static final StringBuffer buffer = new StringBuffer();
 
 	/** only valid after calling calcRecommendations() */
 	private int numRecommended = -1;
@@ -22,7 +20,6 @@ public class LogList {
 	/** only valid after calling calcRecommendations() */
 	private int recommendationRating = -1;
 
-	
 	/** Construct an empty Log list */
 	public LogList() { // Public constructor
 	}
@@ -42,26 +39,30 @@ public class LogList {
 		logList.clear();
 	}
 
-	/** 
-	 * Add a Log to the list 
+	/**
+	 * Add a Log to the list
+	 * 
 	 * @return the position where the log was placed or -1 if it is already in
-	 *         the list
+	 *         the list or not a valid Log;
 	 */
 	public int add(Log log) {
-		if (log.getLogType() != null) {
+		resetRecommendations();
+		// Don't add invalid logs
+		if (log != null && log.getLogType() != null) {
 			return merge(log);
-			//logList.add(log); // Don't add invalid logs
 		}
 		return -1;
 	}
 
 	/** Remove a Log from the list */
 	public void remove(int i) {
+		resetRecommendations();
 		logList.remove(i);
 	}
 
 	/** Replace a Log in the list */
 	public void replace(int i, Log log) {
+		resetRecommendations();
 		logList.set(i, log);
 	}
 
@@ -72,14 +73,12 @@ public class LogList {
 	 * @return the position where the log was placed or -1 if it is already in
 	 *         the list
 	 */
-
 	private int merge(Log newLog) {
 		String newDate = newLog.getDate();
 		int size = size();
 		int i;
 		for (i = 0; i < size; i++) {
-			int comp = newDate
-					.compareTo(logList.get(i).getDate());
+			int comp = newDate.compareTo(logList.get(i).getDate());
 			if (comp > 0) {
 				logList.add(i, newLog);
 				return i;
@@ -95,8 +94,7 @@ public class LogList {
 		}
 		int firstLog = i;
 		// Check whether we already have this log.
-		while (i < size
-				&& newDate.equals(logList.get(i).getDate())) {
+		while (i < size && newDate.equals(logList.get(i).getDate())) {
 			Log oldLog = logList.get(i);
 			if (newLog.equals(oldLog)) {
 				return -1; // Log already in list
@@ -113,7 +111,9 @@ public class LogList {
 	}
 
 	/**
-	 * Count the number of not-found logs
+	 * Count the number of not-found logs in a row newest log to the older ones.
+	 * 
+	 * @return a number between 0 and 5
 	 */
 	public byte countNotFoundLogs() {
 		byte countNoFoundLogs = 0;
@@ -126,8 +126,6 @@ public class LogList {
 		return countNoFoundLogs;
 	}
 
-
-	
 	public int getNumRecommended() {
 		if (numRecommended == -1) {
 			calcRecommendations();
@@ -149,11 +147,16 @@ public class LogList {
 		return recommendationRating;
 	}
 
+	private void resetRecommendations() {
+		numRecommended = -1;
+		foundsSinceRecommendation = -1;
+		recommendationRating = -1;
+	}
+
 	/**
-	 * call this to
-	 * 
+	 * Calculate the Recommendation Values
 	 */
-	public void calcRecommendations() {
+	private void calcRecommendations() {
 		numRecommended = 0;
 		foundsSinceRecommendation = 0;
 		Log l;
@@ -181,16 +184,16 @@ public class LogList {
 
 	/**
 	 * Returns a simple concatenation of all Log texts of the list. Intended for
-	 * text search in Logs.
+	 * text search in Logs. Can be used for debugging also
 	 * 
 	 * @return All log messages
 	 */
 	public String allMessages() {
-		buffer.setLength(0);
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < logList.size(); i++) {
-			buffer.append(logList.get(i).getMessage());
+			sb.append(logList.get(i).getMessage()).append("\n\n");
 		}
-		return buffer.toString();
+		return sb.toString();
 	}
 
 	/**
@@ -198,12 +201,10 @@ public class LogList {
 	 * 
 	 * @return number of removed logs
 	 */
-	public int purgeLogs() {
-		int maxKeep = Global.getPref().maxLogsToKeep;
-		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
+	public int purgeLogs(int maxKeep, boolean keepOwn) {
 		int purgedLogs = 0;
 		for (int i = logList.size(); i > maxKeep; i--) {
-			if (!(keepOwn && getLog(i - 1).isOwnLog())) {
+			if (!(keepOwn && LogFactory.getInstance().isOwnLog(getLog(i - 1)))) {
 				this.remove(i - 1);
 				purgedLogs++;
 			}

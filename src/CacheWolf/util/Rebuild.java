@@ -1,7 +1,7 @@
 package CacheWolf.util;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Profile;
 import ewe.io.FileReader;
 import ewe.sys.Handle;

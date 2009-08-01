@@ -14,10 +14,10 @@ package CacheWolf.gui;
 import java.awt.Desktop;
 import java.net.URI;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheHolderDetail;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugJourney;
 import CacheWolf.beans.TravelbugJourneyList;

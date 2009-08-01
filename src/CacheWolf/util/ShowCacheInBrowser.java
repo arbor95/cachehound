@@ -3,15 +3,17 @@ package CacheWolf.util;
 import java.awt.Desktop;
 import java.net.URI;
 
+import CacheWolf.Global;
 import CacheWolf.beans.Attribute;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
+
+import de.cachehound.factory.LogFactory;
 
 import ewe.io.BufferedWriter;
 import ewe.io.FileBase;
@@ -231,9 +233,14 @@ public class ShowCacheInBrowser {
 					for (int i = 0; i < chD.getExistingDetails().CacheLogs
 							.size(); i++) {
 						Hashtable logs = new Hashtable();
-						String log = chD.getExistingDetails().CacheLogs.getLog(
-								i).toHtml().replace(
-								"http://www.geocaching.com/images/icons/", "");
+						String log = LogFactory
+								.getInstance()
+								.toHtml(
+										chD.getExistingDetails().CacheLogs
+												.getLog(i))
+								.replace(
+										"http://www.geocaching.com/images/icons/",
+										"");
 						int posGt = log.indexOf('>'); // Find the icon which
 						// defines the type of
 						// log
@@ -302,12 +309,14 @@ public class ShowCacheInBrowser {
 			tpl.printTo(detfile);
 			// detfile.print(tpl.output());
 			detfile.close();
-			
+
 			if (Desktop.isDesktopSupported()) {
 				Desktop.getDesktop().browse(new URI("file://" + saveTo));
-			}
-			else {
-				Global.getPref().log("Das System unterstützt das Java Feature 'Desktop' nicht");
+			} else {
+				Global
+						.getPref()
+						.log(
+								"Das System unterstützt das Java Feature 'Desktop' nicht");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

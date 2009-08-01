@@ -16,12 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Log;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.SpiderGC;
+import de.cachehound.beans.Log;
+import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
 import de.cachehound.util.SpiderService;
 
@@ -223,7 +224,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		String logger = messageText.substring(indexOfProfile + 12,
 				indexOfEndProfile - 1);
 
-		return new Log(logType, date, logger, logText);
+		return LogFactory.getInstance().createLog(logType, date, logger, logText);
 	}
 
 	private boolean addLogEntry(String gcNumber, LogType logType,

@@ -1,12 +1,12 @@
 package CacheWolf.exporter;
 
+import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
@@ -14,6 +14,8 @@ import CacheWolf.util.DataMover;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
+
+import de.cachehound.factory.LogFactory;
 
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -173,9 +175,9 @@ public class HTMLExporter {
 							StringBuffer sb = new StringBuffer(2000);
 							for (int j = 0; j < det.CacheLogs.size(); j++) {
 								sb
-										.append(det.CacheLogs
-												.getLog(j)
-												.toHtml()
+										.append(LogFactory
+												.getInstance()
+												.toHtml(det.CacheLogs.getLog(j))
 												.replace(
 														"http://www.geocaching.com/images/icons/",
 														""));

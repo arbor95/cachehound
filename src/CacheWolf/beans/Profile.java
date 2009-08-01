@@ -3,6 +3,7 @@ package CacheWolf.beans;
 import java.util.Collections;
 import java.util.Comparator;
 
+import CacheWolf.Global;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.navi.Area;
 import CacheWolf.util.Common;
