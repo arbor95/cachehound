@@ -1,6 +1,5 @@
 package CacheWolf.util;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Global;
 import CacheWolf.beans.Profile;

@@ -1,11 +1,11 @@
 package CacheWolf.gui;
 
-import de.cachehound.util.FileBugfix;
 import CacheWolf.beans.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
+import CacheWolf.util.FileBugfix;
 import CacheWolf.util.GPSPortOptions;
 import CacheWolf.util.HttpConnection;
 import CacheWolf.util.MyLocale;
