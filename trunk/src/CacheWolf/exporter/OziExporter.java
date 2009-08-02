@@ -3,8 +3,6 @@ package CacheWolf.exporter;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 import ewe.io.File;
 import ewe.io.FileBase;
 
@@ -15,7 +13,7 @@ public class OziExporter extends Exporter {
 
 	GarminMap poiMapper;
 
-	public OziExporter(Preferences p, Profile prof) {
+	public OziExporter() {
 		super();
 		this.setHowManyParams(LAT_LON);
 		this.setMask("*.wpt");

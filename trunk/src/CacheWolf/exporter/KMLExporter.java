@@ -1,12 +1,10 @@
 package CacheWolf.exporter;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 import CacheWolf.util.SafeXML;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
 import ewe.io.FileBase;
@@ -48,12 +46,6 @@ public class KMLExporter extends Exporter {
 	Hashtable[] outCacheDB = new Hashtable[categoryNames.length];
 
 	public KMLExporter() {
-		super();
-		this.setMask("*.kml");
-		this.setHowManyParams(LAT_LON);
-	}
-
-	public KMLExporter(Preferences p, Profile prof) {
 		super();
 		this.setMask("*.kml");
 	}

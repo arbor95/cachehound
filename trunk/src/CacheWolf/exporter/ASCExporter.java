@@ -1,8 +1,6 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 
 /**
  * Class to export cache database to an ASCII (CSV!) file. This file can be used
@@ -15,10 +13,6 @@ public class ASCExporter extends Exporter {
 		super();
 		this.setMask("*.csv");
 		this.setHowManyParams(LAT_LON);
-	}
-
-	public ASCExporter(Preferences p, Profile prof) {
-		this();
 	}
 
 	public String record(CacheHolder holder, String lat, String lon) {
