@@ -101,7 +101,7 @@ public class GPXExporter extends Exporter {
 					strBuf.append("    <sym>Geocache</sym>\r\n");
 				}
 				strBuf.append("    <type>Geocache|").append(
-						CacheType.id2GpxString(ch.getType())).append(
+						CacheType.id2GpxStringBroken(ch.getType())).append(
 						"</type>\r\n");
 				String dummyAvailable = ch.is_available() ? STRING_TRUE
 						: STRING_FALSE;
@@ -127,7 +127,7 @@ public class GPXExporter extends Exporter {
 						SafeXML.cleanGPX(ch.getCacheOwner())
 								+ "</groundspeak:owner>\r\n");
 				strBuf.append("      <groundspeak:type>").append(
-						CacheType.id2GpxString(ch.getType())).append(
+						CacheType.id2GpxStringBroken(ch.getType())).append(
 						"</groundspeak:type>\r\n");
 				strBuf.append("      <groundspeak:container>").append(
 						CacheSize.cw2ExportString(ch.getCacheSize())).append(
@@ -255,10 +255,10 @@ public class GPXExporter extends Exporter {
 			} else {
 				// there is no HTML in the description of addi wpts
 				strBuf.append("    <sym>").append(
-						CacheType.id2GpxString(ch.getType())).append(
+						CacheType.id2GpxStringBroken(ch.getType())).append(
 						"</sym>\r\n");
 				strBuf.append("    <type>Waypoint|").append(
-						CacheType.id2GpxString(ch.getType())).append(
+						CacheType.id2GpxStringBroken(ch.getType())).append(
 						"</type>\r\n");
 			}
 			strBuf.append("  </wpt>\r\n");

@@ -796,7 +796,7 @@ public final class CacheType {
 	 * @return type information in GC.com GPX format
 	 * @throws IllegalArgumentException
 	 */
-	public static final String id2GpxString(byte id)
+	public static final String id2GpxStringBroken(byte id)
 			throws IllegalArgumentException {
 		switch (id) {
 		case CW_TYPE_TRADITIONAL:
@@ -847,6 +847,67 @@ public final class CacheType {
 		}
 	}
 
+	/**
+	 * generate type description matching those of GC for GPX export
+	 * 
+	 * @param id
+	 *            internal type id
+	 * @return type information in GC.com GPX format
+	 * @throws IllegalArgumentException
+	 */
+	public static final String id2GpxString(byte id)
+			throws IllegalArgumentException {
+		switch (id) {
+		case CW_TYPE_TRADITIONAL:
+			return (GC_GPX_TRADITIONAL);
+		case CW_TYPE_MULTI:
+			return (GC_GPX_MULTI);
+		case CW_TYPE_VIRTUAL:
+			return (GC_GPX_VIRTUAL);
+		case CW_TYPE_LETTERBOX:
+			return (GC_GPX_LETTERBOX);
+		case CW_TYPE_EVENT:
+			return (GC_GPX_EVENT);
+		case CW_TYPE_UNKNOWN:
+			return (GC_GPX_UNKNOWN);
+		case CW_TYPE_WEBCAM:
+			return (GC_GPX_WEBCAM);
+		case CW_TYPE_LOCATIONLESS:
+			return (GC_GPX_LOCATIONLESS);
+		case CW_TYPE_CITO:
+			return (GC_GPX_CITO);
+		case CW_TYPE_EARTH:
+			return (GC_GPX_EARTH);
+		case CW_TYPE_MEGA_EVENT:
+			return (GC_GPX_MEGA_EVENT);
+		case CW_TYPE_WHEREIGO:
+			return (GC_GPX_WHEREIGO);
+		case CW_TYPE_PARKING:
+			return GC_GPX_PARKING;
+		case CW_TYPE_STAGE:
+			return GC_GPX_STAGE;
+		case CW_TYPE_QUESTION:
+			return GC_GPX_QUESTION;
+		case CW_TYPE_FINAL:
+			return GC_GPX_FINAL;
+		case CW_TYPE_TRAILHEAD:
+			return GC_GPX_TRAILHEAD;
+		case CW_TYPE_REFERENCE:
+			return GC_GPX_REFERENCE;
+		case CW_TYPE_MAZE:
+			return (GC_GPX_MAZE);
+		case CW_TYPE_APE:
+			return (GC_GPX_APE);
+		case CW_TYPE_CUSTOM:
+			return CW_GUISTR_CUSTOM;
+		default:
+			throw new IllegalArgumentException("unmatched argument " + id
+					+ " in CacheSize id2GpxString()");
+		}
+	}
+
+	
+	
 	// TODO: do we actually need this one?
 	/**
 	 * generate human readable type description for exporters
@@ -861,7 +922,7 @@ public final class CacheType {
 			throws IllegalArgumentException {
 		String ret;
 		try {
-			ret = id2GpxString(id);
+			ret = id2GpxStringBroken(id);
 			// check for | in additional waypoints and only use the string after
 			// |
 			int pipePosistion = ret.indexOf("|");
