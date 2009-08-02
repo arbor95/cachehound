@@ -1047,10 +1047,9 @@ public class SpiderGC {
 						pref.log("Trying owner");
 						ch.setCacheOwner(SafeXML.cleanback(
 								getOwner(completeWebPage)).trim());
-						if (ch.getCacheOwner().equals(pref.myAlias)
-								|| (pref.myAlias2.length() > 0 && ch
-										.getCacheOwner().equals(pref.myAlias2)))
+						if (pref.isMyAlias(ch.getCacheOwner())) {
 							ch.setOwned(true);
+						}
 						if (pref.debug)
 							pref.log("Owner: " + ch.getCacheOwner()
 									+ "; is_owned = " + ch.is_owned()
@@ -1466,9 +1465,7 @@ public class SpiderGC {
 			logId = exLogId.findNext();
 			String d = DateFormat.logdate2YMD(exDate.findNext());
 			if ((type == LogType.FOUND || type == LogType.PHOTO_TAKEN || type == LogType.ATTENDED)
-					&& (name.equalsIgnoreCase(SafeXML.clean(pref.myAlias)) || (pref.myAlias2
-							.length() > 0 && name.equalsIgnoreCase(SafeXML
-							.clean(pref.myAlias2))))) {
+					&& pref.isMyAliasXML(name)) {
 				chD.getParent().setFound(true);
 				chD.getParent().setCacheStatus(d);
 				chD.OwnLogId = logId;

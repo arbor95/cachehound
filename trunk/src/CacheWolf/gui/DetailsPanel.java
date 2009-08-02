@@ -683,10 +683,7 @@ public class DetailsPanel extends CellPanel {
 				MyLocale.getMsg(320, "Owner")));
 		// Avoid setting is_owned if alias is empty and username is empty
 		if (thisCache.is_owned() == false) {
-			thisCache.setOwned((!pref.myAlias.equals("") && pref.myAlias
-					.equals(thisCache.getCacheOwner()))
-					|| (!pref.myAlias2.equals("") && pref.myAlias2
-							.equals(thisCache.getCacheOwner())));
+			thisCache.setOwned(pref.isMyAlias(thisCache.getCacheOwner()));
 		}
 		thisCache.setBlack(blackStatus);
 		String oldWaypoint = thisCache.getWayPoint();

@@ -9,7 +9,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import CacheWolf.Global;
 import CacheWolf.gui.ProfilesForm;
 import CacheWolf.gui.myTableModel;
@@ -164,7 +163,7 @@ public class Preferences extends MinML {
 	public String password = "";
 	/**
 	 * This is an alternative alias used to identify found caches (i.e. if using
-	 * multiple IDs) It is currently not used yet
+	 * multiple IDs)
 	 */
 	public String myAlias2 = "";
 	/** The path to the browser */
@@ -772,16 +771,16 @@ public class Preferences extends MinML {
 			// switch if it
 			// is set
 			// save last path of different exporters
-			Set<Map.Entry<String,String>> expEntrys = exporterPaths.entrySet();
-			for (Map.Entry<String,String> entry : expEntrys) {
+			Set<Map.Entry<String, String>> expEntrys = exporterPaths.entrySet();
+			for (Map.Entry<String, String> entry : expEntrys) {
 				outp.print("    <expPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
 						+ SafeXML.strxmlencode(entry.getValue().toString()
 								.replace('\\', '/')) + "\"/>\n");
 			}
-			Set<Map.Entry<String,String>> impEntrys = importerPaths.entrySet();
-			for (Map.Entry<String,String> entry : impEntrys) {
+			Set<Map.Entry<String, String>> impEntrys = importerPaths.entrySet();
+			for (Map.Entry<String, String> entry : impEntrys) {
 				outp.print("    <impPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
@@ -814,8 +813,7 @@ public class Preferences extends MinML {
 					+ SafeXML.strxmlencode(mailMarkMailsAsReaded) + "\"/>\n");
 			outp.print("    <mailDeleteMessages value=\""
 					+ SafeXML.strxmlencode(mailDeleteMessages) + "\"/>\n");
-		
-			
+
 			outp.print("</preferences>");
 			outp.close();
 		} catch (Exception e) {
@@ -1238,5 +1236,22 @@ public class Preferences extends MinML {
 		};
 		Arrays.sort(result, comp);
 		return result;
+	}
+
+	/**
+	 * Returns true, if name is either of the stored aliases.
+	 */
+	public boolean isMyAlias(String name) {
+		return name.equalsIgnoreCase(myAlias)
+				|| name.equalsIgnoreCase(myAlias2);
+	}
+
+	/**
+	 * Returns true, if name is the xml encoded version of either of the stored
+	 * aliases.
+	 */
+	public boolean isMyAliasXML(String name) {
+		return name.equalsIgnoreCase(SafeXML.clean(myAlias))
+				|| name.equalsIgnoreCase(SafeXML.clean(myAlias2));
 	}
 }
