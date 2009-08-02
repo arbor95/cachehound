@@ -686,8 +686,8 @@ public class GpxExportNg {
 		} else {
 			if (ch.isAddiWpt()) {
 				ret.append("    <sym>".concat(
-						CacheType.id2GpxString(ch.getType()).substring(
-								CacheType.id2GpxString(ch.getType()).indexOf(
+						CacheType.id2GpxStringBroken(ch.getType()).substring(
+								CacheType.id2GpxStringBroken(ch.getType()).indexOf(
 										"|") + 1)).concat("</sym>\n"));
 			} else if (ch.isCustomWpt()) {
 				ret.append("    <sym>Custom</sym>\n");
@@ -700,7 +700,7 @@ public class GpxExportNg {
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			ret.append("    <type>"
-					.concat(CacheType.id2GpxString(ch.getType())).concat(
+					.concat(CacheType.id2GpxStringBroken(ch.getType())).concat(
 							"</type>\n"));
 		}
 
@@ -738,7 +738,7 @@ public class GpxExportNg {
 				.concat("\">").concat(SafeXML.cleanGPX(ch.getCacheOwner()))
 				.concat("</groundspeak:owner>\n").concat(
 						"      <groundspeak:type>").concat(
-						CacheType.id2GpxString(ch.getType())).concat(
+						CacheType.id2GpxStringBroken(ch.getType())).concat(
 						"</groundspeak:type>\n").concat(
 						"      <groundspeak:container>").concat(
 						CacheSize.cw2ExportString(ch.getCacheSize())).concat(
