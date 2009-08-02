@@ -1151,7 +1151,7 @@ public class Preferences extends MinML {
 	}
 
 	public String getExportPath(String exporter) {
-		String dir = (String) exporterPaths.get(exporter);
+		String dir = exporterPaths.get(exporter);
 		if (dir == null) {
 			dir = Global.getProfile().dataDir;
 		}
@@ -1166,7 +1166,7 @@ public class Preferences extends MinML {
 	}
 
 	public String getImporterPath(String importer) {
-		String dir = (String) importerPaths.get(importer);
+		String dir = importerPaths.get(importer);
 		if (null == dir)
 			dir = Global.getProfile().dataDir;
 		return dir;
@@ -1193,7 +1193,7 @@ public class Preferences extends MinML {
 	 * @return FilterData object
 	 */
 	public FilterData getFilter(String filterID) {
-		return (FilterData) this.filterList.get(filterID);
+		return this.filterList.get(filterID);
 	}
 
 	/**
