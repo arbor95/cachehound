@@ -14,9 +14,6 @@ public class Log {
 	/** true, if the logger recommended the cache */
 	private boolean recommended = false;
 
-	public Log() {
-	}
-
 	public void setLogType(LogType logType) {
 		this.logType = logType;
 	}
