@@ -263,128 +263,6 @@ public final class CacheType {
 	}
 
 	/**
-	 * convert version1 type information to current values
-	 * 
-	 * @param type
-	 *            version1 cache type information
-	 * @return current version cache type information
-	 * @throws IllegalArgumentException
-	 *             if <code>size</code> can not be mapped to internal
-	 *             representation
-	 * @deprecated remove once v1 file version compatibility is abandoned
-	 */
-	public static final byte v1Converter(String type)
-			throws IllegalArgumentException {
-		if (type.equals("0"))
-			return CW_TYPE_CUSTOM;
-		if (type.equals("2"))
-			return CW_TYPE_TRADITIONAL;
-		if (type.equals("3"))
-			return CW_TYPE_MULTI;
-		if (type.equals("4"))
-			return CW_TYPE_VIRTUAL;
-		if (type.equals("5"))
-			return CW_TYPE_LETTERBOX;
-		if (type.equals("6"))
-			return CW_TYPE_EVENT;
-		if (type.equals("8"))
-			return CW_TYPE_UNKNOWN;
-		if (type.equals("11"))
-			return CW_TYPE_WEBCAM;
-		if (type.equals("12"))
-			return CW_TYPE_LOCATIONLESS;
-		if (type.equals("13"))
-			return CW_TYPE_CITO;
-		if (type.equals("50"))
-			return CW_TYPE_PARKING;
-		if (type.equals("51"))
-			return CW_TYPE_STAGE;
-		if (type.equals("52"))
-			return CW_TYPE_QUESTION;
-		if (type.equals("53"))
-			return CW_TYPE_FINAL;
-		if (type.equals("54"))
-			return CW_TYPE_TRAILHEAD;
-		if (type.equals("55"))
-			return CW_TYPE_REFERENCE;
-		if (type.equals("453"))
-			return CW_TYPE_MEGA_EVENT;
-		if (type.equals("1858"))
-			return CW_TYPE_WHEREIGO;
-		if (type.equals("137"))
-			return CW_TYPE_EARTH;
-
-		throw new IllegalArgumentException("unmatched argument " + type
-				+ " in CacheSize v1Converter()");
-	}
-
-	/**
-	 * convert version1 type information to current values
-	 * 
-	 * @param type
-	 *            version2 cache type information
-	 * @return current version cache type information
-	 * @throws IllegalArgumentException
-	 *             if <code>size</code> can not be mapped to internal
-	 *             representation
-	 * @deprecated remove once v2 file version compatibility is abandoned
-	 */
-	public static final byte v2Converter(byte type)
-			throws IllegalArgumentException {
-		switch (type) {
-		case -128:
-			return CW_TYPE_CUSTOM;
-		case -126:
-			return CW_TYPE_TRADITIONAL;
-		case -125:
-			return CW_TYPE_MULTI;
-		case -124:
-			return CW_TYPE_VIRTUAL;
-		case -123:
-			return CW_TYPE_LETTERBOX;
-		case -122:
-			return CW_TYPE_EVENT;
-		case -121:
-			return CW_TYPE_QUIZ;
-		case -120:
-			return CW_TYPE_UNKNOWN;
-		case -119:
-			return CW_TYPE_MOVING;
-		case -118:
-			return CW_TYPE_DRIVE_IN;
-		case -117:
-			return CW_TYPE_WEBCAM;
-		case -116:
-			return CW_TYPE_LOCATIONLESS;
-		case -115:
-			return CW_TYPE_CITO;
-		case -78:
-			return CW_TYPE_PARKING;
-		case -77:
-			return CW_TYPE_STAGE;
-		case -76:
-			return CW_TYPE_QUESTION;
-		case -75:
-			return CW_TYPE_FINAL;
-		case -74:
-			return CW_TYPE_TRAILHEAD;
-		case -73:
-			return CW_TYPE_REFERENCE;
-		case 101:
-			return CW_TYPE_MEGA_EVENT;
-		case -62:
-			return CW_TYPE_WHEREIGO; // yes, it can be either of these
-		case 100:
-			return CW_TYPE_WHEREIGO; // yes, it can be either of these
-		case 9:
-			return CW_TYPE_EARTH;
-		default:
-			throw new IllegalArgumentException("unmatched argument " + type
-					+ " in CacheSize v2Converter()");
-		}
-	}
-
-	/**
 	 * check if a given waypoint type is an additional waypoint
 	 * 
 	 * @param type
@@ -906,8 +784,6 @@ public final class CacheType {
 		}
 	}
 
-	
-	
 	// TODO: do we actually need this one?
 	/**
 	 * generate human readable type description for exporters
