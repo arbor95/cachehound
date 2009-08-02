@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.Preferences;
+import CacheWolf.gui.InfoBox;
+import CacheWolf.util.MyLocale;
 
 public class GeocachingMailReader {
 
@@ -26,12 +28,12 @@ public class GeocachingMailReader {
 	private boolean moveMessages;
 	private boolean markMessagesReaded;
 	private boolean deleteMessages;
-	
+
 	private Store store;
 	private Folder inFolder;
 	private Folder outFolder;
 	private IGCMailHandler handler;
-	
+
 	private static Logger logger = LoggerFactory
 			.getLogger(GeocachingMailReader.class);
 
@@ -56,9 +58,9 @@ public class GeocachingMailReader {
 		inFolder = store.getFolder(inBox);
 		if (protocol.toLowerCase().startsWith("imap")) {
 			outFolder = store.getFolder(outBox);
-			if (! outFolder.exists()) {
+			if (!outFolder.exists()) {
 				boolean created = outFolder.create(Folder.HOLDS_MESSAGES);
-				if (!created) {				
+				if (!created) {
 					logger.error("Could not create Folder {}.", outBox);
 					outFolder = null;
 				}
@@ -75,29 +77,44 @@ public class GeocachingMailReader {
 		}
 	}
 
-	public void readMessages(boolean onlyNew)
-			throws MessagingException, IOException {
-		int countMessages = inFolder.getMessageCount();
-		logger.info("Found {} Caches in Mailbox {}:{}", new Object[] {countMessages, host, inBox});
+	public void readMessages(boolean onlyNew) throws MessagingException,
+			IOException {
+		InfoBox infB = null;
+		HoldFolderOpenThread holdOpenThread = null;
+		try {
+			int countMessages = inFolder.getMessageCount();
+			logger.info("Found {} Caches in Mailbox {}:{}", new Object[] {
+					countMessages, host, inBox });
+			infB = new InfoBox("Import Emails", "Reading Email - found "
+					+ countMessages);
+			infB.show();
 
-		// holds up MailConnection while parsing long PQ and spider them
-		HoldFolderOpenThread holdOpenThread = new HoldFolderOpenThread();
-		holdOpenThread.start();
-		
-		Message message = null;
-		for (int i = 0; i < countMessages; i++) {
-			
-			message = inFolder.getMessage(i + 1);
-			boolean newMessage = !message.getFlags().contains(Flag.SEEN);
-			if (newMessage || !onlyNew) {
-				readMessage(message);
+			// holds up MailConnection while parsing long PQ and spider them
+			holdOpenThread = new HoldFolderOpenThread();
+			holdOpenThread.start();
+
+			Message message = null;
+			for (int i = 0; i < countMessages; i++) {
+				infB.setInfo("Reading Email " + (i + 1) + " of "
+						+ countMessages);
+				message = inFolder.getMessage(i + 1);
+				boolean newMessage = !message.getFlags().contains(Flag.SEEN);
+				if (newMessage || !onlyNew) {
+					readMessage(message);
+				}
+			}
+		} finally {
+			if (holdOpenThread != null) {
+				holdOpenThread.stopFolderOpenThread();
+			}
+			if (infB != null) {
+				infB.close(0);
 			}
 		}
-		holdOpenThread.stopFolderOpenThread();
 	}
 
-	private void readMessage(Message message)
-			throws MessagingException, IOException {
+	private void readMessage(Message message) throws MessagingException,
+			IOException {
 		String subject = message.getSubject();
 		logger.debug("Reading Message: {}", subject);
 		boolean readed = false;
@@ -117,7 +134,7 @@ public class GeocachingMailReader {
 			}
 			if (moveMessages) {
 				if (outFolder != null) {
-					inFolder.copyMessages(new Message[] {message}, outFolder);
+					inFolder.copyMessages(new Message[] { message }, outFolder);
 					message.setFlag(Flag.DELETED, true);
 				}
 			}
@@ -161,12 +178,13 @@ public class GeocachingMailReader {
 				&& subject.contains(" needs maintenance")) {
 			return handler.needMaintenance(gcNumber, message, subject, text);
 		} else if (subject.contains(" performed maintenance for ")) {
-			return handler.maintenancePferformed(gcNumber, message, subject, text);
+			return handler.maintenancePferformed(gcNumber, message, subject,
+					text);
 		} else { // hmm, doch keine Mail mit der wir was anfangen können?
 			logger.error("Notify-Message-Header not parsable: {}", subject);
 			return false;
 		}
-		
+
 	}
 
 	public void disconnect(boolean write) throws MessagingException {
@@ -178,13 +196,15 @@ public class GeocachingMailReader {
 	}
 
 	/**
-	 * This thread tries to hold up the Connection to the Mailserver which is connected with the "inFolder" 
+	 * This thread tries to hold up the Connection to the Mailserver which is
+	 * connected with the "inFolder"
+	 * 
 	 * @author tweety
 	 */
 	private class HoldFolderOpenThread extends Thread {
 
 		private boolean active = true;
-				
+
 		public void run() {
 			while (active) {
 				try {
@@ -200,12 +220,12 @@ public class GeocachingMailReader {
 				}
 			}
 		}
-		
+
 		public void stopFolderOpenThread() {
 			active = false;
 			this.interrupt(); // the thread will stop short after waking up
 		}
-		
+
 	}
-	
+
 }
