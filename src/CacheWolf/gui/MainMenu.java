@@ -521,15 +521,15 @@ public class MainMenu extends MenuBar {
 				gpx.doit();
 			}
 			if (mev.selectedItem == exporttop50) {
-				OVLExporter ovl = new OVLExporter(pref, profile);
+				OVLExporter ovl = new OVLExporter();
 				ovl.doIt();
 			}
 			if (mev.selectedItem == exportGPX) {
-				GPXExporter gpx = new GPXExporter(pref, profile);
+				GPXExporter gpx = new GPXExporter();
 				gpx.doIt(1);
 			}
 			if (mev.selectedItem == exportASC) {
-				ASCExporter asc = new ASCExporter(pref, profile);
+				ASCExporter asc = new ASCExporter();
 				asc.doIt();
 			}
 			if (mev.selectedItem == exportTomTom) {
@@ -537,7 +537,7 @@ public class MainMenu extends MenuBar {
 				tt.doIt();
 			}
 			if (mev.selectedItem == exportMSARCSV) {
-				MSARCSVExporter msar = new MSARCSVExporter(pref, profile);
+				MSARCSVExporter msar = new MSARCSVExporter();
 				msar.doIt();
 			}
 			if (mev.selectedItem == exportLOC) {
@@ -564,11 +564,11 @@ public class MainMenu extends MenuBar {
 				Vm.showWait(false);
 			}
 			if (mev.selectedItem == exportOZI) {
-				OziExporter ozi = new OziExporter(pref, profile);
+				OziExporter ozi = new OziExporter();
 				ozi.doIt();
 			}
 			if (mev.selectedItem == exportKML) {
-				KMLExporter kml = new KMLExporter(pref, profile);
+				KMLExporter kml = new KMLExporter();
 				kml.doIt();
 			}
 			if (mev.selectedItem == exportTPL) {
@@ -588,7 +588,7 @@ public class MainMenu extends MenuBar {
 				mag.doIt();
 			}
 			if (mev.selectedItem == exportTriton) {
-				TritonGPXExporter mag = new TritonGPXExporter(pref, profile);
+				TritonGPXExporter mag = new TritonGPXExporter();
 				mag.doIt();
 			}
 			// /////////////////////////////////////////////////////////////////////

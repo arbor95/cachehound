@@ -1,15 +1,13 @@
 package CacheWolf.exporter;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.io.FileBase;
 import ewe.sys.Time;
 import ewe.sys.Vm;
@@ -26,14 +24,6 @@ public class GPXExporter extends Exporter {
 	private final static String DEFAULT_DATE = "2000-01-01";
 
 	public GPXExporter() {
-		super();
-		this.setMask("*.gpx");
-		this.setNeedCacheDetails(true);
-		this.setHowManyParams(LAT_LON | COUNT);
-		this.setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
-	}
-
-	public GPXExporter(Preferences p, Profile prof) {
 		super();
 		this.setMask("*.gpx");
 		this.setNeedCacheDetails(true);

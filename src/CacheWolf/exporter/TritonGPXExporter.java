@@ -1,15 +1,13 @@
 package CacheWolf.exporter;
 
-import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.types.LogType;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.LogType;
 import ewe.io.ByteArrayOutputStream;
 import ewe.io.File;
 import ewe.io.FileBase;
@@ -18,13 +16,6 @@ import ewe.sys.Time;
 
 public class TritonGPXExporter extends Exporter {
 	public TritonGPXExporter() {
-		setMask("*.gpx");
-		setNeedCacheDetails(true);
-		setHowManyParams(1);
-		setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
-	}
-
-	public TritonGPXExporter(Preferences p, Profile prof) {
 		setMask("*.gpx");
 		setNeedCacheDetails(true);
 		setHowManyParams(1);

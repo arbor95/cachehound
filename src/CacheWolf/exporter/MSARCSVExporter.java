@@ -3,8 +3,6 @@ package CacheWolf.exporter;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Preferences;
-import CacheWolf.beans.Profile;
 
 /**
  * Class to export the cache database (index) to an CSV File which can bei easy
@@ -14,7 +12,7 @@ import CacheWolf.beans.Profile;
  */
 public class MSARCSVExporter extends Exporter {
 
-	public MSARCSVExporter(Preferences p, Profile prof) {
+	public MSARCSVExporter() {
 		super();
 		this.setMask("*.csv");
 		this.setDecimalSeparator(',');
