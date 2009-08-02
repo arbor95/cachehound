@@ -616,10 +616,9 @@ public class OCXMLImporter extends MinML {
 		}
 		if (name.equals("userid")) {
 			holder.setCacheOwner(strData);
-			if (holder.getCacheOwner().equalsIgnoreCase(pref.myAlias)
-					|| (pref.myAlias2.length() > 0 && holder.getCacheOwner()
-							.equalsIgnoreCase(pref.myAlias2)))
+			if (pref.isMyAlias(holder.getCacheOwner())) {
 				holder.setOwned(true);
+			}
 			return;
 		}
 
@@ -790,7 +789,7 @@ public class OCXMLImporter extends MinML {
 			if (!fetchURL.startsWith("http://"))
 				fetchURL = new URL(new URL("http://" + OPENCACHING_HOST + "/"),
 						fetchURL).toString(); // TODO this is not quite
-												// correct:
+			// correct:
 			// actually the "base" URL must
 			// be known... but anyway a
 			// different baseURL should not
@@ -890,16 +889,16 @@ public class OCXMLImporter extends MinML {
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance().createLog(logType, logDate,
-					logFinder, logData, loggerRecommended));
-			if ((logFinder.toLowerCase().compareTo(user) == 0 || logFinder
-					.equalsIgnoreCase(pref.myAlias2))
-					&& logTypeOC == 1) {
+			holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance()
+					.createLog(logType, logDate, logFinder, logData,
+							loggerRecommended));
+			if (pref.isMyAlias(logFinder) && logTypeOC == 1) {
 				holder.setCacheStatus(logDate);
 				holder.setFound(true);
 				holder.getFreshDetails().OwnLogId = logId;
-				holder.getFreshDetails().OwnLog = LogFactory.getInstance().createLog(logType, logDate,
-						logFinder, logData, loggerRecommended);
+				holder.getFreshDetails().OwnLog = LogFactory.getInstance()
+						.createLog(logType, logDate, logFinder, logData,
+								loggerRecommended);
 			}
 			holder.getFreshDetails().hasUnsavedChanges = true; // chD.saveCacheDetails(profile.dataDir);
 			return;

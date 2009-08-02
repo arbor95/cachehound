@@ -288,17 +288,15 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:log") || name.equals("log")
 					|| name.equals("terra:log")) {
-				holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance().createLog(logType,
-						logDate, logFinder, logData));
+				holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance()
+						.createLog(logType, logDate, logFinder, logData));
 				if ((logType == LogType.FOUND || logType == LogType.PHOTO_TAKEN || logType == LogType.ATTENDED)
-						&& (logFinder.equalsIgnoreCase(pref.myAlias) || (pref.myAlias2
-								.length() > 0 && logFinder
-								.equalsIgnoreCase(pref.myAlias2)))) {
+						&& pref.isMyAlias(logFinder)) {
 					holder.setCacheStatus(logDate);
 					holder.setFound(true);
 					holder.getFreshDetails().OwnLogId = logId;
-					holder.getFreshDetails().OwnLog = LogFactory.getInstance().createLog(logType, logDate,
-							logFinder, logData);
+					holder.getFreshDetails().OwnLog = LogFactory.getInstance()
+							.createLog(logType, logDate, logFinder, logData);
 				}
 				return;
 			}
@@ -588,8 +586,8 @@ public class GPXImporter extends MinML {
 		// just to be sure to have a spider object
 
 		if (fromTC) {
-			spider.getImages(holder.getFreshDetails().LongDescription,
-					holder.getFreshDetails());
+			spider.getImages(holder.getFreshDetails().LongDescription, holder
+					.getFreshDetails());
 		} else {
 			addr = "http://www.geocaching.com/seek/cache_details.aspx?wp="
 					+ holder.getWayPoint();

@@ -28,8 +28,7 @@ public class LogFactory {
 	/** log was written by one of the aliases defined in preferences */
 	// TODO: False place for this and an idiot implementation ...
 	public boolean isOwnLog(Log log) {
-		return log.getLogger().equalsIgnoreCase(Global.getPref().myAlias)
-				|| log.getLogger().equalsIgnoreCase(Global.getPref().myAlias2);
+		return Global.getPref().isMyAlias(log.getLogger());
 	}
 	
 	/**
