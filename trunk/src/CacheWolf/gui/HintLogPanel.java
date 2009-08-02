@@ -1,8 +1,8 @@
 package CacheWolf.gui;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 import CacheWolf.Global;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Dimension;

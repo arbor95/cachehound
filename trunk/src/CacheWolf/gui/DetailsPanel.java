@@ -1,5 +1,6 @@
 package CacheWolf.gui;
 
+import de.cachehound.factory.CacheHolderDetailFactory;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -7,13 +8,17 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
+import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugJourneyList;
 import CacheWolf.beans.TravelbugList;
 import CacheWolf.controller.TravelbugPickup;
+import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
+import ewe.filechooser.FileChooser;
+import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
 import ewe.fx.Point;
@@ -33,6 +38,7 @@ import ewe.ui.Form;
 import ewe.ui.FormBase;
 import ewe.ui.Gui;
 import ewe.ui.HtmlDisplay;
+import ewe.ui.InputBox;
 import ewe.ui.Menu;
 import ewe.ui.MenuItem;
 import ewe.ui.MessageBox;
@@ -473,8 +479,8 @@ public class DetailsPanel extends CellPanel {
 				// false, pref);
 				// is.execute();
 				TravelbugInCacheScreen ts = new TravelbugInCacheScreen(
-						thisCache.getCacheDetails(true).getTravelbugs().toHtml(),
-						"Travelbugs");
+						thisCache.getCacheDetails(true).getTravelbugs()
+								.toHtml(), "Travelbugs");
 				ts.execute(this.getFrame(), Gui.CENTER_FRAME);
 			} else if (ev.target == btnCenter) {
 				CWPoint cp = new CWPoint(thisCache.LatLon);
@@ -505,7 +511,38 @@ public class DetailsPanel extends CellPanel {
 				// FIXME: better use saveDirtyWaypoint()?
 				thisCache.save();
 			} else if (ev.target == btnAddPicture) {
-				thisCache.getCacheDetails(true).addUserImage(profile);
+				
+				ewe.io.File imgFile;
+				String imgDesc, imgDestName;
+
+				// Get Image and description
+				FileChooser fc = new FileChooser(FileChooserBase.OPEN,
+						profile.dataDir);
+				fc.setTitle("Select image file:");
+				if (fc.execute() != FormBase.IDCANCEL) {
+					imgFile = fc.getChosenFile();
+					imgDesc = new InputBox("Description").input("", 10);
+					// Create Destination Filename
+					String ext = imgFile.getFileExt().substring(
+							imgFile.getFileExt().lastIndexOf("."));
+					imgDestName = thisCache.getWayPoint()
+							+ "_U_"
+							+ (thisCache.getFreshDetails().getUserImages()
+									.size() + 1) + ext;
+
+					ImageInfo userImageInfo = new ImageInfo();
+					userImageInfo.setFilename(imgDestName);
+					userImageInfo.setTitle(imgDesc);
+					thisCache.getFreshDetails().addUserImage(userImageInfo);
+
+					// Copy File
+					DataMover.copy(imgFile.getFullPath(), profile.dataDir
+							+ imgDestName);
+					// Save Data
+					CacheHolderDetailFactory.getInstance().saveCacheDetails(
+							thisCache.getFreshDetails(),
+							Global.getProfile().getDataDir());
+				}
 			} else if (ev.target == btnBlack) {
 				if (thisCache.is_black()) {
 					thisCache.setBlack(false);
@@ -848,9 +885,8 @@ public class DetailsPanel extends CellPanel {
 						setHtml(thisCache.getCacheDetails(true).getTravelbugs()
 								.toHtml());
 						repaint();
-						thisCache
-								.setHas_bugs(thisCache.getCacheDetails(true).getTravelbugs()
-										.size() > 0);
+						thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+								.getTravelbugs().size() > 0);
 					}
 				} else if (selectedItem == mnuDropTB) {
 					tbjList = new TravelbugJourneyList();
@@ -867,10 +903,10 @@ public class DetailsPanel extends CellPanel {
 					}
 					tbjList.saveTravelbugsFile();
 					tbjList = null;
-					thisCache
-							.setHas_bugs(thisCache.getCacheDetails(true).getTravelbugs()
-									.size() > 0);
-					setHtml(thisCache.getCacheDetails(true).getTravelbugs().toHtml());
+					thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+							.getTravelbugs().size() > 0);
+					setHtml(thisCache.getCacheDetails(true).getTravelbugs()
+							.toHtml());
 					repaint();
 					dirty_details = true;
 				} else

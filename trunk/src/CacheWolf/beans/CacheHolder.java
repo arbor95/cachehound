@@ -17,6 +17,7 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 
@@ -44,6 +45,7 @@ public class CacheHolder {
 	 * Cachestatus is Found, Not found or a date in format yyyy-mm-dd hh:mm for
 	 * found date
 	 */
+	// TODO: Um das ganze Typsicher und auch ein Profil international zu machens sollte hier ne Enum stellt werden.
 	private String cacheStatus = EMPTY;
 	/**
 	 * The name of the waypoint typicall GC.... or OC.... or CW...... (can be

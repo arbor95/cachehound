@@ -29,7 +29,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
@@ -49,6 +48,7 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
@@ -1109,7 +1109,7 @@ public class SpiderGC {
 						// Logs
 						// ==========
 						pref.log("Trying logs");
-						ch.getFreshDetails().setCacheLogs(
+						ch.getFreshDetails().addCacheLogs(
 								getLogs(completeWebPage, ch.getFreshDetails()));
 						pref.log("Found logs");
 

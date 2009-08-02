@@ -2,11 +2,12 @@ package CacheWolf.gui;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.util.MyLocale;
 
 import com.stevesoft.ewe_pat.Regex;
+
+import de.cachehound.beans.CacheHolderDetail;
 
 import ewe.fx.Font;
 import ewe.sys.Vm;

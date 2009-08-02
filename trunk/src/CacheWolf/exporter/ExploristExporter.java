@@ -1,9 +1,9 @@
 package CacheWolf.exporter;
 
+import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;

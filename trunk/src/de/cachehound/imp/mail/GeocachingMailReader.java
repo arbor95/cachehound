@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.Preferences;
 import CacheWolf.gui.InfoBox;
-import CacheWolf.util.MyLocale;
 
 public class GeocachingMailReader {
 

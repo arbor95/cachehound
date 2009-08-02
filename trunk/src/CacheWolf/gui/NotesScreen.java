@@ -1,7 +1,7 @@
 package CacheWolf.gui;
 
+import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Dimension;
 import ewe.fx.mImage;

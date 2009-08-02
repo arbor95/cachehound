@@ -17,7 +17,6 @@ import java.net.URI;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugJourney;
 import CacheWolf.beans.TravelbugJourneyList;
@@ -25,6 +24,7 @@ import CacheWolf.beans.TravelbugList;
 import CacheWolf.controller.TravelbugPickup;
 import CacheWolf.util.MyLocale;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.util.SpiderService;
 import ewe.fx.Color;
 import ewe.fx.Dimension;

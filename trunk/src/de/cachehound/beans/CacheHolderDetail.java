@@ -1,35 +1,15 @@
-package CacheWolf.beans;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package de.cachehound.beans;
 
 import CacheWolf.Global;
-import CacheWolf.util.DataMover;
-import CacheWolf.util.Extractor;
+import CacheWolf.beans.Attributes;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheImages;
+import CacheWolf.beans.ImageInfo;
+import CacheWolf.beans.Travelbug;
+import CacheWolf.beans.TravelbugList;
 import CacheWolf.util.MyLocale;
-import CacheWolf.util.SafeXML;
-
-import de.cachehound.beans.Log;
-import de.cachehound.beans.LogList;
-import de.cachehound.factory.CacheHolderDetailFactory;
-import de.cachehound.factory.LogFactory;
-import de.cachehound.types.LogType;
-import de.cachehound.util.AllReader;
-import ewe.filechooser.FileChooser;
-import ewe.filechooser.FileChooserBase;
-import ewe.ui.FormBase;
-import ewe.ui.InputBox;
 
 public class CacheHolderDetail {
-
-	private static Logger logger = LoggerFactory
-			.getLogger(CacheHolderDetail.class);
 
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
@@ -66,39 +46,14 @@ public class CacheHolderDetail {
 	public CacheHolderDetail() {
 		// empty bean constructor
 	}
-	
+
 	/**
 	 * Adds a user image to the cache data
 	 * 
 	 * @param profile
 	 */
-	// TODO: Move me somewhere else
-	public void addUserImage(Profile profile) {
-		ewe.io.File imgFile;
-		String imgDesc, imgDestName;
-
-		// Get Image and description
-		FileChooser fc = new FileChooser(FileChooserBase.OPEN, profile.dataDir);
-		fc.setTitle("Select image file:");
-		if (fc.execute() != FormBase.IDCANCEL) {
-			imgFile = fc.getChosenFile();
-			imgDesc = new InputBox("Description").input("", 10);
-			// Create Destination Filename
-			String ext = imgFile.getFileExt().substring(
-					imgFile.getFileExt().lastIndexOf("."));
-			imgDestName = getParent().getWayPoint() + "_U_"
-					+ (this.getUserImages().size() + 1) + ext;
-
-			ImageInfo userImageInfo = new ImageInfo();
-			userImageInfo.setFilename(imgDestName);
-			userImageInfo.setTitle(imgDesc);
-			this.getUserImages().add(userImageInfo);
-			// Copy File
-			DataMover
-					.copy(imgFile.getFullPath(), profile.dataDir + imgDestName);
-			// Save Data
-			CacheHolderDetailFactory.getInstance().saveCacheDetails(this, Global.getProfile().getDataDir());
-		}
+	public void addUserImage(ImageInfo userImage) {
+		this.getUserImages().add(userImage);
 	}
 
 	public Attributes getAttributes() {
@@ -181,27 +136,32 @@ public class CacheHolderDetail {
 		return false;
 	}
 
+	public boolean hasUnsavedChanges() {
+		return unsavedChanges;
+	}
 
-	
 	public void setAttributes(Attributes attributes) {
 		this.attributes = attributes;
 	}
-
-	public void setCacheLogs(LogList newLogs) {
+	
+	public void addCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must
 			// start with oldest log
 			if (cacheLogs.add(newLogs.getLog(i)) >= 0)
 				getParent().setLog_updated(true);
 		}
-		int maxKeep = Global.getPref().maxLogsToKeep;
-		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
-		if (cacheLogs.purgeLogs(maxKeep, keepOwn) > 0) {
-			setUnsavedChanges(true);
-		}
 		getParent().setNoFindLogs(cacheLogs.countNotFoundLogs());
 	}
 
+	public void stripLogsToMaximum (int maxSize) {
+		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
+		if (cacheLogs.purgeLogs(maxSize, keepOwn) > 0) {
+			setUnsavedChanges(true);
+			getParent().setLog_updated(true);
+		}
+	}
+	
 	public void setCacheNotes(String notes) {
 		if (!cacheNotes.equals(notes))
 			getParent().setUpdated(true);
@@ -234,7 +194,7 @@ public class CacheHolderDetail {
 	public void setLongDescription(String longDescription) {
 		if (longDescription.equals(""))
 			getParent().setNew(true);
-		else if (!stripControlChars(longDescription).equals(
+		else if (!stripControlChars(this.longDescription).equals(
 				stripControlChars(longDescription)))
 			getParent().setUpdated(true);
 		this.longDescription = longDescription;
@@ -246,6 +206,10 @@ public class CacheHolderDetail {
 
 	public void setOwnLogId(String ownLogId) {
 		this.ownLogId = ownLogId;
+	}
+
+	public void setParent(CacheHolder parent) {
+		this.parent = parent;
 	}
 
 	public void setSolver(String solver) {
@@ -263,6 +227,10 @@ public class CacheHolderDetail {
 		this.travelbugs = travelbugs;
 	}
 
+	public void setUnsavedChanges(boolean unsavedChanges) {
+		this.unsavedChanges = unsavedChanges;
+	}
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -272,7 +240,7 @@ public class CacheHolderDetail {
 	}
 
 	private String stripControlChars(String desc) {
-		StringBuffer sb = new StringBuffer(desc.length());
+		StringBuilder sb = new StringBuilder(desc.length());
 		for (int i = 0; i < desc.length(); i++) {
 			char c = desc.charAt(i);
 			if (c > ' ')
@@ -289,11 +257,12 @@ public class CacheHolderDetail {
 	 *            new cache data
 	 * @return CacheHolder with updated data
 	 */
-	public CacheHolderDetail update(CacheHolderDetail newCh) {
+	public void update(CacheHolderDetail newCh) {
 		// flags
-		if (getParent().is_found() && getParent().getCacheStatus().equals(""))
+		// TODO: nicht so toll hier, CacheStatus sollte zu eine Enum werden.
+		if (getParent().is_found() && getParent().getCacheStatus().equals("")) {
 			getParent().setCacheStatus(MyLocale.getMsg(318, "Found"));
-
+		}
 		// travelbugs:GPX-File contains all actual travelbugs but not the
 		// missions
 		// we need to check whether the travelbug is already in the existing
@@ -303,8 +272,9 @@ public class CacheHolderDetail {
 			Travelbug tb = newCh.getTravelbugs().getTB(i);
 			Travelbug oldTB = this.getTravelbugs().find(tb.getName());
 			// If the bug is already in the cache, we keep it
-			if (oldTB != null)
+			if (oldTB != null) {
 				newCh.getTravelbugs().replace(i, oldTB);
+			}
 
 		}
 		this.setTravelbugs(newCh.getTravelbugs());
@@ -320,7 +290,7 @@ public class CacheHolderDetail {
 
 		setLongDescription(newCh.getLongDescription());
 		setHints(newCh.getHints());
-		setCacheLogs(newCh.getCacheLogs());
+		addCacheLogs(newCh.getCacheLogs());
 
 		if (newCh.getOwnLogId().length() > 0)
 			this.setOwnLogId(newCh.getOwnLogId());
@@ -334,18 +304,5 @@ public class CacheHolderDetail {
 
 		if (newCh.getSolver().length() > 0)
 			this.setSolver(newCh.getSolver());
-		return this;
-	}
-
-	public void setUnsavedChanges(boolean unsavedChanges) {
-		this.unsavedChanges = unsavedChanges;
-	}
-
-	public boolean hasUnsavedChanges() {
-		return unsavedChanges;
-	}
-
-	public void setParent(CacheHolder parent) {
-		this.parent = parent;
 	}
 }
