@@ -308,8 +308,8 @@ public class KMLExporter extends Exporter {
 		CacheHolderDetail det = ch.getExistingDetails();
 
 		strBuf.append("   <Placemark>\r\n");
-		if (det.URL != null) {
-			strBuf.append("      <description>" + SafeXML.clean(det.URL)
+		if (det.getUrl() != null) {
+			strBuf.append("      <description>" + SafeXML.clean(det.getUrl())
 					+ "</description>\r\n");
 		}
 		strBuf.append("      <name>" + ch.getWayPoint() + " - "

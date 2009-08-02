@@ -116,7 +116,7 @@ public class TravelbugJourneyScreen extends Form {
 					+ ch.getWayPoint() + " - " + ch.getCacheName();
 			waypoint = ch.getWayPoint();
 			chD = ch.getExistingDetails();
-			tblSrcCache = ch.getExistingDetails().Travelbugs;
+			tblSrcCache = ch.getExistingDetails().getTravelbugs();
 		}
 		title = "Travelbugs" + cache;
 		tcTbJourneyList = new tbListControl();
@@ -348,7 +348,7 @@ public class TravelbugJourneyScreen extends Form {
 			// If the list of travelbugs in the cache was modified, we need to
 			// save the cache too
 			if (chDmodified) {
-				ch.setHas_bugs(chD.Travelbugs.size() > 0);
+				ch.setHas_bugs(chD.getTravelbugs().size() > 0);
 				ch.save();
 			}
 			Vm.showWait(false);
@@ -634,7 +634,7 @@ public class TravelbugJourneyScreen extends Form {
 				if (selectedRow >= 0 && selectedRow < modTbJourneyList.numRows) {
 					Travelbug tb = tblMyTravelbugJourneys.getTBJourney(
 							selectedRow).getTb();
-					chD.Travelbugs.add(tb);
+					chD.getTravelbugs().add(tb);
 					tblMyTravelbugJourneys.addTbDrop(tb,
 							Global.getProfile().name, waypoint);
 					chDmodified = true;

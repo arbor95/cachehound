@@ -144,40 +144,40 @@ public class TritonGPXExporter extends Exporter {
 
 				strBuf.append("      ").append(
 						SafeXML.removeHtml(SafeXML
-								.strxmldecode(chdetail.LongDescription)))
+								.strxmldecode(chdetail.getLongDescription())))
 						.append("\r\n");
 
-				if (!(chdetail.Hints.length() == 0))
+				if (!(chdetail.getHints().length() == 0))
 					strBuf.append(" ######HINT!####### \r\n").append(
 							SafeXML.removeHtml(SafeXML.strxmldecode(Common
-									.rot13(chdetail.Hints))));
+									.rot13(chdetail.getHints()))));
 
 				strBuf.append("\r\n ######LOGS!###### \r\n");
-				int logCount = chdetail.CacheLogs.size();
+				int logCount = chdetail.getCacheLogs().size();
 				if (logCount > 5) {
 					logCount = 5;
 				}
 				for (int i = 0; i < logCount; ++i) {
-					if (chdetail.CacheLogs.getLog(i).getLogType() == LogType.FOUND) {
+					if (chdetail.getCacheLogs().getLog(i).getLogType() == LogType.FOUND) {
 						strBuf.append("[FOUND]");
-					} else if (chdetail.CacheLogs.getLog(i).getLogType() == LogType.DID_NOT_FOUND) {
+					} else if (chdetail.getCacheLogs().getLog(i).getLogType() == LogType.DID_NOT_FOUND) {
 						strBuf.append("[DNF]");
 					} else {
 						strBuf.append("[NOTE]");
 					}
-					strBuf.append(chdetail.CacheLogs.getLog(i).getDate());
+					strBuf.append(chdetail.getCacheLogs().getLog(i).getDate());
 					strBuf.append("").append("from:\"").append(
-							SafeXML.strxmldecode(chdetail.CacheLogs.getLog(i)
+							SafeXML.strxmldecode(chdetail.getCacheLogs().getLog(i)
 									.getLogger())).append("\" \r\n");
 					strBuf.append("").append(
 							SafeXML.removeHtml(SafeXML
-									.strxmldecode(chdetail.CacheLogs.getLog(i)
+									.strxmldecode(chdetail.getCacheLogs().getLog(i)
 											.getMessage()))).append(" \r\n");
 				}
 
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
 
-				if (chdetail.Hints.length() == 0)
+				if (chdetail.getHints().length() == 0)
 					// strBuf.append("\t <groundspeak:encoded_hints>No " +
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
@@ -196,7 +196,7 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("    </groundspeak:cache>\r\n");
 			} else {
 				strBuf.append("    <cmt>").append(
-						SafeXML.cleanGPX(chdetail.LongDescription)).append(
+						SafeXML.cleanGPX(chdetail.getLongDescription())).append(
 						"</cmt>\r\n");
 				strBuf.append("    <sym>").append(
 						CacheType.id2GpxString(ch.getType())).append(
@@ -226,8 +226,8 @@ public class TritonGPXExporter extends Exporter {
 		String imagePath = "";
 		String imageName = "";
 		String oldImageName = "";
-		for (int spoiler = 0; spoiler < ch.images.size(); ++spoiler) {
-			imageName = ch.images.get(spoiler).toString();
+		for (int spoiler = 0; spoiler < ch.getImages().size(); ++spoiler) {
+			imageName = ch.getImages().get(spoiler).toString();
 			if (imageName.equals(oldImageName)) {
 				continue;
 			}

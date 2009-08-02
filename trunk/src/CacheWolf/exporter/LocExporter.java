@@ -68,9 +68,9 @@ public class LocExporter extends Exporter {
 				strBuf.append(getShortDetails(ch));
 			}
 			CacheHolderDetail det = ch.getExistingDetails();
-			if ((!det.Hints.equals("null")) && (det.Hints.length() > 0)) {
+			if ((!det.getHints().equals("null")) && (det.getHints().length() > 0)) {
 				strBuf.append(":");
-				strBuf.append(simplifyString(Common.rot13(det.Hints)));
+				strBuf.append(simplifyString(Common.rot13(det.getHints())));
 			}
 		}
 		strBuf.append("]]></name>\r\n   <coord lat=\"");

@@ -51,11 +51,11 @@ public class SearchCache {
 						&& ch.getCacheName().toUpperCase().indexOf(searchStr) < 0
 						&& ch.getCacheStatus().toUpperCase().indexOf(searchStr) < 0
 						&& (!searchInDescriptionAndNotes || ch
-								.getExistingDetails().LongDescription
+								.getExistingDetails().getLongDescription()
 								.toUpperCase().indexOf(searchStr) < 0
 								&& ch.getExistingDetails().getCacheNotes()
 										.toUpperCase().indexOf(searchStr) < 0)
-						&& (!searchInLogs || ch.getExistingDetails().CacheLogs
+						&& (!searchInLogs || ch.getExistingDetails().getCacheLogs()
 								.allMessages().toUpperCase().indexOf(searchStr) < 0)) {
 					ch.is_flaged = false;
 				} else

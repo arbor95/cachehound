@@ -165,24 +165,24 @@ public class HTMLExporter {
 										modifyLongDesc(det, targetDir));
 							} else {
 								page_tpl.setParam("DESCRIPTION",
-										det.LongDescription.replace("\n",
+										det.getLongDescription().replace("\n",
 												"<br>"));
 							}
-							page_tpl.setParam("HINTS", det.Hints);
+							page_tpl.setParam("HINTS", det.getHints());
 							page_tpl.setParam("DECRYPTEDHINTS", Common
-									.rot13(det.Hints));
+									.rot13(det.getHints()));
 
 							StringBuffer sb = new StringBuffer(2000);
-							for (int j = 0; j < det.CacheLogs.size(); j++) {
+							for (int j = 0; j < det.getCacheLogs().size(); j++) {
 								sb
 										.append(LogFactory
 												.getInstance()
-												.toHtml(det.CacheLogs.getLog(j))
+												.toHtml(det.getCacheLogs().getLog(j))
 												.replace(
 														"http://www.geocaching.com/images/icons/",
 														""));
 								sb.append("<br>");
-								icon = det.CacheLogs.getLog(j).getLogType()
+								icon = det.getCacheLogs().getLog(j).getLogType()
 										.toIconString();
 								if (logIcons.find(icon) < 0)
 									logIcons.add(icon); // Add the icon to list
@@ -195,12 +195,12 @@ public class HTMLExporter {
 									.replace("\n", "<br>"));
 
 							cacheImg.clear();
-							for (int j = 0; j < det.images.size(); j++) {
+							for (int j = 0; j < det.getImages().size(); j++) {
 								imgParams = new Hashtable();
-								String imgFile = new String(det.images.get(j)
+								String imgFile = new String(det.getImages().get(j)
 										.getFilename());
 								imgParams.put("FILE", imgFile);
-								imgParams.put("TEXT", det.images.get(j)
+								imgParams.put("TEXT", det.getImages().get(j)
 										.getTitle());
 								if (DataMover.copy(profile.dataDir + imgFile,
 										targetDir + imgFile))
@@ -212,12 +212,12 @@ public class HTMLExporter {
 
 							// Log images
 							logImg.clear();
-							for (int j = 0; j < det.logImages.size(); j++) {
+							for (int j = 0; j < det.getLogImages().size(); j++) {
 								logImgParams = new Hashtable();
-								String logImgFile = det.logImages.get(j)
+								String logImgFile = det.getLogImages().get(j)
 										.getFilename();
 								logImgParams.put("FILE", logImgFile);
-								logImgParams.put("TEXT", det.logImages.get(j)
+								logImgParams.put("TEXT", det.getLogImages().get(j)
 										.getTitle());
 								if (DataMover.copy(
 										profile.dataDir + logImgFile, targetDir
@@ -230,12 +230,12 @@ public class HTMLExporter {
 
 							// User images
 							usrImg.clear();
-							for (int j = 0; j < det.userImages.size(); j++) {
+							for (int j = 0; j < det.getUserImages().size(); j++) {
 								usrImgParams = new Hashtable();
-								String usrImgFile = new String(det.userImages
+								String usrImgFile = new String(det.getUserImages()
 										.get(j).getFilename());
 								usrImgParams.put("FILE", usrImgFile);
-								usrImgParams.put("TEXT", det.userImages.get(j)
+								usrImgParams.put("TEXT", det.getUserImages().get(j)
 										.getTitle());
 								if (DataMover.copy(
 										profile.dataDir + usrImgFile, targetDir
@@ -375,15 +375,15 @@ public class HTMLExporter {
 	 * @return The modified long description
 	 */
 	private String modifyLongDesc(CacheHolderDetail chD, String targetDir) {
-		StringBuffer s = new StringBuffer(chD.LongDescription.length());
+		StringBuffer s = new StringBuffer(chD.getLongDescription().length());
 		int start = 0;
 		int pos;
 		int imageNo = 0;
 		Regex imgRex = new Regex("src=(?:\\s*[^\"|']*?)(?:\"|')(.*?)(?:\"|')");
 		while (start >= 0
-				&& (pos = chD.LongDescription.indexOf("<img", start)) > 0) {
-			s.append(chD.LongDescription.substring(start, pos));
-			imgRex.searchFrom(chD.LongDescription, pos);
+				&& (pos = chD.getLongDescription().indexOf("<img", start)) > 0) {
+			s.append(chD.getLongDescription().substring(start, pos));
+			imgRex.searchFrom(chD.getLongDescription(), pos);
 			String imgUrl = imgRex.stringMatched(1);
 			// Vm.debug("imgUrl "+imgUrl);
 			if (imgUrl.lastIndexOf('.') > 0
@@ -399,8 +399,8 @@ public class HTMLExporter {
 					// image links in the description (eg. because of importing
 					// GPX files). We have to allow for this situation.
 					Object localImageSource = null;
-					if (imageNo < chD.images.size()) {
-						localImageSource = chD.images.get(imageNo)
+					if (imageNo < chD.getImages().size()) {
+						localImageSource = chD.getImages().get(imageNo)
 								.getFilename();
 					}
 					if (localImageSource == null)
@@ -413,14 +413,14 @@ public class HTMLExporter {
 					imageNo++;
 				}
 			}
-			start = chD.LongDescription.indexOf(">", pos);
+			start = chD.getLongDescription().indexOf(">", pos);
 			if (start >= 0)
 				start++;
-			if (imageNo >= chD.images.size())
+			if (imageNo >= chD.getImages().size())
 				break;
 		}
 		if (start >= 0)
-			s.append(chD.LongDescription.substring(start));
+			s.append(chD.getLongDescription().substring(start));
 		return s.toString();
 	}
 

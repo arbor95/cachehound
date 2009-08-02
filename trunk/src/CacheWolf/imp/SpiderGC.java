@@ -355,14 +355,14 @@ public class SpiderGC {
 				if (pref.downloadPics) {
 					// delete obsolete images when we have current set
 					CacheImages.cleanupOldImages(
-							cacheInDB.getExistingDetails().images, ch
-									.getFreshDetails().images);
+							cacheInDB.getExistingDetails().getImages(), ch
+									.getFreshDetails().getImages());
 				} else {
 					// preserve images if not downloaded
 					// Änderung Florian für Mailupdate
 					// ch.getFreshDetails().images =
 					// cacheInDB.getExistingDetails().images;
-					ch.getFreshDetails().images = cacheInDB.getFreshDetails().images;
+					ch.getFreshDetails().setImages(cacheInDB.getFreshDetails().getImages());
 				}
 				cacheInDB.update(ch);
 				cacheInDB.save();
@@ -994,7 +994,7 @@ public class SpiderGC {
 						// int logsz = chD.CacheLogs.size();
 						// chD.CacheLogs.clear();
 						ch.addiWpts.clear();
-						ch.getFreshDetails().images.clear();
+						ch.getFreshDetails().getImages().clear();
 
 						if (completeWebPage.indexOf(p
 								.getProp("cacheUnavailable")) >= 0)
@@ -1027,20 +1027,20 @@ public class SpiderGC {
 						if (location.length() != 0) {
 							int countryStart = location.indexOf(",");
 							if (countryStart > -1) {
-								ch.getFreshDetails().Country = SafeXML
+								ch.getFreshDetails().setCountry(SafeXML
 										.cleanback(location.substring(
-												countryStart + 1).trim());
-								ch.getFreshDetails().State = SafeXML
+												countryStart + 1).trim()));
+								ch.getFreshDetails().setState(SafeXML
 										.cleanback(location.substring(0,
-												countryStart).trim());
+												countryStart).trim()));
 							} else {
-								ch.getFreshDetails().Country = location.trim();
-								ch.getFreshDetails().State = "";
+								ch.getFreshDetails().setCountry(location.trim());
+								ch.getFreshDetails().setState("");
 							}
 							pref.log("Got location (country/state)");
 						} else {
-							ch.getFreshDetails().Country = "";
-							ch.getFreshDetails().State = "";
+							ch.getFreshDetails().setCountry("");
+							ch.getFreshDetails().setState("");
 							pref.log("No location (country/state) found");
 						}
 
@@ -1070,7 +1070,7 @@ public class SpiderGC {
 						ch.getFreshDetails()
 								.setHints(getHints(completeWebPage));
 						if (pref.debug)
-							pref.log("Hints: " + ch.getFreshDetails().Hints);
+							pref.log("Hints: " + ch.getFreshDetails().getHints());
 						else
 							pref.log("Got hints");
 
@@ -1131,7 +1131,7 @@ public class SpiderGC {
 						if (!infB.isClosed && fetchTBs)
 							getBugs(ch.getFreshDetails(), completeWebPage);
 						ch
-								.setHas_bugs(ch.getFreshDetails().Travelbugs
+								.setHas_bugs(ch.getFreshDetails().getTravelbugs()
 										.size() > 0);
 
 						// ==========
@@ -1468,9 +1468,9 @@ public class SpiderGC {
 					&& pref.isMyAliasXML(name)) {
 				chD.getParent().setFound(true);
 				chD.getParent().setCacheStatus(d);
-				chD.OwnLogId = logId;
-				chD.OwnLog = LogFactory.getInstance().createLog(type, d, name,
-						logText);
+				chD.setOwnLogId(logId);
+				chD.setOwnLog(LogFactory.getInstance().createLog(type, d, name,
+						logText));
 			}
 			if (nLogs <= pref.maxLogsToSpider) {
 				reslts.add(LogFactory.getInstance().createLog(type, d, name,
@@ -1488,8 +1488,8 @@ public class SpiderGC {
 			// are waiting for
 			// a log by our alias that happened earlier.
 			if (nLogs >= pref.maxLogsToSpider && chD.getParent().is_found()
-					&& (chD.OwnLogId.length() != 0) && (chD.OwnLog != null)
-					&& !(chD.OwnLog.getDate().equals("1900-01-01")))
+					&& (chD.getOwnLogId().length() != 0) && (chD.getOwnLog() != null)
+					&& !(chD.getOwnLog().getDate().equals("1900-01-01")))
 				break;
 		}
 		if (nLogs > pref.maxLogsToSpider) {
@@ -1520,7 +1520,7 @@ public class SpiderGC {
 				.getProp("bugExEnd"), 0, Extractor.EXCLUDESTARTEND);
 		String link, bug, linkPlusBug, bugDetails;
 		String oldInfoBox = infB.getInfo();
-		chD.Travelbugs.clear();
+		chD.getTravelbugs().clear();
 		while (exBug.endOfSearch() == false) {
 			if (infB.isClosed)
 				break; // Allow user to cancel by closing progress form
@@ -1549,7 +1549,7 @@ public class SpiderGC {
 					// spider.def see also
 					// further down
 					tb.setGuid(exGuid.findNext());
-					chD.Travelbugs.add(tb);
+					chD.getTravelbugs().add(tb);
 				} catch (Exception ex) {
 					pref.log("Could not fetch bug details");
 				}
@@ -1584,7 +1584,7 @@ public class SpiderGC {
 		CacheHolder oldCh = Global.getProfile().cacheDB.get(chD.getParent()
 				.getWayPoint());
 		if (oldCh != null) {
-			lastImages = oldCh.getFreshDetails().images;
+			lastImages = oldCh.getFreshDetails().getImages();
 		}
 
 		// ========
@@ -1662,7 +1662,7 @@ public class SpiderGC {
 						imageInfo.setTitle(imgName);
 						imageInfo.setComment(null);
 						imgCounter++;
-						chD.images.add(imageInfo);
+						chD.getImages().add(imageInfo);
 					}
 				} catch (IndexOutOfBoundsException e) {
 					// Vm.debug("IndexOutOfBoundsException not in image
@@ -1745,7 +1745,7 @@ public class SpiderGC {
 							imgComment = imgComment.substring(0, imgComment
 									.length() - 6);
 						imageInfo.setComment(imgComment);
-						chD.images.add(imageInfo);
+						chD.getImages().add(imageInfo);
 					}
 				} catch (IndexOutOfBoundsException e) {
 					pref.log("IndexOutOfBoundsException in image span. imgURL:"
@@ -1801,7 +1801,7 @@ public class SpiderGC {
 							spiderCounter++;
 							imageInfo.setTitle(imgName);
 							imgCounter++;
-							chD.images.add(imageInfo);
+							chD.getImages().add(imageInfo);
 						}
 					}
 				} catch (IndexOutOfBoundsException e) {
@@ -1970,13 +1970,13 @@ public class SpiderGC {
 		Extractor attEx = new Extractor(atts, p.getProp("attExStart"), p
 				.getProp("attExEnd"), 0, true);
 		String attribute = attEx.findNext();
-		chD.attributes.clear();
+		chD.getAttributes().clear();
 		while (attEx.endOfSearch() == false) {
-			chD.attributes.add(attribute);
+			chD.getAttributes().add(attribute);
 			attribute = attEx.findNext();
 		}
-		chD.getParent().setAttributesYes(chD.attributes.attributesYes);
-		chD.getParent().setAttributesNo(chD.attributes.attributesNo);
+		chD.getParent().setAttributesYes(chD.getAttributes().attributesYes);
+		chD.getParent().setAttributesNo(chD.getAttributes().attributesNo);
 	}
 
 	/**

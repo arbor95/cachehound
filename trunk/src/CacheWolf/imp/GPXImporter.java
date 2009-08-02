@@ -195,7 +195,7 @@ public class GPXImporter extends MinML {
 		}
 
 		if (name.equals("link") && inWpt) {
-			holder.getFreshDetails().URL = atts.getValue("href");
+			holder.getFreshDetails().setUrl(atts.getValue("href"));
 			return;
 		}
 
@@ -288,15 +288,15 @@ public class GPXImporter extends MinML {
 			}
 			if (name.equals("groundspeak:log") || name.equals("log")
 					|| name.equals("terra:log")) {
-				holder.getFreshDetails().CacheLogs.add(LogFactory.getInstance()
+				holder.getFreshDetails().getCacheLogs().add(LogFactory.getInstance()
 						.createLog(logType, logDate, logFinder, logData));
 				if ((logType == LogType.FOUND || logType == LogType.PHOTO_TAKEN || logType == LogType.ATTENDED)
 						&& pref.isMyAlias(logFinder)) {
 					holder.setCacheStatus(logDate);
 					holder.setFound(true);
-					holder.getFreshDetails().OwnLogId = logId;
-					holder.getFreshDetails().OwnLog = LogFactory.getInstance()
-							.createLog(logType, logDate, logFinder, logData);
+					holder.getFreshDetails().setOwnLogId(logId);
+					holder.getFreshDetails().setOwnLog(LogFactory.getInstance()
+							.createLog(logType, logDate, logFinder, logData));
 				}
 				return;
 			}
@@ -309,7 +309,7 @@ public class GPXImporter extends MinML {
 			// Vm.debug("here ?!?!?");
 			// Vm.debug("could be new!!!!");
 			if (index == -1) {
-				holder.setNoFindLogs(holder.getFreshDetails().CacheLogs
+				holder.setNoFindLogs(holder.getFreshDetails().getCacheLogs()
 						.countNotFoundLogs());
 				holder.setNew(true);
 				cacheDB.add(holder);
@@ -337,7 +337,7 @@ public class GPXImporter extends MinML {
 							String text;
 							String orig;
 							String imgName;
-							orig = holder.getFreshDetails().LongDescription;
+							orig = holder.getFreshDetails().getLongDescription();
 							Extractor ex = new Extractor(orig, "<img src=\"",
 									">", 0, false);
 							text = ex.findNext();
@@ -345,14 +345,14 @@ public class GPXImporter extends MinML {
 							while (ex.endOfSearch() == false
 									&& spiderOK == true) {
 								// Vm.debug("Replacing: " + text);
-								if (num >= holder.getFreshDetails().images
+								if (num >= holder.getFreshDetails().getImages()
 										.size())
 									break;
-								imgName = holder.getFreshDetails().images.get(
+								imgName = holder.getFreshDetails().getImages().get(
 										num).getTitle();
-								holder.getFreshDetails().LongDescription = replace(
-										holder.getFreshDetails().LongDescription,
-										text, "[[Image: " + imgName + "]]");
+								holder.getFreshDetails().setLongDescription(replace(
+										holder.getFreshDetails().getLongDescription(),
+										text, "[[Image: " + imgName + "]]"));
 								num++;
 								text = ex.findNext();
 							}
@@ -368,7 +368,7 @@ public class GPXImporter extends MinML {
 				// Preserve images: Copy images from old cache version because
 				// here we didn't add
 				// any image information to the holder object.
-				holder.getFreshDetails().images = oldCh.getExistingDetails().images;
+				holder.getFreshDetails().setImages(oldCh.getExistingDetails().getImages());
 				oldCh.update(holder);
 				oldCh.save();
 			}
@@ -388,7 +388,7 @@ public class GPXImporter extends MinML {
 
 		if (name.equals("groundspeak:name") && inBug) {
 			Travelbug tb = new Travelbug(strData);
-			holder.getFreshDetails().Travelbugs.add(tb);
+			holder.getFreshDetails().getTravelbugs().add(tb);
 			holder.setHas_bugs(true);
 			return;
 		}
@@ -437,13 +437,13 @@ public class GPXImporter extends MinML {
 			return;
 		}
 		if (name.equals("url") && inWpt) {
-			holder.getFreshDetails().URL = strData;
+			holder.getFreshDetails().setUrl(strData);
 			return;
 		}
 
 		// Text for additional waypoints, no HTML
 		if (name.equals("cmt") && inWpt) {
-			holder.getFreshDetails().LongDescription = strData;
+			holder.getFreshDetails().setLongDescription(strData);
 			holder.setHTML(false);
 			return;
 		}
@@ -496,11 +496,11 @@ public class GPXImporter extends MinML {
 			return;
 		}
 		if (name.equals("groundspeak:country") || name.equals("country")) {
-			holder.getFreshDetails().Country = strData;
+			holder.getFreshDetails().setCountry(strData);
 			return;
 		}
 		if (name.equals("groundspeak:state") || name.equals("state")) {
-			holder.getFreshDetails().State = strData;
+			holder.getFreshDetails().setState(strData);
 			return;
 		}
 		if (name.equals("terra:size")) {
@@ -510,13 +510,13 @@ public class GPXImporter extends MinML {
 		if (name.equals("groundspeak:short_description")
 				|| name.equals("summary")) {
 			if (holder.is_HTML())
-				holder.getFreshDetails().LongDescription = SafeXML
+				holder.getFreshDetails().setLongDescription(SafeXML
 						.cleanback(strData)
-						+ "<br>"; // <br> needed because we also use a <br> in
+						+ "<br>"); // <br> needed because we also use a <br> in
 			// SpiderGC. Without it the comparison in
 			// ch.update fails
 			else
-				holder.getFreshDetails().LongDescription = strData + "\n";
+				holder.getFreshDetails().setLongDescription(strData + "\n");
 			return;
 		}
 
@@ -524,14 +524,16 @@ public class GPXImporter extends MinML {
 				|| name.equals("description")
 				|| name.equals("terra:description")) {
 			if (holder.is_HTML())
-				holder.getFreshDetails().LongDescription += SafeXML
-						.cleanback(strData);
+				holder.getFreshDetails().setLongDescription(
+						holder.getFreshDetails().getLongDescription() + SafeXML
+								.cleanback(strData));
 			else
-				holder.getFreshDetails().LongDescription += strData;
+				holder.getFreshDetails().setLongDescription(
+						holder.getFreshDetails().getLongDescription() + strData);
 			return;
 		}
 		if (name.equals("groundspeak:encoded_hints") || name.equals("hints")) {
-			holder.getFreshDetails().Hints = Common.rot13(strData);
+			holder.getFreshDetails().setHints(Common.rot13(strData));
 			return;
 		}
 
@@ -539,8 +541,8 @@ public class GPXImporter extends MinML {
 			// remove "&lt;br&gt;<br>" from the end
 			int indexTrash = strData.indexOf("&lt;br&gt;<br>");
 			if (indexTrash > 0)
-				holder.getFreshDetails().Hints = Common.rot13(strData
-						.substring(0, indexTrash));
+				holder.getFreshDetails().setHints(Common.rot13(strData
+						.substring(0, indexTrash)));
 			return;
 		}
 
@@ -586,7 +588,7 @@ public class GPXImporter extends MinML {
 		// just to be sure to have a spider object
 
 		if (fromTC) {
-			spider.getImages(holder.getFreshDetails().LongDescription, holder
+			spider.getImages(holder.getFreshDetails().getLongDescription(), holder
 					.getFreshDetails());
 		} else {
 			addr = "http://www.geocaching.com/seek/cache_details.aspx?wp="
