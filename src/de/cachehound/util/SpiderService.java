@@ -1,8 +1,8 @@
 package de.cachehound.util;
 
+import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.SpiderGC;

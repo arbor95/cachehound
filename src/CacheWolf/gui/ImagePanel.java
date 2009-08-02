@@ -1,7 +1,7 @@
 package CacheWolf.gui;
 
+import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;

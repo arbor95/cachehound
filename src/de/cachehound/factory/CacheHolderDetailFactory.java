@@ -9,12 +9,12 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.LogType;
 import de.cachehound.util.AllReader;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.SafeXML;

@@ -3,7 +3,6 @@ package CacheWolf.exporter;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheHolderDetail;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
@@ -15,6 +14,7 @@ import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 
 import ewe.filechooser.FileChooser;
