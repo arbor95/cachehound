@@ -4,8 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.6.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.5.8.jar" sourcepath="/home/tweety/Java-pakete/slf4j-1.5.8/slf4j-api-1.5.8-sources.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-ext-1.5.8.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.8.jar" sourcepath="lib/src/slf4j-api-1.5.8-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-ext-1.5.8.jar" sourcepath="lib/src/slf4j-ext-1.5.8-sources.jar"/>
 	<classpathentry kind="lib" path="lib/logback-classic-0.9.16.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-0.9.16.jar"/>
 	<classpathentry kind="lib" path="lib/ewe.jar" sourcepath="lib/src/Ewe149-Source-Java.zip"/>
