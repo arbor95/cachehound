@@ -140,7 +140,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		if (holder == null) {
 			return false;
 		}
-		holder.getFreshDetails().attributes.add("firstaid-yes.gif");
+		holder.getFreshDetails().getAttributes().add("firstaid-yes.gif");
 		holder.setUpdated(true);
 		holder.save();
 		return addLogEntry(gcNumber, LogType.NEEDS_MAINTENANCE, text,
@@ -234,7 +234,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 			return false;
 		}
 		Log log = createLogEntry(logType, messageText);
-		holder.getFreshDetails().CacheLogs.add(log);
+		holder.getFreshDetails().getCacheLogs().add(log);
 		holder.setLog_updated(true);
 		holder.save();
 		return true;

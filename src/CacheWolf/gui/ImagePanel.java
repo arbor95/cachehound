@@ -77,9 +77,9 @@ public class ImagePanel extends InteractivePanel {
 			clearImages();
 			thumb_size = ((pref.myAppWidth - 2 * padding) / 3);
 			thumb_size = thumb_size - padding;
-			int rowCounter = cache.images.getDisplayImages(
+			int rowCounter = cache.getImages().getDisplayImages(
 					cache.getParent().getWayPoint()).size()
-					+ cache.userImages.size();
+					+ cache.getUserImages().size();
 			rowCounter = (rowCounter / 3) + 1;
 			Rect r = new Rect(0, 0, pref.myAppWidth, rowCounter * thumb_size
 					+ rowCounter * padding + padding);
@@ -92,19 +92,19 @@ public class ImagePanel extends InteractivePanel {
 			addTitle(MyLocale.getMsg(340, "Cache Images:"));
 			locY = 20;
 			locX = padding;
-			addImages(cache.images.getDisplayImages(cache.getParent()
+			addImages(cache.getImages().getDisplayImages(cache.getParent()
 					.getWayPoint()));
 			// load user images
 			if (locCounter == 1 || locCounter == 2)
 				locY = locY + thumb_size;
 			// Vm.debug("thumb_size: " + Convert.toString(thumb_size));
 			// Vm.debug("locy after: " + Convert.toString(locY));
-			if (cache.userImages.size() > 0) {
+			if (cache.getUserImages().size() > 0) {
 				addTitle(MyLocale.getMsg(341, "User Images:"));
 				locY = locY + 20;
 				locX = padding;
 				locCounter = 0;
-				addImages(cache.userImages);
+				addImages(cache.getUserImages());
 			}
 			oldCache = cache;
 		} // cache!=oldCache

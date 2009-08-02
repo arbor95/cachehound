@@ -336,7 +336,7 @@ public class DetailsPanel extends CellPanel {
 		btnShowBug.repaintNow();
 		chcSize.setInt(ch.getCacheSize());
 
-		attV.showImages(ch.getCacheDetails(true).attributes);
+		attV.showImages(ch.getCacheDetails(true).getAttributes());
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
 			btnTerr.setText(MyLocale.getMsg(1001, "T") + ": -.-");
 			btnDiff.setText(MyLocale.getMsg(1000, "D") + ": -.-");
@@ -473,7 +473,7 @@ public class DetailsPanel extends CellPanel {
 				// false, pref);
 				// is.execute();
 				TravelbugInCacheScreen ts = new TravelbugInCacheScreen(
-						thisCache.getCacheDetails(true).Travelbugs.toHtml(),
+						thisCache.getCacheDetails(true).getTravelbugs().toHtml(),
 						"Travelbugs");
 				ts.execute(this.getFrame(), Gui.CENTER_FRAME);
 			} else if (ev.target == btnCenter) {
@@ -776,7 +776,7 @@ public class DetailsPanel extends CellPanel {
 		dirty_notes = false;
 		dirty_details = false;
 		setNeedsTableUpdate(false);
-		thisCache.getFreshDetails().hasUnsavedChanges = true;
+		thisCache.getFreshDetails().setUnsavedChanges(true);
 	}
 
 	private class TravelbugInCacheScreen extends Form {
@@ -834,7 +834,7 @@ public class DetailsPanel extends CellPanel {
 			public void popupMenuEvent(Object selectedItem) {
 				if (selectedItem == mnuPickupTB) {
 					Travelbug tb = TravelbugPickup.pickupTravelbug(thisCache
-							.getCacheDetails(true).Travelbugs);
+							.getCacheDetails(true).getTravelbugs());
 					if (tb != null) {
 						dirty_details = true;
 						// Get the list of my travelbugs
@@ -845,11 +845,11 @@ public class DetailsPanel extends CellPanel {
 								thisCache.getWayPoint());
 						tbjList.saveTravelbugsFile();
 						tbjList = null;
-						setHtml(thisCache.getCacheDetails(true).Travelbugs
+						setHtml(thisCache.getCacheDetails(true).getTravelbugs()
 								.toHtml());
 						repaint();
 						thisCache
-								.setHas_bugs(thisCache.getCacheDetails(true).Travelbugs
+								.setHas_bugs(thisCache.getCacheDetails(true).getTravelbugs()
 										.size() > 0);
 					}
 				} else if (selectedItem == mnuDropTB) {
@@ -861,16 +861,16 @@ public class DetailsPanel extends CellPanel {
 					tbs.execute();
 					if (tbs.selectedItem >= 0) {
 						Travelbug tb = tbl.getTB(tbs.selectedItem);
-						thisCache.getCacheDetails(true).Travelbugs.add(tb);
+						thisCache.getCacheDetails(true).getTravelbugs().add(tb);
 						tbjList.addTbDrop(tb, Global.getProfile().name,
 								thisCache.getWayPoint());
 					}
 					tbjList.saveTravelbugsFile();
 					tbjList = null;
 					thisCache
-							.setHas_bugs(thisCache.getCacheDetails(true).Travelbugs
+							.setHas_bugs(thisCache.getCacheDetails(true).getTravelbugs()
 									.size() > 0);
-					setHtml(thisCache.getCacheDetails(true).Travelbugs.toHtml());
+					setHtml(thisCache.getCacheDetails(true).getTravelbugs().toHtml());
 					repaint();
 					dirty_details = true;
 				} else

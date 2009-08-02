@@ -63,16 +63,16 @@ public class DescriptionPanel extends CellPanel {
 			isHtml = cache.is_HTML();
 			if (cache.isAddiWpt()) {
 				isHtml = cache.mainCache.is_HTML();
-				if (cache.getExistingDetails().LongDescription != null
-						&& cache.getExistingDetails().LongDescription.length() > 0)
-					desc = cache.getExistingDetails().LongDescription
+				if (cache.getExistingDetails().getLongDescription() != null
+						&& cache.getExistingDetails().getLongDescription().length() > 0)
+					desc = cache.getExistingDetails().getLongDescription()
 							+ (isHtml ? "<hr>\n" : "\n")
-							+ cache.mainCache.getExistingDetails().LongDescription;
+							+ cache.mainCache.getExistingDetails().getLongDescription();
 				else
-					desc = cache.mainCache.getExistingDetails().LongDescription;
+					desc = cache.mainCache.getExistingDetails().getLongDescription();
 			} else
 				// not an addi-wpt
-				desc = cache.getExistingDetails().LongDescription;
+				desc = cache.getExistingDetails().getLongDescription();
 		}
 		// HtmlDisplay does not show the <sup> tag correctly, so we need to
 		// replace with ^
@@ -93,7 +93,7 @@ public class DescriptionPanel extends CellPanel {
 				} else {
 					chImages = cache;
 				}
-				Images = chImages.getExistingDetails().images;
+				Images = chImages.getExistingDetails().getImages();
 				StringBuffer s = new StringBuffer(desc.length() + Images.size()
 						* 100);
 				int start = 0;
@@ -173,15 +173,15 @@ public class DescriptionPanel extends CellPanel {
 		sb.append("<hr><font size=\"+1\" color=\"red\">").append(
 				MyLocale.getMsg(202, "IMAGES").toUpperCase()).append("</font>");
 		sb.append("<br><br>");
-		for (int i = imagesShown; i < chD.images.size(); i++) {
-			sb.append(chD.images.get(i).getTitle()).append("<br>");
+		for (int i = imagesShown; i < chD.getImages().size(); i++) {
+			sb.append(chD.getImages().get(i).getTitle()).append("<br>");
 			// Show the additional text if there is one
-			if (chD.images.get(i).getComment() != null)
+			if (chD.getImages().get(i).getComment() != null)
 				sb.append("<font color='blue'>").append(
-						chD.images.get(i).getComment()).append("</font>");
+						chD.getImages().get(i).getComment()).append("</font>");
 			// Only show the image if images are enabled
 			if (Global.getPref().descShowImg)
-				sb.append("<img src=\"" + chD.images.get(i).getFilename()
+				sb.append("<img src=\"" + chD.getImages().get(i).getFilename()
 						+ "\"><br>");
 			sb.append("<br><br><hr>");
 		}

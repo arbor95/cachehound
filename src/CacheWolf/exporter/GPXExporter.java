@@ -79,7 +79,7 @@ public class GPXExporter extends Exporter {
 					"</name>\r\n");
 			if (ch.isAddiWpt()) {
 				strBuf.append("    <cmt>").append(
-						SafeXML.cleanGPX(det.LongDescription)).append(
+						SafeXML.cleanGPX(det.getLongDescription())).append(
 						"</cmt>\r\n");
 			}
 			strBuf.append("    <desc>").append(
@@ -143,26 +143,26 @@ public class GPXExporter extends Exporter {
 						.append("</groundspeak:terrain>\r\n");
 
 				strBuf.append("      <groundspeak:country>").append(
-						SafeXML.cleanGPX(det.Country)
+						SafeXML.cleanGPX(det.getCountry())
 								+ "</groundspeak:country>\r\n");
 				strBuf.append("      <groundspeak:state>").append(
-						SafeXML.cleanGPX(det.State)
+						SafeXML.cleanGPX(det.getState())
 								+ "</groundspeak:state>\r\n");
 
 				String dummyHTML = ch.is_HTML() ? STRING_TRUE : STRING_FALSE;
 				strBuf.append("      <groundspeak:long_description html=\"")
 						.append(dummyHTML).append("\">\r\n");
 				strBuf.append("      ").append(
-						SafeXML.cleanGPX(det.LongDescription));
+						SafeXML.cleanGPX(det.getLongDescription()));
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
 				strBuf.append("	  <groundspeak:encoded_hints>").append(
-						SafeXML.cleanGPX(Common.rot13(det.Hints))).append(
+						SafeXML.cleanGPX(Common.rot13(det.getHints()))).append(
 						"</groundspeak:encoded_hints>\r\n");
 				strBuf.append("      <groundspeak:logs>\r\n");
 				if (Global.getPref().exportGpxAsMyFinds && ch.is_found()) {
-					if (det.OwnLogId.length() != 0) {
+					if (det.getOwnLogId().length() != 0) {
 						strBuf.append("        <groundspeak:log id=\"").append(
-								det.OwnLogId).append("\">\r\n");
+								det.getOwnLogId()).append("\">\r\n");
 					} else {
 						strBuf.append("        <groundspeak:log id=\"").append(
 								Integer.toString(counter)).append("\">\r\n");
@@ -171,9 +171,9 @@ public class GPXExporter extends Exporter {
 							SafeXML.cleanGPX(ch.GetStatusDate())).append("T")
 							.append(SafeXML.cleanGPX(ch.GetStatusTime()))
 							.append(":00</groundspeak:date>\r\n");
-					if (det.OwnLog != null) {
+					if (det.getOwnLog() != null) {
 						strBuf.append("          <groundspeak:type>").append(
-								det.OwnLog.getLogType().toGcComType()).append(
+								det.getOwnLog().getLogType().toGcComType()).append(
 								"</groundspeak:type>\r\n");
 					} else {
 						strBuf
@@ -187,12 +187,12 @@ public class GPXExporter extends Exporter {
 							.append("\">").append(
 									SafeXML.cleanGPX(Global.getPref().myAlias))
 							.append("</groundspeak:finder>\r\n");
-					if (det.OwnLog != null) {
+					if (det.getOwnLog() != null) {
 						strBuf
 								.append(
 										"          <groundspeak:text encoded=\"False\">")
 								.append(
-										SafeXML.cleanGPX(det.OwnLog
+										SafeXML.cleanGPX(det.getOwnLog()
 												.getMessage())).append(
 										"</groundspeak:text>\r\n");
 					} else {
@@ -203,30 +203,30 @@ public class GPXExporter extends Exporter {
 				} else {
 					int numberOfLogs = java.lang.Math.min(
 							Global.getPref().numberOfLogsToExport,
-							det.CacheLogs.size());
+							det.getCacheLogs().size());
 					if (numberOfLogs < 0)
-						numberOfLogs = det.CacheLogs.size();
+						numberOfLogs = det.getCacheLogs().size();
 					for (int i = 0; i < numberOfLogs; i++) {
 						strBuf.append("        <groundspeak:log id=\"").append(
 								Integer.toString(i)).append("\">\r\n");
 						strBuf.append("          <groundspeak:date>").append(
-								SafeXML.cleanGPX(det.CacheLogs.getLog(i)
+								SafeXML.cleanGPX(det.getCacheLogs().getLog(i)
 										.getDate())).append(
 								"T00:00:00</groundspeak:date>\r\n");
 						strBuf.append("          <groundspeak:type>").append(
-								det.CacheLogs.getLog(i).getLogType()
+								det.getCacheLogs().getLog(i).getLogType()
 										.toGcComType()).append(
 								"</groundspeak:type>\r\n");
 						strBuf.append("          <groundspeak:finder id=\"\">")
 								.append(
-										SafeXML.cleanGPX(det.CacheLogs
+										SafeXML.cleanGPX(det.getCacheLogs()
 												.getLog(i).getLogger()))
 								.append("</groundspeak:finder>\r\n");
 						strBuf
 								.append(
 										"          <groundspeak:text encoded=\"False\">")
 								.append(
-										SafeXML.cleanGPX(det.CacheLogs
+										SafeXML.cleanGPX(det.getCacheLogs()
 												.getLog(i).getMessage()))
 								.append("</groundspeak:text>\r\n");
 						strBuf.append("        </groundspeak:log>\r\n");
@@ -234,15 +234,15 @@ public class GPXExporter extends Exporter {
 				}
 				strBuf.append("      </groundspeak:logs>\r\n");
 				if (Global.getPref().exportTravelbugs
-						&& (det.Travelbugs.size() > 0)) {
-					det.Travelbugs.size();
+						&& (det.getTravelbugs().size() > 0)) {
+					det.getTravelbugs().size();
 					strBuf.append("      <groundspeak:travelbugs>\r\n");
-					for (int i = 0; i < det.Travelbugs.size(); i++) {
+					for (int i = 0; i < det.getTravelbugs().size(); i++) {
 						strBuf.append("        <groundspeak:travelbug id=\"")
 								.append(Integer.toString(i)).append(
 										"\" ref=\"TB\">\r\n");
 						strBuf.append("          <groundspeak:name>").append(
-								SafeXML.cleanGPX(det.Travelbugs.getTB(i)
+								SafeXML.cleanGPX(det.getTravelbugs().getTB(i)
 										.getName())).append(
 								"</groundspeak:name>\r\n");
 						strBuf.append("        </groundspeak:travelbug>\r\n");

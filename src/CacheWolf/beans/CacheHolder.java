@@ -18,6 +18,7 @@ import CacheWolf.util.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.LogList;
+import de.cachehound.factory.CacheHolderDetailFactory;
 
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -37,7 +38,7 @@ public class CacheHolder {
 	private static Logger logger = LoggerFactory.getLogger(CacheHolder.class);
 
 	protected static final String NOBEARING = "?";
-	protected static final String EMPTY = "";
+	public static final String EMPTY = "";
 
 	/**
 	 * Cachestatus is Found, Not found or a date in format yyyy-mm-dd hh:mm for
@@ -261,7 +262,7 @@ public class CacheHolder {
 				// forceload of details, creates waypoint.xml if missing
 				details = getCacheDetails(true, false);
 				// make sure details get (re)written in new format
-				details.hasUnsavedChanges = true;
+				details.setUnsavedChanges(true);
 				// update information on notes and solver info
 				setHasNote(!details.getCacheNotes().equals(""));
 				setHasSolver(!details.getSolver().equals(""));
@@ -411,11 +412,11 @@ public class CacheHolder {
 			if (this.detailsLoaded()) {
 				CacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
-					recommendationScore = chD.CacheLogs
+					recommendationScore = chD.getCacheLogs()
 							.getRecommendationRating();
-					setNumFoundsSinceRecommendation(chD.CacheLogs
+					setNumFoundsSinceRecommendation(chD.getCacheLogs()
 							.getFoundsSinceRecommendation());
-					setNumRecommended(chD.CacheLogs.getNumRecommended());
+					setNumRecommended(chD.getCacheLogs().getNumRecommended());
 				} else { // cache doesn't have details
 					recommendationScore = -1;
 					setNumFoundsSinceRecommendation(-1);
@@ -599,11 +600,11 @@ public class CacheHolder {
 
 	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
 		if (details == null) {
-
-			details = new CacheHolderDetail(this);
 			try {
-				details.readCache(Global.getProfile().dataDir);
+				details = CacheHolderDetailFactory.getInstance().createCacheHolderDetailFromFile(this, Global.getProfile().getDataDir());
 			} catch (IOException e) {
+				// create emtpy chd for later
+				details = CacheHolderDetailFactory.getInstance().createEmptyCacheHolderDetail(this);
 				if (!maybenew) {
 					logger.error("Could not read details for waypoint "
 							+ getWayPoint(), e);
@@ -663,12 +664,12 @@ public class CacheHolder {
 	 * profiles directory. The waypoint of the cache should be set to do so.
 	 */
 	public void save() {
-		this.getFreshDetails().saveCacheDetails(Global.getProfile().dataDir);
+		CacheHolderDetailFactory.getInstance().saveCacheDetails(this.getFreshDetails(), Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {
-		if (details != null && details.hasUnsavedChanges) {
-			details.saveCacheDetails(Global.getProfile().dataDir);
+		if (details != null && details.hasUnsavedChanges()) {
+			save();
 		}
 		details = null;
 		cachesWithLoadedDetails.remove(this.getWayPoint());
@@ -708,9 +709,8 @@ public class CacheHolder {
 			ch = Global.getProfile().cacheDB.get(wp);
 			if (ch != null) {
 				chD = ch.getExistingDetails();
-				if (chD != null && chD.hasUnsavedChanges) {
-					// ch.calcRecommendationScore();
-					chD.saveCacheDetails(Global.getProfile().dataDir);
+				if (chD != null && chD.hasUnsavedChanges()) {
+					ch.save();
 				}
 			}
 		}

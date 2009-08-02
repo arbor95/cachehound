@@ -927,4 +927,8 @@ public class Profile {
 	public void setCurrentFilter(FilterData currentFilter) {
 		this.currentFilter = currentFilter;
 	}
+
+	public java.io.File getDataDir() {
+		return new java.io.File(dataDir);
+	}
 }

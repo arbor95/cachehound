@@ -246,24 +246,24 @@ public class TPLExporter {
 						varParams.put("STATUS_DATE", ch.GetStatusDate());
 						varParams.put("STATUS_TIME", ch.GetStatusTime());
 						varParams.put("DATE", ch.getDateHidden());
-						varParams.put("URL", det.URL);
+						varParams.put("URL", det.getUrl());
 						varParams.put("GC_LOGTYPE", (ch.is_found() ? "Found it"
 								: "Didn't find it"));
-						varParams.put("DESCRIPTION", det.LongDescription);
+						varParams.put("DESCRIPTION", det.getLongDescription());
 						if (myFilter.badChars != null) {
 							varParams.put("NAME", rex.replaceAll(ch
 									.getCacheName()));
 							varParams.put("NOTES", rex.replaceAll(det
 									.getCacheNotes()));
-							varParams.put("HINTS", rex.replaceAll(det.Hints));
+							varParams.put("HINTS", rex.replaceAll(det.getHints()));
 							varParams.put("DECRYPTEDHINTS", rex
-									.replaceAll(Common.rot13(det.Hints)));
+									.replaceAll(Common.rot13(det.getHints())));
 						} else {
 							varParams.put("NAME", ch.getCacheName());
 							varParams.put("NOTES", det.getCacheNotes());
-							varParams.put("HINTS", det.Hints);
+							varParams.put("HINTS", det.getHints());
 							varParams.put("DECRYPTEDHINTS", Common
-									.rot13(det.Hints));
+									.rot13(det.getHints()));
 						}
 						cache_index.add(varParams);
 					} catch (Exception e) {

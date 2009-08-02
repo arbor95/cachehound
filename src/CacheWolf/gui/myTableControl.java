@@ -364,7 +364,7 @@ public class myTableControl extends TableControl {
 
 				if (Desktop.isDesktopSupported()) {
 					try {
-						Desktop.getDesktop().browse(new URI(chD.URL));
+						Desktop.getDesktop().browse(new URI(chD.getUrl()));
 					} catch (IOException e) {
 						Global.getPref().log(
 								"Fehler beim Aufrufen des Browsers.", e);
