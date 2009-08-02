@@ -27,7 +27,8 @@ public class TrackPoint {
 	}
 
 	public boolean equals(TrackPoint tp) {
-		return latDec == tp.latDec && lonDec == tp.lonDec;
+		return (Math.abs(latDec - tp.latDec) < 1e-10) &&
+				(Math.abs(lonDec - tp.lonDec) < 1e-10);
 	}
 
 	/**
