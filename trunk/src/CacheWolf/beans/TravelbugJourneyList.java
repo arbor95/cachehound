@@ -103,7 +103,7 @@ public class TravelbugJourneyList extends MinML {
 
 	// Variables needed for reading the TB list
 	private String lastName;
-	private StringBuffer xmlElement = new StringBuffer(200);
+	private StringBuilder xmlElement = new StringBuilder(200);
 	private TravelbugJourney tbJ;
 
 	/**

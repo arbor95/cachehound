@@ -172,7 +172,7 @@ public class HTMLExporter {
 							page_tpl.setParam("DECRYPTEDHINTS", Common
 									.rot13(det.getHints()));
 
-							StringBuffer sb = new StringBuffer(2000);
+							StringBuilder sb = new StringBuilder(2000);
 							for (int j = 0; j < det.getCacheLogs().size(); j++) {
 								sb
 										.append(LogFactory
@@ -375,7 +375,7 @@ public class HTMLExporter {
 	 * @return The modified long description
 	 */
 	private String modifyLongDesc(CacheHolderDetail chD, String targetDir) {
-		StringBuffer s = new StringBuffer(chD.getLongDescription().length());
+		StringBuilder s = new StringBuilder(chD.getLongDescription().length());
 		int start = 0;
 		int pos;
 		int imageNo = 0;

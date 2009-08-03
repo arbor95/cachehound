@@ -102,7 +102,7 @@ public class SafeXML {
 		if (htmlString != null
 				&& (indexStart = htmlString.indexOf(ENTITY_START)) >= 0) {
 			// copy everything from the beginning to entity start into buffer
-			StringBuffer isoBuffer = new StringBuffer(htmlString.substring(0,
+			StringBuilder isoBuffer = new StringBuilder(htmlString.substring(0,
 					indexStart));
 			while (indexStart >= 0) {
 				int indexEnd = htmlString.indexOf(ENTITY_END, indexStart + 1);
@@ -206,7 +206,7 @@ public class SafeXML {
 		if (text == null)
 			return null;
 		int originalTextLength = text.length();
-		StringBuffer sb = new StringBuffer(originalTextLength * 110 / 100);
+		StringBuilder sb = new StringBuilder(originalTextLength * 110 / 100);
 		int charsToAppend = 0;
 		for (int i = 0; i < originalTextLength; i++) {
 			char c = text.charAt(i);
@@ -270,13 +270,13 @@ public class SafeXML {
 	public static String strxmlencode(String src) {
 		int i, slen;
 		char tmp[];
-		StringBuffer dst;
+		StringBuilder dst;
 
 		if (src == null)
 			return (null);
 
 		slen = src.length();
-		dst = new StringBuffer(slen);
+		dst = new StringBuilder(slen);
 		tmp = new char[slen];
 		src.getChars(0, slen, tmp, 0);
 		for (i = 0; i < slen; ++i)
@@ -304,14 +304,14 @@ public class SafeXML {
 	public static String strxmldecode(String src) {
 		int i, j, slen;
 		char ch, tmp[];
-		StringBuffer dst;
+		StringBuilder dst;
 		boolean isinval;
 
 		if (src == null)
 			return (null);
 
 		slen = src.length();
-		dst = new StringBuffer(slen);
+		dst = new StringBuilder(slen);
 		tmp = new char[slen];
 		src.getChars(0, slen, tmp, 0);
 		i = 0;

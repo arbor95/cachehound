@@ -217,7 +217,7 @@ public class SpiderGC {
 				// Ok now login!
 				try {
 					pref.log("[login]:Logging in as " + pref.myAlias);
-					StringBuffer sb = new StringBuffer(1000);
+					StringBuilder sb = new StringBuilder(1000);
 					sb.append(URL.encodeURL("__VIEWSTATE", false));
 					sb.append("=");
 					sb.append(URL.encodeURL(viewstate, false));
@@ -2076,7 +2076,7 @@ public class SpiderGC {
 	private static String getResponseHeaders(HttpConnection conn) {
 		PropertyList pl = conn.documentProperties;
 		if (pl != null) {
-			StringBuffer sb = new StringBuffer(1000);
+			StringBuilder sb = new StringBuilder(1000);
 			boolean gotany = false;
 
 			for (int i = 0; i < pl.size(); i++) {

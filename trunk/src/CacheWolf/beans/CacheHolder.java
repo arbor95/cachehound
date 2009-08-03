@@ -20,7 +20,6 @@ import com.stevesoft.ewe_pat.Regex;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
-
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
 import ewe.sys.Convert;
@@ -435,7 +434,7 @@ public class CacheHolder {
 	public String toXML() {
 		calcRecommendationScore();
 
-		StringBuffer sb = new StringBuffer(530); // Used in toXML()
+		StringBuilder sb = new StringBuilder(530); // Used in toXML()
 
 		sb.append("    <CACHE ");
 		sb.append(" name = \"");

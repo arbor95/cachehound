@@ -411,7 +411,7 @@ public class MapInfoObject extends Area {
 					"map not calibrated")));
 		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
 				mapsPath + "/" + mapFileName + ".wfl")));
-		StringBuffer towriteB = new StringBuffer(400);
+		StringBuilder towriteB = new StringBuilder(400);
 		towriteB.append(Convert.toString(affine[0])).append("\n");
 		towriteB.append(Convert.toString(affine[1])).append("\n");
 		towriteB.append(Convert.toString(affine[2])).append("\n");

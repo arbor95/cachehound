@@ -32,7 +32,7 @@ public class GPXExporter extends Exporter {
 	}
 
 	public String header() {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		Time tim = new Time();
 
 		strBuf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
@@ -54,7 +54,7 @@ public class GPXExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon, int counter) {
-		StringBuffer strBuf = new StringBuffer(1000);
+		StringBuilder strBuf = new StringBuilder(1000);
 		CacheHolderDetail det = ch.getExistingDetails();
 		try {
 			strBuf

@@ -25,7 +25,7 @@ public class MSARCSVExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon) {
-		StringBuffer str = new StringBuffer(200);
+		StringBuilder str = new StringBuilder(200);
 		str.append("\"" + ch.getWayPoint() + " - " + ch.getCacheName() + "\";");
 		str.append(lat + ";" + lon + ";");
 		str.append("\"" + CacheType.cw2ExportString(ch.getType()) + "\";");

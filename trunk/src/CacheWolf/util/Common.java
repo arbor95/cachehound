@@ -78,9 +78,9 @@ public final class Common {
 	}
 
 	public static String stringToHex(String str) {
-		StringBuffer strBuf = new StringBuffer();
-		StringBuffer strHex = new StringBuffer();
-		StringBuffer strTxt = new StringBuffer();
+		StringBuilder strBuf = new StringBuilder();
+		StringBuilder strHex = new StringBuilder();
+		StringBuilder strTxt = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
 			strHex.append(Convert.longToHexString(str.charAt(i)) + " ");
 			strTxt.append(str.charAt(i) + "  ");

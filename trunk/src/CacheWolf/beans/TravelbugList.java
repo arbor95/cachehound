@@ -94,7 +94,7 @@ public class TravelbugList extends MinML {
 	/** Return list of travelbugs in HTML representation */
 	public String toHtml() {
 		int size = tbList.size();
-		StringBuffer s = new StringBuffer(size * 300);
+		StringBuilder s = new StringBuilder(size * 300);
 		for (int i = 0; i < size; i++) {
 			s.append(getTB(i).toHtml());
 		}
@@ -104,7 +104,7 @@ public class TravelbugList extends MinML {
 	/** Return list of travelbugs in XML representation */
 	public String toXML() {
 		int size = tbList.size();
-		StringBuffer s = new StringBuffer(size * 300);
+		StringBuilder s = new StringBuilder(size * 300);
 		s.append("<TRAVELBUGS>\n");
 		for (int i = 0; i < size; i++) {
 			s.append(getTB(i).toXML());
@@ -121,7 +121,7 @@ public class TravelbugList extends MinML {
 	 */
 	private String lastName = "";
 	private Travelbug tb;
-	private StringBuffer xmlElement = new StringBuffer(200);
+	private StringBuilder xmlElement = new StringBuilder(200);
 
 	/**
 	 * Parse the travelbug part of a cache. The XML String passed as an argument

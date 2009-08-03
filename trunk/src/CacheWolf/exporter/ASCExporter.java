@@ -16,7 +16,7 @@ public class ASCExporter extends Exporter {
 	}
 
 	public String record(CacheHolder holder, String lat, String lon) {
-		StringBuffer strBuf = new StringBuffer(100);
+		StringBuilder strBuf = new StringBuilder(100);
 		String dummy;
 		dummy = holder.getCacheName();
 		dummy = dummy.replace(',', ' ');

@@ -23,7 +23,7 @@ public class TritonGPXExporter extends Exporter {
 	}
 
 	public String header() {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		Time tim = new Time();
 
 		strBuf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
@@ -42,7 +42,7 @@ public class TritonGPXExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon) {
-		StringBuffer strBuf = new StringBuffer(1000);
+		StringBuilder strBuf = new StringBuilder(1000);
 		CacheHolderDetail chdetail = ch.getExistingDetails();
 		try {
 			strBuf

@@ -514,7 +514,7 @@ public class GpxExportNg {
 		if (!ch.pos.isValid())
 			return "";
 
-		StringBuffer ret = new StringBuffer();
+		StringBuilder ret = new StringBuilder();
 		ch.getFreshDetails();
 
 		try {
@@ -552,7 +552,7 @@ public class GpxExportNg {
 	 */
 	private String formatCompact(CacheHolder ch) {
 
-		StringBuffer ret = new StringBuffer();
+		StringBuilder ret = new StringBuilder();
 
 		// .concat("\t\t<desc>@@WPDESC@@</desc>\n")
 
@@ -796,7 +796,7 @@ public class GpxExportNg {
 	 */
 	public String formatLogs(CacheHolder ch) {
 		LogList logs = ch.getFreshDetails().getCacheLogs();
-		StringBuffer ret = new StringBuffer();
+		StringBuilder ret = new StringBuilder();
 		String fid = "";
 
 		if (exportStyle == STYLE_GPX_MYFINDS)
@@ -875,7 +875,7 @@ public class GpxExportNg {
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
 			return ch.details.getLongDescription();
 		} else {
-			StringBuffer ret = new StringBuffer();
+			StringBuilder ret = new StringBuilder();
 			String delim = "";
 			ret.append(ch.details.getLongDescription());
 			if (ch.is_HTML()) {

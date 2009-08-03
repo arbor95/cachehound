@@ -889,7 +889,7 @@ public class Parser {
 		Regex rex = new Regex("sk\\(.*?\\)", "");
 		Global.mainTab.solverP.mText.setText(rex
 				.replaceFirst(Global.mainTab.solverP.mText.getText()));
-		StringBuffer op = new StringBuffer(1000);
+		StringBuilder op = new StringBuilder(1000);
 		// Check for sk(number)
 		if (nStages > 0 && nStages < 30) { // e.g. sk(3)
 			/*

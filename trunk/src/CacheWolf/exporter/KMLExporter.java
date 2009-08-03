@@ -236,7 +236,7 @@ public class KMLExporter extends Exporter {
 	}
 
 	private String startFolder(String name, boolean open) {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		strBuf.append("<Folder>\r\n");
 		strBuf.append("<name>" + name + "</name>\r\n");
 		strBuf.append("<open>" + (open ? "1" : "0") + "</open>\r\n");
@@ -284,7 +284,7 @@ public class KMLExporter extends Exporter {
 	}
 
 	public String header() {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 
 		strBuf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
 		strBuf.append("<kml xmlns=\"http://earth.google.com/kml/2.0\">\r\n");
@@ -296,7 +296,7 @@ public class KMLExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon) {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		CacheHolderDetail det = ch.getExistingDetails();
 
 		strBuf.append("   <Placemark>\r\n");
@@ -338,7 +338,7 @@ public class KMLExporter extends Exporter {
 	}
 
 	public String trailer() {
-		StringBuffer strBuf = new StringBuffer(50);
+		StringBuilder strBuf = new StringBuilder(50);
 
 		strBuf.append("</Folder>\r\n");
 		strBuf.append("</kml>\r\n");

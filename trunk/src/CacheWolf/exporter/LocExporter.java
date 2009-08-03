@@ -45,7 +45,7 @@ public class LocExporter extends Exporter {
 		// filter out not valid coords
 		if (!ch.pos.isValid())
 			return null;
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		strBuf.append("<waypoint>\r\n   <name id=\"");
 		String wptName = simplifyString(ch.getWayPoint());
 		if (Global.getPref().addDetailsToWaypoint) {

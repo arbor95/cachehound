@@ -329,7 +329,7 @@ public class TravelbugJourney {
 	 * Returns an XML representation of a TravelbugJourney for storing in a file
 	 */
 	public String toXML() {
-		StringBuffer s = new StringBuffer(200);
+		StringBuilder s = new StringBuilder(200);
 		s.append("  <tbj");
 		appendElem(s, "id", tb.getGuid(), false);
 		appendElem(s, "trackingNo", tb.getTrackingNo(), false);
@@ -349,7 +349,7 @@ public class TravelbugJourney {
 		return s.toString();
 	}
 
-	private void appendElem(StringBuffer s, String name, String value,
+	private void appendElem(StringBuilder s, String name, String value,
 			boolean clean) {
 		s.append(" ");
 		s.append(name);
