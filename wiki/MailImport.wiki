@@ -29,7 +29,7 @@ Während Longin-Name, Passwort und Server wohl noch selbsterklärend sind, ist d
 || POP3S || Abholung per POP3-Protokol + SSL, verschlüsselt || Mails können nicht markiert werden, bleiben neu und müssen etwa mit einem EMailProgramm abgerufen/gelöscht werden. ||
 
 = Bekannte Probleme =
-Wenn die Verarbeitung einer Mail zu lange dauert (Zeit noch unbekannt, tritt bei mir auf, wenn ich eine PQ einlese und deren Bilder nachlade), bricht die Mailverarbeitung auf Grund eines Timeouts seitens des Servers ab. Dabei werden die verarbeiteten Mails auch nicht als gelesen markiert. Dieses müssen dann entweder per Hand als bereits gelesen markiert werden oder aber bei nächsten aufruf der Funktion werden die Daten nochmals runtergeladen und verarbeitet (Da bei bereits importieren Caches die Bilder nicht neu gespidert werden, geht das entsprechend schnell, aber je nach Internetverbindung kann das Runterladen der PQ-Datei selber ziemlich zeitraubend sein).
+~~Wenn die Verarbeitung einer Mail zu lange dauert (Zeit noch unbekannt, tritt bei mir auf, wenn ich eine PQ einlese und deren Bilder nachlade), bricht die Mailverarbeitung auf Grund eines Timeouts seitens des Servers ab. Dabei werden die verarbeiteten Mails auch nicht als gelesen markiert. Dieses müssen dann entweder per Hand als bereits gelesen markiert werden oder aber bei nächsten aufruf der Funktion werden die Daten nochmals runtergeladen und verarbeitet (Da bei bereits importieren Caches die Bilder nicht neu gespidert werden, geht das entsprechend schnell, aber je nach Internetverbindung kann das Runterladen der PQ-Datei selber ziemlich zeitraubend sein).~~
 
 Folgendes Verhalten kann auftreten wenn sowohl Notifys wie auch PQs genutzt werden: Wenn ein Log nachträglich verändert wird, kann es passieren, dass dieses zwei mal in der Datenbank gespeichert wird. Einmal in der Form wie es per Mail zugestellt wurde. Das andere mal in der Form, wie es per PQ zugestellt wurde. Verhindern liese sich das wohl nur, wenn man pro User nur ein Log pro Typ und Tag zulässt. Da aber nicht entschieden werden kann, welches das "informativere" Log ist, wird bewusst darauf verzichtet hier eins von beiden zu löschen.
 
@@ -46,7 +46,7 @@ Folgendes Verhalten kann auftreten wenn sowohl Notifys wie auch PQs genutzt werd
 || disable Listing || Cache wird auf inaktiv gesetzt ||
 
 = Zukünftig geplante Änderungen = 
- * Verhindern, dass ein Timeout entsteht.
- * Verarbeiten von Watchlist-Mails.
- * Unterstützung von Ordnern bei IMAP inkl. Verschieben.
+ * ~~Verhindern, dass ein Timeout entsteht.~~ *done*
+ * Verarbeiten von Watchlist-Mails. _(Doch nicht so einfach => keine GCNummer sondern nur die ID.)_
+ * ~~Unterstützung von Ordnern bei IMAP inkl. Verschieben.~~ *done*
  * Verbesserte Ausgaben bei Fehlern
