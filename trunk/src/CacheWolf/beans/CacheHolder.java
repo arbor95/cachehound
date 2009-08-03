@@ -145,12 +145,7 @@ public class CacheHolder {
 	/** True if a note is entered for the cache */
 	private boolean hasNote = false;
 	public CacheHolderDetail details = null;
-	/**
-	 * When sorting the cacheDB this field is used. The relevant field is copied
-	 * here and the sort is always done on this field to speed up the sorting
-	 * process
-	 */
-	public String sort;
+
 	private static StringBuffer sb = new StringBuffer(530); // Used in toXML()
 
 	private long attributesYes = 0;
@@ -396,7 +391,6 @@ public class CacheHolder {
 		this.setNoFindLogs(ch.getNoFindLogs());
 		this.setHas_bugs(ch.has_bugs());
 		this.setHTML(ch.is_HTML());
-		this.sort = ch.sort;
 		this.setLastSync(ch.getLastSync());
 
 		this.setAttributesYes(ch.getAttributesYes());

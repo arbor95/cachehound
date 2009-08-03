@@ -234,4 +234,8 @@ public class CacheDB {
 			hashDB.put(ch2.getWayPoint(), i);
 		}
 	}
+	
+	public List<CacheHolder> toList() {
+		return new ArrayList<CacheHolder>(vectorDB);
+	}
 }
