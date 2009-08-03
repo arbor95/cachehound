@@ -51,9 +51,6 @@ public class CacheList extends CellPanel {
 	/** The extension for cachelists (CL) */
 	private final String EXTENSION = "CL";
 	private final String TITLE = MyLocale.getMsg(188, "CACHETOUR: NEW");
-	private static int applyCount = 0; // Counts the number of times we apply
-
-	// the list
 
 	public CacheList() {
 		this.setPreferredSize(100, -1);
