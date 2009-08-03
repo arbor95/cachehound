@@ -1,12 +1,10 @@
 package CacheWolf.beans;
 
-import java.util.Comparator;
-
 import CacheWolf.Global;
 import CacheWolf.gui.GuiImageBroker;
 import CacheWolf.gui.MyScrollBarPanel;
 import CacheWolf.util.MyLocale;
-
+import de.cachehound.comparators.SpecialOrderSorter;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -17,7 +15,6 @@ import ewe.io.BufferedWriter;
 import ewe.io.FileReader;
 import ewe.io.FileWriter;
 import ewe.io.PrintWriter;
-import ewe.sys.Convert;
 import ewe.ui.CellPanel;
 import ewe.ui.Control;
 import ewe.ui.ControlConstants;
@@ -216,13 +213,6 @@ public class CacheList extends CellPanel {
 
 	} // ******************* myList
 
-	/** Simple sort to ensure that the main list keeps the order of this list */
-	private class mySort implements Comparator<CacheHolder> {
-		public int compare(CacheHolder ch1, CacheHolder ch2) {
-			return ch1.sort.compareTo(ch2.sort);
-		}
-	}
-
 	/** Enable the up/down buttons only if at least 2 caches are in the list */
 	private void changeUpDownButtonStatus() {
 		btnUp.modify(0, Disabled);
@@ -339,23 +329,17 @@ public class CacheList extends CellPanel {
 	public void applyCacheList() {
 		Global.getProfile().selectionChanged = true;
 		CacheDB cacheDB = Global.getProfile().cacheDB;
-		CacheHolder ch;
-		int wrongVisStatus = 0;
-		String apply = "\uFFFF" + Convert.toString(applyCount++);
 		Global.getProfile().setFilterActive(Filter.FILTER_CACHELIST);
-		for (int i = cacheDB.size() - 1; i >= 0; i--) {
-			cacheDB.get(i).sort = apply;
-		}
+		// The sort command places all filtered caches at the end
+		cacheDB.sort(new SpecialOrderSorter(cacheList.toList()), false);
+		updateScreen();
+
+		int wrongVisStatus = 0;
 		for (int i = cacheList.size() - 1; i >= 0; i--) {
-			ch = cacheDB.get((cacheList.get(i)).getWayPoint());
+			CacheHolder ch = cacheDB.get((cacheList.get(i)).getWayPoint());
 			if (!ch.isVisible())
 				wrongVisStatus++;
-			String s = MyLocale.formatLong(i, "00000");
-			ch.sort = s;
 		}
-		// The sort command places all filtered caches at the end
-		cacheDB.sort(new mySort(), false);
-		updateScreen(cacheList.size() - wrongVisStatus);
 		if (wrongVisStatus > 0)
 			(new MessageBox(
 					MyLocale.getMsg(5500, "Error"),
@@ -417,7 +401,7 @@ public class CacheList extends CellPanel {
 			return false;
 	}
 
-	void updateScreen(int numRows) {
+	private void updateScreen() {
 		// Global.mainTab.tbP.myMod.numRows=numRows;
 		Global.mainTab.tbP.refreshTable(); // Update and repaint
 		int selPanel;
