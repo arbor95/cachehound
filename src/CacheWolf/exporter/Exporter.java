@@ -359,7 +359,7 @@ public class Exporter {
 		if (text == null)
 			return null;
 		int originalTextLength = text.length();
-		StringBuffer sb = new StringBuffer(50);
+		StringBuilder sb = new StringBuilder(50);
 		int charsToAppend = 0;
 		for (int i = 0; i < originalTextLength; i++) {
 			char c = text.charAt(i);
@@ -386,7 +386,7 @@ public class Exporter {
 	} // end insertEntities
 
 	public static String getShortDetails(CacheHolder ch) {
-		StringBuffer strBuf = new StringBuffer(7);
+		StringBuilder strBuf = new StringBuilder(7);
 		strBuf.append(CacheType.getExportShortId(ch.getType()).toLowerCase());
 		if (!ch.isAddiWpt()) {
 			strBuf.append(ch.getHard());

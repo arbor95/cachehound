@@ -380,7 +380,7 @@ public class Preferences extends MinML {
 	}
 
 	/** Helper variables for XML parser */
-	private StringBuffer collectElement = null;
+	private StringBuilder collectElement = null;
 	private String lastName; // The string to the last XML that was processed
 
 	/**
@@ -425,7 +425,7 @@ public class Preferences extends MinML {
 			logGPS = Convert.toBoolean(atts.getValue("active"));
 			logGPSTimer = atts.getValue("logTimer");
 		} else if (name.equals("lastprofile")) {
-			collectElement = new StringBuffer(50);
+			collectElement = new StringBuilder(50);
 			if (atts.getValue("autoreload").equals("true"))
 				autoReloadLastProfile = true;
 		}

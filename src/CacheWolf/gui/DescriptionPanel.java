@@ -65,12 +65,15 @@ public class DescriptionPanel extends CellPanel {
 			if (cache.isAddiWpt()) {
 				isHtml = cache.mainCache.is_HTML();
 				if (cache.getExistingDetails().getLongDescription() != null
-						&& cache.getExistingDetails().getLongDescription().length() > 0)
+						&& cache.getExistingDetails().getLongDescription()
+								.length() > 0)
 					desc = cache.getExistingDetails().getLongDescription()
 							+ (isHtml ? "<hr>\n" : "\n")
-							+ cache.mainCache.getExistingDetails().getLongDescription();
+							+ cache.mainCache.getExistingDetails()
+									.getLongDescription();
 				else
-					desc = cache.mainCache.getExistingDetails().getLongDescription();
+					desc = cache.mainCache.getExistingDetails()
+							.getLongDescription();
 			} else
 				// not an addi-wpt
 				desc = cache.getExistingDetails().getLongDescription();
@@ -95,8 +98,8 @@ public class DescriptionPanel extends CellPanel {
 					chImages = cache;
 				}
 				Images = chImages.getExistingDetails().getImages();
-				StringBuffer s = new StringBuffer(desc.length() + Images.size()
-						* 100);
+				StringBuilder s = new StringBuilder(desc.length()
+						+ Images.size() * 100);
 				int start = 0;
 				int pos;
 				Regex imgRex = new Regex(
@@ -170,7 +173,7 @@ public class DescriptionPanel extends CellPanel {
 	 * @param chD
 	 */
 	private String getPicDesc(int imagesShown, CacheHolderDetail chD) {
-		StringBuffer sb = new StringBuffer(1000);
+		StringBuilder sb = new StringBuilder(1000);
 		sb.append("<hr><font size=\"+1\" color=\"red\">").append(
 				MyLocale.getMsg(202, "IMAGES").toUpperCase()).append("</font>");
 		sb.append("<br><br>");

@@ -84,7 +84,7 @@ public class Version {
 	 * @return
 	 */
 	public static String newVersionsArrayToString() {
-		StringBuffer ret = new StringBuffer(500);
+		StringBuilder ret = new StringBuilder(500);
 		for (int i = 1; i <= updateavailabe.length - 1; i++) {
 			if (updateavailabe[i] != 2 || i - 1 == VERSION_TYPE) {
 				ret.append(MyLocale.getMsg(7000 + i - 1, VERSION_TYPES[i - 1]));

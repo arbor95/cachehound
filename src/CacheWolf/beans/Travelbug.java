@@ -69,7 +69,7 @@ public class Travelbug {
 
 	/** Return XML representation of travelbug for storing in cache.xml */
 	public String toXML() {
-		StringBuffer s = new StringBuffer(300);
+		StringBuilder s = new StringBuilder(300);
 		s.append("  <tb guid=\"");
 		s.append(guid);
 		s.append("\"><name><![CDATA[");
@@ -82,7 +82,7 @@ public class Travelbug {
 
 	/** Return HTML representation of travelbug for display on screen */
 	public String toHtml() {
-		StringBuffer s = new StringBuffer(300);
+		StringBuilder s = new StringBuilder(300);
 		s.append("<b>Name:</b> ");
 		s.append(name);
 		s.append("<br>");

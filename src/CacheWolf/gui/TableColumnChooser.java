@@ -87,7 +87,7 @@ public class TableColumnChooser extends CellPanel {
 	}
 
 	public String getSelectedCols() {
-		StringBuffer sb = new StringBuffer(40);
+		StringBuilder sb = new StringBuilder(40);
 		for (int i = 0; i < lstShown.items.size(); i++) {
 			String colName = (String) lstShown.items.elementAt(i);
 			for (int j = 0; j < colNames.length; j++) {

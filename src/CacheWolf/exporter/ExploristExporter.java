@@ -223,7 +223,7 @@ public class ExploristExporter {
 		 * static protected final int GC_AW_TRAILHEAD = 54; static protected
 		 * final int GC_AW_REFERENCE = 55;
 		 */
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("$PMGNGEO,");
 		sb.append(ch.pos.getLatDeg(CWPoint.DMM));
 		sb.append(ch.pos.getLatMin(CWPoint.DMM));

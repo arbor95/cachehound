@@ -532,7 +532,7 @@ public class TravelbugJourneyScreen extends Form {
 				colWidth[columnMap[col]] = getColWidth(col);
 			}
 			// Convert to string
-			StringBuffer sb = new StringBuffer(40);
+			StringBuilder sb = new StringBuilder(40);
 			for (int i = 0; i < colWidth.length; i++) {
 				if (sb.length() != 0)
 					sb.append(',');

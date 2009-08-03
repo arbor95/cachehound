@@ -60,7 +60,7 @@ public class GPXImporter extends MinML {
 	public static final int DOIT_WITHSPOILER = 2;
 	boolean getMaps = false;
 	SpiderService spider;
-	StringBuffer strBuf;
+	StringBuilder strBuf;
 
 	public GPXImporter(Preferences p, Profile prof, String f) {
 		profile = prof;
@@ -158,7 +158,7 @@ public class GPXImporter extends MinML {
 	}
 
 	public void startElement(String name, AttributeList atts) {
-		strBuf = new StringBuffer(300);
+		strBuf = new StringBuilder(300);
 		if (name.equals("gpx")) {
 			// check for opencaching
 			if (atts.getValue("creator").indexOf("opencaching") > 0)
@@ -609,7 +609,7 @@ public class GPXImporter extends MinML {
 	public static String replace(String source, String pattern, String replace) {
 		if (source != null) {
 			final int len = pattern.length();
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			int found = -1;
 			int start = 0;
 

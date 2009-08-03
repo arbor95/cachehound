@@ -115,9 +115,9 @@ public class HintLogPanel extends CellPanel {
 		}
 	}
 
-	void setLogs(int crntLogPosition) {
+	private void setLogs(int crntLogPosition) {
 		Vm.showWait(true);
-		StringBuffer dummy = new StringBuffer(DEFAULT_STRINGBUFFER_SIZE);
+		StringBuilder dummy = new StringBuilder(DEFAULT_STRINGBUFFER_SIZE);
 		int counter = 0;
 		int nLogs = currCache.getCacheLogs().size();
 		int logsPerPage = Global.getPref().logsPerPage;

@@ -27,7 +27,7 @@ public class OziExporter extends Exporter {
 	}
 
 	public String header() {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 
 		strBuf.append("OziExplorer CE Waypoint File Version 1.2\r\n");
 		strBuf.append("WGS 84\r\n");
@@ -38,7 +38,7 @@ public class OziExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon) {
-		StringBuffer strBuf = new StringBuffer(200);
+		StringBuilder strBuf = new StringBuilder(200);
 		String tmpName;
 
 		// Field 1 : Number - this is the location in the array (max 1000), must

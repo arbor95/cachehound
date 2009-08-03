@@ -433,7 +433,7 @@ public class HttpConnection {
 			pl.set(requestorProperties);
 		pl.defaultTo("Connection", "close");
 		pl.defaultTo("Host", host);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(command + " " + getEncodedDocument() + " " + requestVersion
 				+ "\r\n");
 		for (int i = 0; i < pl.size(); i++) {

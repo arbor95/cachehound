@@ -834,7 +834,7 @@ public class MainMenu extends MenuBar {
 			}
 			if (mev.selectedItem == sysinfo) {
 				// Vm.debug("Checking system...");
-				StringBuffer sb = new StringBuffer(400);
+				StringBuilder sb = new StringBuilder(400);
 				Font f = mApp.guiFont;
 				sb.append(MyLocale.getMsg(121, "Profile"));
 				sb.append(": ");

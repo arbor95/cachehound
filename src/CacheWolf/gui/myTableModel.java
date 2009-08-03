@@ -182,7 +182,7 @@ public class myTableModel extends TableModel {
 		}
 		clearCellAdjustments();
 		// Convert to string
-		StringBuffer sb = new StringBuffer(100);
+		StringBuilder sb = new StringBuilder(100);
 		for (int i = 0; i < N_COLUMNS; i++) {
 			if (sb.length() != 0)
 				sb.append(',');

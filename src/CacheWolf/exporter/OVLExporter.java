@@ -18,7 +18,7 @@ public class OVLExporter extends Exporter {
 	}
 
 	public String record(CacheHolder ch, String lat, String lon, int counter) {
-		StringBuffer str = new StringBuffer(200);
+		StringBuilder str = new StringBuilder(200);
 		double tmp;
 		str.append("[Symbol " + Convert.toString(2 * counter + 1) + "]\r\n");
 		str.append("Typ=6\r\n");
@@ -55,7 +55,7 @@ public class OVLExporter extends Exporter {
 	}
 
 	public String trailer(int counter) {
-		StringBuffer str = new StringBuffer(200);
+		StringBuilder str = new StringBuilder(200);
 
 		str.append("[Overlay]\r\n");
 		str.append("Symbols=" + Convert.toString(counter * 2) + "\r\n");
