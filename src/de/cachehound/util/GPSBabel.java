@@ -7,9 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 
 public class GPSBabel {
+	private static Logger logger = LoggerFactory.getLogger(GPSBabel.class);
+
 	public enum Filetype {
 		geo, gpx, garmin;
 	}
@@ -23,8 +28,10 @@ public class GPSBabel {
 			// this is expected if gpsbabel is not found.
 			return false;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger
+					.warn(
+							"InterruptedException thrown while testing for gpsbabel",
+							e);
 			return false;
 		}
 		return true;
@@ -33,6 +40,7 @@ public class GPSBabel {
 	public static void convert(String intype, String infile, String outtype,
 			String outfile, String... opts) throws IOException {
 		// FIXME: Find a better way to do this.
+
 		List<String> args = new ArrayList<String>();
 
 		args.add("gpsbabel");
@@ -54,9 +62,7 @@ public class GPSBabel {
 		args.add("-F");
 		args.add(outfile);
 
-		if (Global.getPref().debug) {
-			Global.getPref().log(args.toString());
-		}
+		logger.trace(args.toString());
 
 		Process p;
 		boolean error = false;
@@ -64,19 +70,17 @@ public class GPSBabel {
 			p = Runtime.getRuntime().exec(args.toArray(new String[0]));
 			p.waitFor();
 		} catch (IOException e) {
-			Global.getPref().log("Error calling gpsbabel", e,
-					Global.getPref().debug);
+			logger.warn("Error calling gpsbabel", e);
 			throw e;
 		} catch (InterruptedException e) {
-			Global.getPref().log("Error calling gpsbabel", e,
-					Global.getPref().debug);
+			logger.warn("Error calling gpsbabel", e);
 			throw new IOException(e);
 		}
 		BufferedReader errorReader = new BufferedReader(new InputStreamReader(p
 				.getErrorStream()));
 		String errorLine;
 		while ((errorLine = errorReader.readLine()) != null) {
-			Global.getPref().log("gpsbabel: " + errorLine);
+			logger.warn("gpsbabel: " + errorLine);
 			error = true;
 		}
 		if (error) {
