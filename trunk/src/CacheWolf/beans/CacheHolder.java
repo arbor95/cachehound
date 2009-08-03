@@ -146,8 +146,6 @@ public class CacheHolder {
 	private boolean hasNote = false;
 	public CacheHolderDetail details = null;
 
-	private static StringBuffer sb = new StringBuffer(530); // Used in toXML()
-
 	private long attributesYes = 0;
 	private long attributesNo = 0;
 
@@ -436,7 +434,9 @@ public class CacheHolder {
 	 */
 	public String toXML() {
 		calcRecommendationScore();
-		sb.delete(0, sb.length());
+
+		StringBuffer sb = new StringBuffer(530); // Used in toXML()
+
 		sb.append("    <CACHE ");
 		sb.append(" name = \"");
 		sb.append(SafeXML.clean(getCacheName()));
