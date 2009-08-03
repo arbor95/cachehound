@@ -363,7 +363,7 @@ public class SafeXML {
 					dst.append(ch);
 				} else {
 					/* yes - string value */
-					StringBuffer tconv = new StringBuffer("#");
+					StringBuilder tconv = new StringBuilder("#");
 					String tc;
 
 					do {
