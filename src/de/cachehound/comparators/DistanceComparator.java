@@ -1,4 +1,4 @@
-package CacheWolf.util;
+package de.cachehound.comparators;
 
 import java.util.Comparator;
 

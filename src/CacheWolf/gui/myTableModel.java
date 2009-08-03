@@ -1,7 +1,10 @@
 package CacheWolf.gui;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import de.cachehound.comparators.CacheHolderComparatorFactory;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
@@ -9,9 +12,7 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.util.MyComparator;
 import CacheWolf.util.MyLocale;
-
 import ewe.fx.Color;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -82,6 +83,7 @@ public class myTableModel extends TableModel {
 	private mImage bug;
 	private boolean sortAsc = false;
 	private int sortedBy = -1;
+	private Comparator<CacheHolder> currentComp = null;
 	private FontMetrics fm;
 	// private mImage
 	// picSizeMicro,picSizeSmall,picSizeReg,picSizeLarge,picSizeVLarge,picSizeNonPhysical;
@@ -206,7 +208,8 @@ public class myTableModel extends TableModel {
 					// check if main wpt is filtered
 					if (ch.mainCache != null) { // parent exists
 						if (!ch.mainCache.isVisible())
-							visibleDB.add(ch); // Unfiltered Addi Wpt with filtered
+							visibleDB.add(ch); // Unfiltered Addi Wpt with
+												// filtered
 						// Main Wpt, show it on its own
 						// else Main cache is not filtered, Addi will be added
 						// below main cache further down
@@ -238,7 +241,7 @@ public class myTableModel extends TableModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see ewe.ui.TableModel#getCellAttributes(int, int, boolean,
-	 *      ewe.ui.TableCellAttributes)
+	 * ewe.ui.TableCellAttributes)
 	 */
 	public TableCellAttributes getCellAttributes(int row, int col,
 			boolean isSelected, TableCellAttributes ta) {
@@ -510,7 +513,7 @@ public class myTableModel extends TableModel {
 						else
 							toggleSelect(cell.y, tcControl.cursor.y - 1, cell.x);
 					} else { // Remember this row as start of range, but
-								// don't
+						// don't
 						// toggle yet
 					}
 				} else { // Single row marked
@@ -541,8 +544,8 @@ public class myTableModel extends TableModel {
 				else
 					sortAsc = false;
 				sortedBy = mappedCol;
-				cacheDB.sort(new MyComparator(cacheDB, mappedCol, numRows),
-						sortAsc);
+				currentComp = CacheHolderComparatorFactory.getComparator(mappedCol);
+				cacheDB.sort(currentComp, sortAsc);
 				updateRows();
 				if (a != null && ch != null) {
 					int rownum = Global.getProfile().getCacheIndex(

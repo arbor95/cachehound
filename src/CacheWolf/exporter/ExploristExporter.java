@@ -1,6 +1,7 @@
 package CacheWolf.exporter;
 
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.comparators.DistanceComparator;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -10,7 +11,6 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
-import CacheWolf.util.DistanceComparator;
 import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;

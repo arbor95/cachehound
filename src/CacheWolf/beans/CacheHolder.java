@@ -45,7 +45,8 @@ public class CacheHolder {
 	 * Cachestatus is Found, Not found or a date in format yyyy-mm-dd hh:mm for
 	 * found date
 	 */
-	// TODO: Um das ganze Typsicher und auch ein Profil international zu machens sollte hier ne Enum stellt werden.
+	// TODO: Um das ganze Typsicher und auch ein Profil international zu machens
+	// sollte hier ne Enum stellt werden.
 	private String cacheStatus = EMPTY;
 	/**
 	 * The name of the waypoint typicall GC.... or OC.... or CW...... (can be
@@ -260,7 +261,10 @@ public class CacheHolder {
 
 			}
 			if (version < Profile.CURRENTFILEFORMAT) {
-				logger.warn("Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.", Profile.CURRENTFILEFORMAT);
+				logger
+						.warn(
+								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
+								Profile.CURRENTFILEFORMAT);
 				// forceload of details, creates waypoint.xml if missing
 				details = getCacheDetails(true, false);
 				// make sure details get (re)written in new format
@@ -603,10 +607,13 @@ public class CacheHolder {
 	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
 		if (details == null) {
 			try {
-				details = CacheHolderDetailFactory.getInstance().createCacheHolderDetailFromFile(this, Global.getProfile().getDataDir());
+				details = CacheHolderDetailFactory.getInstance()
+						.createCacheHolderDetailFromFile(this,
+								Global.getProfile().getDataDir());
 			} catch (IOException e) {
 				// create emtpy chd for later
-				details = CacheHolderDetailFactory.getInstance().createEmptyCacheHolderDetail(this);
+				details = CacheHolderDetailFactory.getInstance()
+						.createEmptyCacheHolderDetail(this);
 				if (!maybenew) {
 					logger.error("Could not read details for waypoint "
 							+ getWayPoint(), e);
@@ -666,7 +673,8 @@ public class CacheHolder {
 	 * profiles directory. The waypoint of the cache should be set to do so.
 	 */
 	public void save() {
-		CacheHolderDetailFactory.getInstance().saveCacheDetails(this.getFreshDetails(), Global.getProfile().getDataDir());
+		CacheHolderDetailFactory.getInstance().saveCacheDetails(
+				this.getFreshDetails(), Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {
@@ -1036,6 +1044,15 @@ public class CacheHolder {
 		return cacheName;
 	}
 
+	/**
+	 * @return the name of the cache in simplified form. That is: without
+	 *         punctuation, without leading spaces, all-lowercase.
+	 */
+	public String getCacheNameSimplified() {
+		return cacheName.toLowerCase().replaceAll("[\\p{Punct}]", "")
+				.replaceAll("^\\s*", "");
+	}
+
 	public void setCacheName(String cacheName) {
 		Global.getProfile().notifyUnsavedChanges(
 				!cacheName.equals(this.cacheName));
@@ -1044,6 +1061,15 @@ public class CacheHolder {
 
 	public String getCacheOwner() {
 		return cacheOwner;
+	}
+
+	/**
+	 * @return the name of the owner in simplified form. That is: without
+	 *         punctuation, without leading spaces, all-lowercase.
+	 */
+	public String getCacheOwnerSimplified() {
+		return cacheOwner.toLowerCase().replaceAll("[\\p{Punct}]", "")
+				.replaceAll("^\\s*", "");
 	}
 
 	public void setCacheOwner(String cacheOwner) {
