@@ -22,11 +22,12 @@ Soweit so gut, aber eigentlich alles ziemlich langweilig ... bis auf das automat
 
 == Einstellungen im CacheHound ==
 Vor dem Aufruf 'Anwendung' -> 'Import' -> 'Import Mails' müssen unter 'Anwendung' -> 'Einstellungen' -> 'Mail' noch einige Einstellungen gemacht werden. 
-Während Longin-Name, Passwort und Server wohl noch selbsterklärend sind, ist das Protcol noch wichtig. Folgende Werte werden unterstützt:
-|| IMAP || Abholung per IMAP-Protokol, unverschlüsselt || Mails werden nach erfolgreicher Verarbeitung als gelesen markiert ||
-|| IMAPS || Abholung per IMAP-Protokol + SSL, verschlüsselt || Mails werden nach erfolgreicher Verarbeitung als gelesen markiert ||
-|| POP3 || Abholung per POP3-Protokol, unverschlüsselt  || Mails können nicht markiert werden, bleiben neu und müssen etwa mit einem EMailProgramm abgerufen/gelöscht werden. ||
-|| POP3S || Abholung per POP3-Protokol + SSL, verschlüsselt || Mails können nicht markiert werden, bleiben neu und müssen etwa mit einem EMailProgramm abgerufen/gelöscht werden. ||
+Während Longin-Name, Passwort, Server sowie die Häkchen wohl noch selbsterklärend sind, ist das Protokol noch wichtig. Folgende Werte werden unterstützt:
+|| IMAP || Abholung per IMAP-Protokol, unverschlüsselt || Mails werden nach erfolgreicher Verarbeitung entsprechend den Einstellungen behandeln ||
+|| IMAPS || Abholung per IMAP-Protokol + SSL, verschlüsselt || Mails werden nach erfolgreicher entsprechend den Einstellungen behandeln ||
+|| POP3 || Abholung per POP3-Protokol, unverschlüsselt || Mails können nicht markiert werden, bleiben daher neu und müssen etwa mit einem EMailProgramm abgerufen/gelöscht werden. ||
+|| POP3S || Abholung per POP3-Protokol + SSL, verschlüsselt || Mails können nicht markiert werden, bleiben daher neu und müssen etwa mit einem EMailProgramm abgerufen/gelöscht werden. ||
+*Bemerkung:* Bevor ich das Löschen auch für das POP3 Protokoll freischalte, möchte ich erst ein wenig Erfahrung mit der EMail Verarbeitung gesammelt haben. Feedback von Nutzern wäre dazu gut. _(TweetyHH)_
 
 = Bekannte Probleme =
 ~~Wenn die Verarbeitung einer Mail zu lange dauert (Zeit noch unbekannt, tritt bei mir auf, wenn ich eine PQ einlese und deren Bilder nachlade), bricht die Mailverarbeitung auf Grund eines Timeouts seitens des Servers ab. Dabei werden die verarbeiteten Mails auch nicht als gelesen markiert. Dieses müssen dann entweder per Hand als bereits gelesen markiert werden oder aber bei nächsten aufruf der Funktion werden die Daten nochmals runtergeladen und verarbeitet (Da bei bereits importieren Caches die Bilder nicht neu gespidert werden, geht das entsprechend schnell, aber je nach Internetverbindung kann das Runterladen der PQ-Datei selber ziemlich zeitraubend sein).~~
