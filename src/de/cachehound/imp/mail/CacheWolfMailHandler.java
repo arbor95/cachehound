@@ -148,7 +148,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 	}
 
 	@Override
-	public boolean maintenancePferformed(String gcNumber, Message message,
+	public boolean maintenancePerformed(String gcNumber, Message message,
 			String subject, String text) {
 		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
@@ -161,6 +161,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 				spiderIfNotExists);
 	}
 
+	@Override
 	public boolean handlePocketQuery(Message message, String subject)
 			throws MessagingException, IOException {
 		Multipart mp = (Multipart) message.getContent();
