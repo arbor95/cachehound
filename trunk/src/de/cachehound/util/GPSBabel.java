@@ -29,7 +29,7 @@ public class GPSBabel {
 			return false;
 		} catch (InterruptedException e) {
 			logger
-					.warn(
+					.error(
 							"InterruptedException thrown while testing for gpsbabel",
 							e);
 			return false;
@@ -62,7 +62,7 @@ public class GPSBabel {
 		args.add("-F");
 		args.add(outfile);
 
-		logger.trace(args.toString());
+		logger.debug(args.toString());
 
 		Process p;
 		boolean error = false;
@@ -70,17 +70,17 @@ public class GPSBabel {
 			p = Runtime.getRuntime().exec(args.toArray(new String[0]));
 			p.waitFor();
 		} catch (IOException e) {
-			logger.warn("Error calling gpsbabel", e);
+			logger.error("Error calling gpsbabel", e);
 			throw e;
 		} catch (InterruptedException e) {
-			logger.warn("Error calling gpsbabel", e);
+			logger.error("Error calling gpsbabel", e);
 			throw new IOException(e);
 		}
 		BufferedReader errorReader = new BufferedReader(new InputStreamReader(p
 				.getErrorStream()));
 		String errorLine;
 		while ((errorLine = errorReader.readLine()) != null) {
-			logger.warn("gpsbabel: " + errorLine);
+			logger.error("gpsbabel: " + errorLine);
 			error = true;
 		}
 		if (error) {
