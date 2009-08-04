@@ -66,9 +66,9 @@ public class CacheHolder {
 	private byte cacheSize = CacheSize.CW_SIZE_NOTCHOSEN;
 	/** The distance from the centre in km */
 	public double kilom = -1;
-	public double lastKilom = -2; // Cache last value
-	public int lastMetric = -1; // Cache last metric
-	public String lastDistance = ""; // Cache last distance
+	private double lastKilom = -2; // Cache last value
+	private int lastMetric = -1; // Cache last metric
+	private String lastDistance = ""; // Cache last distance
 	/** The bearing N, NNE, NE, ENE ... from the current centre to this point */
 	public String bearing = NOBEARING;
 	/** The angle (0=North, 180=South) from the current centre to this point */
