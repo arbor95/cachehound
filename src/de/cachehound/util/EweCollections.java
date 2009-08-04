@@ -9,6 +9,7 @@ import ewe.util.Vector;
 
 @Deprecated
 public class EweCollections {
+	@SuppressWarnings("unchecked")
 	public static <T> List<T> vectorToList(Vector v) {
 		List<T> l = new ArrayList<T>();
 		for(int i = 0; i < v.size(); i++) {
