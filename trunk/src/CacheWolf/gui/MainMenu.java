@@ -1,5 +1,8 @@
 package CacheWolf.gui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -70,6 +73,10 @@ import ewe.util.Vector;
  *      screens, garminConn
  */
 public class MainMenu extends MenuBar {
+	
+	private static Logger logger = LoggerFactory
+	.getLogger(MainMenu.class);
+
 	private MenuItem preferences, mnuContext, loadcaches, loadOC, /* savenexit, */
 	savenoxit, exit, search, searchAll, searchClr;
 	private MenuItem downloadmap, kalibmap, importmap;
@@ -113,7 +120,7 @@ public class MainMenu extends MenuBar {
 		// /////////////////////////////////////////////////////////////////////
 		MenuItem[] mnuImport = new MenuItem[8];
 		mnuImport[0] = loadcaches = new MenuItem(MyLocale.getMsg(129,
-				"Import GPX")); // TODO internationalization
+				"Import GPX")); 
 		mnuImport[1] = loadOC = new MenuItem(MyLocale.getMsg(130,
 				"Download von opencaching.de"));
 		mnuImport[2] = spider = new MenuItem(MyLocale.getMsg(131,
@@ -457,10 +464,7 @@ public class MainMenu extends MenuBar {
 										profile, file);
 								gpx.doIt(0);
 							} catch (Throwable e) {
-								Global
-										.getPref()
-										.log(
-												"Fehler beim Importieren von GPX Datei.",
+								logger.error("Fehler beim Importieren von GPX Datei.",
 												e);
 							}
 
@@ -501,10 +505,16 @@ public class MainMenu extends MenuBar {
 					mailReader.disconnect(true);
 				} catch (Exception e) {
 					Vm.showWait(false);
-					(new MessageBox("Error", "Mail import unsuccessful",
-							FormBase.OKB)).execute();
-					e.printStackTrace();
-					pref.log("Mail import unsuccessful", e, pref.debug);
+					if (e.getMessage().toLowerCase().contains("bye")) {
+						new MessageBox("Failure at receiving Mails", "Mail import unsuccessful - it could be, that there was a timeout from the Server. Please try again.",
+								FormBase.OKB).execute();
+						logger.warn("Mail import unsuccessful", e);
+					}
+					else { 
+					new MessageBox("Error", "Mail import unsuccessful - unknown Failure. Details see Logfile",
+							FormBase.OKB).execute();
+					logger.error("Mail import unsuccessful", e);
+					}
 				}
 				tbp.resetModel();
 			}
