@@ -177,7 +177,7 @@ public class GeocachingMailReader {
 				&& subject.contains(" needs maintenance")) {
 			return handler.needMaintenance(gcNumber, message, subject, text);
 		} else if (subject.contains(" performed maintenance for ")) {
-			return handler.maintenancePferformed(gcNumber, message, subject,
+			return handler.maintenancePerformed(gcNumber, message, subject,
 					text);
 		} else { // hmm, doch keine Mail mit der wir was anfangen können?
 			logger.error("Notify-Message-Header not parsable: {}", subject);
