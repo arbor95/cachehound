@@ -139,39 +139,15 @@ public class FilterData {
 	@Deprecated
 	public void setFilterRose(String filterRose) {
 		this.filterRose = EnumSet.noneOf(Bearing.class);
-
-		if (filterRose.charAt(0) == '1')
-			this.filterRose.add(Bearing.NW);
-		if (filterRose.charAt(1) == '1')
-			this.filterRose.add(Bearing.NNW);
-		if (filterRose.charAt(2) == '1')
-			this.filterRose.add(Bearing.N);
-		if (filterRose.charAt(3) == '1')
-			this.filterRose.add(Bearing.NNE);
-		if (filterRose.charAt(4) == '1')
-			this.filterRose.add(Bearing.NE);
-		if (filterRose.charAt(5) == '1')
-			this.filterRose.add(Bearing.ENE);
-		if (filterRose.charAt(6) == '1')
-			this.filterRose.add(Bearing.E);
-		if (filterRose.charAt(7) == '1')
-			this.filterRose.add(Bearing.ESE);
-		if (filterRose.charAt(8) == '1')
-			this.filterRose.add(Bearing.SE);
-		if (filterRose.charAt(9) == '1')
-			this.filterRose.add(Bearing.SSE);
-		if (filterRose.charAt(10) == '1')
-			this.filterRose.add(Bearing.S);
-		if (filterRose.charAt(11) == '1')
-			this.filterRose.add(Bearing.SSW);
-		if (filterRose.charAt(12) == '1')
-			this.filterRose.add(Bearing.SW);
-		if (filterRose.charAt(13) == '1')
-			this.filterRose.add(Bearing.WSW);
-		if (filterRose.charAt(14) == '1')
-			this.filterRose.add(Bearing.W);
-		if (filterRose.charAt(15) == '1')
-			this.filterRose.add(Bearing.WNW);
+		
+		int i = 0;
+		for (Bearing b : ListHelper.divideAndSwap(Arrays.asList(Bearing
+				.values()), Bearing.NW)) {
+			if (filterRose.charAt(i) == '1') {
+				this.filterRose.add(b);
+			}
+			i++;
+		}
 	}
 
 	public String getFilterSize() {
