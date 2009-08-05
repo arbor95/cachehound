@@ -92,7 +92,7 @@ public class ShowCacheInBrowser {
 							.getTerrain()));
 					tpl.setParam("DISTANCE", chD.getDistance()
 							.replace(',', '.'));
-					tpl.setParam("BEARING", chD.bearing);
+					tpl.setParam("BEARING", chD.getBearingAsString());
 					if (chD.pos != null && chD.pos.isValid()) {
 						tpl.setParam("LATLON", chD.LatLon);
 					} else {

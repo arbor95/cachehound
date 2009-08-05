@@ -513,39 +513,39 @@ public class Filter {
 			// number further to
 			// just under 5
 			if (hasRoseMatchPattern) {
-				if (ch.bearing.startsWith("N")) {
-					if (ch.bearing.equals("NW"))
+				if (ch.getBearingAsString().startsWith("N")) {
+					if (ch.getBearingAsString().equals("NW"))
 						cacheRosePattern = NW;
-					else if (ch.bearing.equals("NNW"))
+					else if (ch.getBearingAsString().equals("NNW"))
 						cacheRosePattern = NNW;
-					else if (ch.bearing.equals("N"))
+					else if (ch.getBearingAsString().equals("N"))
 						cacheRosePattern = N;
-					else if (ch.bearing.equals("NNE"))
+					else if (ch.getBearingAsString().equals("NNE"))
 						cacheRosePattern = NNE;
 					else
 						cacheRosePattern = NE;
-				} else if (ch.bearing.startsWith("E")) {
-					if (ch.bearing.equals("ENE"))
+				} else if (ch.getBearingAsString().startsWith("E")) {
+					if (ch.getBearingAsString().equals("ENE"))
 						cacheRosePattern = ENE;
-					else if (ch.bearing.equals("E"))
+					else if (ch.getBearingAsString().equals("E"))
 						cacheRosePattern = E;
 					else
 						cacheRosePattern = ESE;
-				} else if (ch.bearing.startsWith("S")) {
-					if (ch.bearing.equals("SW"))
+				} else if (ch.getBearingAsString().startsWith("S")) {
+					if (ch.getBearingAsString().equals("SW"))
 						cacheRosePattern = SW;
-					else if (ch.bearing.equals("SSW"))
+					else if (ch.getBearingAsString().equals("SSW"))
 						cacheRosePattern = SSW;
-					else if (ch.bearing.equals("S"))
+					else if (ch.getBearingAsString().equals("S"))
 						cacheRosePattern = S;
-					else if (ch.bearing.equals("SSE"))
+					else if (ch.getBearingAsString().equals("SSE"))
 						cacheRosePattern = SSE;
 					else
 						cacheRosePattern = SE;
 				} else {
-					if (ch.bearing.equals("WNW"))
+					if (ch.getBearingAsString().equals("WNW"))
 						cacheRosePattern = WNW;
-					else if (ch.bearing.equals("W"))
+					else if (ch.getBearingAsString().equals("W"))
 						cacheRosePattern = W;
 					else
 						cacheRosePattern = WSW;

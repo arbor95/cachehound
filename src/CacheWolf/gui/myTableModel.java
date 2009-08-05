@@ -430,7 +430,7 @@ public class myTableModel extends TableModel {
 				case 10: // Distance
 					return ch.getDistance();
 				case 11: // Bearing
-					return ch.bearing;
+					return ch.getBearingAsString();
 				case 12: // Size
 					if (ch.isAddiWpt()) {
 						return "";
