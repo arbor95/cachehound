@@ -1458,14 +1458,16 @@ public class CacheHolder {
 	}
 
 	/**
-	 * @return null if !pos.isValid(), the Bearing from the current centre to this cache otherwise.
+	 * @return null if !pos.isValid(), the Bearing from the current centre to
+	 *         this cache otherwise.
 	 */
 	public Bearing getBearing() {
 		return Bearing.fromDeg(degrees);
 	}
 
 	/**
-	 * @deprecated use getBearing instead.
+	 * @return NOBEARING if !pos.isValid(), the Bearing from the current centre to
+	 *         this cache otherwise.
 	 */
 	public String getBearingAsString() {
 		if (getBearing() == null) {
