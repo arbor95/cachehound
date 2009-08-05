@@ -1,5 +1,7 @@
 package CacheWolf.gui;
 
+import java.util.Set;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
@@ -7,6 +9,7 @@ import CacheWolf.beans.FilterData;
 import CacheWolf.beans.Preferences;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.MyLocale;
+import de.cachehound.types.Bearing;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -551,26 +554,26 @@ public class FilterScreen extends Form {
 			chcDist.select(0);
 			inpDist.setText("");
 		}
-		String fltRose = data.getFilterRose();
-		chkNW.state = fltRose.charAt(0) == '1';
-		chkNNW.state = fltRose.charAt(1) == '1';
-		chkN.state = fltRose.charAt(2) == '1';
-		chkNNE.state = fltRose.charAt(3) == '1';
+		Set<Bearing> fltRose = data.getFilterRose();
+		chkNW.state = fltRose.contains(Bearing.NW);
+		chkNNW.state = fltRose.contains(Bearing.NNW);
+		chkN.state = fltRose.contains(Bearing.N);
+		chkNNE.state = fltRose.contains(Bearing.NNE);
 
-		chkNE.state = fltRose.charAt(4) == '1';
-		chkENE.state = fltRose.charAt(5) == '1';
-		chkE.state = fltRose.charAt(6) == '1';
-		chkESE.state = fltRose.charAt(7) == '1';
+		chkNE.state = fltRose.contains(Bearing.NE);
+		chkENE.state = fltRose.contains(Bearing.ENE);
+		chkE.state = fltRose.contains(Bearing.E);
+		chkESE.state = fltRose.contains(Bearing.ESE);
 
-		chkSE.state = fltRose.charAt(8) == '1';
-		chkSSE.state = fltRose.charAt(9) == '1';
-		chkS.state = fltRose.charAt(10) == '1';
-		chkSSW.state = fltRose.charAt(11) == '1';
+		chkSE.state = fltRose.contains(Bearing.SE);
+		chkSSE.state = fltRose.contains(Bearing.SSE);
+		chkS.state = fltRose.contains(Bearing.S);
+		chkSSW.state = fltRose.contains(Bearing.SSW);
 
-		chkSW.state = fltRose.charAt(12) == '1';
-		chkWSW.state = fltRose.charAt(13) == '1';
-		chkW.state = fltRose.charAt(14) == '1';
-		chkWNW.state = fltRose.charAt(15) == '1';
+		chkSW.state = fltRose.contains(Bearing.SW);
+		chkWSW.state = fltRose.contains(Bearing.WSW);
+		chkW.state = fltRose.contains(Bearing.W);
+		chkWNW.state = fltRose.contains(Bearing.WNW);
 
 		// ////////////////////////
 		// Panel 2 - Cache attributes

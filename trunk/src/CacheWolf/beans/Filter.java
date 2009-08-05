@@ -1,11 +1,15 @@
 package CacheWolf.beans;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import CacheWolf.Global;
 import CacheWolf.imp.KMLImporter;
 import CacheWolf.util.Common;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.types.Bearing;
 import ewe.io.File;
 import ewe.io.FileNotFoundException;
 import ewe.io.FileReader;
@@ -66,32 +70,13 @@ public class Filter {
 			| EVENT | WEBCAM | MYSTERY | LOCLESS | CUSTOM | MEGA | EARTH | CITO
 			| WHERIGO;
 
-	private static final int N = 1;
-	private static final int NNE = 2;
-	private static final int NE = 4;
-	private static final int ENE = 8;
-	private static final int E = 16;
-	private static final int ESE = 32;
-	private static final int SE = 64;
-	private static final int SSE = 128;
-	private static final int SSW = 256;
-	private static final int SW = 512;
-	private static final int WSW = 1024;
-	private static final int W = 2048;
-	private static final int WNW = 4096;
-	private static final int NW = 8192;
-	private static final int NNW = 16384;
-	private static final int S = 32768;
-	private static final int ROSE_ALL = N | NNE | NE | ENE | E | ESE | SE | SSE
-			| SSW | SW | WSW | W | WNW | NW | NNW | S;
-
 	private int distdirec = 0;
 	private int diffdirec = 0;
 	private int terrdirec = 0;
 
 	String[] byVec;
 
-	private int roseMatchPattern;
+	private Set<Bearing> roseMatchPattern;
 	private boolean hasRoseMatchPattern;
 	private int typeMatchPattern;
 	private boolean hasTypeMatchPattern;
@@ -327,41 +312,10 @@ public class Filter {
 		if (filterType.charAt(18) == '1')
 			typeMatchPattern |= WHERIGO;
 		hasTypeMatchPattern = typeMatchPattern != TYPE_ALL;
-		roseMatchPattern = 0;
-		String filterRose = profile.getFilterRose();
-		if (filterRose.charAt(0) == '1')
-			roseMatchPattern |= NW;
-		if (filterRose.charAt(1) == '1')
-			roseMatchPattern |= NNW;
-		if (filterRose.charAt(2) == '1')
-			roseMatchPattern |= N;
-		if (filterRose.charAt(3) == '1')
-			roseMatchPattern |= NNE;
-		if (filterRose.charAt(4) == '1')
-			roseMatchPattern |= NE;
-		if (filterRose.charAt(5) == '1')
-			roseMatchPattern |= ENE;
-		if (filterRose.charAt(6) == '1')
-			roseMatchPattern |= E;
-		if (filterRose.charAt(7) == '1')
-			roseMatchPattern |= ESE;
-		if (filterRose.charAt(8) == '1')
-			roseMatchPattern |= SE;
-		if (filterRose.charAt(9) == '1')
-			roseMatchPattern |= SSE;
-		if (filterRose.charAt(10) == '1')
-			roseMatchPattern |= S;
-		if (filterRose.charAt(11) == '1')
-			roseMatchPattern |= SSW;
-		if (filterRose.charAt(12) == '1')
-			roseMatchPattern |= SW;
-		if (filterRose.charAt(13) == '1')
-			roseMatchPattern |= WSW;
-		if (filterRose.charAt(14) == '1')
-			roseMatchPattern |= W;
-		if (filterRose.charAt(15) == '1')
-			roseMatchPattern |= WNW;
-		hasRoseMatchPattern = roseMatchPattern != ROSE_ALL;
+
+		roseMatchPattern = profile.getFilterRose();
+		hasRoseMatchPattern = roseMatchPattern != EnumSet.allOf(Bearing.class);
+
 		sizeMatchPattern = 0;
 		String filterSize = profile.getFilterSize();
 		if (filterSize.charAt(0) == '1')
@@ -445,9 +399,6 @@ public class Filter {
 		// other tests
 		// A cache is only displayed (i.e. is_filtered = false) if it meets all
 		// 9 filter criteria
-		int cacheTypePattern;
-		int cacheRosePattern;
-		int cacheSizePattern;
 		double dummyd1;
 		boolean cacheFiltered = false;
 		do {
@@ -456,7 +407,7 @@ public class Filter {
 			// /////////////////////////////
 			if (hasTypeMatchPattern) { // Only do the checks if we have a
 										// filter
-				cacheTypePattern = 0;
+				int cacheTypePattern = 0;
 				// As each cache can only have one type, we can use else if and
 				// set the type
 				if (ch.getType() == CacheType.CW_TYPE_CUSTOM)
@@ -505,52 +456,8 @@ public class Filter {
 			// /////////////////////////////
 			// Filter criterium 2: Bearing from centre
 			// /////////////////////////////
-			// The optimal number of comparisons to identify one of 16 objects
-			// is 4 (=log2(16))
-			// By using else if we can reduce the number of comparisons from 16
-			// to just over 8
-			// By first checking the first letter, we can reduce the average
-			// number further to
-			// just under 5
 			if (hasRoseMatchPattern) {
-				if (ch.getBearingAsString().startsWith("N")) {
-					if (ch.getBearingAsString().equals("NW"))
-						cacheRosePattern = NW;
-					else if (ch.getBearingAsString().equals("NNW"))
-						cacheRosePattern = NNW;
-					else if (ch.getBearingAsString().equals("N"))
-						cacheRosePattern = N;
-					else if (ch.getBearingAsString().equals("NNE"))
-						cacheRosePattern = NNE;
-					else
-						cacheRosePattern = NE;
-				} else if (ch.getBearingAsString().startsWith("E")) {
-					if (ch.getBearingAsString().equals("ENE"))
-						cacheRosePattern = ENE;
-					else if (ch.getBearingAsString().equals("E"))
-						cacheRosePattern = E;
-					else
-						cacheRosePattern = ESE;
-				} else if (ch.getBearingAsString().startsWith("S")) {
-					if (ch.getBearingAsString().equals("SW"))
-						cacheRosePattern = SW;
-					else if (ch.getBearingAsString().equals("SSW"))
-						cacheRosePattern = SSW;
-					else if (ch.getBearingAsString().equals("S"))
-						cacheRosePattern = S;
-					else if (ch.getBearingAsString().equals("SSE"))
-						cacheRosePattern = SSE;
-					else
-						cacheRosePattern = SE;
-				} else {
-					if (ch.getBearingAsString().equals("WNW"))
-						cacheRosePattern = WNW;
-					else if (ch.getBearingAsString().equals("W"))
-						cacheRosePattern = W;
-					else
-						cacheRosePattern = WSW;
-				}
-				if ((cacheRosePattern & roseMatchPattern) == 0) {
+				if (!roseMatchPattern.contains(ch.getBearing())) {
 					cacheFiltered = true;
 					break;
 				}
@@ -642,7 +549,7 @@ public class Filter {
 			// Filter criterium 10: Size
 			// /////////////////////////////
 			if (hasSizeMatchPattern) {
-				cacheSizePattern = CacheSize
+				int cacheSizePattern = CacheSize
 						.getFilterPattern(ch.getCacheSize());
 				if ((cacheSizePattern & sizeMatchPattern) == 0) {
 					cacheFiltered = true;
@@ -722,7 +629,7 @@ public class Filter {
 	public boolean hasFilter() {
 		Profile prof = Global.getProfile();
 		return !(prof.getFilterType().equals(FilterData.FILTERTYPE)
-				&& prof.getFilterRose().equals(FilterData.FILTERROSE)
+				&& prof.getFilterRose().equals(EnumSet.allOf(Bearing.class))
 				&& prof.getFilterVar().equals(FilterData.FILTERVAR)
 				&& prof.getFilterSize().equals(FilterData.FILTERSIZE)
 				&& prof.getFilterDist().equals("L")
