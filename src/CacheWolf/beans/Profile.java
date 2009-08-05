@@ -350,49 +350,6 @@ public class Profile {
 				} else if (text.indexOf("<SPIDERGC") >= 0) {
 					int start = text.indexOf("dist = \"") + 8;
 					setDistGC(text.substring(start, text.indexOf("\"", start)));
-				} else if (indexXmlVersion <= 2 && text.indexOf("<FILTER") >= 0) {
-					// Read filter data of file versions 1 and 2. (Legacy code)
-					ex.setSource(text.substring(text.indexOf("<FILTER")));
-					String temp = ex.findNext(); // Filter status is now
-													// first,
-					// need to deal with old
-					// versions which don't have
-					// filter status
-					if (temp.length() == 2) {
-						// Compatibility with previous versions
-						if (temp.charAt(0) == 'T')
-							setFilterActive(Filter.FILTER_ACTIVE);
-						else
-							setFilterActive(Common.parseInt(temp
-									.substring(0, 1)));
-						setFilterInverted(temp.charAt(1) == 'T');
-						setFilterRose(ex.findNext());
-					} else
-						setFilterRose(temp);
-					setFilterType(ex.findNext());
-					// Need this to stay "downward" compatible. New type
-					// introduced
-					// if(filterType.length()<=17) filterType = filterType +
-					// "1";
-					// Vm.debug("fil len: " +filterType.length());
-					// This is handled by "normaliseFilters" which is called at
-					// the end.
-					setFilterVar(ex.findNext());
-					setFilterDist(ex.findNext());
-					setFilterDiff(ex.findNext());
-					setFilterTerr(ex.findNext());
-					setFilterSize(ex.findNext());
-					String attr = ex.findNext();
-					if (attr != null && !attr.equals(""))
-						setFilterAttrYes(Convert.parseLong(attr));
-					attr = ex.findNext();
-					if (attr != null && !attr.equals(""))
-						setFilterAttrNo(Convert.parseLong(attr));
-					attr = ex.findNext();
-					if (attr != null && !attr.equals(""))
-						setFilterAttrChoice(Convert.parseInt(attr));
-					setShowBlacklisted(Boolean.valueOf(ex.findNext())
-							.booleanValue());
 				} else if (text.indexOf("<FILTERDATA") >= 0) {
 					ex.setSource(text.substring(text.indexOf("<FILTERDATA")));
 					setFilterRose(ex.findNext());
