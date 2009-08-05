@@ -1,5 +1,10 @@
 package CacheWolf.gui;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import CacheWolf.Global;
@@ -10,6 +15,7 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.MyLocale;
 import de.cachehound.types.Bearing;
+import de.cachehound.util.ListHelper;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -63,9 +69,9 @@ public class FilterScreen extends Form {
 			chkWebcam, chkMystery, chkLocless, chkCustom, chkParking, chkStage,
 			chkQuestion, chkFinal, chkTrailhead, chkReference, chkMicro,
 			chkSmall, chkRegular, chkLarge, chkVeryLarge, chkOther, chkCito,
-			chkArchived, chkNotArchived, chkAvailable, chkNotAvailable, chkNW,
-			chkNNW, chkN, chkNNE, chkNE, chkENE, chkE, chkESE, chkSE, chkSSE,
-			chkS, chkSSW, chkSW, chkWSW, chkW, chkWNW, chkWherigo;
+			chkArchived, chkNotArchived, chkAvailable, chkNotAvailable,
+			chkWherigo;
+	private Map<Bearing, mCheckBox> chksBearing = new HashMap<Bearing, mCheckBox>();
 	private mComboBox chcStatus;
 	private mChoice fltList;
 	private mCheckBox chkUseRegexp;
@@ -166,41 +172,21 @@ public class FilterScreen extends Form {
 		pnlBearDist.addLast(inpDist = new mInput(), CellConstants.DONTSTRETCH,
 				CellConstants.FILL);
 		pnlBearDist.addLast(new mLabel(""));
-		pnlRose.addNext(chkNW = new mCheckBox("NW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkNNW = new mCheckBox("NNW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkN = new mCheckBox("N"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addLast(chkNNE = new mCheckBox("NNE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
 
-		pnlRose.addNext(chkNE = new mCheckBox("NE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkENE = new mCheckBox("ENE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkE = new mCheckBox("E "), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addLast(chkESE = new mCheckBox("ESE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
+		int i = 1;
+		for (Bearing b : ListHelper.divideAndSwap(Arrays.asList(Bearing
+				.values()), Bearing.NW)) {
+			chksBearing.put(b, new mCheckBox(b.toString()));
+			if (i % 4 == 0) {
+				pnlRose.addLast(chksBearing.get(b), CellConstants.HSTRETCH,
+						CellConstants.FILL);
+			} else {
+				pnlRose.addNext(chksBearing.get(b), CellConstants.HSTRETCH,
+						CellConstants.FILL);
+			}
+			i++;
+		}
 
-		pnlRose.addNext(chkSE = new mCheckBox("SE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkSSE = new mCheckBox("SSE"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkS = new mCheckBox("S"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addLast(chkSSW = new mCheckBox("SSW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-
-		pnlRose.addNext(chkSW = new mCheckBox("SW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkWSW = new mCheckBox("WSW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addNext(chkW = new mCheckBox("W "), CellConstants.HSTRETCH,
-				CellConstants.FILL);
-		pnlRose.addLast(chkWNW = new mCheckBox("WNW"), CellConstants.HSTRETCH,
-				CellConstants.FILL);
 		pnlRose.addNext(btnDeselect = new mButton(MyLocale.getMsg(716,
 				"Deselect all")), CellConstants.HSTRETCH, CellConstants.FILL);
 		btnDeselect.setTag(SPAN, new Dimension(2, 1));
@@ -555,25 +541,9 @@ public class FilterScreen extends Form {
 			inpDist.setText("");
 		}
 		Set<Bearing> fltRose = data.getFilterRose();
-		chkNW.state = fltRose.contains(Bearing.NW);
-		chkNNW.state = fltRose.contains(Bearing.NNW);
-		chkN.state = fltRose.contains(Bearing.N);
-		chkNNE.state = fltRose.contains(Bearing.NNE);
-
-		chkNE.state = fltRose.contains(Bearing.NE);
-		chkENE.state = fltRose.contains(Bearing.ENE);
-		chkE.state = fltRose.contains(Bearing.E);
-		chkESE.state = fltRose.contains(Bearing.ESE);
-
-		chkSE.state = fltRose.contains(Bearing.SE);
-		chkSSE.state = fltRose.contains(Bearing.SSE);
-		chkS.state = fltRose.contains(Bearing.S);
-		chkSSW.state = fltRose.contains(Bearing.SSW);
-
-		chkSW.state = fltRose.contains(Bearing.SW);
-		chkWSW.state = fltRose.contains(Bearing.WSW);
-		chkW.state = fltRose.contains(Bearing.W);
-		chkWNW.state = fltRose.contains(Bearing.WNW);
+		for (Bearing b : Bearing.values()) {
+			chksBearing.get(b).state = fltRose.contains(b);
+		}
 
 		// ////////////////////////
 		// Panel 2 - Cache attributes
@@ -676,24 +646,42 @@ public class FilterScreen extends Form {
 		setColors();
 	}
 
+	/**
+	 * Checks if all of the checkboxes are checked
+	 */
+	private static boolean allSet(Collection<mCheckBox> boxes) {
+		for (mCheckBox box : boxes) {
+			if (!box.state) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Checks if any of the checkboxes are checked
+	 */
+	private static boolean anySet(Collection<mCheckBox> boxes) {
+		for (mCheckBox box : boxes) {
+			if (box.state) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// Set the colors of the filter buttons according to which filters are
 	// active
 	private void setColors() {
 		// Panel 1 - Bearing & Distance
-		if (inpDist.getText().length() > 0
-				|| !(chkNW.state && chkNNW.state && chkN.state && chkNNE.state
-						&& chkNE.state && chkENE.state && chkE.state
-						&& chkESE.state && chkSE.state && chkSSE.state
-						&& chkS.state && chkSSW.state && chkSW.state
-						&& chkWSW.state && chkW.state && chkWNW.state))
+		if (inpDist.getText().length() > 0 || !(allSet(chksBearing.values()))) {
 			btnBearing.backGround = COLOR_FILTERACTIVE;
-		else
+		} else {
 			btnBearing.backGround = COLOR_FILTERINACTIVE;
-		if (!(chkNW.state || chkNNW.state || chkN.state || chkNNE.state
-				|| chkNE.state || chkENE.state || chkE.state || chkESE.state
-				|| chkSE.state || chkSSE.state || chkS.state || chkSSW.state
-				|| chkSW.state || chkWSW.state || chkW.state || chkWNW.state))
+		}
+		if (!(anySet(chksBearing.values()))) {
 			btnBearing.backGround = COLOR_FILTERALL;
+		}
 		btnBearing.repaint();
 
 		// Panel 2 - Cache attributes
@@ -911,12 +899,16 @@ public class FilterScreen extends Form {
 			else if (ev.target == btnCacheAttributes)
 				cp.select(7);
 			else if (ev.target == btnDeselect) {
-				chkNW.state = chkNNW.state = chkN.state = chkNNE.state = chkNE.state = chkENE.state = chkE.state = chkESE.state = chkSE.state = chkSSE.state = chkS.state = chkSSW.state = chkSW.state = chkWSW.state = chkW.state = chkWNW.state = false;
+				for (Bearing b : Bearing.values()) {
+					chksBearing.get(b).state = false;
+				}
 				setColors();
 				repaint();
 
 			} else if (ev.target == btnSelect) {
-				chkNW.state = chkNNW.state = chkN.state = chkNNE.state = chkNE.state = chkENE.state = chkE.state = chkESE.state = chkSE.state = chkSSE.state = chkS.state = chkSSW.state = chkSW.state = chkWSW.state = chkW.state = chkWNW.state = true;
+				for (Bearing b : Bearing.values()) {
+					chksBearing.get(b).state = true;
+				}
 				setColors();
 				repaint();
 			}
@@ -980,15 +972,15 @@ public class FilterScreen extends Form {
 				+ (chkTrailhead.state ? "1" : "0")
 				+ (chkReference.state ? "1" : "0")
 				+ (chkCito.state ? "1" : "0") + (chkWherigo.state ? "1" : "0"));
-		data.setFilterRose((chkNW.state ? "1" : "0")
-				+ (chkNNW.state ? "1" : "0") + (chkN.state ? "1" : "0")
-				+ (chkNNE.state ? "1" : "0") + (chkNE.state ? "1" : "0")
-				+ (chkENE.state ? "1" : "0") + (chkE.state ? "1" : "0")
-				+ (chkESE.state ? "1" : "0") + (chkSE.state ? "1" : "0")
-				+ (chkSSE.state ? "1" : "0") + (chkS.state ? "1" : "0")
-				+ (chkSSW.state ? "1" : "0") + (chkSW.state ? "1" : "0")
-				+ (chkWSW.state ? "1" : "0") + (chkW.state ? "1" : "0")
-				+ (chkWNW.state ? "1" : "0"));
+
+		Set<Bearing> filterRose = EnumSet.<Bearing> noneOf(Bearing.class);
+		for (Bearing b : Bearing.values()) {
+			if (chksBearing.get(b).state) {
+				filterRose.add(b);
+			}
+		}
+		data.setFilterRose(filterRose);
+
 		data.setFilterSize((chkMicro.state ? "1" : "0")
 				+ (chkSmall.state ? "1" : "0") + (chkRegular.state ? "1" : "0")
 				+ (chkLarge.state ? "1" : "0")
