@@ -20,6 +20,7 @@ import com.stevesoft.ewe_pat.Regex;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
+import de.cachehound.types.Bearing;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
 import ewe.sys.Convert;
@@ -37,7 +38,7 @@ public class CacheHolder {
 
 	private static Logger logger = LoggerFactory.getLogger(CacheHolder.class);
 
-	protected static final String NOBEARING = "?";
+	private static final String NOBEARING = "?";
 	public static final String EMPTY = "";
 
 	/**
@@ -70,7 +71,7 @@ public class CacheHolder {
 	private int lastMetric = -1; // Cache last metric
 	private String lastDistance = ""; // Cache last distance
 	/** The bearing N, NNE, NE, ENE ... from the current centre to this point */
-	private String bearing = NOBEARING;
+	private Bearing bearing = null;
 	/** The angle (0=North, 180=South) from the current centre to this point */
 	public double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
@@ -372,7 +373,7 @@ public class CacheHolder {
 		this.setDateHidden(ch.getDateHidden());
 		this.setCacheSize(ch.getCacheSize());
 		this.kilom = ch.kilom;
-		this.setBearing(ch.getBearingAsString());
+		this.bearing = ch.getBearing();
 		this.degrees = ch.degrees;
 		this.setHard(ch.getHard());
 		this.setTerrain(ch.getTerrain());
@@ -502,10 +503,10 @@ public class CacheHolder {
 		if (pos.isValid()) {
 			kilom = pos.getDistance(toPoint);
 			degrees = toPoint.getBearing(pos);
-			setBearing(CWPoint.getDirection(degrees));
+			bearing = Bearing.fromDeg(degrees);
 		} else {
 			kilom = -1;
-			setBearing(NOBEARING);
+			this.bearing = null;
 		}
 	}
 
@@ -1461,11 +1462,22 @@ public class CacheHolder {
 		this.hasNote = hasNote;
 	}
 
-	private void setBearing(String bearing) {
-		this.bearing = bearing;
+	/**
+	 * @return null if !pos.isValid(), the Bearing from the current centre to this cache otherwise.
+	 */
+	public Bearing getBearing() {
+		return bearing;
 	}
 
+	/**
+	 * @deprecated use getBearing instead.
+	 */
+	@Deprecated
 	public String getBearingAsString() {
-		return bearing;
+		if (bearing == null) {
+			return NOBEARING;
+		} else {
+			return this.getBearing().toString();
+		}
 	}
 }
