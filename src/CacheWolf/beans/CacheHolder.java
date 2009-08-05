@@ -1467,7 +1467,6 @@ public class CacheHolder {
 	/**
 	 * @deprecated use getBearing instead.
 	 */
-	@Deprecated
 	public String getBearingAsString() {
 		if (getBearing() == null) {
 			return NOBEARING;
