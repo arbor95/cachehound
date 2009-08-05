@@ -70,7 +70,7 @@ public class CacheHolder {
 	private int lastMetric = -1; // Cache last metric
 	private String lastDistance = ""; // Cache last distance
 	/** The bearing N, NNE, NE, ENE ... from the current centre to this point */
-	public String bearing = NOBEARING;
+	private String bearing = NOBEARING;
 	/** The angle (0=North, 180=South) from the current centre to this point */
 	public double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
@@ -372,7 +372,7 @@ public class CacheHolder {
 		this.setDateHidden(ch.getDateHidden());
 		this.setCacheSize(ch.getCacheSize());
 		this.kilom = ch.kilom;
-		this.bearing = ch.bearing;
+		this.setBearing(ch.getBearingAsString());
 		this.degrees = ch.degrees;
 		this.setHard(ch.getHard());
 		this.setTerrain(ch.getTerrain());
@@ -502,10 +502,10 @@ public class CacheHolder {
 		if (pos.isValid()) {
 			kilom = pos.getDistance(toPoint);
 			degrees = toPoint.getBearing(pos);
-			bearing = CWPoint.getDirection(degrees);
+			setBearing(CWPoint.getDirection(degrees));
 		} else {
 			kilom = -1;
-			bearing = NOBEARING;
+			setBearing(NOBEARING);
 		}
 	}
 
@@ -1459,5 +1459,13 @@ public class CacheHolder {
 	public void setHasNote(boolean hasNote) {
 		Global.getProfile().notifyUnsavedChanges(hasNote != this.hasNote);
 		this.hasNote = hasNote;
+	}
+
+	private void setBearing(String bearing) {
+		this.bearing = bearing;
+	}
+
+	public String getBearingAsString() {
+		return bearing;
 	}
 }

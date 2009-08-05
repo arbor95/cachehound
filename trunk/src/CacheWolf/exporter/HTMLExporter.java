@@ -135,7 +135,7 @@ public class HTMLExporter {
 								.getTerrain()) : "");
 					}
 					varParams.put("DISTANCE", ch.getDistance());
-					varParams.put("BEARING", ch.bearing);
+					varParams.put("BEARING", ch.getBearingAsString());
 					varParams.put("LATLON", ch.LatLon);
 					varParams.put("STATUS", ch.getCacheStatus());
 					varParams.put("DATE", ch.getDateHidden());
@@ -155,7 +155,7 @@ public class HTMLExporter {
 						page_tpl.setParam("TERRAIN", varParams.get("TERRAIN")
 								.toString());
 						page_tpl.setParam("DISTANCE", ch.getDistance());
-						page_tpl.setParam("BEARING", ch.bearing);
+						page_tpl.setParam("BEARING", ch.getBearingAsString());
 						page_tpl.setParam("LATLON", ch.LatLon);
 						page_tpl.setParam("STATUS", ch.getCacheStatus());
 						page_tpl.setParam("DATE", ch.getDateHidden());

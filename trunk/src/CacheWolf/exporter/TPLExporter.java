@@ -237,7 +237,7 @@ public class TPLExporter {
 																		.getTerrain())));
 						varParams.put("DISTANCE", dec.replaceAll(ch
 								.getDistance()));
-						varParams.put("BEARING", ch.bearing);
+						varParams.put("BEARING", ch.getBearingAsString());
 						varParams.put("LATLON", ch.LatLon);
 						varParams.put("LAT", dec.replaceAll(ch.pos
 								.getLatDeg(CWPoint.DD)));
