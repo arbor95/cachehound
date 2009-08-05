@@ -1,6 +1,10 @@
 package CacheWolf.beans;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import CacheWolf.util.SafeXML;
+import de.cachehound.types.Bearing;
 
 /**
  * This class represents the settings of the filter that can be done when the
@@ -12,12 +16,11 @@ public class FilterData {
 	// When extending the filter check "normaliseFilters"
 	// which ensures backward compatibility. Normally no change should be needed
 	public final static String FILTERTYPE = "1111111111111111111";
-	public final static String FILTERROSE = "1111111111111111";
 	public final static String FILTERVAR = "11111111";
 	public final static String FILTERSIZE = "111111";
 
 	private String filterType = new String(FILTERTYPE);
-	private String filterRose = new String(FILTERROSE);
+	private Set<Bearing> filterRose = EnumSet.allOf(Bearing.class);
 	private String filterSize = new String(FILTERSIZE);
 
 	// filter settings for archived ... owner (section) in filterscreen
@@ -57,7 +60,7 @@ public class FilterData {
 		if (ID != null && !ID.equals("")) {
 			saveID = "id = \"" + SafeXML.strxmlencode(ID) + "\" ";
 		}
-		return "    <FILTERDATA " + saveID + "rose = \"" + getFilterRose()
+		return "    <FILTERDATA " + saveID + "rose = \"" + getFilterRoseAsString()
 				+ "\" type = \"" + getFilterType() + "\" var = \""
 				+ getFilterVar() + "\" dist = \""
 				+ getFilterDist().replace('"', ' ') + "\" diff = \""
@@ -76,10 +79,6 @@ public class FilterData {
 	 */
 	public void normaliseFilters() {
 		String manyOnes = "11111111111111111111111111111";
-		if (getFilterRose().length() < FILTERROSE.length()) {
-			setFilterRose((getFilterRose() + manyOnes).substring(0, FILTERROSE
-					.length()));
-		}
 		if (getFilterVar().length() < FILTERVAR.length()) {
 			setFilterVar((getFilterVar() + manyOnes).substring(0, FILTERVAR
 					.length()));
@@ -110,12 +109,68 @@ public class FilterData {
 		this.filterType = filterType;
 	}
 
-	public String getFilterRose() {
-		return filterRose;
+	public Set<Bearing> getFilterRose() {
+		return EnumSet.<Bearing>copyOf(filterRose);
+	}
+	
+	@Deprecated
+	public String getFilterRoseAsString() {
+		Set<Bearing> filterRose = this.getFilterRose();
+		StringBuilder retval = new StringBuilder("");
+		
+		for (Bearing b : Bearing.values()) {
+			if (filterRose.contains(b)) {
+				retval.append('1');
+			} else {
+				retval.append('0');
+			}
+		}
+		
+		// Bearing faengt bei N an, die Bitstrings der Filter bei NW
+		return retval.substring(14) + retval.substring(0, 14);
+	}
+	
+	public void setFilterRose(Set<Bearing> filterRose) {
+		this.filterRose = EnumSet.<Bearing>copyOf(filterRose);
 	}
 
+	@Deprecated
 	public void setFilterRose(String filterRose) {
-		this.filterRose = filterRose;
+		this.filterRose = EnumSet.noneOf(Bearing.class);
+		
+		
+		if (filterRose.charAt(0) == '1')
+			this.filterRose.add(Bearing.NW);
+		if (filterRose.charAt(1) == '1')
+			this.filterRose.add(Bearing.NNW);
+		if (filterRose.charAt(2) == '1')
+			this.filterRose.add(Bearing.N);
+		if (filterRose.charAt(3) == '1')
+			this.filterRose.add(Bearing.NNE);
+		if (filterRose.charAt(4) == '1')
+			this.filterRose.add(Bearing.NE);
+		if (filterRose.charAt(5) == '1')
+			this.filterRose.add(Bearing.ENE);
+		if (filterRose.charAt(6) == '1')
+			this.filterRose.add(Bearing.E);
+		if (filterRose.charAt(7) == '1')
+			this.filterRose.add(Bearing.ESE);
+		if (filterRose.charAt(8) == '1')
+			this.filterRose.add(Bearing.SE);
+		if (filterRose.charAt(9) == '1')
+			this.filterRose.add(Bearing.SSE);
+		if (filterRose.charAt(10) == '1')
+			this.filterRose.add(Bearing.S);
+		if (filterRose.charAt(11) == '1')
+			this.filterRose.add(Bearing.SSW);
+		if (filterRose.charAt(12) == '1')
+			this.filterRose.add(Bearing.SW);
+		if (filterRose.charAt(13) == '1')
+			this.filterRose.add(Bearing.WSW);
+		if (filterRose.charAt(14) == '1')
+			this.filterRose.add(Bearing.W);
+		if (filterRose.charAt(15) == '1')
+			this.filterRose.add(Bearing.WNW);
 	}
 
 	public String getFilterSize() {
