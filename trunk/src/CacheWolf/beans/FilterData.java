@@ -1,10 +1,12 @@
 package CacheWolf.beans;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
 import CacheWolf.util.SafeXML;
 import de.cachehound.types.Bearing;
+import de.cachehound.util.ListHelper;
 
 /**
  * This class represents the settings of the filter that can be done when the
@@ -60,9 +62,9 @@ public class FilterData {
 		if (ID != null && !ID.equals("")) {
 			saveID = "id = \"" + SafeXML.strxmlencode(ID) + "\" ";
 		}
-		return "    <FILTERDATA " + saveID + "rose = \"" + getFilterRoseAsString()
-				+ "\" type = \"" + getFilterType() + "\" var = \""
-				+ getFilterVar() + "\" dist = \""
+		return "    <FILTERDATA " + saveID + "rose = \""
+				+ getFilterRoseAsString() + "\" type = \"" + getFilterType()
+				+ "\" var = \"" + getFilterVar() + "\" dist = \""
 				+ getFilterDist().replace('"', ' ') + "\" diff = \""
 				+ getFilterDiff() + "\" terr = \"" + getFilterTerr()
 				+ "\" size = \"" + getFilterSize() + "\" attributesYes = \""
@@ -110,15 +112,16 @@ public class FilterData {
 	}
 
 	public Set<Bearing> getFilterRose() {
-		return EnumSet.<Bearing>copyOf(filterRose);
+		return EnumSet.<Bearing> copyOf(filterRose);
 	}
-	
+
 	@Deprecated
 	public String getFilterRoseAsString() {
 		Set<Bearing> filterRose = this.getFilterRose();
 		StringBuilder retval = new StringBuilder("");
-		
-		for (Bearing b : Bearing.values()) {
+
+		for (Bearing b : ListHelper.divideAndSwap(Arrays.asList(Bearing
+				.values()), Bearing.NW)) {
 			if (filterRose.contains(b)) {
 				retval.append('1');
 			} else {
@@ -126,19 +129,17 @@ public class FilterData {
 			}
 		}
 		
-		// Bearing faengt bei N an, die Bitstrings der Filter bei NW
-		return retval.substring(14) + retval.substring(0, 14);
+		return retval.toString();
 	}
-	
+
 	public void setFilterRose(Set<Bearing> filterRose) {
-		this.filterRose = EnumSet.<Bearing>copyOf(filterRose);
+		this.filterRose = EnumSet.<Bearing> copyOf(filterRose);
 	}
 
 	@Deprecated
 	public void setFilterRose(String filterRose) {
 		this.filterRose = EnumSet.noneOf(Bearing.class);
-		
-		
+
 		if (filterRose.charAt(0) == '1')
 			this.filterRose.add(Bearing.NW);
 		if (filterRose.charAt(1) == '1')
