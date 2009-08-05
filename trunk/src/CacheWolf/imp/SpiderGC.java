@@ -30,7 +30,6 @@ import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheImages;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
@@ -51,6 +50,7 @@ import com.stevesoft.ewe_pat.Regex;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
+import de.cachehound.types.CacheSize;
 import de.cachehound.types.LogType;
 import ewe.data.Property;
 import ewe.data.PropertyList;
@@ -1075,8 +1075,7 @@ public class SpiderGC {
 							pref.log("Got hints");
 
 						pref.log("Trying size");
-						ch.setCacheSize(CacheSize
-								.gcSpiderString2Cw(getSize(completeWebPage)));
+						ch.setCacheSize(CacheSize.fromNormalStringRepresentation(getSize(completeWebPage)));
 						if (pref.debug)
 							pref.log("Size: " + ch.getCacheSize());
 						else
@@ -1939,7 +1938,7 @@ public class SpiderGC {
 				hd.getFreshDetails().setLongDescription(
 						descRex.stringMatched(1));
 				hd.setFound(is_found);
-				hd.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+				hd.setCacheSize(CacheSize.NOT_CHOSEN);
 				hd.setHard(CacheTerrDiff.CW_DT_UNSET);
 				hd.setTerrain(CacheTerrDiff.CW_DT_UNSET);
 				if (idx < 0) {

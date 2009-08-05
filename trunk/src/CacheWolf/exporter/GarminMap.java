@@ -2,8 +2,8 @@ package CacheWolf.exporter;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
+import de.cachehound.types.CacheSize;
 import ewe.io.FileBase;
 import ewe.util.Vector;
 import ewesoft.xml.MinML;
@@ -62,9 +62,9 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == 0 || icon.size
-							.equalsIgnoreCase(CacheSize.getExportShortId(ch
-									.getCacheSize())));
+					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase("" + ch
+									.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
@@ -98,9 +98,9 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == 0 || icon.size
-							.equalsIgnoreCase(CacheSize.getExportShortId(ch
-									.getCacheSize())));
+					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase("" + ch
+									.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
@@ -129,9 +129,9 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == 0 || icon.size
-							.equalsIgnoreCase(CacheSize.getExportShortId(ch
-									.getCacheSize())));
+					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase("" + ch
+									.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));

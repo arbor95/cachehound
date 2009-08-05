@@ -10,6 +10,7 @@ import CacheWolf.util.Common;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.Bearing;
+import de.cachehound.types.CacheSize;
 import ewe.io.File;
 import ewe.io.FileNotFoundException;
 import ewe.io.FileReader;
@@ -319,18 +320,18 @@ public class Filter {
 		sizeMatchPattern = 0;
 		String filterSize = profile.getFilterSize();
 		if (filterSize.charAt(0) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_MICRO;
+			sizeMatchPattern |= CacheSize.MICRO.getFilterPattern();
 		if (filterSize.charAt(1) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_SMALL;
+			sizeMatchPattern |= CacheSize.SMALL.getFilterPattern();
 		if (filterSize.charAt(2) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_NORMAL;
+			sizeMatchPattern |= CacheSize.REGULAR.getFilterPattern();
 		if (filterSize.charAt(3) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_LARGE;
+			sizeMatchPattern |= CacheSize.LARGE.getFilterPattern();
 		if (filterSize.charAt(4) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_VERYLARGE;
+			sizeMatchPattern |= CacheSize.VERY_LARGE.getFilterPattern();
 		if (filterSize.charAt(5) == '1')
-			sizeMatchPattern |= CacheSize.CW_FILTER_NONPHYSICAL;
-		hasSizeMatchPattern = sizeMatchPattern != CacheSize.CW_FILTER_ALL;
+			sizeMatchPattern |= CacheSize.NOT_CHOSEN.getFilterPattern();
+		hasSizeMatchPattern = sizeMatchPattern != CacheSize.getAllFilterPatterns();
 		distdirec = profile.getFilterDist().charAt(0) == 'L' ? SMALLER
 				: GREATER;
 		fscDist = Common.parseDouble(profile.getFilterDist().substring(1)); // Distance
@@ -549,8 +550,7 @@ public class Filter {
 			// Filter criterium 10: Size
 			// /////////////////////////////
 			if (hasSizeMatchPattern) {
-				int cacheSizePattern = CacheSize
-						.getFilterPattern(ch.getCacheSize());
+				int cacheSizePattern = ch.getCacheSize().getFilterPattern();
 				if ((cacheSizePattern & sizeMatchPattern) == 0) {
 					cacheFiltered = true;
 					break;

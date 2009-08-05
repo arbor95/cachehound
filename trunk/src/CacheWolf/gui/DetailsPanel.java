@@ -1,11 +1,12 @@
 package CacheWolf.gui;
 
 import de.cachehound.factory.CacheHolderDetailFactory;
+import de.cachehound.types.CacheSize;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
+
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
@@ -65,7 +66,7 @@ public class DetailsPanel extends CellPanel {
 	mInput inpOwner = new mInput();
 	mButton btnDelete, btnCenter, btnAddDateTime;
 	mChoice chcType = new mChoice(CacheType.guiTypeStrings(), 0);
-	mChoice chcSize = new mChoice(CacheSize.guiSizeStrings(), 0);
+	mChoice chcSize;
 
 	mComboBox chcStatus = new mComboBox(new String[] { "",
 			MyLocale.getMsg(313, "Flag 1"), MyLocale.getMsg(314, "Flag 2"),
@@ -107,6 +108,14 @@ public class DetailsPanel extends CellPanel {
 		pref = Global.getPref();
 		profile = Global.getProfile();
 		cacheDB = profile.cacheDB;
+		
+		// Initialize Size Array:
+		String[] sizes = new String[CacheSize.values().length];
+		for (int i = 0; i < sizes.length; i++) {
+			sizes[i] = CacheSize.values()[i].getAsString();
+		}
+		chcSize = new mChoice(sizes, 0);
+		
 		// //////////////////
 		// Tools
 		// //////////////////
@@ -340,7 +349,7 @@ public class DetailsPanel extends CellPanel {
 			btnShowBug.image = imgShowBugNo;
 		}
 		btnShowBug.repaintNow();
-		chcSize.setInt(ch.getCacheSize());
+		chcSize.setInt(ch.getCacheSize().ordinal());
 
 		attV.showImages(ch.getCacheDetails(true).getAttributes());
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
@@ -563,7 +572,7 @@ public class DetailsPanel extends CellPanel {
 				ch.setType(CacheType.CW_TYPE_STAGE);
 				ch.setHard(CacheTerrDiff.CW_DT_UNSET);
 				ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
-				ch.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+				ch.setCacheSize(CacheSize.NOT_CHOSEN);
 				Global.mainTab.newWaypoint(ch);
 			} else if (ev.target == btnGoto) {
 				// FIXME: if something changed saveDirtyWaypoint();
@@ -725,7 +734,8 @@ public class DetailsPanel extends CellPanel {
 		thisCache.setBlack(blackStatus);
 		String oldWaypoint = thisCache.getWayPoint();
 		thisCache.setWayPoint(inpWaypoint.getText().toUpperCase().trim());
-		thisCache.setCacheSize(CacheSize.guiSizeStrings2CwSize(chcSize
+		//ToDo, geht auch einfach nur getInt() ??
+		thisCache.setCacheSize(CacheSize.fromNormalStringRepresentation(chcSize
 				.getText()));
 		// If the waypoint does not have a name, give it one
 		if (thisCache.getWayPoint().equals("")) {

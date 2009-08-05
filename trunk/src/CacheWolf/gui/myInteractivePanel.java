@@ -3,7 +3,6 @@ package CacheWolf.gui;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Color;
 import ewe.fx.Font;
@@ -85,7 +84,7 @@ public class myInteractivePanel extends InteractivePanel {
 		CacheHolder ch = cacheDB.get(imgRP.rownum);
 		wayPoint = ch.getWayPoint();
 		String s = wayPoint + "  "
-				+ CacheSize.getExportShortId(ch.getCacheSize()) + " / "
+				+ ch.getCacheSize().getAsChar() + " / "
 				+ strDifficulty + "=" + ch.getHard() + "  " + strTerrain + "="
 				+ ch.getTerrain();
 		String s1 = ch.getCacheName();

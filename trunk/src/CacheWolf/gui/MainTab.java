@@ -1,11 +1,9 @@
 package CacheWolf.gui;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
@@ -15,6 +13,8 @@ import CacheWolf.navi.MapImage;
 import CacheWolf.navi.MovingMap;
 import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheSize;
 import ewe.fx.Color;
 import ewe.fx.Image;
 import ewe.fx.mImage;
@@ -353,10 +353,10 @@ public class MainTab extends mTabbedPanel {
 			pCh.setType(CacheType.CW_TYPE_CUSTOM);
 			pCh.setHard(CacheTerrDiff.CW_DT_UNSET);
 			pCh.setTerrain(CacheTerrDiff.CW_DT_UNSET);
-			pCh.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+			pCh.setCacheSize(CacheSize.NOT_CHOSEN);
 			lastselected = pCh.getWayPoint();
 		}
-		pCh.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+		pCh.setCacheSize(CacheSize.NOT_CHOSEN);
 		chD = pCh.getCacheDetails(true);
 		this.ch = pCh;
 		cacheDB.add(pCh);

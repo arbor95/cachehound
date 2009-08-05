@@ -5,7 +5,6 @@ import java.util.Iterator;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
@@ -590,28 +589,14 @@ public class GpxExportNg {
 								SafeXML.cleanGPX(ch.getWayPoint())).concat(
 								"</name>\n"));
 			} else {
-				ret
-						.append("    <name>"
-								.concat(
-										SafeXML
-												.cleanGPX(ch.getWayPoint())
-												.concat(" ")
-												.concat(
-														CacheType
-																.getExportShortId(ch
-																		.getType()))
-												.concat(
-														String.valueOf(ch
-																.getHard()))
-												.concat(
-														String.valueOf(ch
-																.getTerrain()))
-												.concat(
-														CacheSize
-																.getExportShortId(ch
-																		.getCacheSize())))
-								.concat(String.valueOf(ch.getNoFindLogs()))
-								.concat("</name>\n"));
+				ret.append("    <name>".concat(
+						SafeXML.cleanGPX(ch.getWayPoint()).concat(" ").concat(
+								CacheType.getExportShortId(ch.getType()))
+								.concat(String.valueOf(ch.getHard())).concat(
+										String.valueOf(ch.getTerrain()))
+								.concat(ch.getCacheSize().getAsString()))
+						.concat(String.valueOf(ch.getNoFindLogs())).concat(
+								"</name>\n"));
 			}
 		} else if (exportIds == WPNAME_NAME_SMART) {
 			// TBD
@@ -626,32 +611,26 @@ public class GpxExportNg {
 					&& exportStyle == STYLE_GPX_COMPACT) {
 				if (ch.isAddiWpt()) {
 					ret.append("    <cmt>".concat(
-							SafeXML.cleanGPX(ch.getCacheName() + " "
-									+ ch.getFreshDetails().getLongDescription()))
+							SafeXML
+									.cleanGPX(ch.getCacheName()
+											+ " "
+											+ ch.getFreshDetails()
+													.getLongDescription()))
 							.concat("</cmt>\n"));
 				} else {
-					ret
-							.append("    <cmt>"
-									.concat(
-											SafeXML
-													.cleanGPX(ch.getCacheName()
-															+ " "
-															+ Common
-																	.rot13(ch
-																			.getFreshDetails().getHints())))
-									.concat("</cmt>\n"));
+					ret.append("    <cmt>".concat(
+							SafeXML.cleanGPX(ch.getCacheName()
+									+ " "
+									+ Common.rot13(ch.getFreshDetails()
+											.getHints()))).concat("</cmt>\n"));
 				}
 			} else if (exportIds == WPNAME_NAME_SMART) {
 				// TBD
 			} else {
 				if (ch.isAddiWpt()) {
-					ret
-							.append("    <cmt>"
-									.concat(
-											SafeXML
-													.cleanGPX(ch
-															.getFreshDetails().getLongDescription()))
-									.concat("</cmt>\n"));
+					ret.append("    <cmt>".concat(
+							SafeXML.cleanGPX(ch.getFreshDetails()
+									.getLongDescription())).concat("</cmt>\n"));
 				} // caches have no <cmt> in gc.com PQs
 			}
 		}
@@ -672,8 +651,8 @@ public class GpxExportNg {
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			if (!ch.isCustomWpt()) {
-				ret.append("    <url>".concat(ch.details.getUrl())
-						.concat("</url>\n"));
+				ret.append("    <url>".concat(ch.details.getUrl()).concat(
+						"</url>\n"));
 				ret.append("    <urlname>".concat(
 						SafeXML.cleanGPX(ch.getCacheName())).concat(
 						"</urlname>\n"));
@@ -687,8 +666,8 @@ public class GpxExportNg {
 			if (ch.isAddiWpt()) {
 				ret.append("    <sym>".concat(
 						CacheType.id2GpxStringBroken(ch.getType()).substring(
-								CacheType.id2GpxStringBroken(ch.getType()).indexOf(
-										"|") + 1)).concat("</sym>\n"));
+								CacheType.id2GpxStringBroken(ch.getType())
+										.indexOf("|") + 1)).concat("</sym>\n"));
 			} else if (ch.isCustomWpt()) {
 				ret.append("    <sym>Custom</sym>\n");
 			} else if (ch.is_found()) {
@@ -699,9 +678,9 @@ public class GpxExportNg {
 		}
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
-			ret.append("    <type>"
-					.concat(CacheType.id2GpxStringBroken(ch.getType())).concat(
-							"</type>\n"));
+			ret.append("    <type>".concat(
+					CacheType.id2GpxStringBroken(ch.getType())).concat(
+					"</type>\n"));
 		}
 
 		return ret.toString();
@@ -741,7 +720,7 @@ public class GpxExportNg {
 						CacheType.id2GpxStringBroken(ch.getType())).concat(
 						"</groundspeak:type>\n").concat(
 						"      <groundspeak:container>").concat(
-						CacheSize.cw2ExportString(ch.getCacheSize())).concat(
+						ch.getCacheSize().getAsString()).concat(
 						"</groundspeak:container>\n").concat(
 						"      <groundspeak:difficulty>").concat(
 						CacheTerrDiff.shortDT(ch.getHard())).concat(
@@ -903,8 +882,8 @@ public class GpxExportNg {
 					trans.add(new Regex("@@ADDILAT@@",
 							formatAddiLatLon(addi.pos)));
 					trans.add(new Regex("@@ADDILON@@", ""));
-					trans.add(new Regex("@@ADDILONG@@",
-							addi.getFreshDetails().getLongDescription()));
+					trans.add(new Regex("@@ADDILONG@@", addi.getFreshDetails()
+							.getLongDescription()));
 					ret.append(trans.replaceAll(GPXADDIINMAIN));
 				}
 				ret.append(delim).append("\n");
@@ -1080,7 +1059,7 @@ public class GpxExportNg {
 			// handler as well
 			chTarget.addItem(MyLocale.getMsg(31415, "Single GPX")); // index 0
 			chTarget.addItem(MyLocale.getMsg(31415, "Separate GPX")); // index
-																		// 1
+			// 1
 			if (hasBitmaps && hasGarminMap && hasGpsbabel) {
 				chTarget.addItem(MyLocale.getMsg(31415, "POI")); // index 2
 			}
@@ -1174,7 +1153,7 @@ public class GpxExportNg {
 						if (ibPrefix.change(ControlConstants.Disabled, 0))
 							ibPrefix.repaint();
 					} else if (chStyle.selectedIndex == 1) { // PQ like
-																// export
+						// export
 						if (chIds.change(0, ControlConstants.Disabled))
 							chIds.repaint();
 
