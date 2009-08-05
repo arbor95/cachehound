@@ -6,7 +6,6 @@ import java.net.URI;
 import CacheWolf.Global;
 import CacheWolf.beans.Attribute;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import HTML.Template;
@@ -14,7 +13,6 @@ import HTML.Template;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.factory.LogFactory;
-
 import ewe.io.BufferedWriter;
 import ewe.io.FileBase;
 import ewe.io.FileWriter;
@@ -81,8 +79,8 @@ public class ShowCacheInBrowser {
 					tpl.setParam("TYPE", "\"file://"
 							+ FileBase.getProgramDirectory() + "/"
 							+ chD.getType() + ".gif\"");
-					tpl.setParam("SIZE", CacheSize.cw2ExportString(chD
-							.getCacheSize()));
+					tpl.setParam("SIZE", chD
+							.getCacheSize().getAsString());
 					tpl.setParam("WAYPOINT", chD.getWayPoint());
 					tpl.setParam("CACHE_NAME", chD.getCacheName());
 					tpl.setParam("OWNER", chD.getCacheOwner());

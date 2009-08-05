@@ -3,7 +3,6 @@ package CacheWolf.exporter;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
@@ -16,7 +15,6 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
-
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedWriter;
@@ -124,9 +122,8 @@ public class HTMLExporter {
 						varParams.put("DIFFICULTY", "");
 						varParams.put("TERRAIN", "");
 					} else {
-						varParams.put("SIZE", CacheSize.isValidSize(ch
-								.getCacheSize()) ? CacheSize.cw2ExportString(ch
-								.getCacheSize()) : "");
+						varParams.put("SIZE", ch
+								.getCacheSize().getAsString());
 						varParams.put("DIFFICULTY", CacheTerrDiff.isValidTD(ch
 								.getHard()) ? CacheTerrDiff
 								.longDT(ch.getHard()) : "");

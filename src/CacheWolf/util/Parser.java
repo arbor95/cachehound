@@ -47,7 +47,6 @@ package CacheWolf.util;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.navi.Metrics;
@@ -55,6 +54,7 @@ import CacheWolf.navi.Navigate;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.types.CacheSize;
 import ewe.sys.Convert;
 import ewe.util.Hashtable;
 import ewe.util.Iterator;
@@ -1446,7 +1446,7 @@ public class Parser {
 		CacheHolder ch = new CacheHolder();
 		ch.setWayPoint(wayPoint);
 		ch.setType(type);
-		ch.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+		ch.setCacheSize(CacheSize.NOT_CHOSEN);
 		ch.setHard(CacheTerrDiff.CW_DT_UNSET);
 		ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
 		ch.setCacheName(name);

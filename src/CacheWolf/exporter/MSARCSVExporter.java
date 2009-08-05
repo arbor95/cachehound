@@ -1,7 +1,6 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
 
 /**
@@ -29,7 +28,7 @@ public class MSARCSVExporter extends Exporter {
 		str.append("\"" + ch.getWayPoint() + " - " + ch.getCacheName() + "\";");
 		str.append(lat + ";" + lon + ";");
 		str.append("\"" + CacheType.cw2ExportString(ch.getType()) + "\";");
-		str.append("\"" + CacheSize.cw2ExportString(ch.getCacheSize()) + "\";");
+		str.append("\"" + ch.getCacheSize().getAsString() + "\";");
 		str.append("\"" + ch.getWayPoint() + "\";");
 		str.append("\"" + ch.getDateHidden() + "\";");
 		str.append("\"" + ch.getExistingDetails().getUrl() + "\"\r\n");

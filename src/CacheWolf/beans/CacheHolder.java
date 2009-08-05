@@ -21,6 +21,7 @@ import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
+import de.cachehound.types.CacheSize;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
 import ewe.sys.Convert;
@@ -64,7 +65,7 @@ public class CacheHolder {
 	/** The date when the cache was hidden in format yyyy-mm-dd */
 	private String dateHidden = EMPTY;
 	/** The size of the cache (as per GC cache sizes Micro, Small, ....) */
-	private byte cacheSize = CacheSize.CW_SIZE_NOTCHOSEN;
+	private CacheSize cacheSize = CacheSize.NOT_CHOSEN;
 	/** The distance from the centre in km */
 	public double kilom = -1;
 	private double lastKilom = -2; // Cache last value
@@ -844,7 +845,7 @@ public class CacheHolder {
 	 */
 	private long byteFields2long() {
 		long value = byteBitMask(hard, 1) | byteBitMask(terrain, 2)
-				| byteBitMask(this.type, 3) | byteBitMask(cacheSize, 4)
+				| byteBitMask(this.type, 3) | byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
 		return value;
 	}
@@ -860,11 +861,11 @@ public class CacheHolder {
 		setHard(byteFromLong(value, 1));
 		setTerrain(byteFromLong(value, 2));
 		setType(byteFromLong(value, 3));
-		setCacheSize(byteFromLong(value, 4));
+		setCacheSize(CacheSize.fromOldCwId(byteFromLong(value, 4)));
 		setNoFindLogs((byteFromLong(value, 5)));
 		if (getHard() == CacheTerrDiff.CW_DT_ERROR
 				|| getTerrain() == CacheTerrDiff.CW_DT_ERROR
-				|| getCacheSize() == CacheSize.CW_SIZE_ERROR
+				//|| getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich nie erreicht werden
 				|| getType() == CacheType.CW_TYPE_ERROR) {
 			setIncomplete(true);
 		}
@@ -1077,11 +1078,11 @@ public class CacheHolder {
 		this.dateHidden = dateHidden;
 	}
 
-	public byte getCacheSize() {
+	public CacheSize getCacheSize() {
 		return cacheSize;
 	}
 
-	public void setCacheSize(byte cacheSize) {
+	public void setCacheSize(CacheSize cacheSize) {
 		Global.getProfile().notifyUnsavedChanges(cacheSize != this.cacheSize);
 		this.cacheSize = cacheSize;
 	}
@@ -1283,7 +1284,7 @@ public class CacheHolder {
 			if (getWayPoint().length() < 3
 					|| getHard() <= CacheTerrDiff.CW_DT_UNSET
 					|| getTerrain() <= CacheTerrDiff.CW_DT_UNSET
-					|| getCacheSize() == CacheSize.CW_SIZE_ERROR
+//					|| getCacheSize() == CacheSize.CW_SIZE_ERROR kann eigentlich nie erreicht werden
 					|| getCacheOwner().length() == 0
 					|| getDateHidden().length() == 0
 					|| getCacheName().length() == 0)
@@ -1292,7 +1293,7 @@ public class CacheHolder {
 				ret = false;
 		} else if (isAddiWpt()) {
 			if (mainCache == null || getHard() != CacheTerrDiff.CW_DT_UNSET
-					|| getCacheSize() != CacheSize.CW_SIZE_NOTCHOSEN
+					|| getCacheSize() != CacheSize.NOT_CHOSEN 
 					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
 					|| getWayPoint().length() < 2
 					// || getCacheOwner().length() > 0
@@ -1304,7 +1305,7 @@ public class CacheHolder {
 		} else if (isCustomWpt()) {
 			if (getHard() != CacheTerrDiff.CW_DT_UNSET
 					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
-					|| getCacheSize() != CacheSize.CW_SIZE_NOTCHOSEN
+					|| getCacheSize() != CacheSize.NOT_CHOSEN
 					|| getWayPoint().length() < 2
 					// || getCacheOwner().length() > 0
 					// || getDateHidden().length() > 0

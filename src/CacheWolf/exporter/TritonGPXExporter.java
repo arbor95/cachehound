@@ -1,7 +1,6 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
@@ -102,7 +101,7 @@ public class TritonGPXExporter extends Exporter {
 						CacheType.id2GpxString(ch.getType())).append(
 						"</groundspeak:type>\r\n");
 				strBuf.append("      <groundspeak:container>").append(
-						CacheSize.cw2ExportString(ch.getCacheSize())).append(
+						ch.getCacheSize().getAsString()).append(
 						"</groundspeak:container>\r\n");
 				// strBuf.append("
 				// <groundspeak:difficulty>").append(ch.hard.replace(',',
@@ -127,7 +126,7 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append(
 						"      <groundspeak:short_description html=\"false\">")
 						.append(ch.getWayPoint()).append(" - ").append(
-								CacheSize.cw2ExportString(ch.getCacheSize()))
+								ch.getCacheSize().getAsString())
 						.append(" D:").append(diff).append("/T:").append(terr)
 						.append("</groundspeak:short_description>\r\n");
 				strBuf

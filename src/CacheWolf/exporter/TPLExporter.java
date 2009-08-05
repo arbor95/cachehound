@@ -29,7 +29,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
@@ -40,7 +39,6 @@ import HTML.Template;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
-
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.AsciiCodec;
@@ -213,10 +211,9 @@ public class TPLExporter {
 								.getType()));
 						varParams.put("SHORTTYPE", CacheType
 								.getExportShortId(ch.getType()));
-						varParams.put("SIZE", CacheSize.cw2ExportString(ch
-								.getCacheSize()));
-						varParams.put("SHORTSIZE", CacheSize
-								.getExportShortId(ch.getCacheSize()));
+						varParams.put("SIZE", ch
+								.getCacheSize().getAsString());
+						varParams.put("SHORTSIZE", ch.getCacheSize().getAsChar());
 						varParams.put("WAYPOINT", ch.getWayPoint());
 						varParams.put("OWNER", ch.getCacheOwner());
 						varParams

@@ -30,12 +30,12 @@ package CacheWolf.imp;
 
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
+import de.cachehound.types.CacheSize;
 import ewe.io.FileReader;
 import ewe.io.Reader;
 import ewe.sys.Vm;
@@ -146,7 +146,7 @@ public class LOCXMLImporter extends MinML {
 			ch.setType(CacheType.CW_TYPE_CUSTOM);
 			ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
 			ch.setHard(CacheTerrDiff.CW_DT_UNSET);
-			ch.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+			ch.setCacheSize(CacheSize.NOT_CHOSEN);
 			ch.setWayPoint(wpt);
 		}
 		return ch;

@@ -4,7 +4,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -347,7 +346,7 @@ public class Exporter {
 		} else {
 			String s = (String) iso2simpleMappings.get(new Integer(c));
 			if (s == null) // not in table, replace with empty string just to
-							// be
+				// be
 				// sure
 				return "";
 			else
@@ -392,7 +391,7 @@ public class Exporter {
 			strBuf.append(ch.getHard());
 			strBuf.append("/");
 			strBuf.append(ch.getTerrain());
-			strBuf.append(CacheSize.getExportShortId(ch.getCacheSize()));
+			strBuf.append(ch.getCacheSize().getAsChar());
 		}
 
 		return strBuf.toString();

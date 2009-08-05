@@ -1,7 +1,6 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
 import ewe.io.File;
 import ewe.io.FileBase;
@@ -55,7 +54,7 @@ public class OziExporter extends Exporter {
 					CacheType.getExportShortId(ch.getType())).concat(
 					String.valueOf(ch.getHard())).concat(
 					String.valueOf(ch.getTerrain())).concat(
-					CacheSize.getExportShortId(ch.getCacheSize())).concat(","));
+					ch.getCacheSize().getAsString()).concat(","));
 		}
 		// Field 3 : Latitude - decimal degrees.
 		strBuf.append(lat + ",");

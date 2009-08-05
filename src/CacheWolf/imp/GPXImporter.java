@@ -3,7 +3,6 @@ package CacheWolf.imp;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
@@ -17,6 +16,7 @@ import CacheWolf.util.MyLocale;
 import CacheWolf.util.ParseLatLon;
 import CacheWolf.util.SafeXML;
 import de.cachehound.factory.LogFactory;
+import de.cachehound.types.CacheSize;
 import de.cachehound.types.LogType;
 import de.cachehound.util.SpiderService;
 import ewe.sys.Time;
@@ -452,7 +452,7 @@ public class GPXImporter extends MinML {
 		if (name.equals("type") && inWpt && !inCache
 				&& strData.startsWith("Waypoint")) {
 			holder.setType(CacheType.gpxType2CwType(strData));
-			holder.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+			holder.setCacheSize(CacheSize.NOT_CHOSEN);
 			holder.setHard(CacheTerrDiff.CW_DT_UNSET);
 			holder.setTerrain(CacheTerrDiff.CW_DT_UNSET);
 			holder.setLastSync("");
@@ -485,14 +485,14 @@ public class GPXImporter extends MinML {
 				&& inCache) {
 			holder.setType(CacheType.gpxType2CwType(strData));
 			if (holder.isCustomWpt()) {
-				holder.setCacheSize(CacheSize.CW_SIZE_NOTCHOSEN);
+				holder.setCacheSize(CacheSize.NOT_CHOSEN);
 				holder.setHard(CacheTerrDiff.CW_DT_UNSET);
 				holder.setTerrain(CacheTerrDiff.CW_DT_UNSET);
 			}
 			return;
 		}
 		if (name.equals("groundspeak:container") || name.equals("container")) {
-			holder.setCacheSize(CacheSize.gcGpxString2Cw(strData));
+			holder.setCacheSize(CacheSize.fromNormalStringRepresentation(strData));
 			return;
 		}
 		if (name.equals("groundspeak:country") || name.equals("country")) {
@@ -504,7 +504,7 @@ public class GPXImporter extends MinML {
 			return;
 		}
 		if (name.equals("terra:size")) {
-			holder.setCacheSize(CacheSize.tcGpxString2Cw(strData));
+			holder.setCacheSize(CacheSize.fromTcGpxString(strData));
 		}
 
 		if (name.equals("groundspeak:short_description")

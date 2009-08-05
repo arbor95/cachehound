@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import de.cachehound.comparators.CacheHolderComparatorFactory;
-
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.MyLocale;
+import de.cachehound.comparators.CacheHolderComparatorFactory;
+import de.cachehound.types.CacheSize;
 import ewe.fx.Color;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -88,7 +87,7 @@ public class myTableModel extends TableModel {
 	// private mImage
 	// picSizeMicro,picSizeSmall,picSizeReg,picSizeLarge,picSizeVLarge,picSizeNonPhysical;
 	private mImage picHasSolver, picHasNotes;
-	private mImage[] sizePics = new mImage[CacheSize.CW_TOTAL_SIZE_IMAGES];
+	private mImage[] sizePics;
 	/**
 	 * This is the modifier (Shift & Control key status) for Pen Events it is
 	 * set in myTableControl.onEvent
@@ -139,8 +138,10 @@ public class myTableModel extends TableModel {
 		// picSizeNonPhysical=new mImage("sizeNonPhysical.png");
 		// picSizeNonPhysical.transparentColor=Color.White;
 
-		for (byte i = 0; i < CacheSize.CW_TOTAL_SIZE_IMAGES; i++) {
-			sizePics[i] = new mImage(CacheSize.sizeImageForId(i));
+		// TODO: Problem, dass nicht alle ein bild haben, sollte evtl. mal geändert werden.
+		sizePics = new mImage[CacheSize.values().length];
+		for (int i = 0; i < sizePics.length; i++) {
+			sizePics[i] = new mImage(CacheSize.values()[i].getSizeImage());
 			sizePics[i].transparentColor = Color.White;
 		}
 
@@ -435,8 +436,8 @@ public class myTableModel extends TableModel {
 					if (ch.isAddiWpt()) {
 						return "";
 					} else {
-						return sizePics[CacheSize.guiSizeImageId(ch
-								.getCacheSize())];
+						return sizePics[ch
+								.getCacheSize().ordinal()];
 					}
 				case 13: // OC number of recommendations
 					if (ch.isAddiWpt()

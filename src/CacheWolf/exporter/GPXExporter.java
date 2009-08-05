@@ -2,7 +2,6 @@ package CacheWolf.exporter;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
@@ -120,7 +119,7 @@ public class GPXExporter extends Exporter {
 						CacheType.id2GpxStringBroken(ch.getType())).append(
 						"</groundspeak:type>\r\n");
 				strBuf.append("      <groundspeak:container>").append(
-						CacheSize.cw2ExportString(ch.getCacheSize())).append(
+						ch.getCacheSize().getAsString()).append(
 						"</groundspeak:container>\r\n");
 				// for Colorado/Oregon: 2.0 -> 2
 				String diffTerr = CacheTerrDiff.shortDT(ch.getHard());

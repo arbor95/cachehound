@@ -4,7 +4,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheSize;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -216,7 +215,7 @@ public class TomTomExporter {
 			outp.writeBytes("/");
 			outp.writeBytes(String.valueOf(ch.getTerrain()));
 			outp.writeBytes(" - ");
-			outp.writeBytes(CacheSize.cw2ExportString(ch.getCacheSize()));
+			outp.writeBytes(ch.getCacheSize().getAsString());
 			outp.writeBytes("\"\r\n");
 		} catch (IOException e) {
 			Vm.debug("Error writing to file");
@@ -237,7 +236,7 @@ public class TomTomExporter {
 					+ ch.getCacheOwner().length()
 					+ String.valueOf(ch.getHard()).length()
 					+ String.valueOf(ch.getTerrain()).length()
-					+ CacheSize.cw2ExportString(ch.getCacheSize()).length()
+					+ ch.getCacheSize().getAsString().length()
 					+ 27;
 			writeIntBinary(outp, data);
 			latlon = Common.parseDouble(lon);
@@ -262,7 +261,7 @@ public class TomTomExporter {
 			outp.writeBytes("/");
 			outp.writeBytes(String.valueOf(ch.getTerrain()));
 			outp.writeBytes(" - ");
-			outp.writeBytes(CacheSize.cw2ExportString(ch.getCacheSize()));
+			outp.writeBytes(ch.getCacheSize().getAsString());
 			d = 0;
 			outp.writeByte((byte) d);
 		} catch (IOException e) {

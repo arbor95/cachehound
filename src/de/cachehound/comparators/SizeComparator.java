@@ -7,6 +7,6 @@ import CacheWolf.beans.CacheHolder;
 public class SizeComparator implements Comparator<CacheHolder> {
 	@Override
 	public int compare(CacheHolder o1, CacheHolder o2) {
-		return o1.getCacheSize() - o2.getCacheSize();
+		return o1.getCacheSize().ordinal() - o2.getCacheSize().ordinal();
 	}
 }
