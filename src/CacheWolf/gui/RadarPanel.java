@@ -126,11 +126,11 @@ public class RadarPanel extends CellPanel {
 		double pi180 = java.lang.Math.PI / 180.0;
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			holder = cacheDB.get(i);
-			if (holder.isVisible() && holder.pos.isValid()) {
-				degrees = holder.degrees * pi180;
-				drX = new Float(holder.kilom / scale
+			if (holder.isVisible() && holder.getPos().isValid()) {
+				degrees = holder.getDegrees() * pi180;
+				drX = new Float(holder.getKilom() / scale
 						* java.lang.Math.sin(degrees)).intValue();
-				drY = -new Float(holder.kilom / scale
+				drY = -new Float(holder.getKilom() / scale
 						* java.lang.Math.cos(degrees)).intValue();
 				if (centerX + drX >= 0 && centerY + drY >= 0
 						&& centerX + drX <= width && centerY + drY <= height) {

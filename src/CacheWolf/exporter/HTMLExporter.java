@@ -133,7 +133,7 @@ public class HTMLExporter {
 					}
 					varParams.put("DISTANCE", ch.getDistance());
 					varParams.put("BEARING", ch.getBearingAsString());
-					varParams.put("LATLON", ch.LatLon);
+					varParams.put("LATLON", ch.getLatLon());
 					varParams.put("STATUS", ch.getCacheStatus());
 					varParams.put("DATE", ch.getDateHidden());
 					cache_index.add(varParams);
@@ -153,7 +153,7 @@ public class HTMLExporter {
 								.toString());
 						page_tpl.setParam("DISTANCE", ch.getDistance());
 						page_tpl.setParam("BEARING", ch.getBearingAsString());
-						page_tpl.setParam("LATLON", ch.LatLon);
+						page_tpl.setParam("LATLON", ch.getLatLon());
 						page_tpl.setParam("STATUS", ch.getCacheStatus());
 						page_tpl.setParam("DATE", ch.getDateHidden());
 						if (det != null) {

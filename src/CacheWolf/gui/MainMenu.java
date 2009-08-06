@@ -706,7 +706,7 @@ public class MainMenu extends MenuBar {
 					// filter
 					// status and only adds the marked caches to the filtered
 					// set
-					if (ch.is_Checked && ch.isVisible()) {
+					if (ch.isIs_Checked() && ch.isVisible()) {
 						ch.setFiltered(true);
 						filterChanged = true;
 					}
@@ -726,7 +726,7 @@ public class MainMenu extends MenuBar {
 					ch = cacheDB.get(i);
 					// incremental filter. Keeps status of all marked caches and
 					// adds unmarked caches to filtered list
-					if (!ch.is_Checked && ch.isVisible()) {
+					if (!ch.isIs_Checked() && ch.isVisible()) {
 						ch.setFiltered(true);
 						filterChanged = true;
 					}
@@ -794,7 +794,7 @@ public class MainMenu extends MenuBar {
 				for (int i = 0; i < cacheDB.size(); i++) {
 					cwp.setPosition(i);
 					CacheHolder ch = cacheDB.get(i);
-					if (ch.mainCache == null) {
+					if (ch.getMainCache() == null) {
 						ch.setHasNote(!ch.getFreshDetails().getCacheNotes()
 								.equals(""));
 						ch.setHasSolver(!ch.getFreshDetails().getSolver()
@@ -953,7 +953,7 @@ public class MainMenu extends MenuBar {
 		Vector cachesToUpdate = new Vector();
 		for (int i = 0; i < cacheDB.size(); i++) {
 			ch = cacheDB.get(i);
-			if (ch.is_Checked == true && ch.isVisible()) {
+			if (ch.isIs_Checked() == true && ch.isVisible()) {
 				if (ch.getWayPoint().length() > 1
 						&& (ch.getWayPoint().substring(0, 2).equalsIgnoreCase(
 								"GC") || ch.getWayPoint().substring(0, 2)
@@ -968,8 +968,8 @@ public class MainMenu extends MenuBar {
 				{
 					cachesToUpdate.add(new Integer(i));
 				} else {
-					if (ch.isAddiWpt() && ch.mainCache != null
-							&& !ch.mainCache.is_Checked && !alreadySaid2) { // Is
+					if (ch.isAddiWpt() && ch.getMainCache() != null
+							&& !ch.getMainCache().isIs_Checked() && !alreadySaid2) { // Is
 						// the
 						// father
 						// ticked?

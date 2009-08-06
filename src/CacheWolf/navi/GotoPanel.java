@@ -404,8 +404,8 @@ public class GotoPanel extends CellPanel {
 			if (myNavigation.destination.isValid())
 				centerTo = new CWPoint(myNavigation.destination);
 			else {
-				if (mainT.ch != null && mainT.ch.pos.isValid())
-					centerTo = new CWPoint(mainT.ch.pos);
+				if (mainT.ch != null && mainT.ch.getPos().isValid())
+					centerTo = new CWPoint(mainT.ch.getPos());
 				else {
 					if (pref.curCentrePt.isValid())
 						centerTo = new CWPoint(pref.curCentrePt);
@@ -536,8 +536,8 @@ public class GotoPanel extends CellPanel {
 			// create new waypoint with current GPS-position
 			if (ev.target == btnSave) {
 				CacheHolder ch = new CacheHolder();
-				ch.LatLon = myNavigation.gpsPos.toString();
-				ch.pos = new CWPoint(myNavigation.gpsPos);
+				ch.setLatLon(myNavigation.gpsPos.toString());
+				ch.setPos(new CWPoint(myNavigation.gpsPos));
 				ch.setType(CacheType.CW_TYPE_STAGE); // see
 				// CacheType.GC_AW_STAGE_OF_MULTI
 				// // TODO unfertig

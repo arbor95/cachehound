@@ -316,7 +316,7 @@ public class DetailsPanel extends CellPanel {
 		dirty_details = false;
 		inpWaypoint.setText(ch.getWayPoint());
 		inpName.setText(ch.getCacheName());
-		btnWayLoc.setText(ch.pos.toString());
+		btnWayLoc.setText(ch.getPos().toString());
 		inpHidden.setText(ch.getDateHidden());
 		inpOwner.setText(ch.getCacheOwner());
 		if (ch.getCacheStatus().length() >= 10
@@ -387,10 +387,10 @@ public class DetailsPanel extends CellPanel {
 			}
 		}
 		int addiCount = 0;
-		if (ch.mainCache == null) {
-			addiCount = ch.addiWpts.size();
+		if (ch.getMainCache() == null) {
+			addiCount = ch.getAddiWpts().size();
 		} else {
-			addiCount = ch.mainCache.addiWpts.size();
+			addiCount = ch.getMainCache().getAddiWpts().size();
 		}
 		lblAddiCount.setText(MyLocale.getMsg(1044, "Addis") + ": "
 				+ String.valueOf(addiCount));
@@ -473,7 +473,7 @@ public class DetailsPanel extends CellPanel {
 					mNotes.setText(thisCache.getCacheDetails(true)
 							.getCacheNotes());
 			} else if (ev.target == btnShowMap) {
-				Global.mainTab.SwitchToMovingMap(thisCache.pos, true);
+				Global.mainTab.SwitchToMovingMap(thisCache.getPos(), true);
 				/*
 				 * try { MapDetailForm mdf = new
 				 * MapDetailForm(thisCache.wayPoint, pref, profile);
@@ -492,7 +492,7 @@ public class DetailsPanel extends CellPanel {
 								.toHtml(), "Travelbugs");
 				ts.execute(this.getFrame(), Gui.CENTER_FRAME);
 			} else if (ev.target == btnCenter) {
-				CWPoint cp = new CWPoint(thisCache.LatLon);
+				CWPoint cp = new CWPoint(thisCache.getLatLon());
 				if (!cp.isValid()) {
 					MessageBox tmpMB = new MessageBox(
 							MyLocale.getMsg(312, "Error"),
@@ -567,8 +567,8 @@ public class DetailsPanel extends CellPanel {
 				blackStatusChanged = true;
 			} else if (ev.target == btnNewWpt) {
 				CacheHolder ch = new CacheHolder();
-				ch.LatLon = thisCache.LatLon;
-				ch.pos = new CWPoint(thisCache.pos);
+				ch.setLatLon(thisCache.getLatLon());
+				ch.setPos(new CWPoint(thisCache.getPos()));
 				ch.setType(CacheType.CW_TYPE_STAGE);
 				ch.setHard(CacheTerrDiff.CW_DT_UNSET);
 				ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
@@ -586,11 +586,11 @@ public class DetailsPanel extends CellPanel {
 					coords = cs.getCoords();
 					Global.getProfile()
 							.notifyUnsavedChanges(
-									!thisCache.pos.toString().equals(
+									!thisCache.getPos().toString().equals(
 											coords.toString()));
-					thisCache.pos.set(coords);
+					thisCache.getPos().set(coords);
 					btnWayLoc.setText(coords.toString());
-					thisCache.LatLon = coords.toString();
+					thisCache.setLatLon(coords.toString());
 					// If the current centre is valid, calculate the distance
 					// and bearing to it
 					CWPoint centre = Global.getPref().curCentrePt;
@@ -747,7 +747,7 @@ public class DetailsPanel extends CellPanel {
 		if (thisCache.getWayPoint().length() < 2)
 			thisCache.setWayPoint(thisCache.getWayPoint() + " ");
 		thisCache.setCacheName(inpName.getText().trim());
-		thisCache.LatLon = thisCache.pos.toString();
+		thisCache.setLatLon(thisCache.getPos().toString());
 		thisCache.setDateHidden(inpHidden.getText().trim());
 		byte oldType = thisCache.getType();
 		thisCache.setType(CacheType.guiSelect2Cw(chcType.getInt()));

@@ -75,9 +75,9 @@ public class DataMover {
 		// Now repair the cache-Vector:
 		for (int i = 0; i < srcDB.size(); i++) {
 			CacheHolder holder = srcDB.get(i);
-			for (Iterator<CacheHolder> j = holder.addiWpts.iterator(); j.hasNext();) {
+			for (Iterator<CacheHolder> j = holder.getAddiWpts().iterator(); j.hasNext();) {
 				CacheHolder element = j.next();
-				element.mainCache = holder;
+				element.setMainCache(holder);
 			}
 		}
 	}
@@ -110,9 +110,9 @@ public class DataMover {
 		int countAddiWP = 0;
 		// Count the number of caches to move/delete/copy
 		for (int i = 0; i < size; i++) {
-			if (srcDB.get(i).is_Checked && !srcDB.get(i).isAddiWpt()) {
+			if (srcDB.get(i).isIs_Checked() && !srcDB.get(i).isAddiWpt()) {
 				countMainWP++;
-			} else if (srcDB.get(i).is_Checked && srcDB.get(i).isAddiWpt()) {
+			} else if (srcDB.get(i).isIs_Checked() && srcDB.get(i).isAddiWpt()) {
 				countAddiWP++;
 			}
 		}
@@ -144,10 +144,10 @@ public class DataMover {
 		int countAddiWP = 0;
 		// Count the number of caches to move/delete/copy
 		for (int i = 0; i < size; i++) {
-			if (srcDB.get(i).isVisible() && srcDB.get(i).is_Checked
+			if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()
 					&& !srcDB.get(i).isAddiWpt()) {
 				countMainWP++;
-			} else if (srcDB.get(i).isVisible() && srcDB.get(i).is_Checked
+			} else if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()
 					&& srcDB.get(i).isAddiWpt()) {
 				countAddiWP++;
 			}
@@ -210,13 +210,13 @@ public class DataMover {
 				}
 				break;
 			case 1:
-				if (srcDB.get(i).is_Checked) {
+				if (srcDB.get(i).isIs_Checked()) {
 					count++;
 					processSet[i] = true;
 				}
 				break;
 			case 2:
-				if (srcDB.get(i).isVisible() && srcDB.get(i).is_Checked) {
+				if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()) {
 					count++;
 					processSet[i] = true;
 				}

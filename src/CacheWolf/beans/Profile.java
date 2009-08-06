@@ -498,8 +498,8 @@ public class Profile {
 			throw new IllegalArgumentException("no main cache found for: "
 					+ ch.getWayPoint());
 		CacheHolder mainch = cacheDB.get(mainindex);
-		mainch.addiWpts.add(ch);
-		ch.mainCache = mainch;
+		mainch.getAddiWpts().add(ch);
+		ch.setMainCache(mainch);
 	}
 
 	public String toString() {
@@ -515,7 +515,7 @@ public class Profile {
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			ch = cacheDB.get(i);
 			if (ch.isVisible())
-				ch.is_Checked = selectStatus;
+				ch.setIs_Checked(selectStatus);
 		}
 	}
 
@@ -532,20 +532,20 @@ public class Profile {
 		boolean isAddi = false;
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			ch = cacheDB.get(i);
-			if (!onlyOfSelected || ch.is_Checked) {
-				if (ch.pos == null) { // this can not happen
-					tmpca.set(ch.LatLon);
-					ch.pos = new CWPoint(tmpca);
+			if (!onlyOfSelected || ch.isIs_Checked()) {
+				if (ch.getPos() == null) { // this can not happen
+					tmpca.set(ch.getLatLon());
+					ch.setPos(new CWPoint(tmpca));
 				}
-				if (ch.pos.isValid()) { // done: && ch.pos.latDec != 0 &&
+				if (ch.getPos().isValid()) { // done: && ch.pos.latDec != 0 &&
 					// ch.pos.lonDec != 0 TO-DO != 0 sollte
 					// rausgenommen werden sobald in der
 					// Liste vernünftig mit nicht gesetzten
 					// pos umgegangen wird
 					isAddi = ch.isAddiWpt();
 					if (!isAddi
-							|| (isAddi && ch.mainCache != null && ch.pos
-									.getDistance(ch.mainCache.pos) < 1000)) { // test
+							|| (isAddi && ch.getMainCache() != null && ch.getPos()
+									.getDistance(ch.getMainCache().getPos()) < 1000)) { // test
 						// for
 						// plausiblity
 						// of
@@ -582,17 +582,17 @@ public class Profile {
 						// be
 						// corrupted
 						if (topleft == null)
-							topleft = new CWPoint(ch.pos);
+							topleft = new CWPoint(ch.getPos());
 						if (bottomright == null)
-							bottomright = new CWPoint(ch.pos);
-						if (topleft.latDec < ch.pos.latDec)
-							topleft.latDec = ch.pos.latDec;
-						if (topleft.lonDec > ch.pos.lonDec)
-							topleft.lonDec = ch.pos.lonDec;
-						if (bottomright.latDec > ch.pos.latDec)
-							bottomright.latDec = ch.pos.latDec;
-						if (bottomright.lonDec < ch.pos.lonDec)
-							bottomright.lonDec = ch.pos.lonDec;
+							bottomright = new CWPoint(ch.getPos());
+						if (topleft.latDec < ch.getPos().latDec)
+							topleft.latDec = ch.getPos().latDec;
+						if (topleft.lonDec > ch.getPos().lonDec)
+							topleft.lonDec = ch.getPos().lonDec;
+						if (bottomright.latDec > ch.getPos().latDec)
+							bottomright.latDec = ch.getPos().latDec;
+						if (bottomright.lonDec < ch.getPos().lonDec)
+							bottomright.lonDec = ch.getPos().lonDec;
 						numCachesInArea++;
 					}
 				}
@@ -641,8 +641,8 @@ public class Profile {
 		// Build index for faster search and clear all references
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			ch = cacheDB.get(i);
-			ch.addiWpts.clear();
-			ch.mainCache = null;
+			ch.getAddiWpts().clear();
+			ch.setMainCache(null);
 		}
 
 		// Build references
@@ -662,8 +662,8 @@ public class Profile {
 					mainCh = cacheDB.get("CW" + ch.getWayPoint().substring(2));
 
 				if (mainCh != null) {
-					mainCh.addiWpts.add(ch);
-					ch.mainCache = mainCh;
+					mainCh.getAddiWpts().add(ch);
+					ch.setMainCache(mainCh);
 					ch.setAttributesFromMainCache();
 				}// if
 			}// if
@@ -671,11 +671,11 @@ public class Profile {
 		// sort addi wpts
 		for (int i = 0; i < max; i++) {
 			ch = cacheDB.get(i);
-			if (ch.hasAddiWpt() && (ch.addiWpts.size() > 1)) {
+			if (ch.hasAddiWpt() && (ch.getAddiWpts().size() > 1)) {
 				// ch.addiWpts.sort(new
 				// MyComparer(ch.addiWpts,MyLocale.getMsg(1002,"Waypoint"),ch.addiWpts.size()),
 				// false);
-				Collections.sort(ch.addiWpts, new Comparator<CacheHolder>() {
+				Collections.sort(ch.getAddiWpts(), new Comparator<CacheHolder>() {
 					public int compare(CacheHolder ch1, CacheHolder ch2) {
 						return ch1.getWayPoint().compareTo(
 								ch2.getWayPoint());

@@ -43,7 +43,7 @@ public class LocExporter extends Exporter {
 	public String record(CacheHolder ch) {
 
 		// filter out not valid coords
-		if (!ch.pos.isValid())
+		if (!ch.getPos().isValid())
 			return null;
 		StringBuilder strBuf = new StringBuilder(200);
 		strBuf.append("<waypoint>\r\n   <name id=\"");
@@ -74,9 +74,9 @@ public class LocExporter extends Exporter {
 			}
 		}
 		strBuf.append("]]></name>\r\n   <coord lat=\"");
-		strBuf.append(ch.pos.getLatDeg(CWPoint.DD));
+		strBuf.append(ch.getPos().getLatDeg(CWPoint.DD));
 		strBuf.append("\" lon=\"");
-		strBuf.append(ch.pos.getLonDeg(CWPoint.DD));
+		strBuf.append(ch.getPos().getLonDeg(CWPoint.DD));
 		strBuf.append("\"/>\r\n   <type>");
 		if (gm != null) {
 			strBuf.append(gm.getIcon(ch));

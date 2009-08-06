@@ -557,10 +557,10 @@ public class MovingMap extends Form {
 			CacheHolder ch;
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				if (ch.is_Checked && ch.isVisible() && ch != mainT.ch) {
-					if (ch.pos.isValid())
+				if (ch.isIs_Checked() && ch.isVisible() && ch != mainT.ch) {
+					if (ch.getPos().isValid())
 						addSymbol(ch.getCacheName(), ch, GuiImageBroker
-								.getTypeImage(ch.getType()), ch.pos);
+								.getTypeImage(ch.getType()), ch.getPos());
 				}
 			}
 		}
@@ -588,14 +588,14 @@ public class MovingMap extends Form {
 			return;
 		if (markedCache != null) {
 			removeMapSymbol("selectedCache");
-			if (!markedCache.is_Checked)
+			if (!markedCache.isIs_Checked())
 				removeMapSymbol(markedCache);
 		}
 		if (ch != null) {
-			if (ch.pos.isValid()) {
-				addSymbol("selectedCache", MARK_CACHE_IMAGE, ch.pos);
+			if (ch.getPos().isValid()) {
+				addSymbol("selectedCache", MARK_CACHE_IMAGE, ch.getPos());
 				addSymbolIfNecessary(ch.getCacheName(), ch, GuiImageBroker
-						.getTypeImage(ch.getType()), ch.pos);
+						.getTypeImage(ch.getType()), ch.getPos());
 				markedCache = ch;
 			}
 		}
@@ -1162,7 +1162,7 @@ public class MovingMap extends Form {
 	}
 
 	public void destChanged(CacheHolder ch) {
-		CWPoint d = new CWPoint(ch.pos);
+		CWPoint d = new CWPoint(ch.getPos());
 		if (!running || (gotoPos != null && gotoPos.where.equals(d)))
 			return;
 		removeGotoPosition();
@@ -2745,9 +2745,9 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						close.type = WindowEvent.CLOSE;
 						mm.postEvent(close);
 						CacheHolder newWP = new CacheHolder();
-						newWP.pos = mm.ScreenXY2LatLon(saveMapLoc.x,
-								saveMapLoc.y);
-						newWP.LatLon = newWP.pos.toString();
+						newWP.setPos(mm.ScreenXY2LatLon(saveMapLoc.x,
+								saveMapLoc.y));
+						newWP.setLatLon(newWP.getPos().toString());
 						Global.mainTab.newWaypoint(newWP);
 					}
 					if (action == addCachetoListMenuItem) {

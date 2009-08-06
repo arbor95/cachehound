@@ -510,7 +510,7 @@ public class GpxExportNg {
 				&& (ch.isCustomWpt() || ch.isAddiWpt() || !ch.is_found()))
 			return "";
 
-		if (!ch.pos.isValid())
+		if (!ch.getPos().isValid())
 			return "";
 
 		StringBuilder ret = new StringBuilder();
@@ -556,13 +556,13 @@ public class GpxExportNg {
 		// .concat("\t\t<desc>@@WPDESC@@</desc>\n")
 
 		ret.append("  <wpt lat=\""
-				+ String.valueOf(ch.pos.latDec).replace(',', '.') + "\" lon=\""
-				+ String.valueOf(ch.pos.lonDec).replace(',', '.') + "\">\n");
+				+ String.valueOf(ch.getPos().latDec).replace(',', '.') + "\" lon=\""
+				+ String.valueOf(ch.getPos().lonDec).replace(',', '.') + "\">\n");
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			if (ch.isAddiWpt()) {
 				try {
-					ret.append("    <time>" + ch.mainCache.getDateHidden()
+					ret.append("    <time>" + ch.getMainCache().getDateHidden()
 							+ "T00:00:00</time>\n");
 				} catch (Exception e) {
 					Global.getPref().log(ch.getWayPoint() + " has no parent");
@@ -580,7 +580,7 @@ public class GpxExportNg {
 		if (exportIds == WPNAME_ID_SMART) {
 			if (ch.isAddiWpt()) {
 				ret.append("    <name>".concat(
-						SafeXML.cleanGPX(ch.mainCache.getWayPoint().concat(" ")
+						SafeXML.cleanGPX(ch.getMainCache().getWayPoint().concat(" ")
 								.concat(ch.getWayPoint().substring(0, 2))))
 						.concat("</name>\n"));
 			} else if (ch.isCustomWpt()) {
@@ -651,7 +651,7 @@ public class GpxExportNg {
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			if (!ch.isCustomWpt()) {
-				ret.append("    <url>".concat(ch.details.getUrl()).concat(
+				ret.append("    <url>".concat(ch.getDetails().getUrl()).concat(
 						"</url>\n"));
 				ret.append("    <urlname>".concat(
 						SafeXML.cleanGPX(ch.getCacheName())).concat(
@@ -729,10 +729,10 @@ public class GpxExportNg {
 						CacheTerrDiff.shortDT(ch.getTerrain())).concat(
 						"</groundspeak:terrain>\n").concat(
 						"      <groundspeak:country>").concat(
-						SafeXML.cleanGPX(ch.details.getCountry())).concat(
+						SafeXML.cleanGPX(ch.getDetails().getCountry())).concat(
 						"</groundspeak:country>\n").concat(
 						"      <groundspeak:state>").concat(
-						SafeXML.cleanGPX(ch.details.getState())).concat(
+						SafeXML.cleanGPX(ch.getDetails().getState())).concat(
 						"</groundspeak:state>\n").concat(
 						"      <groundspeak:short_description html=\"").concat(
 						ch.is_HTML() ? TRUE : FALSE).concat(
@@ -742,7 +742,7 @@ public class GpxExportNg {
 						SafeXML.cleanGPX(formatLongDescription(ch))).concat(
 						"</groundspeak:long_description>\n").concat(
 						"      <groundspeak:encoded_hints>").concat(
-						SafeXML.cleanGPX(ch.details.getHints())).concat(
+						SafeXML.cleanGPX(ch.getDetails().getHints())).concat(
 						"</groundspeak:encoded_hints>\n").concat(
 						"      <groundspeak:logs>\n").concat(formatLogs(ch))
 				.concat("      </groundspeak:logs>\n").concat(
@@ -852,11 +852,11 @@ public class GpxExportNg {
 	 */
 	public String formatLongDescription(CacheHolder ch) {
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
-			return ch.details.getLongDescription();
+			return ch.getDetails().getLongDescription();
 		} else {
 			StringBuilder ret = new StringBuilder();
 			String delim = "";
-			ret.append(ch.details.getLongDescription());
+			ret.append(ch.getDetails().getLongDescription());
 			if (ch.is_HTML()) {
 				delim = "<br />";
 			} else {
@@ -865,14 +865,14 @@ public class GpxExportNg {
 			// FIXME: format is not quite right yet
 			// FIXME: cut Addis off in GPXimporter otherwise people who use GPX
 			// to feed CacheWolf have them doubled
-			if (ch.addiWpts.size() > 0 && exportStyle != STYLE_GPX_MYFINDS) {
+			if (ch.getAddiWpts().size() > 0 && exportStyle != STYLE_GPX_MYFINDS) {
 				if (ch.is_HTML()) {
 					ret.append("\n\n<p>Additional Waypoints</p>");
 				} else {
 					ret.append("\n\nAdditional Waypoints\n");
 				}
 
-				Iterator<CacheHolder> iter = ch.addiWpts.iterator();
+				Iterator<CacheHolder> iter = ch.getAddiWpts().iterator();
 				while (iter.hasNext()) {
 					CacheHolder addi = iter.next();
 					Transformer trans = new Transformer(true);
@@ -880,7 +880,7 @@ public class GpxExportNg {
 					trans.add(new Regex("@@ADDISHORT@@", addi.getCacheName()));
 					trans.add(new Regex("@@ADDIDELIM@@", delim));
 					trans.add(new Regex("@@ADDILAT@@",
-							formatAddiLatLon(addi.pos)));
+							formatAddiLatLon(addi.getPos())));
 					trans.add(new Regex("@@ADDILON@@", ""));
 					trans.add(new Regex("@@ADDILONG@@", addi.getFreshDetails()
 							.getLongDescription()));

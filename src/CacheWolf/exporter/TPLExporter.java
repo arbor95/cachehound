@@ -200,7 +200,7 @@ public class TPLExporter {
 				h.progress = (float) i / (float) counter;
 				h.changed();
 				if (ch.isVisible()) {
-					if (ch.pos.isValid() == false)
+					if (ch.getPos().isValid() == false)
 						continue;
 					try {
 						Regex dec = new Regex("[,.]", myFilter.decSep);
@@ -235,10 +235,10 @@ public class TPLExporter {
 						varParams.put("DISTANCE", dec.replaceAll(ch
 								.getDistance()));
 						varParams.put("BEARING", ch.getBearingAsString());
-						varParams.put("LATLON", ch.LatLon);
-						varParams.put("LAT", dec.replaceAll(ch.pos
+						varParams.put("LATLON", ch.getLatLon());
+						varParams.put("LAT", dec.replaceAll(ch.getPos()
 								.getLatDeg(CWPoint.DD)));
-						varParams.put("LON", dec.replaceAll(ch.pos
+						varParams.put("LON", dec.replaceAll(ch.getPos()
 								.getLonDeg(CWPoint.DD)));
 						varParams.put("STATUS", ch.getCacheStatus());
 						varParams.put("STATUS_DATE", ch.GetStatusDate());

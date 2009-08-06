@@ -57,9 +57,9 @@ public class SearchCache {
 										.toUpperCase().indexOf(searchStr) < 0)
 						&& (!searchInLogs || ch.getExistingDetails().getCacheLogs()
 								.allMessages().toUpperCase().indexOf(searchStr) < 0)) {
-					ch.is_flaged = false;
+					ch.setIs_flaged(false);
 				} else
-					ch.is_flaged = true;
+					ch.setIs_flaged(true);
 				if (cwp.isClosed())
 					break;
 			} // for
@@ -77,7 +77,7 @@ public class SearchCache {
 		profile.selectionChanged = true;
 		profile.setShowSearchResult(false);
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
-			cacheDB.get(i).is_flaged = false;
+			cacheDB.get(i).setIs_flaged(false);
 		}
 	}
 }

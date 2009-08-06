@@ -250,7 +250,7 @@ public class MainTab extends mTabbedPanel {
 		case 3: // Picture Panel
 			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
-				imageP.setImages(ch.mainCache.getCacheDetails(true));
+				imageP.setImages(ch.getMainCache().getCacheDetails(true));
 			} else {
 				imageP.setImages(chD);
 			}
@@ -258,7 +258,7 @@ public class MainTab extends mTabbedPanel {
 		case 4: // Log Hint Panel
 			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
-				hintLP.setText(ch.mainCache.getCacheDetails(true));
+				hintLP.setText(ch.getMainCache().getCacheDetails(true));
 			} else {
 				hintLP.setText(chD);
 			}
@@ -266,8 +266,8 @@ public class MainTab extends mTabbedPanel {
 		case 5: // Solver Panel
 			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
-				chMain = ch.mainCache;
-				solverP.setInstructions(ch.mainCache);
+				chMain = ch.getMainCache();
+				solverP.setInstructions(ch.getMainCache());
 			} else {
 				solverP.setInstructions(ch);
 			}
@@ -341,7 +341,7 @@ public class MainTab extends mTabbedPanel {
 		if (selectedIndex >= 0) {
 			CacheHolder selectedCache = profile.cacheDB.get(selectedIndex);
 			if (selectedCache.isAddiWpt()) {
-				mainCache = selectedCache.mainCache.getWayPoint();
+				mainCache = selectedCache.getMainCache().getWayPoint();
 			}
 		}
 		if (CacheType.isAddiWpt(pCh.getType()) && mainCache != null

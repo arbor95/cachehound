@@ -207,7 +207,7 @@ public class Navigate {
 	public void setDestination(CacheHolder ch) {
 		destinationIsCache = true;
 		destinationCache = ch;
-		destination = new CWPoint(ch.pos);
+		destination = new CWPoint(ch.getPos());
 		if (gotoPanel != null)
 			gotoPanel.destChanged(destination);
 		if (movingMap != null)

@@ -124,18 +124,18 @@ public class Exporter {
 						str = record(ch);
 						break;
 					case LAT_LON:
-						if (ch.pos.isValid() == false)
+						if (ch.getPos().isValid() == false)
 							continue;
-						str = record(ch, ch.pos.getLatDeg(CWPoint.DD).replace(
-								'.', this.decimalSeparator), ch.pos.getLonDeg(
+						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD).replace(
+								'.', this.decimalSeparator), ch.getPos().getLonDeg(
 								CWPoint.DD).replace('.', this.decimalSeparator));
 						break;
 					case LAT_LON | COUNT:
-						if (ch.pos.isValid() == false)
+						if (ch.getPos().isValid() == false)
 							continue;
-						str = record(ch, ch.pos.getLatDeg(CWPoint.DD).replace(
+						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD).replace(
 								'.', this.decimalSeparator),
-								ch.pos.getLonDeg(CWPoint.DD).replace('.',
+								ch.getPos().getLonDeg(CWPoint.DD).replace('.',
 										this.decimalSeparator), i);
 						break;
 					default:

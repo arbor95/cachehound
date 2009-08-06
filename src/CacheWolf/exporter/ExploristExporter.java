@@ -225,12 +225,12 @@ public class ExploristExporter {
 		 */
 		StringBuilder sb = new StringBuilder();
 		sb.append("$PMGNGEO,");
-		sb.append(ch.pos.getLatDeg(CWPoint.DMM));
-		sb.append(ch.pos.getLatMin(CWPoint.DMM));
+		sb.append(ch.getPos().getLatDeg(CWPoint.DMM));
+		sb.append(ch.getPos().getLatMin(CWPoint.DMM));
 		sb.append(",");
 		sb.append("N,");
-		sb.append(ch.pos.getLonDeg(CWPoint.DMM));
-		sb.append(ch.pos.getLonMin(CWPoint.DMM));
+		sb.append(ch.getPos().getLonDeg(CWPoint.DMM));
+		sb.append(ch.getPos().getLonMin(CWPoint.DMM));
 		sb.append(",");
 		sb.append("E,");
 		sb.append("0000,"); // Height

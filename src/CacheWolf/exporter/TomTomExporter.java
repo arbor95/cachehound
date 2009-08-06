@@ -120,15 +120,15 @@ public class TomTomExporter {
 						currExp++;
 						h.progress = (float) currExp / (float) counter;
 						h.changed();
-						if (holder.pos.isValid() == false)
+						if (holder.getPos().isValid() == false)
 							continue;
 						if (format == TT_ASC) {
-							writeRecordASCII(out, holder, holder.pos
-									.getLatDeg(CWPoint.DD), holder.pos
+							writeRecordASCII(out, holder, holder.getPos()
+									.getLatDeg(CWPoint.DD), holder.getPos()
 									.getLonDeg(CWPoint.DD));
 						} else {
-							writeRecordBinary(out, holder, holder.pos
-									.getLatDeg(CWPoint.DD), holder.pos
+							writeRecordBinary(out, holder, holder.getPos()
+									.getLatDeg(CWPoint.DD), holder.getPos()
 									.getLonDeg(CWPoint.DD));
 						}
 					}// if
@@ -174,15 +174,15 @@ public class TomTomExporter {
 					expCount++;
 					h.progress = (float) expCount / (float) counter;
 					h.changed();
-					if (holder.pos.isValid() == false)
+					if (holder.getPos().isValid() == false)
 						continue;
 					if (format == TT_ASC) {
-						writeRecordASCII(out, holder, holder.pos
-								.getLatDeg(CWPoint.DD), holder.pos
+						writeRecordASCII(out, holder, holder.getPos()
+								.getLatDeg(CWPoint.DD), holder.getPos()
 								.getLonDeg(CWPoint.DD));
 					} else {
-						writeRecordBinary(out, holder, holder.pos
-								.getLatDeg(CWPoint.DD), holder.pos
+						writeRecordBinary(out, holder, holder.getPos()
+								.getLatDeg(CWPoint.DD), holder.getPos()
 								.getLonDeg(CWPoint.DD));
 					}
 				}// if

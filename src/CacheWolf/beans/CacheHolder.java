@@ -59,20 +59,20 @@ public class CacheHolder {
 	/** The alias of the owner */
 	private String cacheOwner = EMPTY;
 	/** The coordinates of the cache */
-	public CWPoint pos = new CWPoint();
+	private CWPoint pos = new CWPoint();
 	/** The coordinates of the cache */
-	public String LatLon = pos.toString();
+	private String LatLon = getPos().toString();
 	/** The date when the cache was hidden in format yyyy-mm-dd */
 	private String dateHidden = EMPTY;
 	/** The size of the cache (as per GC cache sizes Micro, Small, ....) */
 	private CacheSize cacheSize = CacheSize.NOT_CHOSEN;
 	/** The distance from the centre in km */
-	public double kilom = -1;
+	private double kilom = -1;
 	private double lastKilom = -2; // Cache last value
 	private int lastMetric = -1; // Cache last metric
 	private String lastDistance = ""; // Cache last distance
 	/** The angle (0=North, 180=South) from the current centre to this point */
-	public double degrees = 0;
+	private double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
 	private byte hard = CacheTerrDiff.CW_DT_ERROR;
 	/** The terrain rating of the cache from 1 to 5 in .5 incements */
@@ -103,14 +103,14 @@ public class CacheHolder {
 	/** True if the cache is new */
 	private boolean newCache = false;
 	/** True if the cache is part of the results of a search */
-	public boolean is_flaged = false;
+	private boolean is_flaged = false;
 	/**
 	 * True if additional waypoints for this cache should be displayed
 	 * regardless of the filter settings
 	 */
 	private boolean showAddis = false;
 	/** True if the cache has been selected using the tick box in the list view */
-	public boolean is_Checked = false;
+	private boolean is_Checked = false;
 	/** The unique OC cache ID */
 	private String ocCacheID = EMPTY;
 	/** The number of times this cache has not been found (max. 5) */
@@ -123,27 +123,27 @@ public class CacheHolder {
 	 * Recommendation score: calculated as rations numRecommended /
 	 * numLogsSinceRecommendation * 100
 	 */
-	public int recommendationScore = 0;
+	private int recommendationScore = 0;
 	/** True if this cache has travelbugs */
 	private boolean bugs = false;
 	/** True if the cache description is stored in HTML format */
 	private boolean html = true;
 	/** List of additional waypoints associated with this waypoint */
-	public List<CacheHolder> addiWpts = new ArrayList<CacheHolder>();
+	private List<CacheHolder> addiWpts = new ArrayList<CacheHolder>();
 	/**
 	 * in range is used by the route filter to identify caches in range of a
 	 * segment
 	 */
-	public boolean in_range = false;
+	private boolean in_range = false;
 	/** If this is an additional waypoint, this links back to the main waypoint */
-	public CacheHolder mainCache;
+	private CacheHolder mainCache;
 	/** The date this cache was last synced with OC in format yyyyMMddHHmmss */
 	private String lastSync = EMPTY;
 	/** True if cache has solver entry */
 	private boolean hasSolver = false;
 	/** True if a note is entered for the cache */
 	private boolean hasNote = false;
-	public CacheHolderDetail details = null;
+	private CacheHolderDetail details = null;
 
 	private long attributesYes = 0;
 	private long attributesNo = 0;
@@ -188,8 +188,8 @@ public class CacheHolder {
 				end = xmlString.indexOf('"', start + 1);
 				double lon = Convert.parseDouble(xmlString.substring(start + 1,
 						end).replace(notDecSep, decSep));
-				pos = new CWPoint(lat, lon);
-				LatLon = pos.toString();
+				setPos(new CWPoint(lat, lon));
+				setLatLon(getPos().toString());
 
 				start = xmlString.indexOf('"', end + 1);
 				end = xmlString.indexOf('"', start + 1);
@@ -224,8 +224,8 @@ public class CacheHolder {
 				end = xmlString.indexOf('"', start + 1);
 				setNumFoundsSinceRecommendation(Convert.toInt(xmlString
 						.substring(start + 1, end)));
-				recommendationScore = LogList.getScore(getNumRecommended(),
-						getNumFoundsSinceRecommendation());
+				setRecommendationScore(LogList.getScore(getNumRecommended(),
+						getNumFoundsSinceRecommendation()));
 
 				start = xmlString.indexOf('"', end + 1);
 				end = xmlString.indexOf('"', start + 1);
@@ -258,12 +258,12 @@ public class CacheHolder {
 								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
 								Profile.CURRENTFILEFORMAT);
 				// forceload of details, creates waypoint.xml if missing
-				details = getCacheDetails(true, false);
+				setDetails(getCacheDetails(true, false));
 				// make sure details get (re)written in new format
-				details.setUnsavedChanges(true);
+				getDetails().setUnsavedChanges(true);
 				// update information on notes and solver info
-				setHasNote(!details.getCacheNotes().equals(""));
-				setHasSolver(!details.getSolver().equals(""));
+				setHasNote(!getDetails().getCacheNotes().equals(""));
+				setHasSolver(!getDetails().getSolver().equals(""));
 			}
 		} catch (Throwable ex) {
 			logger.error(
@@ -282,21 +282,21 @@ public class CacheHolder {
 		String result = null;
 		String newUnit = null;
 
-		if (this.kilom == this.lastKilom
+		if (this.getKilom() == this.lastKilom
 				&& Global.getPref().metricSystem == this.lastMetric) {
 			result = this.lastDistance;
 		} else {
-			if (this.kilom >= 0) {
+			if (this.getKilom() >= 0) {
 				double newValue = 0;
 				switch (Global.getPref().metricSystem) {
 				case Metrics.IMPERIAL:
-					newValue = Metrics.convertUnit(this.kilom,
+					newValue = Metrics.convertUnit(this.getKilom(),
 							Metrics.KILOMETER, Metrics.MILES);
 					newUnit = Metrics.getUnit(Metrics.MILES);
 					break;
 				case Metrics.METRIC:
 				default:
-					newValue = this.kilom;
+					newValue = this.getKilom();
 					newUnit = Metrics.getUnit(Metrics.KILOMETER);
 					break;
 				}
@@ -309,7 +309,7 @@ public class CacheHolder {
 								: Metrics.getUnit(Metrics.KILOMETER));
 			}
 			// Caching values, so reevaluation is only done when really needed
-			this.lastKilom = this.kilom;
+			this.lastKilom = this.getKilom();
 			this.lastMetric = Global.getPref().metricSystem;
 			this.lastDistance = result;
 		}
@@ -334,15 +334,15 @@ public class CacheHolder {
 	 *            <i>position</i> is updated, otherwise not.
 	 */
 	public void update(CacheHolder ch, boolean overwrite) {
-		this.recommendationScore = ch.recommendationScore;
+		this.setRecommendationScore(ch.getRecommendationScore());
 		this.setNumFoundsSinceRecommendation(ch
 				.getNumFoundsSinceRecommendation());
 		this.setNumRecommended(ch.getNumRecommended());
 		if (overwrite) {
 			this.setCacheStatus(ch.getCacheStatus());
 			this.setFound(ch.is_found());
-			this.pos = ch.pos;
-			this.LatLon = ch.LatLon;
+			this.setPos(ch.getPos());
+			this.setLatLon(ch.getLatLon());
 		} else {
 			/*
 			 * Here we have to distinguish several cases: this.is_found this ch
@@ -360,9 +360,9 @@ public class CacheHolder {
 				this.setFound(ch.is_found());
 			}
 			// Don't overwrite valid coordinates with invalid ones
-			if (ch.pos.isValid() || !this.pos.isValid()) {
-				this.pos = ch.pos;
-				this.LatLon = ch.LatLon;
+			if (ch.getPos().isValid() || !this.getPos().isValid()) {
+				this.setPos(ch.getPos());
+				this.setLatLon(ch.getLatLon());
 			}
 		}
 		this.setWayPoint(ch.getWayPoint());
@@ -371,8 +371,8 @@ public class CacheHolder {
 
 		this.setDateHidden(ch.getDateHidden());
 		this.setCacheSize(ch.getCacheSize());
-		this.kilom = ch.kilom;
-		this.degrees = ch.degrees;
+		this.setKilom(ch.getKilom());
+		this.setDegrees(ch.getDegrees());
 		this.setHard(ch.getHard());
 		this.setTerrain(ch.getTerrain());
 		this.setType(ch.getType());
@@ -381,8 +381,8 @@ public class CacheHolder {
 		this.setOwned(ch.is_owned());
 		this.setFiltered(ch.is_filtered());
 		this.setIncomplete(ch.is_incomplete());
-		this.addiWpts = ch.addiWpts;
-		this.mainCache = ch.mainCache;
+		this.setAddiWpts(ch.getAddiWpts());
+		this.setMainCache(ch.getMainCache());
 		this.setOcCacheID(ch.getOcCacheID());
 		this.setNoFindLogs(ch.getNoFindLogs());
 		this.setHas_bugs(ch.has_bugs());
@@ -408,19 +408,19 @@ public class CacheHolder {
 			if (this.detailsLoaded()) {
 				CacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
-					recommendationScore = chD.getCacheLogs()
-							.getRecommendationRating();
+					setRecommendationScore(chD.getCacheLogs()
+							.getRecommendationRating());
 					setNumFoundsSinceRecommendation(chD.getCacheLogs()
 							.getFoundsSinceRecommendation());
 					setNumRecommended(chD.getCacheLogs().getNumRecommended());
 				} else { // cache doesn't have details
-					recommendationScore = -1;
+					setRecommendationScore(-1);
 					setNumFoundsSinceRecommendation(-1);
 					setNumRecommended(-1);
 				}
 			}
 		} else {
-			recommendationScore = -1;
+			setRecommendationScore(-1);
 			setNumFoundsSinceRecommendation(-1);
 			// setNumRecommended(-1);
 		}
@@ -441,9 +441,9 @@ public class CacheHolder {
 		sb.append("\" owner = \"");
 		sb.append(SafeXML.clean(getCacheOwner()));
 		sb.append("\" lat = \"");
-		sb.append(pos.latDec);
+		sb.append(getPos().latDec);
 		sb.append("\" lon = \"");
-		sb.append(pos.lonDec);
+		sb.append(getPos().lonDec);
 		sb.append("\" hidden = \"");
 		sb.append(getDateHidden());
 		sb.append("\" wayp = \"");
@@ -475,7 +475,7 @@ public class CacheHolder {
 		if (!latLon.equals(LatLon.trim()))
 			setUpdated(true);
 		LatLon = latLon;
-		pos.set(latLon);
+		getPos().set(latLon);
 	}
 
 	public boolean isAddiWpt() {
@@ -491,23 +491,23 @@ public class CacheHolder {
 	}
 
 	public boolean hasAddiWpt() {
-		if (this.addiWpts.size() > 0)
+		if (this.getAddiWpts().size() > 0)
 			return true;
 		else
 			return false;
 	}
 
 	public void calcDistance(CWPoint toPoint) {
-		if (pos.isValid()) {
-			kilom = pos.getDistance(toPoint);
-			degrees = toPoint.getBearing(pos);
+		if (getPos().isValid()) {
+			setKilom(getPos().getDistance(toPoint));
+			setDegrees(toPoint.getBearing(getPos()));
 		} else {
-			kilom = -1;
+			setKilom(-1);
 		}
 	}
 
 	public void setAttributesFromMainCache() {
-		CacheHolder mainCh = this.mainCache;
+		CacheHolder mainCh = this.getMainCache();
 		this.setCacheOwner(mainCh.getCacheOwner());
 		this.setCacheStatus(mainCh.getCacheStatus());
 		this.setArchived(mainCh.is_archived());
@@ -521,8 +521,8 @@ public class CacheHolder {
 	public void setAttributesToAddiWpts() {
 		if (this.hasAddiWpt()) {
 			CacheHolder addiWpt;
-			for (int i = this.addiWpts.size() - 1; i >= 0; i--) {
-				addiWpt = this.addiWpts.get(i);
+			for (int i = this.getAddiWpts().size() - 1; i >= 0; i--) {
+				addiWpt = this.getAddiWpts().get(i);
 				addiWpt.setAttributesFromMainCache();
 			}
 		}
@@ -543,11 +543,11 @@ public class CacheHolder {
 			return false;
 		CacheHolder main1, main2;
 		if (this.isAddiWpt())
-			main1 = this.mainCache;
+			main1 = this.getMainCache();
 		else
 			main1 = this;
 		if (ch.isAddiWpt())
-			main2 = ch.mainCache;
+			main2 = ch.getMainCache();
 		else
 			main2 = ch;
 		return main1 == main2;
@@ -560,7 +560,7 @@ public class CacheHolder {
 	 * @return True when details object is present
 	 */
 	public boolean detailsLoaded() {
-		return details != null;
+		return getDetails() != null;
 	}
 
 	/**
@@ -595,15 +595,15 @@ public class CacheHolder {
 	 */
 
 	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
-		if (details == null) {
+		if (getDetails() == null) {
 			try {
-				details = CacheHolderDetailFactory.getInstance()
+				setDetails(CacheHolderDetailFactory.getInstance()
 						.createCacheHolderDetailFromFile(this,
-								Global.getProfile().getDataDir());
+								Global.getProfile().getDataDir()));
 			} catch (IOException e) {
 				// create emtpy chd for later
-				details = CacheHolderDetailFactory.getInstance()
-						.createEmptyCacheHolderDetail(this);
+				setDetails(CacheHolderDetailFactory.getInstance()
+						.createEmptyCacheHolderDetail(this));
 				if (!maybenew) {
 					logger.error("Could not read details for waypoint "
 							+ getWayPoint(), e);
@@ -617,11 +617,11 @@ public class CacheHolder {
 										+ this.getWayPoint(), FormBase.OKB))
 								.execute();
 					}
-					details = null;
+					setDetails(null);
 					this.setIncomplete(true);
 				}
 			}
-			if (details != null
+			if (getDetails() != null
 			// for importing/spidering reasons helper objects with same waypoint
 					// are created
 					&& !cachesWithLoadedDetails.contains(this.getWayPoint())
@@ -632,7 +632,7 @@ public class CacheHolder {
 					removeOldestDetails();
 			}
 		}
-		return details;
+		return getDetails();
 	}
 
 	/**
@@ -668,10 +668,10 @@ public class CacheHolder {
 	}
 
 	public void releaseCacheDetails() {
-		if (details != null && details.hasUnsavedChanges()) {
+		if (getDetails() != null && getDetails().hasUnsavedChanges()) {
 			save();
 		}
-		details = null;
+		setDetails(null);
 		cachesWithLoadedDetails.remove(this.getWayPoint());
 	}
 
@@ -800,8 +800,8 @@ public class CacheHolder {
 		this.setLog_updated(false);
 		this.setIncomplete(false);
 		if (!pNewCache && this.hasAddiWpt()) {
-			for (int i = 0; i < this.addiWpts.size(); i++) {
-				this.addiWpts.get(i).initStates(pNewCache);
+			for (int i = 0; i < this.getAddiWpts().size(); i++) {
+				this.getAddiWpts().get(i).initStates(pNewCache);
 			}
 		}
 	}
@@ -959,13 +959,13 @@ public class CacheHolder {
 		Profile profile = Global.getProfile();
 		int filter = profile.getFilterActive();
 		boolean noShow = ((profile.showBlacklisted() != this.is_black())
-				|| (profile.showSearchResult() && !this.is_flaged)
+				|| (profile.showSearchResult() && !this.isIs_flaged())
 				|| ((filter == Filter.FILTER_ACTIVE || filter == Filter.FILTER_MARKED_ONLY) && (this
 						.is_filtered())
 						^ profile.isFilterInverted()) || (filter == Filter.FILTER_CACHELIST)
 				&& !Global.mainForm.cacheList.contains(this.getWayPoint()));
-		boolean showAddi = this.showAddis() && this.mainCache != null
-				&& this.mainCache.isVisible();
+		boolean showAddi = this.showAddis() && this.getMainCache() != null
+				&& this.getMainCache().isVisible();
 		noShow = noShow && !showAddi;
 		return !noShow;
 	}
@@ -1193,15 +1193,15 @@ public class CacheHolder {
 	public void setShowAddis(boolean value) {
 		// This value is always stored in the main cache and all addis.
 		CacheHolder mc = null;
-		if (this.mainCache == null) {
+		if (this.getMainCache() == null) {
 			mc = this;
 		} else {
-			mc = this.mainCache;
+			mc = this.getMainCache();
 		}
 		if (mc.showAddis != value) {
 			mc.showAddis = value;
-			for (int i = 0; i < mc.addiWpts.size(); i++) {
-				CacheHolder ac = mc.addiWpts.get(i);
+			for (int i = 0; i < mc.getAddiWpts().size(); i++) {
+				CacheHolder ac = mc.getAddiWpts().get(i);
 				ac.showAddis = value;
 			}
 		}
@@ -1292,7 +1292,7 @@ public class CacheHolder {
 			else
 				ret = false;
 		} else if (isAddiWpt()) {
-			if (mainCache == null || getHard() != CacheTerrDiff.CW_DT_UNSET
+			if (getMainCache() == null || getHard() != CacheTerrDiff.CW_DT_UNSET
 					|| getCacheSize() != CacheSize.NOT_CHOSEN 
 					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
 					|| getWayPoint().length() < 2
@@ -1463,7 +1463,7 @@ public class CacheHolder {
 	 *         this cache otherwise.
 	 */
 	public Bearing getBearing() {
-		return Bearing.fromDeg(degrees);
+		return Bearing.fromDeg(getDegrees());
 	}
 
 	/**
@@ -1476,5 +1476,89 @@ public class CacheHolder {
 		} else {
 			return this.getBearing().toString();
 		}
+	}
+
+	public void setPos(CWPoint pos) {
+		this.pos = pos;
+	}
+
+	public CWPoint getPos() {
+		return pos;
+	}
+
+	public String getLatLon() {
+		return LatLon;
+	}
+
+	public void setKilom(double kilom) {
+		this.kilom = kilom;
+	}
+
+	public double getKilom() {
+		return kilom;
+	}
+
+	public void setDegrees(double degrees) {
+		this.degrees = degrees;
+	}
+
+	public double getDegrees() {
+		return degrees;
+	}
+
+	public void setIs_flaged(boolean is_flaged) {
+		this.is_flaged = is_flaged;
+	}
+
+	public boolean isIs_flaged() {
+		return is_flaged;
+	}
+
+	public void setIs_Checked(boolean is_Checked) {
+		this.is_Checked = is_Checked;
+	}
+
+	public boolean isIs_Checked() {
+		return is_Checked;
+	}
+
+	public void setRecommendationScore(int recommendationScore) {
+		this.recommendationScore = recommendationScore;
+	}
+
+	public int getRecommendationScore() {
+		return recommendationScore;
+	}
+
+	public void setAddiWpts(List<CacheHolder> addiWpts) {
+		this.addiWpts = addiWpts;
+	}
+
+	public List<CacheHolder> getAddiWpts() {
+		return addiWpts;
+	}
+
+	public void setIn_range(boolean in_range) {
+		this.in_range = in_range;
+	}
+
+	public boolean isIn_range() {
+		return in_range;
+	}
+
+	public void setMainCache(CacheHolder mainCache) {
+		this.mainCache = mainCache;
+	}
+
+	public CacheHolder getMainCache() {
+		return mainCache;
+	}
+
+	public void setDetails(CacheHolderDetail details) {
+		this.details = details;
+	}
+
+	public CacheHolderDetail getDetails() {
+		return details;
 	}
 }
