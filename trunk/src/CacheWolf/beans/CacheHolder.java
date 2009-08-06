@@ -18,6 +18,7 @@ import CacheWolf.util.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
@@ -35,7 +36,7 @@ import ewe.util.Vector;
  * and methods to get more information.
  * 
  */
-public class CacheHolder {
+public class CacheHolder implements ICacheHolder {
 
 	private static Logger logger = LoggerFactory.getLogger(CacheHolder.class);
 
@@ -845,7 +846,8 @@ public class CacheHolder {
 	 */
 	private long byteFields2long() {
 		long value = byteBitMask(hard, 1) | byteBitMask(terrain, 2)
-				| byteBitMask(this.type, 3) | byteBitMask(cacheSize.getOldCwId(), 4)
+				| byteBitMask(this.type, 3)
+				| byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
 		return value;
 	}
@@ -865,7 +867,8 @@ public class CacheHolder {
 		setNoFindLogs((byteFromLong(value, 5)));
 		if (getHard() == CacheTerrDiff.CW_DT_ERROR
 				|| getTerrain() == CacheTerrDiff.CW_DT_ERROR
-				//|| getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich nie erreicht werden
+				// || getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich
+				// nie erreicht werden
 				|| getType() == CacheType.CW_TYPE_ERROR) {
 			setIncomplete(true);
 		}
@@ -1284,7 +1287,8 @@ public class CacheHolder {
 			if (getWayPoint().length() < 3
 					|| getHard() <= CacheTerrDiff.CW_DT_UNSET
 					|| getTerrain() <= CacheTerrDiff.CW_DT_UNSET
-//					|| getCacheSize() == CacheSize.CW_SIZE_ERROR kann eigentlich nie erreicht werden
+					// || getCacheSize() == CacheSize.CW_SIZE_ERROR kann
+					// eigentlich nie erreicht werden
 					|| getCacheOwner().length() == 0
 					|| getDateHidden().length() == 0
 					|| getCacheName().length() == 0)
@@ -1292,8 +1296,9 @@ public class CacheHolder {
 			else
 				ret = false;
 		} else if (isAddiWpt()) {
-			if (getMainCache() == null || getHard() != CacheTerrDiff.CW_DT_UNSET
-					|| getCacheSize() != CacheSize.NOT_CHOSEN 
+			if (getMainCache() == null
+					|| getHard() != CacheTerrDiff.CW_DT_UNSET
+					|| getCacheSize() != CacheSize.NOT_CHOSEN
 					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
 					|| getWayPoint().length() < 2
 					// || getCacheOwner().length() > 0
@@ -1467,8 +1472,8 @@ public class CacheHolder {
 	}
 
 	/**
-	 * @return NOBEARING if !pos.isValid(), the Bearing from the current centre to
-	 *         this cache otherwise.
+	 * @return NOBEARING if !pos.isValid(), the Bearing from the current centre
+	 *         to this cache otherwise.
 	 */
 	public String getBearingAsString() {
 		if (getBearing() == null) {
