@@ -53,9 +53,9 @@ public class TritonGPXExporter extends Exporter {
 			strBuf.append("    <time>").append(tim.toString()).append(
 					"T00:00:00.0000000-07:00</time>\r\n");
 			if (ch.isAddiWpt())
-				strBuf.append("    <name>").append(ch.getMainCache().getWayPoint())
-						.append(" - ").append(ch.getWayPoint()).append(
-								"</name>\r\n");
+				strBuf.append("    <name>").append(
+						ch.getMainCache().getWayPoint()).append(" - ").append(
+						ch.getWayPoint()).append("</name>\r\n");
 			else {
 				strBuf.append("    <name>").append(ch.getWayPoint()).append(
 						"</name>\r\n");
@@ -126,16 +126,15 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append(
 						"      <groundspeak:short_description html=\"false\">")
 						.append(ch.getWayPoint()).append(" - ").append(
-								ch.getCacheSize().getAsString())
-						.append(" D:").append(diff).append("/T:").append(terr)
-						.append("</groundspeak:short_description>\r\n");
+								ch.getCacheSize().getAsString()).append(" D:")
+						.append(diff).append("/T:").append(terr).append(
+								"</groundspeak:short_description>\r\n");
 				strBuf
 						.append("      <groundspeak:long_description html=\"false\">\r\n");
 
 				strBuf.append("      ").append(
-						SafeXML.removeHtml(SafeXML
-								.strxmldecode(chdetail.getLongDescription())))
-						.append("\r\n");
+						SafeXML.removeHtml(SafeXML.strxmldecode(chdetail
+								.getLongDescription()))).append("\r\n");
 
 				if (!(chdetail.getHints().length() == 0))
 					strBuf.append(" ######HINT!####### \r\n").append(
@@ -157,12 +156,12 @@ public class TritonGPXExporter extends Exporter {
 					}
 					strBuf.append(chdetail.getCacheLogs().getLog(i).getDate());
 					strBuf.append("").append("from:\"").append(
-							SafeXML.strxmldecode(chdetail.getCacheLogs().getLog(i)
-									.getLogger())).append("\" \r\n");
+							SafeXML.strxmldecode(chdetail.getCacheLogs()
+									.getLog(i).getLogger())).append("\" \r\n");
 					strBuf.append("").append(
-							SafeXML.removeHtml(SafeXML
-									.strxmldecode(chdetail.getCacheLogs().getLog(i)
-											.getMessage()))).append(" \r\n");
+							SafeXML.removeHtml(SafeXML.strxmldecode(chdetail
+									.getCacheLogs().getLog(i).getMessage())))
+							.append(" \r\n");
 				}
 
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
@@ -172,13 +171,15 @@ public class TritonGPXExporter extends Exporter {
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>No "
-							+ ch.getLatLon() + "</groundspeak:encoded_hints>\r\n");
+							+ ch.getLatLon()
+							+ "</groundspeak:encoded_hints>\r\n");
 				else {
 					// strBuf.append("\t <groundspeak:encoded_hints>Yes " +
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>Yes "
-							+ ch.getLatLon() + "</groundspeak:encoded_hints>\r\n");
+							+ ch.getLatLon()
+							+ "</groundspeak:encoded_hints>\r\n");
 				}
 				strBuf.append("      <groundspeak:logs>\r\n");
 				strBuf.append("      </groundspeak:logs>\r\n");
@@ -186,8 +187,8 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("    </groundspeak:cache>\r\n");
 			} else {
 				strBuf.append("    <cmt>").append(
-						SafeXML.cleanGPX(chdetail.getLongDescription())).append(
-						"</cmt>\r\n");
+						SafeXML.cleanGPX(chdetail.getLongDescription()))
+						.append("</cmt>\r\n");
 				strBuf.append("    <sym>").append(
 						CacheType.id2GpxString(ch.getType())).append(
 						"</sym>\r\n");

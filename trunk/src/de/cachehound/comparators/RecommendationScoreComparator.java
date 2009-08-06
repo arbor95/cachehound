@@ -9,7 +9,8 @@ public class RecommendationScoreComparator implements Comparator<CacheHolder> {
 	public int compare(CacheHolder o1, CacheHolder o2) {
 		if (o1.getWayPoint().startsWith("OC")) {
 			if (o2.getWayPoint().startsWith("OC")) {
-				return o1.getRecommendationScore() - o2.getRecommendationScore();
+				return o1.getRecommendationScore()
+						- o2.getRecommendationScore();
 			} else {
 				return -1;
 			}

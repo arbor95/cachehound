@@ -42,7 +42,7 @@ public class DateFormat {
 		String year, month, day;
 		int i, m;
 		logdate += ", " + t.year; // If logdate already has a year, this one
-									// is
+		// is
 		// ignored
 		i = logdate.indexOf(',');
 		year = logdate.substring(i + 2, i + 6);

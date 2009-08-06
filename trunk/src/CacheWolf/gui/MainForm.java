@@ -122,7 +122,8 @@ public class MainForm extends Editor {
 			profile.readIndex(infB);
 			pref.curCentrePt.set(profile.centre);
 			profile.updateBearingDistance();
-			setTitle("CacheHound " + Version.getRelease() + " - " + profile.name);
+			setTitle("CacheHound " + Version.getRelease() + " - "
+					+ profile.name);
 		} catch (Exception e) {
 			if (pref.debug == true)
 				Vm.debug("MainForm:: Exception:: " + e.toString());

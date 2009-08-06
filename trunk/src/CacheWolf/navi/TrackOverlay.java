@@ -24,7 +24,7 @@ public class TrackOverlay extends MapImage {
 	public int numPixels = 0;
 	final static int maxPixelsInCache = 100;
 	final static Color transparentColorForOverlay = Color.White; // only for
-																	// use
+	// use
 	// when
 	// transparent
 	// color is
@@ -73,7 +73,7 @@ public class TrackOverlay extends MapImage {
 			// 1.49)
 		} else {
 			useTransparentColor = false; // // momentanously this it not
-											// used,
+			// used,
 			// but this is only because ewe
 			// treats areas as opaque which has
 			// a non white color in the image,
@@ -204,7 +204,7 @@ public class TrackOverlay extends MapImage {
 			try {
 				addPixelIfNeccessary(x, y, f);
 			} catch (IndexOutOfBoundsException e) // thrown when there are
-													// more
+			// more
 			// than pixels stored than
 			// possible
 			{
@@ -226,7 +226,7 @@ public class TrackOverlay extends MapImage {
 		// // changing the mask forces graphics to copy from image._awtImage to
 		// image.bufferedImage, which is displayed
 		draw.drawImage(image, null, Color.Pink, 0, 0, 1, 1); // width and
-																// height
+		// height
 		// is anyway
 		// ignored,
 		// evtl. testen,
@@ -309,7 +309,7 @@ public class TrackOverlay extends MapImage {
 		// the screen
 		super.doDraw(g, options);
 		imageChangesDontShow = true; // g.drawImage (in super) copies
-										// _awtImage
+		// _awtImage
 		// into bufferedImage, any later changes
 		// to _awtImage dont show up until the
 		// mask or the image has changed -

@@ -83,8 +83,7 @@ public class myInteractivePanel extends InteractivePanel {
 		CacheDB cacheDB = Global.getProfile().cacheDB;
 		CacheHolder ch = cacheDB.get(imgRP.rownum);
 		wayPoint = ch.getWayPoint();
-		String s = wayPoint + "  "
-				+ ch.getCacheSize().getAsChar() + " / "
+		String s = wayPoint + "  " + ch.getCacheSize().getAsChar() + " / "
 				+ strDifficulty + "=" + ch.getHard() + "  " + strTerrain + "="
 				+ ch.getTerrain();
 		String s1 = ch.getCacheName();

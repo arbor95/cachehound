@@ -9,11 +9,10 @@ import org.junit.Test;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 
-
 public class DistanceFilterTest {
 	private static class CHWithDistance extends CacheHolderDummy {
 		double distance;
-		
+
 		public CHWithDistance(double d) {
 			this.distance = d;
 		}
@@ -27,19 +26,19 @@ public class DistanceFilterTest {
 	private IFilter filter;
 	private ICacheHolder inside;
 	private ICacheHolder outside;
-	
+
 	@Before
-	public void setUp () {
+	public void setUp() {
 		filter = new DistanceFilter(5);
 		inside = new CHWithDistance(3);
 		outside = new CHWithDistance(8);
 	}
-	
+
 	@Test
 	public void testInside() {
 		assertTrue(filter.cacheIsVisible(inside));
 	}
-	
+
 	@Test
 	public void testOutside() {
 		assertFalse(filter.cacheIsVisible(outside));

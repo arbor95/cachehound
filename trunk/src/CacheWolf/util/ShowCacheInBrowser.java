@@ -79,8 +79,7 @@ public class ShowCacheInBrowser {
 					tpl.setParam("TYPE", "\"file://"
 							+ FileBase.getProgramDirectory() + "/"
 							+ chD.getType() + ".gif\"");
-					tpl.setParam("SIZE", chD
-							.getCacheSize().getAsString());
+					tpl.setParam("SIZE", chD.getCacheSize().getAsString());
 					tpl.setParam("WAYPOINT", chD.getWayPoint());
 					tpl.setParam("CACHE_NAME", chD.getCacheName());
 					tpl.setParam("OWNER", chD.getCacheOwner());

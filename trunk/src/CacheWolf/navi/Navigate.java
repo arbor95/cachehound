@@ -262,7 +262,7 @@ public class Navigate {
 
 		} else {
 			skyOrientationDir.set(-361, -361); // any value out of range
-												// (bigger
+			// (bigger
 			// than 360) will prevent
 			// drawArrows from drawing it
 		}
@@ -364,7 +364,7 @@ class GpsdThread extends mThread {
 class SerialThread extends mThread {
 	SerialPort comSp;
 	byte[] comBuff = new byte[1024 * 10]; // when some action takes a long
-											// time
+	// time
 	// (eg. loading or zooming a map), a
 	// lot of data can be in the buffer,
 	// read that at once
@@ -377,7 +377,8 @@ class SerialThread extends mThread {
 	public SerialThread(SerialPortOptions spo, CWGPSPoint GPSPoint,
 			String forwardIP) throws IOException {
 		try {
-			spo.portName = CacheWolf.util.Common.fixSerialPortName(spo.portName);
+			spo.portName = CacheWolf.util.Common
+					.fixSerialPortName(spo.portName);
 			comSp = new SerialPort(spo);
 		} catch (IOException e) {
 			throw new IOException(spo.portName);

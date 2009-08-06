@@ -52,7 +52,7 @@ public class FileBugfix extends File {
 		String dirs[] = new String[0];
 		if ((listAndSortOptions & LIST_FILES_ONLY) == 0)
 			dirs = ewefile.list(null, LIST_DIRECTORIES_ONLY); // add dirs if
-																// not
+		// not
 		// only asked
 		// for files
 		if ((listAndSortOptions & LIST_DIRECTORIES_ONLY) == 0)
@@ -90,13 +90,13 @@ public class FileBugfix extends File {
 		ewe.sys.Vm.copyArray(dirs, 0, isMatching, 0, dirs.length);
 		for (int i = 0; i < dirs.length; i++)
 			isMatching[i] = isMatching[i].replace('\\', '/'); // on some PDAs
-																// a
+		// a
 		// "\" in the path seems to make problems, but it seems that is ewe
 		// (files.list) returns sometimes a path containing a "\"
 		for (int i = 0, d = dirs.length; i < found.length; i++)
 			if (found[i] != null)
 				isMatching[d++] = found[i].replace('\\', '/'); // on some PDAs
-																// a
+		// a
 		// "\" in the path seems to make problems, but it seems that is ewe
 		// (files.list) returns sometimes a path containing a "\"
 		found = isMatching;

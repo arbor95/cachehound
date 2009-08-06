@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import de.cachehound.util.ComparatorHelper;
 
 /**
  * @author torsti
- *
+ * 
  */
 public class CacheDB {
 
@@ -234,7 +233,7 @@ public class CacheDB {
 			hashDB.put(ch2.getWayPoint(), i);
 		}
 	}
-	
+
 	public List<CacheHolder> toList() {
 		return new ArrayList<CacheHolder>(vectorDB);
 	}

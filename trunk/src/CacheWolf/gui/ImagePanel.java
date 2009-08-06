@@ -1,6 +1,5 @@
 package CacheWolf.gui;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.Preferences;
@@ -8,6 +7,7 @@ import CacheWolf.beans.Profile;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.fx.Color;
 import ewe.fx.Font;
 import ewe.fx.FontMetrics;
@@ -92,8 +92,8 @@ public class ImagePanel extends InteractivePanel {
 			addTitle(MyLocale.getMsg(340, "Cache Images:"));
 			locY = 20;
 			locX = padding;
-			addImages(cache.getImages().getDisplayImages(cache.getParent()
-					.getWayPoint()));
+			addImages(cache.getImages().getDisplayImages(
+					cache.getParent().getWayPoint()));
 			// load user images
 			if (locCounter == 1 || locCounter == 2)
 				locY = locY + thumb_size;
@@ -208,7 +208,7 @@ public class ImagePanel extends InteractivePanel {
 				// mI.free(); --> this only works in java-VM, in ewe it will
 				// delete the image, so leave it commented out
 				ipi.fileName = location; // this is set only to easily
-											// identify
+				// identify
 				// the filename of the image clicked
 				ipi.setLocation(locX, locY);
 				addImage(ipi);
@@ -250,7 +250,7 @@ public class ImagePanel extends InteractivePanel {
 						343, "Not enough free memory to load cache image")
 						+ ":\n" + location, FormBase.OKB)).exec();
 			} catch (SystemResourceException e) { // TODO show an error icon
-													// in
+				// in
 				// the panel instead of
 				// nothing
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(

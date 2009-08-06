@@ -291,7 +291,7 @@ public class CWPoint extends TrackPoint {
 		} else if (rex.stringMatched(17) != null) { // UTM
 			set(rex.stringMatched(17), rex.stringMatched(19), rex
 					.stringMatched(18)); // parse sequence is E N, but set
-											// needs
+			// needs
 			// N E
 		} else if (rex.stringMatched(20) != null) { // GK
 			set(rex.stringMatched(20), rex.stringMatched(21));

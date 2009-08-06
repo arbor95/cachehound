@@ -35,7 +35,7 @@ public class Rebuild {
 				continue;
 			String wayPoint = xmlFiles[i].substring(0, pos).toUpperCase();
 			if (wayPoint.equalsIgnoreCase("index") || // Check for index.xml
-														// and
+					// and
 					// index.bak
 					prof.getCacheIndex(wayPoint) >= 0) // Check for waypoints
 				// already in database

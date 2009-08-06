@@ -11,7 +11,7 @@ public class AllReader extends Reader {
 		this.r = r;
 		this.bufSize = 1024;
 	}
-	
+
 	public AllReader(Reader r, int bufSize) {
 		this.r = r;
 		this.bufSize = bufSize;
@@ -31,11 +31,11 @@ public class AllReader extends Reader {
 		char[] buffer = new char[bufSize];
 		StringBuilder sb = new StringBuilder();
 		int bytesRead;
-		
+
 		while ((bytesRead = r.read(buffer)) != -1) {
 			sb.append(buffer, 0, bytesRead);
 		}
-		
+
 		return sb.toString();
 	}
 }

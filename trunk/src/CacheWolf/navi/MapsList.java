@@ -79,7 +79,7 @@ public class MapsList extends Vector {
 						.lastIndexOf("."));
 				try {
 					if (dirs.get(j).equals(".")) // the notation
-													// dir/./filename
+						// dir/./filename
 						// doesn't work on all
 						// platforms anyhow
 						tempMIO = new MapListEntry(mapsPath + "/", rawFileName);
@@ -91,7 +91,7 @@ public class MapsList extends Vector {
 					// ewe.sys.Vm.debug(tempMIO.getEasyFindString() +
 					// tempMIO.mapName);
 				} catch (Exception ex) { // TODO exception ist, glaub ich
-											// evtl
+					// evtl
 					// überflüssig
 					if (f == null)
 						(f = new MessageBox(
@@ -101,12 +101,11 @@ public class MapsList extends Vector {
 												"Ignoring error while \n reading calibration file \n")
 										+ ex.toString(), FormBase.OKB)).exec();
 				} /*
-					 * catch(ArithmeticException ex){ // affine contain not
-					 * allowed values if (f == null) (f=new
-					 * MessageBox("Warning", "Ignoring error while \n reading
-					 * calibration file \n" +ex.toString(),
-					 * MessageBox.OKB)).exec(); }
-					 */
+				 * catch(ArithmeticException ex){ // affine contain not allowed
+				 * values if (f == null) (f=new MessageBox("Warning", "Ignoring
+				 * error while \n reading calibration file \n" +ex.toString(),
+				 * MessageBox.OKB)).exec(); }
+				 */
 			}
 		}
 		if (MapListEntry.rename == 1)
@@ -143,17 +142,17 @@ public class MapsList extends Vector {
 	 * @param lat
 	 *            a point to be inside the map
 	 * @param lon
-	 * @param screen :
-	 *            width, height of the screen. The map must overlap the screen.
-	 *            xy: where is lat/lon on screen
+	 * @param screen
+	 *            : width, height of the screen. The map must overlap the
+	 *            screen. xy: where is lat/lon on screen
 	 * @param scale
 	 *            scale wanted currently the best map is the one, whose center
 	 *            is nearest to lat/lon and in Area with its scale nearest to
 	 *            scale. it always returns a map (if the list is not empty) as
 	 *            long as it overlaps the screen
-	 * @param forceScale :
-	 *            when true, return null if no map with specified scale could be
-	 *            found
+	 * @param forceScale
+	 *            : when true, return null if no map with specified scale could
+	 *            be found
 	 */
 	public MapInfoObject getBestMap(CWPoint ll, Rect screen, float scale,
 			boolean forceScale) {
@@ -263,7 +262,7 @@ public class MapsList extends Vector {
 		if (bestMap == null)
 			return null;
 		return new MapInfoObject(bestMap); // return a copy of the
-											// MapInfoObject
+		// MapInfoObject
 		// so that zooming won't change the
 		// MapInfoObject in the list
 	}
@@ -277,12 +276,11 @@ public class MapsList extends Vector {
 	/**
 	 * @return a map which includs topleft and bottomright, if no map includes
 	 *         both it returns null
-	 * @param if
-	 *            more than one map includes topleft and bottomright than the
-	 *            one will be returned which has its center nearest to topleft.
-	 *            If you have gps-pos and goto-pos as topleft and buttomright
-	 *            use gps as topleft. if topleft is really topleft or if it is
-	 *            buttomright is not relevant.
+	 * @param if more than one map includes topleft and bottomright than the one
+	 *        will be returned which has its center nearest to topleft. If you
+	 *        have gps-pos and goto-pos as topleft and buttomright use gps as
+	 *        topleft. if topleft is really topleft or if it is buttomright is
+	 *        not relevant.
 	 */
 
 	public MapInfoObject getMapForArea(CWPoint topleft, CWPoint bottomright) {
@@ -334,7 +332,7 @@ public class MapsList extends Vector {
 				if (fittingmap == null
 						|| fittingmap.scale > mi.scale * scaleTolerance) {
 					better = true; // mi map has a better (lower) scale than
-									// the
+					// the
 					// last knwon good map
 				} else {
 					if (scaleEquals(mi, fittingmap)) { // same scale as bestmap
@@ -379,7 +377,7 @@ public class MapsList extends Vector {
 		if (fittingmap == null)
 			return null;
 		return new MapInfoObject(fittingmap); // TODO in case that this one
-												// and
+		// and
 		// the old one are identical
 		// this instantiation could
 		// eventually be avoided as it
@@ -392,9 +390,9 @@ public class MapsList extends Vector {
 	 * @param lat
 	 *            a point to be inside the map
 	 * @param lon
-	 * @param screen :
-	 *            width, height of the screen. The map must overlap the screen.
-	 *            xy: where is lat/lon on screen
+	 * @param screen
+	 *            : width, height of the screen. The map must overlap the
+	 *            screen. xy: where is lat/lon on screen
 	 * @param curScale
 	 *            reference scale to be changed
 	 * @param moreDetails
@@ -629,10 +627,10 @@ public class MapsList extends Vector {
 	/*
 	 * may be the following code is used same time later to further enhance the
 	 * speed of finding the best map public int getQuickMap(String search){
-	 * boolean found = false; // TODO unfertig int upperbound = 0; int downbound =
-	 * size(); int test; while (!found) { test = (upperbound + downbound)/2; if (
-	 * ((Comparable)(get(test))).compareTo(search) < 0) downbound = test; else
-	 * upperbound = test; } return 1; }
+	 * boolean found = false; // TODO unfertig int upperbound = 0; int downbound
+	 * = size(); int test; while (!found) { test = (upperbound + downbound)/2;
+	 * if ( ((Comparable)(get(test))).compareTo(search) < 0) downbound = test;
+	 * else upperbound = test; } return 1; }
 	 */
 	/**
 	 * for determining if a new map should be downloaded public boolean
@@ -660,7 +658,8 @@ class MapListEntry /* implements Comparable */{
 		sortEntryBBox = null;
 		map = null;
 		/*
-		 * try {map = new MapInfoObject(path, filename); } catch (Exception e) { }
+		 * try {map = new MapInfoObject(path, filename); } catch (Exception e) {
+		 * }
 		 * 
 		 * ewe.sys.Vm.debug("centerID: "+map.getCenterID());
 		 * ewe.sys.Vm.debug("PxID: "+map.getPxSizeID());
@@ -673,7 +672,7 @@ class MapListEntry /* implements Comparable */{
 			Global.getPref().log("Ignored Exception", ex, true);
 		}
 		if (sortEntryBBox == null) { // || sortEntryScaleCenterPx.length() <
-										// 16)
+			// 16)
 			// {
 			try {
 				map = new MapInfoObject(path, filename);

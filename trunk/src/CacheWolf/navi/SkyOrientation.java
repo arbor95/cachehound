@@ -33,7 +33,7 @@ public class SkyOrientation {
 	public static final int MIMOSA = 6; // second brightest star in Southern
 	// Cross
 	public static final int SOUTHERN_CROSS = MIMOSA; // SOUTHERN_CROSS =
-														// Kreus
+	// Kreus
 	// des Südens = Crux
 	// australia
 
@@ -417,14 +417,13 @@ public class SkyOrientation {
 		/*
 		 * double e = 0.054900; double a = 384401; // km double diameter0 =
 		 * 0.5181*DEG; // angular diameter of Moon at a distance double
-		 * parallax0 = 0.9507*DEG; // parallax at distance a
-		 *  // relative distance to semi mayor axis of lunar oribt
-		 * moonCoor.distance = (1-sqr(e)) / (1+e*Math.cos(MMoon2+Ec) );
-		 * moonCoor.diameter = diameter0/moonCoor.distance; // angular diameter
-		 * in radians moonCoor.parallax = parallax0/moonCoor.distance; //
-		 * horizontal parallax in radians moonCoor.distance *= a; // distance in
-		 * km
-		 *  // Age of Moon in radians since New Moon (0) - Full Moon (pi)
+		 * parallax0 = 0.9507*DEG; // parallax at distance a // relative
+		 * distance to semi mayor axis of lunar oribt moonCoor.distance =
+		 * (1-sqr(e)) / (1+e*Math.cos(MMoon2+Ec) ); moonCoor.diameter =
+		 * diameter0/moonCoor.distance; // angular diameter in radians
+		 * moonCoor.parallax = parallax0/moonCoor.distance; // horizontal
+		 * parallax in radians moonCoor.distance *= a; // distance in km // Age
+		 * of Moon in radians since New Moon (0) - Full Moon (pi)
 		 * moonCoor.moonAge = Mod2Pi(l3-sunCoor.lon); moonCoor.phase =
 		 * 0.5*(1-Math.cos(moonCoor.moonAge)); // Moon phase, 0-1
 		 * 
@@ -433,8 +432,8 @@ public class SkyOrientation {
 		 * "Letztes Viertel", "Abnehmende Sichel", "Neumond"); var mainPhase =
 		 * 1./29.53*360*DEG; // show 'Newmoon, 'Quarter' for +/-1 day arond the
 		 * actual event var p = Mod(moonCoor.moonAge, 90.*DEG); if (p <
-		 * mainPhase || p > 90*DEG-mainPhase) p = 2*Math.round(moonCoor.moonAge /
-		 * (90.*DEG)); else p = 2*Math.floor(moonCoor.moonAge / (90.*DEG))+1;
+		 * mainPhase || p > 90*DEG-mainPhase) p = 2*Math.round(moonCoor.moonAge
+		 * / (90.*DEG)); else p = 2*Math.floor(moonCoor.moonAge / (90.*DEG))+1;
 		 * moonCoor.moonPhase = phases[p];
 		 * 
 		 * moonCoor.sign = Sign(moonCoor.lon); return (float) moonCoor.lonDec;
@@ -454,8 +453,8 @@ public class SkyOrientation {
 	 * @param onEarth
 	 *            pos. on earth for which the azimut is wanted
 	 * @param julianDate
-	 * @param equatorial :
-	 *            lonDec = rektaszension (alpha), latDec = Deklination (delta)
+	 * @param equatorial
+	 *            : lonDec = rektaszension (alpha), latDec = Deklination (delta)
 	 * @return lonDec: azimuth in degrees from north, lat: elevation in degrees
 	 *         from horizont alogithism from wikipedia sonnenbahn
 	 */
@@ -505,7 +504,7 @@ public class SkyOrientation {
 	public static CWPoint ecliptic2Equatorial(CWPoint eklipCoo,
 			double juliandate) {
 		double T = (juliandate - 2451545.0) / 36525.; // Epoch 2000 January
-														// 1.5
+		// 1.5
 		double eps = (23. + (26 + 21.45 / 60) / 60 + T
 				* (-46.815 + T * (-0.0006 + T * 0.00181)) / 3600)
 				/ 180 * java.lang.Math.PI; // schiefe der Ekliptik

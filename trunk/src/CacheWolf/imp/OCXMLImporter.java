@@ -670,10 +670,8 @@ public class OCXMLImporter extends MinML {
 					imgRegexUrl.setIgnoreCase(true);
 					int descIndex = 0;
 					int numDownloaded = 1;
-					while (imgRegexUrl
-							.searchFrom(
-									holder.getFreshDetails().getLongDescription(),
-									descIndex)) { // "img" found
+					while (imgRegexUrl.searchFrom(holder.getFreshDetails()
+							.getLongDescription(), descIndex)) { // "img" found
 						imgTag = imgRegexUrl.stringMatched(1); // (1) enthält
 						// das gesamte
 						// <img ...>-tag
@@ -765,11 +763,12 @@ public class OCXMLImporter extends MinML {
 			if (name.equals("desc")) { // </desc>
 				if (holder.is_HTML())
 					holder.getFreshDetails().setLongDescription(
-							holder.getFreshDetails().getLongDescription() + SafeXML
-									.cleanback(strData));
+							holder.getFreshDetails().getLongDescription()
+									+ SafeXML.cleanback(strData));
 				else
 					holder.getFreshDetails().setLongDescription(
-							holder.getFreshDetails().getLongDescription() + strData);
+							holder.getFreshDetails().getLongDescription()
+									+ strData);
 				return;
 			}
 			if (name.equals("hint")) {
@@ -891,16 +890,16 @@ public class OCXMLImporter extends MinML {
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getFreshDetails().getCacheLogs().add(LogFactory.getInstance()
-					.createLog(logType, logDate, logFinder, logData,
-							loggerRecommended));
+			holder.getFreshDetails().getCacheLogs().add(
+					LogFactory.getInstance().createLog(logType, logDate,
+							logFinder, logData, loggerRecommended));
 			if (pref.isMyAlias(logFinder) && logTypeOC == 1) {
 				holder.setCacheStatus(logDate);
 				holder.setFound(true);
 				holder.getFreshDetails().setOwnLogId(logId);
-				holder.getFreshDetails().setOwnLog(LogFactory.getInstance()
-						.createLog(logType, logDate, logFinder, logData,
-								loggerRecommended));
+				holder.getFreshDetails().setOwnLog(
+						LogFactory.getInstance().createLog(logType, logDate,
+								logFinder, logData, loggerRecommended));
 			}
 			holder.getFreshDetails().setUnsavedChanges(true); // chD.saveCacheDetails(profile.dataDir);
 			return;

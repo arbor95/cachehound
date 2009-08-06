@@ -223,7 +223,8 @@ public class Filter {
 		 * java.lang.Math.PI / 180; double crs_AD = fromPoint.getBearing(cwp);
 		 * crs_AD = crs_AD * java.lang.Math.PI / 180; double dist_AD =
 		 * fromPoint.getDistance(cwp); Vm.debug("Distance: "+dist_AD); dist_AD =
-		 * dist_AD / 1.852; dist_AD = (java.lang.Math.PI/(180*60))*dist_AD; XTD =
+		 * dist_AD / 1.852; dist_AD = (java.lang.Math.PI/(180*60))*dist_AD; XTD
+		 * =
 		 * java.lang.Math.asin(java.lang.Math.sin(dist_AD)*java.lang.Math.sin(crs_AD
 		 * -crs_AB)); return java.lang.Math.abs(XTD);
 		 */
@@ -331,7 +332,8 @@ public class Filter {
 			sizeMatchPattern |= CacheSize.VERY_LARGE.getFilterPattern();
 		if (filterSize.charAt(5) == '1')
 			sizeMatchPattern |= CacheSize.NOT_CHOSEN.getFilterPattern();
-		hasSizeMatchPattern = sizeMatchPattern != CacheSize.getAllFilterPatterns();
+		hasSizeMatchPattern = sizeMatchPattern != CacheSize
+				.getAllFilterPatterns();
 		distdirec = profile.getFilterDist().charAt(0) == 'L' ? SMALLER
 				: GREATER;
 		fscDist = Common.parseDouble(profile.getFilterDist().substring(1)); // Distance
@@ -376,7 +378,8 @@ public class Filter {
 				if (examinedCaches.containsKey(ch.getMainCache())) {
 					filterCache = ch.getMainCache().is_filtered();
 				} else {
-					ch.getMainCache().setFiltered(excludedByFilter(ch.getMainCache()));
+					ch.getMainCache().setFiltered(
+							excludedByFilter(ch.getMainCache()));
 					filterCache = ch.getMainCache().is_filtered();
 					examinedCaches.put(ch.getMainCache(), null);
 				}
@@ -407,7 +410,7 @@ public class Filter {
 			// Filter criterium 1: Cache type
 			// /////////////////////////////
 			if (hasTypeMatchPattern) { // Only do the checks if we have a
-										// filter
+				// filter
 				int cacheTypePattern = 0;
 				// As each cache can only have one type, we can use else if and
 				// set the type

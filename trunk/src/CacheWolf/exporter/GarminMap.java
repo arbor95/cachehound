@@ -62,9 +62,10 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
-							.equalsIgnoreCase("" + ch
-									.getCacheSize().getAsChar()));
+					&& ((icon.size == null)
+							|| ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase(""
+									+ ch.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
@@ -98,9 +99,10 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
-							.equalsIgnoreCase("" + ch
-									.getCacheSize().getAsChar()));
+					&& ((icon.size == null)
+							|| ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase(""
+									+ ch.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
@@ -129,9 +131,10 @@ class GarminMap extends MinML {
 					&& ((icon.type == null) || ch.getType() == 0 || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
-					&& ((icon.size == null) || ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
-							.equalsIgnoreCase("" + ch
-									.getCacheSize().getAsChar()));
+					&& ((icon.size == null)
+							|| ch.getCacheSize() == CacheSize.NOT_CHOSEN || icon.size
+							.equalsIgnoreCase(""
+									+ ch.getCacheSize().getAsChar()));
 			match = match
 					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
 							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));

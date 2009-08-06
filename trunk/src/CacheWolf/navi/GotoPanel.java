@@ -220,10 +220,10 @@ public class GotoPanel extends CellPanel {
 		 * test =
 		 * myGPS.examine("$GPGSA,A,3,10,28,26,29,09,,,,,,,,04.1,02.6,03.2*0F");
 		 * test =myGPS.examine(
-		 * "$GPGSV,4,1,13,08,40,072,28,10,29,201,47,27,15,079,29,28,62,102,44*7E" );
-		 * test =myGPS.examine(
-		 * "$GPGSV,4,2,13,29,72,289,38,26,63,296,41,09,12,259,35,18,14,324,*79" );
-		 * test =myGPS.examine(
+		 * "$GPGSV,4,1,13,08,40,072,28,10,29,201,47,27,15,079,29,28,62,102,44*7E"
+		 * ); test =myGPS.examine(
+		 * "$GPGSV,4,2,13,29,72,289,38,26,63,296,41,09,12,259,35,18,14,324,*79"
+		 * ); test =myGPS.examine(
 		 * "$GPGSV,4,3,13,19,09,025,,17,06,138,,21,06,300,,37,29,171,40*7A");
 		 * test = myGPS.examine("$GPGSV,4,4,13,39,29,166,38*40");
 		 */
@@ -395,7 +395,7 @@ public class GotoPanel extends CellPanel {
 		CWPoint centerTo = null;
 		if (myNavigation.isGpsPosValid())
 			centerTo = new CWPoint(myNavigation.gpsPos); // set gps-pos if
-															// gps
+		// gps
 		// is on
 		else {
 			// setze Zielpunkt als Ausgangspunkt, wenn GPS aus ist und lade

@@ -1,11 +1,11 @@
 package de.cachehound.util;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.SpiderGC;
+import de.cachehound.beans.CacheHolderDetail;
 
 public class SpiderService {
 
@@ -24,8 +24,8 @@ public class SpiderService {
 	}
 
 	/**
-	 * Checks if there is already a spiderGC instance in here and if it is valid.
-	 * If not it creates a new instance. 
+	 * Checks if there is already a spiderGC instance in here and if it is
+	 * valid. If not it creates a new instance.
 	 */
 	@SuppressWarnings("deprecation")
 	private synchronized void checkSpiderGC() {
@@ -39,7 +39,7 @@ public class SpiderService {
 	}
 
 	/**
-	 * Method to spider a single cache. 
+	 * Method to spider a single cache.
 	 * 
 	 * @return 1 if spider was successful, -1 if spider was cancelled by closing
 	 *         the infobox, 0 error, but continue with next cache
@@ -99,7 +99,7 @@ public class SpiderService {
 		checkSpiderGC();
 		spiderGC.doIt(spiderAllLogs);
 	}
-	
+
 	/**
 	 * Get the images for a previously fetched cache page. Images are extracted
 	 * from two areas: The long description and the pictures section (including
@@ -114,18 +114,23 @@ public class SpiderService {
 		checkSpiderGC();
 		spiderGC.getImages(doc, chD);
 	}
-	
+
 	/**
-	 * Gets the attributes out of the given String and saves in in the cacheDetails
-	 * @param doc The full webpage of the asked geocache.
-	 * @param chD the Details for the asked geocache.
-	 * @throws Exception 
+	 * Gets the attributes out of the given String and saves in in the
+	 * cacheDetails
+	 * 
+	 * @param doc
+	 *            The full webpage of the asked geocache.
+	 * @param chD
+	 *            the Details for the asked geocache.
+	 * @throws Exception
 	 */
-	public void getAttributes(String doc, CacheHolderDetail chD) throws Exception {
+	public void getAttributes(String doc, CacheHolderDetail chD)
+			throws Exception {
 		checkSpiderGC();
 		spiderGC.getAttributes(doc, chD);
 	}
-	
+
 	/**
 	 * Load the bug id for a given name. This method is not ideal, as there are
 	 * sometimes several bugs with identical names but different IDs. Normally
@@ -140,7 +145,7 @@ public class SpiderService {
 		checkSpiderGC();
 		return spiderGC.getBugId(name);
 	}
-	
+
 	/**
 	 * Fetch a bug's mission for a given GUID or ID. If the guid String is
 	 * longer than 10 characters it is assumed to be a GUID, otherwise it is an
@@ -154,7 +159,7 @@ public class SpiderService {
 		checkSpiderGC();
 		return spiderGC.getBugMissionByGuid(guid);
 	}
-	
+
 	/**
 	 * Fetch a bug's mission and namefor a given tracking number
 	 * 
@@ -164,6 +169,6 @@ public class SpiderService {
 	 */
 	public boolean getBugMissionAndNameByTrackNr(Travelbug tb) {
 		checkSpiderGC();
-		return spiderGC.getBugMissionAndNameByTrackNr(tb);		
+		return spiderGC.getBugMissionAndNameByTrackNr(tb);
 	}
 }

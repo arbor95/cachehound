@@ -9,7 +9,8 @@ import de.cachehound.beans.ICacheHolder;
  * Abstrakte Basisklasse fuer Filter, die von genau einem CacheHolder-Attribut
  * abhaengen. Dieses muss einen Enum-Typ ha.ben
  */
-public abstract class AbstractEnumBasedFilter<T extends Enum<T>> implements IFilter {
+public abstract class AbstractEnumBasedFilter<T extends Enum<T>> implements
+		IFilter {
 	private Set<T> mask;
 
 	protected void init(Set<T> mask) {
@@ -22,8 +23,8 @@ public abstract class AbstractEnumBasedFilter<T extends Enum<T>> implements IFil
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return mask.contains(getProperty(ch));
 	}
-	
-	public Set<T> getMask () {
+
+	public Set<T> getMask() {
 		return EnumSet.copyOf(mask);
 	}
 }

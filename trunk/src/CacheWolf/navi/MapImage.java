@@ -58,7 +58,7 @@ public class MapImage extends AniImage {
 			freeSource(); // copied from super()
 		} catch (IOException e) {
 			throw new ImageNotFoundException(f); // in order to behave the
-													// same
+			// same
 			// way as super would have
 		}
 	}

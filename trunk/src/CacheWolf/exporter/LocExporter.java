@@ -1,10 +1,10 @@
 package CacheWolf.exporter;
 
-import de.cachehound.beans.CacheHolderDetail;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.io.File;
 import ewe.io.FileBase;
 
@@ -68,7 +68,8 @@ public class LocExporter extends Exporter {
 				strBuf.append(getShortDetails(ch));
 			}
 			CacheHolderDetail det = ch.getExistingDetails();
-			if ((!det.getHints().equals("null")) && (det.getHints().length() > 0)) {
+			if ((!det.getHints().equals("null"))
+					&& (det.getHints().length() > 0)) {
 				strBuf.append(":");
 				strBuf.append(simplifyString(Common.rot13(det.getHints())));
 			}

@@ -1,7 +1,5 @@
 package CacheWolf.exporter;
 
-import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.comparators.DistanceComparator;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -12,6 +10,8 @@ import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.comparators.DistanceComparator;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedReader;
@@ -273,19 +273,20 @@ public class ExploristExporter {
 		}
 		sb.append(",");
 		sb.append(toGsDateFormat(ch.getDateHidden())); // created - DDMMYYY,
-														// YYY
+		// YYY
 		// = year - 1900
 		sb.append(",");
 		String lastFound = "0000";
 		for (int i = 0; i < det.getCacheLogs().size(); i++) {
 			if (det.getCacheLogs().getLog(i).isFoundLog()
-					&& det.getCacheLogs().getLog(i).getDate().compareTo(lastFound) > 0) {
+					&& det.getCacheLogs().getLog(i).getDate().compareTo(
+							lastFound) > 0) {
 				lastFound = det.getCacheLogs().getLog(i).getDate();
 			}
 		}
 
 		sb.append(toGsDateFormat(lastFound)); // lastFound - DDMMYYY, YYY =
-												// year
+		// year
 		// - 1900
 		sb.append(",");
 		sb.append(CacheTerrDiff.longDT(ch.getHard()));

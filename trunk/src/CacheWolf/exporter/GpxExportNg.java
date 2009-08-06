@@ -556,8 +556,10 @@ public class GpxExportNg {
 		// .concat("\t\t<desc>@@WPDESC@@</desc>\n")
 
 		ret.append("  <wpt lat=\""
-				+ String.valueOf(ch.getPos().latDec).replace(',', '.') + "\" lon=\""
-				+ String.valueOf(ch.getPos().lonDec).replace(',', '.') + "\">\n");
+				+ String.valueOf(ch.getPos().latDec).replace(',', '.')
+				+ "\" lon=\""
+				+ String.valueOf(ch.getPos().lonDec).replace(',', '.')
+				+ "\">\n");
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			if (ch.isAddiWpt()) {
@@ -580,8 +582,9 @@ public class GpxExportNg {
 		if (exportIds == WPNAME_ID_SMART) {
 			if (ch.isAddiWpt()) {
 				ret.append("    <name>".concat(
-						SafeXML.cleanGPX(ch.getMainCache().getWayPoint().concat(" ")
-								.concat(ch.getWayPoint().substring(0, 2))))
+						SafeXML.cleanGPX(ch.getMainCache().getWayPoint()
+								.concat(" ").concat(
+										ch.getWayPoint().substring(0, 2))))
 						.concat("</name>\n"));
 			} else if (ch.isCustomWpt()) {
 				ret
@@ -879,8 +882,8 @@ public class GpxExportNg {
 					trans.add(new Regex("@@ADDIID@@", addi.getWayPoint()));
 					trans.add(new Regex("@@ADDISHORT@@", addi.getCacheName()));
 					trans.add(new Regex("@@ADDIDELIM@@", delim));
-					trans.add(new Regex("@@ADDILAT@@",
-							formatAddiLatLon(addi.getPos())));
+					trans.add(new Regex("@@ADDILAT@@", formatAddiLatLon(addi
+							.getPos())));
 					trans.add(new Regex("@@ADDILON@@", ""));
 					trans.add(new Regex("@@ADDILONG@@", addi.getFreshDetails()
 							.getLongDescription()));

@@ -23,7 +23,6 @@ import CacheWolf.beans.TravelbugJourneyList;
 import CacheWolf.beans.TravelbugList;
 import CacheWolf.controller.TravelbugPickup;
 import CacheWolf.util.MyLocale;
-
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.util.SpiderService;
 import ewe.fx.Color;
@@ -495,7 +494,7 @@ public class TravelbugJourneyScreen extends Form {
 				// A range of rows can be marked by shift-click on the first and
 				// last row
 				if (lastRow != -1) { // Second row being marked with shift
-										// key
+					// key
 					// pressed
 					if (lastRow < cell.y)
 						toggleSelect(lastRow, cell.y);
@@ -733,9 +732,11 @@ public class TravelbugJourneyScreen extends Form {
 
 						if (Desktop.isDesktopSupported()) {
 							Desktop.getDesktop().browse(new URI(s));
-						}
-						else {
-							Global.getPref().log("Das System unterstützt das Java Feature 'Desktop' nicht");
+						} else {
+							Global
+									.getPref()
+									.log(
+											"Das System unterstützt das Java Feature 'Desktop' nicht");
 						}
 					} catch (Exception ioex) {
 						Global.getPref().log("Ignored Exception", ioex, true);

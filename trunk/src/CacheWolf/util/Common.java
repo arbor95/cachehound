@@ -2,7 +2,6 @@ package CacheWolf.util;
 
 import java.io.File;
 
-
 import ewe.sys.Convert;
 
 public final class Common {

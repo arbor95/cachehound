@@ -354,15 +354,15 @@ public class SpiderGC {
 				ch.setNumRecommended(cacheInDB.getNumRecommended());
 				if (pref.downloadPics) {
 					// delete obsolete images when we have current set
-					CacheImages.cleanupOldImages(
-							cacheInDB.getExistingDetails().getImages(), ch
-									.getFreshDetails().getImages());
+					CacheImages.cleanupOldImages(cacheInDB.getExistingDetails()
+							.getImages(), ch.getFreshDetails().getImages());
 				} else {
 					// preserve images if not downloaded
 					// Änderung Florian für Mailupdate
 					// ch.getFreshDetails().images =
 					// cacheInDB.getExistingDetails().images;
-					ch.getFreshDetails().setImages(cacheInDB.getFreshDetails().getImages());
+					ch.getFreshDetails().setImages(
+							cacheInDB.getFreshDetails().getImages());
 				}
 				cacheInDB.update(ch);
 				cacheInDB.save();
@@ -1027,14 +1027,15 @@ public class SpiderGC {
 						if (location.length() != 0) {
 							int countryStart = location.indexOf(",");
 							if (countryStart > -1) {
-								ch.getFreshDetails().setCountry(SafeXML
-										.cleanback(location.substring(
+								ch.getFreshDetails().setCountry(
+										SafeXML.cleanback(location.substring(
 												countryStart + 1).trim()));
-								ch.getFreshDetails().setState(SafeXML
-										.cleanback(location.substring(0,
+								ch.getFreshDetails().setState(
+										SafeXML.cleanback(location.substring(0,
 												countryStart).trim()));
 							} else {
-								ch.getFreshDetails().setCountry(location.trim());
+								ch.getFreshDetails()
+										.setCountry(location.trim());
 								ch.getFreshDetails().setState("");
 							}
 							pref.log("Got location (country/state)");
@@ -1070,12 +1071,15 @@ public class SpiderGC {
 						ch.getFreshDetails()
 								.setHints(getHints(completeWebPage));
 						if (pref.debug)
-							pref.log("Hints: " + ch.getFreshDetails().getHints());
+							pref.log("Hints: "
+									+ ch.getFreshDetails().getHints());
 						else
 							pref.log("Got hints");
 
 						pref.log("Trying size");
-						ch.setCacheSize(CacheSize.fromNormalStringRepresentation(getSize(completeWebPage)));
+						ch
+								.setCacheSize(CacheSize
+										.fromNormalStringRepresentation(getSize(completeWebPage)));
 						if (pref.debug)
 							pref.log("Size: " + ch.getCacheSize());
 						else
@@ -1129,9 +1133,8 @@ public class SpiderGC {
 						// user has aborted
 						if (!infB.isClosed && fetchTBs)
 							getBugs(ch.getFreshDetails(), completeWebPage);
-						ch
-								.setHas_bugs(ch.getFreshDetails().getTravelbugs()
-										.size() > 0);
+						ch.setHas_bugs(ch.getFreshDetails().getTravelbugs()
+								.size() > 0);
 
 						// ==========
 						// Images
@@ -1487,7 +1490,8 @@ public class SpiderGC {
 			// are waiting for
 			// a log by our alias that happened earlier.
 			if (nLogs >= pref.maxLogsToSpider && chD.getParent().is_found()
-					&& (chD.getOwnLogId().length() != 0) && (chD.getOwnLog() != null)
+					&& (chD.getOwnLogId().length() != 0)
+					&& (chD.getOwnLog() != null)
 					&& !(chD.getOwnLog().getDate().equals("1900-01-01")))
 				break;
 		}

@@ -41,7 +41,8 @@ public class Rating {
 				if (ch.isCacheWpt()) {
 					int rate;
 					try {
-						ProcessBuilder pb = new ProcessBuilder(rater, ch.getWayPoint());
+						ProcessBuilder pb = new ProcessBuilder(rater, ch
+								.getWayPoint());
 						Process p = pb.start();
 						rate = p.waitFor();
 						ch.setNumRecommended(rate);

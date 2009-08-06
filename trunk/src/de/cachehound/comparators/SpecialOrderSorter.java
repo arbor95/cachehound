@@ -11,7 +11,7 @@ import CacheWolf.beans.CacheHolder;
  */
 public class SpecialOrderSorter implements Comparator<CacheHolder> {
 	private List<CacheHolder> l;
-	
+
 	public SpecialOrderSorter(List<CacheHolder> l) {
 		this.l = l;
 	}

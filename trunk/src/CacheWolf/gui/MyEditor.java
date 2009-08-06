@@ -36,7 +36,7 @@ public class MyEditor extends Editor {
 					CellPanel p = new CellPanel();
 					p.defaultTags.set(INSETS, new Insets(0, 1, 0, 1));
 					p.modify(AlwaysEnabled | NotAnEditor, 0); // Just in case
-																// a
+					// a
 					// dialog pops
 					// up
 					// with global disabling.

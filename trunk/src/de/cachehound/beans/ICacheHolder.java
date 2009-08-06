@@ -5,6 +5,8 @@ import de.cachehound.types.CacheSize;
 
 public interface ICacheHolder {
 	public Bearing getBearing();
+
 	public CacheSize getCacheSize();
+
 	public double getKilom();
 }

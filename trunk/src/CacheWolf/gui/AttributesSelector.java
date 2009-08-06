@@ -66,7 +66,7 @@ public class AttributesSelector extends Panel {
 	protected class attInteractivePanel extends InteractivePanel {
 		public boolean imageMovedOn(AniImage which) {
 			if (!((attAniImage) which).info.startsWith("*")) { // If text
-																// starts
+				// starts
 				// with * we
 				// have no
 				// explanation

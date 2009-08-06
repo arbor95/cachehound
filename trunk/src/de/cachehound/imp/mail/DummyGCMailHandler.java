@@ -17,7 +17,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#archived(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean archived(String gcNumber, Message message, String subject,
 			String text) {
@@ -29,7 +29,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#published(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean published(String gcNumber, Message message, String subject,
 			String text) {
@@ -41,7 +41,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#enabled(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean enabled(String gcNumber, Message message, String subject,
 			String text) {
@@ -53,7 +53,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#unarchived(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean unarchived(String gcNumber, Message message, String subject,
 			String text) {
@@ -65,7 +65,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#retracted(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean retracted(String gcNumber, Message message, String subject,
 			String text) {
@@ -77,7 +77,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#disabled(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean disabled(String gcNumber, Message message, String subject,
 			String text) {
@@ -89,7 +89,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#found(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean found(String gcNumber, Message message, String subject,
 			String text) {
@@ -100,8 +100,9 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.flopl.geocaching.mail.IGCMailHandler#didNotFound(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * @see
+	 * de.flopl.geocaching.mail.IGCMailHandler#didNotFound(java.lang.String,
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean didNotFound(String gcNumber, Message message,
 			String subject, String text) {
@@ -113,7 +114,7 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	 * (non-Javadoc)
 	 * 
 	 * @see de.flopl.geocaching.mail.IGCMailHandler#updated(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean updated(String gcNumber, Message message, String subject,
 			String text) {
@@ -124,8 +125,9 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.flopl.geocaching.mail.IGCMailHandler#needMaintenance(java.lang.String,
-	 *      javax.mail.Message, java.lang.String, java.lang.String)
+	 * @see
+	 * de.flopl.geocaching.mail.IGCMailHandler#needMaintenance(java.lang.String,
+	 * javax.mail.Message, java.lang.String, java.lang.String)
 	 */
 	public boolean needMaintenance(String gcNumber, Message message,
 			String subject, String text) {
@@ -136,8 +138,9 @@ public class DummyGCMailHandler implements IGCMailHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.flopl.geocaching.mail.IGCMailHandler#handlePocketQuery(javax.mail.
-	 *      Message, java.lang.String)
+	 * @see
+	 * de.flopl.geocaching.mail.IGCMailHandler#handlePocketQuery(javax.mail.
+	 * Message, java.lang.String)
 	 */
 	public boolean handlePocketQuery(Message message, String subject)
 			throws MessagingException, IOException {

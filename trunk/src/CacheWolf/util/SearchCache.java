@@ -55,8 +55,9 @@ public class SearchCache {
 								.toUpperCase().indexOf(searchStr) < 0
 								&& ch.getExistingDetails().getCacheNotes()
 										.toUpperCase().indexOf(searchStr) < 0)
-						&& (!searchInLogs || ch.getExistingDetails().getCacheLogs()
-								.allMessages().toUpperCase().indexOf(searchStr) < 0)) {
+						&& (!searchInLogs || ch.getExistingDetails()
+								.getCacheLogs().allMessages().toUpperCase()
+								.indexOf(searchStr) < 0)) {
 					ch.setIs_flaged(false);
 				} else
 					ch.setIs_flaged(true);

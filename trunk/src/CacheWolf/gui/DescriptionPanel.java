@@ -8,7 +8,6 @@ import CacheWolf.util.MyLocale;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
-
 import ewe.fx.Font;
 import ewe.sys.Vm;
 import ewe.ui.CellConstants;

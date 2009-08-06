@@ -128,7 +128,7 @@ public class FilterData {
 				retval.append('0');
 			}
 		}
-		
+
 		return retval.toString();
 	}
 
@@ -139,7 +139,7 @@ public class FilterData {
 	@Deprecated
 	public void setFilterRose(String filterRose) {
 		this.filterRose = EnumSet.noneOf(Bearing.class);
-		
+
 		int i = 0;
 		for (Bearing b : ListHelper.divideAndSwap(Arrays.asList(Bearing
 				.values()), Bearing.NW)) {

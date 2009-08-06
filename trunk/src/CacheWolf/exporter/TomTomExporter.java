@@ -236,8 +236,7 @@ public class TomTomExporter {
 					+ ch.getCacheOwner().length()
 					+ String.valueOf(ch.getHard()).length()
 					+ String.valueOf(ch.getTerrain()).length()
-					+ ch.getCacheSize().getAsString().length()
-					+ 27;
+					+ ch.getCacheSize().getAsString().length() + 27;
 			writeIntBinary(outp, data);
 			latlon = Common.parseDouble(lon);
 			latlon *= 100000;

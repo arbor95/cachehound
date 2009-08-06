@@ -4,8 +4,8 @@ import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
 
 /**
- * A dummy, non-working implementation of ICacheHolder.
- * It is meant as a base class for mock objects.
+ * A dummy, non-working implementation of ICacheHolder. It is meant as a base
+ * class for mock objects.
  */
 public class CacheHolderDummy implements ICacheHolder {
 	@Override
@@ -17,7 +17,7 @@ public class CacheHolderDummy implements ICacheHolder {
 	public CacheSize getCacheSize() {
 		return null;
 	}
-	
+
 	@Override
 	public double getKilom() {
 		return Double.NaN;

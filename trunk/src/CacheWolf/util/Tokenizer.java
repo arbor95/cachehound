@@ -153,7 +153,7 @@ public class Tokenizer {
 
 	private void streamDigits() {
 		boolean foundDecSep = false; // To check that only one decimal point
-										// is
+		// is
 		// allowed in a number
 		startToken();
 		while (getChar()) {

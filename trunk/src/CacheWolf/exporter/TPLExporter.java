@@ -211,9 +211,9 @@ public class TPLExporter {
 								.getType()));
 						varParams.put("SHORTTYPE", CacheType
 								.getExportShortId(ch.getType()));
-						varParams.put("SIZE", ch
-								.getCacheSize().getAsString());
-						varParams.put("SHORTSIZE", ch.getCacheSize().getAsChar());
+						varParams.put("SIZE", ch.getCacheSize().getAsString());
+						varParams.put("SHORTSIZE", ch.getCacheSize()
+								.getAsChar());
 						varParams.put("WAYPOINT", ch.getWayPoint());
 						varParams.put("OWNER", ch.getCacheOwner());
 						varParams
@@ -253,15 +253,16 @@ public class TPLExporter {
 									.getCacheName()));
 							varParams.put("NOTES", rex.replaceAll(det
 									.getCacheNotes()));
-							varParams.put("HINTS", rex.replaceAll(det.getHints()));
+							varParams.put("HINTS", rex.replaceAll(det
+									.getHints()));
 							varParams.put("DECRYPTEDHINTS", rex
 									.replaceAll(Common.rot13(det.getHints())));
 						} else {
 							varParams.put("NAME", ch.getCacheName());
 							varParams.put("NOTES", det.getCacheNotes());
 							varParams.put("HINTS", det.getHints());
-							varParams.put("DECRYPTEDHINTS", Common
-									.rot13(det.getHints()));
+							varParams.put("DECRYPTEDHINTS", Common.rot13(det
+									.getHints()));
 						}
 						cache_index.add(varParams);
 					} catch (Exception e) {

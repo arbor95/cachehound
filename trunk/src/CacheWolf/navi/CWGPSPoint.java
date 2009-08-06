@@ -204,7 +204,8 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 			// Vm.debug(NMEA);
 			/*
 			 * if (writeLog && (logFlag & LOGRAW) > 0){ try {
-			 * logFile.write(NMEA); writeLog = false; } catch (IOException e) {} }
+			 * logFile.write(NMEA); writeLog = false; } catch (IOException e) {}
+			 * }
 			 */while (true) {
 				start = NMEA.indexOf("$GP", end);
 				if (start == -1)
@@ -237,7 +238,7 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 					i = 0;
 					while (ex.endOfSearch() != true) {
 						boolean latlonerror = false; // indicate that some
-														// error
+						// error
 						// occured in the data
 						// -> in this case frace
 						// fix to non-fixed in

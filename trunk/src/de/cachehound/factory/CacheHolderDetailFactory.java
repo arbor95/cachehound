@@ -9,15 +9,14 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.types.LogType;
-import de.cachehound.util.AllReader;
-
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.SafeXML;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.LogType;
+import de.cachehound.util.AllReader;
 
 public class CacheHolderDetailFactory {
 
@@ -34,18 +33,18 @@ public class CacheHolderDetailFactory {
 		return instance;
 	}
 
-	
 	public CacheHolderDetail createEmptyCacheHolderDetail(CacheHolder ch) {
 		CacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		return chd;
 	}
-	
+
 	/**
 	 * Method to parse a specific cache.xml file. It fills information on cache
 	 * details, hints, logs, notes and images.
 	 */
-	public CacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch, File dir) throws IOException {
+	public CacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch,
+			File dir) throws IOException {
 		CacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		String dummy;
@@ -58,7 +57,8 @@ public class CacheHolderDetailFactory {
 			return chd; // return empfy chd
 		// TODO: check if null would be better or not.
 
-		File cacheFile = new File(dir, chd.getParent().getWayPoint().toLowerCase()
+		File cacheFile = new File(dir, chd.getParent().getWayPoint()
+				.toLowerCase()
 				+ ".xml");
 		logger.debug("Reading file {}", cacheFile.getPath());
 
@@ -101,8 +101,8 @@ public class CacheHolderDetailFactory {
 
 		dummy = ex.findNext();
 		while (ex.endOfSearch() == false) {
-			chd.getCacheLogs()
-					.add(LogFactory.getInstance().createFromProfileLine(dummy));
+			chd.getCacheLogs().add(
+					LogFactory.getInstance().createFromProfileLine(dummy));
 			dummy = ex.findNext();
 		}
 		ex = new Extractor(text, "<NOTES><![CDATA[", "]]></NOTES>", 0, true);
@@ -194,17 +194,17 @@ public class CacheHolderDetailFactory {
 			chd.setUrl(dummy);
 		} else {
 			if (chd.getParent().getWayPoint().startsWith("GC")) {
-				chd.setUrl("http://www.geocaching.com/seek/cache_details.aspx?wp="
-						+ chd.getParent().getWayPoint());
+				chd
+						.setUrl("http://www.geocaching.com/seek/cache_details.aspx?wp="
+								+ chd.getParent().getWayPoint());
 			}
 		}
 		ex = new Extractor(text, "<SOLVER><![CDATA[", "]]></SOLVER>", 0, true);
 		chd.setSolver(ex.findNext());
-		
+
 		return chd;
 	}
 
-	
 	/**
 	 * Method to save a cache.xml file.
 	 */

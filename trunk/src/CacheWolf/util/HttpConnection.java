@@ -48,9 +48,9 @@ import ewe.util.mString;
  * response from the server. If redirectTo() returns a new HttpConnection
  * object, then close the open Socket and go back to step 2 using the new
  * HttpConnection object instead.
- * <li>Call readInData() with the connected Socket to read in the raw data
- * bytes of the requested document or call readInText() to read in and convert
- * the document to text.
+ * <li>Call readInData() with the connected Socket to read in the raw data bytes
+ * of the requested document or call readInText() to read in and convert the
+ * document to text.
  * </ol>
  */
 // ##################################################################

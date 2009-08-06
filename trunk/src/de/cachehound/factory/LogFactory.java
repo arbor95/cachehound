@@ -1,15 +1,15 @@
 package de.cachehound.factory;
 
+import CacheWolf.Global;
 import de.cachehound.beans.Log;
 import de.cachehound.types.LogType;
-import CacheWolf.Global;
 
 /**
  * Some creation and helping Methods for the bean-class Log.
  * 
- * Because of the helping Methods I'm think there have to be a better name or 
- * there should be a second class with them in it. On the other hand I don't want 
- * to slit code for creating and parsing Strings.   
+ * Because of the helping Methods I'm think there have to be a better name or
+ * there should be a second class with them in it. On the other hand I don't
+ * want to slit code for creating and parsing Strings.
  * 
  * @author tweety
  */
@@ -30,7 +30,7 @@ public class LogFactory {
 	public boolean isOwnLog(Log log) {
 		return Global.getPref().isMyAlias(log.getLogger());
 	}
-	
+
 	/**
 	 * Create a log from a single line in format<br>
 	 * 
@@ -74,10 +74,10 @@ public class LogFactory {
 			return log;
 		} catch (Exception ex) {
 			if (profileLine.indexOf("<img") < 0) { // Have we reached the line
-													// that
+				// that
 				// states max logs reached
 				return null;
-				//return createMaxLog();
+				// return createMaxLog();
 			} else {
 				Global.getPref().log("Error parsing log: " + profileLine);
 				return null;

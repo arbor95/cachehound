@@ -61,18 +61,21 @@ public class Log {
 	public boolean isRecommended() {
 		return recommended;
 	}
-	
+
 	public boolean equals(Object o) {
 		if (o instanceof Log) {
 			Log log = (Log) o;
-			return logType == log.logType && isRecommended() == log.isRecommended() && date.equals(log.date) && logger.equals(log.logger) && message.equals(log.message);
-		}
-		else {
+			return logType == log.logType
+					&& isRecommended() == log.isRecommended()
+					&& date.equals(log.date) && logger.equals(log.logger)
+					&& message.equals(log.message);
+		} else {
 			return false;
 		}
 	}
-	
+
 	public int hashCode() {
-		return ((date.hashCode() + logger.hashCode() * 17 ) + message.hashCode() * 17 + logType.hashCode());
+		return ((date.hashCode() + logger.hashCode() * 17) + message.hashCode()
+				* 17 + logType.hashCode());
 	}
 }
