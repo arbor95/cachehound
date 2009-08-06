@@ -217,7 +217,7 @@ public class TritonGPXExporter extends Exporter {
 		String imageName = "";
 		String oldImageName = "";
 		for (int spoiler = 0; spoiler < ch.getImages().size(); ++spoiler) {
-			imageName = ch.getImages().get(spoiler).toString();
+			imageName = ch.getImages().get(spoiler).getFilename();
 			if (imageName.equals(oldImageName)) {
 				continue;
 			}
