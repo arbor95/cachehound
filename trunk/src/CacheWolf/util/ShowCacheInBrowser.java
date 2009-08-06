@@ -91,8 +91,8 @@ public class ShowCacheInBrowser {
 					tpl.setParam("DISTANCE", chD.getDistance()
 							.replace(',', '.'));
 					tpl.setParam("BEARING", chD.getBearingAsString());
-					if (chD.pos != null && chD.pos.isValid()) {
-						tpl.setParam("LATLON", chD.LatLon);
+					if (chD.getPos() != null && chD.getPos().isValid()) {
+						tpl.setParam("LATLON", chD.getLatLon());
 					} else {
 						tpl.setParam("LATLON", "unknown");
 					}
@@ -266,13 +266,13 @@ public class ShowCacheInBrowser {
 								.getExistingDetails().getHints()));
 
 					if (chD.hasAddiWpt()) {
-						Vector addiVect = new Vector(chD.addiWpts.size());
-						for (int i = 0; i < chD.addiWpts.size(); i++) {
+						Vector addiVect = new Vector(chD.getAddiWpts().size());
+						for (int i = 0; i < chD.getAddiWpts().size(); i++) {
 							Hashtable addis = new Hashtable();
-							CacheHolder ch = chD.addiWpts.get(i);
+							CacheHolder ch = chD.getAddiWpts().get(i);
 							addis.put("WAYPOINT", ch.getWayPoint());
 							addis.put("NAME", ch.getCacheName());
-							addis.put("LATLON", ch.LatLon);
+							addis.put("LATLON", ch.getLatLon());
 							addis.put("IMG", "<img src=\""
 									+ CacheType.typeImageForId(ch.getType())
 									+ "\">");

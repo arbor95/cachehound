@@ -93,9 +93,9 @@ public class LOCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("coord")) {
-			holder.pos.set(Common.parseDouble(atts.getValue("lat")), Common
+			holder.getPos().set(Common.parseDouble(atts.getValue("lat")), Common
 					.parseDouble(atts.getValue("lon")));
-			holder.LatLon = holder.pos.toString();
+			holder.setLatLon(holder.getPos().toString());
 			return;
 		}
 	}

@@ -207,8 +207,8 @@ public class myTableModel extends TableModel {
 			} else { // point is not filtered
 				if (ch.isAddiWpt()) { // unfiltered Addi Wpt
 					// check if main wpt is filtered
-					if (ch.mainCache != null) { // parent exists
-						if (!ch.mainCache.isVisible())
+					if (ch.getMainCache() != null) { // parent exists
+						if (!ch.getMainCache().isVisible())
 							visibleDB.add(ch); // Unfiltered Addi Wpt with
 												// filtered
 						// Main Wpt, show it on its own
@@ -220,8 +220,8 @@ public class myTableModel extends TableModel {
 				} else { // Main Wpt, not filtered. Check for Addis
 					visibleDB.add(ch);
 					if (ch.hasAddiWpt()) {
-						for (int j = 0; j < ch.addiWpts.size(); j++) {
-							addiWpt = ch.addiWpts.get(j);
+						for (int j = 0; j < ch.getAddiWpts().size(); j++) {
+							addiWpt = ch.getAddiWpts().get(j);
 							if (addiWpt.isVisible())
 								visibleDB.add(addiWpt);
 						}
@@ -265,7 +265,7 @@ public class myTableModel extends TableModel {
 						lineColorBG.set(COLOR_OWNED);
 					else if (ch.is_found())
 						lineColorBG.set(COLOR_FOUND);
-					else if (ch.is_flaged)
+					else if (ch.isIs_flaged())
 						lineColorBG.set(COLOR_FLAGED);
 					else if (Global.getPref().debug && ch.detailsLoaded())
 						lineColorBG.set(COLOR_DETAILS_LOADED);
@@ -369,7 +369,7 @@ public class myTableModel extends TableModel {
 				// needed here??
 				switch (colMap[col]) { // Faster than using column names
 				case 0: // Checkbox
-					if (ch.is_Checked)
+					if (ch.isIs_Checked())
 						return checkboxTicked;
 					else
 						return checkboxUnticked;
@@ -421,7 +421,7 @@ public class myTableModel extends TableModel {
 					wpVal.addColumn(ch.getCacheName());
 					return wpVal;
 				case 6: // Location
-					return ch.LatLon;
+					return ch.getLatLon();
 				case 7: // Owner
 					return ch.getCacheOwner();
 				case 8: // Date hidden
@@ -446,7 +446,7 @@ public class myTableModel extends TableModel {
 					return Convert.formatInt(ch.getNumRecommended());
 				case 14: // OC rating
 					if (ch.getWayPoint().startsWith("OC"))
-						return Convert.formatInt(ch.recommendationScore);
+						return Convert.formatInt(ch.getRecommendationScore());
 					return null;
 				case 15: // Is solver filled?
 					if (ch.hasSolver())
@@ -459,8 +459,8 @@ public class myTableModel extends TableModel {
 					else
 						return null;
 				case 17: // Number of Additional Waypoints;
-					if (ch.mainCache == null && ch.addiWpts.size() > 0) {
-						return String.valueOf(ch.addiWpts.size());
+					if (ch.getMainCache() == null && ch.getAddiWpts().size() > 0) {
+						return String.valueOf(ch.getAddiWpts().size());
 					} else {
 						return "";
 					}
@@ -588,15 +588,15 @@ public class myTableModel extends TableModel {
 		boolean singleRow = from == to;
 		for (int j = from; j <= to; j++) {
 			ch = cacheDB.get(j);
-			ch.is_Checked = !ch.is_Checked;
+			ch.setIs_Checked(!ch.isIs_Checked());
 			tcControl.repaintCell(j, x);
 			// set the ceckbox also for addi wpts
 			if (ch.hasAddiWpt() && singleRow) {
 				CacheHolder addiWpt;
-				int addiCount = ch.addiWpts.size();
+				int addiCount = ch.getAddiWpts().size();
 				for (int i = 0; i < addiCount; i++) {
-					addiWpt = ch.addiWpts.get(i);
-					addiWpt.is_Checked = ch.is_Checked;
+					addiWpt = ch.getAddiWpts().get(i);
+					addiWpt.setIs_Checked(ch.isIs_Checked());
 					if (addiWpt.isVisible()) {
 						tcControl.repaintCell(cacheDB.getIndex(addiWpt), x);
 					}

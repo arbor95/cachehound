@@ -13,7 +13,7 @@ public class DistanceComparator implements Comparator<CacheHolder> {
 	}
 
 	public int compare(CacheHolder ch1, CacheHolder ch2) {
-		return (int) ((ch1.pos.getDistance(centre) - ch2.pos
+		return (int) ((ch1.getPos().getDistance(centre) - ch2.getPos()
 				.getDistance(centre)) * 1000);
 	}
 }

@@ -234,7 +234,7 @@ public class myTableControl extends TableControl {
 			boolean deleteFiltered = true; // Bisheriges Verhalten
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				CacheHolder currCache = cacheDB.get(i);
-				if (currCache.is_Checked) {
+				if (currCache.isIs_Checked()) {
 					allCount++;
 					if (!currCache.isVisible()) {
 						if (currCache.isAddiWpt()) {
@@ -288,7 +288,7 @@ public class myTableControl extends TableControl {
 						// each deleted
 						// cache
 						ch = cacheDB.get(i);
-						if (ch.is_Checked && (ch.isVisible() || deleteFiltered)) {
+						if (ch.isIs_Checked() && (ch.isVisible() || deleteFiltered)) {
 							nDeleted++;
 							h.progress = ((float) nDeleted) / (float) allCount;
 							h.changed();
@@ -319,7 +319,7 @@ public class myTableControl extends TableControl {
 				return;
 			}
 			CacheHolder thisCache = cacheDB.get(tbp.getSelectedCache());
-			CWPoint cp = new CWPoint(thisCache.LatLon);
+			CWPoint cp = new CWPoint(thisCache.getLatLon());
 			if (!cp.isValid()) {
 				MessageBox tmpMB = new MessageBox(
 						MyLocale.getMsg(321, "Error"),
@@ -341,7 +341,7 @@ public class myTableControl extends TableControl {
 			// This toggles the "showAddis" Flag
 			ch = cacheDB.get(tbp.getSelectedCache());
 			ch.setShowAddis(!ch.showAddis());
-			if (ch.addiWpts.size() > 0) {
+			if (ch.getAddiWpts().size() > 0) {
 				tbp.refreshTable();
 			} else {
 				// This should never occur, as we check prior to activating the
@@ -422,7 +422,7 @@ public class myTableControl extends TableControl {
 			// Depending if it has Addis and the ShowAddis-Flag the menu item to
 			// unhide
 			// addis is properly named and activated or disabled.
-			if (selCache.addiWpts.size() > 0) {
+			if (selCache.getAddiWpts().size() > 0) {
 				miUnhideAddis.modifiers &= ~MenuItem.Disabled;
 				if (!selCache.showAddis()) {
 					miUnhideAddis

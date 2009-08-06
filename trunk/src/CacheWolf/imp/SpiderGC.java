@@ -442,7 +442,7 @@ public class SpiderGC {
 		// (http://tinyurl.com/dzjh7p)
 		for (int i = 0; i < cacheDB.size(); i++) {
 			ch = cacheDB.get(i);
-			if (ch.mainCache == null)
+			if (ch.getMainCache() == null)
 				ch.initStates(false);
 		}
 		String start = "";
@@ -542,7 +542,7 @@ public class SpiderGC {
 					}
 				} else {
 					if ((!ch.is_archived())
-							&& (ch.kilom <= distanceInKm)
+							&& (ch.getKilom() <= distanceInKm)
 							&& !(doNotgetFound && ch.is_found())
 							&& (ch.getWayPoint().substring(0, 2)
 									.equalsIgnoreCase("GC"))) {
@@ -993,7 +993,7 @@ public class SpiderGC {
 						// logs were added
 						// int logsz = chD.CacheLogs.size();
 						// chD.CacheLogs.clear();
-						ch.addiWpts.clear();
+						ch.getAddiWpts().clear();
 						ch.getFreshDetails().getImages().clear();
 
 						if (completeWebPage.indexOf(p
@@ -1005,9 +1005,9 @@ public class SpiderGC {
 						// General Cache Data
 						// ==========
 						ch.setLatLon(latLon);
-						pref.log("LatLon: " + ch.LatLon);
+						pref.log("LatLon: " + ch.getLatLon());
 						if (pref.debug)
-							pref.log("chD.pos: " + ch.pos.toString());
+							pref.log("chD.pos: " + ch.getPos().toString());
 
 						pref.log("Trying description");
 						ch.getFreshDetails().setLongDescription(
@@ -1946,13 +1946,13 @@ public class SpiderGC {
 					hd.save();
 				} else {
 					CacheHolder cx = cacheDB.get(idx);
-					if (cx.is_Checked && // Only re-spider existing addi
+					if (cx.isIs_Checked() && // Only re-spider existing addi
 							// waypoints that are ticked
 							cx.isVisible()) { // and are visible (i.e. not
 						// filtered)
 						cx.initStates(false);
 						cx.update(hd);
-						cx.is_Checked = true;
+						cx.setIs_Checked(true);
 						cx.save();
 					}
 				}

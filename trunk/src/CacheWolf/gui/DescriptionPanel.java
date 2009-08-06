@@ -63,16 +63,16 @@ public class DescriptionPanel extends CellPanel {
 				scrollto = disp.getTopLine();
 			isHtml = cache.is_HTML();
 			if (cache.isAddiWpt()) {
-				isHtml = cache.mainCache.is_HTML();
+				isHtml = cache.getMainCache().is_HTML();
 				if (cache.getExistingDetails().getLongDescription() != null
 						&& cache.getExistingDetails().getLongDescription()
 								.length() > 0)
 					desc = cache.getExistingDetails().getLongDescription()
 							+ (isHtml ? "<hr>\n" : "\n")
-							+ cache.mainCache.getExistingDetails()
+							+ cache.getMainCache().getExistingDetails()
 									.getLongDescription();
 				else
-					desc = cache.mainCache.getExistingDetails()
+					desc = cache.getMainCache().getExistingDetails()
 							.getLongDescription();
 			} else
 				// not an addi-wpt
@@ -93,7 +93,7 @@ public class DescriptionPanel extends CellPanel {
 				// (could
 				// be main cache)
 				if (cache.isAddiWpt()) {
-					chImages = cache.mainCache;
+					chImages = cache.getMainCache();
 				} else {
 					chImages = cache;
 				}

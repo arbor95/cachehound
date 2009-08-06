@@ -171,7 +171,7 @@ public class Filter {
 			// initialise database
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				ch.in_range = false;
+				ch.setIn_range(false);
 				// cacheDB.set(i, ch);
 			}
 			// for each segment of the route...
@@ -183,7 +183,7 @@ public class Filter {
 				// ... go through the current cache database
 				for (int i = cacheDB.size() - 1; i >= 0; i--) {
 					ch = cacheDB.get(i);
-					cwp = new CWPoint(ch.LatLon, CWPoint.CW);
+					cwp = new CWPoint(ch.getLatLon(), CWPoint.CW);
 					calcDistance = DistToSegment(fromPoint, toPoint, cwp);
 					calcDistance = (calcDistance * 180 * 60)
 							/ java.lang.Math.PI;
@@ -193,14 +193,14 @@ public class Filter {
 					if (calcDistance <= distance) {
 						// Vm.debug("Distcalc: " + calcDistance + "Cache: "
 						// +ch.CacheName + " / z is = " + z);
-						ch.in_range = true;
+						ch.setIn_range(true);
 					}
 					// cacheDB.set(i, ch);
 				} // for database
 			} // for segments
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				if (ch.is_filtered() == false && ch.in_range == false)
+				if (ch.is_filtered() == false && ch.isIn_range() == false)
 					ch.setFiltered(true);
 			}
 		} catch (FileNotFoundException fnex) {
@@ -371,14 +371,14 @@ public class Filter {
 				continue;
 
 			boolean filterCache = excludedByFilter(ch);
-			if (!filterCache && ch.mainCache != null
+			if (!filterCache && ch.getMainCache() != null
 					&& ((typeMatchPattern & TYPE_MAIN) != 0)) {
-				if (examinedCaches.containsKey(ch.mainCache)) {
-					filterCache = ch.mainCache.is_filtered();
+				if (examinedCaches.containsKey(ch.getMainCache())) {
+					filterCache = ch.getMainCache().is_filtered();
 				} else {
-					ch.mainCache.setFiltered(excludedByFilter(ch.mainCache));
-					filterCache = ch.mainCache.is_filtered();
-					examinedCaches.put(ch.mainCache, null);
+					ch.getMainCache().setFiltered(excludedByFilter(ch.getMainCache()));
+					filterCache = ch.getMainCache().is_filtered();
+					examinedCaches.put(ch.getMainCache(), null);
 				}
 			}
 			ch.setFiltered(filterCache);
@@ -467,7 +467,7 @@ public class Filter {
 			// Filter criterium 3: Distance
 			// /////////////////////////////
 			if (fscDist > 0.0) {
-				dummyd1 = ch.kilom;
+				dummyd1 = ch.getKilom();
 				if (distdirec == SMALLER && dummyd1 > fscDist) {
 					cacheFiltered = true;
 					break;
@@ -560,7 +560,7 @@ public class Filter {
 			// Filter criterium 11: Attributes
 			// /////////////////////////////
 			if ((attributesYesPattern != 0 || attributesNoPattern != 0)
-					&& ch.mainCache == null) {
+					&& ch.getMainCache() == null) {
 				if (attributesChoice == 0) {
 					// AND-condition:
 					if ((ch.getAttributesYes() & attributesYesPattern) != attributesYesPattern

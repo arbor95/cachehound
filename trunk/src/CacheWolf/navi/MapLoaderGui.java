@@ -315,13 +315,13 @@ public class MapLoaderGui extends Form {
 			int numCaches = Global.getProfile().numCachesInArea;
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				if (!this.onlySelected || ch.is_Checked) {
-					if (ch.pos == null) { // this can not happen
-						tmpca.set(ch.LatLon);
-						ch.pos = new CWPoint(tmpca);
+				if (!this.onlySelected || ch.isIs_Checked()) {
+					if (ch.getPos() == null) { // this can not happen
+						tmpca.set(ch.getLatLon());
+						ch.setPos(new CWPoint(tmpca));
 					}
-					if (ch.pos.isValid() && ch.pos.latDec != 0
-							&& ch.pos.lonDec != 0) { // TODO != 0 sollte
+					if (ch.getPos().isValid() && ch.getPos().latDec != 0
+							&& ch.getPos().lonDec != 0) { // TODO != 0 sollte
 						// verschwinden, sobald
 						// das handling von
 						// nicht gesetzten Koos
@@ -337,7 +337,7 @@ public class MapLoaderGui extends Form {
 								+ MyLocale.getMsg(1821, "\n for cache:\n")
 								+ ch.getCacheName());
 						try {
-							mapLoader.downloadMap(ch.pos, scale, size, mapsDir);
+							mapLoader.downloadMap(ch.getPos(), scale, size, mapsDir);
 						} catch (Exception e) {
 							progressBox.addWarning(MyLocale.getMsg(1822,
 									"Cache:")

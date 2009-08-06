@@ -234,7 +234,7 @@ public class Parser {
 					.substring(1));
 			if (ch != null) { // Found it!
 				// Check whether coordinates are valid
-				cwPt.set(ch.pos);
+				cwPt.set(ch.getPos());
 				if (cwPt.isValid())
 					return cwPt.toString();
 				else
@@ -621,8 +621,8 @@ public class Parser {
 						+ waypointName);
 				return;
 			}
-			ch.LatLon = cwPt.toString(CWPoint.CW);
-			ch.pos.set(cwPt);
+			ch.setLatLon(cwPt.toString(CWPoint.CW));
+			ch.getPos().set(cwPt);
 			ch.calcDistance(Global.getPref().curCentrePt); // Update
 			// distance/bearing
 			nav.setDestination(ch);
@@ -879,7 +879,7 @@ public class Parser {
 			return;
 		// If it is an addi, find its main cache
 		if (c.isAddiWpt()) {
-			waypointName = c.mainCache.getWayPoint();
+			waypointName = c.getMainCache().getWayPoint();
 		}
 		int nStages = -1;
 		if (nargs == 1) {
@@ -929,8 +929,8 @@ public class Parser {
 			CacheHolder addiWpt;
 			if (ch.hasAddiWpt()) {
 				op.append("cls()\n");
-				for (int j = 0; j < ch.addiWpts.size(); j++) {
-					addiWpt = ch.addiWpts.get(j);
+				for (int j = 0; j < ch.getAddiWpts().size(); j++) {
+					addiWpt = ch.getAddiWpts().get(j);
 					op.append("IF $");
 					op.append(addiWpt.getWayPoint());
 					op.append("=\"\" THEN\n   $");
@@ -1165,8 +1165,8 @@ public class Parser {
 				cwPt.set(coord);
 				if (cwPt.isValid() || coord.equals("")) { // Can clear coord
 					// with empty string
-					ch.LatLon = cwPt.toString(CWPoint.CW);
-					ch.pos.set(cwPt);
+					ch.setLatLon(cwPt.toString(CWPoint.CW));
+					ch.getPos().set(cwPt);
 					ch.calcDistance(Global.getPref().curCentrePt); // Update
 					// distance
 					// and

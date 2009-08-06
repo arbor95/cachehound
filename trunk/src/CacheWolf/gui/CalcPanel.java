@@ -211,15 +211,15 @@ public class CalcPanel extends CellPanel {
 	public void setFields(CacheHolder ch) {
 		if (!ch.getWayPoint().equalsIgnoreCase(lastWaypoint)) {
 			lastWaypoint = ch.getWayPoint();
-			if (ch.pos.isValid()) {
+			if (ch.getPos().isValid()) {
 				inpBearing.setText("0");
 				inpDistance.setText("0");
 
 				currFormat = CWPoint.DMM;
-				if (ch.LatLon.length() == 0)
+				if (ch.getLatLon().length() == 0)
 					coordInp.set(0, 0);
 				else
-					coordInp.set(ch.LatLon, CWPoint.CW);
+					coordInp.set(ch.getLatLon(), CWPoint.CW);
 				setFields(coordInp, CWPoint.DMM);
 			}
 		}
@@ -255,8 +255,8 @@ public class CalcPanel extends CellPanel {
 				CacheHolder ch = new CacheHolder();
 				readFields(coordInp, bd, currFormat);
 				coordOut = coordInp.project(bd.degrees, bd.distance);
-				ch.LatLon = coordOut.toString();
-				ch.pos.set(coordOut);
+				ch.setLatLon(coordOut.toString());
+				ch.getPos().set(coordOut);
 				ch.setType(CacheType.CW_TYPE_STAGE); // TODO unfertig
 				mainT.newWaypoint(ch);
 			}

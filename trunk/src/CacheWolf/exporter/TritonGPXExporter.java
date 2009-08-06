@@ -53,7 +53,7 @@ public class TritonGPXExporter extends Exporter {
 			strBuf.append("    <time>").append(tim.toString()).append(
 					"T00:00:00.0000000-07:00</time>\r\n");
 			if (ch.isAddiWpt())
-				strBuf.append("    <name>").append(ch.mainCache.getWayPoint())
+				strBuf.append("    <name>").append(ch.getMainCache().getWayPoint())
 						.append(" - ").append(ch.getWayPoint()).append(
 								"</name>\r\n");
 			else {
@@ -172,13 +172,13 @@ public class TritonGPXExporter extends Exporter {
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>No "
-							+ ch.LatLon + "</groundspeak:encoded_hints>\r\n");
+							+ ch.getLatLon() + "</groundspeak:encoded_hints>\r\n");
 				else {
 					// strBuf.append("\t <groundspeak:encoded_hints>Yes " +
 					// ch.LatLon.replace(" ", "") +
 					// "</groundspeak:encoded_hints>\r\n");
 					strBuf.append("\t  <groundspeak:encoded_hints>Yes "
-							+ ch.LatLon + "</groundspeak:encoded_hints>\r\n");
+							+ ch.getLatLon() + "</groundspeak:encoded_hints>\r\n");
 				}
 				strBuf.append("      <groundspeak:logs>\r\n");
 				strBuf.append("      </groundspeak:logs>\r\n");
