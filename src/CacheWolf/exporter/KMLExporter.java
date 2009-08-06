@@ -111,9 +111,9 @@ public class KMLExporter extends Exporter {
 
 						if (ch.getPos().isValid()) {
 							str = record(ch, ch.getPos().getLatDeg(CWPoint.DD)
-									.replace('.', this.decimalSeparator),
-									ch.getPos().getLonDeg(CWPoint.DD).replace('.',
-											this.decimalSeparator));
+									.replace('.', this.decimalSeparator), ch
+									.getPos().getLonDeg(CWPoint.DD).replace(
+											'.', this.decimalSeparator));
 							if (str != null)
 								outp.print(str);
 						}
@@ -122,24 +122,19 @@ public class KMLExporter extends Exporter {
 							for (int j = 0; j < ch.getAddiWpts().size(); j++) {
 								addiWpt = ch.getAddiWpts().get(j);
 								expCount++;
-								if (ch.getPos().isValid() && addiWpt.isVisible()) {
+								if (ch.getPos().isValid()
+										&& addiWpt.isVisible()) {
 									if (!createdAdditionalWaypointsFolder) {
 										outp.print(startFolder(
 												"Additional Waypoints", false));
 										createdAdditionalWaypointsFolder = true;
 									}
-									str = record(
-											addiWpt,
-											addiWpt.getPos()
-													.getLatDeg(CWPoint.DD)
-													.replace(
-															'.',
-															this.decimalSeparator),
-											addiWpt.getPos()
-													.getLonDeg(CWPoint.DD)
-													.replace(
-															'.',
-															this.decimalSeparator));
+									str = record(addiWpt, addiWpt.getPos()
+											.getLatDeg(CWPoint.DD).replace('.',
+													this.decimalSeparator),
+											addiWpt.getPos().getLonDeg(
+													CWPoint.DD).replace('.',
+													this.decimalSeparator));
 									if (str != null)
 										outp.print(str);
 								}
@@ -322,10 +317,11 @@ public class KMLExporter extends Exporter {
 		// strBuf.append(" <href>"+ File.getProgramDirectory()+ "/" +
 		// CacheType.type2pic(Convert.parseInt(ch.type))+ "</href>\r\n");
 		strBuf.append("            <href>"
-		+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");
-		// Die Grafiken sind eigentlich schöner, aber leider nicht alle verfügbar bzw. müssten korrekt kopiert werden.
-//		strBuf.append("            <href>"
-//		+ ch.getType() + ".gif" + "</href>\r\n");
+				+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");
+		// Die Grafiken sind eigentlich schöner, aber leider nicht alle
+		// verfügbar bzw. müssten korrekt kopiert werden.
+		// strBuf.append("            <href>"
+		// + ch.getType() + ".gif" + "</href>\r\n");
 		strBuf.append("         </Icon>\r\n");
 		strBuf.append("      </IconStyle>\r\n");
 		strBuf.append("      <LabelStyle>\r\n");

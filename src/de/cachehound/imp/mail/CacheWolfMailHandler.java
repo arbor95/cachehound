@@ -35,6 +35,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 			.getLogger(CacheWolfMailHandler.class);
 
 	private boolean spiderIfNotExists = true; // should be in the preferences,
+
 	// perhaps for every logtype?
 
 	public CacheWolfMailHandler(Preferences pf, Profile prof) {
@@ -190,7 +191,10 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 
 					boolean deleted = file.delete();
 					if (!deleted) {
-						logger.warn("Can't delete pq-file after reading: fileName = {}", file.getName());
+						logger
+								.warn(
+										"Can't delete pq-file after reading: fileName = {}",
+										file.getName());
 					}
 				}
 			}
@@ -225,7 +229,8 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		String logger = messageText.substring(indexOfProfile + 12,
 				indexOfEndProfile - 1);
 
-		return LogFactory.getInstance().createLog(logType, date, logger, logText);
+		return LogFactory.getInstance().createLog(logType, date, logger,
+				logText);
 	}
 
 	private boolean addLogEntry(String gcNumber, LogType logType,

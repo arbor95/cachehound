@@ -12,7 +12,7 @@ import CacheWolf.beans.CacheHolder;
  */
 public class CacheHolderComparatorFactory {
 	public static Comparator<CacheHolder> getComparator(int colToCompare) {
-		switch(colToCompare) {
+		switch (colToCompare) {
 		case 1:
 			return new TypeComparator();
 		case 2:

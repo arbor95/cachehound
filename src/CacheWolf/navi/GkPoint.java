@@ -162,7 +162,8 @@ public class GkPoint {
 	 * assumes _German_ Gauß-Krüger
 	 */
 	/*
-	 * public String toString() { return toString(0, "R: ", " H: ", GERMAN_GK); }
+	 * public String toString() { return toString(0, "R: ", " H: ", GERMAN_GK);
+	 * }
 	 */
 
 	public String toString(int decimalplaces, String prefix, String seperator,

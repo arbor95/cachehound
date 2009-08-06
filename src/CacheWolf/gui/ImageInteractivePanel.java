@@ -89,7 +89,7 @@ public class ImageInteractivePanel extends InteractivePanel {
 
 	public void penRightReleased(Point p) {
 		menuState.doShowMenu(p, true, null); // direct call (not through
-												// doMenu)
+		// doMenu)
 		// is neccesary because it will
 		// exclude the whole table
 	}

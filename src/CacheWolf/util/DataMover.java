@@ -2,14 +2,12 @@ package CacheWolf.util;
 
 import java.util.Iterator;
 
-
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.DataMoverForm;
-
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.File;
@@ -75,7 +73,8 @@ public class DataMover {
 		// Now repair the cache-Vector:
 		for (int i = 0; i < srcDB.size(); i++) {
 			CacheHolder holder = srcDB.get(i);
-			for (Iterator<CacheHolder> j = holder.getAddiWpts().iterator(); j.hasNext();) {
+			for (Iterator<CacheHolder> j = holder.getAddiWpts().iterator(); j
+					.hasNext();) {
 				CacheHolder element = j.next();
 				element.setMainCache(holder);
 			}

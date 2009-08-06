@@ -143,7 +143,7 @@ public class CacheHolderDetail {
 	public void setAttributes(Attributes attributes) {
 		this.attributes = attributes;
 	}
-	
+
 	public void addCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must
@@ -154,14 +154,14 @@ public class CacheHolderDetail {
 		getParent().setNoFindLogs(cacheLogs.countNotFoundLogs());
 	}
 
-	public void stripLogsToMaximum (int maxSize) {
+	public void stripLogsToMaximum(int maxSize) {
 		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
 		if (cacheLogs.purgeLogs(maxSize, keepOwn) > 0) {
 			setUnsavedChanges(true);
 			getParent().setLog_updated(true);
 		}
 	}
-	
+
 	public void setCacheNotes(String notes) {
 		if (!cacheNotes.equals(notes))
 			getParent().setUpdated(true);

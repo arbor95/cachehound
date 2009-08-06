@@ -97,9 +97,8 @@ public class Profile {
 	}
 
 	/**
-	 * Returns <code>true</code> if profile needs to be changed when profile
-	 * is left. Returns <code>false</code> if no relevant changes have been
-	 * made.
+	 * Returns <code>true</code> if profile needs to be changed when profile is
+	 * left. Returns <code>false</code> if no relevant changes have been made.
 	 * 
 	 * @return hasUnsavedChanges
 	 */
@@ -164,7 +163,7 @@ public class Profile {
 			pbf.exec();
 		}
 		CacheHolder.saveAllModifiedDetails(); // this must be called first as
-												// it
+		// it
 		// makes some calculations
 		PrintWriter detfile;
 		CacheHolder ch;
@@ -329,7 +328,7 @@ public class Profile {
 						String lon = SafeXML.cleanback(text.substring(start,
 								text.indexOf("\"", start)));
 						centre.set(lat + " " + lon, CWPoint.CW); // Fast
-																	// parse
+						// parse
 					}
 				} else if (text.indexOf("<VERSION") >= 0) {
 					int start = text.indexOf("value = \"") + 9;
@@ -424,7 +423,7 @@ public class Profile {
 
 	void restoreFilter(boolean clearIfInactive) {
 		boolean inverted = isFilterInverted(); // Save it as doFilter will
-												// clear
+		// clear
 		// filterInverted
 		Filter flt = new Filter();
 		if (getFilterActive() == Filter.FILTER_ACTIVE) {
@@ -433,7 +432,7 @@ public class Profile {
 			if (inverted) {
 				flt.invertFilter();
 				setFilterInverted(true); // Needed because previous line
-											// inverts
+				// inverts
 				// filterInverted
 			}
 		} else if (getFilterActive() == Filter.FILTER_CACHELIST) {
@@ -544,8 +543,9 @@ public class Profile {
 					// pos umgegangen wird
 					isAddi = ch.isAddiWpt();
 					if (!isAddi
-							|| (isAddi && ch.getMainCache() != null && ch.getPos()
-									.getDistance(ch.getMainCache().getPos()) < 1000)) { // test
+							|| (isAddi && ch.getMainCache() != null && ch
+									.getPos().getDistance(
+											ch.getMainCache().getPos()) < 1000)) { // test
 						// for
 						// plausiblity
 						// of
@@ -675,12 +675,13 @@ public class Profile {
 				// ch.addiWpts.sort(new
 				// MyComparer(ch.addiWpts,MyLocale.getMsg(1002,"Waypoint"),ch.addiWpts.size()),
 				// false);
-				Collections.sort(ch.getAddiWpts(), new Comparator<CacheHolder>() {
-					public int compare(CacheHolder ch1, CacheHolder ch2) {
-						return ch1.getWayPoint().compareTo(
-								ch2.getWayPoint());
-					}
-				});
+				Collections.sort(ch.getAddiWpts(),
+						new Comparator<CacheHolder>() {
+							public int compare(CacheHolder ch1, CacheHolder ch2) {
+								return ch1.getWayPoint().compareTo(
+										ch2.getWayPoint());
+							}
+						});
 			}
 		}
 

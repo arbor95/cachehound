@@ -138,7 +138,8 @@ public class myTableModel extends TableModel {
 		// picSizeNonPhysical=new mImage("sizeNonPhysical.png");
 		// picSizeNonPhysical.transparentColor=Color.White;
 
-		// TODO: Problem, dass nicht alle ein bild haben, sollte evtl. mal geändert werden.
+		// TODO: Problem, dass nicht alle ein bild haben, sollte evtl. mal
+		// geändert werden.
 		sizePics = new mImage[CacheSize.values().length];
 		for (int i = 0; i < sizePics.length; i++) {
 			sizePics[i] = new mImage(CacheSize.values()[i].getSizeImage());
@@ -210,7 +211,7 @@ public class myTableModel extends TableModel {
 					if (ch.getMainCache() != null) { // parent exists
 						if (!ch.getMainCache().isVisible())
 							visibleDB.add(ch); // Unfiltered Addi Wpt with
-												// filtered
+						// filtered
 						// Main Wpt, show it on its own
 						// else Main cache is not filtered, Addi will be added
 						// below main cache further down
@@ -436,8 +437,7 @@ public class myTableModel extends TableModel {
 					if (ch.isAddiWpt()) {
 						return "";
 					} else {
-						return sizePics[ch
-								.getCacheSize().ordinal()];
+						return sizePics[ch.getCacheSize().ordinal()];
 					}
 				case 13: // OC number of recommendations
 					if (ch.isAddiWpt()
@@ -459,7 +459,8 @@ public class myTableModel extends TableModel {
 					else
 						return null;
 				case 17: // Number of Additional Waypoints;
-					if (ch.getMainCache() == null && ch.getAddiWpts().size() > 0) {
+					if (ch.getMainCache() == null
+							&& ch.getAddiWpts().size() > 0) {
 						return String.valueOf(ch.getAddiWpts().size());
 					} else {
 						return "";
@@ -545,7 +546,8 @@ public class myTableModel extends TableModel {
 				else
 					sortAsc = false;
 				sortedBy = mappedCol;
-				currentComp = CacheHolderComparatorFactory.getComparator(mappedCol);
+				currentComp = CacheHolderComparatorFactory
+						.getComparator(mappedCol);
 				cacheDB.sort(currentComp, sortAsc);
 				updateRows();
 				if (a != null && ch != null) {

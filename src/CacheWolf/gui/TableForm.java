@@ -16,7 +16,7 @@ public class TableForm extends Editor {
 					CellConstants.FILL);
 		}
 		this.firstFocus = tp; // give the first fokus to the list of caches,
-								// not
+		// not
 		// to the main menu
 		/*
 		 * CellPanel[] menuList = addToolbar();

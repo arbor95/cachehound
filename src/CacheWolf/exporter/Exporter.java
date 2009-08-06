@@ -126,16 +126,17 @@ public class Exporter {
 					case LAT_LON:
 						if (ch.getPos().isValid() == false)
 							continue;
-						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD).replace(
-								'.', this.decimalSeparator), ch.getPos().getLonDeg(
-								CWPoint.DD).replace('.', this.decimalSeparator));
+						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD)
+								.replace('.', this.decimalSeparator), ch
+								.getPos().getLonDeg(CWPoint.DD).replace('.',
+										this.decimalSeparator));
 						break;
 					case LAT_LON | COUNT:
 						if (ch.getPos().isValid() == false)
 							continue;
-						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD).replace(
-								'.', this.decimalSeparator),
-								ch.getPos().getLonDeg(CWPoint.DD).replace('.',
+						str = record(ch, ch.getPos().getLatDeg(CWPoint.DD)
+								.replace('.', this.decimalSeparator), ch
+								.getPos().getLonDeg(CWPoint.DD).replace('.',
 										this.decimalSeparator), i);
 						break;
 					default:

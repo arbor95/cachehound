@@ -73,9 +73,8 @@ import ewe.util.Vector;
  *      screens, garminConn
  */
 public class MainMenu extends MenuBar {
-	
-	private static Logger logger = LoggerFactory
-	.getLogger(MainMenu.class);
+
+	private static Logger logger = LoggerFactory.getLogger(MainMenu.class);
 
 	private MenuItem preferences, mnuContext, loadcaches, loadOC, /* savenexit, */
 	savenoxit, exit, search, searchAll, searchClr;
@@ -120,7 +119,7 @@ public class MainMenu extends MenuBar {
 		// /////////////////////////////////////////////////////////////////////
 		MenuItem[] mnuImport = new MenuItem[8];
 		mnuImport[0] = loadcaches = new MenuItem(MyLocale.getMsg(129,
-				"Import GPX")); 
+				"Import GPX"));
 		mnuImport[1] = loadOC = new MenuItem(MyLocale.getMsg(130,
 				"Download von opencaching.de"));
 		mnuImport[2] = spider = new MenuItem(MyLocale.getMsg(131,
@@ -464,7 +463,9 @@ public class MainMenu extends MenuBar {
 										profile, file);
 								gpx.doIt(0);
 							} catch (Throwable e) {
-								logger.error("Fehler beim Importieren von GPX Datei.",
+								logger
+										.error(
+												"Fehler beim Importieren von GPX Datei.",
 												e);
 							}
 
@@ -506,14 +507,17 @@ public class MainMenu extends MenuBar {
 				} catch (Exception e) {
 					Vm.showWait(false);
 					if (e.getMessage().toLowerCase().contains("bye")) {
-						new MessageBox("Failure at receiving Mails", "Mail import unsuccessful - it could be, that there was a timeout from the Server. Please try again.",
+						new MessageBox(
+								"Failure at receiving Mails",
+								"Mail import unsuccessful - it could be, that there was a timeout from the Server. Please try again.",
 								FormBase.OKB).execute();
 						logger.warn("Mail import unsuccessful", e);
-					}
-					else { 
-					new MessageBox("Error", "Mail import unsuccessful - unknown Failure. Details see Logfile",
-							FormBase.OKB).execute();
-					logger.error("Mail import unsuccessful", e);
+					} else {
+						new MessageBox(
+								"Error",
+								"Mail import unsuccessful - unknown Failure. Details see Logfile",
+								FormBase.OKB).execute();
+						logger.error("Mail import unsuccessful", e);
 					}
 				}
 				tbp.resetModel();
@@ -969,7 +973,8 @@ public class MainMenu extends MenuBar {
 					cachesToUpdate.add(new Integer(i));
 				} else {
 					if (ch.isAddiWpt() && ch.getMainCache() != null
-							&& !ch.getMainCache().isIs_Checked() && !alreadySaid2) { // Is
+							&& !ch.getMainCache().isIs_Checked()
+							&& !alreadySaid2) { // Is
 						// the
 						// father
 						// ticked?

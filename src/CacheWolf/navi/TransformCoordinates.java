@@ -19,8 +19,8 @@ import CacheWolf.util.MyLocale;
  * more precise method right now published by the Bundesamt für Kartographie und
  * Geodäsie for whole Germany: see: *
  * http://crs.bkg.bund.de/crseu/crs/descrtrans/BeTA/BETA2007dokumentation.pdf *
- * http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN /
- * GK_3 -> DE_DHDN (BeTA, 2007) to ETRS89
+ * http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN
+ * / GK_3 -> DE_DHDN (BeTA, 2007) to ETRS89
  * 
  * Start offset in languages file: 4900
  * 

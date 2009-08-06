@@ -122,8 +122,7 @@ public class HTMLExporter {
 						varParams.put("DIFFICULTY", "");
 						varParams.put("TERRAIN", "");
 					} else {
-						varParams.put("SIZE", ch
-								.getCacheSize().getAsString());
+						varParams.put("SIZE", ch.getCacheSize().getAsString());
 						varParams.put("DIFFICULTY", CacheTerrDiff.isValidTD(ch
 								.getHard()) ? CacheTerrDiff
 								.longDT(ch.getHard()) : "");
@@ -161,8 +160,8 @@ public class HTMLExporter {
 								page_tpl.setParam("DESCRIPTION",
 										modifyLongDesc(det, targetDir));
 							} else {
-								page_tpl.setParam("DESCRIPTION",
-										det.getLongDescription().replace("\n",
+								page_tpl.setParam("DESCRIPTION", det
+										.getLongDescription().replace("\n",
 												"<br>"));
 							}
 							page_tpl.setParam("HINTS", det.getHints());
@@ -174,13 +173,15 @@ public class HTMLExporter {
 								sb
 										.append(LogFactory
 												.getInstance()
-												.toHtml(det.getCacheLogs().getLog(j))
+												.toHtml(
+														det.getCacheLogs()
+																.getLog(j))
 												.replace(
 														"http://www.geocaching.com/images/icons/",
 														""));
 								sb.append("<br>");
-								icon = det.getCacheLogs().getLog(j).getLogType()
-										.toIconString();
+								icon = det.getCacheLogs().getLog(j)
+										.getLogType().toIconString();
 								if (logIcons.find(icon) < 0)
 									logIcons.add(icon); // Add the icon to list
 								// of icons to copy to
@@ -194,8 +195,8 @@ public class HTMLExporter {
 							cacheImg.clear();
 							for (int j = 0; j < det.getImages().size(); j++) {
 								imgParams = new Hashtable();
-								String imgFile = new String(det.getImages().get(j)
-										.getFilename());
+								String imgFile = new String(det.getImages()
+										.get(j).getFilename());
 								imgParams.put("FILE", imgFile);
 								imgParams.put("TEXT", det.getImages().get(j)
 										.getTitle());
@@ -214,8 +215,8 @@ public class HTMLExporter {
 								String logImgFile = det.getLogImages().get(j)
 										.getFilename();
 								logImgParams.put("FILE", logImgFile);
-								logImgParams.put("TEXT", det.getLogImages().get(j)
-										.getTitle());
+								logImgParams.put("TEXT", det.getLogImages()
+										.get(j).getTitle());
 								if (DataMover.copy(
 										profile.dataDir + logImgFile, targetDir
 												+ logImgFile))
@@ -229,11 +230,11 @@ public class HTMLExporter {
 							usrImg.clear();
 							for (int j = 0; j < det.getUserImages().size(); j++) {
 								usrImgParams = new Hashtable();
-								String usrImgFile = new String(det.getUserImages()
-										.get(j).getFilename());
+								String usrImgFile = new String(det
+										.getUserImages().get(j).getFilename());
 								usrImgParams.put("FILE", usrImgFile);
-								usrImgParams.put("TEXT", det.getUserImages().get(j)
-										.getTitle());
+								usrImgParams.put("TEXT", det.getUserImages()
+										.get(j).getTitle());
 								if (DataMover.copy(
 										profile.dataDir + usrImgFile, targetDir
 												+ usrImgFile))

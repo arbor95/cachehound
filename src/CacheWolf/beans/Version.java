@@ -17,7 +17,7 @@ public class Version {
 	static final int VER_MAJOR = 0;
 	static final int VER_MINOR = 1;
 	static final String VER_SVN = "$LastChangedRevision: 49 $"; // the
-																	// number
+	// number
 	// is
 	// automatically
 	// replaced
@@ -132,48 +132,48 @@ public class Version {
 	private static int checkVersion(Properties curvers, String prefix, int t) {
 		return 0;
 		// Automatischen Check mal ausgeschaltet ...
-//		try {
-//			int curvmaj = Convert.toInt(curvers.getProperty(prefix
-//					+ "VersionMajor", "0"));
-//			int curvmin = Convert.toInt(curvers.getProperty(prefix
-//					+ "VersionMinor", "0"));
-//			String svnRString = curvers
-//					.getProperty(prefix + "SvnRevision", "0");
-//			if (svnRString.startsWith("http")) {
-//				String tmp;
-//				Regex s;
-//				int i = svnRString.indexOf(' ');
-//				if (i > 0) {
-//					tmp = UrlFetcher.fetchString(svnRString.substring(0, i));
-//					s = new Regex(svnRString.substring(i + 1, svnRString
-//							.length())); // flyingfish works 3/2008 with
-//					// ("(?i)Revision[\\s]*[:=][\\s]*[\\\\r]*[\\\\n]*[\\s]*([0-9]*)");
-//				} else {
-//					versionnumbers[t] = "error: no RegEx";
-//					return 3;
-//				}
-//				s.search(tmp);
-//				if (!s.didMatch()) {
-//					versionnumbers[t] = "error: RegEx didnot match";
-//					return 3;
-//				}
-//				svnRString = s.stringMatched(1);
-//			}
-//			versionnumbers[t] = curvmaj + "." + curvmin + "." + svnRString;
-//			if (curvmaj > VER_MAJOR)
-//				return 1;
-//			if (curvmaj < VER_MAJOR)
-//				return 0;
-//			if (curvmin > VER_MINOR)
-//				return 1;
-//			if (curvmin < VER_MINOR)
-//				return 0;
-//			if (Convert.toInt(svnRString) > SVN_REVISION)
-//				return 1;
-//			return 0;
-//		} catch (IOException e) {
-//			versionnumbers[t] = "IO-error";
-//			return 3;
-//		}
+		// try {
+		// int curvmaj = Convert.toInt(curvers.getProperty(prefix
+		// + "VersionMajor", "0"));
+		// int curvmin = Convert.toInt(curvers.getProperty(prefix
+		// + "VersionMinor", "0"));
+		// String svnRString = curvers
+		// .getProperty(prefix + "SvnRevision", "0");
+		// if (svnRString.startsWith("http")) {
+		// String tmp;
+		// Regex s;
+		// int i = svnRString.indexOf(' ');
+		// if (i > 0) {
+		// tmp = UrlFetcher.fetchString(svnRString.substring(0, i));
+		// s = new Regex(svnRString.substring(i + 1, svnRString
+		// .length())); // flyingfish works 3/2008 with
+		// // ("(?i)Revision[\\s]*[:=][\\s]*[\\\\r]*[\\\\n]*[\\s]*([0-9]*)");
+		// } else {
+		// versionnumbers[t] = "error: no RegEx";
+		// return 3;
+		// }
+		// s.search(tmp);
+		// if (!s.didMatch()) {
+		// versionnumbers[t] = "error: RegEx didnot match";
+		// return 3;
+		// }
+		// svnRString = s.stringMatched(1);
+		// }
+		// versionnumbers[t] = curvmaj + "." + curvmin + "." + svnRString;
+		// if (curvmaj > VER_MAJOR)
+		// return 1;
+		// if (curvmaj < VER_MAJOR)
+		// return 0;
+		// if (curvmin > VER_MINOR)
+		// return 1;
+		// if (curvmin < VER_MINOR)
+		// return 0;
+		// if (Convert.toInt(svnRString) > SVN_REVISION)
+		// return 1;
+		// return 0;
+		// } catch (IOException e) {
+		// versionnumbers[t] = "IO-error";
+		// return 3;
+		// }
 	}
 }

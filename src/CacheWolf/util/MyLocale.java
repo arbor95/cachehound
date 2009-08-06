@@ -176,7 +176,7 @@ public class MyLocale {
 				l = null; // language file not found
 				initErrors += "Language " + language
 						+ " not found - using system language\n";// don't
-																	// copy
+				// copy
 				// this
 				// messagebox
 				// into a
@@ -208,8 +208,8 @@ public class MyLocale {
 				 * i++){ ltmp.set(all[i]); String lg =
 				 * ltmp.getString(Locale.LANGUAGE_SHORT,0,0); Vm.debug(i +
 				 * "sprache: " + lg + " (" + ltmp.getString(Locale.LANGUAGE, 0,
-				 * 0) + ", " + ltmp.getString(Locale.LANGUAGE_ENGLISH, 0, 0) + ")
-				 * land: " + ltmp.getString(Locale.COUNTRY, 0, 0)); }
+				 * 0) + ", " + ltmp.getString(Locale.LANGUAGE_ENGLISH, 0, 0) +
+				 * ") land: " + ltmp.getString(Locale.COUNTRY, 0, 0)); }
 				 */
 			}
 		}
@@ -345,8 +345,8 @@ public class MyLocale {
 	 *            indicates that a currency symbol should be used. </br> ','
 	 *            indicates that thousands groupings should be used. </br> '.'
 	 *            separates formatting before the decimal point and after the
-	 *            decimal point.</br> '0' before the decimal point indicates
-	 *            the number of digits before the decimal point.</br>
+	 *            decimal point.</br> '0' before the decimal point indicates the
+	 *            number of digits before the decimal point.</br>
 	 * @return The formatted number
 	 */
 	public static String formatLong(Long number, String fmt) {

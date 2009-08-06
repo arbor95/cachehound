@@ -34,8 +34,8 @@ public class OCXMLImporterScreen extends Form {
 	mInput distanceInput;
 	mInput maxNumberInput;
 	mInput maxLogsInput;
-	mCheckBox imagesCheckBox, /* mapsCheckBox, */missingCheckBox,
-			foundCheckBox, travelbugsCheckBox;
+	mCheckBox imagesCheckBox, /* mapsCheckBox, */missingCheckBox, foundCheckBox,
+			travelbugsCheckBox;
 	mLabel distLbl;
 	mLabel maxNumberLbl;
 	mLabel distUnit;

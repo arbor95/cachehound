@@ -23,8 +23,8 @@ public class CWProgressBar {
 	 *            The maximum of possible values
 	 * @param pShowProgress
 	 *            If <code>true</code> the progress bar is shown, if
-	 *            <code>false</code> The progress bar will not show. Then
-	 *            usage of methods of this class will (nearly) have no effect.
+	 *            <code>false</code> The progress bar will not show. Then usage
+	 *            of methods of this class will (nearly) have no effect.
 	 */
 	public CWProgressBar(String title, int pMinValue, int pMaxValue,
 			boolean pShowProgress) {
@@ -91,7 +91,8 @@ public class CWProgressBar {
 	/**
 	 * Exits the progress bar with given exit value
 	 * 
-	 * @param value ?
+	 * @param value
+	 *            ?
 	 */
 	public void exit(int value) {
 		this.allowExit(true);

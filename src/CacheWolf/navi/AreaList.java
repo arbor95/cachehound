@@ -9,7 +9,7 @@ package CacheWolf.navi;
  * 
  */
 public class AreaList extends ewe.util.LinkedListElement { // in java since
-															// v1.2
+	// v1.2
 	// I would use
 	// java.util.TreeSet
 	/*
@@ -23,12 +23,12 @@ public class AreaList extends ewe.util.LinkedListElement { // in java since
 	 * buttomright.lonDec; break; case Area.AT_BUTTOM_EDGE:
 	 * tp.buttomright.latDec = buttomright.latDec; break; case
 	 * Area.AT_LEFT_EDGE: tp.topleft.lonDec = topleft.lonDec; break; case
-	 * Area.NOT_ON_EDGE: addAreaUnconditionally(new Area(topleft, buttomright)); } }
+	 * Area.NOT_ON_EDGE: addAreaUnconditionally(new Area(topleft, buttomright));
+	 * } }
 	 * 
 	 * public boolean AreaIsCovered(CWPoint topleft, CWPoint buttomright) { Area
 	 * tp = getArea(topleft); if (tp != null && tp.isInBound(buttomright))
-	 * return true; // area already completly in list else return false;
-	 *  }
+	 * return true; // area already completly in list else return false; }
 	 * 
 	 * public void addArea(Area a) { addArea(a.topleft, a.buttomright); }
 	 * 

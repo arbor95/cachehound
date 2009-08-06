@@ -40,7 +40,8 @@ public class SearchBox extends InputBox {
 	 *            Initial value for check box
 	 * @param checkUseLogs
 	 *            Initial value for check box
-	 * @param pWidth ?
+	 * @param pWidth
+	 *            ?
 	 * @return String to search for if ok is pressed and a string is entered,
 	 *         <code>null</code> otherwise.
 	 */
@@ -69,8 +70,8 @@ public class SearchBox extends InputBox {
 	 * Queries the check box to search in Notes and Description if it is checked
 	 * or not.
 	 * 
-	 * @return <code>True</code> if check box is checked, <code>false</code>
-	 *         if not.
+	 * @return <code>True</code> if check box is checked, <code>false</code> if
+	 *         not.
 	 */
 	public boolean useNoteDesc() {
 		boolean result = false;
@@ -83,8 +84,8 @@ public class SearchBox extends InputBox {
 	/**
 	 * Queries the check box to search in Logs if it is checked or not.
 	 * 
-	 * @return <code>True</code> if check box is checked, <code>false</code>
-	 *         if not.
+	 * @return <code>True</code> if check box is checked, <code>false</code> if
+	 *         not.
 	 */
 	public boolean useLogs() {
 		boolean result = false;

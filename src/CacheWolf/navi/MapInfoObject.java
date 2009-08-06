@@ -47,7 +47,7 @@ public class MapInfoObject extends Area {
 	// scale identifying the scale of the map, automatically
 	// adjusted when zooming
 	public float zoomFactor = 1; // if the image is zoomed, direct after
-									// laoding
+	// laoding
 	// always 1
 	public Point shift = new Point(0, 0);
 	public CWPoint origAffineUpperLeft; // this is only valid after zooming

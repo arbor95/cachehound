@@ -1,6 +1,5 @@
 package CacheWolf.beans;
 
-
 /**
  * @author Marc Use this class to obtain statistics or information on a cache
  *         database.

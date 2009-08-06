@@ -9,7 +9,7 @@ public class Area {
 	public final static int AT_BUTTOM_EDGE = 3;
 	public final static int AT_LEFT_EDGE = 4;
 	public static double edgeTolerance = 3 * 360 / 40000000; // approx 3m
-																// will
+	// will
 	// be seen as
 	// the same
 

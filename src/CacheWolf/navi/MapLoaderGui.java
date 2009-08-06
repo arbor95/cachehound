@@ -337,7 +337,8 @@ public class MapLoaderGui extends Form {
 								+ MyLocale.getMsg(1821, "\n for cache:\n")
 								+ ch.getCacheName());
 						try {
-							mapLoader.downloadMap(ch.getPos(), scale, size, mapsDir);
+							mapLoader.downloadMap(ch.getPos(), scale, size,
+									mapsDir);
 						} catch (Exception e) {
 							progressBox.addWarning(MyLocale.getMsg(1822,
 									"Cache:")
@@ -412,10 +413,10 @@ public class MapLoaderGui extends Form {
 					else
 						onlySelected = true;
 					overviewmap = overviewChkBox.getState();
-					radius = (float) CacheWolf.util.Common.parseDouble(distanceInput
-							.getText());
-					scale = (float) CacheWolf.util.Common.parseDouble(scaleInput
-							.getText());
+					radius = (float) CacheWolf.util.Common
+							.parseDouble(distanceInput.getText());
+					scale = (float) CacheWolf.util.Common
+							.parseDouble(scaleInput.getText());
 					overlapping = Convert.toInt(overlappingInput.getText());
 					if (!forCachesChkBox.getState()) {
 						if (radius <= 0) {

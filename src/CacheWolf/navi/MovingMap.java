@@ -112,7 +112,7 @@ public class MovingMap extends Form {
 	boolean ignoreGps = false; // ignores updateGps-calls if true
 	boolean autoSelectMap = true;
 	boolean forceMapLoad = true; // only needed to force updateposition to
-									// try
+	// try
 	// to load the best map again after
 	// OutOfMemoryError after an repeated click
 	// on snap-to-gps
@@ -569,7 +569,7 @@ public class MovingMap extends Form {
 		if (tracks != null && tracks.size() > 0
 				&& ((Track) tracks.get(0)).num > 0)
 			rebuildOverlaySet(); // show points which where added when
-									// MavingMap
+		// MavingMap
 		// was not running
 		if (myNavigation.destinationIsCache) {
 			destChanged(myNavigation.destinationCache);
@@ -813,10 +813,10 @@ public class MovingMap extends Form {
 						destroyOverlay(4);
 						destroyOverlay(5);
 					} else { // it is important to test for diagonal only if
-								// the
+						// the
 						// other didn't match
 						if (TrackOverlays[0].isOnScreen()) { // links oben
-																// raus
+							// raus
 							TrackOverlaySetCenterTopLeft.set(ScreenXY2LatLon(
 									oldp.x - 2 * width, oldp.y - 2 * height));
 							destroyOverlay(8);
@@ -833,7 +833,7 @@ public class MovingMap extends Form {
 							destroyOverlay(7);
 						} else {
 							if (TrackOverlays[2].isOnScreen()) { // rechts
-																	// oben
+								// oben
 								// raus
 								TrackOverlaySetCenterTopLeft
 										.set(ScreenXY2LatLon(
@@ -973,7 +973,7 @@ public class MovingMap extends Form {
 		posCircle.hidden = false;
 		posCircle.move(posCircleX - posCircle.getWidth() / 2, posCircleY
 				- posCircle.getHeight() / 2); // posCircle.setLocation caused
-												// a
+		// a
 		// problem -> hiding the
 		// posCircle in some situation
 	}
@@ -1155,7 +1155,7 @@ public class MovingMap extends Form {
 		forceMapLoad = true;
 		if (this.width != 0)
 			updatePosition(posCircle.where); // dirty hack: if this.width ==
-												// 0,
+		// 0,
 		// then the symbols are not on
 		// the screen and get hidden by
 		// updateSymbolPositions
@@ -1173,7 +1173,7 @@ public class MovingMap extends Form {
 		forceMapLoad = true;
 		if (this.width != 0)
 			updatePosition(posCircle.where); // dirty hack: if this.width ==
-												// 0,
+		// 0,
 		// then the symbols are not on
 		// the screen and get hidden by
 		// updateSymbolPositions
@@ -1568,7 +1568,7 @@ public class MovingMap extends Form {
 			posCircleOnScreen = java.lang.Boolean.TRUE;
 			pX = posCircleX; // posCircle is inside the screen
 			pY = posCircleY; // TODO eigentlich interessiert, ob nach dem
-								// evtl.
+			// evtl.
 			// Kartenwechsel PosCircle on Screen ist. So wie
 			// es jetzt ist, kann 2mal der gleiche Aufruf
 			// zum laden unterschiedlicher Karten fďż˝hren,
@@ -1576,7 +1576,7 @@ public class MovingMap extends Form {
 			// war, nach dem ersten Laden aber schon.
 			cll = new CWPoint(ll);
 		} else { // when posCircle out of screen - use centre of screen as
-					// point
+			// point
 			// which as to be included in the map
 			cll = ScreenXY2LatLon(w / 2, h / 2);
 			pX = w / 2;
@@ -1637,7 +1637,7 @@ public class MovingMap extends Form {
 		}
 		MapInfoObject newmap = maps.getMapForArea(sur.topleft, sur.buttomright);
 		if (newmap == null) { // no map that includs all caches is available
-								// ->
+			// ->
 			// load map with lowest resolution
 			Object[] s = getRectForMapChange(posCircle.where);
 			CWPoint cll = (CWPoint) s[0];
@@ -1766,7 +1766,7 @@ public class MovingMap extends Form {
 		boolean saveIgnoreStatus;
 		saveIgnoreStatus = dontUpdatePos;
 		dontUpdatePos = true; // make updatePosition ignore calls during
-								// loading
+		// loading
 		// new map
 		InfoBox inf;
 		inf = new InfoBox(MyLocale.getMsg(4201, "Information"), MyLocale
@@ -1835,7 +1835,7 @@ public class MovingMap extends Form {
 			directionArrows.setMap(currentMap);
 			updateScale();
 			inf.close(0); // this doesn't work in a ticked-thread in the
-							// ewe-vm.
+			// ewe-vm.
 			// That's why i made a new mThread in gotoPanel for
 			// ticked
 			Vm.showWait(false);
@@ -1999,7 +1999,7 @@ public class MovingMap extends Form {
 		} else { // zoom out
 			w = java.lang.Math.abs(w);
 			firstclickpoint.x = firstclickpoint.x - w; // make
-														// firstclickedpoint
+			// firstclickedpoint
 			// the upper left corner
 			zoomFactor = java.lang.Math.max((float) w / (float) this.width,
 					(float) h / (float) this.height);
@@ -2194,7 +2194,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			"res_manuell.png"),
 			MyLocale.getMsg(4249, "Keep manual resolution"), null,
 			CellConstants.RIGHT)); // manuell gewďż˝hlte Auflďż˝sung
-									// beibehalten
+	// beibehalten
 	// manuell
 	MenuItem mapChangeResMI = new MenuItem(MyLocale.getMsg(4250,
 			"Change resolution manually"), MenuItem.Separator, null);;
@@ -2463,7 +2463,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				mm.setMap(l.selectedMap, mm.posCircle.where);
 				if (mm.currentMap.fileNameWFL.length() > 0)
 					mm.setCenterOfScreen(l.selectedMap.center, true); // if
-																		// map
+				// map
 				// has
 				// an
 				// image

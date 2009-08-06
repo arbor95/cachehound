@@ -1,10 +1,10 @@
 package CacheWolf.gui;
 
-import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.factory.LogFactory;
 import CacheWolf.Global;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.factory.LogFactory;
 import ewe.fx.Dimension;
 import ewe.fx.Graphics;
 import ewe.fx.Image;

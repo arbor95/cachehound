@@ -22,13 +22,13 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 
 	public SizeFilter getFilter() {
 		Set<CacheSize> mask = EnumSet.noneOf(CacheSize.class);
-		
+
 		for (CacheSize b : CacheSize.values()) {
 			if (boxes.get(b).isSelected()) {
 				mask.add(b);
 			}
 		}
-		
+
 		return new SizeFilter(mask);
 	}
 
@@ -43,13 +43,13 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 	protected JPanel createCheckBoxesPanel() {
 		JPanel panel = new JPanel();
 		boxes = new EnumMap<CacheSize, JCheckBox>(CacheSize.class);
-	
+
 		for (CacheSize b : CacheSize.values()) {
 			JCheckBox box = new JCheckBox(b.toString());
 			panel.add(box);
 			boxes.put(b, box);
 		}
-	
+
 		return panel;
 	}
 

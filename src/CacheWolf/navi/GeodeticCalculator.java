@@ -18,7 +18,7 @@ package CacheWolf.navi;
  * 
  * @author Mike Gavaghan
  * 
- * Adapted for CacheWolf by Michael Kunz (MiK77)
+ *         Adapted for CacheWolf by Michael Kunz (MiK77)
  */
 public class GeodeticCalculator {
 	static private final double TwoPi = 2.0 * Math.PI;

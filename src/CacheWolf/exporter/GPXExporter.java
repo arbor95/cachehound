@@ -162,8 +162,8 @@ public class GPXExporter extends Exporter {
 							.append(":00</groundspeak:date>\r\n");
 					if (det.getOwnLog() != null) {
 						strBuf.append("          <groundspeak:type>").append(
-								det.getOwnLog().getLogType().toGcComType()).append(
-								"</groundspeak:type>\r\n");
+								det.getOwnLog().getLogType().toGcComType())
+								.append("</groundspeak:type>\r\n");
 					} else {
 						strBuf
 								.append("          <groundspeak:type>Found it</groundspeak:type>\r\n");
@@ -191,8 +191,8 @@ public class GPXExporter extends Exporter {
 					strBuf.append("        </groundspeak:log>\r\n");
 				} else {
 					int numberOfLogs = java.lang.Math.min(
-							Global.getPref().numberOfLogsToExport,
-							det.getCacheLogs().size());
+							Global.getPref().numberOfLogsToExport, det
+									.getCacheLogs().size());
 					if (numberOfLogs < 0)
 						numberOfLogs = det.getCacheLogs().size();
 					for (int i = 0; i < numberOfLogs; i++) {

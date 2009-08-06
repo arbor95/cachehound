@@ -19,8 +19,8 @@ public class CacheWolf extends Editor {
 		/*
 		 * Gui.screenIs(Gui.PDA_SCREEN); Rect s =
 		 * (Rect)Window.getGuiInfo(Window.INFO_SCREEN_RECT,null,new Rect(),0);
-		 * //Gui.screenIs(Gui.PDA_SCREEN) if (Vm.isMobile() && s.height >= 400) {
-		 * Font defaultGuiFont = mApp.findFont("gui"); int sz =
+		 * //Gui.screenIs(Gui.PDA_SCREEN) if (Vm.isMobile() && s.height >= 400)
+		 * { Font defaultGuiFont = mApp.findFont("gui"); int sz =
 		 * (int)(defaultGuiFont.getSize()); Font newGuiFont = new
 		 * Font(defaultGuiFont.getName(), defaultGuiFont.getStyle(), sz);
 		 * mApp.addFont(newGuiFont, "gui"); mApp.fontsChanged();

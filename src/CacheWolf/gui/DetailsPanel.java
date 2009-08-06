@@ -1,12 +1,9 @@
 package CacheWolf.gui;
 
-import de.cachehound.factory.CacheHolderDetailFactory;
-import de.cachehound.types.CacheSize;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
@@ -18,6 +15,8 @@ import CacheWolf.beans.TravelbugList;
 import CacheWolf.controller.TravelbugPickup;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
+import de.cachehound.factory.CacheHolderDetailFactory;
+import de.cachehound.types.CacheSize;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -108,14 +107,14 @@ public class DetailsPanel extends CellPanel {
 		pref = Global.getPref();
 		profile = Global.getProfile();
 		cacheDB = profile.cacheDB;
-		
+
 		// Initialize Size Array:
 		String[] sizes = new String[CacheSize.values().length];
 		for (int i = 0; i < sizes.length; i++) {
 			sizes[i] = CacheSize.values()[i].getAsString();
 		}
 		chcSize = new mChoice(sizes, 0);
-		
+
 		// //////////////////
 		// Tools
 		// //////////////////
@@ -520,7 +519,7 @@ public class DetailsPanel extends CellPanel {
 				// FIXME: better use saveDirtyWaypoint()?
 				thisCache.save();
 			} else if (ev.target == btnAddPicture) {
-				
+
 				ewe.io.File imgFile;
 				String imgDesc, imgDestName;
 
@@ -584,10 +583,9 @@ public class DetailsPanel extends CellPanel {
 				if (cs.execute() == FormBase.IDOK) {
 					dirty_details = true;
 					coords = cs.getCoords();
-					Global.getProfile()
-							.notifyUnsavedChanges(
-									!thisCache.getPos().toString().equals(
-											coords.toString()));
+					Global.getProfile().notifyUnsavedChanges(
+							!thisCache.getPos().toString().equals(
+									coords.toString()));
 					thisCache.getPos().set(coords);
 					btnWayLoc.setText(coords.toString());
 					thisCache.setLatLon(coords.toString());
@@ -734,7 +732,7 @@ public class DetailsPanel extends CellPanel {
 		thisCache.setBlack(blackStatus);
 		String oldWaypoint = thisCache.getWayPoint();
 		thisCache.setWayPoint(inpWaypoint.getText().toUpperCase().trim());
-		//ToDo, geht auch einfach nur getInt() ??
+		// ToDo, geht auch einfach nur getInt() ??
 		thisCache.setCacheSize(CacheSize.fromNormalStringRepresentation(chcSize
 				.getText()));
 		// If the waypoint does not have a name, give it one

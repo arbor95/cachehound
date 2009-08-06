@@ -213,7 +213,7 @@ public class MainTab extends mTabbedPanel {
 					if (oldHasSolver != chMain.hasSolver())
 						tbP.tc.update(true);
 					chMain.save();// Vm.debug("mainT:SaveCache
-									// "+chMain.wayPoint+"/S:"+chMain.Solver);
+					// "+chMain.wayPoint+"/S:"+chMain.Solver);
 					chMain = null;
 				}
 			}
@@ -226,7 +226,7 @@ public class MainTab extends mTabbedPanel {
 	 * 
 	 */
 	private void onEnteringPanel(int panelNo) {// Vm.debug("Entering
-												// "+panelNo);
+		// "+panelNo);
 		switch (panelNo) {// Switch by panel number
 		case 0:
 			MyLocale.setSIPOff();
@@ -429,7 +429,7 @@ public class MainTab extends mTabbedPanel {
 					 * mm.updatePosition(centerTo.latDec, centerTo.lonDec);
 					 * mm.setCenterOfScreen(centerTo, true); }
 					 */// TODO what to do, if there is a map at centerTo, but
-						// it
+					// it
 					// is not loaded because of mapSwitchMode == dest &
 					// cuurpos und dafür gibt es keine Karte
 				} catch (InterruptedException e) {

@@ -44,19 +44,20 @@ import ewe.ui.mTabbedPanel;
 public class PreferencesScreen extends Form {
 	mButton cancelB, applyB, brwBt, gpsB;
 	mChoice inpLanguage, inpMetric, inpSpiderUpdates;
-	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, fontSize,
-			inpLogsPerPage, inpMaxLogsToSpider, inpPassword;
-	mInput inputMailHost, inputMailLogin, inputMailPassword, inputMailProtocol, inputMailInbox, inputMailMovetoBox;
+	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, fontSize, inpLogsPerPage,
+			inpMaxLogsToSpider, inpPassword;
+	mInput inputMailHost, inputMailLogin, inputMailPassword, inputMailProtocol,
+			inputMailInbox, inputMailMovetoBox;
 	mCheckBox chkMailMoveMessages, chkMailMarkMessages, chkMailDeleteMessages;
 	mCheckBox chkAutoLoad, chkShowDeletedImg, chkMenuAtTop, chkTabsAtTop,
 			chkShowStatus, chkHasCloseButton, chkSynthShort, chkProxyActive,
 			chkDescShowImg, chkAddDetailsToWaypoint, chkAddDetailsToName;
-	
+
 	mTabbedPanel mTab;
 	mChoice chcGarminPort;
 	mLabel lblGarmin;
 	TableColumnChooser tccBugs, tccList;
-	
+
 	Preferences pref;
 
 	CellPanel pnlGeneral = new CellPanel();
@@ -355,9 +356,10 @@ public class PreferencesScreen extends Form {
 		inputMailLogin.setText(pref.mailLoginName);
 		pnlMail.addNext(new mLabel("Password"), CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
-		pnlMail.addLast(inputMailPassword = new mInput(), CellConstants.HSTRETCH,
+		pnlMail.addLast(inputMailPassword = new mInput(),
+				CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
-						new Dimension(2, 1));
+				new Dimension(2, 1));
 		inputMailPassword.setText(pref.mailPassword);
 		inputMailPassword.isPassword = true;
 		pnlMail.addNext(new mLabel("Protocol"), CellConstants.DONTSTRETCH,
@@ -366,44 +368,51 @@ public class PreferencesScreen extends Form {
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		inputMailProtocol.setText(pref.mailProtocol);
-		pnlMail.addLast(new mLabel("Erlaubte Werte für Protocol:"),
+		pnlMail.addLast(new mLabel("Erlaubte Werte für Protocol:"), HSTRETCH,
+				HFILL);
+		pnlMail.addLast(new mLabel("'imap', 'imaps', 'pop3', 'pop3s'"),
 				HSTRETCH, HFILL);
-		pnlMail.addLast(new mLabel("'imap', 'imaps', 'pop3', 'pop3s'"), HSTRETCH, HFILL);
 
 		pnlMail.addNext(new mLabel("Inbox"), CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		pnlMail.addLast(inputMailInbox = new mInput(), CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
-						new Dimension(2, 1));
+				new Dimension(2, 1));
 		inputMailInbox.setText(pref.mailInbox);
-		pnlMail.addNext(new mLabel("Mailbox zum Verschieben"), CellConstants.DONTSTRETCH,
+		pnlMail.addNext(new mLabel("Mailbox zum Verschieben"),
+				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
-		pnlMail.addLast(inputMailMovetoBox = new mInput(), CellConstants.HSTRETCH,
+		pnlMail.addLast(inputMailMovetoBox = new mInput(),
+				CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
-						new Dimension(2, 1));
+				new Dimension(2, 1));
 		inputMailMovetoBox.setText(pref.mailMoveBox);
-		
-		
-		
-		pnlMail.addLast(chkMailMarkMessages = new mCheckBox("Mark Messages as Read"), CellConstants.HSTRETCH,
+
+		pnlMail.addLast(
+				chkMailMarkMessages = new mCheckBox("Mark Messages as Read"),
+				CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
 				new Dimension(2, 1));
 		chkMailMarkMessages.setState(pref.mailMarkMailsAsReaded);
 		chkMailMarkMessages.setTag(INSETS, new Insets(0, 0, 2, 0));
-		
-		pnlMail.addLast(chkMailMoveMessages = new mCheckBox("Move Messages"), CellConstants.HSTRETCH,
+
+		pnlMail.addLast(chkMailMoveMessages = new mCheckBox("Move Messages"),
+				CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
 				new Dimension(2, 1));
 		chkMailMoveMessages.setState(pref.mailMoveMessages);
 		chkMailMoveMessages.setTag(INSETS, new Insets(0, 0, 2, 0));
-		
-		pnlMail.addLast(chkMailDeleteMessages = new mCheckBox("DELETE Messages as Read"), CellConstants.HSTRETCH,
-				(CellConstants.HFILL | CellConstants.WEST)).setTag(SPAN,
-				new Dimension(2, 1));
+
+		pnlMail
+				.addLast(
+						chkMailDeleteMessages = new mCheckBox(
+								"DELETE Messages as Read"),
+						CellConstants.HSTRETCH,
+						(CellConstants.HFILL | CellConstants.WEST)).setTag(
+						SPAN, new Dimension(2, 1));
 		chkMailDeleteMessages.setState(pref.mailDeleteMessages);
 		chkMailDeleteMessages.setTag(INSETS, new Insets(0, 0, 2, 0));
-		
-		
+
 		// ///////////////////////////////////////////////////////
 		// Fifth/Sixth panel - Listview and Travelbugs
 		// ///////////////////////////////////////////////////////
@@ -535,7 +544,7 @@ public class PreferencesScreen extends Form {
 				pref.mailMoveMessages = chkMailMoveMessages.getState();
 				pref.mailMarkMailsAsReaded = chkMailMarkMessages.getState();
 				pref.mailDeleteMessages = chkMailDeleteMessages.getState();
-				
+
 				pref.savePreferences();
 				pref.dirty = true; // Need to update table in case columns were
 				// enabled/disabled

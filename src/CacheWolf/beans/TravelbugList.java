@@ -66,7 +66,8 @@ public class TravelbugList extends MinML {
 	 * This representation does not include the id or guid and does not allow
 	 * for unique identification of the travelbug (Several travelbugs with
 	 * identical names may exist, so the id/guid must be stored to uniquely
-	 * identify the travelbug. All TBs are stored as one HTML string <b>Name:</b>name_of_tb<br>
+	 * identify the travelbug. All TBs are stored as one HTML string
+	 * <b>Name:</b>name_of_tb<br>
 	 * mission
 	 * <hr>
 	 */
@@ -153,7 +154,7 @@ public class TravelbugList extends MinML {
 
 	public void characters(char ch[], int start, int length) {
 		xmlElement.append(ch, start, length); // Collect the mission or the
-												// name
+		// name
 	}
 
 	public void endElement(String tag) {

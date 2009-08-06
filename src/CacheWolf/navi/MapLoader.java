@@ -76,7 +76,7 @@ public class MapLoader {
 			try {
 				if (!showprogress && ((i & 0) == 0)
 						&& (new Time().getTime() - start > 100)) { // reason
-																	// for
+					// for
 					// (i & 7 ==
 					// 0): test
 					// time only
@@ -1101,15 +1101,15 @@ class ExpediaMapService extends OnlineMapService {
 		quelle = quelle + "&Alti=" + Convert.toString(zoomlevel) + "&Lang="
 				+ zone + "&Size=" + Convert.toString(pixelsize.x) + ","
 				+ Convert.toString(pixelsize.y) + "&Offs=0,0&MapS=0"; // &Pins=|"
-																		// +
-																		// latD.toString().replace(',',
-																		// '.')
-																		// + ","
-																		// +
-																		// lonD.toString().replace(',',
-																		// '.')
-																		// +
-																		// "|5|";
+		// +
+		// latD.toString().replace(',',
+		// '.')
+		// + ","
+		// +
+		// lonD.toString().replace(',',
+		// '.')
+		// +
+		// "|5|";
 		return quelle;
 	}
 

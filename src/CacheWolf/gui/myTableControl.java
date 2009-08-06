@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import de.cachehound.beans.CacheHolderDetail;
-
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -16,7 +14,7 @@ import CacheWolf.beans.Profile;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.ShowCacheInBrowser;
-
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.fx.IconAndText;
 import ewe.fx.Point;
 import ewe.fx.Rect;
@@ -288,7 +286,8 @@ public class myTableControl extends TableControl {
 						// each deleted
 						// cache
 						ch = cacheDB.get(i);
-						if (ch.isIs_Checked() && (ch.isVisible() || deleteFiltered)) {
+						if (ch.isIs_Checked()
+								&& (ch.isVisible() || deleteFiltered)) {
 							nDeleted++;
 							h.progress = ((float) nDeleted) / (float) allCount;
 							h.changed();
