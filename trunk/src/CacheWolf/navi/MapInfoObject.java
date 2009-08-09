@@ -1,5 +1,7 @@
 package CacheWolf.navi;
 
+import java.io.BufferedReader;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Matrix;
 import CacheWolf.util.Common;
@@ -54,7 +56,7 @@ public class MapInfoObject extends Area {
 	public float rotationRad; // contains the rotation of the map == north
 	// direction in rad
 	/** full path to the respective worldfile, including ".wfl" */
-	public String fileNameWFL = new String();
+	private java.io.File fileNameWFL;
 	/** filename wihout directory */
 	// public String fileName = new String();
 	/**
@@ -81,7 +83,7 @@ public class MapInfoObject extends Area {
 		shift.set(map.shift);
 		coordTrans = map.coordTrans;
 		// fileName = new String(map.fileName);
-		fileNameWFL = new String(map.fileNameWFL);
+		fileNameWFL = map.getFileNameWFL(); // TODO: check if a clone would be better 
 		mapName = new String(mapName);
 		doCalculations();
 	}
@@ -138,12 +140,12 @@ public class MapInfoObject extends Area {
 		affineTopleft.set(topleft);
 		buttomright.latDec = center.latDec - hight / 2 * pixel2deg; // buttom
 		buttomright.lonDec = center.lonDec + width / 2 * pixel2deghorizontal; // right
-		fileNameWFL = name;
+		fileNameWFL = new java.io.File(mapName);
 		origAffineUpperLeft = new CWPoint(affineTopleft);
 		doCalculations();
 	}
 
-	public MapInfoObject(String mapsPath, String thisMap) throws IOException,
+	public MapInfoObject(java.io.File mapsPath, String thisMap) throws java.io.IOException,
 			ArithmeticException {
 		super();
 		loadwfl(mapsPath, thisMap);
@@ -160,7 +162,7 @@ public class MapInfoObject extends Area {
 	public String setName(String path, String n) {
 		String pref = getFfPrefix();
 		mapName = pref + n;
-		fileNameWFL = path + pref + mapName + ".wfl";
+		fileNameWFL = new java.io.File(path, pref + mapName + ".wfl");
 		return mapName;
 	}
 
@@ -170,9 +172,9 @@ public class MapInfoObject extends Area {
 	 */
 	public String getImageFilename() {
 		// if (fileName == null || fileName.length() > 0) return fileName;
-		if (fileNameWFL.length() == 0)
+		if (fileNameWFL == null)
 			return ""; // no image associated (empty map)
-		String n = fileNameWFL.substring(0, fileNameWFL.lastIndexOf("."));
+		String n = fileNameWFL.getAbsolutePath().substring(0, fileNameWFL.getAbsolutePath().lastIndexOf("."));
 		return Common.getImageName(n.replace("//", "/"));
 	}
 
@@ -186,16 +188,16 @@ public class MapInfoObject extends Area {
 	 * @throws IOException
 	 *             when there was a problem reading .wfl-file
 	 * @throws IOException
-	 *             when lat/lon were out of range
+	 *             wen lat/lon were out of range
 	 * @throws ArithmeticException
 	 *             when affine data is not correct, e.g. it is not possible to
 	 *             inverse affine-transformation
 	 */
-	public void loadwfl(String mapsPath, String thisMap) throws IOException,
+	public void loadwfl(java.io.File mapsFile, String thisMap) throws java.io.IOException,
 			ArithmeticException {
-		FileInputStream instream = new FileInputStream(
-				(mapsPath + thisMap + ".wfl").replace("//", "/"));
-		InputStreamReader in = new InputStreamReader(instream);
+		java.io.FileInputStream instream = new java.io.FileInputStream(new java.io.File(
+				mapsFile, thisMap + ".wfl"));
+		java.io.BufferedReader in = new BufferedReader(new java.io.InputStreamReader(instream));
 
 		String line = new String();
 		try {
@@ -217,7 +219,7 @@ public class MapInfoObject extends Area {
 				coordTrans = Common.parseInt(line);
 			else
 				coordTrans = 0;
-			fileNameWFL = mapsPath + thisMap + ".wfl";
+			fileNameWFL = mapsFile;
 			// fileName = ""; //mapsPath + thisMap + ".png";
 			mapName = thisMap;
 			in.close();
@@ -227,16 +229,16 @@ public class MapInfoObject extends Area {
 				affine[2] = 0;
 				affine[3] = 0;
 				topleft.makeInvalid();
-				throw (new IOException(MyLocale.getMsg(4301,
+				throw (new java.io.IOException(MyLocale.getMsg(4301,
 						"Lat/Lon out of range while reading ")
-						+ mapsPath + thisMap + ".wfl"));
+						+ mapsFile.getAbsolutePath()));
 			}
 		} catch (NullPointerException e) { // in.readline liefert null zurück,
 			// wenn keine Daten mehr vorhanden
 			// sind
-			throw (new IOException(MyLocale.getMsg(4303,
+			throw (new java.io.IOException(MyLocale.getMsg(4303,
 					"not enough lines in file ")
-					+ mapsPath + thisMap + ".wfl"));
+					+ mapsFile.getAbsolutePath()));
 		}
 		doCalculations();
 		origAffineUpperLeft = new CWPoint(affineTopleft);
@@ -385,7 +387,7 @@ public class MapInfoObject extends Area {
 	}
 
 	public void saveWFL() throws IOException, IllegalArgumentException {
-		File dateiF = new FileBugfix(fileNameWFL);
+		File dateiF = new FileBugfix(fileNameWFL.getAbsolutePath());
 		String tmp = dateiF.getDrivePath(); // contains the name and the
 		// extension
 		saveWFL(tmp, mapName);
@@ -409,8 +411,12 @@ public class MapInfoObject extends Area {
 				&& affine[3] == 0 && !topleft.isValid())
 			throw (new IllegalArgumentException(MyLocale.getMsg(4306,
 					"map not calibrated")));
+		System.out.println("mapsPath: " + mapsPath);
+		System.out.println("mapFileName: " + mapFileName);
+		System.out.println("mapName: " + this.mapName);
+		System.out.println("fileNameWFL: " + fileNameWFL);
 		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
-				mapsPath + mapFileName + ".wfl")));
+				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
 //		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
 //				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
 		
@@ -433,7 +439,7 @@ public class MapInfoObject extends Area {
 		outp.close();
 		// this.fileName = ""; // this will be set in getImageFilenam //mapsPath
 		// + "/" + mapFileName + ".png";
-		this.fileNameWFL = mapsPath + "/" + mapFileName + ".wfl";
+		this.fileNameWFL = new java.io.File (mapsPath, mapFileName + ".wfl");
 		this.mapName = mapFileName;
 	}
 
@@ -528,6 +534,14 @@ public class MapInfoObject extends Area {
 	 */
 	public String getFfPrefix() {
 		return "FF1" + getEasyFindString() + "E-";
+	}
+
+	public java.io.File getFileNameWFL() {
+		return fileNameWFL;
+	}
+
+	public void setFileNameWFL(java.io.File fileNameWFL) {
+		this.fileNameWFL = fileNameWFL;
 	}
 }
 

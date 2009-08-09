@@ -301,6 +301,7 @@ public class MovingMap extends Form {
 	 *            meters the latitude must be known
 	 */
 	public void loadMaps(String mapsPath, double lat) {
+		System.out.println("mapsPath: " + mapsPath);
 		if (loadingMapList)
 			return;
 		loadingMapList = true;
@@ -313,7 +314,7 @@ public class MovingMap extends Form {
 		inf.waitUntilPainted(100);
 		boolean saveGpsIgnoreStatus = dontUpdatePos;
 		dontUpdatePos = true;
-		maps = new MapsList(mapsPath); // this actually loads the maps
+		maps = new MapsList(new java.io.File(mapsPath)); // this actually loads the maps
 		if (maps.isEmpty()) {
 			(new MessageBox(
 					MyLocale.getMsg(4201, "Information"),
@@ -1506,7 +1507,7 @@ public class MovingMap extends Form {
 						.getMap(), where); // beware: "-4" only works if the
 				// empty maps were added last see
 				// MapsList.addEmptyMaps
-			} catch (IOException e) {
+			} catch (java.io.IOException e) {
 				(new MessageBox(
 						MyLocale.getMsg(4207, "Error"),
 						MyLocale
@@ -1679,7 +1680,7 @@ public class MovingMap extends Form {
 						/ (neededscalex > neededscaley ? neededscalex
 								: neededscaley), 0, 0);
 				forceMapLoad = true;
-			} catch (IOException e) {
+			} catch (java.io.IOException e) {
 				(new MessageBox(
 						MyLocale.getMsg(4207, "Error"),
 						MyLocale
@@ -1805,7 +1806,7 @@ public class MovingMap extends Form {
 				(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 						.getMsg(4217,
 								"Could not find image associated with: \n")
-						+ currentMap.fileNameWFL, FormBase.OKB)).execute();
+						+ currentMap.getFileNameWFL().getAbsolutePath(), FormBase.OKB)).execute();
 			} else {
 				if (ImageFilename.length() > 0)
 					mmp.mapImage = new MapImage(ImageFilename); // attention:
@@ -2463,7 +2464,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				mm.setGpsStatus(MovingMap.noGPS);
 				mm.ignoreGps = true;
 				mm.setMap(l.selectedMap, mm.posCircle.where);
-				if (mm.currentMap.fileNameWFL.length() > 0)
+				if (mm.currentMap.getFileNameWFL() != null)
 					mm.setCenterOfScreen(l.selectedMap.center, true); // if
 				// map
 				// has
@@ -2818,7 +2819,7 @@ class ListBox extends Form {
 					else {
 						map = ml.getMap();
 					}
-				} catch (IOException ex) {
+				} catch (java.io.IOException ex) {
 					continue;
 				} // could not read .wfl-file
 				if (map.isInBound(Gps.latDec, Gps.lonDec)
@@ -2850,7 +2851,7 @@ class ListBox extends Form {
 					else {
 						map = ml.getMap();
 					}
-				} catch (IOException ex) {
+				} catch (java.io.IOException ex) {
 					continue;
 				} // could not read .wfl-file
 				if (map.isInBound(Gps.latDec, Gps.lonDec)) {
@@ -2877,7 +2878,7 @@ class ListBox extends Form {
 					else {
 						map = ml.getMap();
 					}
-				} catch (IOException ex) {
+				} catch (java.io.IOException ex) {
 					continue;
 				} // could not read .wfl-file
 				if (map.isInBound(gotopos)) {
@@ -2932,7 +2933,9 @@ class ListBox extends Form {
 					selectedMap = ((MapListEntry) maps.get(mapNum)).getMap();
 					selected = true;
 					this.close(FormBase.IDOK);
-				} catch (IOException e) {
+				} catch (java.io.IOException e) {
+					e.printStackTrace();
+					Global.getPref().log("Cannot load wfl-file: " + ((MapListEntry) maps.get(mapNum)).filename, e, true);
 					(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 							.getMsg(4278, "Cannot load wfl-file: \n")
 							+ ((MapListEntry) maps.get(mapNum)).filename,
