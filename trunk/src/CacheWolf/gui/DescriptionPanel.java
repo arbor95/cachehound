@@ -147,7 +147,7 @@ public class DescriptionPanel extends CellPanel {
 			// disp.setHtml(desc);
 			disp.startHtml();
 			disp.getDecoderProperties().set("documentroot",
-					Global.getProfile().dataDir);
+					Global.getProfile().getDataDir());
 			disp.addHtml(desc, new ewe.sys.Handle());
 			disp.endHtml();
 

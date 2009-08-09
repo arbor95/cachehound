@@ -1,8 +1,19 @@
 package CacheWolf.beans;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import CacheWolf.Global;
 import CacheWolf.gui.InfoBox;
@@ -12,13 +23,6 @@ import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import de.cachehound.types.Bearing;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileNotFoundException;
-import ewe.io.FileReader;
-import ewe.io.FileWriter;
-import ewe.io.IOException;
-import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 import ewe.sys.Handle;
 import ewe.sys.Vm;
@@ -33,6 +37,8 @@ import ewe.ui.ProgressBarForm;
  * 
  */
 public class Profile {
+
+	private static Logger logger = LoggerFactory.getLogger(Profile.class);
 
 	/**
 	 * The list of caches (CacheHolder objects). A pointer to this object exists
@@ -52,7 +58,7 @@ public class Profile {
 	 */
 	public String name = new String();
 	/** This is the directory for the profile. It contains a closing /. */
-	public String dataDir = new String();
+	private File dataDir;
 
 	/** Last sync date for opencaching caches */
 	private String last_sync_opencaching = new String();
@@ -128,7 +134,7 @@ public class Profile {
 		cacheDB.clear();
 		centre.set(-361, -361);
 		name = "";
-		dataDir = "";
+		setDataDir(null);
 		setLast_sync_opencaching("");
 		setDistOC("");
 		setDistGC("");
@@ -167,21 +173,20 @@ public class Profile {
 		// makes some calculations
 		PrintWriter detfile;
 		CacheHolder ch;
+		File index = new File(getDataDir(), "index.xml");
 		try {
-			File backup = new File(dataDir + "index.bak");
+			File backup = new File(getDataDir(), "index.bak");
 			if (backup.exists())
 				backup.delete();
-			File index = new File(dataDir + "index.xml");
-			index.rename("index.bak");
+			index.renameTo(new File(getDataDir(), "index.bak"));
 		} catch (Exception ex) {
-			pref.log("Error deleting backup or renaming index.xml");
+			logger.error("Error deleting backup or renaming index.xml");
 		}
 		try {
-			detfile = new PrintWriter(new BufferedWriter(new FileWriter(dataDir
-					+ "index.xml")));
+			detfile = new PrintWriter(new BufferedWriter(new FileWriter(index)));
 		} catch (Exception e) {
 			Vm.debug("Problem creating index file " + e.toString()
-					+ "\nFilename=" + dataDir + "index.xml");
+					+ "\nFilename=" + getDataDir() + "index.xml");
 			return;
 		}
 		CWPoint savedCentre = centre;
@@ -263,7 +268,7 @@ public class Profile {
 	 * collection of caches in a directory.
 	 */
 	public void readIndex(InfoBox infoBox) {
-
+		File index = new File(getDataDir(), "index.xml");
 		try {
 			selectionChanged = true;
 			boolean fmtDec = false;
@@ -272,7 +277,7 @@ public class Profile {
 			int lastShownWpt = 0;
 			char decSep = MyLocale.getDigSeparator().charAt(0);
 			char notDecSep = decSep == '.' ? ',' : '.';
-			FileReader in = new FileReader(dataDir + "index.xml");
+			BufferedReader in = new BufferedReader(new FileReader(index));
 			indexXmlVersion = 1; // Initial guess
 			in.readLine(); // <?xml version= ...
 			String text = in.readLine(); // <CACHELIST>
@@ -336,7 +341,10 @@ public class Profile {
 							text.substring(start, text.indexOf("\"", start)))
 							.intValue();
 					if (indexXmlVersion > CURRENTFILEFORMAT) {
-						Global.getPref().log("unsupported file format");
+						logger
+								.error(
+										"The versionNumber in File index.xml is newer than the current supported Version. Found: {}, Supported: ",
+										indexXmlVersion, CURRENTFILEFORMAT);
 						clearProfile();
 						return;
 					}
@@ -394,18 +402,13 @@ public class Profile {
 				saveIndex(Global.getPref(), true);
 			}
 		} catch (FileNotFoundException e) {
-			Global.getPref().log("index.xml not found in directory " + dataDir); // Normal
-			// when
-			// profile
-			// is
-			// opened
-			// for
-			// first
-			// time
-			// e.printStackTrace();
+			logger.warn("Could not found index.xml in directory '"
+					+ getDataDir().getAbsolutePath()
+					+ "'. This could be a problem or could be a new Profile.",
+					e);
+			// Normal when profile is opened for first time
 		} catch (IOException e) {
-			Global.getPref().log(
-					"Problem reading index.xml in dir: " + dataDir, e, true);
+			logger.error("Problem reading " + index.getAbsolutePath(), e);
 		}
 		// TODO Brauchen wir das noch?
 		this.getCurrentFilter().normaliseFilters();
@@ -503,7 +506,7 @@ public class Profile {
 
 	public String toString() {
 		return "Profile: Name=" + name + "\nCentre=" + centre.toString()
-				+ "\ndataDir=" + dataDir + "\nlastSyncOC="
+				+ "\ndataDir=" + getDataDir() + "\nlastSyncOC="
 				+ getLast_sync_opencaching() + "\ndistOC=" + getDistOC()
 				+ "\ndistGC=" + getDistGC();
 	}
@@ -888,7 +891,11 @@ public class Profile {
 		this.currentFilter = currentFilter;
 	}
 
-	public java.io.File getDataDir() {
-		return new java.io.File(dataDir);
+	public File getDataDir() {
+		return dataDir;
+	}
+
+	public void setDataDir(File dataDir) {
+		this.dataDir = dataDir;
 	}
 }

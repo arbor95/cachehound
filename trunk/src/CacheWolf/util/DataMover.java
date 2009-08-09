@@ -1,6 +1,13 @@
 package CacheWolf.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.util.Iterator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
@@ -10,9 +17,6 @@ import CacheWolf.beans.Profile;
 import CacheWolf.gui.DataMoverForm;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.File;
-import ewe.io.FileInputStream;
-import ewe.io.FileOutputStream;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.Gui;
@@ -23,6 +27,8 @@ import ewe.ui.ProgressBarForm;
  * directory to another. It provides also the possibility to delete cachefiles.
  */
 public class DataMover {
+
+	private static Logger logger = LoggerFactory.getLogger(DataMover.class);
 
 	CacheDB srcDB, dstDB;
 	Preferences pref;
@@ -48,12 +54,12 @@ public class DataMover {
 
 	public void copyCaches() {
 		Profile dstProfile = new Profile();
+		dstProfile.setDataDir(selectTargetDir());
 
-		dstProfile.dataDir = selectTargetDir();
-		if (dstProfile.dataDir.equals(profile.dataDir)
-				|| dstProfile.dataDir.equals(""))
+		if (dstProfile.getDataDir() == null
+				|| dstProfile.getDataDir().equals(profile.getDataDir())) {
 			return;
-
+		}
 		// Von Andi P
 		int mode = showMessageBox(253, "All waypoints will be copied");
 		if (mode == -1) {
@@ -62,7 +68,7 @@ public class DataMover {
 		// Ende
 
 		// Read indexfile of destination, if one exists
-		File ftest = new File(dstProfile.dataDir + "index.xml");
+		File ftest = new File(dstProfile.getDataDir(), "index.xml");
 		if (ftest.exists()) {
 			dstProfile.readIndex();
 		}
@@ -159,9 +165,9 @@ public class DataMover {
 	public void moveCaches() {
 		Profile dstProfile = new Profile();
 		// Select destination directory
-		dstProfile.dataDir = selectTargetDir();
-		if (dstProfile.dataDir.equals(profile.dataDir)
-				|| dstProfile.dataDir.equals(""))
+		dstProfile.setDataDir(selectTargetDir());
+		if (dstProfile.getDataDir().equals(profile.getDataDir())
+				|| dstProfile.getDataDir().equals(""))
 			return;
 
 		int mode = showMessageBox(252, "All waypoints will be moved");
@@ -170,7 +176,7 @@ public class DataMover {
 		}
 
 		// Read indexfile of destination, if one exists
-		File ftest = new File(dstProfile.dataDir + "index.xml");
+		File ftest = new File(dstProfile.getDataDir() + "index.xml");
 		if (ftest.exists()) {
 			dstProfile.readIndex();
 		}
@@ -256,42 +262,37 @@ public class DataMover {
 	// Utility functions
 	// ////////////////////////////////////////////////////////////////////
 
-	public String selectTargetDir() {
+	public File selectTargetDir() {
 		// Select destination directory
 		FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT,
-				pref.baseDir);
+				pref.getBaseDir().getAbsolutePath());
 		fc.setTitle(MyLocale.getMsg(148, "Select Target directory"));
 		if (fc.execute() != FormBase.IDCANCEL) {
-			return fc.getChosen() + "/";
-		} else
-			return "";
+			return new File(fc.getChosen());
+		} else {
+			return null;
+		}
 	}
 
-	public void deleteCacheFiles(String wpt, String dir) {
+	public void deleteCacheFiles(String wpt, File dir) {
 		// delete files in dstDir to clean up trash
-		String tmp[] = new FileBugfix(dir).list(wpt + "*.*",
-				ewe.io.FileBase.LIST_FILES_ONLY);
-		for (int i = 0; i < tmp.length; i++) {
-			File tmpFile = new File(dir + tmp[i]);
-			tmpFile.delete();
+		File[] files = dir.listFiles(new CacheFileNameFilter(wpt));
+		for (File f : files) {
+			f.delete();
 		}
 	}
 
-	public void moveCacheFiles(String wpt, String srcDir, String dstDir) {
-		String srcFiles[] = new FileBugfix(srcDir).list(wpt + "*.*",
-				ewe.io.FileBase.LIST_FILES_ONLY);
-		for (int i = 0; i < srcFiles.length; i++) {
-			File srcFile = new File(srcDir + srcFiles[i]);
-			File dstFile = new File(dstDir + srcFiles[i]);
-			srcFile.move(dstFile);
+	public void moveCacheFiles(String wpt, File srcDir, File dstDir) {
+		File[] files = srcDir.listFiles(new CacheFileNameFilter(wpt));
+		for (File f : files) {
+			f.renameTo(new File(dstDir, f.getName()));
 		}
 	}
 
-	public void copyCacheFiles(String wpt, String srcDir, String dstDir) {
-		String srcFiles[] = new FileBugfix(srcDir).list(wpt + "*.*",
-				ewe.io.FileBase.LIST_FILES_ONLY);
-		for (int i = 0; i < srcFiles.length; i++) {
-			copy(srcDir + srcFiles[i], dstDir + srcFiles[i]);
+	public void copyCacheFiles(final String wpt, File srcDir, File dstDir) {
+		File[] files = srcDir.listFiles(new CacheFileNameFilter(wpt));
+		for (File f : files) {
+			copy(f, new File(dstDir, f.getName()));
 		}
 	}
 
@@ -304,25 +305,47 @@ public class DataMover {
 	 *            destination file name
 	 * @return true on success, false if an error occurred
 	 */
-	public static boolean copy(String sFileSrc, String sFileDst) {
+	public static boolean copy(File src, File dst) {
 		try {
-			File fSrc = new File(sFileSrc);
 			int len = 32768;
-			byte[] buff = new byte[(int) java.lang.Math.min(len, fSrc.length())];
-			FileInputStream fis = new FileInputStream(fSrc);
-			FileOutputStream fos = new FileOutputStream(sFileDst);
+			byte[] buff = new byte[(int) Math.min(len, src.length())];
+			FileInputStream fis = new FileInputStream(src);
+			FileOutputStream fos = new FileOutputStream(dst);
 			while (0 < (len = fis.read(buff)))
 				fos.write(buff, 0, len);
 			fos.flush();
 			fos.close();
 			fis.close();
 		} catch (Exception ex) {
-			Global.getPref().log(
-					"Filecopy failed: " + sFileSrc + "=>" + sFileDst, ex,
-					Global.getPref().debug);
+			logger.error("Filecopy failed: " + src.getAbsolutePath() + "=>"
+					+ dst.getAbsolutePath(), ex);
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Filter to get only files which start with den waypoint-name of a given
+	 * cache
+	 * 
+	 * @author tweety
+	 * 
+	 */
+	private class CacheFileNameFilter implements FilenameFilter {
+
+		private String wpt;
+
+		public CacheFileNameFilter(String wpt) {
+			this.wpt = wpt;
+		}
+
+		@Override
+		public boolean accept(File dir, String name) {
+			// TODO: Check if it is necessary to have only files and no
+			// directories
+			return name.startsWith(wpt);
+		}
+
 	}
 
 	// ////////////////////////////////////////////////////////////////////
@@ -343,7 +366,7 @@ public class DataMover {
 
 		public void doIt(int i, CacheHolder srcHolder) {
 			srcDB.removeElementAt(i);
-			deleteCacheFiles(srcHolder.getWayPoint(), profile.dataDir);
+			deleteCacheFiles(srcHolder.getWayPoint(), profile.getDataDir());
 		}
 	}
 
@@ -355,9 +378,9 @@ public class DataMover {
 
 		public void doIt(int i, CacheHolder srcHolder) {
 			srcHolder.save();
-			deleteCacheFiles(srcHolder.getWayPoint(), dstProfile.dataDir);
-			copyCacheFiles(srcHolder.getWayPoint(), profile.dataDir,
-					dstProfile.dataDir);
+			deleteCacheFiles(srcHolder.getWayPoint(), dstProfile.getDataDir());
+			copyCacheFiles(srcHolder.getWayPoint(), profile.getDataDir(),
+					dstProfile.getDataDir());
 			// does cache exists in destDB ?
 			// Update database
 			// *wall* when copying addis without their maincache, the maincache
@@ -390,9 +413,9 @@ public class DataMover {
 
 		public void doIt(int i, CacheHolder srcHolder) {
 			srcDB.removeElementAt(i);
-			deleteCacheFiles(srcHolder.getWayPoint(), dstProfile.dataDir);
-			moveCacheFiles(srcHolder.getWayPoint(), profile.dataDir,
-					dstProfile.dataDir);
+			deleteCacheFiles(srcHolder.getWayPoint(), dstProfile.getDataDir());
+			moveCacheFiles(srcHolder.getWayPoint(), profile.getDataDir(),
+					dstProfile.getDataDir());
 			// does cache exists in destDB ?
 			// Update database
 			int dstPos = dstProfile.getCacheIndex(srcHolder.getWayPoint());
@@ -402,7 +425,6 @@ public class DataMover {
 				// Update database
 				dstProfile.cacheDB.add(srcHolder);
 			}
-			i--;
 		}
 	}
 }

@@ -72,7 +72,7 @@ public class Navigate {
 				// MovingMap? see
 				// MovingMapPanel.snapToGps
 				if (lograw)
-					gpsPos.startLog(Global.getProfile().dataDir, logIntervall,
+					gpsPos.startLog(Global.getProfile().getDataDir().getAbsolutePath(), logIntervall,
 							CWGPSPoint.LOGALL);
 				if (gotoPanel != null)
 					gotoPanel.gpsStarted();
@@ -123,7 +123,7 @@ public class Navigate {
 				// MovingMap? see
 				// MovingMapPanel.snapToGps
 				if (lograw)
-					gpsPos.startLog(Global.getProfile().dataDir, logIntervall,
+					gpsPos.startLog(Global.getProfile().getDataDir().getAbsolutePath(), logIntervall,
 							CWGPSPoint.LOGALL);
 				if (gotoPanel != null)
 					gotoPanel.gpsStarted();

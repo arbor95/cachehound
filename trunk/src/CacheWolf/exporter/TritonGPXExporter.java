@@ -1,24 +1,32 @@
 package CacheWolf.exporter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
+import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.LogType;
-import ewe.io.ByteArrayOutputStream;
-import ewe.io.File;
-import ewe.io.FileBase;
-import ewe.io.FileInputStream;
 import ewe.sys.Time;
 
 public class TritonGPXExporter extends Exporter {
+	
+	private static Logger logger = LoggerFactory.getLogger(TritonGPXExporter.class);
+	
 	public TritonGPXExporter() {
 		setMask("*.gpx");
 		setNeedCacheDetails(true);
 		setHowManyParams(1);
-		setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
+		// kann wohl raus
+		//setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
 	}
 
 	public String header() {
@@ -214,7 +222,6 @@ public class TritonGPXExporter extends Exporter {
 		String Type = "";
 		String GPXImages = "";
 		String GPXextenion = "";
-		String imagePath = "";
 		String imageName = "";
 		String oldImageName = "";
 		for (int spoiler = 0; spoiler < ch.getImages().size(); ++spoiler) {
@@ -223,10 +230,7 @@ public class TritonGPXExporter extends Exporter {
 				continue;
 			}
 
-			imagePath = this.profile.dataDir;
-
-			imagePath = imagePath + "/" + imageName;
-			File file = new File(imagePath);
+			File file = new File(this.profile.getDataDir(), imageName);
 			GPX = addFileBase64(file);
 			oldImageName = imageName;
 
@@ -265,6 +269,7 @@ public class TritonGPXExporter extends Exporter {
 					.toByteArray()));
 			return encoded;
 		} catch (Exception e) {
+			logger.error("Error while writing File " + file.getAbsolutePath() + " into a String (Base 64 encoded)", e);
 		}
 		return "";
 	}

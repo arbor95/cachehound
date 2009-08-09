@@ -162,12 +162,12 @@ public class TPLExporter {
 		ewe.sys.Handle h = new ewe.sys.Handle();
 
 		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref
-				.getExportPath(expName));
+				.getExportPath(expName).getAbsolutePath());
 		fc.setTitle("Select target file:");
 		if (fc.execute() == FormBase.IDCANCEL)
 			return;
 		File saveTo = fc.getChosenFile();
-		pref.setExportPath(expName, saveTo.getPath());
+		pref.setExportPath(expName, new java.io.File(saveTo.getFullPath()));
 		int counter = cacheDB.countVisible();
 		pbf.showMainTask = false;
 		pbf.setTask(h, "Exporting ...");

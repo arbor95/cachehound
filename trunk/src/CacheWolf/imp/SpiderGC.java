@@ -1833,7 +1833,7 @@ public class SpiderGC {
 		// byte[] buffer = new byte[9000];
 		ByteArray daten;
 		String datei = "";
-		datei = profile.dataDir + target;
+		datei = profile.getDataDir() + target;
 		connImg = new HttpConnection(imgUrl);
 		if (imgUrl.indexOf('%') >= 0)
 			connImg.documentIsEncoded = true;

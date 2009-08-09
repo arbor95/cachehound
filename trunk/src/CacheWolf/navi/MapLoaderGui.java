@@ -1,5 +1,7 @@
 package CacheWolf.navi;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -225,11 +227,12 @@ public class MapLoaderGui extends Form {
 				+ " " + originalindex + MyLocale.getMsg(1819, "not found"));
 	}
 
-	public String getMapsDir() {
-		String ret = Global.getPref().getMapDownloadSavePath(
+	public File getMapsDir() {
+		//String 
+		File ret = Global.getPref().getMapDownloadSavePath(
 				mapLoader.currentOnlineMapService.getMapType());
 		Global.getPref().saveCustomMapsPath(
-				getLeadingPath(ret, Global.getPref().getMapLoadPath()));
+				new File(getLeadingPath(ret.getAbsolutePath(), Global.getPref().getMapLoadPath().getAbsolutePath())));
 		// Global.getPref().saveCustomMapsPath(ret);
 		// eigentlich dürft das erst gespeichert werden, wenn erfolgreich
 		// heruntergeladen wurde
@@ -257,7 +260,7 @@ public class MapLoaderGui extends Form {
 	}
 
 	public void downloadTiles() {
-		String mapsDir = getMapsDir();
+		String mapsDir = getMapsDir().getAbsolutePath();
 		if (mapsDir == null)
 			return;
 		InfoBox progressBox = new InfoBox(MyLocale.getMsg(1815,

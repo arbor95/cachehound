@@ -52,7 +52,7 @@ public class TomTomExporter {
 			return;
 		fileFormat = infoScreen.getFormat();
 
-		dirName = pref.getExportPath(expName);
+		dirName = pref.getExportPath(expName).getAbsolutePath();
 
 		if (infoScreen.oneFilePerType() == true) {
 			FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT,
@@ -61,7 +61,7 @@ public class TomTomExporter {
 			if (fc.execute() == FormBase.IDCANCEL)
 				return;
 			dirName = fc.getChosen();
-			pref.setExportPath(expName, dirName);
+			pref.setExportPath(expName, new java.io.File(fc.getChosenFile().getFullPath()));
 			prefix = infoScreen.getPrefix();
 			writeOneFilePerType(fileFormat, dirName, prefix);
 		} else {
@@ -76,7 +76,7 @@ public class TomTomExporter {
 			if (fc.execute() == FormBase.IDCANCEL)
 				return;
 			fileName = fc.getChosen();
-			pref.setExportPathFromFileName(expName, fileName);
+			pref.setExportPathFromFileName(expName, new java.io.File(fc.getChosenFile().getFullPath()));
 			writeSingleFile(fileFormat, fileName);
 		}
 	}

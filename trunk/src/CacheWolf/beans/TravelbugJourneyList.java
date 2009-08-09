@@ -3,12 +3,13 @@ package CacheWolf.beans;
 /**
  * A list of @see TravelbugJourney s.
  */
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import CacheWolf.Global;
 import CacheWolf.util.SafeXML;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileWriter;
-import ewe.io.PrintWriter;
 import ewe.util.Comparer;
 import ewe.util.Utils;
 import ewe.util.Vector;
@@ -112,10 +113,9 @@ public class TravelbugJourneyList extends MinML {
 	 */
 	public boolean readTravelbugsFile() {
 		try {
-			String datei = Global.getPref().baseDir + "/" + "travelbugs.xml";
-			datei = datei.replace('\\', '/');
+			java.io.File file = new java.io.File(Global.getPref().getBaseDir(), "travelbugs.xml");
 			ewe.io.Reader r = new ewe.io.InputStreamReader(
-					new ewe.io.FileInputStream(datei));
+					new ewe.io.FileInputStream(file.getAbsolutePath()));
 			parse(r);
 			r.close();
 		} catch (Exception e) {
@@ -168,21 +168,21 @@ public class TravelbugJourneyList extends MinML {
 	 * Method to save current travelbugs in the travelbugs.xml file
 	 */
 	public void saveTravelbugsFile() {
-		String baseDir = Global.getPref().baseDir;
+		java.io.File baseDir = Global.getPref().getBaseDir();
 		try {
-			File backup = new File(baseDir + "travelbugs.bak");
+			java.io.File backup = new java.io.File(baseDir, "travelbugs.bak");
 			if (backup.exists())
 				backup.delete();
-			File travelbugs = new File(baseDir + "travelbugs.xml");
-			travelbugs.rename("travelbugs.bak");
+			java.io.File travelbugs = new java.io.File(baseDir, "travelbugs.xml");
+			travelbugs.renameTo(new java.io.File(baseDir,"travelbugs.bak"));
 		} catch (Exception ex) {
 			Global.getPref().log(
 					"Error deleting backup or renaming travelbugs.xml");
 		}
-		String datei = baseDir + "travelbugs.xml";
+		File file = new File(baseDir, "travelbugs.xml");
 		try {
 			PrintWriter outp = new PrintWriter(new BufferedWriter(
-					new FileWriter(datei)));
+					new FileWriter(file)));
 			outp.print("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
 			outp.print("<travelbugJourneys>\n");
 			int size = tbJourneyList.size();
@@ -192,7 +192,7 @@ public class TravelbugJourneyList extends MinML {
 			outp.print("</travelbugJourneys>\n");
 			outp.close();
 		} catch (Exception e) {
-			Global.getPref().log("Problem saving: " + datei, e, true);
+			Global.getPref().log("Problem saving: " + file.getAbsolutePath(), e, true);
 		}
 	}
 

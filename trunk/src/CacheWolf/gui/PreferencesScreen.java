@@ -1,5 +1,7 @@
 package CacheWolf.gui;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC;
@@ -113,7 +115,7 @@ public class PreferencesScreen extends Form {
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.EAST));
 		DataDir = new mInput();
-		DataDir.setText(pref.baseDir);
+		DataDir.setText(pref.getBaseDir().getAbsolutePath());
 		frmDataDir.addLast(DataDir.setTag(CellConstants.SPAN, new Dimension(3,
 				1)), CellConstants.HSTRETCH,
 				(CellConstants.HFILL | CellConstants.EAST));
@@ -474,7 +476,7 @@ public class PreferencesScreen extends Form {
 			if (ev.target == applyB) {
 				// if (pref.currProfile == 0){
 				// pref.curCentrePt.set(btnCentre.getText());
-				pref.baseDir = DataDir.getText();
+				pref.setBaseDir(new File(DataDir.getText()));
 				// }
 				pref.fontSize = Convert.toInt(fontSize.getText());
 				if (pref.fontSize < 6)
@@ -552,7 +554,7 @@ public class PreferencesScreen extends Form {
 			}
 			if (ev.target == brwBt) {
 				FileChooser fc = new FileChooser(
-						FileChooserBase.DIRECTORY_SELECT, pref.baseDir);
+						FileChooserBase.DIRECTORY_SELECT, pref.getBaseDir().getAbsolutePath());
 				fc.setTitle(MyLocale.getMsg(616, "Select directory"));
 				if (fc.execute() != FormBase.IDCANCEL)
 					DataDir.setText(fc.getChosen() + "/");

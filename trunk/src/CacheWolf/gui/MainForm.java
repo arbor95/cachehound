@@ -1,7 +1,6 @@
 package CacheWolf.gui;
 
 import CacheWolf.Global;
-import CacheWolf.beans.CacheList;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Version;

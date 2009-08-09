@@ -1,5 +1,7 @@
 package CacheWolf.gui;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Preferences;
@@ -14,15 +16,15 @@ public class NewProfileWizard {
 		if (Global.mainTab != null)
 			Global.mainTab.saveUnsavedChanges(true);
 		Preferences pref = Global.getPref();
-		NewProfileForm f = new NewProfileForm(pref.baseDir);
+		NewProfileForm f = new NewProfileForm(pref.getBaseDir());
 		int code = f.execute(parent, Gui.CENTER_FRAME);
 		if (code == 0) {
 			Profile profile = Global.getProfile();
 			profile.clearProfile();
-			pref.lastProfile = profile.name = f.profileDir;
+			pref.lastProfile = profile.name = f.getProfileDir().getName();
 			pref.savePreferences(); // Remember that this was the last profile
 			// used
-			profile.dataDir = pref.baseDir + f.profileDir + "/";
+			profile.setDataDir(f.getProfileDir());
 
 			CoordsScreen cs = new CoordsScreen();
 			cs.setFields(new CWPoint(), CWPoint.CW);

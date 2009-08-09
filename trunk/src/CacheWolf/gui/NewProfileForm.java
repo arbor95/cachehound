@@ -1,10 +1,10 @@
 package CacheWolf.gui;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.Filter;
-import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
-import ewe.io.File;
 import ewe.ui.ControlEvent;
 import ewe.ui.Event;
 import ewe.ui.Form;
@@ -18,12 +18,14 @@ public class NewProfileForm extends Form {
 	private mButton btnCancel, btnOK;
 	private mInput inpDir;
 	private TextMessage description;
-	public String profileDir;
-	private String baseDir;
+	private File profileDir;
+	
+	
+	private File baseDir;
 
 	// private Profile profile;
 
-	public NewProfileForm(String baseDir) {
+	public NewProfileForm(File baseDir) {
 		super();
 		// profile=prof;
 		title = MyLocale.getMsg(1111, "Create new profile:");
@@ -51,30 +53,28 @@ public class NewProfileForm extends Form {
 				this.close(-1);
 			}
 			if (ev.target == btnOK) {
-				profileDir = inpDir.getDisplayText();
-				if (profileDir.equalsIgnoreCase("maps")) {
+				String inputText = inpDir.getDisplayText();
+				profileDir = new File(baseDir, inputText);
+				if (inputText.equalsIgnoreCase("maps")) {
 					MessageBox mb = new MessageBox(MyLocale
 							.getMsg(321, "Error"), MyLocale.getMsg(1122,
 							"'maps' is reserved for the maps directory."), MBOK);
 					mb.execute();
-					profileDir = "";
+					profileDir = null;
 				} else {
-					File f = new FileBugfix(baseDir + profileDir);
-					if (f.exists()) {
+					if (profileDir.exists()) {
 						MessageBox mb = new MessageBox(MyLocale.getMsg(321,
 								"Error"), MyLocale.getMsg(1114,
 								"Directory exists already."), MBOK);
 						mb.execute();
-						profileDir = "";
+						profileDir = null;
 					} else {
-						if (profileDir.indexOf("/") >= 0
-								|| profileDir.indexOf("\\") >= 0
-								|| !f.createDir()) {
+						if (!profileDir.mkdir()) {
 							MessageBox mb = new MessageBox(MyLocale.getMsg(321,
 									"Error"), MyLocale.getMsg(1113,
 									"Cannot create directory"), MBOK);
 							mb.execute();
-							profileDir = "";
+							profileDir = null;
 							this.close(-1);
 						}
 						Global.getProfile().setFilterActive(
@@ -86,4 +86,9 @@ public class NewProfileForm extends Form {
 		}
 		super.onEvent(ev);
 	}
+	
+	public File getProfileDir() {
+		return profileDir;
+	}
+
 }

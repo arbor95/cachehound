@@ -228,12 +228,12 @@ public class Exporter {
 	public File getOutputFile() {
 		File file;
 		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref
-				.getExportPath(expName));
+				.getExportPath(expName).getAbsolutePath());
 		fc.setTitle("Select target file:");
 		fc.addMask(mask);
 		if (fc.execute() != FormBase.IDCANCEL) {
 			file = fc.getChosenFile();
-			pref.setExportPath(expName, file.getPath());
+			pref.setExportPath(expName, new java.io.File(file.getFullPath()));
 			return file;
 		} else {
 			return null;

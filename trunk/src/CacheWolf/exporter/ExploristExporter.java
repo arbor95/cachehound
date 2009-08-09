@@ -1,5 +1,8 @@
 package CacheWolf.exporter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -36,6 +39,10 @@ import ewe.util.StringTokenizer;
  */
 
 public class ExploristExporter {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(ExploristExporter.class);
+
 	// starts with no ui for file selection
 	final static int TMP_FILE = 0;
 	// brings up a screen to select a file
@@ -73,13 +80,14 @@ public class ExploristExporter {
 		File configFile = new File("magellan.cfg");
 		if (configFile.exists()) {
 			FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT,
-					pref.getExportPath(expName + "Dir"));
+					pref.getExportPath(expName + "Dir").getAbsolutePath());
 			fc.setTitle(MyLocale.getMsg(2104,
 					"Choose directory for exporting .gs files"));
 			String targetDir;
 			if (fc.execute() != FormBase.IDCANCEL) {
 				targetDir = fc.getChosen() + "/";
-				pref.setExportPath(expName + "Dir", targetDir);
+				pref.setExportPath(expName + "Dir", new java.io.File(fc
+						.getChosenFile().getFullPath()));
 
 				CWPoint centre = profile.centre;
 				try {
@@ -195,12 +203,12 @@ public class ExploristExporter {
 	public File getOutputFile() {
 		File file;
 		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref
-				.getExportPath(expName));
+				.getExportPath(expName).getAbsolutePath());
 		fc.setTitle(MyLocale.getMsg(2102, "Select target file:"));
 		fc.addMask(mask);
 		if (fc.execute() != FormBase.IDCANCEL) {
 			file = fc.getChosenFile();
-			pref.setExportPath(expName, file.getPath());
+			pref.setExportPath(expName, new java.io.File(file.getFullPath()));
 			return file;
 		} else {
 			return null;
@@ -215,85 +223,96 @@ public class ExploristExporter {
 	 * @return formated cache data
 	 */
 	public String record(CacheHolder ch) {
-		CacheHolderDetail det = ch.getExistingDetails();
-		/*
-		 * static protected final int GC_AW_PARKING = 50; static protected final
-		 * int GC_AW_STAGE_OF_MULTI = 51; static protected final int
-		 * GC_AW_QUESTION = 52; static protected final int GC_AW_FINAL = 53;
-		 * static protected final int GC_AW_TRAILHEAD = 54; static protected
-		 * final int GC_AW_REFERENCE = 55;
-		 */
-		StringBuilder sb = new StringBuilder();
-		sb.append("$PMGNGEO,");
-		sb.append(ch.getPos().getLatDeg(CWPoint.DMM));
-		sb.append(ch.getPos().getLatMin(CWPoint.DMM));
-		sb.append(",");
-		sb.append("N,");
-		sb.append(ch.getPos().getLonDeg(CWPoint.DMM));
-		sb.append(ch.getPos().getLonMin(CWPoint.DMM));
-		sb.append(",");
-		sb.append("E,");
-		sb.append("0000,"); // Height
-		sb.append("M,"); // in meter
-		sb.append(ch.getWayPoint());
-		sb.append(",");
-		String add = "";
-		if (ch.isAddiWpt()) {
-			if (ch.getType() == 50) {
-				add = "Pa:";
-			} else if (ch.getType() == 51) {
-				add = "St:";
-			} else if (ch.getType() == 52) {
-				add = "Qu:";
-			} else if (ch.getType() == 53) {
-				add = "Fi:";
-			} else if (ch.getType() == 54) {
-				add = "Tr:";
-			} else if (ch.getType() == 55) {
-				add = "Re:";
+		try {
+			CacheHolderDetail det = ch.getExistingDetails();
+			/*
+			 * static protected final int GC_AW_PARKING = 50; static protected
+			 * final int GC_AW_STAGE_OF_MULTI = 51; static protected final int
+			 * GC_AW_QUESTION = 52; static protected final int GC_AW_FINAL = 53;
+			 * static protected final int GC_AW_TRAILHEAD = 54; static protected
+			 * final int GC_AW_REFERENCE = 55;
+			 */
+			StringBuilder sb = new StringBuilder();
+			sb.append("$PMGNGEO,");
+			sb.append(ch.getPos().getLatDeg(CWPoint.DMM));
+			sb.append(ch.getPos().getLatMin(CWPoint.DMM));
+			sb.append(",");
+			sb.append("N,");
+			sb.append(ch.getPos().getLonDeg(CWPoint.DMM));
+			sb.append(ch.getPos().getLonMin(CWPoint.DMM));
+			sb.append(",");
+			sb.append("E,");
+			sb.append("0000,"); // Height
+			sb.append("M,"); // in meter
+			sb.append(ch.getWayPoint());
+			sb.append(",");
+			String add = "";
+			if (ch.isAddiWpt()) {
+				if (ch.getType() == 50) {
+					add = "Pa:";
+				} else if (ch.getType() == 51) {
+					add = "St:";
+				} else if (ch.getType() == 52) {
+					add = "Qu:";
+				} else if (ch.getType() == 53) {
+					add = "Fi:";
+				} else if (ch.getType() == 54) {
+					add = "Tr:";
+				} else if (ch.getType() == 55) {
+					add = "Re:";
+				}
+				sb.append(add).append(removeCommas(ch.getCacheName()));
+			} else {
+				sb.append(removeCommas(ch.getCacheName()));
 			}
-			sb.append(add).append(removeCommas(ch.getCacheName()));
-		} else {
-			sb.append(removeCommas(ch.getCacheName()));
-		}
-		sb.append(",");
-		sb.append(removeCommas(ch.getCacheOwner()));
-		sb.append(",");
-		sb.append(removeCommas(Common.rot13(det.getHints())));
-		sb.append(",");
+			sb.append(",");
+			sb.append(removeCommas(ch.getCacheOwner()));
+			sb.append(",");
+			sb.append(removeCommas(Common.rot13(det.getHints())));
+			sb.append(",");
 
-		if (!add.equals("")) { // Set Picture in Explorist to Virtual
-			sb.append("Virtual Cache");
-		} else if (ch.getType() != CacheType.CW_TYPE_UNKNOWN) { // Rewrite
-			// Unknown
-			// Caches
-			sb.append(CacheType.cw2ExportString(ch.getType()));
-		} else {
-			sb.append("Mystery Cache");
-		}
-		sb.append(",");
-		sb.append(toGsDateFormat(ch.getDateHidden())); // created - DDMMYYY,
-		// YYY
-		// = year - 1900
-		sb.append(",");
-		String lastFound = "0000";
-		for (int i = 0; i < det.getCacheLogs().size(); i++) {
-			if (det.getCacheLogs().getLog(i).isFoundLog()
-					&& det.getCacheLogs().getLog(i).getDate().compareTo(
-							lastFound) > 0) {
-				lastFound = det.getCacheLogs().getLog(i).getDate();
+			if (!add.equals("")) { // Set Picture in Explorist to Virtual
+				sb.append("Virtual Cache");
+			} else if (ch.getType() != CacheType.CW_TYPE_UNKNOWN) { // Rewrite
+				// Unknown
+				// Caches
+				sb.append(CacheType.cw2ExportString(ch.getType()));
+			} else {
+				sb.append("Mystery Cache");
 			}
-		}
+			sb.append(",");
+			sb.append(toGsDateFormat(ch.getDateHidden())); // created - DDMMYYY,
+			// YYY
+			// = year - 1900
+			sb.append(",");
+			String lastFound = "0000";
+			for (int i = 0; i < det.getCacheLogs().size(); i++) {
+				if (det.getCacheLogs().getLog(i).isFoundLog()
+						&& det.getCacheLogs().getLog(i).getDate().compareTo(
+								lastFound) > 0) {
+					lastFound = det.getCacheLogs().getLog(i).getDate();
+				}
+			}
 
-		sb.append(toGsDateFormat(lastFound)); // lastFound - DDMMYYY, YYY =
-		// year
-		// - 1900
-		sb.append(",");
-		sb.append(CacheTerrDiff.longDT(ch.getHard()));
-		sb.append(",");
-		sb.append(CacheTerrDiff.longDT(ch.getTerrain()));
-		sb.append("*41");
-		return Exporter.simplifyString(sb.toString() + "\r\n");
+			sb.append(toGsDateFormat(lastFound)); // lastFound - DDMMYYY, YYY =
+			// year
+			// - 1900
+			if (add.equals("")) {
+				sb.append(",");
+				sb.append(CacheTerrDiff.longDT(ch.getHard()));
+				sb.append(",");
+				sb.append(CacheTerrDiff.longDT(ch.getTerrain()));
+			} else {
+				sb.append(",,");
+			}
+
+			sb.append("*41");
+			return Exporter.simplifyString(sb.toString() + "\r\n");
+		} catch (IllegalArgumentException e) {
+			logger.error("Following Exception occurs at exporting "
+					+ ch.getCacheName(), e);
+			throw e;
+		}
 	}
 
 	/**
