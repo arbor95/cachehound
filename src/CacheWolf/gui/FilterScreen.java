@@ -791,7 +791,7 @@ public class FilterScreen extends Form {
 
 				File datei;
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN, Global
-						.getProfile().dataDir);
+						.getProfile().getDataDir().getAbsolutePath());
 				fc.setTitle(MyLocale.getMsg(712, "Select route file"));
 				if (fc.execute() != FormBase.IDCANCEL) {
 					datei = fc.getChosenFile();

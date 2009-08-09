@@ -1,8 +1,9 @@
-package CacheWolf.beans;
+package CacheWolf.gui;
 
 import CacheWolf.Global;
-import CacheWolf.gui.GuiImageBroker;
-import CacheWolf.gui.MyScrollBarPanel;
+import CacheWolf.beans.CacheDB;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Filter;
 import CacheWolf.util.MyLocale;
 import de.cachehound.comparators.SpecialOrderSorter;
 import ewe.filechooser.FileChooser;
@@ -259,7 +260,7 @@ public class CacheList extends CellPanel {
 				newCacheList();
 			} else if (ev.target == btnLoad) {
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN, Global
-						.getProfile().dataDir);
+						.getProfile().getDataDir().getAbsolutePath());
 				// fc.addMask(currCh.wayPoint + ".wl");
 				fc.addMask("*." + EXTENSION);
 				fc.addMask("*.*");
@@ -273,7 +274,7 @@ public class CacheList extends CellPanel {
 			} else if ((ev.target == btnSaveAs)
 					|| ((ev.target == btnSave) && (currFile == null))) {
 				FileChooser fc = new FileChooser(FileChooserBase.SAVE, Global
-						.getProfile().dataDir);
+						.getProfile().getDataDir().getAbsolutePath());
 				// fc.addMask(currCh.wayPoint + ".wl");
 				fc.addMask("*." + EXTENSION);
 				fc.setTitle(MyLocale.getMsg(191, "Select File"));
@@ -420,7 +421,7 @@ public class CacheList extends CellPanel {
 					saveToFile(currFile);
 				else {
 					FileChooser fc = new FileChooser(FileChooserBase.SAVE,
-							Global.getProfile().dataDir);
+							Global.getProfile().getDataDir().getAbsolutePath());
 					fc.addMask("*." + EXTENSION);
 					fc.setTitle(MyLocale.getMsg(191, "Select File"));
 					if (fc.execute() != FormBase.IDCANCEL) {

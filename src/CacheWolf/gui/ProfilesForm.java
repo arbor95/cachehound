@@ -1,14 +1,14 @@
 package CacheWolf.gui;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import CacheWolf.Global;
 import CacheWolf.beans.Filter;
-import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Graphics;
 import ewe.fx.Insets;
 import ewe.fx.Rect;
-import ewe.io.File;
-import ewe.io.FileBase;
 import ewe.ui.CellConstants;
 import ewe.ui.ControlConstants;
 import ewe.ui.ControlEvent;
@@ -66,7 +66,7 @@ public class ProfilesForm extends Form {
 	private MyList choice;
 	private ScrollablePanel spMList;
 	private mButton btnCancel, btnNew, btnOK;
-	private String baseDir;
+	private File baseDir;
 	public String newSelectedProfile; // This is only used if a new profile is
 
 	// being created
@@ -82,7 +82,7 @@ public class ProfilesForm extends Form {
 	 * @param selectedProfile
 	 *            Name of the last used profile
 	 */
-	public ProfilesForm(String baseDir, String selectedProfile,
+	public ProfilesForm(File baseDir, String selectedProfile,
 			boolean hasNewButton) {
 		super();
 		resizable = false;
@@ -107,14 +107,18 @@ public class ProfilesForm extends Form {
 
 		choice = new MyList();
 		// Get all subdirectories in the base directory
-		File fileBaseDir = new FileBugfix(baseDir);
-		String[] existingProfiles = fileBaseDir.list("*.*",
-				FileBase.LIST_DIRECTORIES_ONLY);
+		File[] existingProfiles = baseDir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isDirectory();
+			}
+		});
 		// Now add these subdirectories to the list of profiles but
 		// exclude the "maps" directory which will contain the moving maps
-		for (int i = 0; i < existingProfiles.length; i++)
-			if (!existingProfiles[i].equalsIgnoreCase("maps"))
-				choice.addItem(existingProfiles[i]);
+		for (File f : existingProfiles)
+			if (! f.getName().equalsIgnoreCase("maps")) {
+				choice.addItem(f.getName());
+			}
 		// Highlight the profile that was used last
 		choice.selectLastProfile(selectedProfile);
 		// Add a scroll bar to the list of profiles
@@ -144,7 +148,7 @@ public class ProfilesForm extends Form {
 		NewProfileForm f = new NewProfileForm(baseDir);
 		int code = f.execute(getFrame(), Gui.CENTER_FRAME);
 		if (code == 0) {
-			return f.profileDir;
+			return f.getProfileDir().getName();
 		} else
 			return "";
 	}

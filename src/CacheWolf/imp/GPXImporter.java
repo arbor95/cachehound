@@ -68,7 +68,7 @@ public class GPXImporter extends MinML {
 		cacheDB = profile.cacheDB;
 		// file = f;
 		files.add(f);
-		saveDir = profile.dataDir;
+		saveDir = profile.getDataDir().getAbsolutePath();
 		// msgA = msgArea;
 		inWpt = false;
 		inCache = false;

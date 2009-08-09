@@ -293,7 +293,7 @@ public class myTableControl extends TableControl {
 							h.changed();
 							cacheDB.removeElementAt(i);
 							dm.deleteCacheFiles(ch.getWayPoint(),
-									profile.dataDir);
+									profile.getDataDir());
 							ch = null;
 							if (pbf.isClosed)
 								break;

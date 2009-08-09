@@ -278,12 +278,12 @@ public class OCXMLImporter extends MinML {
 			file = fetch(url, "dummy");
 
 			// parse
-			tmpFile = new FileBugfix(profile.dataDir + file);
+			tmpFile = new FileBugfix(profile.getDataDir() + file);
 			if (tmpFile.getLength() == 0) {
 				throw new IOException("no updates available");
 			}
 
-			ZipFile zif = new ZipFile(profile.dataDir + file);
+			ZipFile zif = new ZipFile(profile.getDataDir() + file);
 			ZipEntry zipEnt;
 			Enumeration zipEnum = zif.entries();
 			inf.setInfo("...unzipping update file");
@@ -802,7 +802,7 @@ public class OCXMLImporter extends MinML {
 			imageInfo.setTitle(picDesc);
 			holder.getFreshDetails().getImages().add(imageInfo);
 			try {
-				File ftest = new File(profile.dataDir + fileName);
+				File ftest = new File(profile.getDataDir() + fileName);
 				if (ftest.exists()) {
 					imageInfo.setFilename(fileName);
 				} else {
@@ -942,7 +942,7 @@ public class OCXMLImporter extends MinML {
 		// save file
 		// Vm.debug("Save: " + myPref.mydatadir + fileName);
 		// Vm.debug("Daten: " + daten.length);
-		FileOutputStream outp = new FileOutputStream(profile.dataDir + fileName);
+		FileOutputStream outp = new FileOutputStream(profile.getDataDir() + fileName);
 		outp.write(daten.toBytes());
 		outp.close();
 		return fileName;

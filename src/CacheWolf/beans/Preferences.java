@@ -1,5 +1,9 @@
 package CacheWolf.beans;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -20,12 +24,6 @@ import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileBase;
-import ewe.io.FileWriter;
-import ewe.io.IOException;
-import ewe.io.PrintWriter;
 import ewe.io.SerialPort;
 import ewe.io.SerialPortOptions;
 import ewe.sys.Convert;
@@ -75,7 +73,7 @@ public class Preferences extends MinML {
 
 	private static Preferences _reference;
 
-	private String pathToConfigFile;
+	private File configFile;
 
 	/**
 	 * Call this method to set the path of the config file <br>
@@ -85,7 +83,6 @@ public class Preferences extends MinML {
 	 * @param p
 	 */
 	public void setPathToConfigFile(String p) {
-		String p_;
 		if (p == null) {
 			/*
 			 * String test; test = Vm.getenv("APPDATA", "/"); // returns in
@@ -106,21 +103,13 @@ public class Preferences extends MinML {
 			 * "user.home" User home directory (taken from
 			 * http://scv.bu.edu/Doc/Java/tutorial/java/system/properties.html )
 			 */
-			p_ = FileBase.makePath(FileBase.getProgramDirectory(), "pref.xml");
+			configFile = new File("pref.xml");
 		} else {
-			if (new FileBugfix(p).isDirectory())
-				p_ = FileBase.makePath(p, "pref.xml");
-			else
-				p_ = p;
+			configFile = new File(p);
+			if (configFile.isDirectory()) {
+				configFile = new File(configFile, "pref.xml");
+			}
 		}
-		pathToConfigFile = p_.replace("//", "/"); // this is
-		// necessary in
-		// case that the
-		// root dir is
-		// the dir where
-		// the pref.xml
-		// is stored
-		pathToConfigFile = pathToConfigFile.replace('\\', '/');
 	}
 
 	/**
@@ -143,8 +132,10 @@ public class Preferences extends MinML {
 				} else
 					fontSize = 16;
 			}
-		} else
+		} else {
 			fontSize = 11;
+		}
+		setPathToConfigFile(null);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +143,7 @@ public class Preferences extends MinML {
 	// ////////////////////////////////////////////////////////////////////////////////////
 
 	/** The base directory contains one subdirectory for each profile */
-	public String baseDir = "";
+	private File baseDir;
 	/** Name of last used profile */
 	public String lastProfile = "";
 	/** If true, the last profile is reloaded automatically without a dialogue */
@@ -267,7 +258,7 @@ public class Preferences extends MinML {
 	/** True if the goto panel is North centered */
 	public boolean northCenteredGoto = true;
 	/** If not null, a customs map path has been specified by the user */
-	private String customMapsPath = null;
+	private File customMapsPath;
 	/** Number of CacheHolder details that are kept in memory */
 	public int maxDetails = 50;
 	/**
@@ -354,28 +345,28 @@ public class Preferences extends MinML {
 	 * default config file call setPathToConfigFile() first.
 	 */
 	public void readPrefFile() {
-		if (pathToConfigFile == null)
-			setPathToConfigFile(null); // this sets the default value
+		// TODO: parsing without EWE stuff ...
 		try {
 			ewe.io.Reader r = new ewe.io.InputStreamReader(
-					new ewe.io.FileInputStream(pathToConfigFile));
+					new ewe.io.FileInputStream(configFile.getAbsolutePath()));
 			parse(r);
 			r.close();
-		} catch (IOException e) {
-			log("IOException reading config file: " + pathToConfigFile, e, true);
+		} catch (ewe.io.IOException e) {
+			log("IOException reading config file: "
+					+ configFile.getAbsolutePath(), e, true);
 			(new MessageBox(
 					MyLocale.getMsg(327, "Information"),
 					MyLocale
 							.getMsg(
 									176,
 									"First start - using default preferences \n For experts only: \n Could not read preferences file:\n")
-							+ pathToConfigFile, FormBase.OKB)).execute();
+							+ configFile.getAbsolutePath(), FormBase.OKB))
+					.execute();
+		} catch (NullPointerException e) {
+			log("Error reading pref.xml: NullPointerException in Element "
+					+ lastName + ". Wrong attribute?", e, true);
 		} catch (Exception e) {
-			if (e instanceof NullPointerException)
-				log("Error reading pref.xml: NullPointerException in Element "
-						+ lastName + ". Wrong attribute?", e, true);
-			else
-				log("Error reading pref.xml: ", e);
+			log("Error reading pref.xml: ", e);
 		}
 	}
 
@@ -431,7 +422,7 @@ public class Preferences extends MinML {
 		}
 
 		else if (name.equals("basedir")) {
-			baseDir = atts.getValue("dir");
+			baseDir = new File(atts.getValue("dir"));
 		} else if (name.equals("opencaching")) {
 			downloadmissingOC = Boolean.valueOf(
 					atts.getValue("downloadmissing")).booleanValue();
@@ -496,14 +487,16 @@ public class Preferences extends MinML {
 			if (tmp != null)
 				solverDegMode = Boolean.valueOf(tmp).booleanValue();
 		} else if (name.equals("mapspath")) {
-			customMapsPath = atts.getValue("dir").replace('\\', '/');
+			customMapsPath = new File(atts.getValue("dir"));
 		} else if (name.equals("debug"))
 			debug = Boolean.valueOf(atts.getValue("value")).booleanValue();
 
 		else if (name.equals("expPath")) {
-			exporterPaths.put(atts.getValue("key"), atts.getValue("value"));
+			exporterPaths.put(atts.getValue("key"), new File(atts
+					.getValue("value")));
 		} else if (name.equals("impPath")) {
-			importerPaths.put(atts.getValue("key"), atts.getValue("value"));
+			importerPaths.put(atts.getValue("key"), new File(atts
+					.getValue("value")));
 		} else if (name.equals("travelbugs")) {
 			travelbugColMap = atts.getValue("colmap");
 			travelbugColWidth = atts.getValue("colwidths");
@@ -643,16 +636,15 @@ public class Preferences extends MinML {
 	 * Method to save current preferences in the pref.xml file
 	 */
 	public void savePreferences() {
-		if (pathToConfigFile == null)
-			setPathToConfigFile(null); // this sets the default value
 		try {
 			PrintWriter outp = new PrintWriter(new BufferedWriter(
-					new FileWriter(pathToConfigFile)));
+					new FileWriter(configFile)));
 			outp.print("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
 			outp.print("<preferences>\n");
 			outp.print("    <locale language=\""
 					+ SafeXML.strxmlencode(language) + "\"/>\n");
-			outp.print("    <basedir dir = \"" + SafeXML.strxmlencode(baseDir)
+			outp.print("    <basedir dir = \""
+					+ SafeXML.strxmlencode(baseDir.getAbsolutePath())
 					+ "\"/>\n");
 			outp.print("    <lastprofile autoreload=\""
 					+ SafeXML.strxmlencode(autoReloadLastProfile) + "\">"
@@ -758,8 +750,9 @@ public class Preferences extends MinML {
 					+ SafeXML.strxmlencode(processorMode) + "\" />\n");
 			if (customMapsPath != null)
 				outp.print("    <mapspath dir = \""
-						+ SafeXML.strxmlencode(customMapsPath
-								.replace('\\', '/')) + "\"/>\n");
+						+ SafeXML
+								.strxmlencode(customMapsPath.getAbsolutePath())
+						+ "\"/>\n");
 			// Saving filters
 			String[] filterIDs = this.getFilterIDs();
 			for (int i = 0; i < filterIDs.length; i++) {
@@ -771,21 +764,22 @@ public class Preferences extends MinML {
 			// switch if it
 			// is set
 			// save last path of different exporters
-			Set<Map.Entry<String, String>> expEntrys = exporterPaths.entrySet();
-			for (Map.Entry<String, String> entry : expEntrys) {
+			Set<Map.Entry<String, java.io.File>> expEntrys = exporterPaths
+					.entrySet();
+			for (Map.Entry<String, java.io.File> entry : expEntrys) {
 				outp.print("    <expPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
-						+ SafeXML.strxmlencode(entry.getValue().toString()
-								.replace('\\', '/')) + "\"/>\n");
+						+ SafeXML.strxmlencode(entry.getValue()
+								.getAbsolutePath()) + "\"/>\n");
 			}
-			Set<Map.Entry<String, String>> impEntrys = importerPaths.entrySet();
-			for (Map.Entry<String, String> entry : impEntrys) {
+			Set<Map.Entry<String, File>> impEntrys = importerPaths.entrySet();
+			for (Map.Entry<String, File> entry : impEntrys) {
 				outp.print("    <impPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""
-						+ SafeXML.strxmlencode(entry.getValue().toString()
-								.replace('\\', '/')) + "\"/>\n");
+						+ SafeXML.strxmlencode(entry.getValue()
+								.getAbsolutePath()) + "\"/>\n");
 			}
 			if (rater != null)
 				outp.print("    <rater tool=\"".concat(
@@ -817,7 +811,7 @@ public class Preferences extends MinML {
 			outp.print("</preferences>");
 			outp.close();
 		} catch (Exception e) {
-			log("Problem saving: " + pathToConfigFile, e, true);
+			log("Problem saving: " + configFile.getAbsolutePath(), e, true);
 		}
 	}
 
@@ -825,20 +819,20 @@ public class Preferences extends MinML {
 	// Maps
 	// ////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String mapsPath = "maps/standard";
+	private static final String mapsPath = "maps" + File.separator + " standard";
 
 	/**
 	 * custom = set by the user
 	 * 
 	 * @return custom Maps Path, null if not set
 	 */
-	public String getCustomMapsPath() {
+	public File getCustomMapsPath() {
 		return customMapsPath;
 	}
 
-	public void saveCustomMapsPath(String mapspath_) {
-		if (customMapsPath == null || !customMapsPath.equals(mapspath_)) {
-			customMapsPath = new String(mapspath_).replace('\\', '/');
+	public void saveCustomMapsPath(File mapspath) {
+		if (customMapsPath == null || !customMapsPath.equals(mapspath)) {
+			customMapsPath = mapspath;
 			savePreferences();
 		}
 	}
@@ -852,85 +846,23 @@ public class Preferences extends MinML {
 	 * 
 	 * 
 	 */
-	public String getMapLoadPath() {
-		saveCustomMapsPath(getMapLoadPathInternal());
+	public File getMapLoadPath() {
+		saveCustomMapsPath(getMapManuallySavePath(true));
 		return getCustomMapsPath();
 	}
 
-	private String getMapLoadPathInternal() {
-		// here could also a list of map-types displayed...
-		// standard dir
-		String ret = getCustomMapsPath();
-		if (ret != null)
-			return ret;
-		ret = getMapManuallySavePath(false);
-		File t = new FileBugfix(ret);
-		String[] f = t.list("*.wfl", FileBase.LIST_FILES_ONLY);
-		if (f != null && f.length > 0)
-			return baseDir + mapsPath;
-		f = t.list("*.wfl", FileBase.LIST_DIRECTORIES_ONLY
-				| FileBase.LIST_ALWAYS_INCLUDE_DIRECTORIES);
-		if (f != null && f.length > 0) { // see if in a subdir of
-			// <baseDir>/maps/standard are .wfl
-			// files
-			String[] f2;
-			for (int i = 0; i < f.length; i++) {
-				t.set(null, ret + "/" + f[i]);
-				f2 = t.list("*.wfl", FileBase.LIST_FILES_ONLY);
-				if (f2 != null && f2.length > 0)
-					return ret;
-			}
-		}
-		// lagacy dir
-		ret = FileBase.getProgramDirectory() + "/maps";
-		t.set(null, ret);
-		f = t.list("*.wfl", FileBase.LIST_FILES_ONLY);
-		if (f != null && f.length > 0) {
-			MessageBox inf = new MessageBox(
-					"Information",
-					"The directory for calibrated maps \nhas moved in this program version\n to '<profiles directory>/maps/standard'\n Do you want to move your calibrated maps there now?",
-					FormBase.YESB | FormBase.NOB);
-			if (inf.execute() == FormBase.IDYES) {
-				String sp = getMapManuallySavePath(false);
-				FileBugfix spF = new FileBugfix(sp);
-				if (!spF.exists())
-					spF.mkdirs();
-				String image;
-				String lagacypath = ret;
-				for (int i = 0; i < f.length; i++) {
-					t.set(null, lagacypath + f[i]);
-					spF.set(null, sp + "/" + f[i]);
-					t.move(spF);
-					image = Common.getImageName(lagacypath
-							+ f[i].substring(0, f[i].lastIndexOf(".")));
-					t.set(null, image);
-					spF.set(null, sp + "/" + t.getFileExt());
-					t.move(spF);
-				}
-				t.set(null, lagacypath);
-				t.delete();
-				return sp;
-			} else
-				return ret;
-		}
-		// expedia dir
-		// return getMapExpediaLoadPath();
-
-		// whole maps directory
-		return Global.getPref().baseDir.replace('\\', '/') + "maps";
-	}
-
+	
 	/**
 	 * @param create
 	 *            if true the directory if it doesn't exist will be created
 	 * @return the path where manually imported maps should be stored this
 	 *         should be adjustable in preferences...
 	 */
-	public String getMapManuallySavePath(boolean create) {
-		String mapsDir = baseDir + mapsPath;
-		if (create && !(new FileBugfix(mapsDir).isDirectory())) { // dir
+	public File getMapManuallySavePath(boolean create) {
+		File mapsDir = new File(baseDir, mapsPath);
+		if (create && !(mapsDir.isDirectory())) { // dir
 			// exists?
-			if (new FileBugfix(mapsDir).mkdirs() == false) {// dir creation
+			if (! mapsDir.mkdirs()) {// dir creation
 				// failed?
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
@@ -944,18 +876,20 @@ public class Preferences extends MinML {
 	/**
 	 * to this path the automatically downloaded maps are saved
 	 */
-	public String getMapDownloadSavePath(String mapkind) {
-		String subdir = Global.getProfile().dataDir.substring(
-				Global.getPref().baseDir.length()).replace('\\', '/');
-		String mapsDir = Global.getPref().baseDir + "maps/"
-				+ Common.ClearForFileName(mapkind) + "/" + subdir;
-		if (!(new FileBugfix(mapsDir).isDirectory())) { // dir exists?
-			if (new FileBugfix(mapsDir).mkdirs() == false) // dir creation
+	public File getMapDownloadSavePath(String mapkind) {
+		//String subdir = Global.getProfile().getDataDir().getAbsolutePath()
+		//		.substring(Global.getPref().baseDir.length())
+		//		.replace('\\', '/');
+		//String mapsDir = Global.getPref().baseDir + "maps/"
+		//		+ Common.ClearForFileName(mapkind) + "/" + subdir;
+		File mapsDir = new File(new File(new File(baseDir, "maps"), Common.ClearForFileName(mapkind)), Global.getProfile().name);   
+		if (!mapsDir.isDirectory()) { // dir exists?
+			if (!mapsDir.mkdirs()) // dir creation
 			// failed?
 			{
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
-						+ new FileBugfix(mapsDir).getParentFile(), FormBase.OKB))
+						+ mapsDir.getAbsolutePath(), FormBase.OKB))
 						.exec();
 				return null;
 			}
@@ -963,8 +897,8 @@ public class Preferences extends MinML {
 		return mapsDir;
 	}
 
-	public String getMapExpediaLoadPath() {
-		return Global.getPref().baseDir.replace('\\', '/') + "maps/expedia"; // baseDir
+	public File getMapExpediaLoadPath() {
+		return new File(new File(baseDir, "maps"), "expedia");
 		// has
 		// trailing
 		// /
@@ -988,7 +922,7 @@ public class Preferences extends MinML {
 	public boolean selectProfile(Profile prof, int showProfileSelector,
 			boolean hasNewButton) {
 		// If datadir is empty, ask for one
-		if (baseDir.length() == 0 || !(new FileBugfix(baseDir)).exists()) {
+		if (baseDir.length() == 0 || !baseDir.exists()) {
 			do {
 				FileChooser fc = new FileChooser(
 						FileChooserBase.DIRECTORY_SELECT, "/");
@@ -997,12 +931,9 @@ public class Preferences extends MinML {
 				// If no base directory given, terminate
 				if (fc.execute() == FormBase.IDCANCEL)
 					ewe.sys.Vm.exit(0);
-				baseDir = fc.getChosenFile().toString();
-			} while (!(new FileBugfix(baseDir)).exists());
+				baseDir = new File(fc.getChosenFile().getFullPath());
+			} while (!baseDir.exists());
 		}
-		baseDir = baseDir.replace('\\', '/');
-		if (!baseDir.endsWith("/"))
-			baseDir += "/";
 		boolean profileExists = true; // Assume that the profile exists
 		do {
 			if (!profileExists
@@ -1024,7 +955,7 @@ public class Preferences extends MinML {
 				// curCentrePt.set(0,0); // No centre yet
 				lastProfile = f.newSelectedProfile;
 			}
-			profileExists = (new FileBugfix(baseDir + lastProfile)).exists();
+			profileExists = (new File(baseDir, lastProfile)).exists();
 			if (!profileExists)
 				(new MessageBox(MyLocale.getMsg(144, "Warning"), MyLocale
 						.getMsg(171, "Profile does not exist: ")
@@ -1032,10 +963,10 @@ public class Preferences extends MinML {
 		} while (profileExists == false);
 		// Now we are sure that baseDir exists and basDir+profile exists
 		prof.name = lastProfile;
-		prof.dataDir = baseDir + lastProfile;
-		prof.dataDir = prof.dataDir.replace('\\', '/');
-		if (!prof.dataDir.endsWith("/"))
-			prof.dataDir += '/';
+		prof.setDataDir(new File(baseDir, lastProfile));
+		// prof.setDataDir(prof.getDataDir().replace('\\', '/'));
+		// if (!prof.getDataDir().endsWith("/"))
+		// prof.setDataDir(prof.getDataDir() + '/');
 		savePreferences();
 		return true;
 	}
@@ -1137,38 +1068,38 @@ public class Preferences extends MinML {
 	// ////////////////////////////////////////////////////////////////////////////////////
 
 	/** Hashtable for storing the last export path */
-	private Map<String, String> exporterPaths = new HashMap<String, String>();
+	private Map<String, File> exporterPaths = new HashMap<String, File>();
 
-	public void setExportPath(String exporter, String path) {
+	public void setExportPath(String exporter, File path) {
 		exporterPaths.put(exporter, path);
 		savePreferences();
 	}
 
-	public void setExportPathFromFileName(String exporter, String filename) {
-		File tmpfile = new FileBugfix(filename);
-		exporterPaths.put(exporter, tmpfile.getPath());
+	public void setExportPathFromFileName(String exporter, File file) {
+		exporterPaths.put(exporter, file.getParentFile());
 		savePreferences();
 	}
 
-	public String getExportPath(String exporter) {
-		String dir = exporterPaths.get(exporter);
-		if (dir == null) {
-			dir = Global.getProfile().dataDir;
+	public File getExportPath(String exporter) {
+		File path = exporterPaths.get(exporter);
+		if (path == null) {
+			path = Global.getProfile().getDataDir();
 		}
-		return dir;
+		return path;
 	}
 
-	private Map<String, String> importerPaths = new HashMap<String, String>();
+	private Map<String, File> importerPaths = new HashMap<String, File>();
 
-	public void setImporterPath(String importer, String directory) {
+	public void setImporterPath(String importer, File directory) {
 		importerPaths.put(importer, directory);
 		savePreferences();
 	}
 
-	public String getImporterPath(String importer) {
-		String dir = importerPaths.get(importer);
-		if (null == dir)
-			dir = Global.getProfile().dataDir;
+	public File getImporterPath(String importer) {
+		File dir = importerPaths.get(importer);
+		if (null == dir) {
+			dir = Global.getProfile().getDataDir();
+		}
 		return dir;
 	}
 
@@ -1253,5 +1184,13 @@ public class Preferences extends MinML {
 	public boolean isMyAliasXML(String name) {
 		return name.equalsIgnoreCase(SafeXML.clean(myAlias))
 				|| name.equalsIgnoreCase(SafeXML.clean(myAlias2));
+	}
+
+	public File getBaseDir() {
+		return baseDir;
+	}
+
+	public void setBaseDir(File baseDir) {
+		this.baseDir = baseDir;
 	}
 }

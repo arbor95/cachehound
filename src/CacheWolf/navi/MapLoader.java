@@ -9,7 +9,7 @@ import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
 import ewe.io.File;
 import ewe.io.FileBase;
-import ewe.io.FileInputStream;
+import ewe.io.FileInputStream; //import ewe.io.FileOutputStream;
 import ewe.io.FileOutputStream;
 import ewe.io.IOException;
 import ewe.net.Socket;
@@ -93,8 +93,9 @@ public class MapLoader {
 					progressBox.waitUntilPainted(500);
 					ewe.sys.Vm.showWait(true);
 				}
-				tempOMS = new WebMapService((wmspath + "/" + FileName).replace(
-						"//", "/"));
+				tempOMS = new WebMapService(
+						(wmspath + java.io.File.separator + FileName).replace(
+								"//", "/"));
 				onlineMapServices.add(tempOMS);
 			} catch (Exception ex) {
 				if (f == null)
@@ -303,7 +304,7 @@ public class MapLoader {
 				+ currentOnlineMapService.getImageFileExt();
 		String url = currentOnlineMapService.getUrlForCenterScale(center,
 				scale, pixelsize);
-		downloadImage(url, path + imagename);
+		downloadImage(url, path + java.io.File.separator + imagename);
 		mio.saveWFL();
 	}
 
@@ -359,34 +360,12 @@ public class MapLoader {
 				String quelle = connImg.getRedirectTo();
 				boolean redirrected = false;
 				while (i < 5
-						&& (quelle != null || (forceredirect && !redirrected))) { // this
-					// is
-					// necessary
-					// because
-					// expedia
-					// sometimes
-					// doesn't
-					// directly
-					// anser
-					// with
-					// the
-					// redirect
-					// to
-					// the
-					// map-image,
-					// but
-					// give
-					// a
-					// page
-					// in
-					// between.
-					// Solved
-					// the
-					// problem
-					// by
-					// retrying
-					// see
-					// also:
+						&& (quelle != null || (forceredirect && !redirrected))) {
+					// this is necessary because expedia sometimes doesn't
+					// directly anser with the redirect to the
+					// map-image, but give a page in between. Solved the problem
+					// by retrying
+					// see also:
 					// http://www.geoclub.de/viewtopic.php?p=305071#305071
 					// Vm.debug("Redirect: " + i + connImg.getRedirectTo());
 					if (quelle != null) {
@@ -406,24 +385,9 @@ public class MapLoader {
 				String ct = (String) connImg.documentProperties.getValue(
 						"content-type", "");
 				if (!ct.substring(0, 5).equalsIgnoreCase("image")) {
-					String tmp = connImg.readText(sockImg, null).toString(); // TODO
-					// if
-					// the
-					// content
-					// is
-					// binary
-					// will
-					// will
-					// get
-					// an
-					// Exception
-					// in
-					// InfoBox,
-					// trying
-					// to
-					// display
-					// the
-					// content
+					String tmp = connImg.readText(sockImg, null).toString();
+					// TODO if the content is binary we will get an Exception in
+					// InfoBox, trying to display the content
 					tmp = tmp.substring(0, (tmp.length() < 1000 ? tmp.length()
 							: 1000));
 					sockImg.close();
@@ -629,7 +593,6 @@ class WebMapService extends OnlineMapService {
 					"WebMapService: property >Name:< missing in file:\n")
 					+ filename);
 		MainUrl = wms.getProperty("MainUrl", "").trim();
-		;
 		if (MainUrl == "")
 			throw new IllegalArgumentException(MyLocale.getMsg(4813,
 					"WebMapService: property >MainUrl:< missing in file:\n")
@@ -638,9 +601,7 @@ class WebMapService extends OnlineMapService {
 		serviceTypeUrlPart = wms.getProperty("ServiceTypeUrlPart",
 				"SERVICE=WMS").trim();
 		layersUrlPart = wms.getProperty("LayersUrlPart", "").trim();
-		;
 		versionUrlPart = wms.getProperty("VersionUrlPart", "").trim();
-		;
 		tmp = wms.getProperty("CoordinateReferenceSystemCacheWolf", "").trim();
 		if (tmp.equals(""))
 			throw new IllegalArgumentException(

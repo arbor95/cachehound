@@ -194,7 +194,7 @@ public class CacheImages {
 				ImageInfo img = this.get(i);
 				if (CacheImages.optimizeLink(img.getURL()).equals(newUrl)
 						&& img.getFilename().equals(pFilename)) {
-					if ((new File(Global.getProfile().dataDir, pFilename))
+					if ((new File(Global.getProfile().getDataDir(), pFilename))
 							.exists()) {
 						result = img;
 						break;
@@ -247,7 +247,7 @@ public class CacheImages {
 			// Check if image file is present in new collection
 			String obsoleteFilename = oldImages.get(i).getFilename();
 			if (!newImages.hasFile(obsoleteFilename)) {
-				File tmpFile = new File(Global.getProfile().dataDir,
+				File tmpFile = new File(Global.getProfile().getDataDir(),
 						obsoleteFilename);
 				if (tmpFile.exists() && tmpFile.canWrite()) {
 					Global.getPref().log(

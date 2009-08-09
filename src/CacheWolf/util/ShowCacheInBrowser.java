@@ -176,7 +176,7 @@ public class ShowCacheInBrowser {
 									|| imgType.startsWith(".jpg")
 									|| imgType.startsWith(".gif")) {
 								s.append("<img src=\"file://"
-										+ Global.getProfile().dataDir
+										+ Global.getProfile().getDataDir()
 										+ chD.getExistingDetails().getImages()
 												.get(imageNo).getFilename()
 										+ "\">");
@@ -205,7 +205,7 @@ public class ShowCacheInBrowser {
 								.size(); imageNo++) {
 							Hashtable imgs = new Hashtable();
 							imgs.put("IMAGE", "<img src=\"file://"
-									+ Global.getProfile().dataDir
+									+ Global.getProfile().getDataDir()
 									+ chD.getExistingDetails().getImages().get(
 											imageNo).getFilename()
 									+ "\" border=0>");

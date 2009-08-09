@@ -1,5 +1,7 @@
 package CacheWolf.gui;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -434,14 +436,14 @@ public class MainMenu extends MenuBar {
 				tbp.resetModel();
 			}
 			if (mev.selectedItem == loadcaches) {
-				String dir = pref.getImporterPath("LocGpxImporter");
+				String dir = pref.getImporterPath("LocGpxImporter").getAbsolutePath();
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN
 						| FileChooserBase.MULTI_SELECT, dir);
 				fc.addMask("*.gpx,*.zip,*.loc");
 				fc.setTitle(MyLocale.getMsg(909, "Select file(s)"));
 				if (fc.execute() != FormBase.IDCANCEL) {
 					dir = fc.getChosenDirectory().toString();
-					pref.setImporterPath("LocGpxImporter", dir);
+					pref.setImporterPath("LocGpxImporter", new File(fc.getChosenDirectory().getFullPath()));
 					String files[] = fc.getAllChosen();
 					/*
 					 * int how = GPXImporter.DOIT_ASK; if (files.length > 0){
@@ -852,7 +854,7 @@ public class MainMenu extends MenuBar {
 				Font f = mApp.guiFont;
 				sb.append(MyLocale.getMsg(121, "Profile"));
 				sb.append(": ");
-				sb.append(profile.dataDir);
+				sb.append(profile.getDataDir());
 				sb.append("<br>");
 				sb.append(MyLocale.getMsg(260, "Platform:"));
 				sb.append(' ');

@@ -168,8 +168,9 @@ public class ImagePanel extends InteractivePanel {
 		AniImage AimgText;
 		locCounter = 0;
 		for (int i = 0; i < pImages.size(); i++) {
-			location = profile.dataDir + pImages.get(i).getFilename();
-			if (!(new FileBugfix(location)).exists()) {
+			java.io.File locationFile = new java.io.File(profile.getDataDir(), pImages.get(i).getFilename());
+			location = locationFile.getAbsolutePath();
+			if (!locationFile.exists()) {
 				location = NO_IMAGE;
 				if (!pref.showDeletedImages)
 					continue; // Don't show the deleted Image if user does not

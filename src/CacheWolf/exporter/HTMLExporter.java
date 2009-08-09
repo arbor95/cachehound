@@ -1,5 +1,11 @@
 package CacheWolf.exporter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -17,12 +23,6 @@ import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileBase;
-import ewe.io.FileWriter;
-import ewe.io.IOException;
-import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 import ewe.sys.Handle;
 import ewe.sys.Vm;
@@ -45,12 +45,12 @@ public class HTMLExporter {
 	Preferences pref;
 	Profile profile;
 	String[] template_init_index = { "filename",
-			"templates" + FileBase.separator + "index.tpl", "case_sensitive",
+			"templates" + File.separator + "index.tpl", "case_sensitive",
 			"true", "max_includes", "5"
 	// ,"debug", "true"
 	};
 	String[] template_init_page = { "filename",
-			"templates" + FileBase.separator + "page.tpl", "case_sensitive",
+			"templates" + File.separator + "page.tpl", "case_sensitive",
 			"true", "max_includes", "5" };
 	public final static String expName = "HTML";
 
@@ -69,11 +69,11 @@ public class HTMLExporter {
 
 		new String();
 		FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, pref
-				.getExportPath(expName));
+				.getExportPath(expName).getAbsolutePath());
 		fc.setTitle("Select target directory:");
-		String targetDir;
+		File targetDir;
 		if (fc.execute() != FormBase.IDCANCEL) {
-			targetDir = fc.getChosen() + "/";
+			targetDir = new File(fc.getChosenFile().getFullPath());
 			pref.setExportPath(expName, targetDir);
 			Vector cache_index = new Vector();
 			Vector cacheImg = new Vector();
@@ -158,7 +158,7 @@ public class HTMLExporter {
 						if (det != null) {
 							if (ch.is_HTML()) {
 								page_tpl.setParam("DESCRIPTION",
-										modifyLongDesc(det, targetDir));
+										modifyLongDesc(det));
 							} else {
 								page_tpl.setParam("DESCRIPTION", det
 										.getLongDescription().replace("\n",
@@ -200,11 +200,13 @@ public class HTMLExporter {
 								imgParams.put("FILE", imgFile);
 								imgParams.put("TEXT", det.getImages().get(j)
 										.getTitle());
-								if (DataMover.copy(profile.dataDir + imgFile,
-										targetDir + imgFile))
+								if (DataMover.copy(new java.io.File(profile
+										.getDataDir(), imgFile),
+										new java.io.File(targetDir, imgFile))) {
 									cacheImg.add(imgParams);
-								else
+								} else {
 									exportErrors++;
+								}
 							}
 							page_tpl.setParam("cacheImg", cacheImg);
 
@@ -217,12 +219,15 @@ public class HTMLExporter {
 								logImgParams.put("FILE", logImgFile);
 								logImgParams.put("TEXT", det.getLogImages()
 										.get(j).getTitle());
-								if (DataMover.copy(
-										profile.dataDir + logImgFile, targetDir
-												+ logImgFile))
+								if (DataMover
+										.copy(new java.io.File(profile
+												.getDataDir(), logImgFile),
+												new java.io.File(targetDir,
+														logImgFile))) {
 									logImg.add(logImgParams);
-								else
+								} else {
 									exportErrors++;
+								}
 							}
 							page_tpl.setParam("logImg", logImg);
 
@@ -235,9 +240,11 @@ public class HTMLExporter {
 								usrImgParams.put("FILE", usrImgFile);
 								usrImgParams.put("TEXT", det.getUserImages()
 										.get(j).getTitle());
-								if (DataMover.copy(
-										profile.dataDir + usrImgFile, targetDir
-												+ usrImgFile))
+								if (DataMover
+										.copy(new java.io.File(profile
+												.getDataDir(), usrImgFile),
+												new java.io.File(targetDir,
+														usrImgFile)))
 									usrImg.add(usrImgParams);
 								else
 									exportErrors++;
@@ -251,25 +258,27 @@ public class HTMLExporter {
 							String mapImgFile = new String(ch.getWayPoint()
 									+ "_map.gif");
 							// check if map file exists
-							File test = new File(profile.dataDir + mapImgFile);
+							File test = new File(profile.getDataDir(),
+									mapImgFile);
 
 							if (test.exists()) {
 								mapImgParams.put("FILE", mapImgFile);
 								mapImgParams.put("TEXT", mapImgFile);
-								if (DataMover.copy(
-										profile.dataDir + mapImgFile, targetDir
-												+ mapImgFile))
+								if (DataMover.copy(new File(profile
+										.getDataDir(), mapImgFile), new File(
+										targetDir, mapImgFile))) {
 									mapImg.add(mapImgParams);
-								else
+								} else {
 									exportErrors++;
+								}
 
 								mapImgParams = new Hashtable();
 								mapImgFile = ch.getWayPoint() + "_map_2.gif";
 								mapImgParams.put("FILE", mapImgFile);
 								mapImgParams.put("TEXT", mapImgFile);
-								if (DataMover.copy(
-										profile.dataDir + mapImgFile, targetDir
-												+ mapImgFile))
+								if (DataMover.copy(new File(profile
+										.getDataDir(), mapImgFile), new File(
+										targetDir, mapImgFile)))
 									mapImg.add(mapImgParams);
 								else
 									exportErrors++;
@@ -290,8 +299,8 @@ public class HTMLExporter {
 						}
 
 						PrintWriter pagefile = new PrintWriter(
-								new BufferedWriter(new FileWriter(targetDir
-										+ ch.getWayPoint() + ".html")));
+								new BufferedWriter(new FileWriter(new File(targetDir,
+										ch.getWayPoint() + ".html"))));
 						pagefile.print(page_tpl.output());
 						pagefile.close();
 					} catch (IllegalArgumentException e) {
@@ -314,16 +323,14 @@ public class HTMLExporter {
 			// Copy the log-icons to the destination directory
 			for (int j = 0; j < logIcons.size(); j++) {
 				icon = (String) logIcons.elementAt(j);
-				if (!DataMover.copy(
-						FileBase.getProgramDirectory() + "/" + icon, targetDir
-								+ icon))
+				if (!DataMover.copy(new File(icon), new File(targetDir, icon))) {
 					exportErrors++;
-
+				}
 			}
-			if (!DataMover.copy(FileBase.getProgramDirectory()
-					+ "/recommendedlog.gif", targetDir + "recommendedlog.gif"))
+			if (!DataMover.copy(new File("recommendedlog.gif"), new File(
+					targetDir, "recommendedlog.gif"))) {
 				exportErrors++;
-
+			}
 			try {
 				Template tpl = new Template(template_init_index);
 				tpl.setParam("cache_index", cache_index);
@@ -372,7 +379,7 @@ public class HTMLExporter {
 	 *            CacheHolderDetail
 	 * @return The modified long description
 	 */
-	private String modifyLongDesc(CacheHolderDetail chD, String targetDir) {
+	private String modifyLongDesc(CacheHolderDetail chD) {
 		StringBuilder s = new StringBuilder(chD.getLongDescription().length());
 		int start = 0;
 		int pos;

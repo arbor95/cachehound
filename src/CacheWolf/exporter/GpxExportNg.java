@@ -194,10 +194,10 @@ public class GpxExportNg {
 
 			if (exportTarget == OUTPUT_POI) {
 				fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, Global
-						.getPref().getExportPath(expName + "-GPI"));
+						.getPref().getExportPath(expName + "-GPI").getAbsolutePath());
 			} else {
 				fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, Global
-						.getPref().getExportPath(expName + "-POI"));
+						.getPref().getExportPath(expName + "-POI").getAbsolutePath());
 			}
 
 			fc.setTitle("Select target directory:");
@@ -207,9 +207,9 @@ public class GpxExportNg {
 
 			outDir = fc.getChosenFile().getFullPath();
 			if (exportTarget == OUTPUT_POI) {
-				Global.getPref().setExportPath(expName + "-GPI", outDir);
+				Global.getPref().setExportPath(expName + "-GPI", new java.io.File(outDir));
 			} else {
-				Global.getPref().setExportPath(expName + "-POI", outDir);
+				Global.getPref().setExportPath(expName + "-POI", new java.io.File(outDir));
 			}
 
 			if ((new File(baseDir + "/garminmap.xml")).exists()) {
@@ -406,7 +406,7 @@ public class GpxExportNg {
 
 			if (!sendToGarmin) {
 				final FileChooser fc = new FileChooser(FileChooserBase.SAVE,
-						Global.getPref().getExportPath(expName + "-GPX"));
+						Global.getPref().getExportPath(expName + "-GPX").getAbsolutePath());
 
 				fc.setTitle("Select target GPX file:");
 				fc.addMask("*.gpx");
@@ -416,7 +416,7 @@ public class GpxExportNg {
 
 				file = fc.getChosenFile();
 				Global.getPref()
-						.setExportPath(expName + "-GPX", file.getPath());
+						.setExportPath(expName + "-GPX", new java.io.File(file.getFullPath()));
 			} else {
 				file = new File("").createTempFile("gpxexport", null, null);
 			}

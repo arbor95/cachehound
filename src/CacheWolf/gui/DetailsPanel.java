@@ -1,5 +1,7 @@
 package CacheWolf.gui;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -525,7 +527,7 @@ public class DetailsPanel extends CellPanel {
 
 				// Get Image and description
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN,
-						profile.dataDir);
+						profile.getDataDir().getAbsolutePath());
 				fc.setTitle("Select image file:");
 				if (fc.execute() != FormBase.IDCANCEL) {
 					imgFile = fc.getChosenFile();
@@ -544,8 +546,8 @@ public class DetailsPanel extends CellPanel {
 					thisCache.getFreshDetails().addUserImage(userImageInfo);
 
 					// Copy File
-					DataMover.copy(imgFile.getFullPath(), profile.dataDir
-							+ imgDestName);
+					DataMover.copy(new File(imgFile.getFullPath()), new File(profile.getDataDir(),
+							imgDestName));
 					// Save Data
 					CacheHolderDetailFactory.getInstance().saveCacheDetails(
 							thisCache.getFreshDetails(),

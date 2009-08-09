@@ -1,5 +1,7 @@
 package CacheWolf.navi;
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -1278,7 +1280,7 @@ public class MovingMap extends Form {
 			return; // avoid multi-threading problems
 		// Vm.debug("updatepos, lat: "+where.latDec+" lon: "+where.lonDec);
 		if (!mapsloaded) {
-			loadMaps(Global.getPref().getMapLoadPath(), where.latDec);
+			loadMaps(Global.getPref().getMapLoadPath().getAbsolutePath(), where.latDec);
 			lastCompareX = Integer.MAX_VALUE;
 			lastCompareY = Integer.MAX_VALUE;
 			autoSelectMap = true;
@@ -2647,16 +2649,15 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						if (action == changeMapDirMI) {
 							mapsMenu.close();
 							FileChooser fc = new FileChooser(
-									FileChooserBase.DIRECTORY_SELECT, Global
-											.getPref().baseDir
-											+ "maps");
+									FileChooserBase.DIRECTORY_SELECT, new File(Global
+											.getPref().getBaseDir(),
+											 "maps").getAbsolutePath());
 							fc.addMask("*.wfl");
 							fc.setTitle(MyLocale.getMsg(4200,
 									"Select map directory:"));
 							if (fc.execute() != FormBase.IDCANCEL) {
-								Global.getPref().saveCustomMapsPath(
-										fc.getChosen().toString());
-								mm.loadMaps(Global.getPref().getMapLoadPath(),
+								Global.getPref().saveCustomMapsPath(new File(fc.getChosenFile().getFullPath()));
+								mm.loadMaps(Global.getPref().getMapLoadPath().getAbsolutePath(),
 										mm.posCircle.where.latDec);
 								mm.forceMapLoad();
 							}

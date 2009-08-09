@@ -410,7 +410,10 @@ public class MapInfoObject extends Area {
 			throw (new IllegalArgumentException(MyLocale.getMsg(4306,
 					"map not calibrated")));
 		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
-				mapsPath + "/" + mapFileName + ".wfl")));
+				mapsPath + mapFileName + ".wfl")));
+//		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
+//				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
+		
 		StringBuilder towriteB = new StringBuilder(400);
 		towriteB.append(Convert.toString(affine[0])).append("\n");
 		towriteB.append(Convert.toString(affine[1])).append("\n");
