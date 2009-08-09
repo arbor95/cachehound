@@ -2,7 +2,7 @@ package de.cachehound.filter;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class DistanceFilter implements IFilter {
+public class DistanceFilter extends SimpleFilter {
 	private double limit;
 
 	public DistanceFilter(double d) {
