@@ -819,7 +819,8 @@ public class Preferences extends MinML {
 	// Maps
 	// ////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String mapsPath = "maps" + File.separator + " standard";
+	// TODO: Muss das auskommentierte wieder rein?
+	private static final String mapsPath = "maps";  // + File.separator + "standard";
 
 	/**
 	 * custom = set by the user

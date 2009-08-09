@@ -33,7 +33,7 @@ public class MapsList extends Vector {
 	 * 
 	 * @param mapsPath
 	 */
-	public MapsList(String mapsPath) {
+	public MapsList(java.io.File mapsPath) {
 		super(); // forget already loaded maps
 		// if (mmp.mapImage != null)
 		String dateien[];
@@ -48,7 +48,7 @@ public class MapsList extends Vector {
 		// sort(new StandardComparer(), false);
 
 		for (int j = 0; j < dirs.size(); j++) {
-			files = new FileBugfix(mapsPath + "/" + dirs.get(j));
+			files = new FileBugfix(mapsPath.getAbsolutePath() + java.io.File.separator + dirs.get(j));
 			// ewe.sys.Vm.debug("mapd-Dirs:"+files);
 
 			// add subdirectories
@@ -82,10 +82,9 @@ public class MapsList extends Vector {
 						// dir/./filename
 						// doesn't work on all
 						// platforms anyhow
-						tempMIO = new MapListEntry(mapsPath + "/", rawFileName);
+						tempMIO = new MapListEntry(mapsPath, rawFileName);
 					else
-						tempMIO = new MapListEntry(mapsPath + "/" + dirs.get(j)
-								+ "/", rawFileName);
+						tempMIO = new MapListEntry(new java.io.File(mapsPath, dirs.get(j).toString()), rawFileName);
 					if (tempMIO.sortEntryBBox != null)
 						add(tempMIO);
 					// ewe.sys.Vm.debug(tempMIO.getEasyFindString() +
@@ -197,7 +196,7 @@ public class MapsList extends Vector {
 					mi = ml.getMap();
 					testkw++;
 				}
-			} catch (IOException ex) {
+			} catch (java.io.IOException ex) {
 				continue;
 			} // could not read .wfl-file
 			better = false;
@@ -319,7 +318,7 @@ public class MapsList extends Vector {
 				else {
 					mi = ml.getMap();
 				}
-			} catch (IOException ex) {
+			} catch (java.io.IOException ex) {
 				continue;
 			} // could not read .wfl-file
 			better = false;
@@ -442,10 +441,10 @@ public class MapsList extends Vector {
 				else {
 					mi = ml.getMap();
 				}
-			} catch (IOException ex) {
+			} catch (java.io.IOException ex) {
 				continue;
 			} // could not read .wfl-file
-			if (mi.fileNameWFL == "")
+			if (mi.getFileNameWFL().equals(""))
 				continue; // exclude "maps" without image // TODO make this a
 			// boolean in MapInfoObject
 			if (screenArea == null || !scaleEquals(lastscale, mi)) {
@@ -646,15 +645,15 @@ class MapListEntry /* implements Comparable */{
 	String sortEntryBBox;
 	// String sortEntry;
 	String filename;
-	String path;
+	java.io.File path;
 	MapInfoObject map;
 	static int rename = 0;
 	static int renameCounter = 0;
 	static InfoBox renameProgressInfoB = null;
 
-	public MapListEntry(String pathi, String filenamei) {
-		filename = new String(filenamei);
-		path = new String(pathi);
+	public MapListEntry(java.io.File pathi, String filenamei) {
+		filename = filenamei;
+		path = pathi;
 		sortEntryBBox = null;
 		map = null;
 		/*
@@ -744,9 +743,9 @@ class MapListEntry /* implements Comparable */{
 					}
 					filename = sortEntryBBox + "E-" + filename;
 					map.mapName = sortEntryBBox + "E-" + map.mapName;
-					map.fileNameWFL = path + filename + ".wfl";
+					map.setFileNameWFL(new java.io.File(path, filename + ".wfl"));
 				}
-			} catch (IOException ioex) { // this should not happen
+			} catch (java.io.IOException ioex) { // this should not happen
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						4707, "I/O-Error while reading:")
 						+ " " + path + filename + ": " + ioex.getMessage(),
@@ -772,7 +771,7 @@ class MapListEntry /* implements Comparable */{
 		sortEntryBBox = "FF1";
 	}
 
-	public MapInfoObject getMap() throws IOException {
+	public MapInfoObject getMap() throws java.io.IOException {
 		if (map == null)
 			map = new MapInfoObject(path, filename);
 		return map;

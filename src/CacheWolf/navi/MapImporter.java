@@ -21,7 +21,6 @@ import ewe.graphics.InteractivePanel;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.io.FileInputStream;
-import ewe.io.FileNotFoundException;
 import ewe.io.FileOutputStream;
 import ewe.io.FileReader;
 import ewe.io.IOException;
@@ -103,10 +102,10 @@ public class MapImporter extends Form {
 		// + "/maps/"; //
 		// TDO veraltet
 		try {
-			wfl.loadwfl(mapsPath, thisMap);
-		} catch (FileNotFoundException ex) {
+			wfl.loadwfl(new java.io.File(mapsPath), thisMap);
+		} catch (java.io.FileNotFoundException ex) {
 			// Vm.debug("Cannot load world file!");
-		} catch (IOException ex) { // is thrown if lat/lon out of range
+		} catch (java.io.IOException ex) { // is thrown if lat/lon out of range
 			MessageBox tmpMB = new MessageBox(MyLocale.getMsg(312, "Error"), ex
 					.getMessage(), FormBase.OKB);
 			tmpMB.execute();
