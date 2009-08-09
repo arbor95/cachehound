@@ -2,16 +2,16 @@ package de.cachehound.filter;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class AndFilter extends ListFilter {
+public class OrFilter extends ListFilter {
 
 	@Override
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		for (IFilter f : this) {
-			if (!f.cacheIsVisible(ch)) {
-				return false;
+			if (f.cacheIsVisible(ch)) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 }
