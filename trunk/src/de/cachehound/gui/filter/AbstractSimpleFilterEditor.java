@@ -40,6 +40,12 @@ public abstract class AbstractSimpleFilterEditor<T extends IFilter> extends
 	 * This method is called from within the constructor to initialize the form.
 	 */
 	private void initComponents() {
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				closeDialog(evt);
+			}
+		});
+
 		JPanel checkBoxPanel = createCheckBoxesPanel();
 		JPanel buttonPanel = createButtonPanel();
 
@@ -56,29 +62,21 @@ public abstract class AbstractSimpleFilterEditor<T extends IFilter> extends
 		JPanel buttonPanel = new JPanel();
 
 		okButton = new JButton();
-		cancelButton = new JButton();
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent evt) {
-				closeDialog(evt);
-			}
-		});
-
 		okButton.setText("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				okButtonActionPerformed(evt);
 			}
 		});
+		buttonPanel.add(okButton);
 
+		cancelButton = new JButton();
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancelButtonActionPerformed(evt);
 			}
 		});
-
-		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 
 		return buttonPanel;
