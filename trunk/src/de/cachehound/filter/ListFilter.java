@@ -6,8 +6,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class ListFilter implements List<IFilter>, IFilter {
 	private List<IFilter> list = new ArrayList<IFilter>();
+
+	private static Logger logger = LoggerFactory.getLogger(ListFilter.class);
+
+	public ListFilter clone() {
+		try {
+			ListFilter ret = (ListFilter) super.clone();
+			ret.list = new ArrayList<IFilter>();
+			for (IFilter f : this.list) {
+				ret.list.add(f.clone());
+			}
+			return ret;
+		} catch (CloneNotSupportedException e) {
+			logger.error("Object.clone() threw CloneNotSupportedException", e);
+			assert(false);
+			return null;
+		}
+	}
 
 	public boolean add(IFilter e) {
 		return list.add(e);
