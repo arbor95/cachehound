@@ -9,7 +9,7 @@ import de.cachehound.beans.ICacheHolder;
  * @author uo
  * 
  */
-public class TrivialFilter implements IFilter {
+public class TrivialFilter extends SimpleFilter {
 	private boolean result;
 
 	public TrivialFilter(boolean result) {
