@@ -12,8 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.TreeSelectionModel;
 
+import de.cachehound.filter.AndFilter;
+import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
+import de.cachehound.filter.ListFilter;
+import de.cachehound.filter.OrFilter;
+import de.cachehound.filter.TrivialFilter;
 
 public class FilterEditor extends JDialog {
 	/** A return status code - returned if Cancel button has been pressed */
@@ -23,8 +29,10 @@ public class FilterEditor extends JDialog {
 
 	public FilterEditor(IFilter old, JFrame parent, boolean modal) {
 		super(parent, modal);
+		
+		this.model = new FilterTreeModel(old.clone());
+		
 		initComponents();
-		// setState(old);
 	}
 
 	/** @return the return status of this dialog - one of RET_OK or RET_CANCEL */
@@ -48,12 +56,14 @@ public class FilterEditor extends JDialog {
 
 	private JPanel createTreePanel() {
 		JPanel treePanel = new JPanel();
-		
-		JTree tree = new JTree();
-		//TODO: Populate tree
+
+		JTree tree = new JTree(model);
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+
 		treePanel.add(tree);
 
-		return new JPanel();
+		return treePanel;
 	}
 
 	private JPanel createButtonPanel() {
@@ -112,9 +122,14 @@ public class FilterEditor extends JDialog {
 	 *            the command line arguments
 	 */
 	public static void main(String args[]) {
+		final ListFilter f = new AndFilter();
+		f.add(new OrFilter());
+		f.add(new TrivialFilter(true));
+		((ListFilter)f.get(0)).add(new DistanceFilter(5));
+		
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				FilterEditor dialog = new FilterEditor(null, new JFrame(), true);
+				FilterEditor dialog = new FilterEditor(f, new JFrame(), true);
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
 						System.exit(0);
@@ -129,4 +144,6 @@ public class FilterEditor extends JDialog {
 	private JButton okButton;
 
 	private int returnStatus = RET_CANCEL;
+	
+	private FilterTreeModel model;
 }
