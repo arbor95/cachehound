@@ -44,6 +44,12 @@ public class FilterEditor extends JDialog {
 	 * This method is called from within the constructor to initialize the form.
 	 */
 	private void initComponents() {
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				closeDialog(evt);
+			}
+		});
+
 		JPanel treePanel = createTreePanel();
 		JPanel buttonPanel = createButtonPanel();
 
@@ -68,34 +74,65 @@ public class FilterEditor extends JDialog {
 
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-
-		okButton = new JButton();
-		cancelButton = new JButton();
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent evt) {
-				closeDialog(evt);
+		
+		JButton addButton = new JButton();
+		addButton.setText("Add...");
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				addButtonActionPerformed(evt);
 			}
 		});
+		buttonPanel.add(addButton);
+		
+		JButton replaceButton = new JButton();
+		replaceButton.setText("Replace...");
+		replaceButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				replaceButtonActionPerformed(evt);
+			}
+		});
+		buttonPanel.add(replaceButton);
+		
+		JButton deleteButton = new JButton();
+		deleteButton.setText("Delete");
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				deleteButtonActionPerformed(evt);
+			}
+		});
+		buttonPanel.add(deleteButton);
 
+		JButton okButton = new JButton();
 		okButton.setText("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				okButtonActionPerformed(evt);
 			}
 		});
+		buttonPanel.add(okButton);
 
+		JButton cancelButton = new JButton();
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancelButtonActionPerformed(evt);
 			}
 		});
-
-		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 
 		return buttonPanel;
+	}
+
+	private void addButtonActionPerformed(ActionEvent evt) {
+		doClose(RET_OK);
+	}
+
+	private void replaceButtonActionPerformed(ActionEvent evt) {
+		doClose(RET_OK);
+	}
+
+	private void deleteButtonActionPerformed(ActionEvent evt) {
+		doClose(RET_OK);
 	}
 
 	private void okButtonActionPerformed(ActionEvent evt) {
@@ -139,9 +176,6 @@ public class FilterEditor extends JDialog {
 			}
 		});
 	}
-
-	private JButton cancelButton;
-	private JButton okButton;
 
 	private int returnStatus = RET_CANCEL;
 	
