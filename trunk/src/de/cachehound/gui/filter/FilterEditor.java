@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 
 import de.cachehound.filter.IFilter;
 
@@ -38,14 +40,19 @@ public class FilterEditor extends JDialog {
 		JPanel buttonPanel = createButtonPanel();
 
 		this.setLayout(new BorderLayout());
-		this.add(treePanel, BorderLayout.CENTER);
+		this.add(new JScrollPane(treePanel), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
 		pack();
 	}
 
 	private JPanel createTreePanel() {
-		// TODO Auto-generated method stub
+		JPanel treePanel = new JPanel();
+		
+		JTree tree = new JTree();
+		//TODO: Populate tree
+		treePanel.add(tree);
+
 		return new JPanel();
 	}
 
