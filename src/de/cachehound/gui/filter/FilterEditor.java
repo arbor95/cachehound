@@ -50,11 +50,13 @@ public class FilterEditor extends JDialog {
 			}
 		});
 
-		JPanel treePanel = createTreePanel();
-		JPanel buttonPanel = createButtonPanel();
+		treePanel = createTreePanel();
+		buttonPanel = createButtonPanel();
+		detailsPanel = new FilterTabbedPane();
 
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(treePanel), BorderLayout.CENTER);
+		this.add(detailsPanel, BorderLayout.EAST);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
 		pack();
@@ -63,7 +65,7 @@ public class FilterEditor extends JDialog {
 	private JPanel createTreePanel() {
 		JPanel treePanel = new JPanel();
 
-		JTree tree = new JTree(model);
+		tree = new JTree(model);
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -124,15 +126,15 @@ public class FilterEditor extends JDialog {
 	}
 
 	private void addButtonActionPerformed(ActionEvent evt) {
-		doClose(RET_OK);
+		model.addFilter(tree.getSelectionPath(), detailsPanel.getFilter());
 	}
 
 	private void replaceButtonActionPerformed(ActionEvent evt) {
-		doClose(RET_OK);
+		model.replaceFilter(tree.getSelectionPath(), detailsPanel.getFilter());
 	}
 
 	private void deleteButtonActionPerformed(ActionEvent evt) {
-		doClose(RET_OK);
+		model.deleteFilter(tree.getSelectionPath());
 	}
 
 	private void okButtonActionPerformed(ActionEvent evt) {
@@ -180,4 +182,9 @@ public class FilterEditor extends JDialog {
 	private int returnStatus = RET_CANCEL;
 	
 	private FilterTreeModel model;
+
+	private JTree tree;
+	private JPanel treePanel;
+	private JPanel buttonPanel;
+	private FilterTabbedPane detailsPanel;
 }
