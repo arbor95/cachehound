@@ -46,7 +46,7 @@ public class FilterEditor extends JDialog {
 	private void initComponents() {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
-				closeDialog(evt);
+				closeDialog();
 			}
 		});
 
@@ -81,7 +81,7 @@ public class FilterEditor extends JDialog {
 		addButton.setText("Add...");
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				addButtonActionPerformed(evt);
+				addButtonActionPerformed();
 			}
 		});
 		buttonPanel.add(addButton);
@@ -90,7 +90,7 @@ public class FilterEditor extends JDialog {
 		replaceButton.setText("Replace...");
 		replaceButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				replaceButtonActionPerformed(evt);
+				replaceButtonActionPerformed();
 			}
 		});
 		buttonPanel.add(replaceButton);
@@ -99,7 +99,7 @@ public class FilterEditor extends JDialog {
 		deleteButton.setText("Delete");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				deleteButtonActionPerformed(evt);
+				deleteButtonActionPerformed();
 			}
 		});
 		buttonPanel.add(deleteButton);
@@ -108,7 +108,7 @@ public class FilterEditor extends JDialog {
 		okButton.setText("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				okButtonActionPerformed(evt);
+				okButtonActionPerformed();
 			}
 		});
 		buttonPanel.add(okButton);
@@ -117,7 +117,7 @@ public class FilterEditor extends JDialog {
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				cancelButtonActionPerformed(evt);
+				cancelButtonActionPerformed();
 			}
 		});
 		buttonPanel.add(cancelButton);
@@ -125,28 +125,28 @@ public class FilterEditor extends JDialog {
 		return buttonPanel;
 	}
 
-	private void addButtonActionPerformed(ActionEvent evt) {
+	private void addButtonActionPerformed() {
 		model.addFilter(tree.getSelectionPath(), detailsPanel.getFilter());
 	}
 
-	private void replaceButtonActionPerformed(ActionEvent evt) {
+	private void replaceButtonActionPerformed() {
 		model.replaceFilter(tree.getSelectionPath(), detailsPanel.getFilter());
 	}
 
-	private void deleteButtonActionPerformed(ActionEvent evt) {
+	private void deleteButtonActionPerformed() {
 		model.deleteFilter(tree.getSelectionPath());
 	}
 
-	private void okButtonActionPerformed(ActionEvent evt) {
+	private void okButtonActionPerformed() {
 		doClose(RET_OK);
 	}
 
-	private void cancelButtonActionPerformed(ActionEvent evt) {
+	private void cancelButtonActionPerformed() {
 		doClose(RET_CANCEL);
 	}
 
 	/** Closes the dialog */
-	private void closeDialog(WindowEvent evt) {
+	private void closeDialog() {
 		doClose(RET_CANCEL);
 	}
 
