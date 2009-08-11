@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.JCheckBox;
 
+import de.cachehound.filter.IFilter;
 import de.cachehound.filter.SizeFilter;
 import de.cachehound.types.CacheSize;
 
@@ -38,6 +39,11 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 		for (CacheSize b : old.getMask()) {
 			boxes.get(b).setSelected(true);
 		}
+	}
+
+	@Override
+	public boolean canHandle(IFilter f) {
+		return (f instanceof SizeFilter);
 	}
 
 	private void initComponents() {
