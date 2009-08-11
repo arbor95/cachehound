@@ -10,10 +10,8 @@ import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
-import ewe.io.FileInputStream;
 import ewe.io.FileWriter;
 import ewe.io.IOException;
-import ewe.io.InputStreamReader;
 import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 

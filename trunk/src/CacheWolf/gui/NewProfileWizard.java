@@ -1,7 +1,5 @@
 package CacheWolf.gui;
 
-import java.io.File;
-
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Preferences;
