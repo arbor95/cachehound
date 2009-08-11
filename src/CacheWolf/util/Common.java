@@ -104,19 +104,16 @@ public final class Common {
 	 *            without extension
 	 * @return filename with extension
 	 */
-	static public String getImageName(String name) {
-		String fileName;
-		String[] t = { ".png", ".gif", ".jpg", ".bmp" };
+	static public File getImageFile(String namePrefix) {
+		File file;
+		String[] t = { ".png", ".gif", ".jpg", ".bmp", ".jpeg" };
 		int i;
 		for (i = 0; i < t.length; i++) {
-			if ((new File(name + t[i])).exists())
-				break;
+			file =new File(namePrefix + t[i]); 
+			if (file.exists())
+				return file;
 		}
-		if (i >= t.length)
-			fileName = null;
-		else
-			fileName = name + t[i];
-		return fileName;
+		return null;
 	}
 
 	/**

@@ -113,7 +113,7 @@ public class MapImporter extends Form {
 		}
 		mapInteractivePanel pane = new mapInteractivePanel(this);
 		scp = new CacheWolf.gui.MyScrollBarPanel(pane);
-		Image img = new Image(Common.getImageName(mapsPath + thisMap));
+		Image img = new Image(Common.getImageFile(mapsPath + thisMap).getAbsolutePath());
 		PixelBuffer pB = new PixelBuffer(img);
 		// pB =
 		// pB.scale((int)(pref.myAppWidth*0.98),(int)(pref.myAppHeight*0.98));

@@ -708,7 +708,7 @@ class MapListEntry /* implements Comparable */{
 								+ ".wfl"
 								+ MyLocale.getMsg(4706, "\nto:\n")
 								+ to, FormBase.OKB)).exec();
-					f = Common.getImageName(path + filename);
+					f = Common.getImageFile(path + filename).getAbsolutePath();
 					if (f != null) {
 						to = sortEntryBBox + "E-" + filename
 								+ Common.getFilenameExtension(f);

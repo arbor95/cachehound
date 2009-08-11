@@ -1,5 +1,11 @@
 package CacheWolf.navi;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import ewe.fx.Color;
 import ewe.fx.Dimension;
 import ewe.fx.Image;
@@ -9,8 +15,6 @@ import ewe.fx.Point;
 import ewe.fx.UnsupportedImageFormatException;
 import ewe.fx.mImage;
 import ewe.graphics.AniImage;
-import ewe.io.FileInputStream;
-import ewe.io.IOException;
 
 /**
  * class that can be used with any x and any y it will save taht location and
@@ -35,29 +39,26 @@ public class MapImage extends AniImage {
 			screenDim = new Dimension(0, 0);
 	}
 
-	public MapImage(String f) throws ImageDecodingException,
+	public MapImage(File file) throws ImageDecodingException,
 			UnsupportedImageFormatException, ImageNotFoundException,
 			ewe.sys.SystemResourceException {
 		if (screenDim == null)
 			screenDim = new Dimension(0, 0);
-		// super(f); the following code is only necessary because of an Bug in
-		// ewe 1.49, which doesn't read from a fakefilesystem. If there were no
-		// bug, calling super(f) would be sufficient
-		ewe.io.File file = ewe.sys.Vm.newFileObject();
-		file.set(null, f);
 		try {
-			// ByteArray imbytes = ewe.io.IO.readAllBytes(input, knownSize,
-			// stopAfterKnownSize);(file, null, true); // this would be possible
-			// if ewe 1.49 wouldn't have another bug: fakefilesystem doesn't
-			// implement (oderride) length(), it only overrides getLenght(),
-			// that's why readallBytes will call the original File
-			// implementation and cause and NullpointerException
-			setImage(new Image(new FileInputStream(f).toReadableStream(), 0), 0); // copied
+			
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+			byte[] buf = new byte[4096];
+			int length;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			while (-1 != (length = in.read(buf))) {
+				out.write(buf, 0, length);
+			}
+			setImage(new Image(out.toByteArray(), 0), 0); // copied
 			// from
 			// super()
 			freeSource(); // copied from super()
 		} catch (IOException e) {
-			throw new ImageNotFoundException(f); // in order to behave the
+			throw new ImageNotFoundException(file.getAbsolutePath()); // in order to behave the
 			// same
 			// way as super would have
 		}
