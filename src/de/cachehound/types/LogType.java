@@ -122,7 +122,7 @@ public enum LogType {
 	},
 	RETRACT {
 		public String toIconString() {
-			return "img_redlight.gif";
+			return "icon_redlight.gif";
 		}
 
 		@Override
@@ -222,8 +222,10 @@ public enum LogType {
 			return LogType.UPDATE_COORDINATES;
 		if (image.equals("icon_remove.gif"))
 			return LogType.NEEDS_ARCHIVED;
+		if (image.equals("icon_redlight.gif")) 
+			return LogType.RETRACT;
 		// TODO: Fehler loggen
-		throw new RuntimeException("Fehler bei der Umwandlung der Logtypes");
+		throw new RuntimeException("Fehler bei der Umwandlung der Logtype. Gefunden: " + image);
 	}
 
 	public static LogType getLogTypeFromGcTypeText(String typeText) {
