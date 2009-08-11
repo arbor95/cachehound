@@ -2,8 +2,11 @@ package CacheWolf.beans;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,6 +15,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.cachehound.util.EweReader;
 
 import CacheWolf.Global;
 import CacheWolf.gui.ProfilesForm;
@@ -346,9 +351,9 @@ public class Preferences extends MinML {
 	public void readPrefFile() {
 		// TODO: parsing without EWE stuff ...
 		try {
-			ewe.io.Reader r = new ewe.io.InputStreamReader(
-					new ewe.io.FileInputStream(configFile.getAbsolutePath()));
-			parse(r);
+			Reader r = new InputStreamReader(
+					new FileInputStream(configFile.getAbsolutePath()));
+			parse(new EweReader(r));
 			r.close();
 		} catch (ewe.io.IOException e) {
 			log("IOException reading config file: "
@@ -922,7 +927,7 @@ public class Preferences extends MinML {
 	public boolean selectProfile(Profile prof, int showProfileSelector,
 			boolean hasNewButton) {
 		// If datadir is empty, ask for one
-		if (baseDir.length() == 0 || !baseDir.exists()) {
+		if (baseDir == null || !baseDir.exists() || !baseDir.isDirectory()) {
 			do {
 				FileChooser fc = new FileChooser(
 						FileChooserBase.DIRECTORY_SELECT, "/");

@@ -35,8 +35,8 @@ public class ParseLatLon {
 	 * Constructor to parse a lat lon string like: N 49 33.167 E 011 21.608.
 	 * Additionally you may pass the decimal symbol, i.e. "." or ","
 	 */
-	public ParseLatLon(String ll, String tr) {
-		latlon = ll;
+	public ParseLatLon(String latlon, String tr) {
+		this.latlon = latlon;
 		digSep = MyLocale.getDigSeparator().charAt(0);
 	}
 

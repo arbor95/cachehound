@@ -1,5 +1,15 @@
 package CacheWolf.imp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -18,15 +28,12 @@ import CacheWolf.util.SafeXML;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.LogType;
+import de.cachehound.util.EweReader;
 import de.cachehound.util.SpiderService;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
-import ewe.util.Enumeration;
-import ewe.util.Vector;
-import ewe.util.zip.ZipEntry;
-import ewe.util.zip.ZipFile;
 import ewesoft.xml.MinML;
 import ewesoft.xml.XMLElement;
 import ewesoft.xml.sax.AttributeList;
@@ -45,7 +52,7 @@ public class GPXImporter extends MinML {
 	LogType logType;
 	boolean inWpt, inCache, inLogs, inBug;
 	public XMLElement document;
-	private Vector files = new Vector();
+	private List<File> files = new ArrayList<File>();
 	private boolean debugGPX = false;
 	InfoBox infB;
 	boolean spiderOK = true;
@@ -62,7 +69,7 @@ public class GPXImporter extends MinML {
 	SpiderService spider;
 	StringBuilder strBuf;
 
-	public GPXImporter(Preferences p, Profile prof, String f) {
+	public GPXImporter(Preferences p, Profile prof, File f) {
 		profile = prof;
 		pref = p;
 		cacheDB = profile.cacheDB;
@@ -82,8 +89,8 @@ public class GPXImporter extends MinML {
 		boolean wasFiltered = (profile.getFilterActive() == Filter.FILTER_ACTIVE);
 		flt.clearFilter();
 		try {
-			ewe.io.Reader r;
-			String file;
+			Reader r;
+			File file;
 
 			OCXMLImporterScreen options = new OCXMLImporterScreen(MyLocale
 					.getMsg(5510, "Spider Options"), OCXMLImporterScreen.IMAGES
@@ -105,40 +112,38 @@ public class GPXImporter extends MinML {
 			Vm.showWait(true);
 			for (int i = 0; i < files.size(); i++) {
 				// Test for zip.file
-				file = (String) files.get(i);
-				if (file.indexOf(".zip") > 0) {
+				file = files.get(i);
+				if (file.getName().indexOf(".zip") > 0) {
 					ZipFile zif = new ZipFile(file);
 					ZipEntry zipEnt;
-					Enumeration zipEnum = zif.entries();
+					Enumeration<? extends ZipEntry> zipEnum = zif.entries();
 					// there could be more than one file in the archive
 					while (zipEnum.hasMoreElements()) {
-						zipEnt = (ZipEntry) zipEnum.nextElement();
+						zipEnt = zipEnum.nextElement();
 						// skip over PRC-files
 						if (zipEnt.getName().endsWith("gpx")) {
-							r = new ewe.io.InputStreamReader(zif
+							r = new InputStreamReader(zif
 									.getInputStream(zipEnt));
 							infB = new InfoBox(
 									zipEnt.toString(),
 									(MyLocale.getMsg(4000, "Loaded caches: ") + zaehlerGel));
 							infB.exec();
 							if (r.read() != 65279)
-								r = new ewe.io.InputStreamReader(zif
+								r = new InputStreamReader(zif
 										.getInputStream(zipEnt));
-							parse(r);
+							parse(new EweReader(r));
 							r.close();
 							infB.close(0);
 						}
 					}
 				} else {
-					r = new ewe.io.InputStreamReader(
-							new ewe.io.FileInputStream(file));
+					r = new InputStreamReader(new FileInputStream(file));
 					infB = new InfoBox("Info", (MyLocale.getMsg(4000,
 							"Loaded caches: ") + zaehlerGel));
 					infB.show();
 					if (r.read() != 65279)
-						r = new ewe.io.InputStreamReader(
-								new ewe.io.FileInputStream(file));
-					parse(r);
+						r = new InputStreamReader(new FileInputStream(file));
+					parse(new EweReader(r));
 					r.close();
 					infB.close(0);
 				}
@@ -518,9 +523,9 @@ public class GPXImporter extends MinML {
 			if (holder.is_HTML())
 				holder.getFreshDetails().setLongDescription(
 						SafeXML.cleanback(strData) + "<br>"); // <br> needed
-																// because we
-																// also use a
-																// <br> in
+			// because we
+			// also use a
+			// <br> in
 			// SpiderGC. Without it the comparison in
 			// ch.update fails
 			else

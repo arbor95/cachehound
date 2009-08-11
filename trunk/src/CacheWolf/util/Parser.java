@@ -1400,8 +1400,9 @@ public class Parser {
 		else if (funcDef.alias.equals("rot13"))
 			calcStack.add(Common.rot13(popCalcStackAsString()));
 		// else if (funcDef.alias.equals("rs")) funcRequireSemicolon(nargs);
-		else if (funcDef.alias.equals("show"))
-			;
+		else if (funcDef.alias.equals("show")) {
+			// seams to be nothing to to on the stack, or implemenation failure?
+		}
 		else if (funcDef.alias.equals("sin"))
 			calcStack.add(new java.lang.Double(java.lang.Math
 					.sin(makeRadiant(popCalcStackAsNumber(0)))));

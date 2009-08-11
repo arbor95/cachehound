@@ -185,8 +185,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 					outputStream.close();
 					in.close();
 
-					GPXImporter gpx = new GPXImporter(prefs, profile, file
-							.getName());
+					GPXImporter gpx = new GPXImporter(prefs, profile, file);
 					gpx.doIt(0);
 
 					boolean deleted = file.delete();

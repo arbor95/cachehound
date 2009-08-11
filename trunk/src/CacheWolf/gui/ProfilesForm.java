@@ -2,6 +2,7 @@ package CacheWolf.gui;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
 
 import CacheWolf.Global;
 import CacheWolf.beans.Filter;
@@ -115,6 +116,7 @@ public class ProfilesForm extends Form {
 		});
 		// Now add these subdirectories to the list of profiles but
 		// exclude the "maps" directory which will contain the moving maps
+		Arrays.sort(existingProfiles);
 		for (File f : existingProfiles)
 			if (! f.getName().equalsIgnoreCase("maps")) {
 				choice.addItem(f.getName());

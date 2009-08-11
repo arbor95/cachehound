@@ -125,8 +125,7 @@ public class SpiderService {
 	 *            the Details for the asked geocache.
 	 * @throws Exception
 	 */
-	public void getAttributes(String doc, CacheHolderDetail chD)
-			throws Exception {
+	public void getAttributes(String doc, CacheHolderDetail chD) {
 		checkSpiderGC();
 		spiderGC.getAttributes(doc, chD);
 	}

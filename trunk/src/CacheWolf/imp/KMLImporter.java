@@ -1,12 +1,16 @@
 package CacheWolf.imp;
 
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import de.cachehound.util.EweReader;
+
 import CacheWolf.beans.CWPoint;
-import ewe.io.FileReader;
-import ewe.io.Reader;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
-import ewe.util.StringTokenizer;
-import ewe.util.Vector;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
@@ -20,25 +24,24 @@ import ewesoft.xml.sax.AttributeList;
  */
 public class KMLImporter extends MinML {
 
-	public Vector points = new Vector();
-	private CWPoint point = new CWPoint();
-	private String file = new String();
-	String strData = new String();
+	public List<CWPoint> points = new ArrayList<CWPoint>();
+	private File file;
+	private String strData;
 	private int status = 0;
 	private static int MultiGeometry = 1;
 	private static int LineString = 2;
 	private static int coordinates = 3;
 
-	public KMLImporter(String file) {
+	public KMLImporter(File file) {
 		this.file = file;
 	}
 
 	public void importFile() {
 		try {
-			Reader r;
+			java.io.Reader r;
 			Vm.showWait(true);
 			r = new FileReader(file);
-			parse(r);
+			parse(new EweReader(r));
 			r.close();
 			Vm.showWait(false);
 		} catch (Exception e) {
@@ -47,7 +50,7 @@ public class KMLImporter extends MinML {
 		}
 	}
 
-	public Vector getPoints() {
+	public List<CWPoint> getPoints() {
 		return points;
 	}
 
@@ -80,22 +83,17 @@ public class KMLImporter extends MinML {
 	private void parseCoordinatesLine() {
 		StringTokenizer exBlock = new StringTokenizer(strData, " ");
 		StringTokenizer numbers;
-		String lat = new String();
-		String lon = new String();
-
-		String test = new String();
 
 		while (exBlock.hasMoreTokens()) {
-			test = exBlock.nextToken();
+			String test = exBlock.nextToken();
 			// Vm.debug("==> " + test + " <==");
 			numbers = new StringTokenizer(test, ",");
 			// Vm.debug(numbers.nextToken());
 			// Vm.debug(numbers.nextToken());
-			lon = numbers.nextToken();
-			lat = numbers.nextToken();
-			point = new CWPoint(Convert.parseDouble(lat), Convert
-					.parseDouble(lon));
-			points.add(point);
+			String lon = numbers.nextToken();
+			String lat = numbers.nextToken();
+			points.add(new CWPoint(Convert.parseDouble(lat), Convert
+					.parseDouble(lon)));
 		}
 	}
 }
