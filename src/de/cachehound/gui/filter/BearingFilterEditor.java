@@ -10,6 +10,7 @@ import javax.swing.JCheckBox;
 import layout.TableLayout;
 import layout.TableLayoutConstants;
 import de.cachehound.filter.BearingFilter;
+import de.cachehound.filter.IFilter;
 import de.cachehound.types.Bearing;
 
 public class BearingFilterEditor extends
@@ -41,6 +42,11 @@ public class BearingFilterEditor extends
 		for (Bearing b : old.getMask()) {
 			boxes.get(b).setSelected(true);
 		}
+	}
+
+	@Override
+	public boolean canHandle(IFilter f) {
+		return (f instanceof BearingFilter);
 	}
 
 	private void initComponents() {

@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 import de.cachehound.filter.AndFilter;
@@ -29,9 +31,9 @@ public class FilterEditor extends JDialog {
 
 	public FilterEditor(IFilter old, JFrame parent, boolean modal) {
 		super(parent, modal);
-		
+
 		this.model = new FilterTreeModel(old.clone());
-		
+
 		initComponents();
 	}
 
@@ -68,6 +70,12 @@ public class FilterEditor extends JDialog {
 		tree = new JTree(model);
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.addTreeSelectionListener(new TreeSelectionListener() {
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				treeSelectionChanged();
+			}
+		});
 
 		treePanel.add(tree);
 
@@ -76,7 +84,7 @@ public class FilterEditor extends JDialog {
 
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-		
+
 		JButton addButton = new JButton();
 		addButton.setText("Add...");
 		addButton.addActionListener(new ActionListener() {
@@ -85,7 +93,7 @@ public class FilterEditor extends JDialog {
 			}
 		});
 		buttonPanel.add(addButton);
-		
+
 		JButton replaceButton = new JButton();
 		replaceButton.setText("Replace...");
 		replaceButton.addActionListener(new ActionListener() {
@@ -94,7 +102,7 @@ public class FilterEditor extends JDialog {
 			}
 		});
 		buttonPanel.add(replaceButton);
-		
+
 		JButton deleteButton = new JButton();
 		deleteButton.setText("Delete");
 		deleteButton.addActionListener(new ActionListener() {
@@ -125,16 +133,30 @@ public class FilterEditor extends JDialog {
 		return buttonPanel;
 	}
 
+	private void treeSelectionChanged() {
+		if (tree.getSelectionPath() != null) {
+			detailsPanel.showFilter((IFilter) tree.getSelectionPath()
+					.getLastPathComponent());
+		}
+	}
+
 	private void addButtonActionPerformed() {
-		model.addFilter(tree.getSelectionPath(), detailsPanel.getFilter());
+		if (tree.getSelectionPath() != null) {
+			model.addFilter(tree.getSelectionPath(), detailsPanel.getFilter());
+		}
 	}
 
 	private void replaceButtonActionPerformed() {
-		model.replaceFilter(tree.getSelectionPath(), detailsPanel.getFilter());
+		if (tree.getSelectionPath() != null) {
+			model.replaceFilter(tree.getSelectionPath(), detailsPanel
+					.getFilter());
+		}
 	}
 
 	private void deleteButtonActionPerformed() {
-		model.deleteFilter(tree.getSelectionPath());
+		if (tree.getSelectionPath() != null) {
+			model.deleteFilter(tree.getSelectionPath());
+		}
 	}
 
 	private void okButtonActionPerformed() {
@@ -164,8 +186,8 @@ public class FilterEditor extends JDialog {
 		final ListFilter f = new AndFilter();
 		f.add(new OrFilter());
 		f.add(new TrivialFilter(true));
-		((ListFilter)f.get(0)).add(new DistanceFilter(5));
-		
+		((ListFilter) f.get(0)).add(new DistanceFilter(5));
+
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				FilterEditor dialog = new FilterEditor(f, new JFrame(), true);
@@ -180,7 +202,7 @@ public class FilterEditor extends JDialog {
 	}
 
 	private int returnStatus = RET_CANCEL;
-	
+
 	private FilterTreeModel model;
 
 	private JTree tree;
