@@ -21,11 +21,7 @@ public class BearingFilterEditor extends
 		setState(new BearingFilter(EnumSet.noneOf(Bearing.class)));
 	}
 
-	public BearingFilterEditor(BearingFilter old) {
-		initComponents();
-		setState(old);
-	}
-
+	@Override
 	public BearingFilter getFilter() {
 		Set<Bearing> mask = EnumSet.noneOf(Bearing.class);
 
@@ -38,6 +34,7 @@ public class BearingFilterEditor extends
 		return new BearingFilter(mask);
 	}
 
+	@Override
 	public void setState(BearingFilter old) {
 		for (Bearing b : old.getMask()) {
 			boxes.get(b).setSelected(true);

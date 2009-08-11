@@ -18,11 +18,7 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 		setState(new SizeFilter(EnumSet.noneOf(CacheSize.class)));
 	}
 
-	public SizeFilterEditor(SizeFilter old) {
-		initComponents();
-		setState(old);
-	}
-
+	@Override
 	public SizeFilter getFilter() {
 		Set<CacheSize> mask = EnumSet.noneOf(CacheSize.class);
 
@@ -35,6 +31,7 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 		return new SizeFilter(mask);
 	}
 
+	@Override
 	public void setState(SizeFilter old) {
 		for (CacheSize b : old.getMask()) {
 			boxes.get(b).setSelected(true);

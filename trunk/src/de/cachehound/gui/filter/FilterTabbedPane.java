@@ -9,6 +9,7 @@ import de.cachehound.filter.IFilter;
 public class FilterTabbedPane extends JTabbedPane {
 	public FilterTabbedPane() {
 		addTab("Bearing", new BearingFilterEditor());
+		addTab("Distance", new DistanceFilterEditor());
 		addTab("Size", new SizeFilterEditor());
 	}
 	

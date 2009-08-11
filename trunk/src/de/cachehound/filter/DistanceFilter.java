@@ -8,6 +8,10 @@ public class DistanceFilter extends SimpleFilter {
 	public DistanceFilter(double d) {
 		this.limit = d;
 	}
+	
+	public double getLimit() {
+		return limit;
+	}
 
 	@Override
 	public boolean cacheIsVisible(ICacheHolder ch) {
