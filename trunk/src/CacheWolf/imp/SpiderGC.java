@@ -1828,12 +1828,11 @@ public class SpiderGC {
 		HttpConnection connImg;
 		Socket sockImg;
 		// InputStream is;
-		FileOutputStream fos;
+		java.io.FileOutputStream fos;
 		// int bytes_read;
 		// byte[] buffer = new byte[9000];
 		ByteArray daten;
-		String datei = "";
-		datei = profile.getDataDir() + target;
+		java.io.File datei = new java.io.File(profile.getDataDir(), target);
 		connImg = new HttpConnection(imgUrl);
 		if (imgUrl.indexOf('%') >= 0)
 			connImg.documentIsEncoded = true;
@@ -1856,7 +1855,7 @@ public class SpiderGC {
 			// loop if trying to load from a
 			// malicous site
 			daten = connImg.readData(sockImg);
-			fos = new FileOutputStream(new File(datei));
+			fos = new java.io.FileOutputStream(datei);
 			fos.write(daten.toBytes());
 			fos.close();
 			sockImg.close();
