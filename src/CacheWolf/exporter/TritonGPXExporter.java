@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
-import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;

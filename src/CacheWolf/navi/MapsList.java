@@ -10,7 +10,6 @@ import ewe.fx.Point;
 import ewe.fx.Rect;
 import ewe.io.File;
 import ewe.io.FileBase;
-import ewe.io.IOException;
 import ewe.sys.Time;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;

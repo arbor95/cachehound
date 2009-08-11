@@ -19,7 +19,6 @@ import CacheWolf.gui.myTableModel;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
-import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import ewe.filechooser.FileChooser;
@@ -764,9 +763,9 @@ public class Preferences extends MinML {
 			// switch if it
 			// is set
 			// save last path of different exporters
-			Set<Map.Entry<String, java.io.File>> expEntrys = exporterPaths
+			Set<Map.Entry<String, File>> expEntrys = exporterPaths
 					.entrySet();
-			for (Map.Entry<String, java.io.File> entry : expEntrys) {
+			for (Map.Entry<String, File> entry : expEntrys) {
 				outp.print("    <expPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
 						+ "\" value = \""

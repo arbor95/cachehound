@@ -29,7 +29,6 @@ import ewe.graphics.AniImage;
 import ewe.graphics.ImageDragContext;
 import ewe.graphics.ImageList;
 import ewe.graphics.InteractivePanel;
-import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.sys.Double;
 import ewe.sys.SystemResourceException;
