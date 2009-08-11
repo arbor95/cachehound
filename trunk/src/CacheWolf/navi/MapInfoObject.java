@@ -2,6 +2,9 @@ package CacheWolf.navi;
 
 import java.io.BufferedReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Matrix;
 import CacheWolf.util.Common;
@@ -23,6 +26,10 @@ import ewe.sys.Convert;
  * 
  */
 public class MapInfoObject extends Area {
+	
+	private static Logger logger = LoggerFactory
+	.getLogger(MapInfoObject.class);
+	
 	// World file:
 	// x scale
 	// y scale
@@ -168,12 +175,13 @@ public class MapInfoObject extends Area {
 	 * @return the filename of the associated map image, "" if no file is
 	 *         associated, null if associated file could not be found
 	 */
-	public String getImageFilename() {
+	public java.io.File getImageFile() {
 		// if (fileName == null || fileName.length() > 0) return fileName;
 		if (fileNameWFL == null)
-			return ""; // no image associated (empty map)
+			return null; // no image associated (empty map)
+		logger.debug("fileNameWFL.getAbsolutePath() = " + fileNameWFL.getAbsolutePath());
 		String n = fileNameWFL.getAbsolutePath().substring(0, fileNameWFL.getAbsolutePath().lastIndexOf("."));
-		return Common.getImageName(n.replace("//", "/"));
+		return Common.getImageFile(n);
 	}
 
 	/**

@@ -1798,17 +1798,18 @@ public class MovingMap extends Form {
 				Vm.getUsedMemory(true); // calls the garbage collection
 			} // give memory free before loading the new map to avoid out of
 			// memory error
-			String ImageFilename = currentMap.getImageFilename();
-			if (ImageFilename == null) {
+			File imageFile = currentMap.getFileNameWFL(); 
+			if (imageFile == null) {
 				mmp.mapImage = new MapImage();
+				// the calibration info
+				// ("empty map")
 				maps.remove(currentMap);
 				(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 						.getMsg(4217,
 								"Could not find image associated with: \n")
 						+ currentMap.getFileNameWFL().getAbsolutePath(), FormBase.OKB)).execute();
 			} else {
-				if (ImageFilename.length() > 0)
-					mmp.mapImage = new MapImage(ImageFilename); // attention:
+				mmp.mapImage = new MapImage(imageFile); // attention:
 				// when running
 				// in native
 				// java-vm, no
@@ -1817,10 +1818,6 @@ public class MovingMap extends Form {
 				// thrown, not
 				// even
 				// OutOfMemeoryError
-				else
-					mmp.mapImage = new MapImage(); // no image associated with
-				// the calibration info
-				// ("empty map")
 			}
 			mapImage1to1 = mmp.mapImage;
 			mmp.mapImage.properties = mmp.mapImage.properties
@@ -1856,7 +1853,7 @@ public class MovingMap extends Form {
 			Vm.showWait(false);
 			(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale.getMsg(
 					4218, "Could not load map: \n")
-					+ newmap.getImageFilename(), FormBase.OKB)).execute();
+					+ newmap.getImageFile().getAbsolutePath(), FormBase.OKB)).execute();
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (OutOfMemoryError e) {
 			if (mmp.mapImage != null) {
@@ -1872,7 +1869,7 @@ public class MovingMap extends Form {
 			(new MessageBox(
 					MyLocale.getMsg(4207, "Error"),
 					MyLocale.getMsg(4219, "Not enough memory to load map: \n")
-							+ newmap.getImageFilename()
+							+ newmap.getImageFile().getAbsolutePath()
 							+ MyLocale
 									.getMsg(4220,
 											"\nYou can try to close\n all prgrams and \nrestart CacheWolf"),
@@ -1902,7 +1899,7 @@ public class MovingMap extends Form {
 					MyLocale.getMsg(4207, "Error"),
 					MyLocale
 							.getMsg(4221, "Not enough ressources to load map: ")
-							+ newmap.getImageFilename()
+							+ newmap.getImageFile().getAbsolutePath()
 							+ MyLocale
 									.getMsg(4220,
 											"\nYou can try to close\n all prgrams and \nrestart CacheWolf"),
@@ -2455,7 +2452,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			// Vm.debug("Trying map: " + l.selectedMap.fileName);
 			mm.autoSelectMap = false;
 			if (l.selectedMap.isInBound(mm.posCircle.where)
-					|| l.selectedMap.getImageFilename().length() == 0) {
+					|| l.selectedMap.getImageFile() == null) {
 				mm.setMap(l.selectedMap, mm.posCircle.where);
 				mm.setResModus(MovingMap.NORMAL_KEEP_RESOLUTION);
 				mm.ignoreGps = false;
