@@ -125,9 +125,9 @@ public class Filter {
 		double lat, lon, calcDistance = 0;
 		try {
 			if ((routeFile.getFullPath()).indexOf(".kml") > 0) {
-				KMLImporter kml = new KMLImporter(routeFile.getFullPath());
+				KMLImporter kml = new KMLImporter(new java.io.File(routeFile.getFullPath()));
 				kml.importFile();
-				wayPoints = kml.getPoints();
+				wayPoints = new Vector(kml.getPoints().toArray());
 			} else {
 				FileReader in = new FileReader(routeFile);
 				String line;

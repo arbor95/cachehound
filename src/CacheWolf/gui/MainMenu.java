@@ -436,13 +436,13 @@ public class MainMenu extends MenuBar {
 				tbp.resetModel();
 			}
 			if (mev.selectedItem == loadcaches) {
-				String dir = pref.getImporterPath("LocGpxImporter").getAbsolutePath();
+				File dir = pref.getImporterPath("LocGpxImporter");
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN
-						| FileChooserBase.MULTI_SELECT, dir);
+						| FileChooserBase.MULTI_SELECT, dir.getAbsolutePath());
 				fc.addMask("*.gpx,*.zip,*.loc");
 				fc.setTitle(MyLocale.getMsg(909, "Select file(s)"));
 				if (fc.execute() != FormBase.IDCANCEL) {
-					dir = fc.getChosenDirectory().toString();
+					dir = new File(fc.getChosenDirectory().getFullPath());
 					pref.setImporterPath("LocGpxImporter", new File(fc.getChosenDirectory().getFullPath()));
 					String files[] = fc.getAllChosen();
 					/*
@@ -454,8 +454,8 @@ public class MainMenu extends MenuBar {
 					 * GPXImporter.DOIT_NOSPOILER; }
 					 */
 					for (int i = 0; i < files.length; i++) {
-						String file = dir + "/" + files[i];
-						if (file.endsWith("loc")) {
+						File file = new File(dir, files[i]);
+						if (file.getName().endsWith("loc")) {
 							LOCXMLImporter loc = new LOCXMLImporter(pref,
 									profile, file);
 							loc.doIt();

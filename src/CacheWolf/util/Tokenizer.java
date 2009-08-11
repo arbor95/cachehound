@@ -247,8 +247,9 @@ public class Tokenizer {
 
 	/** Eat up all characters until next newline as we are in a comment */
 	private void eatUpComment() {
-		while (getChar() && look != '\n')
-			;
+		while (getChar() && look != '\n') {
+			// emtpy loop body
+		}
 		currentStream = ";"; // Insert a dummy ;
 		startToken();
 		emitToken(TokenObj.TT_SYMBOL);
@@ -305,8 +306,9 @@ public class Tokenizer {
 					eatUpComment(); // Ignore characters until EOL
 				else if (look == ':')
 					formatString();
-				else if (newLineIsSeparator && (look == '\\' || look == '_'))
-					;
+				else if (newLineIsSeparator && (look == '\\' || look == '_')) {
+					// nothing to to, so ignore
+				}
 				else
 					err(MyLocale.getMsg(1732, "Invalid character"));
 			}

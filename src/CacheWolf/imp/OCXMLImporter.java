@@ -53,45 +53,51 @@ import ewesoft.xml.sax.AttributeList;
  * de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter extends MinML {
-	static protected final int STAT_INIT = 0;
-	static protected final int STAT_CACHE = 1;
-	static protected final int STAT_CACHE_DESC = 2;
-	static protected final int STAT_CACHE_LOG = 3;
-	static protected final int STAT_PICTURE = 4;
+	private static final int STAT_INIT = 0;
+	private static final int STAT_CACHE = 1;
+	private static final int STAT_CACHE_DESC = 2;
+	private static final int STAT_CACHE_LOG = 3;
+	private static final int STAT_PICTURE = 4;
 
-	final static String OPENCACHING_HOST = "www.opencaching.de";
-	int state = STAT_INIT;
-	int numCacheImported, numDescImported, numLogImported = 0;
+	private final static String OPENCACHING_HOST = "www.opencaching.de";
+	private int state = STAT_INIT;
+	private int numCacheImported, numDescImported, numLogImported = 0;
 
-	boolean debugGPX = false;
-	CacheDB cacheDB;
-	InfoBox inf;
-	CacheHolder ch;
-	CacheHolder holder;
-	Preferences pref;
-	Profile profile;
-	Time dateOfthisSync;
-	String strData = new String();
-	int picCnt;
-	boolean incUpdate = true; // complete or incremental Update
-	boolean ignoreDesc = false;
-	boolean askForOptions = true;
-	Hashtable DBindexID = new Hashtable();
+	private boolean debugGPX = false;
+	private CacheDB cacheDB;
+	private InfoBox inf;
+	private CacheHolder ch;
+	private CacheHolder holder;
+	private Preferences pref;
+	private Profile profile;
+	private Time dateOfthisSync;
+	private String strData = new String();
+	private int picCnt;
+	private boolean incUpdate = true; // complete or incremental Update
+	private boolean ignoreDesc = false;
+	private boolean askForOptions = true;
+	private Hashtable DBindexID = new Hashtable();
 
-	String picUrl = new String();
-	String picTitle = new String();
-	String picID = new String();
-	String ocSeekUrl = new String("http://" + OPENCACHING_HOST
+	private String picUrl = new String();
+	private String picTitle = new String();
+	private String picID = new String();
+	private String ocSeekUrl = new String("http://" + OPENCACHING_HOST
 			+ "/viewcache.php?cacheid=");
-	String cacheID = new String();
+	private String cacheID = new String();
 
-	String logData, logDate, logFinder, logId;
-	LogType logType;
-	boolean loggerRecommended;
-	int logTypeOC;
-	String user;
-	double longitude;
+	private String logData, logDate, logFinder, logId;
+	private LogType logType;
+	private boolean loggerRecommended;
+	private int logTypeOC;
+	private String user;
+	private double longitude;
 
+	/**
+	 * true, if not the last syncdate shall be used, but the caches shall be
+	 * reloaded only used in syncSingle
+	 */
+	private boolean reload;
+	
 	public OCXMLImporter(Preferences p, Profile prof) {
 		pref = p;
 		profile = prof;
@@ -107,14 +113,7 @@ public class OCXMLImporter extends MinML {
 			if (!ch.getOcCacheID().equals(""))
 				DBindexID.put(ch.getOcCacheID(), new Integer(i));
 		}// for
-
 	}
-
-	/**
-	 * true, if not the last syncdate shall be used, but the caches shall be
-	 * reloaded only used in syncSingle
-	 */
-	boolean reload;
 
 	/**
 	 * 
@@ -820,16 +819,8 @@ public class OCXMLImporter extends MinML {
 						+ fileName + " from URL:" + fetchURL);
 				if (e.getMessage().toLowerCase().equalsIgnoreCase(
 						"could not connect")
-						|| e.getMessage().equalsIgnoreCase("unkown host")) { // is
-					// there
-					// a
-					// better
-					// way
-					// to
-					// find
-					// out
-					// what
-					// happened?
+						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+					// is there a better way to find out what happened?
 					ErrMessage = MyLocale.getMsg(1618,
 							"Ignoring error in cache: ")
 							+ holder.getCacheName()
@@ -860,31 +851,24 @@ public class OCXMLImporter extends MinML {
 	}
 
 	private void endPicture(String name) {
-
 		if (name.equals("id")) {
 			picID = strData;
-			return;
 		}
-
-		if (name.equals("url")) {
+		else if (name.equals("url")) {
 			picUrl = strData;
-			return;
 		}
-		if (name.equals("title")) {
+		else if (name.equals("title")) {
 			picTitle = strData;
-			return;
 		}
-		if (name.equals("object")) {
+		else if (name.equals("object")) {
 			// get cachedata
 			holder = getHolder(strData);
-			return;
 		}
-		if (name.equals("picture")) {
+		else if (name.equals("picture")) {
 			// String fileName = holder.wayPoint + "_" +
 			// picUrl.substring(picUrl.lastIndexOf("/")+1);
 			getPic(picUrl, picTitle);
 			holder.getFreshDetails().setUnsavedChanges(true); // saveCacheDetails(profile.dataDir);
-			return;
 		}
 	}
 

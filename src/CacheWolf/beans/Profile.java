@@ -506,7 +506,7 @@ public class Profile {
 
 	public String toString() {
 		return "Profile: Name=" + name + "\nCentre=" + centre.toString()
-				+ "\ndataDir=" + getDataDir() + "\nlastSyncOC="
+				+ "\ndataDir=" + getDataDir().getAbsolutePath() + "\nlastSyncOC="
 				+ getLast_sync_opencaching() + "\ndistOC=" + getDistOC()
 				+ "\ndistGC=" + getDistGC();
 	}

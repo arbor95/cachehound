@@ -21,6 +21,10 @@ public class TravelbugJourneyList extends MinML {
 	/** The Vector holdin the travelbug journeys */
 	private Vector tbJourneyList = new Vector(10);
 
+
+	public TravelbugJourneyList() { // Public constructor
+	}
+	
 	/** Return a TravelbugJourney */
 	public TravelbugJourney getTBJourney(int i) {
 		return (TravelbugJourney) tbJourneyList.elementAt(i);
@@ -83,8 +87,6 @@ public class TravelbugJourneyList extends MinML {
 		return count;
 	}
 
-	public TravelbugJourneyList() { // Public constructor
-	}
 
 	/**
 	 * Return a list of the travelbugs still in my possession

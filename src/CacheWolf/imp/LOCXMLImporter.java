@@ -28,6 +28,10 @@ package CacheWolf.imp;
 
 // TODO: move to CacheWOlf.imp
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheTerrDiff;
@@ -36,8 +40,7 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import de.cachehound.types.CacheSize;
-import ewe.io.FileReader;
-import ewe.io.Reader;
+import de.cachehound.util.EweReader;
 import ewe.sys.Vm;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
@@ -51,12 +54,12 @@ public class LOCXMLImporter extends MinML {
 	CacheDB cacheDB;
 	Preferences pref;
 	Profile profile;
-	String file;
+	File file;
 	CacheHolder holder;
 
 	String strData = new String();
 
-	public LOCXMLImporter(Preferences pf, Profile prof, String f) {
+	public LOCXMLImporter(Preferences pf, Profile prof, File f) {
 		pref = pf;
 		profile = prof;
 		cacheDB = profile.cacheDB;
@@ -69,7 +72,7 @@ public class LOCXMLImporter extends MinML {
 			Vm.showWait(true);
 			// Test for zip.file
 			r = new FileReader(file);
-			parse(r);
+			parse(new EweReader(r));
 			r.close();
 			// save Index
 			profile.saveIndex(pref, Profile.NO_SHOW_PROGRESS_BAR);
