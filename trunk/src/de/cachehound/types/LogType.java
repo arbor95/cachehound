@@ -1,6 +1,7 @@
 package de.cachehound.types;
 
-import CacheWolf.Global;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum LogType {
 
@@ -181,6 +182,8 @@ public enum LogType {
 		}
 	};
 
+	private static Logger logger = LoggerFactory.getLogger(LogType.class);
+	
 	public abstract String toIconString();
 
 	public abstract String toGcComType();
@@ -267,9 +270,8 @@ public enum LogType {
 			return LogType.UPDATE_COORDINATES;
 		if (typeText.equals("Retract Listing"))
 			return LogType.RETRACT;
-		Global.getPref().log(
-				"GPX Import: warning, unknown logtype " + typeText
-						+ " assuming Write note");
+		logger.error(
+				"GPX Import: warning, unknown logtype: '{}'. Set Log-Type to Unknown.", typeText);
 		return LogType.UNKNOWN;
 	}
 

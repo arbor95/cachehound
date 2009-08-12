@@ -51,7 +51,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		}
 		holder.setArchived(true);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.ARCHIVE, text, spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.ARCHIVE, text);
 	}
 
 	public boolean disabled(String gcNumber, Message message, String subject,
@@ -62,8 +62,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		}
 		holder.setAvailable(false);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.DISABLE_LISTING, text,
-				spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.DISABLE_LISTING, text);
 	}
 
 	public boolean enabled(String gcNumber, Message message, String subject,
@@ -74,8 +73,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		}
 		holder.setAvailable(true);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.ENABLE_LISTING, text,
-				spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.ENABLE_LISTING, text);
 	}
 
 	public boolean unarchived(String gcNumber, Message message, String subject,
@@ -86,7 +84,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		}
 		holder.setArchived(false);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.UNARCHIVE, text, spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.UNARCHIVE, text);
 	}
 
 	public boolean retracted(String gcNumber, Message message, String subject,
@@ -97,7 +95,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		}
 		holder.setArchived(true);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.RETRACT, text, spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.RETRACT, text);
 	}
 
 	public boolean published(String gcNumber, Message message, String subject,
@@ -124,14 +122,13 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 	@Override
 	public boolean didNotFound(String gcNumber, Message message,
 			String subject, String text) {
-		return addLogEntry(gcNumber, LogType.DID_NOT_FOUND, text,
-				spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.DID_NOT_FOUND, text);
 	}
 
 	@Override
 	public boolean found(String gcNumber, Message message, String subject,
 			String text) {
-		return addLogEntry(gcNumber, LogType.FOUND, text, spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.FOUND, text);
 	}
 
 	@Override
@@ -144,8 +141,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		holder.getFreshDetails().getAttributes().add("firstaid-yes.gif");
 		holder.setUpdated(true);
 		holder.save();
-		return addLogEntry(gcNumber, LogType.NEEDS_MAINTENANCE, text,
-				spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.NEEDS_MAINTENANCE, text);
 	}
 
 	@Override
@@ -158,8 +154,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		updateCache(holder); // for removing needs maintenance attribute and
 		// perhaps there is something new in the
 		// description
-		return addLogEntry(gcNumber, LogType.MAINTENANCE_DONE, text,
-				spiderIfNotExists);
+		return addLogEntry(gcNumber, LogType.MAINTENANCE_DONE, text);
 	}
 
 	@Override
@@ -233,7 +228,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 	}
 
 	private boolean addLogEntry(String gcNumber, LogType logType,
-			String messageText, boolean spiderCacheIfNotExisting) {
+			String messageText) {
 		CacheHolder holder = getCacheHolder(gcNumber);
 		if (holder == null) {
 			return false;

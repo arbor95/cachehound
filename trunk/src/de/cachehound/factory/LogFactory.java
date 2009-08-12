@@ -1,5 +1,8 @@
 package de.cachehound.factory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 import de.cachehound.beans.Log;
 import de.cachehound.types.LogType;
@@ -14,6 +17,9 @@ import de.cachehound.types.LogType;
  * @author tweety
  */
 public class LogFactory {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(LogFactory.class);
 
 	private static LogFactory logFactory = new LogFactory();
 
@@ -79,7 +85,7 @@ public class LogFactory {
 				return null;
 				// return createMaxLog();
 			} else {
-				Global.getPref().log("Error parsing log: " + profileLine);
+				logger.error("Error parsing log: {}", profileLine);
 				return null;
 			}
 
