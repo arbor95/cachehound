@@ -1,5 +1,8 @@
 package CacheWolf.exporter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -28,7 +31,10 @@ import ewe.util.Hashtable;
  *         howManyParams must be set to identify which ethod should be called
  */
 
-public class Exporter {
+public abstract class Exporter {
+
+	private static Logger logger = LoggerFactory.getLogger(Exporter.class);
+	
 	// starts with no ui for file selection
 	final static int TMP_FILE = 0;
 	// brings up a screen to select a file
@@ -110,9 +116,7 @@ public class Exporter {
 				ch = cacheDB.get(i);
 				if (ch.isVisible()) {
 					if (ch.is_incomplete()) {
-						Global.getPref().log(
-								"skipping export of incomplete waypoint "
-										+ ch.getWayPoint());
+						logger.warn("Skipping export of incomplete waypoint {}", ch.getWayPoint());
 						incompleteWaypoints++;
 						continue;
 					}
