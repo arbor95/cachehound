@@ -1085,7 +1085,7 @@ public class SpiderGC {
 
 						pref.log("Trying difficulty");
 						ch.setHard(CacheTerrDiff
-								.v1Converter(getDiff(completeWebPage)));
+								.stringToByteRepresentation(getDiff(completeWebPage)));
 						if (pref.debug)
 							pref.log("Hard: " + ch.getHard());
 						else
@@ -1093,7 +1093,7 @@ public class SpiderGC {
 
 						pref.log("Trying terrain");
 						ch.setTerrain(CacheTerrDiff
-								.v1Converter(getTerr(completeWebPage)));
+								.stringToByteRepresentation(getTerr(completeWebPage)));
 						if (pref.debug)
 							pref.log("Terr: " + ch.getTerrain());
 						else

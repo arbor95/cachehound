@@ -357,7 +357,6 @@ public class MainMenu extends MenuBar {
 		SearchBox inp = new SearchBox(MyLocale.getMsg(119, "Search for:"));
 		String srch = inp.input(null, "", searchInDescriptionAndNotes,
 				searchInLogs, 10);
-		MyLocale.setSIPOff();
 		if (srch != null) {
 			searchInDescriptionAndNotes = inp.useNoteDesc();
 			searchInLogs = inp.useLogs();

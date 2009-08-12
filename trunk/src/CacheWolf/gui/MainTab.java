@@ -68,7 +68,6 @@ public class MainTab extends mTabbedPanel {
 			tabLocation = SOUTH;
 		cacheDB = profile.cacheDB;
 		this.statBar = statBar;
-		MyLocale.setSIPButton();
 		// Don't expand tabs if the screen is very narrow, i.e. HP IPAQ 65xx,
 		// 69xx
 		int sw = MyLocale.getScreenWidth();
@@ -229,7 +228,6 @@ public class MainTab extends mTabbedPanel {
 		// "+panelNo);
 		switch (panelNo) {// Switch by panel number
 		case 0:
-			MyLocale.setSIPOff();
 			// If Solver or Details has changed, save Cache
 			updatePendingChanges();
 			if (detP.hasBlackStatusChanged()) {
@@ -240,15 +238,12 @@ public class MainTab extends mTabbedPanel {
 			if (chD == null) { // Empty DB - show a dummy detail
 				newWaypoint(ch = new CacheHolder());
 			}
-			MyLocale.setSIPOff();
 			detP.setDetails(ch);
 			break;
 		case 2: // Description Panel
-			MyLocale.setSIPOff();
 			descP.setText(ch);
 			break;
 		case 3: // Picture Panel
-			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
 				imageP.setImages(ch.getMainCache().getCacheDetails(true));
 			} else {
@@ -256,7 +251,6 @@ public class MainTab extends mTabbedPanel {
 			}
 			break;
 		case 4: // Log Hint Panel
-			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
 				hintLP.setText(ch.getMainCache().getCacheDetails(true));
 			} else {
@@ -264,7 +258,6 @@ public class MainTab extends mTabbedPanel {
 			}
 			break;
 		case 5: // Solver Panel
-			MyLocale.setSIPOff();
 			if (ch.isAddiWpt()) {
 				chMain = ch.getMainCache();
 				solverP.setInstructions(ch.getMainCache());
@@ -273,14 +266,12 @@ public class MainTab extends mTabbedPanel {
 			}
 			break;
 		case 6: // CalcPanel
-			MyLocale.setSIPOff();
 			calcP.setFields(ch);
 			break;
 		case 7: // GotoPanel
-			MyLocale.setSIPOff();
+			// nothing to do it seams ...
 			break;
 		case 8: // Cache Radar Panel
-			MyLocale.setSIPOff();
 			radarP.setParam(pref, cacheDB, ch.getWayPoint());
 			radarP.drawThePanel();
 			break;
@@ -308,7 +299,6 @@ public class MainTab extends mTabbedPanel {
 	}
 
 	public void openDescriptionPanel(CacheHolder chi) {
-		MyLocale.setSIPOff();
 		// To change cache we need to be in panel 0
 		onLeavingPanel(oldCard);
 		onEnteringPanel(0);
@@ -484,7 +474,6 @@ public class MainTab extends mTabbedPanel {
 		mnuMain.allowProfileChange(false);
 		if (this.getSelectedItem() == 0) {// List view selected
 			mnuMain.allowProfileChange(true);
-			MyLocale.setSIPOff();
 		}
 	}
 }

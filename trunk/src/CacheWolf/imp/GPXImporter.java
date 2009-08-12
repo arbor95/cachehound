@@ -482,12 +482,12 @@ public class GPXImporter extends MinML {
 		}
 		if (name.equals("groundspeak:difficulty") || name.equals("difficulty")
 				|| name.equals("terra:mental_challenge")) {
-			holder.setHard(CacheTerrDiff.v1Converter(strData));
+			holder.setHard(CacheTerrDiff.stringToByteRepresentation(strData));
 			return;
 		}
 		if (name.equals("groundspeak:terrain") || name.equals("terrain")
 				|| name.equals("terra:physical_challenge")) {
-			holder.setTerrain(CacheTerrDiff.v1Converter(strData));
+			holder.setTerrain(CacheTerrDiff.stringToByteRepresentation(strData));
 			return;
 		}
 		if ((name.equals("groundspeak:type") || name.equals("type") || name
