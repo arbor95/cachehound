@@ -23,7 +23,11 @@ public class IdentityProxy<T> {
 	
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
-		return foo == ((IdentityProxy<T>)o).get();
+		if (o instanceof IdentityProxy) {
+			return foo == ((IdentityProxy<T>)o).get();
+		} else {
+			return false;
+		}
 	}
 	
 	public int hashCode() {
