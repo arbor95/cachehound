@@ -41,7 +41,7 @@ public class MapInfoObject extends Area {
 	// lat of lower right corner of image
 
 	private double[] affine = { 0, 0, 0, 0 };
-	private CWPoint affineTopleft = new CWPoint();;
+	private CWPoint affineTopleft = new CWPoint();
 	private double transLatX, transLatY, transLonX, transLonY; // this are
 	// needed for
 	// the inervers

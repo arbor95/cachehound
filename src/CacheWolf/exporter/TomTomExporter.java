@@ -242,7 +242,6 @@ public class TomTomExporter {
 			latlon *= 100000;
 			writeIntBinary(outp, (int) latlon);
 			latlon = Common.parseDouble(lat);
-			;
 			latlon *= 100000;
 			writeIntBinary(outp, (int) latlon);
 			outp.writeBytes(ch.getWayPoint());

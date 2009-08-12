@@ -219,7 +219,6 @@ public class Tokenizer {
 			if (currentStream.equals("!=") || currentStream.equals("><")
 					|| currentStream.equals("<>")) {
 				emitToken(TokenObj.TT_NE);
-				;
 				return;
 			}
 			if (currentStream.equals("<=")) {

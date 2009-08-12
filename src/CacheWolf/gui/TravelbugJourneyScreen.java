@@ -299,7 +299,7 @@ public class TravelbugJourneyScreen extends Form {
 						// Can't parse date - should not happen
 					}
 				}
-				;
+
 				dc.reset(t);
 				if (dc.execute() == ewe.ui.FormBase.IDOK) {
 					inpDate

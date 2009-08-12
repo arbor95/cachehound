@@ -34,7 +34,6 @@ public class MapSymbol extends MapImage {
 	public void loadImage() {
 		setImage(new Image(filename), 0);
 		freeSource();
-		;
 		// properties = AniImage.AlwaysOnTop;
 	}
 }

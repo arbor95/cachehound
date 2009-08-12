@@ -139,7 +139,6 @@ public class TravelbugList extends MinML {
 			else
 				Global.getPref().log("Error reading cache-travelbug list: ", e);
 		}
-		;
 	}
 
 	/**

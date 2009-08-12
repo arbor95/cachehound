@@ -307,7 +307,6 @@ public class ImagePanel extends InteractivePanel {
 					} catch (Exception e) {
 						Global.getPref().log("Ignored Exception", e, true);
 					}
-					;
 				}
 			}
 		} else {
