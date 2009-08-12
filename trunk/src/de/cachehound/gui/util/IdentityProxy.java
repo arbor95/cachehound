@@ -21,12 +21,13 @@ public class IdentityProxy<T> {
 		return foo;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
-		return foo == o;
+		return foo == ((IdentityProxy<T>)o).get();
 	}
 	
 	public int hashCode() {
-		return 0;
+		return System.identityHashCode(foo);
 	}
 	
 	public String toString() {
