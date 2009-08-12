@@ -833,19 +833,19 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == about) {
 				InfoScreen is = new InfoScreen(MyLocale
 						.getLocalizedFile("info.html"), MyLocale.getMsg(117,
-						"About"), true, pref);
+						"About"), pref);
 				is.execute(father.getFrame(), Gui.CENTER_FRAME);
 			}
 			if (mev.selectedItem == legend) {
 				InfoScreen is = new InfoScreen(MyLocale
 						.getLocalizedFile("legende.html"), MyLocale.getMsg(155,
-						"Legend"), true, pref);
+						"Legend"), pref);
 				is.execute(father.getFrame(), Gui.CENTER_FRAME);
 			}
 			if (mev.selectedItem == wolflang) {
 				InfoScreen is = new InfoScreen(MyLocale
 						.getLocalizedFile("wolflang.html"), MyLocale.getMsg(
-						118, "WolfLanguage"), true, pref);
+						118, "WolfLanguage"), pref);
 				is.execute(father.getFrame(), Gui.CENTER_FRAME);
 			}
 			if (mev.selectedItem == sysinfo) {
@@ -910,8 +910,7 @@ public class MainMenu extends MenuBar {
 				sb.append(' ');
 				sb.append(Version.getReleaseDetailed());
 				sb.append("<br>");
-				InfoScreen is = new InfoScreen(sb.toString(), "System", false,
-						pref);
+				InfoScreen is = new InfoScreen(sb.toString(), "System", pref);
 				is.execute(father.getFrame(), Gui.CENTER_FRAME);
 			}
 			if (mev.selectedItem == chkVersion) {

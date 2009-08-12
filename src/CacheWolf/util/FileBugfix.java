@@ -13,6 +13,7 @@ import ewe.util.mString;
  *         systems (e.g. linux): the mask "*.xyz" doesn't work so I get all the
  *         files which null in spite of the mask and filter afterwords
  */
+@Deprecated
 public class FileBugfix extends File {
 	public FileBugfix(String path) {
 		super(path.replace("//", "/"));

@@ -230,7 +230,7 @@ public class SolverPanel extends CellPanel {
 			if (ev.target == btnWolfLang) {
 				InfoScreen is = new InfoScreen(MyLocale
 						.getLocalizedFile("wolflang.html"), MyLocale.getMsg(
-						118, "WolfLanguage"), true, pref);
+						118, "WolfLanguage"), pref);
 				is.execute(parent.getFrame(), Gui.CENTER_FRAME);
 			}
 			if (ev.target == btnDegRad) {
