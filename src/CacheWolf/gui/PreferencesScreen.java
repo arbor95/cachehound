@@ -320,7 +320,7 @@ public class PreferencesScreen extends Form {
 		int curlang = 0;
 		for (int i = 0; i < tmp.length; i++) {
 			langs[i + 1] = tmp[i].substring(0, tmp[i].lastIndexOf('.'));
-			if (langs[i + 1].equalsIgnoreCase(MyLocale.language))
+			if (langs[i + 1].equalsIgnoreCase(MyLocale.getLanguage()))
 				curlang = i + 1;
 		}
 		// ewe.sys.Vm.copyArray(tmp, 0, langs, 1, tmp.length);
@@ -500,23 +500,15 @@ public class PreferencesScreen extends Form {
 				pref.myAlias = Alias.getText().trim();
 				SpiderGC.passwort = pref.password = inpPassword.getText()
 						.trim();
-				MyLocale.saveLanguage(MyLocale.language = inpLanguage.getText()
-						.toUpperCase().trim());
+				MyLocale.saveLanguage(inpLanguage.getText().toUpperCase()
+						.trim());
 				pref.myproxy = Proxy.getText();
 				pref.myproxyport = ProxyPort.getText();
 				pref.proxyActive = chkProxyActive.getState();
 				HttpConnection.setProxy(pref.myproxy, Common
-						.parseInt(pref.myproxyport), pref.proxyActive); // TODO
-				// generate
-				// an
-				// error
-				// message
-				// if
-				// proxy
-				// port
-				// is
-				// not a
-				// number
+						.parseInt(pref.myproxyport), pref.proxyActive); 
+				// TODO generate an error message if proxy port is not a number
+				
 				// myPreferences.nLogs = Convert.parseInt(nLogs.getText());
 				pref.autoReloadLastProfile = chkAutoLoad.getState();
 				pref.showDeletedImages = chkShowDeletedImg.getState();
@@ -554,7 +546,8 @@ public class PreferencesScreen extends Form {
 			}
 			if (ev.target == brwBt) {
 				FileChooser fc = new FileChooser(
-						FileChooserBase.DIRECTORY_SELECT, pref.getBaseDir().getAbsolutePath());
+						FileChooserBase.DIRECTORY_SELECT, pref.getBaseDir()
+								.getAbsolutePath());
 				fc.setTitle(MyLocale.getMsg(616, "Select directory"));
 				if (fc.execute() != FormBase.IDCANCEL)
 					DataDir.setText(fc.getChosen() + "/");

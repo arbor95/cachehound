@@ -31,23 +31,26 @@ import ewe.ui.WindowConstants;
  */
 public class MyLocale {
 	/** This language used if the system language is not supported by CacheWolf */
-	final static String standardLanguage = "EN";
+	private final static String STANDARD_LANGUAGE = "EN";
 
 	private static Locale l = null;
 	private static LocalResource lr = null;
 	private static Rect s = (Rect) Window.getGuiInfo(
 			WindowConstants.INFO_SCREEN_RECT, null, new Rect(), 0);
 	private static String digSeparator = null;
-	/**
-	 * Read a non-standard language from the file language. If it is empty, the
-	 * default language is used.
-	 */
-	public static String language = getLanguage();
 
 	public static String initErrors;
 
+	/**
+	 * This is used to determine the language file name - it is necessary
+	 * because ewe-vm v1.49 doesn't support French
+	 */
+	static String resourceLanguage;
+	static boolean inInit = false;
+	
 	private static File getLocaleFile(String languageshort) {
-		return new File("languages" + File.separator + languageshort.toUpperCase() + ".cfg");
+		return new File("languages" + File.separator
+				+ languageshort.toUpperCase() + ".cfg");
 	}
 
 	/**
@@ -77,61 +80,24 @@ public class MyLocale {
 		if (tmp > -1)
 			l = new Locale(tmp);
 		else
-			l = Locale.createFor("EN", "", 0 /* Locale.FORCE_CREATION */); 
-		// forcing the requiered language doesn't work, because Locale.numberformat
+			l = Locale.createFor("EN", "", 0 /* Locale.FORCE_CREATION */);
+		// forcing the requiered language doesn't work, because
+		// Locale.numberformat
 		// and so on cannot determine the requested format then.
-		// BTW: if French is system language new Locale() works even in ewe-vm v1.49
-		resourcelanguage = language;
+		// BTW: if French is system language new Locale() works even in ewe-vm
+		// v1.49
+		resourceLanguage = language;
 	}
 
-	/**
-	 * This is used to determine the language file name - it is necessary
-	 * because ewe-vm v1.49 doesn't support French
-	 */
-	static String resourcelanguage;
-	static boolean inInit = false;
+
 
 	private static void init() throws IllegalThreadStateException {
 		if (inInit) {
-			throw new IllegalThreadStateException("init may not be run twice"); // this
-			// can
-			// happen,
-			// if
-			// ewe
-			// is
-			// loading
-			// another
-			// class
-			// in
-			// background,
-			// which
-			// causes
-			// a
-			// call
-			// to
-			// e.g.
-			// MyLocale.getDigSeperator
-			// (most
-			// likely
-			// in
-			// a
-			// static
-			// statement).
-			// Ewe-Vm
-			// v1.49
-			// seems
-			// to
-			// be
-			// loading
-			// static
-			// classes
-			// ahead,
-			// causing
-			// the
-			// danger
-			// of
-			// this
-			// problem.
+			throw new IllegalThreadStateException("init may not be run twice");
+			// this can happen, if ewe is loading another class in background,
+			// which causes a call to e.g. MyLocale.getDigSeperator (most
+			// likely in a static statement). Ewe-Vm v1.49 seems to be loading
+			// static classes ahead, causing the danger of this problem.
 		}
 		inInit = true;
 		initErrors = "";
@@ -139,10 +105,13 @@ public class MyLocale {
 		// specified), 2. try to use system language, 3. try to use english, 4.
 		// use hard coded messages
 		l = null;
-		if ((language.length() != 0) && (!language.equalsIgnoreCase("auto"))) { 
+		String language = getLanguage();
+		if ((language != null) && (language.length() != 0)
+				&& (!language.equalsIgnoreCase("auto"))) {
 			// Was a language explicitly specified?
+
 			setLocale(language);
-			if (!(getLocaleFile(resourcelanguage).exists())) {
+			if (!(getLocaleFile(resourceLanguage).exists())) {
 				l = null; // language file not found
 				initErrors += "Language " + language
 						+ " not found - using system language\n";
@@ -154,8 +123,8 @@ public class MyLocale {
 			// available -> use system default
 			setLocale(Vm.getLocale().getString(Locale.LANGUAGE_SHORT, 0, 0));
 			// test if a localisation file for the system language exists
-			if (! (getLocaleFile(resourcelanguage).exists())) {
-				setLocale(standardLanguage);
+			if (!(getLocaleFile(resourceLanguage).exists())) {
+				setLocale(STANDARD_LANGUAGE);
 				initErrors += "Your system language is not supported by cachewolf - using English\n You can choose a different language in the preferences\n";
 				/*
 				 * //uncomment this code to print a list of all supported
@@ -172,14 +141,15 @@ public class MyLocale {
 			}
 		}
 		lr = null;
-		if (getLocaleFile(resourcelanguage).exists()) {
+		if (getLocaleFile(resourceLanguage).exists()) {
 			ewe.io.TreeConfigFile tcf = ewe.io.TreeConfigFile
-					.getConfigFile(getLocaleFile(resourcelanguage).getAbsolutePath());
+					.getConfigFile(getLocaleFile(resourceLanguage)
+							.getAbsolutePath());
 			if (tcf != null) {
 				lr = tcf.getLocalResourceObject(new Locale() {
 					public String getString(int what, int forValue, int options) {
 						if (what == LANGUAGE_SHORT)
-							return resourcelanguage; // this is necessary
+							return resourceLanguage; // this is necessary
 						// because French cannot
 						// be set in ewe-vm
 						// v1.49
@@ -191,8 +161,7 @@ public class MyLocale {
 		}
 		if (lr == null) {
 			// Vm.debug("lr==null 1");
-			initErrors += "Language file "
-					+ getLocaleFile(resourcelanguage)
+			initErrors += "Language file " + getLocaleFile(resourceLanguage)
 					+ " couldn't be loaded - using hard coded messages";
 			// Vm.debug("lr==null 2");
 			lr = new LocalResource() {
@@ -359,54 +328,13 @@ public class MyLocale {
 	}
 
 	/**
-	 * This function checks whether the device supports a supplementary input
-	 * panel (SIP) and if yes, shows it.
-	 * 
-	 */
-	public static void setSIPOn() {
-		if (Vm.isMobile()) {
-			Vm.setSIP(Vm.SIP_ON);
-		}
-	}
-
-	/**
-	 * This function checks whether the device supports a supplementary input
-	 * panel (SIP) and if yes, hides it and also hides the button.
-	 * 
-	 */
-	public static void setSIPOff() {
-		if (Vm.isMobile()) {
-			Vm.setSIP(0);
-		}
-	}
-
-	/**
-	 * This function checks whether the device supports a supplementary input
-	 * panel (SIP) and if yes, hides it and just shows the button.
-	 * 
-	 */
-	public static void setSIPButton() {
-		if (Vm.isMobile()) {
-			Vm.setSIP(Vm.SIP_LEAVE_BUTTON);
-		}
-	}
-
-	/**
 	 * Read the language from the prefs and return the specified language (or
 	 * empty string if none specified).
 	 * 
 	 * @return Language (e.g. DE, EN etc.) or ""
 	 */
-	private static String getLanguage() {
-		Preferences pref = Global.getPref();
-		if (pref != null) {
-			language = pref.language;
-		} else {
-			language = "";
-		}
-		if (language == null)
-			language = "";
-		return language;
+	public static String getLanguage() {
+		return Global.getPref().language;
 	}
 
 	/**

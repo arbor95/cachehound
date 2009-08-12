@@ -40,37 +40,37 @@ public class CacheTerrDiff {
 	 * 
 	 * since it is also used by the importers it is not flagged as depreciated
 	 * 
-	 * @param v1TerrDiff
+	 * @param asString
 	 *            a string representation of terrain or difficulty
 	 * @return internal representation of terrain or difficulty
 	 * @throws IllegalArgumentException
 	 *             if <code>v1TerrDiff</code> can not be mapped
 	 */
-	public static final byte v1Converter(String v1TerrDiff)
+	public static final byte stringToByteRepresentation(String asString)
 			throws IllegalArgumentException {
-		if (v1TerrDiff == null) {
+		if (asString == null) {
 			throw new IllegalArgumentException(
 					"error mapping terrain or difficulty");
 		}
-		v1TerrDiff = v1TerrDiff.replace(',', '.');
-		if (v1TerrDiff.equals("1") || v1TerrDiff.equals("1.0"))
+		asString = asString.replace(',', '.');
+		if (asString.equals("1") || asString.equals("1.0"))
 			return CW_DT_10;
-		if (v1TerrDiff.equals("2") || v1TerrDiff.equals("2.0"))
+		if (asString.equals("2") || asString.equals("2.0"))
 			return CW_DT_20;
-		if (v1TerrDiff.equals("3") || v1TerrDiff.equals("3.0"))
+		if (asString.equals("3") || asString.equals("3.0"))
 			return CW_DT_30;
-		if (v1TerrDiff.equals("4") || v1TerrDiff.equals("4.0"))
+		if (asString.equals("4") || asString.equals("4.0"))
 			return CW_DT_40;
-		if (v1TerrDiff.equals("5") || v1TerrDiff.equals("5.0"))
+		if (asString.equals("5") || asString.equals("5.0"))
 			return CW_DT_50;
 
-		if (v1TerrDiff.equals("1.5"))
+		if (asString.equals("1.5"))
 			return CW_DT_15;
-		if (v1TerrDiff.equals("2.5"))
+		if (asString.equals("2.5"))
 			return CW_DT_25;
-		if (v1TerrDiff.equals("3.5"))
+		if (asString.equals("3.5"))
 			return CW_DT_35;
-		if (v1TerrDiff.equals("4.5"))
+		if (asString.equals("4.5"))
 			return CW_DT_45;
 
 		throw new IllegalArgumentException(
@@ -157,21 +157,13 @@ public class CacheTerrDiff {
 	public static final boolean isValidTD(byte td) {
 		switch (td) {
 		case CW_DT_10:
-			return true;
 		case CW_DT_15:
-			return true;
 		case CW_DT_20:
-			return true;
 		case CW_DT_25:
-			return true;
 		case CW_DT_30:
-			return true;
 		case CW_DT_35:
-			return true;
 		case CW_DT_40:
-			return true;
 		case CW_DT_45:
-			return true;
 		case CW_DT_50:
 			return true;
 		default:
