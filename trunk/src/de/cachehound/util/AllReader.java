@@ -5,7 +5,7 @@ import java.io.Reader;
 
 public class AllReader extends Reader {
 	private Reader r;
-	private int bufSize;;
+	private int bufSize;
 
 	public AllReader(Reader r) {
 		this.r = r;
