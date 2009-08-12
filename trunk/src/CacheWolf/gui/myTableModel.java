@@ -303,7 +303,6 @@ public class myTableModel extends TableModel {
 										"Ignored Exception in myTableModel.TableCellAttributes()",
 										e, true);
 				}
-				;
 			} else {
 				// Here: We already had this row.
 				// Take color computed for last column

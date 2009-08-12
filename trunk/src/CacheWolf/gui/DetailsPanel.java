@@ -174,7 +174,6 @@ public class DetailsPanel extends CellPanel {
 		pnlTools.stretchFirstRow = true;
 		this.addLast(pnlTools, CellConstants.DONTSTRETCH, CellConstants.WEST)
 				.setTag(SPAN, new Dimension(3, 1));
-		;
 
 		// //////////////////
 		// Main body of screen
@@ -616,7 +615,7 @@ public class DetailsPanel extends CellPanel {
 						// No parsable date given - should not appear
 					}
 				}
-				;
+
 				dc.reset(t);
 				if (dc.execute() == ewe.ui.FormBase.IDOK) {
 					chcStatus

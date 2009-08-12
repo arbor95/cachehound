@@ -2155,7 +2155,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 	MenuItem gotoMenuItem = new MenuItem(MyLocale.getMsg(4230, "Goto here$g"),
 			0, null);
 	MenuItem newWayPointMenuItem = new MenuItem(MyLocale.getMsg(4232,
-			"Create new Waypoint here$n"), 0, null);;
+			"Create new Waypoint here$n"), 0, null);
 	MenuItem openCacheDescMenuItem, addCachetoListMenuItem, gotoCacheMenuItem;
 
 	MenuItem miLuminary[];
@@ -2177,7 +2177,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 					"Hide map"), null, CellConstants.RIGHT));
 	// automatic
 	MenuItem mapChangeModusMI = new MenuItem(MyLocale.getMsg(4242,
-			"Modus for automatic map change"), MenuItem.Separator, null);;
+			"Modus for automatic map change"), MenuItem.Separator, null);
 	MenuItem highestResGpsDestMI = new MenuItem(MyLocale.getMsg(4244,
 			"Highest res. containing dest. & cur. position"), new IconAndText(
 			new mImage("res_gps_goto.png"), MyLocale.getMsg(4245,
@@ -2196,7 +2196,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 	// beibehalten
 	// manuell
 	MenuItem mapChangeResMI = new MenuItem(MyLocale.getMsg(4250,
-			"Change resolution manually"), MenuItem.Separator, null);;
+			"Change resolution manually"), MenuItem.Separator, null);
 	MenuItem AllCachesResMI = new MenuItem(MyLocale.getMsg(4252,
 			"Load a map containing all marked caches"), new IconAndText(
 			new mImage("loupe_all.png"), MyLocale.getMsg(4253,
@@ -2226,7 +2226,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 	// details
 	// move map to
 	MenuItem moveToMI = new MenuItem(MyLocale.getMsg(4258,
-			"Move map to and load map"), MenuItem.Separator, null);;
+			"Move map to and load map"), MenuItem.Separator, null);
 	MenuItem moveToDestMI = new MenuItem(MyLocale.getMsg(4260,
 			"Move to goto point"), new IconAndText(new mImage("move2goto.png"),
 			MyLocale.getMsg(4261, "Move to goto point"), null,
