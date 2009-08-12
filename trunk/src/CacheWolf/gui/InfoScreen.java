@@ -1,8 +1,15 @@
 package CacheWolf.gui;
 
+import java.io.File;
+import java.io.FileReader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.Preferences;
 import CacheWolf.util.MyLocale;
-import ewe.io.FileReader;
+import de.cachehound.imp.mail.CacheWolfMailHandler;
+import de.cachehound.util.AllReader;
 import ewe.ui.CellConstants;
 import ewe.ui.ControlEvent;
 import ewe.ui.Event;
@@ -20,37 +27,65 @@ import ewe.ui.mButton;
  */
 public class InfoScreen extends Form {
 
-	HtmlDisplay disp = new HtmlDisplay();
-	mButton btCancel;
-	Preferences pref;
+	private static Logger logger = LoggerFactory
+			.getLogger(CacheWolfMailHandler.class);
 
-	public InfoScreen(String datei, String tit, boolean readFromFile,
-			Preferences p) {
-		pref = p;
-		String myText = new String();
-		this.setTitle(tit);
+	private HtmlDisplay disp = new HtmlDisplay();
+	private mButton closeButton;
+
+	/**
+	 * Shows the given html-Fil on the screen 
+	 * @param text The (html-formated) File to show
+	 * @param title The WindowTitle
+	 * @param pref The Preferences of CacheWolf
+	 */
+	public InfoScreen(File file, String title, Preferences pref) {
+		String myText;
+		try {
+			AllReader in = new AllReader(new FileReader(file));
+			myText = in.readAll();
+			in.close();
+		} catch (Exception ex) {
+			logger.error("Can't open " + file.getAbsolutePath() + " in InfoScreen.", ex);
+			myText = "Failure at opening " + file.getAbsolutePath()
+					+ " for this InfoScreen";
+		}
+		buildWindow(myText, title, pref);
+	}
+
+	/**
+	 *  Shows the given String on the screen 
+	 * @param text The (html-formated) Text to show
+	 * @param title The WindowTitle
+	 * @param pref The Preferences of CacheWolf
+	 */
+	public InfoScreen(String text, String title, Preferences prefs) {
+		buildWindow(text, title, prefs);
+	}
+
+	/**
+	 *  Shows the given String on the screen 
+	 * @param text The (html-formated) Text to show
+	 * @param title The WindowTitle
+	 * @param pref The Preferences of CacheWolf
+	 */
+	private void buildWindow(String text, String title, Preferences pref) {
+		this.setTitle(title);
 		this.setPreferredSize(pref.myAppWidth, pref.myAppHeight);
-		if (readFromFile == true) {
-			try {
-				FileReader in = new FileReader(datei);
-				myText = in.readAll();
-				in.close();
-			} catch (Exception ex) {
-				// Vm.debug("Error! Could not open " + datei);
-			}
-		} else
-			myText = datei;
-		disp.setHtml(myText);
+		disp.setHtml(text);
 		ScrollBarPanel sbp = new MyScrollBarPanel(disp,
 				ScrollablePanel.NeverShowHorizontalScrollers);
 		this.addLast(sbp);
-		this.addLast(btCancel = new mButton(MyLocale.getMsg(3000, "Close")),
+		this.addLast(closeButton = new mButton(MyLocale.getMsg(3000, "Close")),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 	}
 
+	/**
+	 * Closes the Window when the user clicks on the Close Button.
+	 */
 	public void onEvent(Event ev) {
 		if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
-			if (ev.target == btCancel) {
+			if (ev.target == closeButton) {
 				this.close(0);
 			}
 		}

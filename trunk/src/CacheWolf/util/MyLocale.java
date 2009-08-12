@@ -5,11 +5,11 @@ package CacheWolf.util;
  * 
  */
 
+import java.io.File;
+
 import CacheWolf.Global;
 import CacheWolf.beans.Preferences;
 import ewe.fx.Rect;
-import ewe.io.File;
-import ewe.io.FileBase;
 import ewe.sys.Convert;
 import ewe.sys.Double;
 import ewe.sys.LocalResource;
@@ -46,9 +46,8 @@ public class MyLocale {
 
 	public static String initErrors;
 
-	private static String getLocaleFileName(String languageshort) {
-		return FileBase.makePath(FileBase.getProgramDirectory(), "languages/"
-				+ languageshort.toUpperCase() + ".cfg");
+	private static File getLocaleFile(String languageshort) {
+		return new File("languages" + File.separator + languageshort.toUpperCase() + ".cfg");
 	}
 
 	/**
@@ -59,8 +58,8 @@ public class MyLocale {
 	 * @param language_
 	 *            2 digits of language code as specified in ISO
 	 */
-	private static void setLocale(String language_) {
-		int tmp = Locale.createID(language_, "", 0); // in ewe-vm v1.49 this
+	private static void setLocale(String language) {
+		int tmp = Locale.createID(language, "", 0); // in ewe-vm v1.49 this
 		// call is enough to set
 		// the locale correctly
 		// and this works even
@@ -78,37 +77,11 @@ public class MyLocale {
 		if (tmp > -1)
 			l = new Locale(tmp);
 		else
-			l = Locale.createFor("EN", "", 0 /* Locale.FORCE_CREATION */); // forcing
-		// the
-		// requiered
-		// language
-		// doesn't
-		// work,
-		// because
-		// Locale.numberformat
-		// and
-		// so
-		// on
-		// cannot
-		// determine
-		// the
-		// requested
-		// format
-		// then.
-		// BTW:
-		// if
-		// French
-		// is
-		// system
-		// language
-		// new
-		// Locale()
-		// works
-		// even
-		// in
-		// ewe-vm
-		// v1.49
-		resourcelanguage = language_;
+			l = Locale.createFor("EN", "", 0 /* Locale.FORCE_CREATION */); 
+		// forcing the requiered language doesn't work, because Locale.numberformat
+		// and so on cannot determine the requested format then.
+		// BTW: if French is system language new Locale() works even in ewe-vm v1.49
+		resourcelanguage = language;
 	}
 
 	/**
@@ -166,37 +139,22 @@ public class MyLocale {
 		// specified), 2. try to use system language, 3. try to use english, 4.
 		// use hard coded messages
 		l = null;
-		if ((language.length() != 0) && (!language.equalsIgnoreCase("auto"))) { // Was
-			// a
-			// language
-			// explicitly
-			// specified?
+		if ((language.length() != 0) && (!language.equalsIgnoreCase("auto"))) { 
+			// Was a language explicitly specified?
 			setLocale(language);
-			if (!(new FileBugfix(getLocaleFileName(resourcelanguage)).exists())) {
+			if (!(getLocaleFile(resourcelanguage).exists())) {
 				l = null; // language file not found
 				initErrors += "Language " + language
-						+ " not found - using system language\n";// don't
-				// copy
-				// this
-				// messagebox
-				// into a
-				// language
-				// file,
-				// because
-				// it is
-				// only used
-				// if no
-				// languages
-				// file can
-				// be
-				// accessed
+						+ " not found - using system language\n";
+				// don't copy this messagebox into a language file, because it
+				// is only used if no languages file can be accessed
 			}
 		}
 		if (l == null) { // no language specified OR specified language not
 			// available -> use system default
 			setLocale(Vm.getLocale().getString(Locale.LANGUAGE_SHORT, 0, 0));
 			// test if a localisation file for the system language exists
-			if (!(new FileBugfix(getLocaleFileName(resourcelanguage)).exists())) {
+			if (! (getLocaleFile(resourcelanguage).exists())) {
 				setLocale(standardLanguage);
 				initErrors += "Your system language is not supported by cachewolf - using English\n You can choose a different language in the preferences\n";
 				/*
@@ -214,9 +172,9 @@ public class MyLocale {
 			}
 		}
 		lr = null;
-		if (new FileBugfix(getLocaleFileName(resourcelanguage)).exists()) {
+		if (getLocaleFile(resourcelanguage).exists()) {
 			ewe.io.TreeConfigFile tcf = ewe.io.TreeConfigFile
-					.getConfigFile(getLocaleFileName(resourcelanguage));
+					.getConfigFile(getLocaleFile(resourcelanguage).getAbsolutePath());
 			if (tcf != null) {
 				lr = tcf.getLocalResourceObject(new Locale() {
 					public String getString(int what, int forValue, int options) {
@@ -234,7 +192,7 @@ public class MyLocale {
 		if (lr == null) {
 			// Vm.debug("lr==null 1");
 			initErrors += "Language file "
-					+ getLocaleFileName(resourcelanguage)
+					+ getLocaleFile(resourcelanguage)
 					+ " couldn't be loaded - using hard coded messages";
 			// Vm.debug("lr==null 2");
 			lr = new LocalResource() {
@@ -471,17 +429,16 @@ public class MyLocale {
 	 * @param basename
 	 * @return
 	 */
-	public static String getLocalizedFile(String basename) {
+	public static File getLocalizedFile(String basename) {
 		String language = MyLocale.getLocaleLanguage();
-		String programmDirectory = FileBase.getProgramDirectory() + "/";
 		int index = basename.lastIndexOf('.');
 		String prefix = basename.substring(0, index);
 		String suffix = basename.substring(index);
-		File f = new File(programmDirectory, prefix + '_' + language + suffix);
+		File f = new File(prefix + '_' + language + suffix);
 		if (f.exists()) {
-			return f.toString();
+			return f;
 		} else {
-			return new File(programmDirectory, basename).toString();
+			return new File(basename);
 		}
 	}
 
