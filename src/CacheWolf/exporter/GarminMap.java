@@ -2,8 +2,9 @@ package CacheWolf.exporter;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
+import de.cachehound.types.Terrain;
 import ewe.io.FileBase;
 import ewe.util.Vector;
 import ewesoft.xml.MinML;
@@ -67,11 +68,11 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
-							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
+					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == 0 || icon.difficulty
-							.equals(CacheTerrDiff.shortDT(ch.getHard())));
+					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getHard().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
@@ -104,11 +105,11 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
-							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
+					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == 0 || icon.difficulty
-							.equals(CacheTerrDiff.shortDT(ch.getHard())));
+					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getHard().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
@@ -136,11 +137,11 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == 0 || icon.terrain
-							.equals(CacheTerrDiff.shortDT(ch.getTerrain())));
+					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == 0 || icon.difficulty
-							.equals(CacheTerrDiff.shortDT(ch.getHard())));
+					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getHard().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));

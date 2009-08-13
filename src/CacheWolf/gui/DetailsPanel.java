@@ -6,7 +6,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
@@ -19,6 +18,8 @@ import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
+import de.cachehound.types.Terrain;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
@@ -363,9 +364,9 @@ public class DetailsPanel extends CellPanel {
 			activateControl(btnTerr);
 			activateControl(btnDiff);
 			activateControl(chcSize);
-			if (CacheTerrDiff.isValidTD(ch.getTerrain())) {
+			if (ch.getTerrain().isValid()) {
 				btnTerr.setText(MyLocale.getMsg(1001, "T") + ": "
-						+ CacheTerrDiff.longDT(ch.getTerrain()));
+						+ ch.getTerrain().getFullRepresentation());
 			} else {
 				btnTerr.setText("T: -.-");
 				ch.setIncomplete(true);
@@ -374,9 +375,9 @@ public class DetailsPanel extends CellPanel {
 							ch.getWayPoint() + " has wrong terrain "
 									+ ch.getTerrain());
 			}
-			if (CacheTerrDiff.isValidTD(ch.getHard())) {
+			if (ch.getHard().isValid()) {
 				btnDiff.setText(MyLocale.getMsg(1000, "D") + ": "
-						+ CacheTerrDiff.longDT(ch.getHard()));
+						+ ch.getHard().getFullRepresentation());
 			} else {
 				btnDiff.setText("D: -.-");
 				ch.setIncomplete(true);
@@ -525,8 +526,8 @@ public class DetailsPanel extends CellPanel {
 				String imgDesc, imgDestName;
 
 				// Get Image and description
-				FileChooser fc = new FileChooser(FileChooserBase.OPEN,
-						profile.getDataDir().getAbsolutePath());
+				FileChooser fc = new FileChooser(FileChooserBase.OPEN, profile
+						.getDataDir().getAbsolutePath());
 				fc.setTitle("Select image file:");
 				if (fc.execute() != FormBase.IDCANCEL) {
 					imgFile = fc.getChosenFile();
@@ -545,8 +546,8 @@ public class DetailsPanel extends CellPanel {
 					thisCache.getFreshDetails().addUserImage(userImageInfo);
 
 					// Copy File
-					DataMover.copy(new File(imgFile.getFullPath()), new File(profile.getDataDir(),
-							imgDestName));
+					DataMover.copy(new File(imgFile.getFullPath()), new File(
+							profile.getDataDir(), imgDestName));
 					// Save Data
 					CacheHolderDetailFactory.getInstance().saveCacheDetails(
 							thisCache.getFreshDetails(),
@@ -570,8 +571,8 @@ public class DetailsPanel extends CellPanel {
 				ch.setLatLon(thisCache.getLatLon());
 				ch.setPos(new CWPoint(thisCache.getPos()));
 				ch.setType(CacheType.CW_TYPE_STAGE);
-				ch.setHard(CacheTerrDiff.CW_DT_UNSET);
-				ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
+				ch.setHard(Difficulty.DIFFICULTY_UNSET);
+				ch.setTerrain(Terrain.TERRAIN_UNSET);
 				ch.setCacheSize(CacheSize.NOT_CHOSEN);
 				Global.mainTab.newWaypoint(ch);
 			} else if (ev.target == btnGoto) {
@@ -651,25 +652,25 @@ public class DetailsPanel extends CellPanel {
 				}
 			} else if (ev.target == this.btnTerr) {
 				int returnValue;
-				TerrDiffForm tdf = new TerrDiffForm(true, thisCache
+				TerrainForm tf = new TerrainForm(thisCache
 						.getTerrain());
-				returnValue = tdf.execute();
-				if (returnValue == 1 && tdf.getDT() != thisCache.getTerrain()) {
+				returnValue = tf.execute();
+				if (returnValue == 1 && tf.getTerrain() != thisCache.getTerrain()) {
 					// FIXME: do this when waypoint is checked for saving
-					thisCache.setTerrain(tdf.getDT());
+					thisCache.setTerrain(tf.getTerrain());
 					btnTerr.setText(MyLocale.getMsg(1001, "T") + ": "
-							+ CacheTerrDiff.longDT(thisCache.getTerrain()));
+							+ thisCache.getTerrain().getFullRepresentation());
 					dirty_details = true;
 				}
 			} else if (ev.target == this.btnDiff) {
 				int returnValue;
-				TerrDiffForm tdf = new TerrDiffForm(false, thisCache.getHard());
-				returnValue = tdf.execute();
-				if (returnValue == 1 && tdf.getDT() != thisCache.getHard()) {
+				DifficultyForm df = new DifficultyForm(thisCache.getHard());
+				returnValue = df.execute();
+				if (returnValue == 1 && df.getDifficulty() != thisCache.getHard()) {
 					// FIXME: do this when waypoint is checked for saving
-					thisCache.setHard(tdf.getDT());
+					thisCache.setHard(df.getDifficulty());
 					btnDiff.setText(MyLocale.getMsg(1000, "D") + ": "
-							+ CacheTerrDiff.longDT(thisCache.getHard()));
+							+ thisCache.getHard().getFullRepresentation());
 					dirty_details = true;
 				}
 			}
@@ -924,22 +925,22 @@ public class DetailsPanel extends CellPanel {
 		}
 	}
 
-	private class TerrDiffForm extends Form {
+	private class TerrainForm extends Form {
 		private mChoice mcDT;
 		private mButton btnOk, btnCancel;
-		private String[] DT = new String[] { "1.0", "1.5", "2.0", "2.5", "3.0",
-				"3.5", "4.0", "4.5", "5.0" };
+		private String[] terrainStrings = new String[] { "1.0", "1.5", "2.0",
+				"2.5", "3.0", "3.5", "4.0", "4.5", "5.0" };
 
-		public TerrDiffForm(boolean terrain, int startVal) {
-			mcDT = new mChoice(DT, (startVal > 0) ? (startVal - 10) / 5 : 0);
+		public TerrainForm(Terrain terrain) {
+			mcDT = new mChoice(terrainStrings, (terrain.isValid()) ? (terrain
+					.getOldCWValue() - 10) / 5 : 0);
 			btnOk = new mButton(MyLocale.getMsg(1605, "OK"));
 			btnCancel = new mButton(MyLocale.getMsg(1604, "Cancel"));
 
 			resizable = false;
 			setTitle(MyLocale.getMsg(31415, "D & T"));
 
-			addNext(new mLabel(terrain ? MyLocale.getMsg(31415, "Terrain")
-					: MyLocale.getMsg(31415, "Difficulty")));
+			addNext(new mLabel(MyLocale.getMsg(31415, "Terrain")));
 			addLast(mcDT);
 			addButton(btnOk);
 			addButton(btnCancel);
@@ -955,8 +956,49 @@ public class DetailsPanel extends CellPanel {
 			}
 		}
 
-		public byte getDT() {
-			return (byte) (mcDT.selectedIndex * 5 + 10);
+		public Terrain getTerrain() {
+			return Terrain
+					.fromOldCWByte((byte) (mcDT.selectedIndex * 5 + 10));
 		}
 	}
+
+	private class DifficultyForm extends Form {
+		private mChoice mcDT;
+		private mButton btnOk, btnCancel;
+		private String[] terrainStrings = new String[] { "1.0", "1.5", "2.0",
+				"2.5", "3.0", "3.5", "4.0", "4.5", "5.0" };
+
+		public DifficultyForm(Difficulty difficulty) {
+			mcDT = new mChoice(
+					terrainStrings,
+					(difficulty.isValid()) ? (difficulty.getOldCWValue() - 10) / 5
+							: 0);
+			btnOk = new mButton(MyLocale.getMsg(1605, "OK"));
+			btnCancel = new mButton(MyLocale.getMsg(1604, "Cancel"));
+
+			resizable = false;
+			setTitle(MyLocale.getMsg(31415, "D & T"));
+
+			addNext(new mLabel(MyLocale.getMsg(31415, "Difficulty")));
+			addLast(mcDT);
+			addButton(btnOk);
+			addButton(btnCancel);
+		}
+
+		public void onEvent(Event ev) {
+			if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
+				if (ev.target == btnCancel) {
+					close(-1);
+				} else if (ev.target == btnOk) {
+					close(1);
+				}
+			}
+		}
+
+		public Difficulty getDifficulty() {
+			return Difficulty
+					.fromOldCWByte((byte) (mcDT.selectedIndex * 5 + 10));
+		}
+	}
+
 }

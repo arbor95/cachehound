@@ -6,7 +6,6 @@ import java.net.URI;
 import CacheWolf.Global;
 import CacheWolf.beans.Attribute;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import HTML.Template;
 
@@ -83,10 +82,10 @@ public class ShowCacheInBrowser {
 					tpl.setParam("WAYPOINT", chD.getWayPoint());
 					tpl.setParam("CACHE_NAME", chD.getCacheName());
 					tpl.setParam("OWNER", chD.getCacheOwner());
-					tpl.setParam("DIFFICULTY", CacheTerrDiff.longDT(chD
-							.getHard()));
-					tpl.setParam("TERRAIN", CacheTerrDiff.longDT(chD
-							.getTerrain()));
+					tpl.setParam("DIFFICULTY", chD.getHard()
+							.getFullRepresentation());
+					tpl.setParam("TERRAIN", chD.getTerrain()
+							.getFullRepresentation());
 					tpl.setParam("DISTANCE", chD.getDistance()
 							.replace(',', '.'));
 					tpl.setParam("BEARING", chD.getBearingAsString());

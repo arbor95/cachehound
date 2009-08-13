@@ -7,7 +7,6 @@ import java.util.List;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.MyLocale;
 import de.cachehound.comparators.CacheHolderComparatorFactory;
@@ -381,7 +380,7 @@ public class myTableModel extends TableModel {
 							|| ch.getType() == CacheType.CW_TYPE_CUSTOM) {
 						return "";
 					} else {
-						return CacheTerrDiff.longDT(ch.getHard());
+						return ch.getHard().getFullRepresentation();
 					}
 				case 3: // Terrain
 					// FIXME Needs optimizing when code is stable
@@ -389,7 +388,7 @@ public class myTableModel extends TableModel {
 							|| ch.getType() == CacheType.CW_TYPE_CUSTOM) {
 						return "";
 					} else {
-						return CacheTerrDiff.longDT(ch.getTerrain());
+						return ch.getTerrain().getFullRepresentation();
 					}
 				case 4: // Waypoint
 					if (showExtraWptInfo) {

@@ -128,10 +128,12 @@ public class Version {
 	 * @return: 1 = newer Version available, 0 = this is up to date, 3 = check
 	 *          failed
 	 */
-
-	private static int checkVersion(Properties curvers, String prefix, int t) {
+	@SuppressWarnings("unused")
+	private static int checkVersion( Properties curvers, String prefix, int t) {
 		return 0;
 		// Automatischen Check mal ausgeschaltet ...
+		// TODO: Prüfen, ob wir einen automatischen Check wollen und ggf. installieren
+		
 		// try {
 		// int curvmaj = Convert.toInt(curvers.getProperty(prefix
 		// + "VersionMajor", "0"));

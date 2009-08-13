@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -299,9 +298,9 @@ public class ExploristExporter {
 			// - 1900
 			if (add.equals("")) {
 				sb.append(",");
-				sb.append(CacheTerrDiff.longDT(ch.getHard()));
+				sb.append(ch.getHard().getFullRepresentation());
 				sb.append(",");
-				sb.append(CacheTerrDiff.longDT(ch.getTerrain()));
+				sb.append(ch.getTerrain().getFullRepresentation());
 			} else {
 				sb.append(",,");
 			}

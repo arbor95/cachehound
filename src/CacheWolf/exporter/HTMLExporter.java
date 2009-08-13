@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -123,12 +122,10 @@ public class HTMLExporter {
 						varParams.put("TERRAIN", "");
 					} else {
 						varParams.put("SIZE", ch.getCacheSize().getAsString());
-						varParams.put("DIFFICULTY", CacheTerrDiff.isValidTD(ch
-								.getHard()) ? CacheTerrDiff
-								.longDT(ch.getHard()) : "");
-						varParams.put("TERRAIN", CacheTerrDiff.isValidTD(ch
-								.getTerrain()) ? CacheTerrDiff.longDT(ch
-								.getTerrain()) : "");
+						varParams.put("DIFFICULTY", ch.getHard().isValid() ? ch
+								.getHard().getFullRepresentation() : "");
+						varParams.put("TERRAIN", ch.getTerrain().isValid() ? ch
+								.getTerrain().getFullRepresentation() : "");
 					}
 					varParams.put("DISTANCE", ch.getDistance());
 					varParams.put("BEARING", ch.getBearingAsString());
@@ -299,8 +296,8 @@ public class HTMLExporter {
 						}
 
 						PrintWriter pagefile = new PrintWriter(
-								new BufferedWriter(new FileWriter(new File(targetDir,
-										ch.getWayPoint() + ".html"))));
+								new BufferedWriter(new FileWriter(new File(
+										targetDir, ch.getWayPoint() + ".html"))));
 						pagefile.print(page_tpl.output());
 						pagefile.close();
 					} catch (IllegalArgumentException e) {

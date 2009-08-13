@@ -29,7 +29,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -220,18 +219,20 @@ public class TPLExporter {
 								.put(
 										"DIFFICULTY",
 										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
-												.getType()) ? "" : dec
-												.replaceAll(CacheTerrDiff
-														.longDT(ch.getHard())));
+												.getType()) ? ""
+												: dec
+														.replaceAll(ch
+																.getHard()
+																.getFullRepresentation()));
 						varParams
 								.put(
 										"TERRAIN",
 										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
 												.getType()) ? ""
 												: dec
-														.replaceAll(CacheTerrDiff
-																.longDT(ch
-																		.getTerrain())));
+														.replaceAll(ch
+																.getTerrain()
+																.getFullRepresentation()));
 						varParams.put("DISTANCE", dec.replaceAll(ch
 								.getDistance()));
 						varParams.put("BEARING", ch.getBearingAsString());

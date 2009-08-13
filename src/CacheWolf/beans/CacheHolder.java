@@ -23,6 +23,8 @@ import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
+import de.cachehound.types.Terrain;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
 import ewe.sys.Convert;
@@ -75,9 +77,9 @@ public class CacheHolder implements ICacheHolder {
 	/** The angle (0=North, 180=South) from the current centre to this point */
 	private double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
-	private byte hard = CacheTerrDiff.CW_DT_ERROR;
+	private Difficulty hard = Difficulty.DIFFICULTY_ERROR;
 	/** The terrain rating of the cache from 1 to 5 in .5 incements */
-	private byte terrain = CacheTerrDiff.CW_DT_ERROR;
+	private Terrain terrain = Terrain.TERRAIN_ERROR;
 	/** The cache type (@see CacheType for translation table) */
 	private byte type = CacheType.CW_TYPE_ERROR;
 	/** True if the cache has been archived */
@@ -845,7 +847,7 @@ public class CacheHolder implements ICacheHolder {
 	 * @return long value representing the byte field
 	 */
 	private long byteFields2long() {
-		long value = byteBitMask(hard, 1) | byteBitMask(terrain, 2)
+		long value = byteBitMask(hard.getOldCWValue(), 1) | byteBitMask(terrain.getOldCWValue(), 2)
 				| byteBitMask(this.type, 3)
 				| byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
@@ -860,13 +862,13 @@ public class CacheHolder implements ICacheHolder {
 	 *            The long value which contains up to 8 bytes.
 	 */
 	private void long2byteFields(long value) {
-		setHard(byteFromLong(value, 1));
-		setTerrain(byteFromLong(value, 2));
+		setHard(Difficulty.fromOldCWByte(byteFromLong(value, 1)));
+		setTerrain(Terrain.fromOldCWByte(byteFromLong(value, 2)));
 		setType(byteFromLong(value, 3));
 		setCacheSize(CacheSize.fromOldCwId(byteFromLong(value, 4)));
 		setNoFindLogs((byteFromLong(value, 5)));
-		if (getHard() == CacheTerrDiff.CW_DT_ERROR
-				|| getTerrain() == CacheTerrDiff.CW_DT_ERROR
+		if ((getHard() == Difficulty.DIFFICULTY_ERROR)
+				|| (getTerrain() == Terrain.TERRAIN_ERROR)
 				// || getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich
 				// nie erreicht werden
 				|| getType() == CacheType.CW_TYPE_ERROR) {
@@ -1090,20 +1092,20 @@ public class CacheHolder implements ICacheHolder {
 		this.cacheSize = cacheSize;
 	}
 
-	public byte getHard() {
+	public Difficulty getHard() {
 		return hard;
 	}
 
-	public void setHard(byte hard) {
+	public void setHard(Difficulty hard) {
 		Global.getProfile().notifyUnsavedChanges(hard != this.hard);
 		this.hard = hard;
 	}
 
-	public byte getTerrain() {
+	public Terrain getTerrain() {
 		return terrain;
 	}
 
-	public void setTerrain(byte terrain) {
+	public void setTerrain(Terrain terrain) {
 		Global.getProfile().notifyUnsavedChanges(terrain != this.terrain);
 		this.terrain = terrain;
 	}
@@ -1285,8 +1287,10 @@ public class CacheHolder implements ICacheHolder {
 		boolean ret;
 		if (isCacheWpt()) {
 			if (getWayPoint().length() < 3
-					|| getHard() <= CacheTerrDiff.CW_DT_UNSET
-					|| getTerrain() <= CacheTerrDiff.CW_DT_UNSET
+					|| getHard() == Difficulty.DIFFICULTY_ERROR 
+					|| getHard() == Difficulty.DIFFICULTY_UNSET
+					|| getTerrain() == Terrain.TERRAIN_ERROR
+					|| getTerrain() == Terrain.TERRAIN_UNSET
 					// || getCacheSize() == CacheSize.CW_SIZE_ERROR kann
 					// eigentlich nie erreicht werden
 					|| getCacheOwner().length() == 0
@@ -1297,9 +1301,9 @@ public class CacheHolder implements ICacheHolder {
 				ret = false;
 		} else if (isAddiWpt()) {
 			if (getMainCache() == null
-					|| getHard() != CacheTerrDiff.CW_DT_UNSET
+					|| getHard() != Difficulty.DIFFICULTY_UNSET
 					|| getCacheSize() != CacheSize.NOT_CHOSEN
-					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
+					|| getTerrain() != Terrain.TERRAIN_UNSET
 					|| getWayPoint().length() < 2
 					// || getCacheOwner().length() > 0
 					// || getDateHidden().length() > 0
@@ -1308,8 +1312,8 @@ public class CacheHolder implements ICacheHolder {
 			else
 				ret = false;
 		} else if (isCustomWpt()) {
-			if (getHard() != CacheTerrDiff.CW_DT_UNSET
-					|| getTerrain() != CacheTerrDiff.CW_DT_UNSET
+			if (getHard() != Difficulty.DIFFICULTY_UNSET
+					|| getTerrain() != Terrain.TERRAIN_UNSET
 					|| getCacheSize() != CacheSize.NOT_CHOSEN
 					|| getWayPoint().length() < 2
 					// || getCacheOwner().length() > 0

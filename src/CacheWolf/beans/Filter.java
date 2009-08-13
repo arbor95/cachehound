@@ -484,7 +484,7 @@ public class Filter {
 			// Filter criterium 4: Difficulty
 			// /////////////////////////////
 			if (fscDiff > 0.0) {
-				dummyd1 = ch.getHard() / 10D;
+				dummyd1 = ch.getHard().getOldCWValue() / 10D;
 				if (diffdirec == SMALLER && dummyd1 > fscDiff) {
 					cacheFiltered = true;
 					break;
@@ -502,7 +502,7 @@ public class Filter {
 			// Filter criterium 5: Terrain
 			// /////////////////////////////
 			if (fscTerr > 0.0) {
-				dummyd1 = ch.getTerrain() / 10D;
+				dummyd1 = ch.getTerrain().getOldCWValue() / 10D;
 				if (terrdirec == SMALLER && dummyd1 > fscTerr) {
 					cacheFiltered = true;
 					break;

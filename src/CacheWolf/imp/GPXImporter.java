@@ -13,7 +13,6 @@ import java.util.zip.ZipFile;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.Preferences;
@@ -27,7 +26,9 @@ import CacheWolf.util.ParseLatLon;
 import CacheWolf.util.SafeXML;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
+import de.cachehound.types.Terrain;
 import de.cachehound.util.EweReader;
 import de.cachehound.util.SpiderService;
 import ewe.sys.Time;
@@ -463,8 +464,8 @@ public class GPXImporter extends MinML {
 				&& strData.startsWith("Waypoint")) {
 			holder.setType(CacheType.gpxType2CwType(strData));
 			holder.setCacheSize(CacheSize.NOT_CHOSEN);
-			holder.setHard(CacheTerrDiff.CW_DT_UNSET);
-			holder.setTerrain(CacheTerrDiff.CW_DT_UNSET);
+			holder.setHard(Difficulty.DIFFICULTY_UNSET);
+			holder.setTerrain(Terrain.TERRAIN_UNSET);
 			holder.setLastSync("");
 		}
 
@@ -482,12 +483,12 @@ public class GPXImporter extends MinML {
 		}
 		if (name.equals("groundspeak:difficulty") || name.equals("difficulty")
 				|| name.equals("terra:mental_challenge")) {
-			holder.setHard(CacheTerrDiff.stringToByteRepresentation(strData));
+			holder.setHard(Difficulty.fromString(strData));
 			return;
 		}
 		if (name.equals("groundspeak:terrain") || name.equals("terrain")
 				|| name.equals("terra:physical_challenge")) {
-			holder.setTerrain(CacheTerrDiff.stringToByteRepresentation(strData));
+			holder.setTerrain(Terrain.fromString(strData));
 			return;
 		}
 		if ((name.equals("groundspeak:type") || name.equals("type") || name
@@ -496,8 +497,8 @@ public class GPXImporter extends MinML {
 			holder.setType(CacheType.gpxType2CwType(strData));
 			if (holder.isCustomWpt()) {
 				holder.setCacheSize(CacheSize.NOT_CHOSEN);
-				holder.setHard(CacheTerrDiff.CW_DT_UNSET);
-				holder.setTerrain(CacheTerrDiff.CW_DT_UNSET);
+				holder.setHard(Difficulty.DIFFICULTY_UNSET);
+				holder.setTerrain(Terrain.TERRAIN_UNSET);
 			}
 			return;
 		}

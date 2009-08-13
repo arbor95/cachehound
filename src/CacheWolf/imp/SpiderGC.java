@@ -30,7 +30,6 @@ import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheImages;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
@@ -51,7 +50,9 @@ import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
+import de.cachehound.types.Terrain;
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.FileBase;
@@ -1084,16 +1085,16 @@ public class SpiderGC {
 							pref.log("Got size");
 
 						pref.log("Trying difficulty");
-						ch.setHard(CacheTerrDiff
-								.stringToByteRepresentation(getDiff(completeWebPage)));
+						ch.setHard(Difficulty
+								.fromString(getDifficulty(completeWebPage)));
 						if (pref.debug)
 							pref.log("Hard: " + ch.getHard());
 						else
 							pref.log("Got difficulty");
 
 						pref.log("Trying terrain");
-						ch.setTerrain(CacheTerrDiff
-								.stringToByteRepresentation(getTerr(completeWebPage)));
+						ch.setTerrain(Terrain
+								.fromString(getTerrain(completeWebPage)));
 						if (pref.debug)
 							pref.log("Terr: " + ch.getTerrain());
 						else
@@ -1367,7 +1368,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return The cache difficulty
 	 */
-	private String getDiff(String doc) {
+	private String getDifficulty(String doc) {
 		inRex = new Regex(p.getProp("difficultyRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1383,7 +1384,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return Terrain rating
 	 */
-	private String getTerr(String doc) {
+	private String getTerrain(String doc) {
 		inRex = new Regex(p.getProp("terrainRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1940,8 +1941,8 @@ public class SpiderGC {
 						descRex.stringMatched(1));
 				hd.setFound(is_found);
 				hd.setCacheSize(CacheSize.NOT_CHOSEN);
-				hd.setHard(CacheTerrDiff.CW_DT_UNSET);
-				hd.setTerrain(CacheTerrDiff.CW_DT_UNSET);
+				hd.setHard(Difficulty.DIFFICULTY_UNSET);
+				hd.setTerrain(Terrain.TERRAIN_UNSET);
 				if (idx < 0) {
 					cacheDB.add(hd);
 					hd.save();
