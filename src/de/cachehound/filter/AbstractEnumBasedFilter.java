@@ -27,4 +27,16 @@ public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 	public Set<T> getMask() {
 		return EnumSet.copyOf(mask);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		return this.getClass() == o.getClass()
+				&& this.getMask().equals(
+						((AbstractEnumBasedFilter<?>) o).getMask());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getClass().hashCode() + this.getMask().hashCode();
+	}
 }
