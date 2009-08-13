@@ -135,8 +135,8 @@ public class FilterEditor extends JDialog {
 
 	private void treeSelectionChanged() {
 		if (tree.getSelectionPath() != null) {
-			detailsPanel.showFilter((IFilter) tree.getSelectionPath()
-					.getLastPathComponent());
+			detailsPanel.showFilter(FilterTreeModel.object2IFilter(tree
+					.getSelectionPath().getLastPathComponent()));
 		}
 	}
 
