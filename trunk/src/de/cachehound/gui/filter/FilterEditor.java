@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.EnumSet;
+import java.util.Enumeration;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import de.cachehound.filter.AndFilter;
@@ -49,7 +51,7 @@ public class FilterEditor extends JDialog {
 	public int getReturnStatus() {
 		return returnStatus;
 	}
-	
+
 	public IFilter getFilter() {
 		return root.getFilter().clone();
 	}
@@ -73,6 +75,8 @@ public class FilterEditor extends JDialog {
 		this.add(detailsPanel, BorderLayout.EAST);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
+		treeSelectionChanged();
+
 		pack();
 	}
 
@@ -81,8 +85,17 @@ public class FilterEditor extends JDialog {
 
 		model = new DefaultTreeModel(root);
 		tree = new JTree(model);
+		
+		// Alles aufklappen
+		for (Enumeration<?> e = root.depthFirstEnumeration(); e
+				.hasMoreElements();) {
+			tree.makeVisible(new TreePath(((DefaultMutableTreeNode) e
+					.nextElement()).getPath()));
+		}
+		
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setSelectionRow(0);
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
