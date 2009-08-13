@@ -16,6 +16,13 @@ public class OrFilter extends ListFilter {
 
 	@Override
 	public String toString() {
-		return "OR";
+		StringBuilder ret = new StringBuilder("OR [");
+		for (IFilter f : this) {
+			ret.append(f.toString());
+			ret.append(" ");
+		}
+		ret.append("]");
+		return ret.toString();
+//		return "OR";
 	}
 }

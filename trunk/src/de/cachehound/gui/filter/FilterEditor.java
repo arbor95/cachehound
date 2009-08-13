@@ -15,6 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import de.cachehound.filter.AndFilter;
@@ -24,6 +26,8 @@ import de.cachehound.filter.IFilter;
 import de.cachehound.filter.ListFilter;
 import de.cachehound.filter.OrFilter;
 import de.cachehound.filter.SizeFilter;
+import de.cachehound.gui.filter.nodes.AbstractFilterTreeNode;
+import de.cachehound.gui.filter.nodes.FilterTreeNodeFactory;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
 
@@ -36,7 +40,7 @@ public class FilterEditor extends JDialog {
 	public FilterEditor(IFilter old, JFrame parent, boolean modal) {
 		super(parent, modal);
 
-		this.model = new FilterTreeModel(old.clone());
+		this.root = (new FilterTreeNodeFactory()).doCreate(old);
 
 		initComponents();
 	}
@@ -71,6 +75,7 @@ public class FilterEditor extends JDialog {
 	private JPanel createTreePanel() {
 		JPanel treePanel = new JPanel();
 
+		model = new DefaultTreeModel(root);
 		tree = new JTree(model);
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -137,29 +142,55 @@ public class FilterEditor extends JDialog {
 		return buttonPanel;
 	}
 
+	private IFilter getCurrentFilter() {
+		return ((AbstractFilterTreeNode) tree.getSelectionPath()
+				.getLastPathComponent()).getFilter();
+	}
+
 	private void treeSelectionChanged() {
 		if (tree.getSelectionPath() != null) {
-			detailsPanel.showFilter(FilterTreeModel.object2IFilter(tree
-					.getSelectionPath().getLastPathComponent()));
+			detailsPanel.showFilter(getCurrentFilter());
 		}
 	}
 
 	private void addButtonActionPerformed() {
 		if (tree.getSelectionPath() != null) {
-			model.addFilter(tree.getSelectionPath(), detailsPanel.getFilter());
+			DefaultMutableTreeNode parent = (DefaultMutableTreeNode) tree
+					.getSelectionPath().getLastPathComponent();
+			if (parent.isLeaf()) {
+				parent = (DefaultMutableTreeNode) parent.getParent();
+			}
+			model.insertNodeInto((new FilterTreeNodeFactory())
+					.doCreate(detailsPanel.getFilter()), parent, parent
+					.getChildCount());
 		}
 	}
 
 	private void replaceButtonActionPerformed() {
 		if (tree.getSelectionPath() != null) {
-			model.replaceFilter(tree.getSelectionPath(), detailsPanel
-					.getFilter());
+			if (tree.getSelectionPath().getPathCount() == 1) {
+				model.setRoot((new FilterTreeNodeFactory())
+						.doCreate(detailsPanel.getFilter()));
+			} else {
+				DefaultMutableTreeNode oldnode = (DefaultMutableTreeNode) tree
+						.getSelectionPath().getLastPathComponent();
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldnode
+						.getParent();
+				int index = model.getIndexOfChild(parent, oldnode);
+				model.removeNodeFromParent((DefaultMutableTreeNode) tree
+						.getSelectionPath().getLastPathComponent());
+				model.insertNodeInto((new FilterTreeNodeFactory())
+						.doCreate(detailsPanel.getFilter()), parent, index);
+			}
 		}
 	}
 
 	private void deleteButtonActionPerformed() {
 		if (tree.getSelectionPath() != null) {
-			model.deleteFilter(tree.getSelectionPath());
+			if (tree.getSelectionPath().getPathCount() != 1) {
+				model.removeNodeFromParent((DefaultMutableTreeNode) tree
+						.getSelectionPath().getLastPathComponent());
+			}
 		}
 	}
 
@@ -209,7 +240,8 @@ public class FilterEditor extends JDialog {
 
 	private int returnStatus = RET_CANCEL;
 
-	private FilterTreeModel model;
+	private DefaultMutableTreeNode root;
+	private DefaultTreeModel model;
 
 	private JTree tree;
 	private JPanel treePanel;
