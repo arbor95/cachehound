@@ -16,6 +16,13 @@ public class AndFilter extends ListFilter {
 
 	@Override
 	public String toString() {
-		return "AND";
+		StringBuilder ret = new StringBuilder("AND [");
+		for (IFilter f : this) {
+			ret.append(f.toString());
+			ret.append(" ");
+		}
+		ret.append("]");
+		return ret.toString();
+//		return "AND";
 	}
 }
