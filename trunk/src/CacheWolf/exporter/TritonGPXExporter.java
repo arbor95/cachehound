@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
@@ -17,15 +16,16 @@ import de.cachehound.types.LogType;
 import ewe.sys.Time;
 
 public class TritonGPXExporter extends Exporter {
-	
-	private static Logger logger = LoggerFactory.getLogger(TritonGPXExporter.class);
-	
+
+	private static Logger logger = LoggerFactory
+			.getLogger(TritonGPXExporter.class);
+
 	public TritonGPXExporter() {
 		setMask("*.gpx");
 		setNeedCacheDetails(true);
 		setHowManyParams(1);
 		// kann wohl raus
-		//setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
+		// setTmpFileName(FileBase.getProgramDirectory() + "/temp.gpx");
 	}
 
 	public String header() {
@@ -120,10 +120,10 @@ public class TritonGPXExporter extends Exporter {
 				String s = "abbc";
 				s.replace("bb", "b");
 
-				String diff = CacheTerrDiff.shortDT(ch.getHard());
+				String diff = ch.getHard().getShortRepresentation();
 				strBuf.append("      <groundspeak:difficulty>").append(diff)
 						.append("</groundspeak:difficulty>\r\n");
-				String terr = CacheTerrDiff.shortDT(ch.getTerrain());
+				String terr = ch.getTerrain().getShortRepresentation();
 				strBuf.append("      <groundspeak:terrain>").append(terr)
 						.append("</groundspeak:terrain>\r\n");
 
@@ -268,7 +268,8 @@ public class TritonGPXExporter extends Exporter {
 					.toByteArray()));
 			return encoded;
 		} catch (Exception e) {
-			logger.error("Error while writing File " + file.getAbsolutePath() + " into a String (Base 64 encoded)", e);
+			logger.error("Error while writing File " + file.getAbsolutePath()
+					+ " into a String (Base 64 encoded)", e);
 		}
 		return "";
 	}

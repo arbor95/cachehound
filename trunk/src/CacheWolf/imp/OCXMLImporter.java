@@ -3,7 +3,6 @@ package CacheWolf.imp;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
@@ -19,7 +18,9 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
+import de.cachehound.types.Terrain;
 import ewe.io.BufferedReader;
 import ewe.io.File;
 import ewe.io.FileOutputStream;
@@ -97,7 +98,7 @@ public class OCXMLImporter extends MinML {
 	 * reloaded only used in syncSingle
 	 */
 	private boolean reload;
-	
+
 	public OCXMLImporter(Preferences p, Profile prof) {
 		pref = p;
 		profile = prof;
@@ -631,11 +632,11 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("difficulty")) {
-			holder.setHard(CacheTerrDiff.stringToByteRepresentation(strData));
+			holder.setHard(Difficulty.fromString(strData));
 			return;
 		}
 		if (name.equals("terrain")) {
-			holder.setTerrain(CacheTerrDiff.stringToByteRepresentation(strData));
+			holder.setTerrain(Terrain.fromString(strData));
 			return;
 		}
 		if (name.equals("datehidden")) {
@@ -819,7 +820,7 @@ public class OCXMLImporter extends MinML {
 						+ fileName + " from URL:" + fetchURL);
 				if (e.getMessage().toLowerCase().equalsIgnoreCase(
 						"could not connect")
-						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+						|| e.getMessage().equalsIgnoreCase("unkown host")) {
 					// is there a better way to find out what happened?
 					ErrMessage = MyLocale.getMsg(1618,
 							"Ignoring error in cache: ")
@@ -853,18 +854,14 @@ public class OCXMLImporter extends MinML {
 	private void endPicture(String name) {
 		if (name.equals("id")) {
 			picID = strData;
-		}
-		else if (name.equals("url")) {
+		} else if (name.equals("url")) {
 			picUrl = strData;
-		}
-		else if (name.equals("title")) {
+		} else if (name.equals("title")) {
 			picTitle = strData;
-		}
-		else if (name.equals("object")) {
+		} else if (name.equals("object")) {
 			// get cachedata
 			holder = getHolder(strData);
-		}
-		else if (name.equals("picture")) {
+		} else if (name.equals("picture")) {
 			// String fileName = holder.wayPoint + "_" +
 			// picUrl.substring(picUrl.lastIndexOf("/")+1);
 			getPic(picUrl, picTitle);
@@ -926,7 +923,8 @@ public class OCXMLImporter extends MinML {
 		// save file
 		// Vm.debug("Save: " + myPref.mydatadir + fileName);
 		// Vm.debug("Daten: " + daten.length);
-		FileOutputStream outp = new FileOutputStream(profile.getDataDir() + fileName);
+		FileOutputStream outp = new FileOutputStream(profile.getDataDir()
+				+ fileName);
 		outp.write(daten.toBytes());
 		outp.close();
 		return fileName;

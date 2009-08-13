@@ -47,7 +47,6 @@ package CacheWolf.util;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.navi.Metrics;
 import CacheWolf.navi.Navigate;
@@ -55,6 +54,8 @@ import CacheWolf.navi.Navigate;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.Difficulty;
+import de.cachehound.types.Terrain;
 import ewe.sys.Convert;
 import ewe.util.Hashtable;
 import ewe.util.Iterator;
@@ -1402,8 +1403,7 @@ public class Parser {
 		// else if (funcDef.alias.equals("rs")) funcRequireSemicolon(nargs);
 		else if (funcDef.alias.equals("show")) {
 			// seams to be nothing to to on the stack, or implemenation failure?
-		}
-		else if (funcDef.alias.equals("sin"))
+		} else if (funcDef.alias.equals("sin"))
 			calcStack.add(new java.lang.Double(java.lang.Math
 					.sin(makeRadiant(popCalcStackAsNumber(0)))));
 		else if (funcDef.alias.equals("skeleton"))
@@ -1449,8 +1449,8 @@ public class Parser {
 		ch.setWayPoint(wayPoint);
 		ch.setType(type);
 		ch.setCacheSize(CacheSize.NOT_CHOSEN);
-		ch.setHard(CacheTerrDiff.CW_DT_UNSET);
-		ch.setTerrain(CacheTerrDiff.CW_DT_UNSET);
+		ch.setHard(Difficulty.DIFFICULTY_UNSET);
+		ch.setTerrain(Terrain.TERRAIN_UNSET);
 		ch.setCacheName(name);
 
 		Global.getProfile().setAddiRef(ch);

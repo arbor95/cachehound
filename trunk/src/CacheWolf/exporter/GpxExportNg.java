@@ -5,7 +5,6 @@ import java.util.Iterator;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheTerrDiff;
 import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
@@ -646,9 +645,9 @@ public class GpxExportNg {
 					SafeXML.cleanGPX(ch.getCacheName().concat(" by ").concat(
 							ch.getCacheOwner()).concat(", ").concat(
 							CacheType.cw2ExportString(ch.getType())).concat(
-							" (").concat(CacheTerrDiff.shortDT(ch.getHard()))
+							" (").concat(ch.getHard().getShortRepresentation())
 							.concat("/").concat(
-									CacheTerrDiff.shortDT(ch.getTerrain()))
+									ch.getTerrain().getShortRepresentation())
 							.concat(")"))).concat("</desc>\n"));
 		}
 
@@ -726,10 +725,10 @@ public class GpxExportNg {
 						ch.getCacheSize().getAsString()).concat(
 						"</groundspeak:container>\n").concat(
 						"      <groundspeak:difficulty>").concat(
-						CacheTerrDiff.shortDT(ch.getHard())).concat(
+						ch.getHard().getShortRepresentation()).concat(
 						"</groundspeak:difficulty>\n").concat(
 						"      <groundspeak:terrain>").concat(
-						CacheTerrDiff.shortDT(ch.getTerrain())).concat(
+						ch.getTerrain().getShortRepresentation()).concat(
 						"</groundspeak:terrain>\n").concat(
 						"      <groundspeak:country>").concat(
 						SafeXML.cleanGPX(ch.getDetails().getCountry())).concat(
