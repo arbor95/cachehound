@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.EnumSet;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,11 +18,14 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 import de.cachehound.filter.AndFilter;
+import de.cachehound.filter.BearingFilter;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.filter.ListFilter;
 import de.cachehound.filter.OrFilter;
-import de.cachehound.filter.TrivialFilter;
+import de.cachehound.filter.SizeFilter;
+import de.cachehound.types.Bearing;
+import de.cachehound.types.CacheSize;
 
 public class FilterEditor extends JDialog {
 	/** A return status code - returned if Cancel button has been pressed */
@@ -185,8 +189,10 @@ public class FilterEditor extends JDialog {
 	public static void main(String args[]) {
 		final ListFilter f = new AndFilter();
 		f.add(new OrFilter());
-		f.add(new TrivialFilter(true));
+		f.add(new BearingFilter(EnumSet.noneOf(Bearing.class)));
 		((ListFilter) f.get(0)).add(new DistanceFilter(5));
+		((ListFilter) f.get(0)).add(new SizeFilter(EnumSet
+				.noneOf(CacheSize.class)));
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {

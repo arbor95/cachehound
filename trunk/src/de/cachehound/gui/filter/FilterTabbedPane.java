@@ -11,6 +11,8 @@ public class FilterTabbedPane extends JTabbedPane {
 		addTab("Bearing", new BearingFilterPanel());
 		addTab("Distance", new DistanceFilterPanel());
 		addTab("Size", new SizeFilterPanel());
+		
+		addTab("Dummy", new DummyFilterPanel());
 	}
 	
 	@SuppressWarnings("unchecked")
