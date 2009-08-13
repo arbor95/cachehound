@@ -1,5 +1,6 @@
 package de.cachehound.gui.filter;
 
+import java.awt.Dimension;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
@@ -44,6 +45,10 @@ public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
 	}
 
 	private void initComponents() {
+		Dimension size = this.getPreferredSize();
+		size.width = size.width * 10 / 6;
+		this.setPreferredSize(size);
+		
 		boxes = new EnumMap<CacheSize, JCheckBox>(CacheSize.class);
 
 		for (CacheSize b : CacheSize.values()) {
