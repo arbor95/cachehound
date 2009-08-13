@@ -13,10 +13,10 @@ import de.cachehound.filter.BearingFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.types.Bearing;
 
-public class BearingFilterEditor extends
-		AbstractSimpleFilterEditor<BearingFilter> {
+public class BearingFilterPanel extends
+		AbstractFilterPanel<BearingFilter> {
 
-	public BearingFilterEditor() {
+	public BearingFilterPanel() {
 		initComponents();
 		setState(new BearingFilter(EnumSet.noneOf(Bearing.class)));
 	}

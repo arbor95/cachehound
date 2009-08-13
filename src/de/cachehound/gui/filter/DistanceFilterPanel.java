@@ -8,10 +8,10 @@ import javax.swing.SpinnerNumberModel;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
 
-public class DistanceFilterEditor extends
-		AbstractSimpleFilterEditor<DistanceFilter> {
+public class DistanceFilterPanel extends
+		AbstractFilterPanel<DistanceFilter> {
 
-	public DistanceFilterEditor() {
+	public DistanceFilterPanel() {
 		initComponents();
 		setState(new DistanceFilter(0));
 	}
