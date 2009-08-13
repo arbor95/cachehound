@@ -17,4 +17,9 @@ public class DistanceFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return ch.getKilom() < limit;
 	}
+	
+	@Override
+	public String toString() {
+		return "Cache is nearer than " + limit + "km.";
+	}
 }
