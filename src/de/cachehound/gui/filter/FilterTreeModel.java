@@ -9,6 +9,7 @@ import de.cachehound.filter.IFilter;
 import de.cachehound.filter.ListFilter;
 import de.cachehound.filter.SimpleFilter;
 import de.cachehound.filter.TrivialFilter;
+import de.cachehound.gui.util.IdentityProxy;
 import de.cachehound.gui.util.TreeModelSupport;
 
 public class FilterTreeModel extends TreeModelSupport implements TreeModel {
@@ -20,30 +21,45 @@ public class FilterTreeModel extends TreeModelSupport implements TreeModel {
 	}
 
 	@Override
-	public IFilter getRoot() {
-		return filter;
+	public IdentityProxy<IFilter> getRoot() {
+		return new IdentityProxy<IFilter>(filter);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static IFilter object2IFilter(Object o) {
+		return ((IdentityProxy<IFilter>) o).get();
 	}
 
 	@Override
-	public IFilter getChild(Object parent, int index) {
-		return ((ListFilter) parent).get(index);
+	public IdentityProxy<IFilter> getChild(Object parent, int index) {
+		IFilter parentFilter = object2IFilter(parent);
+		IFilter childFilter = ((ListFilter) parentFilter).get(index);
+		return new IdentityProxy<IFilter>(childFilter);
 	}
 
 	@Override
 	public int getChildCount(Object parent) {
-		return ((ListFilter) parent).size();
+		if (isLeaf(parent)) {
+			return 0;
+		} else {
+			IFilter parentFilter = object2IFilter(parent);
+			return ((ListFilter) parentFilter).size();
+		}
 	}
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		return ((ListFilter) parent).indexOf(child);
+		IFilter parentFilter = object2IFilter(parent);
+		IFilter childFilter = object2IFilter(child);
+		return ((ListFilter) parentFilter).indexOf(childFilter);
 	}
 
 	@Override
 	public boolean isLeaf(Object node) {
-		if (node instanceof ListFilter) {
+		IFilter nodeFilter = object2IFilter(node);
+		if (nodeFilter instanceof ListFilter) {
 			return false;
-		} else if (node instanceof SimpleFilter) {
+		} else if (nodeFilter instanceof SimpleFilter) {
 			return true;
 		} else {
 			throw new ClassCastException(
@@ -52,59 +68,64 @@ public class FilterTreeModel extends TreeModelSupport implements TreeModel {
 	}
 
 	public void addFilter(TreePath path, IFilter filter) {
-		if (isLeaf(path.getLastPathComponent()) && path.getPathCount() == 1) {
-			IFilter oldRoot = getRoot();
-			
+		if (!isLeaf(path.getLastPathComponent())) {
+			ListFilter parentFilter = (ListFilter) object2IFilter(path
+					.getLastPathComponent());
+			parentFilter.add(filter);
+			fireTreeNodesInserted(new TreeModelEvent(this, path,
+					new int[] { parentFilter.size() - 1 },
+					new Object[] { new IdentityProxy<IFilter>(filter) }));
+		} else if (path.getPathCount() > 1) {
+			ListFilter parentFilter = (ListFilter) object2IFilter(path
+					.getParentPath().getLastPathComponent());
+			parentFilter.add(filter);
+			fireTreeNodesInserted(new TreeModelEvent(this,
+					path.getParentPath(),
+					new int[] { parentFilter.size() - 1 },
+					new Object[] { new IdentityProxy<IFilter>(filter) }));
+		} else {
+			IFilter oldRoot = object2IFilter(getRoot());
 			AndFilter newRoot = new AndFilter();
 			newRoot.add(oldRoot);
 			newRoot.add(filter);
-
 			this.filter = newRoot;
-		} else {
-			if (isLeaf(path.getLastPathComponent())) {
-				path = path.getParentPath();
-			}
-
-			ListFilter parent = (ListFilter) path.getLastPathComponent();
-
-			parent.add(filter);
+			fireTreeStructureChanged(new TreeModelEvent(this,
+					new Object[] { this.filter }));
 		}
-
-		// Beim einfuegen eines Kindes wird auch der Eltern-Node veraendert.
-		// Also muessen wir immer den kompletten Baum invalidieren.
-		// FIXME: Irgendwie muss das auch anders gehen...
-		fireTreeStructureChanged(new TreeModelEvent(this,
-				new Object[] { this.filter }));
 	}
 
 	public void replaceFilter(TreePath path, IFilter filter) {
-		if (path.getPathCount() == 1) {
-			this.filter = filter;
+		if (path.getPathCount() > 1) {
+			IFilter oldFilter = object2IFilter(path.getLastPathComponent());
+			ListFilter parentFilter = (ListFilter) object2IFilter(path
+					.getParentPath().getLastPathComponent());
+			int index = parentFilter.indexOf(oldFilter);
+			parentFilter.set(index, filter);
+			fireTreeNodesChanged(new TreeModelEvent(this, path.getParentPath(),
+					new int[] { index },
+					new Object[] { new IdentityProxy<IFilter>(filter) }));
 		} else {
-			ListFilter parent = (ListFilter) path.getParentPath()
-					.getLastPathComponent();
-
-			parent.set(parent.indexOf(path.getLastPathComponent()), filter);
+			this.filter = filter;
+			fireTreeStructureChanged(new TreeModelEvent(this,
+					new Object[] { this.filter }));
 		}
-
-		// FIXME: siehe oben
-		fireTreeStructureChanged(new TreeModelEvent(this,
-				new Object[] { this.filter }));
 	}
 
 	public void deleteFilter(TreePath path) {
-		if (path.getPathCount() == 1) {
-			this.filter = new TrivialFilter(true);
+		if (path.getPathCount() > 1) {
+			IFilter filter = object2IFilter(path.getLastPathComponent());
+			ListFilter parentFilter = (ListFilter) object2IFilter(path
+					.getParentPath().getLastPathComponent());
+			int index = parentFilter.indexOf(filter);
+			parentFilter.remove(index);
+			fireTreeNodesRemoved(new TreeModelEvent(this, path.getParentPath(),
+					new int[] { index },
+					new Object[] { new IdentityProxy<IFilter>(filter) }));
 		} else {
-			ListFilter parent = (ListFilter) path.getParentPath()
-					.getLastPathComponent();
-
-			parent.remove(path.getLastPathComponent());
+			this.filter = new TrivialFilter(true);
+			fireTreeStructureChanged(new TreeModelEvent(this,
+					new Object[] { this.filter }));
 		}
-
-		// FIXME: siehe oben
-		fireTreeStructureChanged(new TreeModelEvent(this,
-				new Object[] { this.filter }));
 	}
 
 	@Override
