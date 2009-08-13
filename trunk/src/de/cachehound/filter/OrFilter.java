@@ -14,4 +14,8 @@ public class OrFilter extends ListFilter {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "OR";
+	}
 }

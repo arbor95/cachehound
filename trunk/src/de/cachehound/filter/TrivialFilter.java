@@ -20,4 +20,13 @@ public class TrivialFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		if (result) {
+			return "All Caches";
+		} else {
+			return "No Caches";
+		}
+	}
 }

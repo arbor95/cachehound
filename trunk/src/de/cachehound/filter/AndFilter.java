@@ -14,4 +14,8 @@ public class AndFilter extends ListFilter {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "AND";
+	}
 }

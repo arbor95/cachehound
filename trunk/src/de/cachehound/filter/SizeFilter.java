@@ -14,4 +14,13 @@ public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	protected CacheSize getProperty(ICacheHolder ch) {
 		return ch.getCacheSize();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder("Size: is one of ");
+		for (CacheSize b : getMask()) {
+			ret.append(b.toString());
+		}
+		return ret.toString();
+	}
 }
