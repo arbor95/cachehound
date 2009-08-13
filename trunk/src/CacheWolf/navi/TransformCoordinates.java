@@ -482,9 +482,9 @@ public class TransformCoordinates {
 		rotate.matrix[2][0] = -rotate.matrix[0][2];
 		rotate.matrix[2][1] = -rotate.matrix[1][2];
 
-		rotate.Multiply(coos);
+		rotate.multiply(coos);
 		coos = rotate;
-		coos.MultiplyByScalar(transParams.s); // scale
+		coos.multiplyByScalar(transParams.s); // scale
 
 		return new XyzCoordinates(coos.matrix[0][0], coos.matrix[1][0],
 				coos.matrix[2][0]);
