@@ -3,7 +3,7 @@ package CacheWolf.beans;
 import ewe.sys.Vm;
 
 public class Matrix {
-	int iDF = 0;
+	private int iDF = 0;
 
 	public double matrix[][] = new double[0][0];
 
@@ -22,7 +22,7 @@ public class Matrix {
 	 * Method to multiply this matrix with another matrix. The result is stored
 	 * in this matrix!
 	 */
-	public void Multiply(Matrix srcMatrix) {
+	public void multiply(Matrix srcMatrix) {
 		double m[][] = new double[matrix.length][srcMatrix.matrix[0].length];
 		for (int i = 0; i < m.length; i++)
 			for (int j = 0; j < m[i].length; j++) {
@@ -51,7 +51,7 @@ public class Matrix {
 		return product;
 	}
 
-	public void MultiplyByScalar(double f) {
+	public void multiplyByScalar(double f) {
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[0].length; j++)
 				matrix[i][j] = matrix[i][j] * f;
@@ -67,8 +67,7 @@ public class Matrix {
 	 * Method to transpose a matrix example: | 1 2 | | 3 4 | | 5 6 | would
 	 * become: |1 3 5 | |2 4 6 |
 	 */
-	public void Transpose() {
-
+	public void transpose() {
 		double m[][] = new double[matrix[0].length][matrix.length];
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[i].length; j++)
@@ -81,12 +80,10 @@ public class Matrix {
 	}
 
 	/**
-	 * private version of the Transpose method. used internally in this class
+	 * private version of the transpose method. used internally in this class
 	 */
-	private double[][] Transpose2(double[][] a) {
-
+	private double[][] transpose2(double[][] a) {
 		double m[][] = new double[a[0].length][a.length];
-
 		for (int i = 0; i < a.length; i++)
 			for (int j = 0; j < a[i].length; j++)
 				m[j][i] = a[i][j];
@@ -96,7 +93,7 @@ public class Matrix {
 	/**
 	 * Method to display the contents of a matrix.
 	 */
-	public void DumpMatrix() {
+	public void dumpMatrix() {
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[i].length; j++)
 				Vm.debug("[ " + i + " " + j + " ] " + matrix[i][j]);
@@ -105,7 +102,7 @@ public class Matrix {
 	/**
 	 * Method used to help calculate determinate
 	 */
-	private double[][] UpperTriangle(double[][] m) {
+	private double[][] upperTriangle(double[][] m) {
 		double f1 = 0;
 		double temp = 0;
 		int tms = m.length; // get This Matrix Size (could be smaller than
@@ -151,12 +148,12 @@ public class Matrix {
 	/**
 	 * Method to calculate the determinate of a matrix
 	 */
-	public double Determinant(double[][] pMatrix) {
+	public double determinant(double[][] pMatrix) {
 		int tms = pMatrix.length;
 		double det = 1;
-		pMatrix = UpperTriangle(pMatrix);
+		double[][] upperTriangleMatrix = upperTriangle(pMatrix);
 		for (int i = 0; i < tms; i++) {
-			det = det * pMatrix[i][i];
+			det = det * upperTriangleMatrix[i][i];
 		} // multiply down diagonal
 		det = det * iDF; // adjust w/ determinant factor
 		return det;
@@ -166,16 +163,16 @@ public class Matrix {
 	 * Method to calculate the inverse of this matrix. The result is stored in
 	 * this matrix!
 	 */
-	public void Inverse() {
+	public void inverse() {
 		// Formula used to Calculate Inverse:
 		// inv(A) = 1/det(A) * adj(A)
 
 		int tms = matrix.length;
 
 		double m[][] = new double[tms][tms];
-		double mm[][] = Adjoint(matrix);
+		double mm[][] = adjoint(matrix);
 
-		double det = Determinant(matrix);
+		double det = determinant(matrix);
 		double dd = 0;
 
 		if (det == 0) {
@@ -199,7 +196,7 @@ public class Matrix {
 	 * Method to calculate the adjoint of a matrix. Required to calculate the
 	 * inverse of a matrix.
 	 */
-	private double[][] Adjoint(double[][] a) {
+	private double[][] adjoint(double[][] a) {
 		int tms = a.length;
 
 		double m[][] = new double[tms][tms];
@@ -223,10 +220,10 @@ public class Matrix {
 					}
 					ja = 0;
 				}
-				det = Determinant(ap);
+				det = determinant(ap);
 				m[i][j] = java.lang.Math.pow(-1, i + j) * det;
 			}
-		m = Transpose2(m);
+		m = transpose2(m);
 		return m;
 	}
 

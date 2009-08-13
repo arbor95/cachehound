@@ -284,14 +284,14 @@ public class MapInfoObject extends Area {
 			trg.matrix[i][0] = gcp.latDec;
 		}
 		Matrix Xtran = new Matrix(X);
-		Xtran.Transpose();
+		Xtran.transpose();
 		Matrix XtranX = new Matrix(Xtran);
-		XtranX.Multiply(X);
+		XtranX.multiply(X);
 		Matrix XtranXinv = new Matrix(XtranX);
-		XtranXinv.Inverse();
+		XtranXinv.inverse();
 		Matrix beta = new Matrix(XtranXinv);
-		beta.Multiply(Xtran);
-		beta.Multiply(trg);
+		beta.multiply(Xtran);
+		beta.multiply(trg);
 		affine[0] = beta.matrix[1][0];
 		affine[2] = beta.matrix[2][0];
 		affineTopleft.latDec = beta.matrix[0][0];
@@ -308,14 +308,14 @@ public class MapInfoObject extends Area {
 			trg.matrix[i][0] = gcp.lonDec;
 		}
 		Xtran = new Matrix(X);
-		Xtran.Transpose();
+		Xtran.transpose();
 		XtranX = new Matrix(Xtran);
-		XtranX.Multiply(X);
+		XtranX.multiply(X);
 		XtranXinv = new Matrix(XtranX);
-		XtranXinv.Inverse();
+		XtranXinv.inverse();
 		beta = new Matrix(XtranXinv);
-		beta.Multiply(Xtran);
-		beta.Multiply(trg);
+		beta.multiply(Xtran);
+		beta.multiply(trg);
 		affine[1] = beta.matrix[1][0];
 		affine[3] = beta.matrix[2][0];
 		affineTopleft.lonDec = beta.matrix[0][0];
