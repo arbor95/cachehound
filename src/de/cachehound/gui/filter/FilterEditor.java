@@ -49,6 +49,10 @@ public class FilterEditor extends JDialog {
 	public int getReturnStatus() {
 		return returnStatus;
 	}
+	
+	public IFilter getFilter() {
+		return root.getFilter().clone();
+	}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -240,7 +244,7 @@ public class FilterEditor extends JDialog {
 
 	private int returnStatus = RET_CANCEL;
 
-	private DefaultMutableTreeNode root;
+	private AbstractFilterTreeNode root;
 	private DefaultTreeModel model;
 
 	private JTree tree;
