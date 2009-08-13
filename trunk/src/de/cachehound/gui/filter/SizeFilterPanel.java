@@ -12,9 +12,9 @@ import de.cachehound.filter.IFilter;
 import de.cachehound.filter.SizeFilter;
 import de.cachehound.types.CacheSize;
 
-public class SizeFilterEditor extends AbstractSimpleFilterEditor<SizeFilter> {
+public class SizeFilterPanel extends AbstractFilterPanel<SizeFilter> {
 
-	public SizeFilterEditor() {
+	public SizeFilterPanel() {
 		initComponents();
 		setState(new SizeFilter(EnumSet.noneOf(CacheSize.class)));
 	}
