@@ -12,7 +12,9 @@ public class DummyFilterPanel extends AbstractFilterPanel<IFilter> {
 
 	@Override
 	public void setState(IFilter old) {
-		filter = old.clone();
+		if (old != null) {
+			filter = old.clone();
+		}
 	}
 
 	@Override
