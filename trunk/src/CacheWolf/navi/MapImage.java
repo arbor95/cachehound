@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ewe.fx.Color;
 import ewe.fx.Dimension;
 import ewe.fx.Image;
@@ -15,6 +18,7 @@ import ewe.fx.Point;
 import ewe.fx.UnsupportedImageFormatException;
 import ewe.fx.mImage;
 import ewe.graphics.AniImage;
+import ewe.util.ByteArray;
 
 /**
  * class that can be used with any x and any y it will save taht location and
@@ -25,6 +29,9 @@ import ewe.graphics.AniImage;
  * 
  */
 public class MapImage extends AniImage {
+
+	private static Logger logger = LoggerFactory.getLogger(MapImage.class);
+
 	public Point locAlways = new Point(); // contains the theoretical location
 	// even if it the location is out of
 	// the screen. If the image is on
@@ -45,22 +52,23 @@ public class MapImage extends AniImage {
 		if (screenDim == null)
 			screenDim = new Dimension(0, 0);
 		try {
-			
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+			BufferedInputStream in = new BufferedInputStream(
+					new FileInputStream(file));
 			byte[] buf = new byte[4096];
 			int length;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			while (-1 != (length = in.read(buf))) {
 				out.write(buf, 0, length);
 			}
-			setImage(new Image(out.toByteArray(), 0), 0); // copied
-			// from
-			// super()
+			// copied from super()
+			setImage(new Image(new ByteArray(out.toByteArray()), 0), 0);
 			freeSource(); // copied from super()
 		} catch (IOException e) {
-			throw new ImageNotFoundException(file.getAbsolutePath()); // in order to behave the
-			// same
-			// way as super would have
+			logger.error("IOException at creating Loading image "
+					+ file.getAbsolutePath(), e);
+			// in order to behave the
+			// same way as super would have
+			throw new ImageNotFoundException(file.getAbsolutePath()); 
 		}
 	}
 

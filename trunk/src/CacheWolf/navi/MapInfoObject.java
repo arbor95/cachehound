@@ -26,10 +26,9 @@ import ewe.sys.Convert;
  * 
  */
 public class MapInfoObject extends Area {
-	
-	private static Logger logger = LoggerFactory
-	.getLogger(MapInfoObject.class);
-	
+
+	private static Logger logger = LoggerFactory.getLogger(MapInfoObject.class);
+
 	// World file:
 	// x scale
 	// y scale
@@ -88,7 +87,8 @@ public class MapInfoObject extends Area {
 		shift.set(map.shift);
 		coordTrans = map.coordTrans;
 		// fileName = new String(map.fileName);
-		fileNameWFL = map.getFileNameWFL(); // TODO: check if a clone would be better 
+		fileNameWFL = map.getFileNameWFL(); // TODO: check if a clone would be
+											// better
 		mapName = new String(mapName);
 		doCalculations();
 	}
@@ -150,8 +150,8 @@ public class MapInfoObject extends Area {
 		doCalculations();
 	}
 
-	public MapInfoObject(java.io.File mapsPath, String thisMap) throws java.io.IOException,
-			ArithmeticException {
+	public MapInfoObject(java.io.File mapsPath, String thisMap)
+			throws java.io.IOException, ArithmeticException {
 		super();
 		loadwfl(mapsPath, thisMap);
 	}
@@ -179,8 +179,11 @@ public class MapInfoObject extends Area {
 		// if (fileName == null || fileName.length() > 0) return fileName;
 		if (fileNameWFL == null)
 			return null; // no image associated (empty map)
-		logger.debug("fileNameWFL.getAbsolutePath() = " + fileNameWFL.getAbsolutePath());
-		String n = fileNameWFL.getAbsolutePath().substring(0, fileNameWFL.getAbsolutePath().lastIndexOf("."));
+		logger.debug("fileNameWFL.getAbsolutePath() {}", fileNameWFL
+				.getAbsolutePath());
+		// String n = fileNameWFL.getAbsolutePath().substring(0,
+		// fileNameWFL.getAbsolutePath().lastIndexOf("."));
+		String n = new java.io.File(fileNameWFL, mapName).getAbsolutePath();
 		return Common.getImageFile(n);
 	}
 
@@ -199,11 +202,12 @@ public class MapInfoObject extends Area {
 	 *             when affine data is not correct, e.g. it is not possible to
 	 *             inverse affine-transformation
 	 */
-	public void loadwfl(java.io.File mapsFile, String thisMap) throws java.io.IOException,
-			ArithmeticException {
-		java.io.FileInputStream instream = new java.io.FileInputStream(new java.io.File(
-				mapsFile, thisMap + ".wfl"));
-		java.io.BufferedReader in = new BufferedReader(new java.io.InputStreamReader(instream));
+	public void loadwfl(java.io.File mapsFile, String thisMap)
+			throws java.io.IOException, ArithmeticException {
+		java.io.FileInputStream instream = new java.io.FileInputStream(
+				new java.io.File(mapsFile, thisMap + ".wfl"));
+		java.io.BufferedReader in = new BufferedReader(
+				new java.io.InputStreamReader(instream));
 
 		String line = new String();
 		try {
@@ -423,9 +427,9 @@ public class MapInfoObject extends Area {
 		System.out.println("fileNameWFL: " + fileNameWFL);
 		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
 				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
-//		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
-//				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
-		
+		// PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
+		// mapsPath + java.io.File.separator + mapFileName + ".wfl")));
+
 		StringBuilder towriteB = new StringBuilder(400);
 		towriteB.append(Convert.toString(affine[0])).append("\n");
 		towriteB.append(Convert.toString(affine[1])).append("\n");
@@ -445,7 +449,7 @@ public class MapInfoObject extends Area {
 		outp.close();
 		// this.fileName = ""; // this will be set in getImageFilenam //mapsPath
 		// + "/" + mapFileName + ".png";
-		this.fileNameWFL = new java.io.File (mapsPath, mapFileName + ".wfl");
+		this.fileNameWFL = new java.io.File(mapsPath, mapFileName + ".wfl");
 		this.mapName = mapFileName;
 	}
 
