@@ -3,6 +3,8 @@ package de.cachehound.gui.filter;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.EnumSet;
@@ -11,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -92,24 +95,40 @@ public class FilterEditor extends JDialog {
 
 		return treePanel;
 	}
-
+	
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
+		
+		final JPopupMenu addMenu = (new FilterMenu("Add...", new IMenuAction(){
+			@Override
+			public void execute(IFilter f) {
+				treePanel.addNode((new FilterTreeNodeFactory()).doCreate(f));
+			}
+		})).getPopupMenu();
 
 		JButton addButton = new JButton();
 		addButton.setText("Add...");
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				addButtonActionPerformed();
+		addButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				addMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
 		buttonPanel.add(addButton);
 
+		final JPopupMenu replaceMenu = (new FilterMenu("Replace...", new IMenuAction(){
+			@Override
+			public void execute(IFilter f) {
+				treePanel.replaceSelectionWithNode((new FilterTreeNodeFactory()).doCreate(f));
+			}
+		})).getPopupMenu();
+
 		JButton replaceButton = new JButton();
 		replaceButton.setText("Replace...");
-		replaceButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				replaceButtonActionPerformed();
+		replaceButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				replaceMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
 		buttonPanel.add(replaceButton);
@@ -158,12 +177,6 @@ public class FilterEditor extends JDialog {
 			detailsPanel
 					.showFilter(treePanel.getCurrentSelection().getFilter());
 		}
-	}
-
-	private void addButtonActionPerformed() {
-		AbstractFilterTreeNode newNode = (new FilterTreeNodeFactory())
-				.doCreate(detailsPanel.getFilter());
-		treePanel.addNode(newNode);
 	}
 
 	private void replaceButtonActionPerformed() {

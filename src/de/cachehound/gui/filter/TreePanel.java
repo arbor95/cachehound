@@ -60,6 +60,12 @@ public class TreePanel extends JPanel {
 		if (parent.isLeaf()) {
 			parent = (DefaultMutableTreeNode) parent.getParent();
 		}
+		while (parent instanceof NotFilterTreeNode) {
+			parent = (DefaultMutableTreeNode) parent.getParent();
+		}
+		if (parent == null) {
+			return;
+		}
 		model.insertNodeInto(newNode, parent, parent.getChildCount());
 		tree.setSelectionPath(new TreePath(newNode.getPath()));
 	}

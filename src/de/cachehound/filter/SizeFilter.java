@@ -1,11 +1,16 @@
 package de.cachehound.filter;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.types.CacheSize;
 
 public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
+	public SizeFilter() {
+		init(EnumSet.noneOf(CacheSize.class));
+	}
+	
 	public SizeFilter(Set<CacheSize> mask) {
 		init(mask);
 	}

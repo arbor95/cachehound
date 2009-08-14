@@ -5,6 +5,10 @@ import de.cachehound.beans.ICacheHolder;
 public class DistanceFilter extends SimpleFilter {
 	private double limit;
 
+	public DistanceFilter() {
+		this.limit = 5;
+	}
+	
 	public DistanceFilter(double d) {
 		this.limit = d;
 	}
