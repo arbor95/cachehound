@@ -69,6 +69,12 @@ public class FilterEditor extends JDialog {
 		treePanel = createTreePanel();
 		buttonPanel = createButtonPanel();
 		detailsPanel = new FilterTabbedPane();
+		detailsPanel.addFilterChangedListener(new IFilterChangedListener() {
+			@Override
+			public void filterChanged() {
+				replaceButtonActionPerformed();
+			}
+		});
 
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(treePanel), BorderLayout.CENTER);
@@ -85,14 +91,14 @@ public class FilterEditor extends JDialog {
 
 		model = new DefaultTreeModel(root);
 		tree = new JTree(model);
-		
+
 		// Alles aufklappen
 		for (Enumeration<?> e = root.depthFirstEnumeration(); e
 				.hasMoreElements();) {
 			tree.makeVisible(new TreePath(((DefaultMutableTreeNode) e
 					.nextElement()).getPath()));
 		}
-		
+
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setSelectionRow(0);
@@ -177,27 +183,27 @@ public class FilterEditor extends JDialog {
 			if (parent.isLeaf()) {
 				parent = (DefaultMutableTreeNode) parent.getParent();
 			}
-			model.insertNodeInto((new FilterTreeNodeFactory())
-					.doCreate(detailsPanel.getFilter()), parent, parent
-					.getChildCount());
+			DefaultMutableTreeNode newNode = (new FilterTreeNodeFactory())
+					.doCreate(detailsPanel.getFilter());
+			model.insertNodeInto(newNode, parent, parent.getChildCount());
 		}
 	}
 
 	private void replaceButtonActionPerformed() {
 		if (tree.getSelectionPath() != null) {
+			DefaultMutableTreeNode newNode = (new FilterTreeNodeFactory())
+					.doCreate(detailsPanel.getFilter());
 			if (tree.getSelectionPath().getPathCount() == 1) {
-				model.setRoot((new FilterTreeNodeFactory())
-						.doCreate(detailsPanel.getFilter()));
+				model.setRoot(newNode);
 			} else {
-				DefaultMutableTreeNode oldnode = (DefaultMutableTreeNode) tree
+				DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
 						.getSelectionPath().getLastPathComponent();
-				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldnode
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldNode
 						.getParent();
-				int index = model.getIndexOfChild(parent, oldnode);
-				model.removeNodeFromParent((DefaultMutableTreeNode) tree
-						.getSelectionPath().getLastPathComponent());
-				model.insertNodeInto((new FilterTreeNodeFactory())
-						.doCreate(detailsPanel.getFilter()), parent, index);
+				int index = model.getIndexOfChild(parent, oldNode);
+				model.removeNodeFromParent(oldNode);
+				model.insertNodeInto(newNode, parent, index);
+				tree.setSelectionPath(new TreePath(newNode.getPath()));
 			}
 		}
 	}
@@ -205,8 +211,12 @@ public class FilterEditor extends JDialog {
 	private void deleteButtonActionPerformed() {
 		if (tree.getSelectionPath() != null) {
 			if (tree.getSelectionPath().getPathCount() != 1) {
-				model.removeNodeFromParent((DefaultMutableTreeNode) tree
-						.getSelectionPath().getLastPathComponent());
+				DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
+						.getSelectionPath().getLastPathComponent();
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldNode
+						.getParent();
+				model.removeNodeFromParent(oldNode);
+				tree.setSelectionPath(new TreePath(parent.getPath()));
 			}
 		}
 	}
