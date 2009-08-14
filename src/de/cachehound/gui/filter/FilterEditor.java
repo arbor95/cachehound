@@ -17,7 +17,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -26,10 +26,12 @@ import de.cachehound.filter.BearingFilter;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.filter.ListFilter;
+import de.cachehound.filter.NotFilter;
 import de.cachehound.filter.OrFilter;
 import de.cachehound.filter.SizeFilter;
 import de.cachehound.gui.filter.nodes.AbstractFilterTreeNode;
 import de.cachehound.gui.filter.nodes.FilterTreeNodeFactory;
+import de.cachehound.gui.filter.nodes.NotFilterTreeNode;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
 
@@ -42,9 +44,7 @@ public class FilterEditor extends JDialog {
 	public FilterEditor(IFilter old, JFrame parent, boolean modal) {
 		super(parent, modal);
 
-		this.root = (new FilterTreeNodeFactory()).doCreate(old);
-
-		initComponents();
+		initComponents(old);
 	}
 
 	/** @return the return status of this dialog - one of RET_OK or RET_CANCEL */
@@ -53,20 +53,20 @@ public class FilterEditor extends JDialog {
 	}
 
 	public IFilter getFilter() {
-		return root.getFilter().clone();
+		return ((AbstractFilterTreeNode) model.getRoot()).getFilter().clone();
 	}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 */
-	private void initComponents() {
+	private void initComponents(IFilter f) {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				closeDialog();
 			}
 		});
 
-		treePanel = createTreePanel();
+		treePanel = createTreePanel(f);
 		buttonPanel = createButtonPanel();
 		detailsPanel = new FilterTabbedPane();
 		detailsPanel.addFilterChangedListener(new IFilterChangedListener() {
@@ -86,15 +86,15 @@ public class FilterEditor extends JDialog {
 		pack();
 	}
 
-	private JPanel createTreePanel() {
+	private JPanel createTreePanel(IFilter f) {
 		JPanel treePanel = new JPanel();
 
-		model = new DefaultTreeModel(root);
+		model = new MyTreeModel((new FilterTreeNodeFactory()).doCreate(f));
 		tree = new JTree(model);
 
 		// Alles aufklappen
-		for (Enumeration<?> e = root.depthFirstEnumeration(); e
-				.hasMoreElements();) {
+		for (Enumeration<?> e = ((AbstractFilterTreeNode) model.getRoot())
+				.depthFirstEnumeration(); e.hasMoreElements();) {
 			tree.makeVisible(new TreePath(((DefaultMutableTreeNode) e
 					.nextElement()).getPath()));
 		}
@@ -143,6 +143,15 @@ public class FilterEditor extends JDialog {
 			}
 		});
 		buttonPanel.add(deleteButton);
+
+		JButton negateButton = new JButton();
+		negateButton.setText("Negate");
+		negateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				negateButtonActionPerformed();
+			}
+		});
+		buttonPanel.add(negateButton);
 
 		JButton okButton = new JButton();
 		okButton.setText("OK");
@@ -222,6 +231,45 @@ public class FilterEditor extends JDialog {
 		}
 	}
 
+	private void cleanUpDoubleNots() {
+		DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
+				.getSelectionPath().getLastPathComponent();
+
+		if (oldNode instanceof NotFilterTreeNode) {
+			oldNode = (DefaultMutableTreeNode) oldNode.getChildAt(0);
+		}
+
+		if (oldNode.getParent().getParent() instanceof NotFilterTreeNode) {
+			model.replaceNode(
+					(MutableTreeNode) oldNode.getParent().getParent(), oldNode);
+		}
+
+		tree.setSelectionPath(new TreePath(oldNode.getPath()));
+		tree.makeVisible(new TreePath(oldNode.getPath()));
+	}
+
+	private void negateButtonActionPerformed() {
+		if (tree.getSelectionPath() != null) {
+			DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
+					.getSelectionPath().getLastPathComponent();
+			DefaultMutableTreeNode newNode = new NotFilterTreeNode();
+			if (tree.getSelectionPath().getPathCount() != 1) {
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldNode
+						.getParent();
+				int index = model.getIndexOfChild(parent, oldNode);
+				model.removeNodeFromParent(oldNode);
+				model.insertNodeInto(newNode, parent, index);
+			} else {
+				model.setRoot(newNode);
+			}
+			model.insertNodeInto(oldNode, newNode, 0);
+			tree.setSelectionPath(new TreePath(oldNode.getPath()));
+			tree.makeVisible(new TreePath(oldNode.getPath()));
+
+			cleanUpDoubleNots();
+		}
+	}
+
 	private void okButtonActionPerformed() {
 		doClose(RET_OK);
 	}
@@ -249,7 +297,7 @@ public class FilterEditor extends JDialog {
 		final ListFilter f = new AndFilter();
 		f.add(new OrFilter());
 		f.add(new BearingFilter(EnumSet.noneOf(Bearing.class)));
-		((ListFilter) f.get(0)).add(new DistanceFilter(5));
+		((ListFilter) f.get(0)).add(new NotFilter(new DistanceFilter(5)));
 		((ListFilter) f.get(0)).add(new SizeFilter(EnumSet
 				.noneOf(CacheSize.class)));
 
@@ -268,8 +316,7 @@ public class FilterEditor extends JDialog {
 
 	private int returnStatus = RET_CANCEL;
 
-	private AbstractFilterTreeNode root;
-	private DefaultTreeModel model;
+	private MyTreeModel model;
 
 	private JTree tree;
 	private JPanel treePanel;
