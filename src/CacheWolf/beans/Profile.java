@@ -169,8 +169,7 @@ public class Profile {
 			pbf.exec();
 		}
 		CacheHolder.saveAllModifiedDetails(); // this must be called first as
-		// it
-		// makes some calculations
+		// it makes some calculations
 		PrintWriter detfile;
 		CacheHolder ch;
 		File index = new File(getDataDir(), "index.xml");

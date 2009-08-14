@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -16,8 +17,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.cachehound.util.EweReader;
-
 import CacheWolf.Global;
 import CacheWolf.gui.ProfilesForm;
 import CacheWolf.gui.myTableModel;
@@ -26,6 +25,7 @@ import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
+import de.cachehound.util.EweReader;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.SerialPort;
@@ -355,9 +355,9 @@ public class Preferences extends MinML {
 					new FileInputStream(configFile.getAbsolutePath()));
 			parse(new EweReader(r));
 			r.close();
-		} catch (ewe.io.IOException e) {
-			log("IOException reading config file: "
-					+ configFile.getAbsolutePath(), e, true);
+		} catch (IOException e) {
+			logger.warn("IOException reading config file: "
+					+ configFile.getAbsolutePath(), e);
 			(new MessageBox(
 					MyLocale.getMsg(327, "Information"),
 					MyLocale
@@ -367,10 +367,10 @@ public class Preferences extends MinML {
 							+ configFile.getAbsolutePath(), FormBase.OKB))
 					.execute();
 		} catch (NullPointerException e) {
-			log("Error reading pref.xml: NullPointerException in Element "
-					+ lastName + ". Wrong attribute?", e, true);
+			logger.error("Error reading pref.xml: NullPointerException in Element "
+					+ lastName + ". Wrong attribute?", e);
 		} catch (Exception e) {
-			log("Error reading pref.xml: ", e);
+			logger.error("Error reading pref.xml in path " + configFile, e);
 		}
 	}
 
