@@ -1,6 +1,8 @@
 package de.cachehound.gui.filter;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
@@ -55,6 +57,12 @@ public class SizeFilterPanel extends AbstractFilterPanel<SizeFilter> {
 			JCheckBox box = new JCheckBox(b.toString());
 			add(box);
 			boxes.put(b, box);
+			box.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					notifyFilterChangedListeners();
+				}
+			});
 		}
 	}
 

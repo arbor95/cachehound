@@ -4,6 +4,8 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
@@ -35,7 +37,14 @@ public class DistanceFilterPanel extends
 		model = new SpinnerNumberModel(5d, 0, 1000, 1);
 		
 		add(new JLabel("Show only caches nearer than"));
-		add(new JSpinner(model));
+		JSpinner spinner = new JSpinner(model);
+		add(spinner);
+		spinner.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				notifyFilterChangedListeners();
+			}
+		});
 	}
 	
 	private SpinnerModel model;

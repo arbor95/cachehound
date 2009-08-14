@@ -1,5 +1,7 @@
 package de.cachehound.gui.filter;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
@@ -67,6 +69,12 @@ public class BearingFilterPanel extends
 			JCheckBox box = new JCheckBox(b.toString());
 			add(box, x + "," + y);
 			boxes.put(b, box);
+			box.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					notifyFilterChangedListeners();
+				}
+			});
 
 			if (x == 4 && y == 0) {
 				dx = 0;
