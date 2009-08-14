@@ -114,7 +114,7 @@ public enum CacheSize {
 
 	public static CacheSize fromOcString(String ocString) {
 		for (CacheSize size : CacheSize.values()) {
-			if (Integer.valueOf(size.ocSizeId).equals(ocString)) {
+			if (Integer.toString(size.ocSizeId).equals(ocString)) {
 				return size;
 			}
 		}
