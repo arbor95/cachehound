@@ -45,7 +45,7 @@ public class TreePanel extends JPanel {
 	public boolean isSomethingSelected() {
 		return tree.getSelectionPath() != null;
 	}
-	
+
 	public AbstractFilterTreeNode getCurrentSelection() {
 		return (AbstractFilterTreeNode) tree.getSelectionPath()
 				.getLastPathComponent();
@@ -75,14 +75,17 @@ public class TreePanel extends JPanel {
 				.getSelectionPath().getLastPathComponent();
 		model.replaceNode(oldNode, newNode);
 		tree.setSelectionPath(new TreePath(newNode.getPath()));
-		
+
 		cleanUpDoubleNots();
 	}
 
 	public void deleteSelection() {
-		if (tree.getSelectionPath().getPathCount() != 1) {
-			DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
-					.getSelectionPath().getLastPathComponent();
+		DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
+				.getSelectionPath().getLastPathComponent();
+		while (oldNode.getParent() instanceof NotFilterTreeNode) {
+			oldNode = (DefaultMutableTreeNode) oldNode.getParent();
+		}
+		if (oldNode.getPath().length != 1) {
 			DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldNode
 					.getParent();
 			model.removeNodeFromParent(oldNode);
