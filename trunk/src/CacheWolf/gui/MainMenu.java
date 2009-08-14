@@ -437,7 +437,7 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == loadcaches) {
 				File dir = pref.getImporterPath("LocGpxImporter");
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN
-						| FileChooserBase.MULTI_SELECT, dir.getAbsolutePath());
+						| FileChooserBase.MULTI_SELECT, (dir == null? null : dir.getAbsolutePath()));
 				fc.addMask("*.gpx,*.zip,*.loc");
 				fc.setTitle(MyLocale.getMsg(909, "Select file(s)"));
 				if (fc.execute() != FormBase.IDCANCEL) {
