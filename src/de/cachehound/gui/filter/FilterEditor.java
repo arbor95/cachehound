@@ -203,18 +203,10 @@ public class FilterEditor extends JDialog {
 		if (tree.getSelectionPath() != null) {
 			DefaultMutableTreeNode newNode = (new FilterTreeNodeFactory())
 					.doCreate(detailsPanel.getFilter());
-			if (tree.getSelectionPath().getPathCount() == 1) {
-				model.setRoot(newNode);
-			} else {
-				DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
-						.getSelectionPath().getLastPathComponent();
-				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) oldNode
-						.getParent();
-				int index = model.getIndexOfChild(parent, oldNode);
-				model.removeNodeFromParent(oldNode);
-				model.insertNodeInto(newNode, parent, index);
-				tree.setSelectionPath(new TreePath(newNode.getPath()));
-			}
+			DefaultMutableTreeNode oldNode = (DefaultMutableTreeNode) tree
+					.getSelectionPath().getLastPathComponent();
+			model.replaceNode(oldNode, newNode);
+			tree.setSelectionPath(new TreePath(newNode.getPath()));
 		}
 	}
 
