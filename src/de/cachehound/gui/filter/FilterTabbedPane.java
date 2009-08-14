@@ -11,21 +11,28 @@ public class FilterTabbedPane extends JTabbedPane {
 		addTab("Bearing", new BearingFilterPanel());
 		addTab("Distance", new DistanceFilterPanel());
 		addTab("Size", new SizeFilterPanel());
-		
+
 		addTab("Dummy", new DummyFilterPanel());
 	}
-	
+
+	public void addFilterChangedListener(IFilterChangedListener l) {
+		for (Component c : getComponents()) {
+			((IFilterEditor<?>) c).addFilterChangedListener(l);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public IFilter getFilter() {
-		return ((IFilterEditor)getComponentAt(getSelectedIndex())).getFilter().clone();
+		return ((IFilterEditor) getComponentAt(getSelectedIndex())).getFilter()
+				.clone();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void showFilter(IFilter filter) {
 		for (Component c : getComponents()) {
-			if (((IFilterEditor)c).canHandle(filter)) {
-				((IFilterEditor)c).setState(filter);
+			if (((IFilterEditor) c).canHandle(filter)) {
 				this.setSelectedComponent(c);
+				((IFilterEditor) c).setState(filter);
 				break;
 			}
 		}
