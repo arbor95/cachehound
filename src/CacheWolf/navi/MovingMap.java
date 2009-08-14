@@ -2,6 +2,9 @@ package CacheWolf.navi;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
@@ -59,6 +62,9 @@ import ewe.util.Vector;
  * Class to handle a moving map.
  */
 public class MovingMap extends Form {
+	
+	private static Logger logger = LoggerFactory.getLogger(MovingMap.class);
+	
 	public final static int gotFix = 4; // green
 	public final static int lostFix = 3; // yellow
 	public final static int noGPSData = 2; // red
@@ -1798,7 +1804,7 @@ public class MovingMap extends Form {
 				Vm.getUsedMemory(true); // calls the garbage collection
 			} // give memory free before loading the new map to avoid out of
 			// memory error
-			File imageFile = currentMap.getFileNameWFL(); 
+			File imageFile = currentMap.getImageFile(); 
 			if (imageFile == null) {
 				mmp.mapImage = new MapImage();
 				// the calibration info
@@ -1840,6 +1846,7 @@ public class MovingMap extends Form {
 			Vm.showWait(false);
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (IllegalArgumentException e) { // thrown by new AniImage() in
+			logger.error("Could not load map: " + currentMap.getImageFile().getAbsolutePath(), e);
 			// ewe-vm if file not found;
 			if (mmp.mapImage != null) {
 				mmp.removeImage(mmp.mapImage);
@@ -1853,7 +1860,7 @@ public class MovingMap extends Form {
 			Vm.showWait(false);
 			(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale.getMsg(
 					4218, "Could not load map: \n")
-					+ newmap.getImageFile().getAbsolutePath(), FormBase.OKB)).execute();
+					+ currentMap.getImageFile().getAbsolutePath(), FormBase.OKB)).execute();
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (OutOfMemoryError e) {
 			if (mmp.mapImage != null) {
@@ -1967,24 +1974,10 @@ public class MovingMap extends Form {
 	 * @param h
 	 */
 	public void zoomScreenRect(Point firstclickpoint, int w, int h) {
-		int newImageWidth = (int) (this.width * (this.width < 481 ? 2 : 1.6)); // (maximal)
-		// size
-		// of
-		// the
-		// zoomed
-		// image
-		int newImageHeight = (int) (this.height * (this.width < 481 ? 2 : 1.6)); // dont
-		// make
-		// this
-		// to
-		// big,
-		// otherwise
-		// it
-		// causes
-		// out
-		// of
-		// memory
-		// errors
+		// (maximal) size of the zoomed image
+		int newImageWidth = (int) (this.width * (this.width < 481 ? 2 : 1.6)); 
+		// dont make this to big, otherwise it causes out of memory errors
+		int newImageHeight = (int) (this.height * (this.width < 481 ? 2 : 1.6)); 
 		CWPoint center = ScreenXY2LatLon(firstclickpoint.x + w / 2,
 				firstclickpoint.y + h / 2);
 		float zoomFactor;
@@ -2093,6 +2086,7 @@ public class MovingMap extends Form {
 							newImageRect, 0));
 				currentMap.zoom(zoomFactor, newImageRect.x, newImageRect.y);
 			} catch (OutOfMemoryError e) {
+				logger.error("Failure at zooming", e);
 				(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 						.getMsg(4222, "Out of memory error"), FormBase.OKB))
 						.execute();
@@ -2202,29 +2196,16 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 			new mImage("loupe_all.png"), MyLocale.getMsg(4253,
 					"Load a map containing all marked caches"), null,
 			CellConstants.RIGHT));
+	// laod a map with more details
 	MenuItem moreDetailsMI = new MenuItem(MyLocale.getMsg(4254,
 			"Load a map with more details"), new IconAndText(new mImage(
 			"loupe_more_details.png"), MyLocale.getMsg(4255,
-			"Load a map with more details"), null, CellConstants.RIGHT)); // laod
-	// a
-	// map
-	// with
-	// more
-	// details
+			"Load a map with more details"), null, CellConstants.RIGHT)); 
+	// Load a map for a better overview --> lesser details move map to
 	MenuItem moreOverviewMI = new MenuItem(MyLocale.getMsg(4256,
 			"Load a map for a better overview"), new IconAndText(new mImage(
 			"loupe_better_overview.png"), MyLocale.getMsg(4257,
-			"Load a map for a better overview"), null, CellConstants.RIGHT)); // Load
-	// a
-	// map
-	// for
-	// a
-	// better
-	// overview
-	// -->
-	// lesser
-	// details
-	// move map to
+			"Load a map for a better overview"), null, CellConstants.RIGHT)); 
 	MenuItem moveToMI = new MenuItem(MyLocale.getMsg(4258,
 			"Move map to and load map"), MenuItem.Separator, null);
 	MenuItem moveToDestMI = new MenuItem(MyLocale.getMsg(4260,
@@ -2341,13 +2322,8 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				top = 0;
 			if (left < 0)
 				left = 0;
-			if ((lastZoomWidth <= 0) && (ev.x - saveMapLoc.x > 0)) { // changed
-				// from
-				// zooming
-				// out
-				// to
-				// zooming
-				// in
+			if ((lastZoomWidth <= 0) && (ev.x - saveMapLoc.x > 0)) {
+				// changed from zooming out to zooming in
 				removeImage(mm.buttonImageLensActivated);
 				removeImage(mm.buttonImageLensActivatedZoomOut);
 				addImage(mm.buttonImageLensActivatedZoomIn);
@@ -2357,13 +2333,8 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						mm.buttonImageLensActivatedZoomIn.getWidth(),
 						mm.buttonImageLensActivatedZoomIn.getHeight()));
 			}
-			if ((lastZoomWidth >= 0) && (ev.x - saveMapLoc.x < 0)) { // changed
-				// from
-				// zooming
-				// out
-				// to
-				// zooming
-				// in
+			if ((lastZoomWidth >= 0) && (ev.x - saveMapLoc.x < 0)) { 
+				// changed from zooming out to zooming in
 				removeImage(mm.buttonImageLensActivated);
 				removeImage(mm.buttonImageLensActivatedZoomIn);
 				addImage(mm.buttonImageLensActivatedZoomOut);
@@ -2460,12 +2431,10 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				mm.setGpsStatus(MovingMap.noGPS);
 				mm.ignoreGps = true;
 				mm.setMap(l.selectedMap, mm.posCircle.where);
-				if (mm.currentMap.getFileNameWFL() != null)
-					mm.setCenterOfScreen(l.selectedMap.center, true); // if
-				// map
-				// has
-				// an
-				// image
+				if (mm.currentMap.getFileNameWFL() != null) {
+					// if map has an image
+					mm.setCenterOfScreen(l.selectedMap.center, true); 
+				}
 				mm.setResModus(MovingMap.NORMAL_KEEP_RESOLUTION);
 				// Point posCXY = new Point (0,0);
 				// mm.getXYinMap(mm.posCircleLat, mm.posCircleLat);
