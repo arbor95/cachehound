@@ -75,6 +75,8 @@ public class TreePanel extends JPanel {
 				.getSelectionPath().getLastPathComponent();
 		model.replaceNode(oldNode, newNode);
 		tree.setSelectionPath(new TreePath(newNode.getPath()));
+		
+		cleanUpDoubleNots();
 	}
 
 	public void deleteSelection() {
