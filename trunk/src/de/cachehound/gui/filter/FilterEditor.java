@@ -186,6 +186,7 @@ public class FilterEditor extends JDialog {
 			DefaultMutableTreeNode newNode = (new FilterTreeNodeFactory())
 					.doCreate(detailsPanel.getFilter());
 			model.insertNodeInto(newNode, parent, parent.getChildCount());
+			tree.setSelectionPath(new TreePath(newNode.getPath()));
 		}
 	}
 
