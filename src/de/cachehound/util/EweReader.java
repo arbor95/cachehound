@@ -7,18 +7,18 @@ import java.io.Reader;
  * Wrapperclass for using Ewe class which expect a ewe.io.Reader.
  * 
  * @author tweety
- *
+ * 
  */
 
 @Deprecated
-public class EweReader extends ewe.io.Reader{
+public class EweReader extends ewe.io.Reader {
 
-	Reader reader;
-	
+	private Reader reader;
+
 	public EweReader(Reader reader) {
 		this.reader = reader;
 	}
-	
+
 	@Override
 	public void close() throws ewe.io.IOException {
 		try {
