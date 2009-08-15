@@ -6,8 +6,8 @@ import java.util.Set;
 import de.cachehound.beans.ICacheHolder;
 
 /**
- * Abstrakte Basisklasse fuer Filter, die von genau einem CacheHolder-Attribut
- * abhaengen. Dieses muss einen Enum-Typ ha.ben
+ * Abstrakte Basisklasse für Filter, die von genau einem CacheHolder-Attribut
+ * abhängen. Dieses muss einen Enum-Typ haben.
  */
 public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 		SimpleFilter {
@@ -38,5 +38,15 @@ public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 	@Override
 	public int hashCode() {
 		return this.getClass().hashCode() + this.getMask().hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder();
+		for (T b : getMask()) {
+			ret.append(b.toString());
+			ret.append(" ");
+		}
+		return ret.toString();
 	}
 }
