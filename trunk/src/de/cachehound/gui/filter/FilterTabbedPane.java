@@ -21,9 +21,8 @@ public class FilterTabbedPane extends JTabbedPane {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public IFilter getFilter() {
-		return ((IFilterEditor) getComponentAt(getSelectedIndex())).getFilter()
+		return ((IFilterEditor<?>) getComponentAt(getSelectedIndex())).getFilter()
 				.clone();
 	}
 
