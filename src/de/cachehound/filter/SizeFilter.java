@@ -8,11 +8,11 @@ import de.cachehound.types.CacheSize;
 
 public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	public SizeFilter() {
-		init(EnumSet.noneOf(CacheSize.class));
+		super(EnumSet.noneOf(CacheSize.class));
 	}
 	
 	public SizeFilter(Set<CacheSize> mask) {
-		init(mask);
+		super(mask);
 	}
 
 	@Override
