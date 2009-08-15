@@ -22,11 +22,6 @@ public class BearingFilter extends AbstractEnumBasedFilter<Bearing> {
 	
 	@Override
 	public String toString() {
-		StringBuilder ret = new StringBuilder("Bearing: is one of ");
-		for (Bearing b : getMask()) {
-			ret.append(b.toString());
-			ret.append(" ");
-		}
-		return ret.toString();
+		return "Bearing: is one of " + super.toString();
 	}
 }

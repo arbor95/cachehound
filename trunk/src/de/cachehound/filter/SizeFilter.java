@@ -22,11 +22,6 @@ public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	
 	@Override
 	public String toString() {
-		StringBuilder ret = new StringBuilder("Size: is one of ");
-		for (CacheSize b : getMask()) {
-			ret.append(b.toString());
-			ret.append(" ");
-		}
-		return ret.toString();
+		return "Size: is one of " + super.toString();
 	}
 }
