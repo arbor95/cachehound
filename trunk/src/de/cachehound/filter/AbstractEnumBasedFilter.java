@@ -12,8 +12,8 @@ import de.cachehound.beans.ICacheHolder;
 public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 		SimpleFilter {
 	private Set<T> mask;
-
-	protected void init(Set<T> mask) {
+	
+	protected AbstractEnumBasedFilter(Set<T> mask) {
 		this.mask = EnumSet.copyOf(mask);
 	}
 

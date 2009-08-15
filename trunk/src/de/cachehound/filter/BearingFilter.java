@@ -8,11 +8,11 @@ import de.cachehound.types.Bearing;
 
 public class BearingFilter extends AbstractEnumBasedFilter<Bearing> {
 	public BearingFilter() {
-		init(EnumSet.noneOf(Bearing.class));
+		super(EnumSet.noneOf(Bearing.class));
 	}
 	
 	public BearingFilter(Set<Bearing> mask) {
-		init(mask);
+		super(mask);
 	}
 
 	@Override
