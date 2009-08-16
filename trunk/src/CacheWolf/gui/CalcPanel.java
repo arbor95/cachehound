@@ -255,8 +255,7 @@ public class CalcPanel extends CellPanel {
 				CacheHolder ch = new CacheHolder();
 				readFields(coordInp, bd, currFormat);
 				coordOut = coordInp.project(bd.degrees, bd.distance);
-				ch.setLatLon(coordOut.toString());
-				ch.getPos().set(coordOut);
+				ch.setPos(coordOut);
 				ch.setType(CacheType.CW_TYPE_STAGE); // TODO unfertig
 				mainT.newWaypoint(ch);
 			}

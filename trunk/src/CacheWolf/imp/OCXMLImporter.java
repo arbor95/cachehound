@@ -627,8 +627,7 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("latitude")) {
-			holder.getPos().set(Common.parseDouble(strData), longitude);
-			holder.setLatLon(holder.getPos().toString());
+			holder.setPos(new CWPoint(Common.parseDouble(strData), longitude));
 			return;
 		}
 		if (name.equals("difficulty")) {

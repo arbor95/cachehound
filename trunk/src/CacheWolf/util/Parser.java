@@ -622,8 +622,7 @@ public class Parser {
 						+ waypointName);
 				return;
 			}
-			ch.setLatLon(cwPt.toString(CWPoint.CW));
-			ch.getPos().set(cwPt);
+			ch.setPos(cwPt);
 			ch.calcDistance(Global.getPref().curCentrePt); // Update
 			// distance/bearing
 			nav.setDestination(ch);
@@ -1167,8 +1166,7 @@ public class Parser {
 				cwPt.set(coord);
 				if (cwPt.isValid() || coord.equals("")) { // Can clear coord
 					// with empty string
-					ch.setLatLon(cwPt.toString(CWPoint.CW));
-					ch.getPos().set(cwPt);
+					ch.setPos(cwPt);
 					ch.calcDistance(Global.getPref().curCentrePt); // Update
 					// distance
 					// and
