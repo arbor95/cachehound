@@ -20,7 +20,7 @@ import ewe.sys.Convert;
  * 
  */
 public class CWPoint extends TrackPoint {
-	public MGRSPoint utm = new MGRSPoint();
+	private MGRSPoint utm = new MGRSPoint();
 	public boolean utmValid = false;
 
 	public static final int DD = 0;
@@ -60,18 +60,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * Create CWPoint by using a LatLonPoint
-	 * 
-	 * @param CWPoint
-	 *            LatLonPoint
-	 */
-
-	public CWPoint(LatLonPoint llPoint) {
-		super(llPoint.getLatitude(), llPoint.getLongitude());
-		this.utmValid = false;
-	}
-
-	/**
 	 * Create CWPoint by using a CWPoint
 	 * 
 	 * @param CWPoint
@@ -94,37 +82,6 @@ public class CWPoint extends TrackPoint {
 	public CWPoint(String coord, int format) {
 		super(-361, -361);
 		set(coord, format);
-	}
-
-	/**
-	 * Create CWPoint
-	 * 
-	 * @param strLatNS
-	 *            "N" or "S"
-	 * @param strLatDeg
-	 *            Degrees of Latitude
-	 * @param strLatMin
-	 *            Minutes of Latitude
-	 * @param strLatSec
-	 *            Seconds of Latitude
-	 * @param strLonEW
-	 *            "E" or "W"
-	 * @param strLonDeg
-	 *            Degrees of Longitude
-	 * @param strLonMin
-	 *            Minutes of Longitude
-	 * @param strLonSec
-	 *            Seconds of Longitude
-	 * @param format
-	 *            Format: DD, DMM, DMS, CW, UTM
-	 */
-	// TODO Remove ? Only used in OCXMLImporter and TablePanel when reading
-	// preferences
-	public CWPoint(String strLatNS, String strLatDeg, String strLatMin,
-			String strLatSec, String strLonEW, String strLonDeg,
-			String strLonMin, String strLonSec, int format) {
-		set(strLatNS, strLatDeg, strLatMin, strLatSec, strLonEW, strLonDeg,
-				strLonMin, strLonSec, format);
 	}
 
 	/**
@@ -152,19 +109,6 @@ public class CWPoint extends TrackPoint {
 	public void set(double lat, double lon) {
 		this.latDec = lat;
 		this.lonDec = lon;
-		this.utmValid = false;
-	}
-
-	/**
-	 * Set CWPoint by using a LatLonPoint
-	 * 
-	 * @param CWPoint
-	 *            LatLonPoint
-	 */
-
-	public void set(LatLonPoint llPoint) {
-		this.latDec = llPoint.getLatitude();
-		this.lonDec = llPoint.getLongitude();
 		this.utmValid = false;
 	}
 
@@ -655,12 +599,6 @@ public class CWPoint extends TrackPoint {
 	public String getGermanGkCoordinates() {
 		return TransformCoordinates.wgs84ToGermanGk(this).toString(0, "R:",
 				" H:", GkPoint.GERMAN_GK);
-	}
-
-	public String getGermanGkCoordinates(int decimalplaces, String pref,
-			String seperator, int region) {
-		return TransformCoordinates.wgs84ToGermanGk(this).toString(
-				decimalplaces, pref, seperator, region);
 	}
 
 	/**
