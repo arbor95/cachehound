@@ -43,6 +43,10 @@ public enum Difficulty {
 	public String getFullRepresentation() {
 		return fullRepresentation;
 	}
+	
+	public String toString() {
+		return shortRepresenation;
+	}
 
 	public boolean isValid() {
 		return valid;

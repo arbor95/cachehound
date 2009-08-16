@@ -45,6 +45,10 @@ public enum Terrain {
 		return fullRepresentation;
 	}
 
+	public String toString() {
+		return shortRepresenation;
+	}
+
 	public boolean isValid() {
 		return valid;
 	}
