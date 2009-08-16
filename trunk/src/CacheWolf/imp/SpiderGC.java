@@ -1003,6 +1003,7 @@ public class SpiderGC {
 						// ==========
 						// General Cache Data
 						// ==========
+						ch.setPos(new CWPoint(latLon));
 						ch.setLatLon(latLon);
 						pref.log("LatLon: " + ch.getLatLon());
 						if (pref.debug)
@@ -1930,8 +1931,10 @@ public class SpiderGC {
 				koordRex.search(rowBlock);
 				typeRex.search(rowBlock);
 				hd.setCacheName(nameRex.stringMatched(1));
-				if (koordRex.didMatch())
+				if (koordRex.didMatch()) {
+					hd.setPos(new CWPoint(koordRex.stringMatched(1)));
 					hd.setLatLon(koordRex.stringMatched(1));
+				}
 				if (typeRex.didMatch())
 					hd.setType(CacheType.gpxType2CwType("Waypoint|"
 							+ typeRex.stringMatched(1)));
