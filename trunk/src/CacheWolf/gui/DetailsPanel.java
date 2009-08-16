@@ -375,16 +375,16 @@ public class DetailsPanel extends CellPanel {
 							ch.getWayPoint() + " has wrong terrain "
 									+ ch.getTerrain());
 			}
-			if (ch.getHard().isValid()) {
+			if (ch.getDifficulty().isValid()) {
 				btnDiff.setText(MyLocale.getMsg(1000, "D") + ": "
-						+ ch.getHard().getFullRepresentation());
+						+ ch.getDifficulty().getFullRepresentation());
 			} else {
 				btnDiff.setText("D: -.-");
 				ch.setIncomplete(true);
 				if (Global.getPref().debug)
 					Global.getPref().log(
 							ch.getWayPoint() + " has wrong difficulty "
-									+ ch.getHard());
+									+ ch.getDifficulty());
 			}
 		}
 		int addiCount = 0;
@@ -571,7 +571,7 @@ public class DetailsPanel extends CellPanel {
 				ch.setLatLon(thisCache.getLatLon());
 				ch.setPos(new CWPoint(thisCache.getPos()));
 				ch.setType(CacheType.CW_TYPE_STAGE);
-				ch.setHard(Difficulty.DIFFICULTY_UNSET);
+				ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 				ch.setTerrain(Terrain.TERRAIN_UNSET);
 				ch.setCacheSize(CacheSize.NOT_CHOSEN);
 				Global.mainTab.newWaypoint(ch);
@@ -664,13 +664,13 @@ public class DetailsPanel extends CellPanel {
 				}
 			} else if (ev.target == this.btnDiff) {
 				int returnValue;
-				DifficultyForm df = new DifficultyForm(thisCache.getHard());
+				DifficultyForm df = new DifficultyForm(thisCache.getDifficulty());
 				returnValue = df.execute();
-				if (returnValue == 1 && df.getDifficulty() != thisCache.getHard()) {
+				if (returnValue == 1 && df.getDifficulty() != thisCache.getDifficulty()) {
 					// FIXME: do this when waypoint is checked for saving
-					thisCache.setHard(df.getDifficulty());
+					thisCache.setDifficulty(df.getDifficulty());
 					btnDiff.setText(MyLocale.getMsg(1000, "D") + ": "
-							+ thisCache.getHard().getFullRepresentation());
+							+ thisCache.getDifficulty().getFullRepresentation());
 					dirty_details = true;
 				}
 			}

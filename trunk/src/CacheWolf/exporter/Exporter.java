@@ -393,7 +393,7 @@ public abstract class Exporter {
 		StringBuilder strBuf = new StringBuilder(7);
 		strBuf.append(CacheType.getExportShortId(ch.getType()).toLowerCase());
 		if (!ch.isAddiWpt()) {
-			strBuf.append(ch.getHard());
+			strBuf.append(ch.getDifficulty());
 			strBuf.append("/");
 			strBuf.append(ch.getTerrain());
 			strBuf.append(ch.getCacheSize().getAsChar());

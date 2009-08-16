@@ -71,8 +71,8 @@ class GarminMap extends MinML {
 					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
-							.equals(ch.getHard().getShortRepresentation()));
+					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
@@ -108,8 +108,8 @@ class GarminMap extends MinML {
 					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
-							.equals(ch.getHard().getShortRepresentation()));
+					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
@@ -140,8 +140,8 @@ class GarminMap extends MinML {
 					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getHard() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
-							.equals(ch.getHard().getShortRepresentation()));
+					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));

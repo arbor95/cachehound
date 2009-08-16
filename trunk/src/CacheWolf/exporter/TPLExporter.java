@@ -222,7 +222,7 @@ public class TPLExporter {
 												.getType()) ? ""
 												: dec
 														.replaceAll(ch
-																.getHard()
+																.getDifficulty()
 																.getFullRepresentation()));
 						varParams
 								.put(

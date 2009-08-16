@@ -484,7 +484,7 @@ public class Filter {
 			// Filter criterium 4: Difficulty
 			// /////////////////////////////
 			if (fscDiff > 0.0) {
-				dummyd1 = ch.getHard().getOldCWValue() / 10D;
+				dummyd1 = ch.getDifficulty().getOldCWValue() / 10D;
 				if (diffdirec == SMALLER && dummyd1 > fscDiff) {
 					cacheFiltered = true;
 					break;

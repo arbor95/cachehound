@@ -594,7 +594,7 @@ public class GpxExportNg {
 				ret.append("    <name>".concat(
 						SafeXML.cleanGPX(ch.getWayPoint()).concat(" ").concat(
 								CacheType.getExportShortId(ch.getType()))
-								.concat(String.valueOf(ch.getHard())).concat(
+								.concat(String.valueOf(ch.getDifficulty())).concat(
 										String.valueOf(ch.getTerrain()))
 								.concat(ch.getCacheSize().getAsString()))
 						.concat(String.valueOf(ch.getNoFindLogs())).concat(
@@ -645,7 +645,7 @@ public class GpxExportNg {
 					SafeXML.cleanGPX(ch.getCacheName().concat(" by ").concat(
 							ch.getCacheOwner()).concat(", ").concat(
 							CacheType.cw2ExportString(ch.getType())).concat(
-							" (").concat(ch.getHard().getShortRepresentation())
+							" (").concat(ch.getDifficulty().getShortRepresentation())
 							.concat("/").concat(
 									ch.getTerrain().getShortRepresentation())
 							.concat(")"))).concat("</desc>\n"));
@@ -725,7 +725,7 @@ public class GpxExportNg {
 						ch.getCacheSize().getAsString()).concat(
 						"</groundspeak:container>\n").concat(
 						"      <groundspeak:difficulty>").concat(
-						ch.getHard().getShortRepresentation()).concat(
+						ch.getDifficulty().getShortRepresentation()).concat(
 						"</groundspeak:difficulty>\n").concat(
 						"      <groundspeak:terrain>").concat(
 						ch.getTerrain().getShortRepresentation()).concat(

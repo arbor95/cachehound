@@ -122,8 +122,8 @@ public class HTMLExporter {
 						varParams.put("TERRAIN", "");
 					} else {
 						varParams.put("SIZE", ch.getCacheSize().getAsString());
-						varParams.put("DIFFICULTY", ch.getHard().isValid() ? ch
-								.getHard().getFullRepresentation() : "");
+						varParams.put("DIFFICULTY", ch.getDifficulty().isValid() ? ch
+								.getDifficulty().getFullRepresentation() : "");
 						varParams.put("TERRAIN", ch.getTerrain().isValid() ? ch
 								.getTerrain().getFullRepresentation() : "");
 					}

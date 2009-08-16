@@ -120,7 +120,7 @@ public class TritonGPXExporter extends Exporter {
 				String s = "abbc";
 				s.replace("bb", "b");
 
-				String diff = ch.getHard().getShortRepresentation();
+				String diff = ch.getDifficulty().getShortRepresentation();
 				strBuf.append("      <groundspeak:difficulty>").append(diff)
 						.append("</groundspeak:difficulty>\r\n");
 				String terr = ch.getTerrain().getShortRepresentation();

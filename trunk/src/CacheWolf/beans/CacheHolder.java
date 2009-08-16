@@ -77,7 +77,7 @@ public class CacheHolder implements ICacheHolder {
 	/** The angle (0=North, 180=South) from the current centre to this point */
 	private double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
-	private Difficulty hard = Difficulty.DIFFICULTY_ERROR;
+	private Difficulty difficulty = Difficulty.DIFFICULTY_ERROR;
 	/** The terrain rating of the cache from 1 to 5 in .5 incements */
 	private Terrain terrain = Terrain.TERRAIN_ERROR;
 	/** The cache type (@see CacheType for translation table) */
@@ -376,7 +376,7 @@ public class CacheHolder implements ICacheHolder {
 		this.setCacheSize(ch.getCacheSize());
 		this.setKilom(ch.getKilom());
 		this.setDegrees(ch.getDegrees());
-		this.setHard(ch.getHard());
+		this.setDifficulty(ch.getDifficulty());
 		this.setTerrain(ch.getTerrain());
 		this.setType(ch.getType());
 		this.setArchived(ch.is_archived());
@@ -847,7 +847,7 @@ public class CacheHolder implements ICacheHolder {
 	 * @return long value representing the byte field
 	 */
 	private long byteFields2long() {
-		long value = byteBitMask(hard.getOldCWValue(), 1) | byteBitMask(terrain.getOldCWValue(), 2)
+		long value = byteBitMask(difficulty.getOldCWValue(), 1) | byteBitMask(terrain.getOldCWValue(), 2)
 				| byteBitMask(this.type, 3)
 				| byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
@@ -862,12 +862,12 @@ public class CacheHolder implements ICacheHolder {
 	 *            The long value which contains up to 8 bytes.
 	 */
 	private void long2byteFields(long value) {
-		setHard(Difficulty.fromOldCWByte(byteFromLong(value, 1)));
+		setDifficulty(Difficulty.fromOldCWByte(byteFromLong(value, 1)));
 		setTerrain(Terrain.fromOldCWByte(byteFromLong(value, 2)));
 		setType(byteFromLong(value, 3));
 		setCacheSize(CacheSize.fromOldCwId(byteFromLong(value, 4)));
 		setNoFindLogs((byteFromLong(value, 5)));
-		if ((getHard() == Difficulty.DIFFICULTY_ERROR)
+		if ((getDifficulty() == Difficulty.DIFFICULTY_ERROR)
 				|| (getTerrain() == Terrain.TERRAIN_ERROR)
 				// || getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich
 				// nie erreicht werden
@@ -1092,13 +1092,13 @@ public class CacheHolder implements ICacheHolder {
 		this.cacheSize = cacheSize;
 	}
 
-	public Difficulty getHard() {
-		return hard;
+	public Difficulty getDifficulty() {
+		return difficulty;
 	}
 
-	public void setHard(Difficulty hard) {
-		Global.getProfile().notifyUnsavedChanges(hard != this.hard);
-		this.hard = hard;
+	public void setDifficulty(Difficulty hard) {
+		Global.getProfile().notifyUnsavedChanges(hard != this.difficulty);
+		this.difficulty = hard;
 	}
 
 	public Terrain getTerrain() {
@@ -1287,8 +1287,8 @@ public class CacheHolder implements ICacheHolder {
 		boolean ret;
 		if (isCacheWpt()) {
 			if (getWayPoint().length() < 3
-					|| getHard() == Difficulty.DIFFICULTY_ERROR 
-					|| getHard() == Difficulty.DIFFICULTY_UNSET
+					|| getDifficulty() == Difficulty.DIFFICULTY_ERROR 
+					|| getDifficulty() == Difficulty.DIFFICULTY_UNSET
 					|| getTerrain() == Terrain.TERRAIN_ERROR
 					|| getTerrain() == Terrain.TERRAIN_UNSET
 					// || getCacheSize() == CacheSize.CW_SIZE_ERROR kann
@@ -1301,7 +1301,7 @@ public class CacheHolder implements ICacheHolder {
 				ret = false;
 		} else if (isAddiWpt()) {
 			if (getMainCache() == null
-					|| getHard() != Difficulty.DIFFICULTY_UNSET
+					|| getDifficulty() != Difficulty.DIFFICULTY_UNSET
 					|| getCacheSize() != CacheSize.NOT_CHOSEN
 					|| getTerrain() != Terrain.TERRAIN_UNSET
 					|| getWayPoint().length() < 2
@@ -1312,7 +1312,7 @@ public class CacheHolder implements ICacheHolder {
 			else
 				ret = false;
 		} else if (isCustomWpt()) {
-			if (getHard() != Difficulty.DIFFICULTY_UNSET
+			if (getDifficulty() != Difficulty.DIFFICULTY_UNSET
 					|| getTerrain() != Terrain.TERRAIN_UNSET
 					|| getCacheSize() != CacheSize.NOT_CHOSEN
 					|| getWayPoint().length() < 2

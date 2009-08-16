@@ -82,7 +82,7 @@ public class ShowCacheInBrowser {
 					tpl.setParam("WAYPOINT", chD.getWayPoint());
 					tpl.setParam("CACHE_NAME", chD.getCacheName());
 					tpl.setParam("OWNER", chD.getCacheOwner());
-					tpl.setParam("DIFFICULTY", chD.getHard()
+					tpl.setParam("DIFFICULTY", chD.getDifficulty()
 							.getFullRepresentation());
 					tpl.setParam("TERRAIN", chD.getTerrain()
 							.getFullRepresentation());

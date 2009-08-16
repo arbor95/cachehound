@@ -464,7 +464,7 @@ public class GPXImporter extends MinML {
 				&& strData.startsWith("Waypoint")) {
 			holder.setType(CacheType.gpxType2CwType(strData));
 			holder.setCacheSize(CacheSize.NOT_CHOSEN);
-			holder.setHard(Difficulty.DIFFICULTY_UNSET);
+			holder.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 			holder.setTerrain(Terrain.TERRAIN_UNSET);
 			holder.setLastSync("");
 		}
@@ -483,7 +483,7 @@ public class GPXImporter extends MinML {
 		}
 		if (name.equals("groundspeak:difficulty") || name.equals("difficulty")
 				|| name.equals("terra:mental_challenge")) {
-			holder.setHard(Difficulty.fromString(strData));
+			holder.setDifficulty(Difficulty.fromString(strData));
 			return;
 		}
 		if (name.equals("groundspeak:terrain") || name.equals("terrain")
@@ -497,7 +497,7 @@ public class GPXImporter extends MinML {
 			holder.setType(CacheType.gpxType2CwType(strData));
 			if (holder.isCustomWpt()) {
 				holder.setCacheSize(CacheSize.NOT_CHOSEN);
-				holder.setHard(Difficulty.DIFFICULTY_UNSET);
+				holder.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 				holder.setTerrain(Terrain.TERRAIN_UNSET);
 			}
 			return;

@@ -211,7 +211,7 @@ public class TomTomExporter {
 			outp.writeBytes(" by ");
 			outp.writeBytes(ch.getCacheOwner());
 			outp.writeBytes("- ");
-			outp.writeBytes(String.valueOf(ch.getHard()));
+			outp.writeBytes(String.valueOf(ch.getDifficulty()));
 			outp.writeBytes("/");
 			outp.writeBytes(String.valueOf(ch.getTerrain()));
 			outp.writeBytes(" - ");
@@ -234,7 +234,7 @@ public class TomTomExporter {
 			outp.writeByte((byte) d);
 			data = ch.getWayPoint().length() + ch.getCacheName().length()
 					+ ch.getCacheOwner().length()
-					+ String.valueOf(ch.getHard()).length()
+					+ String.valueOf(ch.getDifficulty()).length()
 					+ String.valueOf(ch.getTerrain()).length()
 					+ ch.getCacheSize().getAsString().length() + 27;
 			writeIntBinary(outp, data);
@@ -255,7 +255,7 @@ public class TomTomExporter {
 			// holder.wayPoint.length()+holder.CacheName.length()+.....
 			// wider um 1 erhöhen
 			outp.writeBytes("- ");
-			outp.writeBytes(String.valueOf(ch.getHard()));
+			outp.writeBytes(String.valueOf(ch.getDifficulty()));
 			outp.writeBytes("/");
 			outp.writeBytes(String.valueOf(ch.getTerrain()));
 			outp.writeBytes(" - ");

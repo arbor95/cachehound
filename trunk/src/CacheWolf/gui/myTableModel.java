@@ -380,7 +380,7 @@ public class myTableModel extends TableModel {
 							|| ch.getType() == CacheType.CW_TYPE_CUSTOM) {
 						return "";
 					} else {
-						return ch.getHard().getFullRepresentation();
+						return ch.getDifficulty().getFullRepresentation();
 					}
 				case 3: // Terrain
 					// FIXME Needs optimizing when code is stable
