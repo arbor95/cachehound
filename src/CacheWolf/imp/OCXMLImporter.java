@@ -632,7 +632,7 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("difficulty")) {
-			holder.setHard(Difficulty.fromString(strData));
+			holder.setDifficulty(Difficulty.fromString(strData));
 			return;
 		}
 		if (name.equals("terrain")) {

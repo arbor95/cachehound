@@ -121,7 +121,7 @@ public class GPXExporter extends Exporter {
 						ch.getCacheSize().getAsString()).append(
 						"</groundspeak:container>\r\n");
 				// for Colorado/Oregon: 2.0 -> 2
-				String diffTerr = ch.getHard().getShortRepresentation();
+				String diffTerr = ch.getDifficulty().getShortRepresentation();
 
 				strBuf.append("      <groundspeak:difficulty>")
 						.append(diffTerr).append(

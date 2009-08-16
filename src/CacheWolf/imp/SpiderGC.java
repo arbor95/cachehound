@@ -1085,10 +1085,10 @@ public class SpiderGC {
 							pref.log("Got size");
 
 						pref.log("Trying difficulty");
-						ch.setHard(Difficulty
+						ch.setDifficulty(Difficulty
 								.fromString(getDifficulty(completeWebPage)));
 						if (pref.debug)
-							pref.log("Hard: " + ch.getHard());
+							pref.log("Hard: " + ch.getDifficulty());
 						else
 							pref.log("Got difficulty");
 
@@ -1941,7 +1941,7 @@ public class SpiderGC {
 						descRex.stringMatched(1));
 				hd.setFound(is_found);
 				hd.setCacheSize(CacheSize.NOT_CHOSEN);
-				hd.setHard(Difficulty.DIFFICULTY_UNSET);
+				hd.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 				hd.setTerrain(Terrain.TERRAIN_UNSET);
 				if (idx < 0) {
 					cacheDB.add(hd);

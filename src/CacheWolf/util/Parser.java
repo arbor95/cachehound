@@ -1449,7 +1449,7 @@ public class Parser {
 		ch.setWayPoint(wayPoint);
 		ch.setType(type);
 		ch.setCacheSize(CacheSize.NOT_CHOSEN);
-		ch.setHard(Difficulty.DIFFICULTY_UNSET);
+		ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 		ch.setTerrain(Terrain.TERRAIN_UNSET);
 		ch.setCacheName(name);
 

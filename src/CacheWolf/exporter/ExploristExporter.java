@@ -298,7 +298,7 @@ public class ExploristExporter {
 			// - 1900
 			if (add.equals("")) {
 				sb.append(",");
-				sb.append(ch.getHard().getFullRepresentation());
+				sb.append(ch.getDifficulty().getFullRepresentation());
 				sb.append(",");
 				sb.append(ch.getTerrain().getFullRepresentation());
 			} else {

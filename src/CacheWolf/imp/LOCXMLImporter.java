@@ -149,7 +149,7 @@ public class LOCXMLImporter extends MinML {
 			// CacheHolder constructor
 			ch.setType(CacheType.CW_TYPE_CUSTOM);
 			ch.setTerrain(Terrain.TERRAIN_UNSET);
-			ch.setHard(Difficulty.DIFFICULTY_UNSET);
+			ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 			ch.setCacheSize(CacheSize.NOT_CHOSEN);
 			ch.setWayPoint(wpt);
 		}

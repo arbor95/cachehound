@@ -52,7 +52,7 @@ public class OziExporter extends Exporter {
 		} else {
 			strBuf.append(ch.getWayPoint().concat(" ").concat(
 					CacheType.getExportShortId(ch.getType())).concat(
-					String.valueOf(ch.getHard())).concat(
+					String.valueOf(ch.getDifficulty())).concat(
 					String.valueOf(ch.getTerrain())).concat(
 					ch.getCacheSize().getAsString()).concat(","));
 		}

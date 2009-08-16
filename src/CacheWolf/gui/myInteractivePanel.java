@@ -84,7 +84,7 @@ public class myInteractivePanel extends InteractivePanel {
 		CacheHolder ch = cacheDB.get(imgRP.rownum);
 		wayPoint = ch.getWayPoint();
 		String s = wayPoint + "  " + ch.getCacheSize().getAsChar() + " / "
-				+ strDifficulty + "=" + ch.getHard() + "  " + strTerrain + "="
+				+ strDifficulty + "=" + ch.getDifficulty() + "  " + strTerrain + "="
 				+ ch.getTerrain();
 		String s1 = ch.getCacheName();
 		if (s1.length() > 40)
