@@ -693,29 +693,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * Method to identify one of 16 compass directions based on the bearing.
-	 * 
-	 * @param degrees
-	 *            bearing
-	 * @return direction
-	 */
-	public static String getDirection(double degrees) {
-		return getDirectionFromBearing(degrees);
-	}
-
-	/**
-	 * Method to identify one of 16 compass directions based on the bearing of
-	 * the destination waypoint
-	 * 
-	 * @param dest
-	 *            waypoint
-	 * @return direction
-	 */
-	public String getDirection(CWPoint dest) {
-		return getDirectionFromBearing(getBearing(dest));
-	}
-
-	/**
 	 * Method to calculate the distance to a waypoint
 	 * 
 	 * @param dest
@@ -829,66 +806,4 @@ public class CWPoint extends TrackPoint {
 				.LLtoMGRS(new LatLonPoint(this.latDec, this.lonDec));
 		this.utmValid = true;
 	}
-
-	/**
-	 * Method to identify one of 16 compass directions based on the bearing.
-	 */
-	private static String getDirectionFromBearing(double wert) {
-		// System.out.println(wert);
-		String strBear = new String();
-		double stVal = -11.25;
-		if (wert >= stVal)
-			strBear = "N";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "NNE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "NE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "ENE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "E";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "ESE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "SE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "SSE";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "S";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "SSW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "SW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "WSW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "W";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "WNW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "NW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "NNW";
-		stVal += 22.5;
-		if (wert >= stVal)
-			strBear = "N";
-		stVal += 22.5;
-		return strBear;
-	} // getBearing
-
 }
