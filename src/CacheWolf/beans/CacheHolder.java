@@ -63,8 +63,6 @@ public class CacheHolder implements ICacheHolder {
 	private String cacheOwner = EMPTY;
 	/** The coordinates of the cache */
 	private CWPoint pos = new CWPoint();
-	/** The coordinates of the cache */
-	private String LatLon = getPos().toString();
 	/** The date when the cache was hidden in format yyyy-mm-dd */
 	private String dateHidden = EMPTY;
 	/** The size of the cache (as per GC cache sizes Micro, Small, ....) */
@@ -471,14 +469,6 @@ public class CacheHolder implements ICacheHolder {
 		sb.append(Convert.formatLong(this.byteFields2long()));
 		sb.append("\" />\n");
 		return sb.toString();
-	}
-
-	public void setLatLon(String latLon) {
-		latLon = latLon.trim();
-		if (!latLon.equals(LatLon.trim()))
-			setUpdated(true);
-		LatLon = latLon;
-		getPos().set(latLon);
 	}
 
 	public boolean isAddiWpt() {
@@ -1495,8 +1485,13 @@ public class CacheHolder implements ICacheHolder {
 		return pos;
 	}
 
+	@Deprecated
+	public void setLatLon(String latLon) {
+		// do nothing
+	}
+
 	public String getLatLon() {
-		return LatLon;
+		return pos.toString();
 	}
 
 	public void setKilom(double kilom) {
