@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/ewe.jar" sourcepath="lib/src/Ewe149-Source-Java.zip"/>
 	<classpathentry kind="lib" path="lib/CompileEwe.zip" sourcepath="lib/JavaEwe.zip"/>
 	<classpathentry kind="lib" path="lib/ewe_misc.jar"/>
+	<classpathentry kind="lib" path="lib/openmap.jar" sourcepath="lib/src/openmap-4.6.5.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
