@@ -5,6 +5,11 @@ import java.awt.Component;
 import javax.swing.JTabbedPane;
 
 import de.cachehound.filter.IFilter;
+import de.cachehound.gui.filter.panels.BearingFilterPanel;
+import de.cachehound.gui.filter.panels.DistanceFilterPanel;
+import de.cachehound.gui.filter.panels.DummyFilterPanel;
+import de.cachehound.gui.filter.panels.IFilterEditor;
+import de.cachehound.gui.filter.panels.SizeFilterPanel;
 
 public class FilterTabbedPane extends JTabbedPane {
 	public FilterTabbedPane() {

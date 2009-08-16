@@ -1,4 +1,4 @@
-package de.cachehound.gui.filter;
+package de.cachehound.gui.filter.panels;
 
 import javax.swing.JLabel;
 import javax.swing.JSpinner;

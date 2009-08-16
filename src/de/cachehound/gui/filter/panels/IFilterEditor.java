@@ -1,6 +1,7 @@
-package de.cachehound.gui.filter;
+package de.cachehound.gui.filter.panels;
 
 import de.cachehound.filter.IFilter;
+import de.cachehound.gui.filter.IFilterChangedListener;
 
 public interface IFilterEditor<T extends IFilter> {
 	public T getFilter();
