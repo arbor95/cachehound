@@ -1,4 +1,4 @@
-package de.cachehound.gui.filter;
+package de.cachehound.gui.filter.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

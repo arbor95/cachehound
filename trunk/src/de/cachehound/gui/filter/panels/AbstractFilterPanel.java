@@ -1,4 +1,4 @@
-package de.cachehound.gui.filter;
+package de.cachehound.gui.filter.panels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.cachehound.filter.IFilter;
+import de.cachehound.gui.filter.IFilterChangedListener;
 
 public abstract class AbstractFilterPanel<T extends IFilter> extends JPanel
 		implements IFilterEditor<T> {
