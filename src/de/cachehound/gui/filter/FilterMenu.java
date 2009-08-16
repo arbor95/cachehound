@@ -9,11 +9,13 @@ import javax.swing.JSeparator;
 
 import de.cachehound.filter.AndFilter;
 import de.cachehound.filter.BearingFilter;
+import de.cachehound.filter.DifficultyFilter;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.filter.NotFilter;
 import de.cachehound.filter.OrFilter;
 import de.cachehound.filter.SizeFilter;
+import de.cachehound.filter.TerrainFilter;
 
 public class FilterMenu extends JMenu {
 	private class MyActionListener implements ActionListener {
@@ -46,6 +48,8 @@ public class FilterMenu extends JMenu {
 			add(new FilterMenu("NOT", action, true));
 		}
 		add(new JSeparator());
+		add(createMenuItem("Difficulty", new DifficultyFilter(), negated));
+		add(createMenuItem("Terrain", new TerrainFilter(), negated));
 		add(createMenuItem("Bearing", new BearingFilter(), negated));
 		add(createMenuItem("Distance", new DistanceFilter(), negated));
 		add(createMenuItem("Size", new SizeFilter(), negated));

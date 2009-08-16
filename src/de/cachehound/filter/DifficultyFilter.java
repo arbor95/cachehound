@@ -1,12 +1,17 @@
 package de.cachehound.filter;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.types.Difficulty;
 
 public class DifficultyFilter extends AbstractEnumBasedFilter<Difficulty> {
-	protected DifficultyFilter(Set<Difficulty> mask) {
+	public DifficultyFilter() {
+		super(EnumSet.noneOf(Difficulty.class));
+	}
+
+	public DifficultyFilter(Set<Difficulty> mask) {
 		super(mask);
 	}
 

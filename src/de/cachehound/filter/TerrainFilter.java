@@ -1,12 +1,17 @@
 package de.cachehound.filter;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.types.Terrain;
 
 public class TerrainFilter extends AbstractEnumBasedFilter<Terrain> {
-	protected TerrainFilter(Set<Terrain> mask) {
+	public TerrainFilter() {
+		super(EnumSet.noneOf(Terrain.class));
+	}
+
+	public TerrainFilter(Set<Terrain> mask) {
 		super(mask);
 	}
 
