@@ -593,8 +593,8 @@ public class MainMenu extends MenuBar {
 				fc.addMask("*.tpl");
 				fc.setTitle(MyLocale.getMsg(910, "Select Template file"));
 				if (fc.execute() != FormBase.IDCANCEL) {
-					TPLExporter tpl = new TPLExporter(pref, profile, fc
-							.getChosenFile().toString());
+					TPLExporter tpl = new TPLExporter(pref, profile, new File(fc
+							.getChosenFile().getFullPath()));
 					tpl.doIt();
 				}
 			}

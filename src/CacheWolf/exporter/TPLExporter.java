@@ -25,7 +25,17 @@
 
 package CacheWolf.exporter;
 
-import CacheWolf.Global;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -40,117 +50,28 @@ import com.stevesoft.ewe_pat.Regex;
 import de.cachehound.beans.CacheHolderDetail;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
-import ewe.io.AsciiCodec;
-import ewe.io.BufferedWriter;
-import ewe.io.File;
-import ewe.io.FileWriter;
-import ewe.io.JavaUtf8Codec;
-import ewe.io.PrintWriter;
-import ewe.io.TextCodec;
-import ewe.sys.Vm;
 import ewe.ui.FormBase;
-import ewe.ui.MessageBox;
 import ewe.ui.ProgressBarForm;
 import ewe.util.Hashtable;
 import ewe.util.Vector;
 
-/**
- * @author Kalle class to export cachedata using a template
- */
-class TplFilter implements HTML.Tmpl.Filter {
-	private int type = SCALAR;
-	private String newLine = "\n";
-	TextCodec codec = new AsciiCodec();
-	String badChars;
-	String decSep = ".";
-
-	public TplFilter() {
-		codec = new AsciiCodec(AsciiCodec.STRIP_CR);
-		return;
-	}
-
-	public int format() {
-		return this.type;
-	}
-
-	public String parse(String t) {
-		// Vm.debug(t);
-		Regex rex, rex1;
-		String param, value;
-		// Filter newlines
-		rex = new Regex("(?m)\n$", "");
-		t = rex.replaceAll(t);
-
-		// Filter comments <#-- and -->
-		rex = new Regex("<#--.*-->", "");
-		t = rex.replaceAll(t);
-
-		// replace <br> or <br /> with newline
-		rex = new Regex("<br.*>", "");
-		rex.search(t);
-		if (rex.didMatch()) {
-			t = rex.replaceAll(t);
-			t += newLine;
-		}
-
-		// search for parameters
-		rex = new Regex("(?i)<tmpl_par.*>");
-		rex.search(t);
-		if (rex.didMatch()) {
-			// get parameter
-			rex1 = new Regex("(?i)name=\"(.*)\"\\svalue=\"(.*)\"[?\\s>]");
-			rex1.search(t);
-			param = rex1.stringMatched(1);
-			value = rex1.stringMatched(2);
-			// Vm.debug("param=" + param + "\nvalue=" + value);
-			// clear t, because we allow only one parameter per line
-			t = "";
-
-			// get the values
-			if (param.equals("charset")) {
-				if (value.equals("ASCII"))
-					codec = new AsciiCodec();
-				if (value.equals("UTF8"))
-					codec = new JavaUtf8Codec();
-			}
-			if (param.equals("badchars")) {
-				badChars = value;
-			}
-			if (param.equals("newline")) {
-				newLine = "";
-				if (value.indexOf("CR") >= 0)
-					newLine += "\r";
-				if (value.indexOf("LF") >= 0)
-					newLine += "\n";
-			}
-			if (param.equals("decsep")) {
-				decSep = value;
-			}
-
-		}
-		return t;
-	}
-
-	public String[] parse(String[] t) {
-		throw new UnsupportedOperationException();
-	}
-}
-
 public class TPLExporter {
-	CacheDB cacheDB;
-	Preferences pref;
-	Profile profile;
-	String tplFile;
-	String expName;
-	Regex rex = null;
 
-	public TPLExporter(Preferences p, Profile prof, String tpl) {
+	private static Logger logger = LoggerFactory.getLogger(TPLExporter.class);
+
+	private CacheDB cacheDB;
+	private Preferences pref;
+	private Profile profile;
+	private File tplFile;
+	private String expName;
+	private Regex rex = null;
+
+	public TPLExporter(Preferences p, Profile prof, File tplFile) {
 		pref = p;
 		profile = prof;
 		cacheDB = profile.cacheDB;
-		tplFile = tpl;
-		File tmpFile = new File(tpl);
-		expName = tmpFile.getName();
+		this.tplFile = tplFile;
+		expName = tplFile.getName();
 		expName = expName.substring(0, expName.indexOf("."));
 	}
 
@@ -160,21 +81,22 @@ public class TPLExporter {
 		ProgressBarForm pbf = new ProgressBarForm();
 		ewe.sys.Handle h = new ewe.sys.Handle();
 
-		FileChooser fc = new FileChooser(FileChooserBase.SAVE, pref
-				.getExportPath(expName).getAbsolutePath());
+		File oldPath = pref.getExportPath(expName);
+		String oldPathString = "";
+		if (pref != null) {
+			oldPathString = oldPath.getAbsolutePath();
+		}
+
+		FileChooser fc = new FileChooser(FileChooserBase.SAVE, oldPathString);
 		fc.setTitle("Select target file:");
 		if (fc.execute() == FormBase.IDCANCEL)
 			return;
-		File saveTo = fc.getChosenFile();
-		pref.setExportPath(expName, new java.io.File(saveTo.getFullPath()));
+		File saveTo = new File(fc.getChosenFile().getFullPath());
+		pref.setExportPath(expName, saveTo.getParentFile());
 		int counter = cacheDB.countVisible();
 		pbf.showMainTask = false;
 		pbf.setTask(h, "Exporting ...");
 		pbf.exec();
-		Vm.gc(); // all this doesn't really work :-(
-		System.runFinalization();
-		Vm.gc();
-		// Vm.debug("v: "+Vm.countObjects(true));
 		try {
 			Vector cache_index = new Vector(); // declare variables inside try
 			// {} -> in case of
@@ -186,7 +108,7 @@ public class TPLExporter {
 			Hashtable args = new Hashtable();
 			myFilter = new TplFilter();
 			// args.put("debug", "true");
-			args.put("filename", tplFile);
+			args.put("filename", tplFile.getAbsolutePath());
 			args.put("case_sensitive", "true");
 			args.put("loop_context_vars", Boolean.TRUE);
 			args.put("max_includes", new Integer(5));
@@ -202,7 +124,7 @@ public class TPLExporter {
 					if (ch.getPos().isValid() == false)
 						continue;
 					try {
-						Regex dec = new Regex("[,.]", myFilter.decSep);
+						Regex dec = new Regex("[,.]", myFilter.decimalSeperator);
 						if (myFilter.badChars != null)
 							rex = new Regex("[" + myFilter.badChars + "]", "");
 						varParams = new Hashtable();
@@ -267,40 +189,110 @@ public class TPLExporter {
 						}
 						cache_index.add(varParams);
 					} catch (Exception e) {
-						Vm.debug("Problem getting Parameter, Cache: "
-								+ ch.getWayPoint());
-						e.printStackTrace();
-						Global.getPref().log(
-								"Exception in TplExporter = Problem getting Parameter, Cache: "
-										+ ch.getWayPoint(), e, true);
+						logger.error("Problem getting Parameter, Cache: "
+								+ ch.getWayPoint(), e);
 					}
 				}
 			}
 
 			tpl.setParam("cache_index", cache_index);
-			PrintWriter detfile;
-			FileWriter fw = new FileWriter(saveTo);
-			fw.codec = myFilter.codec;
-			detfile = new PrintWriter(new BufferedWriter(fw));
-			tpl.printTo(detfile);
-			// detfile.print(tpl.output());
-			detfile.close();
+			OutputStream outStream = new BufferedOutputStream(
+					new FileOutputStream(saveTo));
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(
+					outStream, myFilter.charset));
+			writer.print(tpl.output());
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			Global.getPref().log("Exception in TplExporter", e, true);
-		} catch (OutOfMemoryError e) {
-			// Global.getPref().log("OutOfMemeory in TplExporter", e, true);
-			Vm.gc(); // this doesn't help :-(
-			System.runFinalization();
-			Vm.gc(); // this doesn't help :-( - I don't know why :-(
-			// Vm.debug("n: "+Vm.countObjects(true));
-			(new MessageBox(
-					"Error",
-					"Not enough memory available to load all cache data (incl. description and logs)\nexport aborted\nFilter caches to minimise memory needed for TPL-Export\nWe recommend to restart CacheWolf now",
-					FormBase.OKB)).execute();
-			// Vm.debug("n: "+Vm.countObjects(true));
+			logger.error("Exception in TplExporter", e);
 		}
 		pbf.exit(0);
+	}
+
+	/**
+	 * @author Kalle class to export cachedata using a template
+	 */
+	class TplFilter implements HTML.Tmpl.Filter {
+		private int type = SCALAR;
+		private String newLine;
+		private Charset charset;
+		private String badChars;
+		private String decimalSeperator = ".";
+
+		public TplFilter() {
+			newLine = "\n";
+			charset = Charset.forName("UTF-8");
+		}
+
+		public int format() {
+			return this.type;
+		}
+
+		public String parse(String t) {
+			// Vm.debug(t);
+			Regex rex, rex1;
+			String param, value;
+			// Filter newlines
+			rex = new Regex("(?m)\n$", "");
+			t = rex.replaceAll(t);
+
+			// Filter comments <#-- and -->
+			rex = new Regex("<#--.*-->", "");
+			t = rex.replaceAll(t);
+
+			// replace <br> or <br /> with newline
+			rex = new Regex("<br.*>", "");
+			rex.search(t);
+			if (rex.didMatch()) {
+				t = rex.replaceAll(t);
+				t += newLine;
+			}
+
+			// search for parameters
+			rex = new Regex("(?i)<tmpl_par.*>");
+			rex.search(t);
+			if (rex.didMatch()) {
+				// get parameter
+				rex1 = new Regex("(?i)name=\"(.*)\"\\svalue=\"(.*)\"[?\\s>]");
+				rex1.search(t);
+				param = rex1.stringMatched(1);
+				value = rex1.stringMatched(2);
+				// Vm.debug("param=" + param + "\nvalue=" + value);
+				// clear t, because we allow only one parameter per line
+				t = "";
+
+				// get the values
+				if (param.equals("charset")) {
+					// legacy for old cachewolf Templates
+					if (value.equals("ASCII")) {
+						value = "US-ASCII";
+					}
+					if (value.equals("UTF8")) {
+						value = "UTF-8";
+					}
+					charset = Charset.forName(value);
+				}
+				if (param.equals("badchars")) {
+					badChars = value;
+				}
+				if (param.equals("newline")) {
+					newLine = "";
+					if (value.indexOf("CR") >= 0)
+						newLine += "\r";
+					if (value.indexOf("LF") >= 0)
+						newLine += "\n";
+				}
+				if (param.equals("decsep")) {
+					decimalSeperator = value;
+				}
+
+			}
+			return t;
+		}
+
+		public String[] parse(String[] t) {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 }
