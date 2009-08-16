@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 
+import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheType;
@@ -97,9 +98,8 @@ public class LOCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("coord")) {
-			holder.getPos().set(Common.parseDouble(atts.getValue("lat")),
-					Common.parseDouble(atts.getValue("lon")));
-			holder.setLatLon(holder.getPos().toString());
+			holder.setPos(new CWPoint(Common.parseDouble(atts.getValue("lat")),
+					Common.parseDouble(atts.getValue("lon"))));
 			return;
 		}
 	}

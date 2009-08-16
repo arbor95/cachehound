@@ -190,7 +190,6 @@ public class CacheHolder implements ICacheHolder {
 				double lon = Convert.parseDouble(xmlString.substring(start + 1,
 						end).replace(notDecSep, decSep));
 				setPos(new CWPoint(lat, lon));
-				setLatLon(getPos().toString());
 
 				start = xmlString.indexOf('"', end + 1);
 				end = xmlString.indexOf('"', start + 1);
@@ -343,7 +342,6 @@ public class CacheHolder implements ICacheHolder {
 			this.setCacheStatus(ch.getCacheStatus());
 			this.setFound(ch.is_found());
 			this.setPos(ch.getPos());
-			this.setLatLon(ch.getLatLon());
 		} else {
 			/*
 			 * Here we have to distinguish several cases: this.is_found this ch
@@ -363,7 +361,6 @@ public class CacheHolder implements ICacheHolder {
 			// Don't overwrite valid coordinates with invalid ones
 			if (ch.getPos().isValid() || !this.getPos().isValid()) {
 				this.setPos(ch.getPos());
-				this.setLatLon(ch.getLatLon());
 			}
 		}
 		this.setWayPoint(ch.getWayPoint());
@@ -1483,11 +1480,6 @@ public class CacheHolder implements ICacheHolder {
 
 	public CWPoint getPos() {
 		return pos;
-	}
-
-	@Deprecated
-	public void setLatLon(String latLon) {
-		// do nothing
 	}
 
 	public String getLatLon() {

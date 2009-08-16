@@ -568,7 +568,6 @@ public class DetailsPanel extends CellPanel {
 				blackStatusChanged = true;
 			} else if (ev.target == btnNewWpt) {
 				CacheHolder ch = new CacheHolder();
-				ch.setLatLon(thisCache.getLatLon());
 				ch.setPos(new CWPoint(thisCache.getPos()));
 				ch.setType(CacheType.CW_TYPE_STAGE);
 				ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
@@ -590,7 +589,6 @@ public class DetailsPanel extends CellPanel {
 									coords.toString()));
 					thisCache.getPos().set(coords);
 					btnWayLoc.setText(coords.toString());
-					thisCache.setLatLon(coords.toString());
 					// If the current centre is valid, calculate the distance
 					// and bearing to it
 					CWPoint centre = Global.getPref().curCentrePt;
@@ -747,7 +745,6 @@ public class DetailsPanel extends CellPanel {
 		if (thisCache.getWayPoint().length() < 2)
 			thisCache.setWayPoint(thisCache.getWayPoint() + " ");
 		thisCache.setCacheName(inpName.getText().trim());
-		thisCache.setLatLon(thisCache.getPos().toString());
 		thisCache.setDateHidden(inpHidden.getText().trim());
 		byte oldType = thisCache.getType();
 		thisCache.setType(CacheType.guiSelect2Cw(chcType.getInt()));
