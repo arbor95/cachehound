@@ -47,7 +47,8 @@ public class MapsList extends Vector {
 		// sort(new StandardComparer(), false);
 
 		for (int j = 0; j < dirs.size(); j++) {
-			files = new FileBugfix(mapsPath.getAbsolutePath() + java.io.File.separator + dirs.get(j));
+			files = new FileBugfix(mapsPath.getAbsolutePath()
+					+ java.io.File.separator + dirs.get(j));
 			// ewe.sys.Vm.debug("mapd-Dirs:"+files);
 
 			// add subdirectories
@@ -83,7 +84,8 @@ public class MapsList extends Vector {
 						// platforms anyhow
 						tempMIO = new MapListEntry(mapsPath, rawFileName);
 					else
-						tempMIO = new MapListEntry(new java.io.File(mapsPath, dirs.get(j).toString()), rawFileName);
+						tempMIO = new MapListEntry(new java.io.File(mapsPath,
+								dirs.get(j).toString()), rawFileName);
 					if (tempMIO.sortEntryBBox != null)
 						add(tempMIO);
 					// ewe.sys.Vm.debug(tempMIO.getEasyFindString() +
@@ -233,8 +235,8 @@ public class MapsList extends Vector {
 							else {
 								if ((latNearer || lonNearer)) {
 									if (bestMap == null
-											|| mi.center.getDistanceRad(ll) < bestMap.center
-													.getDistanceRad(ll))
+											|| mi.center.getDistance(ll) < bestMap.center
+													.getDistance(ll))
 										better = true;
 								}
 							}
@@ -351,8 +353,8 @@ public class MapsList extends Vector {
 						// calculated
 						else {
 							if ((latNearer || lonNearer)) {
-								if (mi.center.getDistanceRad(topleft) < fittingmap.center
-										.getDistanceRad(topleft))
+								if (mi.center.getDistance(topleft) < fittingmap.center
+										.getDistance(topleft))
 									better = true;
 							}
 						}
@@ -508,8 +510,8 @@ public class MapsList extends Vector {
 					// doesn't need to be calculated
 					else {
 						if ((latNearer || lonNearer)) {
-							if (mi.center.getDistanceRad(ll) < bestMap.center
-									.getDistanceRad(ll))
+							if (mi.center.getDistance(ll) < bestMap.center
+									.getDistance(ll))
 								better = true;
 						}
 					}
@@ -742,7 +744,9 @@ class MapListEntry /* implements Comparable */{
 					}
 					filename = sortEntryBBox + "E-" + filename;
 					map.mapName = sortEntryBBox + "E-" + map.mapName;
-					map.setFileNameWFL(new java.io.File(path, filename + ".wfl"));
+					map
+							.setFileNameWFL(new java.io.File(path, filename
+									+ ".wfl"));
 				}
 			} catch (java.io.IOException ioex) { // this should not happen
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(

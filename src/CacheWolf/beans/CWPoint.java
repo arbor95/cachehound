@@ -654,30 +654,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * Method to calculate the distance to a waypoint
-	 * 
-	 * @param dest
-	 *            lat, lon
-	 * @return distance to waypoint in Rad
-	 */
-	public double getDistanceRad(double latDecD, double lonDecD) {
-		double phi1 = this.latDec * PiOver180;
-		double lambda0 = this.lonDec * PiOver180;
-		double phi = latDecD * PiOver180;
-		double lambda = lonDecD * PiOver180;
-		double pdiff = Math.sin(((phi - phi1) / 2.0));
-		double ldiff = Math.sin((lambda - lambda0) / 2.0);
-		double rval = Math.sqrt((pdiff * pdiff) + Math.cos(phi1)
-				* Math.cos(phi) * (ldiff * ldiff));
-
-		return 2.0 * Math.asin(rval);
-	}
-
-	public double getDistanceRad(CWPoint ll) {
-		return getDistance(ll.latDec, ll.lonDec);
-	}
-
-	/**
 	 * Returns the string reprenstation of the CWPoint Format ist CacheWolf (N
 	 * 49° 33.167 E 011° 21.608), which can be used with parseLatLon
 	 * 
