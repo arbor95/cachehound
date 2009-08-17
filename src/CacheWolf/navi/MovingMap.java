@@ -306,7 +306,7 @@ public class MovingMap extends Form {
 	 *            meters the latitude must be known
 	 */
 	public void loadMaps(String mapsPath, double lat) {
-		System.out.println("mapsPath: " + mapsPath);
+		logger.debug("mapsPath: " + mapsPath);
 		if (loadingMapList)
 			return;
 		loadingMapList = true;
