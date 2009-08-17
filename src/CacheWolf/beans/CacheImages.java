@@ -4,9 +4,10 @@
 package CacheWolf.beans;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import CacheWolf.Global;
-import ewe.util.Vector;
 
 /**
  * This class holds the image information of a cache.
@@ -16,12 +17,11 @@ import ewe.util.Vector;
  */
 public class CacheImages {
 
-	private int initialSize = 10;
 	/**
 	 * Lazy initialization of the vector: It is created only when needed. If it
 	 * is not accessed, it will stay <code>null</code>.
 	 */
-	private Vector vector = null;
+	private List<ImageInfo> vector = new ArrayList<ImageInfo>();
 	/** Images that should display in the image panel */
 	private CacheImages display = null;
 
@@ -34,14 +34,6 @@ public class CacheImages {
 					"Initial size for CacheImage must be > 0. Value: "
 							+ String.valueOf(initialSize));
 		}
-		this.initialSize = initialSize;
-	}
-
-	private Vector getVector() {
-		if (this.vector == null) {
-			vector = new Vector(this.initialSize);
-		}
-		return this.vector;
 	}
 
 	/**
@@ -53,7 +45,7 @@ public class CacheImages {
 	 */
 	public void add(ImageInfo img) {
 		display = null; // New Image? Force display to get reevaluated
-		getVector().add(img);
+		vector.add(img);
 	}
 
 	/**
@@ -64,17 +56,15 @@ public class CacheImages {
 	 * @return ImageInfo object
 	 */
 	public ImageInfo get(int idx) {
-		return (ImageInfo) getVector().get(idx);
+		return vector.get(idx);
 	}
 
 	/**
 	 * Removes all image information.
 	 */
 	public void clear() {
-		if (this.vector != null) {
-			display = null;
-			this.vector.clear();
-		}
+		display = null;
+		vector.clear();
 	}
 
 	/**
@@ -83,11 +73,7 @@ public class CacheImages {
 	 * @return Number
 	 */
 	public int size() {
-		if (this.vector == null) {
-			return 0;
-		} else {
-			return this.vector.size();
-		}
+		return vector.size();
 	}
 
 	/**
