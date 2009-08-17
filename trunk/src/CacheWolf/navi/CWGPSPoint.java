@@ -10,9 +10,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
-
-import com.stevesoft.ewe_pat.Regex;
-
 import ewe.io.FileWriter;
 import ewe.io.IOException;
 import ewe.sys.Convert;
@@ -25,30 +22,28 @@ import ewe.sys.Vm;
  */
 
 public class CWGPSPoint extends CWPoint implements TimerProc {
-	public static final int LOGNMEA = 0x01;
-	public static final int LOGRAW = 0x02;
+	private static final int LOGNMEA = 0x01;
+	private static final int LOGRAW = 0x02;
 	public static final int LOGALL = LOGNMEA | LOGRAW;
 
-	public double Speed; // Speed
-	public double Bear; // Bearing
+	private double Speed; // Speed
+	private double Bear; // Bearing
 	public String Time; // Time
 	public String Date;
 	public int Fix; // Fix
-	public int numSat; // Satellites in use, -1 indicates no data, -2 that data
+	private int numSat; // Satellites in use, -1 indicates no data, -2 that data
 	// could not be interpreted
-	public int numSatsInView; // Satellites in view
-	public double HDOP; // Horizontal dilution of precision
-	public double Alt; // Altitude
+	private int numSatsInView; // Satellites in view
+	private double HDOP; // Horizontal dilution of precision
+	private double Alt; // Altitude
 
 	// Logging
-	int logTimer = 0;
-	int logFlag = 0;
-	boolean writeLog = false;
-	boolean doLogging = false;
-	FileWriter logFile;
+	private int logTimer = 0;
+	private int logFlag = 0;
+	private boolean writeLog = false;
+	private boolean doLogging = false;
+	private FileWriter logFile;
 	String lastStrExamined = new String();
-
-	Regex numberMatcher = new Regex("\\-?\\d+");
 
 	public CWGPSPoint() {
 		super();
@@ -614,19 +609,5 @@ public class CWGPSPoint extends CWPoint implements TimerProc {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-	}
-
-	public void printAll() {
-		Vm.debug("Latitude:     " + this.getLatDeg(DD));
-		Vm.debug("Longitude:    " + this.getLonDeg(DD));
-		Vm.debug("Speed:        " + this.Speed);
-		Vm.debug("Bearing:      " + this.Bear);
-		Vm.debug("Time:         " + this.Time);
-		Vm.debug("Fix:          " + this.Fix);
-		Vm.debug("Sats:         " + this.numSat);
-		Vm.debug("Sats in view: " + this.numSatsInView);
-		Vm.debug("HDOP:         " + this.HDOP);
-		Vm.debug("Alt:          " + this.Alt);
-		Vm.debug("----------------");
 	}
 }
