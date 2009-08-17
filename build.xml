@@ -61,6 +61,7 @@
 		<pathelement location="./lib/ewe_misc.jar" />
 		<pathelement location="./lib/junit-4.6.jar" />
 		<pathelement location="./lib/TableLayout.jar" />
+		<pathelement location="./lib/openmap.jar" />
 	</path>
 
 
