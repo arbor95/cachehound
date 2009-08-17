@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import de.cachehound.util.ComparatorHelper;
  * @author torsti
  * 
  */
-public class CacheDB {
+public class CacheDB implements Iterable<CacheHolder> {
 
 	/**
 	 * Stores the CacheHolder objects
@@ -236,5 +237,10 @@ public class CacheDB {
 
 	public List<CacheHolder> toList() {
 		return new ArrayList<CacheHolder>(vectorDB);
+	}
+
+	@Override
+	public Iterator<CacheHolder> iterator() {
+		return Collections.unmodifiableList(vectorDB).iterator();
 	}
 }
