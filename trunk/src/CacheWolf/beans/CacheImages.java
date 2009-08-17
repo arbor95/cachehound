@@ -25,17 +25,6 @@ public class CacheImages {
 	/** Images that should display in the image panel */
 	private CacheImages display = null;
 
-	public CacheImages() { // Public constructor
-	}
-
-	public CacheImages(int initialSize) {
-		if (initialSize < 0) {
-			throw new IllegalArgumentException(
-					"Initial size for CacheImage must be > 0. Value: "
-							+ String.valueOf(initialSize));
-		}
-	}
-
 	/**
 	 * Adds an ImageInfo object to the list of images. The object is always
 	 * appended in the last position.
@@ -85,7 +74,7 @@ public class CacheImages {
 	 */
 	private void checkForDisplayImages(String prefix) {
 		if (this.size() > 1) {
-			display = new CacheImages(this.size());
+			display = new CacheImages();
 			// Loop over every image
 			for (int i = 0; i < this.size(); i++) {
 				boolean shouldDisplay = true;
