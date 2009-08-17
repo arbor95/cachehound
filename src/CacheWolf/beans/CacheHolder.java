@@ -30,7 +30,6 @@ import ewe.fx.IconAndText;
 import ewe.sys.Convert;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
-import ewe.util.Vector;
 
 /**
  * A class to hold information on a cache.<br>
@@ -598,16 +597,6 @@ public class CacheHolder implements ICacheHolder {
 					this.setIncomplete(true);
 				}
 			}
-			if (getDetails() != null
-			// for importing/spidering reasons helper objects with same waypoint
-					// are created
-					&& !cachesWithLoadedDetails.contains(this.getWayPoint())
-					// helper objects may have empty waypoint
-					&& !this.getWayPoint().equals(CacheHolder.EMPTY)) {
-				cachesWithLoadedDetails.add(this.getWayPoint());
-				if (cachesWithLoadedDetails.size() >= Global.getPref().maxDetails)
-					removeOldestDetails();
-			}
 		}
 		return getDetails();
 	}
@@ -649,29 +638,6 @@ public class CacheHolder implements ICacheHolder {
 			save();
 		}
 		setDetails(null);
-		cachesWithLoadedDetails.remove(this.getWayPoint());
-	}
-
-	// final static int maxDetails = 50;
-	public static Vector cachesWithLoadedDetails = new Vector(
-			Global.getPref().maxDetails);
-
-	private static void removeOldestDetails() {
-		for (int i = 0; i < Global.getPref().deleteDetails; i++) {
-			String wp = (String) cachesWithLoadedDetails.get(i);
-			CacheHolder ch = Global.getProfile().cacheDB.get(wp);
-			if (ch != null)
-				ch.releaseCacheDetails();
-		}
-	}
-
-	public static void removeAllDetails() {
-		for (int i = cachesWithLoadedDetails.size() - 1; i >= 0; i--) {
-			String wp = (String) cachesWithLoadedDetails.get(i);
-			CacheHolder ch = Global.getProfile().cacheDB.get(wp);
-			if (ch != null && ch.detailsLoaded())
-				ch.releaseCacheDetails();
-		}
 	}
 
 	/**
@@ -679,16 +645,12 @@ public class CacheHolder implements ICacheHolder {
 	 * import is finished call this method to save the pending changes
 	 */
 	public static void saveAllModifiedDetails() {
-		CacheHolder ch;
-		CacheHolderDetail chD;
-		for (int i = cachesWithLoadedDetails.size() - 1; i >= 0; i--) {
-			String wp = (String) cachesWithLoadedDetails.get(i);
-			ch = Global.getProfile().cacheDB.get(wp);
-			if (ch != null) {
-				chD = ch.getExistingDetails();
-				if (chD != null && chD.hasUnsavedChanges()) {
-					ch.save();
-				}
+		CacheDB db = Global.getProfile().cacheDB;
+
+		for (CacheHolder ch : db) {
+			CacheHolderDetail chD = ch.getDetails();
+			if (chD != null && chD.hasUnsavedChanges()) {
+				ch.save();
 			}
 		}
 	}
