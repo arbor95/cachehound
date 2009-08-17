@@ -1,6 +1,8 @@
 package CacheWolf.beans;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import CacheWolf.Global;
@@ -19,7 +21,6 @@ import ewe.sys.Convert;
 import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.util.Hashtable;
-import ewe.util.Vector;
 
 /**
  * Class that actually filters the cache database.<br>
@@ -117,7 +118,7 @@ public class Filter {
 		Global.getProfile().selectionChanged = true;
 		CacheDB cacheDB = Global.getProfile().cacheDB;
 		// load file into a vector:
-		Vector wayPoints = new Vector();
+		List<CWPoint> wayPoints;
 		Regex rex = new Regex(
 				"(N|S).*?([0-9]{1,2}).*?([0-9]{1,3})(,|.)([0-9]{1,3}).*?(E|W).*?([0-9]{1,2}).*?([0-9]{1,3})(,|.)([0-9]{1,3})");
 		CWPoint cwp, fromPoint, toPoint;
@@ -127,23 +128,14 @@ public class Filter {
 			if ((routeFile.getFullPath()).indexOf(".kml") > 0) {
 				KMLImporter kml = new KMLImporter(new java.io.File(routeFile.getFullPath()));
 				kml.importFile();
-				wayPoints = new Vector(kml.getPoints().toArray());
+				wayPoints = kml.getPoints();
 			} else {
+				wayPoints = new ArrayList<CWPoint>();
+				
 				FileReader in = new FileReader(routeFile);
 				String line;
 				while ((line = in.readLine()) != null) {
 					rex.search(line);
-					/*
-					 * Vm.debug(line); Vm.debug(rex.stringMatched(1));
-					 * Vm.debug(rex.stringMatched(2));
-					 * Vm.debug(rex.stringMatched(3));
-					 * Vm.debug(rex.stringMatched(5));
-					 * 
-					 * Vm.debug(rex.stringMatched(6));
-					 * Vm.debug(rex.stringMatched(7));
-					 * Vm.debug(rex.stringMatched(8));
-					 * Vm.debug(rex.stringMatched(10)); Vm.debug(" ");
-					 */
 					// parse the route file
 					if (rex.didMatch()) {
 						lat = Convert.toDouble(rex.stringMatched(2))
@@ -176,10 +168,8 @@ public class Filter {
 			}
 			// for each segment of the route...
 			for (int z = 0; z < wayPoints.size() - 1; z++) {
-				fromPoint = new CWPoint();
-				toPoint = new CWPoint();
-				fromPoint = (CWPoint) wayPoints.get(z);
-				toPoint = (CWPoint) wayPoints.get(z + 1);
+				fromPoint = wayPoints.get(z);
+				toPoint = wayPoints.get(z + 1);
 				// ... go through the current cache database
 				for (int i = cacheDB.size() - 1; i >= 0; i--) {
 					ch = cacheDB.get(i);
