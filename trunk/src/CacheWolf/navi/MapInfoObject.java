@@ -68,7 +68,7 @@ public class MapInfoObject extends Area {
 	 */
 	public String mapName = new String();
 	// private Character digSep = new Character(' ');
-	static private String digSep = MyLocale.getDigSeparator();
+	private static String digSep = MyLocale.getDigSeparator();
 	private int coordTrans = 0;
 
 	public MapInfoObject() { // Public constructor
@@ -88,7 +88,7 @@ public class MapInfoObject extends Area {
 		coordTrans = map.coordTrans;
 		// fileName = new String(map.fileName);
 		fileNameWFL = map.getFileNameWFL(); // TODO: check if a clone would be
-											// better
+		// better
 		mapName = new String(mapName);
 		doCalculations();
 	}
@@ -179,8 +179,7 @@ public class MapInfoObject extends Area {
 		// if (fileName == null || fileName.length() > 0) return fileName;
 		if (fileNameWFL == null)
 			return null; // no image associated (empty map)
-		logger.debug("fileNameWFL.getAbsolutePath() {}", fileNameWFL
-				.getAbsolutePath());
+		logger.debug("fileNameWFL.getAbsolutePath() {}", fileNameWFL);
 		// String n = fileNameWFL.getAbsolutePath().substring(0,
 		// fileNameWFL.getAbsolutePath().lastIndexOf("."));
 		String n = new java.io.File(fileNameWFL, mapName).getAbsolutePath();
@@ -359,27 +358,10 @@ public class MapInfoObject extends Area {
 			Point c = calcMapXY(center);
 			int heightpixel = c.y * 2;
 			c.y -= 1000;
-			rotationRad = (float) (center.getBearing(calcLatLon(c)) / 180 * Math.PI); // note:
-			// the
-			// direction
-			// of
-			// nord
-			// can
-			// vary
-			// across
-			// the
-			// image.
-			// In
-			// Gauß-Krüger
-			// Projection
-			// it
-			// does
-			// change
-			// about
-			// 1
-			// degree
-			// per
-			// 10km!
+			rotationRad = (float) (center.getBearing(calcLatLon(c)) / 180 * Math.PI);
+			// note: the direction of nord can vary across the image. In
+			// Gauß-Krüger Projection it does change about 1 degree per 10km!
+
 			// //(float)java.lang.Math.atan(rotationX2y);
 			if (rotationRad > Math.PI)
 				rotationRad -= 2 * Math.PI;
@@ -396,7 +378,7 @@ public class MapInfoObject extends Area {
 		}
 	}
 
-	public void saveWFL() throws IOException, IllegalArgumentException {
+	public void saveWFL() throws java.io.IOException, IllegalArgumentException {
 		File dateiF = new FileBugfix(fileNameWFL.getAbsolutePath());
 		String tmp = dateiF.getDrivePath(); // contains the name and the
 		// extension
@@ -416,19 +398,13 @@ public class MapInfoObject extends Area {
 	 *             when affine[x] for all x == 0 ("map not calibrated").
 	 */
 	public void saveWFL(String mapsPath, String mapFileName)
-			throws IOException, IllegalArgumentException {
+			throws java.io.IOException, IllegalArgumentException {
 		if (affine[0] == 0 && affine[1] == 0 && affine[2] == 0
 				&& affine[3] == 0 && !topleft.isValid())
 			throw (new IllegalArgumentException(MyLocale.getMsg(4306,
 					"map not calibrated")));
-		logger.debug("mapsPath: " + mapsPath);
-		logger.debug("mapFileName: " + mapFileName);
-		logger.debug("mapName: " + this.mapName);
-		logger.debug("fileNameWFL: " + fileNameWFL);
-		PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
+		java.io.PrintWriter outp = new java.io.PrintWriter(new java.io.BufferedWriter(new java.io.FileWriter(
 				mapsPath + java.io.File.separator + mapFileName + ".wfl")));
-		// PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(
-		// mapsPath + java.io.File.separator + mapFileName + ".wfl")));
 
 		StringBuilder towriteB = new StringBuilder(400);
 		towriteB.append(Convert.toString(affine[0])).append("\n");
