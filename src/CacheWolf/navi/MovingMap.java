@@ -62,9 +62,9 @@ import ewe.util.Vector;
  * Class to handle a moving map.
  */
 public class MovingMap extends Form {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(MovingMap.class);
-	
+
 	public final static int gotFix = 4; // green
 	public final static int lostFix = 3; // yellow
 	public final static int noGPSData = 2; // red
@@ -306,7 +306,6 @@ public class MovingMap extends Form {
 	 *            meters the latitude must be known
 	 */
 	public void loadMaps(String mapsPath, double lat) {
-		logger.debug("mapsPath: " + mapsPath);
 		if (loadingMapList)
 			return;
 		loadingMapList = true;
@@ -319,7 +318,8 @@ public class MovingMap extends Form {
 		inf.waitUntilPainted(100);
 		boolean saveGpsIgnoreStatus = dontUpdatePos;
 		dontUpdatePos = true;
-		maps = new MapsList(new java.io.File(mapsPath)); // this actually loads the maps
+		maps = new MapsList(new java.io.File(mapsPath)); // this actually loads
+		// the maps
 		if (maps.isEmpty()) {
 			(new MessageBox(
 					MyLocale.getMsg(4201, "Information"),
@@ -434,36 +434,13 @@ public class MovingMap extends Form {
 		}
 
 		ScaleImageGraphics.drawImage(ScaleImage.image, null, Color.LightBlue,
-				0, 0, ScaleImage.location.width, ScaleImage.location.height); // changing
-		// the
-		// mask
-		// forces
-		// graphics
-		// to
-		// copy
-		// from
-		// image._awtImage
-		// to
-		// image.bufferedImage,
-		// which
-		// is
-		// displayed
+				0, 0, ScaleImage.location.width, ScaleImage.location.height);
+		// changing the mask forces graphics to copy from image._awtImage
+		// to image.bufferedImage, which is displayed
 		ScaleImageGraphics.drawImage(ScaleImage.image, null, Color.White, 0, 0,
-				ScaleImage.location.width, ScaleImage.location.height); // these
-		// 2
-		// commands
-		// are
-		// necessary
-		// because
-		// of a
-		// bug
-		// or
-		// near
-		// to a
-		// bug
-		// in
-		// the
-		// ewe-vm
+				ScaleImage.location.width, ScaleImage.location.height);
+		// these 2 commands are necessary because of a bug or near to a
+		// bug in the ewe-vm
 	}
 
 	public void updateDistance(boolean repaint) {
@@ -677,11 +654,9 @@ public class MovingMap extends Form {
 		boolean saveGPSIgnoreStatus = dontUpdatePos; // avoid multi-threading
 		// problems
 		dontUpdatePos = true;
-		Point upperleftOf4 = getXYonScreen(TrackOverlaySetCenterTopLeft); // TrackOverlay[4]
-		// ==
-		// center
-		// of
-		// Trackoverlays
+		// TrackOverlay[4] == center of Trackoverlays
+		Point upperleftOf4 = getXYonScreen(TrackOverlaySetCenterTopLeft);
+
 		// upperleftOf4.x = (upperleftOf4.x + 1* width) % (width * 2) - 1 *
 		// width;
 		// upperleftOf4.y = (upperleftOf4.y + 1* height) % (height * 2) - 1 *
@@ -695,22 +670,9 @@ public class MovingMap extends Form {
 							upperleftOf4.x + (xi - 1) * width, upperleftOf4.y
 									+ (yi - 1) * height), width, height,
 							currentMap);
-					TrackOverlays[i].setLocation(width + 1, height + 1); // outside
-					// of
-					// the
-					// screen
-					// will
-					// hide
-					// it
-					// automatically
-					// it
-					// will
-					// get
-					// the
-					// correct
-					// position
-					// in
-					// upadteOverlayposition
+					TrackOverlays[i].setLocation(width + 1, height + 1);
+					// outside of the screen will hide it automatically
+					// it will get the correct position in upadteOverlayposition
 					TrackOverlays[i].tracks = this.tracks;
 					TrackOverlays[i].paintTracks();
 					mmp.addImage(TrackOverlays[i]);
@@ -1040,18 +1002,9 @@ public class MovingMap extends Form {
 	 */
 	public Point getMapPositionOnScreen() {
 		if (currentMap == null || !posCircle.where.isValid())
-			return new Point(pref.myAppWidth + 1, pref.myAppHeight + 1); // in
-		// case
-		// no
-		// calculation
-		// is
-		// possible
-		// return
-		// somthing
-		// outside
-		// of
-		// the
-		// screen
+			return new Point(pref.myAppWidth + 1, pref.myAppHeight + 1);
+		// in case no calculation is possible return something
+		// outside of the screen
 		Point mapPos = new Point();
 		// if (mmp.mapImage != null) mmp.mapImage.getLocation(mapPos);
 		// else {
@@ -1163,8 +1116,7 @@ public class MovingMap extends Form {
 		forceMapLoad = true;
 		if (this.width != 0)
 			updatePosition(posCircle.where); // dirty hack: if this.width ==
-		// 0,
-		// then the symbols are not on
+		// 0, then the symbols are not on
 		// the screen and get hidden by
 		// updateSymbolPositions
 	}
@@ -1181,8 +1133,7 @@ public class MovingMap extends Form {
 		forceMapLoad = true;
 		if (this.width != 0)
 			updatePosition(posCircle.where); // dirty hack: if this.width ==
-		// 0,
-		// then the symbols are not on
+		// 0, then the symbols are not on
 		// the screen and get hidden by
 		// updateSymbolPositions
 	}
@@ -1286,7 +1237,8 @@ public class MovingMap extends Form {
 			return; // avoid multi-threading problems
 		// Vm.debug("updatepos, lat: "+where.latDec+" lon: "+where.lonDec);
 		if (!mapsloaded) {
-			loadMaps(Global.getPref().getMapLoadPath().getAbsolutePath(), where.latDec);
+			loadMaps(Global.getPref().getMapLoadPath().getAbsolutePath(),
+					where.latDec);
 			lastCompareX = Integer.MAX_VALUE;
 			lastCompareY = Integer.MAX_VALUE;
 			autoSelectMap = true;
@@ -1302,17 +1254,8 @@ public class MovingMap extends Form {
 				|| (mmp.mapImage != null && (mapPos.y > 0 || mapPos.x > 0
 						|| mapPos.y + mmp.mapImage.getHeight() < this.height || mapPos.x
 						+ mmp.mapImage.getWidth() < this.width));
-		if (forceMapLoad || wantMapTest || screenNotCompletlyCovered) { // if
-			// force
-			// ||
-			// want
-			// ||
-			// map
-			// doesn't
-			// cover
-			// the
-			// scree
-			// completly
+		if (forceMapLoad || wantMapTest || screenNotCompletlyCovered) {
+			// if force || want || map doesn't cover the screen completly
 			// Vm.debug("Screen not completly covered by map");
 			if (forceMapLoad
 					|| (java.lang.Math.abs(lastCompareX - mapPos.x) > this.width / 10 || java.lang.Math
@@ -1333,9 +1276,7 @@ public class MovingMap extends Form {
 		// runMovingMap neccessary in case of multi-threaded Java-VM: ticked
 		// could be called during load of mmp
 		if ((fix > 0) && (myNavigation.gpsPos.getSats() >= 0)) { // TODO is
-			// getSats
-			// really
-			// necessary?
+			// getSats really necessary?
 			directionArrows.setDirections((float) myNavigation.gpsPos
 					.getBearing(myNavigation.destination),
 					(float) myNavigation.skyOrientationDir.lonDec,
@@ -1804,7 +1745,7 @@ public class MovingMap extends Form {
 				Vm.getUsedMemory(true); // calls the garbage collection
 			} // give memory free before loading the new map to avoid out of
 			// memory error
-			File imageFile = currentMap.getImageFile(); 
+			File imageFile = currentMap.getImageFile();
 			if (imageFile == null) {
 				mmp.mapImage = new MapImage();
 				// the calibration info
@@ -1813,7 +1754,8 @@ public class MovingMap extends Form {
 				(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 						.getMsg(4217,
 								"Could not find image associated with: \n")
-						+ currentMap.getFileNameWFL().getAbsolutePath(), FormBase.OKB)).execute();
+						+ currentMap.getFileNameWFL().getAbsolutePath(),
+						FormBase.OKB)).execute();
 			} else {
 				mmp.mapImage = new MapImage(imageFile); // attention:
 				// when running
@@ -1846,7 +1788,8 @@ public class MovingMap extends Form {
 			Vm.showWait(false);
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (IllegalArgumentException e) { // thrown by new AniImage() in
-			logger.error("Could not load map: " + currentMap.getImageFile().getAbsolutePath(), e);
+			logger.error("Could not load map: "
+					+ currentMap.getImageFile().getAbsolutePath(), e);
 			// ewe-vm if file not found;
 			if (mmp.mapImage != null) {
 				mmp.removeImage(mmp.mapImage);
@@ -1860,7 +1803,8 @@ public class MovingMap extends Form {
 			Vm.showWait(false);
 			(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale.getMsg(
 					4218, "Could not load map: \n")
-					+ currentMap.getImageFile().getAbsolutePath(), FormBase.OKB)).execute();
+					+ currentMap.getImageFile().getAbsolutePath(), FormBase.OKB))
+					.execute();
 			dontUpdatePos = saveIgnoreStatus;
 		} catch (OutOfMemoryError e) {
 			if (mmp.mapImage != null) {
@@ -1975,9 +1919,9 @@ public class MovingMap extends Form {
 	 */
 	public void zoomScreenRect(Point firstclickpoint, int w, int h) {
 		// (maximal) size of the zoomed image
-		int newImageWidth = (int) (this.width * (this.width < 481 ? 2 : 1.6)); 
+		int newImageWidth = (int) (this.width * (this.width < 481 ? 2 : 1.6));
 		// dont make this to big, otherwise it causes out of memory errors
-		int newImageHeight = (int) (this.height * (this.width < 481 ? 2 : 1.6)); 
+		int newImageHeight = (int) (this.height * (this.width < 481 ? 2 : 1.6));
 		CWPoint center = ScreenXY2LatLon(firstclickpoint.x + w / 2,
 				firstclickpoint.y + h / 2);
 		float zoomFactor;
@@ -2200,12 +2144,12 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 	MenuItem moreDetailsMI = new MenuItem(MyLocale.getMsg(4254,
 			"Load a map with more details"), new IconAndText(new mImage(
 			"loupe_more_details.png"), MyLocale.getMsg(4255,
-			"Load a map with more details"), null, CellConstants.RIGHT)); 
+			"Load a map with more details"), null, CellConstants.RIGHT));
 	// Load a map for a better overview --> lesser details move map to
 	MenuItem moreOverviewMI = new MenuItem(MyLocale.getMsg(4256,
 			"Load a map for a better overview"), new IconAndText(new mImage(
 			"loupe_better_overview.png"), MyLocale.getMsg(4257,
-			"Load a map for a better overview"), null, CellConstants.RIGHT)); 
+			"Load a map for a better overview"), null, CellConstants.RIGHT));
 	MenuItem moveToMI = new MenuItem(MyLocale.getMsg(4258,
 			"Move map to and load map"), MenuItem.Separator, null);
 	MenuItem moveToDestMI = new MenuItem(MyLocale.getMsg(4260,
@@ -2333,7 +2277,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						mm.buttonImageLensActivatedZoomIn.getWidth(),
 						mm.buttonImageLensActivatedZoomIn.getHeight()));
 			}
-			if ((lastZoomWidth >= 0) && (ev.x - saveMapLoc.x < 0)) { 
+			if ((lastZoomWidth >= 0) && (ev.x - saveMapLoc.x < 0)) {
 				// changed from zooming out to zooming in
 				removeImage(mm.buttonImageLensActivated);
 				removeImage(mm.buttonImageLensActivatedZoomIn);
@@ -2433,7 +2377,7 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 				mm.setMap(l.selectedMap, mm.posCircle.where);
 				if (mm.currentMap.getFileNameWFL() != null) {
 					// if map has an image
-					mm.setCenterOfScreen(l.selectedMap.center, true); 
+					mm.setCenterOfScreen(l.selectedMap.center, true);
 				}
 				mm.setResModus(MovingMap.NORMAL_KEEP_RESOLUTION);
 				// Point posCXY = new Point (0,0);
@@ -2615,15 +2559,18 @@ class MovingMapPanel extends InteractivePanel implements EventListener {
 						if (action == changeMapDirMI) {
 							mapsMenu.close();
 							FileChooser fc = new FileChooser(
-									FileChooserBase.DIRECTORY_SELECT, new File(Global
-											.getPref().getBaseDir(),
-											 "maps").getAbsolutePath());
+									FileChooserBase.DIRECTORY_SELECT, new File(
+											Global.getPref().getBaseDir(),
+											"maps").getAbsolutePath());
 							fc.addMask("*.wfl");
 							fc.setTitle(MyLocale.getMsg(4200,
 									"Select map directory:"));
 							if (fc.execute() != FormBase.IDCANCEL) {
-								Global.getPref().saveCustomMapsPath(new File(fc.getChosenFile().getFullPath()));
-								mm.loadMaps(Global.getPref().getMapLoadPath().getAbsolutePath(),
+								Global.getPref().saveCustomMapsPath(
+										new File(fc.getChosenFile()
+												.getFullPath()));
+								mm.loadMaps(Global.getPref().getMapLoadPath()
+										.getAbsolutePath(),
 										mm.posCircle.where.latDec);
 								mm.forceMapLoad();
 							}
@@ -2899,7 +2846,12 @@ class ListBox extends Form {
 					this.close(FormBase.IDOK);
 				} catch (java.io.IOException e) {
 					e.printStackTrace();
-					Global.getPref().log("Cannot load wfl-file: " + ((MapListEntry) maps.get(mapNum)).filename, e, true);
+					Global
+							.getPref()
+							.log(
+									"Cannot load wfl-file: "
+											+ ((MapListEntry) maps.get(mapNum)).filename,
+									e, true);
 					(new MessageBox(MyLocale.getMsg(4207, "Error"), MyLocale
 							.getMsg(4278, "Cannot load wfl-file: \n")
 							+ ((MapListEntry) maps.get(mapNum)).filename,

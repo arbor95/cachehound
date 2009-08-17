@@ -1,5 +1,7 @@
 package CacheWolf.navi;
 
+import java.io.BufferedReader;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Preferences;
@@ -22,7 +24,6 @@ import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.io.FileInputStream;
 import ewe.io.FileOutputStream;
-import ewe.io.FileReader;
 import ewe.io.IOException;
 import ewe.io.InputStream;
 import ewe.io.OutputStream;
@@ -65,7 +66,7 @@ public class MapImporter extends Form {
 	 */
 	public MapImporter(Preferences pref) {
 		this.pref = pref;
-		mapsPath = pref.getMapManuallySavePath(true) + "/"; // File.getProgramDirectory()
+		mapsPath = pref.getMapManuallySavePath(true) + java.io.File.separator; // File.getProgramDirectory()
 		// + "/maps/";
 	}
 
@@ -186,7 +187,7 @@ public class MapImporter extends Form {
 		String line = new String();
 		InputStream in = null;
 		OutputStream out = null;
-		FileReader inMap;
+		BufferedReader inMap;
 		byte[] buf;
 		int len;
 		String[] parts;
@@ -218,22 +219,10 @@ public class MapImporter extends Form {
 						ImageInfo tmpII = Image.getImageInfo(header, null);
 						imageWidth = tmpII.width;
 						imageHeight = tmpII.height;
-						out = new FileOutputStream(curOutFullPath); // only
-						// create
-						// outfile
-						// if
-						// geImageInfo
-						// didn't
-						// throw an
-						// exception
-						// so do it
-						// only here
-						// not
-						// directly
-						// after
-						// opening
-						// input
-						// stream
+						out = new FileOutputStream(curOutFullPath); 
+						// only create outfile if getImageInfo didn't
+						// throw an exception so do it only here
+						// not directly after opening input stream
 					}
 					out.write(buf, 0, len);
 				}
@@ -278,8 +267,8 @@ public class MapImporter extends Form {
 				// Vm.debug("Found file: " + inDir.getFullPath() + "/" +
 				// rawFileName + ".map");
 				try {
-					inMap = new FileReader(inDir.getFullPath() + "/"
-							+ rawFileName + ".map");
+					inMap = new BufferedReader(new java.io.FileReader(inDir.getFullPath() + java.io.File.separator
+							+ rawFileName + ".map"));
 					while ((line = inMap.readLine()) != null) {
 						if (line.equals("MMPNUM,4")) {
 
@@ -397,7 +386,7 @@ public class MapImporter extends Form {
 							+ MyLocale.getMsg(4117,
 									"Error while importing .map-file: ")
 							+ ex.getMessage());
-				} catch (IOException ex) {
+				} catch (java.io.IOException ex) {
 					inf
 							.addWarning("\n"
 									+ MyLocale
@@ -438,7 +427,7 @@ public class MapImporter extends Form {
 						wfl.saveWFL(mapsPath, thisMap);
 						if (Global.mainTab.mm != null)
 							Global.mainTab.mm.mapsloaded = false;
-					} catch (IOException e) {
+					} catch (java.io.IOException e) {
 						MessageBox tmpMB = new MessageBox(MyLocale.getMsg(321,
 								"Error"), MyLocale.getMsg(321,
 								"Error writing file ")
