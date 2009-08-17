@@ -97,7 +97,6 @@
 		<mkdir dir="dist" />
 
 		<jar jarfile="${assemble.dir}/CacheHound.jar" basedir="${classes.dir}" />
-		<jar jarfile="${assemble.dir}/someClasses.jar" basedir="lib" includes="com/**,ewesoft/**,HTML/**" />
 
 		<copy file="lib/java_ewe.dll" todir="${assemble.dir}" />
 		<copy todir="${assemble.dir}" failonerror="true" verbose="${verbose.mode}">
