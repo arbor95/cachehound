@@ -33,9 +33,6 @@ public class CWPoint extends TrackPoint {
 	public static final int LAT_LON = 7;
 	public static final int LON_LAT = 8;
 
-	/** Degrees/Radians conversion constant. */
-	static private final double PiOver180 = Math.PI / 180.0;
-
 	/**
 	 * Create CWPoint by using lat and lon
 	 * 
