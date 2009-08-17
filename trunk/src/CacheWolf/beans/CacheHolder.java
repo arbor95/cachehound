@@ -69,9 +69,6 @@ public class CacheHolder implements ICacheHolder {
 	private CacheSize cacheSize = CacheSize.NOT_CHOSEN;
 	/** The distance from the centre in km */
 	private double kilom = -1;
-	private double lastKilom = -2; // Cache last value
-	private int lastMetric = -1; // Cache last metric
-	private String lastDistance = ""; // Cache last distance
 	/** The angle (0=North, 180=South) from the current centre to this point */
 	private double degrees = 0;
 	/** The difficulty of the cache from 1 to 5 in .5 incements */
@@ -282,36 +279,26 @@ public class CacheHolder implements ICacheHolder {
 		String result = null;
 		String newUnit = null;
 
-		if (this.getKilom() == this.lastKilom
-				&& Global.getPref().metricSystem == this.lastMetric) {
-			result = this.lastDistance;
-		} else {
-			if (this.getKilom() >= 0) {
-				double newValue = 0;
-				switch (Global.getPref().metricSystem) {
-				case Metrics.IMPERIAL:
-					newValue = Metrics.convertUnit(this.getKilom(),
-							Metrics.KILOMETER, Metrics.MILES);
-					newUnit = Metrics.getUnit(Metrics.MILES);
-					break;
-				case Metrics.METRIC:
-				default:
-					newValue = this.getKilom();
-					newUnit = Metrics.getUnit(Metrics.KILOMETER);
-					break;
-				}
-				result = MyLocale.formatDouble(newValue, "0.00") + " "
-						+ newUnit;
-			} else {
-				result = "? "
-						+ (Global.getPref().metricSystem == Metrics.IMPERIAL ? Metrics
-								.getUnit(Metrics.MILES)
-								: Metrics.getUnit(Metrics.KILOMETER));
+		if (this.getKilom() >= 0) {
+			double newValue = 0;
+			switch (Global.getPref().metricSystem) {
+			case Metrics.IMPERIAL:
+				newValue = Metrics.convertUnit(this.getKilom(),
+						Metrics.KILOMETER, Metrics.MILES);
+				newUnit = Metrics.getUnit(Metrics.MILES);
+				break;
+			case Metrics.METRIC:
+			default:
+				newValue = this.getKilom();
+				newUnit = Metrics.getUnit(Metrics.KILOMETER);
+				break;
 			}
-			// Caching values, so reevaluation is only done when really needed
-			this.lastKilom = this.getKilom();
-			this.lastMetric = Global.getPref().metricSystem;
-			this.lastDistance = result;
+			result = MyLocale.formatDouble(newValue, "0.00") + " " + newUnit;
+		} else {
+			result = "? "
+					+ (Global.getPref().metricSystem == Metrics.IMPERIAL ? Metrics
+							.getUnit(Metrics.MILES)
+							: Metrics.getUnit(Metrics.KILOMETER));
 		}
 		return result;
 	}
@@ -834,7 +821,8 @@ public class CacheHolder implements ICacheHolder {
 	 * @return long value representing the byte field
 	 */
 	private long byteFields2long() {
-		long value = byteBitMask(difficulty.getOldCWValue(), 1) | byteBitMask(terrain.getOldCWValue(), 2)
+		long value = byteBitMask(difficulty.getOldCWValue(), 1)
+				| byteBitMask(terrain.getOldCWValue(), 2)
 				| byteBitMask(this.type, 3)
 				| byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
@@ -1274,7 +1262,7 @@ public class CacheHolder implements ICacheHolder {
 		boolean ret;
 		if (isCacheWpt()) {
 			if (getWayPoint().length() < 3
-					|| getDifficulty() == Difficulty.DIFFICULTY_ERROR 
+					|| getDifficulty() == Difficulty.DIFFICULTY_ERROR
 					|| getDifficulty() == Difficulty.DIFFICULTY_UNSET
 					|| getTerrain() == Terrain.TERRAIN_ERROR
 					|| getTerrain() == Terrain.TERRAIN_UNSET
