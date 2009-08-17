@@ -149,7 +149,7 @@ public class CacheHolder implements ICacheHolder {
 	private IconAndText iconAndTextWP = null;
 	private int iconAndTextWPLevel = 0;
 
-	static char decSep, notDecSep;
+	private static char decSep, notDecSep;
 	static {
 		decSep = MyLocale.getDigSeparator().charAt(0);
 		notDecSep = decSep == '.' ? ',' : '.';
@@ -320,7 +320,7 @@ public class CacheHolder implements ICacheHolder {
 	 *            If <code>true</code>, then <i>status</i>, <i>is_found</i> and
 	 *            <i>position</i> is updated, otherwise not.
 	 */
-	public void update(CacheHolder ch, boolean overwrite) {
+	private void update(CacheHolder ch, boolean overwrite) {
 		this.setRecommendationScore(ch.getRecommendationScore());
 		this.setNumFoundsSinceRecommendation(ch
 				.getNumFoundsSinceRecommendation());
@@ -385,7 +385,7 @@ public class CacheHolder implements ICacheHolder {
 	 * Call it only when necessary, it takes time, because all logs must be
 	 * parsed
 	 */
-	public void calcRecommendationScore() {
+	private void calcRecommendationScore() {
 		if (getWayPoint().toLowerCase().startsWith("oc")) {
 			// Calculate recommendation score only when details
 			// are already loaded. When they aren't loaded, then we assume
@@ -656,7 +656,7 @@ public class CacheHolder implements ICacheHolder {
 	public static Vector cachesWithLoadedDetails = new Vector(
 			Global.getPref().maxDetails);
 
-	public static void removeOldestDetails() {
+	private static void removeOldestDetails() {
 		for (int i = 0; i < Global.getPref().deleteDetails; i++) {
 			String wp = (String) cachesWithLoadedDetails.get(i);
 			CacheHolder ch = Global.getProfile().cacheDB.get(wp);
@@ -1538,7 +1538,7 @@ public class CacheHolder implements ICacheHolder {
 		return mainCache;
 	}
 
-	public void setDetails(CacheHolderDetail details) {
+	private void setDetails(CacheHolderDetail details) {
 		this.details = details;
 	}
 
