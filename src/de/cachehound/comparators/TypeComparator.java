@@ -7,6 +7,6 @@ import CacheWolf.beans.CacheHolder;
 public class TypeComparator implements Comparator<CacheHolder> {
 	@Override
 	public int compare(CacheHolder o1, CacheHolder o2) {
-		return o1.getType() - o2.getType();
+		return o1.getType().compareTo(o2.getType());
 	}
 }

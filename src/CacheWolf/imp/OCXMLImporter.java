@@ -3,7 +3,6 @@ package CacheWolf.imp;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -18,6 +17,7 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
@@ -464,7 +464,7 @@ public class OCXMLImporter extends MinML {
 			cacheID = atts.getValue("id");
 		}
 		if (name.equals("type")) {
-			holder.setType(CacheType.ocType2CwType(atts.getValue("id")));
+			holder.setType(CacheType.fromOcTypeId(atts.getValue("id")));
 			return;
 		}
 		if (name.equals("status")) {

@@ -1,7 +1,7 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
+import de.cachehound.types.CacheType;
 import ewe.io.File;
 import ewe.io.FileBase;
 
@@ -51,7 +51,7 @@ public class OziExporter extends Exporter {
 			strBuf.append(ch.getWayPoint() + ",");
 		} else {
 			strBuf.append(ch.getWayPoint().concat(" ").concat(
-					CacheType.getExportShortId(ch.getType())).concat(
+					ch.getType().getShortExport()).concat(
 					String.valueOf(ch.getDifficulty())).concat(
 					String.valueOf(ch.getTerrain())).concat(
 					ch.getCacheSize().getAsString()).concat(","));

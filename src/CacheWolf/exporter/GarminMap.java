@@ -3,6 +3,7 @@ package CacheWolf.exporter;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import ewe.io.FileBase;
@@ -60,7 +61,7 @@ class GarminMap extends MinML {
 			// If a certain attribute is not null it must match the current
 			// caches values
 			match = match
-					&& ((icon.type == null) || ch.getType() == 0 || icon.type
+					&& ((icon.type == null) || ch.getType() == CacheType.CUSTOM || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
 					&& ((icon.size == null)
@@ -97,7 +98,7 @@ class GarminMap extends MinML {
 			// If a certain attribute is not null it must match the current
 			// caches values
 			match = match
-					&& ((icon.type == null) || ch.getType() == 0 || icon.type
+					&& ((icon.type == null) || ch.getType() == CacheType.CUSTOM || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
 					&& ((icon.size == null)
@@ -129,7 +130,7 @@ class GarminMap extends MinML {
 			// If a certain attribute is not null it must match the current
 			// caches values
 			match = match
-					&& ((icon.type == null) || ch.getType() == 0 || icon.type
+					&& ((icon.type == null) || ch.getType() == CacheType.CUSTOM || icon.type
 							.equals(String.valueOf(ch.getType())));
 			match = match
 					&& ((icon.size == null)

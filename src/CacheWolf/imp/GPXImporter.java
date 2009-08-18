@@ -14,7 +14,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -27,6 +26,7 @@ import CacheWolf.util.ParseLatLon;
 import CacheWolf.util.SafeXML;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
@@ -462,7 +462,7 @@ public class GPXImporter extends MinML {
 		// aditional wapypoint
 		if (name.equals("type") && inWpt && !inCache
 				&& strData.startsWith("Waypoint")) {
-			holder.setType(CacheType.gpxType2CwType(strData));
+			holder.setType(CacheType.fromGcGpxString(strData));
 			holder.setCacheSize(CacheSize.NOT_CHOSEN);
 			holder.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 			holder.setTerrain(Terrain.TERRAIN_UNSET);
@@ -494,7 +494,7 @@ public class GPXImporter extends MinML {
 		if ((name.equals("groundspeak:type") || name.equals("type") || name
 				.equals("terra:style"))
 				&& inCache) {
-			holder.setType(CacheType.gpxType2CwType(strData));
+			holder.setType(CacheType.fromGcGpxString(strData));
 			if (holder.isCustomWpt()) {
 				holder.setCacheSize(CacheSize.NOT_CHOSEN);
 				holder.setDifficulty(Difficulty.DIFFICULTY_UNSET);

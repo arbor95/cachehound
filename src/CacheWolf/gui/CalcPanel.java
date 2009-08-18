@@ -4,12 +4,12 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
+import de.cachehound.types.CacheType;
 import ewe.fx.Dimension;
 import ewe.fx.FontMetrics;
 import ewe.ui.CellConstants;
@@ -256,7 +256,7 @@ public class CalcPanel extends CellPanel {
 				readFields(coordInp, bd, currFormat);
 				coordOut = coordInp.project(bd.degrees, bd.distance);
 				ch.setPos(coordOut);
-				ch.setType(CacheType.CW_TYPE_STAGE); // TODO unfertig
+				ch.setType(CacheType.STAGE); // TODO unfertig
 				mainT.newWaypoint(ch);
 			}
 

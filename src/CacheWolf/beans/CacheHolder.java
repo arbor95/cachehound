@@ -23,6 +23,7 @@ import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import ewe.fx.FontMetrics;
@@ -75,7 +76,7 @@ public class CacheHolder implements ICacheHolder {
 	/** The terrain rating of the cache from 1 to 5 in .5 incements */
 	private Terrain terrain = Terrain.TERRAIN_ERROR;
 	/** The cache type (@see CacheType for translation table) */
-	private byte type = CacheType.CW_TYPE_ERROR;
+	private CacheType type = CacheType.ERROR;
 	/** True if the cache has been archived */
 	private boolean archived = false;
 	/** True if the cache is available for searching */
@@ -455,15 +456,15 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	public boolean isAddiWpt() {
-		return CacheType.isAddiWpt(this.getType());
+		return getType().isAdditionalWaypoint();
 	}
 
 	public boolean isCustomWpt() {
-		return CacheType.isCustomWpt(getType());
+		return getType() == CacheType.CUSTOM;
 	}
 
 	public boolean isCacheWpt() {
-		return CacheType.isCacheWpt(getType());
+		return getType().isCacheWaypoint();
 	}
 
 	public boolean hasAddiWpt() {
@@ -784,7 +785,7 @@ public class CacheHolder implements ICacheHolder {
 	private long byteFields2long() {
 		long value = byteBitMask(difficulty.getOldCWValue(), 1)
 				| byteBitMask(terrain.getOldCWValue(), 2)
-				| byteBitMask(this.type, 3)
+				| byteBitMask(type.getOldCWByte(), 3)
 				| byteBitMask(cacheSize.getOldCwId(), 4)
 				| byteBitMask(this.noFindLogs, 5);
 		return value;
@@ -800,14 +801,14 @@ public class CacheHolder implements ICacheHolder {
 	private void long2byteFields(long value) {
 		setDifficulty(Difficulty.fromOldCWByte(byteFromLong(value, 1)));
 		setTerrain(Terrain.fromOldCWByte(byteFromLong(value, 2)));
-		setType(byteFromLong(value, 3));
+		setType(CacheType.fromOldCWByte(byteFromLong(value, 3)));
 		setCacheSize(CacheSize.fromOldCwId(byteFromLong(value, 4)));
 		setNoFindLogs((byteFromLong(value, 5)));
 		if ((getDifficulty() == Difficulty.DIFFICULTY_ERROR)
 				|| (getTerrain() == Terrain.TERRAIN_ERROR)
 				// || getCacheSize() == cacheSize.CW_SIZE_ERROR kann eigentlich
 				// nie erreicht werden
-				|| getType() == CacheType.CW_TYPE_ERROR) {
+				|| getType() == CacheType.ERROR) {
 			setIncomplete(true);
 		}
 	}
@@ -930,7 +931,7 @@ public class CacheHolder implements ICacheHolder {
 		if (level != iconAndTextWPLevel || iconAndTextWP == null) {
 			switch (level) {
 			case 4:
-				iconAndTextWP = new IconAndText(GuiImageBroker.imageError, this
+				iconAndTextWP = new IconAndText(GuiImageBroker.getInstance().getErrorImage(), this
 						.getWayPoint(), fm);
 				break;
 			case 3:
@@ -1051,7 +1052,7 @@ public class CacheHolder implements ICacheHolder {
 	 * 
 	 * @return Cache type
 	 */
-	public byte getType() {
+	public CacheType getType() {
 		return type;
 	}
 
@@ -1063,10 +1064,9 @@ public class CacheHolder implements ICacheHolder {
 	 * @param type
 	 *            Cache Type
 	 */
-	public void setType(byte type) {
-		byte newType = type;
-		Global.getProfile().notifyUnsavedChanges(newType != this.type);
-		this.type = newType;
+	public void setType(CacheType type) {
+		Global.getProfile().notifyUnsavedChanges(this.type != type);
+		this.type = type;
 	}
 
 	public boolean is_archived() {

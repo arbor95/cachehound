@@ -4,11 +4,11 @@
 package CacheWolf.imp;
 
 import CacheWolf.Global;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.imp.SpiderGC.SpiderProperties;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
+import de.cachehound.types.CacheType;
 import ewe.sys.Convert;
 import ewe.ui.CellConstants;
 import ewe.ui.ControlEvent;
@@ -60,14 +60,15 @@ public class OCXMLImporterScreen extends Form {
 		this.title = title;
 
 		if ((options & TYPE) > 0) {
+			// TODO: Ist das nicht mist? Nur diese Typen?
 			this.addLast(chcType = new mChoice(new String[] {
 					MyLocale.getMsg(1627, "All caches"),
-					CacheType.CW_GUISTR_TRADI, CacheType.CW_GUISTR_MULTI,
-					CacheType.CW_GUISTR_VIRTUAL, CacheType.CW_GUISTR_LETTERBOX,
-					CacheType.CW_GUISTR_EVENT, CacheType.CW_GUISTR_MEGAEVENT,
-					CacheType.CW_GUISTR_WEBCAM, CacheType.CW_GUISTR_UNKNOWN,
-					CacheType.CW_GUISTR_CITO, CacheType.CW_GUISTR_EARTH,
-					CacheType.CW_GUISTR_WHEREIGO }, 0), CellConstants.STRETCH,
+					CacheType.TRADITIONAL.getGuiString() , CacheType.MULTI.getGuiString(),
+					CacheType.VIRTUAL.getGuiString(), CacheType.LETTERBOX.getGuiString(),
+					CacheType.EVENT.getGuiString(), CacheType.MEGA_EVENT.getGuiString(),
+					CacheType.WEBCAM.getGuiString(), CacheType.UNKNOWN.getGuiString(),
+					CacheType.CITO.getGuiString(), CacheType.EARTH.getGuiString(),
+					CacheType.WHEREIGO.getGuiString() }, 0), CellConstants.STRETCH,
 					(CellConstants.FILL | CellConstants.WEST));
 		}
 

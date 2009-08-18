@@ -1,10 +1,13 @@
 package CacheWolf.exporter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheType;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
 import ewe.io.FileBase;
@@ -14,7 +17,6 @@ import ewe.io.IOException;
 import ewe.io.InputStream;
 import ewe.io.PrintWriter;
 import ewe.sys.Handle;
-import ewe.sys.Vm;
 import ewe.ui.ProgressBarForm;
 import ewe.util.Hashtable;
 import ewe.util.Iterator;
@@ -30,6 +32,9 @@ import ewe.util.zip.ZipFile;
  * 
  */
 public class KMLExporter extends Exporter {
+	
+	private static Logger logger = LoggerFactory.getLogger(KMLExporter.class);
+	
 	private static final String COLOR_FOUND = "ff98fb98";
 	private static final String COLOR_OWNED = "ffffaa55";
 	private static final String COLOR_AVAILABLE = "ffffffff";
@@ -97,9 +102,8 @@ public class KMLExporter extends Exporter {
 					// skip over empty cachetypes
 					if (tmp.size() == 0)
 						continue;
-					outp.print(startFolder(CacheType
-							.cw2ExportString(new Integer((String) entry
-									.getKey()).byteValue())));
+					outp.print(startFolder(((CacheType) entry
+									.getKey()).getGcGpxString()));
 
 					for (int i = 0; i < tmp.size(); i++) {
 						ch = (CacheHolder) tmp.get(i);
@@ -155,8 +159,8 @@ public class KMLExporter extends Exporter {
 				outp.print(str);
 			outp.close();
 			pbf.exit(0);
-		} catch (IOException ioE) {
-			Vm.debug("Error opening " + outFile.getName());
+		} catch (IOException e) {
+			logger.error("Error opening " + outFile.getName(), e);
 		}
 		// try
 
@@ -173,9 +177,8 @@ public class KMLExporter extends Exporter {
 		for (int i = 0; i < categoryNames.length; i++) {
 			outCacheDB[i] = new Hashtable();
 			// create the roots for the cachetypes
-			for (int j = 0; j < CacheType.guiTypeStrings().length; j++) {
-				outCacheDB[i].put(String.valueOf(CacheType.guiSelect2Cw(j)),
-						new Vector());
+			for (CacheType type : CacheType.values()) {
+				outCacheDB[i].put(type, new Vector());
 			}
 		}
 
@@ -186,20 +189,19 @@ public class KMLExporter extends Exporter {
 			// ganz...
 			if (ch.isVisible() && !ch.isAddiWpt()) {
 				if (ch.is_found()) {
-					tmp = (Vector) outCacheDB[FOUND].get(String.valueOf(ch
-							.getType()));
+					tmp = (Vector) outCacheDB[FOUND].get(ch
+							.getType());
 				} else if (ch.is_owned()) {
-					tmp = (Vector) outCacheDB[OWNED].get(String.valueOf(ch
-							.getType()));
+					tmp = (Vector) outCacheDB[OWNED].get(ch
+							.getType());
 				} else if (ch.is_archived() || !ch.is_available()) {
-					tmp = (Vector) outCacheDB[NOT_AVAILABLE].get(String
-							.valueOf(ch.getType()));
+					tmp = (Vector) outCacheDB[NOT_AVAILABLE].get(ch.getType());
 				} else if (ch.is_available()) {
-					tmp = (Vector) outCacheDB[AVAILABLE].get(String.valueOf(ch
-							.getType()));
+					tmp = (Vector) outCacheDB[AVAILABLE].get(ch
+							.getType());
 				} else {
-					tmp = (Vector) outCacheDB[UNKNOWN].get(String.valueOf(ch
-							.getType()));
+					tmp = (Vector) outCacheDB[UNKNOWN].get(ch
+							.getType());
 				}
 
 				tmp.add(ch);
@@ -253,8 +255,8 @@ public class KMLExporter extends Exporter {
 			int len;
 			String fileName;
 
-			for (int i = 0; i < CacheType.guiTypeStrings().length; i++) {
-				fileName = CacheType.typeImageForId(CacheType.guiSelect2Cw(i));
+			for (CacheType cacheType : CacheType.values()) {
+				fileName = cacheType.getGuiImage();
 				zipEnt = zif.getEntry(fileName);
 				if (zipEnt == null)
 					continue;
@@ -270,11 +272,9 @@ public class KMLExporter extends Exporter {
 			}
 
 		} catch (ZipException e) {
-			Vm.debug("Problem copying Icon");
-			e.printStackTrace();
+			logger.error("Problem copying Icon", e);
 		} catch (IOException e) {
-			Vm.debug("Problem copying Icon");
-			e.printStackTrace();
+			logger.error("Problem copying Icon", e);
 		}
 	}
 
@@ -317,7 +317,7 @@ public class KMLExporter extends Exporter {
 		// strBuf.append(" <href>"+ File.getProgramDirectory()+ "/" +
 		// CacheType.type2pic(Convert.parseInt(ch.type))+ "</href>\r\n");
 		strBuf.append("            <href>"
-				+ CacheType.typeImageForId(ch.getType()) + "</href>\r\n");
+				+ ch.getType().getGuiImage() + "</href>\r\n");
 		// Die Grafiken sind eigentlich schöner, aber leider nicht alle
 		// verfügbar bzw. müssten korrekt kopiert werden.
 		// strBuf.append("            <href>"

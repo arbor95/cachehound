@@ -4,7 +4,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.navi.GotoPanel;
@@ -14,6 +13,7 @@ import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import ewe.fx.Color;
@@ -335,13 +335,13 @@ public class MainTab extends mTabbedPanel {
 				mainCache = selectedCache.getMainCache().getWayPoint();
 			}
 		}
-		if (CacheType.isAddiWpt(pCh.getType()) && mainCache != null
+		if (pCh.getType().isAdditionalWaypoint() && mainCache != null
 				&& mainCache.length() > 2) {
 			pCh.setWayPoint(profile.getNewAddiWayPointName(mainCache));
 			profile.setAddiRef(pCh);
 		} else {
 			pCh.setWayPoint(profile.getNewWayPointName());
-			pCh.setType(CacheType.CW_TYPE_CUSTOM);
+			pCh.setType(CacheType.CUSTOM);
 			pCh.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 			pCh.setTerrain(Terrain.TERRAIN_UNSET);
 			pCh.setCacheSize(CacheSize.NOT_CHOSEN);

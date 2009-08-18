@@ -544,8 +544,7 @@ public class MovingMap extends Form {
 				ch = cacheDB.get(i);
 				if (ch.isIs_Checked() && ch.isVisible() && ch != mainT.ch) {
 					if (ch.getPos().isValid())
-						addSymbol(ch.getCacheName(), ch, GuiImageBroker
-								.getTypeImage(ch.getType()), ch.getPos());
+						addSymbol(ch.getCacheName(), ch, GuiImageBroker.getInstance().getTypeImage(ch.getType()), ch.getPos());
 				}
 			}
 		}
@@ -579,8 +578,7 @@ public class MovingMap extends Form {
 		if (ch != null) {
 			if (ch.getPos().isValid()) {
 				addSymbol("selectedCache", MARK_CACHE_IMAGE, ch.getPos());
-				addSymbolIfNecessary(ch.getCacheName(), ch, GuiImageBroker
-						.getTypeImage(ch.getType()), ch.getPos());
+				addSymbolIfNecessary(ch.getCacheName(), ch, GuiImageBroker.getInstance().getTypeImage(ch.getType()), ch.getPos());
 				markedCache = ch;
 			}
 		}
