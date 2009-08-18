@@ -366,7 +366,7 @@ public class DetailsPanel extends CellPanel {
 		btnShowBug.repaintNow();
 		chcSize.setInt(ch.getCacheSize().ordinal());
 
-		attV.showImages(ch.getCacheDetails(true).getAttributes());
+		attV.showImages(ch.getCacheDetails(true, true).getAttributes());
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
 			btnTerr.setText(MyLocale.getMsg(1001, "T") + ": -.-");
 			btnDiff.setText(MyLocale.getMsg(1000, "D") + ": -.-");
@@ -411,7 +411,7 @@ public class DetailsPanel extends CellPanel {
 				+ String.valueOf(addiCount));
 
 		if (isBigScreen)
-			mNotes.setText(ch.getExistingDetails().getCacheNotes());
+			mNotes.setText(ch.getCacheDetails(false, true).getCacheNotes());
 	}
 
 	/**
@@ -480,11 +480,10 @@ public class DetailsPanel extends CellPanel {
 			if (ev.target == btnNotes) {
 				dirty_notes = true; // TODO I think this is redundant, because
 				// the notes are saved separately by the notes screen itself
-				NotesScreen nsc = new NotesScreen(thisCache
-						.getCacheDetails(true));
+				NotesScreen nsc = new NotesScreen(thisCache.getCacheDetails(true, true));
 				nsc.execute(this.getFrame(), Gui.CENTER_FRAME);
 				if (isBigScreen)
-					mNotes.setText(thisCache.getCacheDetails(true)
+					mNotes.setText(thisCache.getCacheDetails(true, true)
 							.getCacheNotes());
 			} else if (ev.target == btnShowMap) {
 				Global.mainTab.SwitchToMovingMap(thisCache.getPos(), true);
@@ -502,7 +501,7 @@ public class DetailsPanel extends CellPanel {
 				// false, pref);
 				// is.execute();
 				TravelbugInCacheScreen ts = new TravelbugInCacheScreen(
-						thisCache.getCacheDetails(true).getTravelbugs()
+						thisCache.getCacheDetails(true, true).getTravelbugs()
 								.toHtml(), "Travelbugs");
 				ts.execute(this.getFrame(), Gui.CENTER_FRAME);
 			} else if (ev.target == btnCenter) {
@@ -521,7 +520,7 @@ public class DetailsPanel extends CellPanel {
 				}
 			} else if (ev.target == btnAddDateTime) {
 				dirty_notes = true;
-				String note = thisCache.getCacheDetails(true).getCacheNotes();
+				String note = thisCache.getCacheDetails(true, true).getCacheNotes();
 				Time dtm = new Time();
 				dtm.getTime();
 				dtm.setFormat("E dd.MM.yyyy '/' HH:mm");
@@ -530,7 +529,7 @@ public class DetailsPanel extends CellPanel {
 				else
 					note = note + dtm.toString();
 				note = note + "\n";
-				thisCache.getCacheDetails(true).setCacheNotes(note);
+				thisCache.getCacheDetails(true, true).setCacheNotes(note);
 				// FIXME: better use saveDirtyWaypoint()?
 				thisCache.save();
 			} else if (ev.target == btnAddPicture) {
@@ -550,20 +549,20 @@ public class DetailsPanel extends CellPanel {
 							imgFile.getFileExt().lastIndexOf("."));
 					imgDestName = thisCache.getWayPoint()
 							+ "_U_"
-							+ (thisCache.getFreshDetails().getUserImages()
+							+ (thisCache.getCacheDetails(true, false).getUserImages()
 									.size() + 1) + ext;
 
 					ImageInfo userImageInfo = new ImageInfo();
 					userImageInfo.setFilename(imgDestName);
 					userImageInfo.setTitle(imgDesc);
-					thisCache.getFreshDetails().addUserImage(userImageInfo);
+					thisCache.getCacheDetails(true, false).addUserImage(userImageInfo);
 
 					// Copy File
 					DataMover.copy(new File(imgFile.getFullPath()), new File(
 							profile.getDataDir(), imgDestName));
 					// Save Data
 					CacheHolderDetailFactory.getInstance().saveCacheDetails(
-							thisCache.getFreshDetails(),
+							thisCache.getCacheDetails(true, false),
 							Global.getProfile().getDataDir());
 				}
 			} else if (ev.target == btnBlack) {
@@ -839,7 +838,7 @@ public class DetailsPanel extends CellPanel {
 		dirty_notes = false;
 		dirty_details = false;
 		setNeedsTableUpdate(false);
-		thisCache.getFreshDetails().setUnsavedChanges(true);
+		thisCache.getCacheDetails(true, false).setUnsavedChanges(true);
 	}
 
 	private class TravelbugInCacheScreen extends Form {
@@ -896,8 +895,7 @@ public class DetailsPanel extends CellPanel {
 
 			public void popupMenuEvent(Object selectedItem) {
 				if (selectedItem == mnuPickupTB) {
-					Travelbug tb = TravelbugPickup.pickupTravelbug(thisCache
-							.getCacheDetails(true).getTravelbugs());
+					Travelbug tb = TravelbugPickup.pickupTravelbug(thisCache.getCacheDetails(true, true).getTravelbugs());
 					if (tb != null) {
 						dirty_details = true;
 						// Get the list of my travelbugs
@@ -908,10 +906,10 @@ public class DetailsPanel extends CellPanel {
 								thisCache.getWayPoint());
 						tbjList.saveTravelbugsFile();
 						tbjList = null;
-						setHtml(thisCache.getCacheDetails(true).getTravelbugs()
+						setHtml(thisCache.getCacheDetails(true, true).getTravelbugs()
 								.toHtml());
 						repaint();
-						thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+						thisCache.setHas_bugs(thisCache.getCacheDetails(true, true)
 								.getTravelbugs().size() > 0);
 					}
 				} else if (selectedItem == mnuDropTB) {
@@ -923,15 +921,15 @@ public class DetailsPanel extends CellPanel {
 					tbs.execute();
 					if (tbs.selectedItem >= 0) {
 						Travelbug tb = tbl.getTB(tbs.selectedItem);
-						thisCache.getCacheDetails(true).getTravelbugs().add(tb);
+						thisCache.getCacheDetails(true, true).getTravelbugs().add(tb);
 						tbjList.addTbDrop(tb, Global.getProfile().name,
 								thisCache.getWayPoint());
 					}
 					tbjList.saveTravelbugsFile();
 					tbjList = null;
-					thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+					thisCache.setHas_bugs(thisCache.getCacheDetails(true, true)
 							.getTravelbugs().size() > 0);
-					setHtml(thisCache.getCacheDetails(true).getTravelbugs()
+					setHtml(thisCache.getCacheDetails(true, true).getTravelbugs()
 							.toHtml());
 					repaint();
 					dirty_details = true;

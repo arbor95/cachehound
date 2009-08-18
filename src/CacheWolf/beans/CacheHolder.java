@@ -377,7 +377,7 @@ public class CacheHolder implements ICacheHolder {
 		this.setAttributesYes(ch.getAttributesYes());
 		this.setAttributesNo(ch.getAttributesNo());
 		if (ch.detailsLoaded()) {
-			this.getFreshDetails().update(ch.getFreshDetails());
+			this.getCacheDetails(true, false).update(ch.getCacheDetails(true, false));
 		}
 	}
 
@@ -541,17 +541,6 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	/**
-	 * Call this method to get the long-description and so on. If the according
-	 * .xml-file is already read, it will return that one, otherwise it will be
-	 * loaded. To avoid memory problems this routine loads not for more caches
-	 * than maxDetails the details. If maxdetails is reached, it will remove
-	 * from RAM the details of the 5 caches that were loaded most long ago.
-	 */
-	public CacheHolderDetail getCacheDetails(boolean maybenew) {
-		return getCacheDetails(maybenew, true);
-	}
-
-	/**
 	 * Gets the detail object of a cache. The detail object stores information
 	 * which is not needed for every cache instantaneously, but can be loaded if
 	 * the user decides to look at this cache. If the cache object is already
@@ -603,35 +592,12 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	/**
-	 * Gets a detail object for the cache. If the object is already created,
-	 * then this object is returned, otherwise it's created from the cache.xml
-	 * file. If no such file is found, an empty object is returned.
-	 * 
-	 * @return The object representing the cache details
-	 */
-	public CacheHolderDetail getFreshDetails() {
-		return this.getCacheDetails(true, false);
-	}
-
-	/**
-	 * Gets a detail object for the cache. If the object is already created,
-	 * then this object is returned, otherwise it's created from the cache.xml
-	 * file. If no such file is found, an error message is displayed and
-	 * <code>null</code> is returned.
-	 * 
-	 * @return The object representing the cache details, or <code>null</code>.
-	 */
-	public CacheHolderDetail getExistingDetails() {
-		return this.getCacheDetails(false, true);
-	}
-
-	/**
 	 * Saves the cache to the corresponding <waypoint>.xml file, located in the
 	 * profiles directory. The waypoint of the cache should be set to do so.
 	 */
 	public void save() {
 		CacheHolderDetailFactory.getInstance().saveCacheDetails(
-				this.getFreshDetails(), Global.getProfile().getDataDir());
+				this.getCacheDetails(true, false), Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {

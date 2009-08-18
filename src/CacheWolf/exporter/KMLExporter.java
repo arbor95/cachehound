@@ -292,7 +292,7 @@ public class KMLExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon) {
 		StringBuilder strBuf = new StringBuilder(200);
-		CacheHolderDetail det = ch.getExistingDetails();
+		CacheHolderDetail det = ch.getCacheDetails(false, true);
 
 		strBuf.append("   <Placemark>\r\n");
 		if (det.getUrl() != null) {

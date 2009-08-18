@@ -53,7 +53,7 @@ public class GPXExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon, int counter) {
 		StringBuilder strBuf = new StringBuilder(1000);
-		CacheHolderDetail det = ch.getExistingDetails();
+		CacheHolderDetail det = ch.getCacheDetails(false, true);
 		try {
 			strBuf
 					.append("  <wpt lat=\"" + lat + "\" lon=\"" + lon

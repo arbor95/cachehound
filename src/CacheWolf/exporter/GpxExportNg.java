@@ -518,7 +518,7 @@ public class GpxExportNg {
 			return "";
 
 		StringBuilder ret = new StringBuilder();
-		ch.getFreshDetails();
+		ch.getCacheDetails(true, false);
 
 		try {
 			ret.append(formatCompact(ch));
@@ -635,14 +635,14 @@ public class GpxExportNg {
 							SafeXML
 									.cleanGPX(ch.getCacheName()
 											+ " "
-											+ ch.getFreshDetails()
+											+ ch.getCacheDetails(true, false)
 													.getLongDescription()))
 							.concat("</cmt>\n"));
 				} else {
 					ret.append("    <cmt>".concat(
 							SafeXML.cleanGPX(ch.getCacheName()
 									+ " "
-									+ Common.rot13(ch.getFreshDetails()
+									+ Common.rot13(ch.getCacheDetails(true, false)
 											.getHints()))).concat("</cmt>\n"));
 				}
 			} else if (exportIds == WPNAME_NAME_SMART) {
@@ -650,7 +650,7 @@ public class GpxExportNg {
 			} else {
 				if (ch.isAddiWpt()) {
 					ret.append("    <cmt>".concat(
-							SafeXML.cleanGPX(ch.getFreshDetails()
+							SafeXML.cleanGPX(ch.getCacheDetails(true, false)
 									.getLongDescription())).concat("</cmt>\n"));
 				} // caches have no <cmt> in gc.com PQs
 			}
@@ -798,7 +798,7 @@ public class GpxExportNg {
 	 * @return formatted logs or empty string if no logs are present
 	 */
 	public String formatLogs(CacheHolder ch) {
-		LogList logs = ch.getFreshDetails().getCacheLogs();
+		LogList logs = ch.getCacheDetails(true, false).getCacheLogs();
 		StringBuilder ret = new StringBuilder();
 		String fid = "";
 
@@ -906,7 +906,7 @@ public class GpxExportNg {
 					trans.add(new Regex("@@ADDILAT@@", formatAddiLatLon(addi
 							.getPos())));
 					trans.add(new Regex("@@ADDILON@@", ""));
-					trans.add(new Regex("@@ADDILONG@@", addi.getFreshDetails()
+					trans.add(new Regex("@@ADDILONG@@", addi.getCacheDetails(true, false)
 							.getLongDescription()));
 					ret.append(trans.replaceAll(GPXADDIINMAIN));
 				}

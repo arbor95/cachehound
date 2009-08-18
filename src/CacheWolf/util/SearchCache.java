@@ -50,12 +50,11 @@ public class SearchCache {
 				if (ch.getWayPoint().toUpperCase().indexOf(searchStr) < 0
 						&& ch.getCacheName().toUpperCase().indexOf(searchStr) < 0
 						&& ch.getCacheStatus().toUpperCase().indexOf(searchStr) < 0
-						&& (!searchInDescriptionAndNotes || ch
-								.getExistingDetails().getLongDescription()
+						&& (!searchInDescriptionAndNotes || ch.getCacheDetails(false, true).getLongDescription()
 								.toUpperCase().indexOf(searchStr) < 0
-								&& ch.getExistingDetails().getCacheNotes()
+								&& ch.getCacheDetails(false, true).getCacheNotes()
 										.toUpperCase().indexOf(searchStr) < 0)
-						&& (!searchInLogs || ch.getExistingDetails()
+						&& (!searchInLogs || ch.getCacheDetails(false, true)
 								.getCacheLogs().allMessages().toUpperCase()
 								.indexOf(searchStr) < 0)) {
 					ch.setIs_flaged(false);
