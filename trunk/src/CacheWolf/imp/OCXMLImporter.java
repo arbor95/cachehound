@@ -67,7 +67,6 @@ public class OCXMLImporter extends MinML {
 	private boolean debugGPX = false;
 	private CacheDB cacheDB;
 	private InfoBox inf;
-	private CacheHolder ch;
 	private CacheHolder holder;
 	private Preferences pref;
 	private Profile profile;
@@ -109,6 +108,7 @@ public class OCXMLImporter extends MinML {
 			incUpdate = false;
 		}
 		user = p.myAlias.toLowerCase();
+		CacheHolder ch;
 		for (int i = 0; i < cacheDB.size(); i++) {
 			ch = cacheDB.get(i);
 			if (!ch.getOcCacheID().equals(""))
@@ -123,9 +123,7 @@ public class OCXMLImporter extends MinML {
 	 * @return true, if some change was made to the cacheDB
 	 */
 	public boolean syncSingle(int number, InfoBox infB) {
-		ch = cacheDB.get(number);
-		holder = null; // new CacheHolderDetail(ch); //TODO is this still
-		// correct? use getDetails ?
+		CacheHolder ch = cacheDB.get(number);
 
 		if (infB.isClosed) {
 			if (askForOptions)
@@ -218,8 +216,7 @@ public class OCXMLImporter extends MinML {
 		}
 		profile.setDistOC(dist);
 		// Clear status of caches in db
-		for (int i = cacheDB.size() - 1; i >= 0; i--) {
-			ch = cacheDB.get(i);
+		for (CacheHolder ch : cacheDB) {
 			ch.setUpdated(false);
 			ch.setNew(false);
 			ch.setLog_updated(false);
