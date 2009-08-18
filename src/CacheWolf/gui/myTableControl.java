@@ -14,7 +14,7 @@ import CacheWolf.beans.Profile;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.ShowCacheInBrowser;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import ewe.fx.IconAndText;
 import ewe.fx.Point;
 import ewe.fx.Rect;
@@ -359,7 +359,7 @@ public class myTableControl extends TableControl {
 
 		if (selectedItem == miOpenOnline) {
 			ch = cacheDB.get(tbp.getSelectedCache());
-			CacheHolderDetail chD = ch.getCacheDetails(false, true);
+			ICacheHolderDetail chD = ch.getCacheDetails(false, true);
 			if (chD != null) {
 
 				if (Desktop.isDesktopSupported()) {

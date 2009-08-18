@@ -48,7 +48,7 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
@@ -1386,7 +1386,7 @@ public class SpiderGC {
 	 *            Cache Details
 	 * @return A HTML string containing the logs
 	 */
-	private LogList getLogs(String doc, CacheHolderDetail chD) {
+	private LogList getLogs(String doc, ICacheHolderDetail chD) {
 		LogType type;
 		String name = "";
 		String logText = "";
@@ -1481,7 +1481,7 @@ public class SpiderGC {
 	 *            The previously fetched cachepage
 	 * @return A HTML formatted string with bug names and there purpose
 	 */
-	private void getBugs(CacheHolderDetail chD, String doc) {
+	private void getBugs(ICacheHolderDetail chD, String doc) {
 		Extractor exBlock = new Extractor(doc, p.getProp("blockExStart"), p
 				.getProp("blockExEnd"), 0, Extractor.EXCLUDESTARTEND);
 		String bugBlock = exBlock.findNext();
@@ -1540,7 +1540,7 @@ public class SpiderGC {
 	 * @param chD
 	 *            The Cachedetails
 	 */
-	public void getImages(String doc, CacheHolderDetail chD) {
+	public void getImages(String doc, ICacheHolderDetail chD) {
 		int imgCounter = 0;
 		int spiderCounter = 0;
 		String fileName, imgName, imgType, imgUrl, imgComment;
@@ -1934,7 +1934,7 @@ public class SpiderGC {
 		}
 	}
 
-	public void getAttributes(String doc, CacheHolderDetail chD) {
+	public void getAttributes(String doc, ICacheHolderDetail chD) {
 		Extractor attBlock = new Extractor(doc, p.getProp("attBlockExStart"), p
 				.getProp("attBlockExEnd"), 0, true);
 		String atts = attBlock.findNext();

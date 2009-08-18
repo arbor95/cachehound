@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.SafeXML;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.types.CacheType;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
@@ -292,7 +292,7 @@ public class KMLExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon) {
 		StringBuilder strBuf = new StringBuilder(200);
-		CacheHolderDetail det = ch.getCacheDetails(false, true);
+		ICacheHolderDetail det = ch.getCacheDetails(false, true);
 
 		strBuf.append("   <Placemark>\r\n");
 		if (det.getUrl() != null) {

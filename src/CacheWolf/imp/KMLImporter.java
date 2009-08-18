@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import de.cachehound.util.EweReader;
-
 import CacheWolf.beans.CWPoint;
+import de.cachehound.util.EweReader;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
 import ewesoft.xml.MinML;

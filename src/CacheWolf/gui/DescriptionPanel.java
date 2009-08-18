@@ -7,7 +7,7 @@ import CacheWolf.util.MyLocale;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import ewe.fx.Font;
 import ewe.sys.Vm;
 import ewe.ui.CellConstants;
@@ -171,7 +171,7 @@ public class DescriptionPanel extends CellPanel {
 	 *            again)
 	 * @param chD
 	 */
-	private String getPicDesc(int imagesShown, CacheHolderDetail chD) {
+	private String getPicDesc(int imagesShown, ICacheHolderDetail chD) {
 		StringBuilder sb = new StringBuilder(1000);
 		sb.append("<hr><font size=\"+1\" color=\"red\">").append(
 				MyLocale.getMsg(202, "IMAGES").toUpperCase()).append("</font>");

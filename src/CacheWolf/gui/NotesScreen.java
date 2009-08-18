@@ -2,7 +2,7 @@ package CacheWolf.gui;
 
 import CacheWolf.Global;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import ewe.fx.Dimension;
 import ewe.fx.mImage;
 import ewe.sys.Time;
@@ -23,13 +23,13 @@ import ewe.ui.mTextPad;
  */
 public class NotesScreen extends Form {
 	mTextPad wayNotes = new mTextPad();
-	CacheHolderDetail chD = null;
+	ICacheHolderDetail chD = null;
 	mButton addDateTime;
 	mButton btSave = new mButton(MyLocale.getMsg(127, "Save"));
 	mButton cancelBtn = new mButton("Cancel");
 	ScrollBarPanel sbp = new MyScrollBarPanel(wayNotes);
 
-	public NotesScreen(CacheHolderDetail ch) {
+	public NotesScreen(ICacheHolderDetail ch) {
 		int sw = MyLocale.getScreenWidth();
 		String imagesize = "";
 		if (Vm.isMobile() && sw >= 400)
