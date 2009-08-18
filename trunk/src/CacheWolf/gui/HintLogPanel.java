@@ -3,7 +3,7 @@ package CacheWolf.gui;
 import CacheWolf.Global;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 import ewe.fx.Dimension;
 import ewe.fx.Graphics;
@@ -41,7 +41,7 @@ import ewe.ui.mTextPad;
  */
 public class HintLogPanel extends CellPanel {
 	int crntLogPosition = 0;
-	CacheHolderDetail currCache;
+	ICacheHolderDetail currCache;
 	private final int DEFAULT_STRINGBUFFER_SIZE = 8000;
 	mTextPad hint = new mTextPad();
 	// mTextPad logs = new mTextPad();
@@ -92,7 +92,7 @@ public class HintLogPanel extends CellPanel {
 		clear();
 	}
 
-	public void setText(CacheHolderDetail cache) {
+	public void setText(ICacheHolderDetail cache) {
 		if (currCache != cache) {
 			this.currCache = cache;
 			resetHintText();

@@ -6,7 +6,7 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import ewe.fx.Color;
 import ewe.fx.Font;
 import ewe.fx.FontMetrics;
@@ -60,7 +60,7 @@ public class ImagePanel extends InteractivePanel {
 	public ImagePanel() { // Public constructor
 	}
 
-	static CacheHolderDetail oldCache = null;
+	static ICacheHolderDetail oldCache = null;
 
 	/**
 	 * Method to set the individual cache images. Gets called immediatly before
@@ -68,7 +68,7 @@ public class ImagePanel extends InteractivePanel {
 	 * 
 	 * @see MainTab#onEvent(Event ev)
 	 */
-	public void setImages(CacheHolderDetail cache) {
+	public void setImages(ICacheHolderDetail cache) {
 		if (cache != oldCache) {
 			pref = Global.getPref();
 			profile = Global.getProfile();

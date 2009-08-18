@@ -15,6 +15,7 @@ import CacheWolf.beans.ImageInfo;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.types.LogType;
 import de.cachehound.util.AllReader;
 
@@ -33,8 +34,8 @@ public class CacheHolderDetailFactory {
 		return instance;
 	}
 
-	public CacheHolderDetail createEmptyCacheHolderDetail(CacheHolder ch) {
-		CacheHolderDetail chd = new CacheHolderDetail();
+	public ICacheHolderDetail createEmptyCacheHolderDetail(CacheHolder ch) {
+		ICacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		return chd;
 	}
@@ -43,9 +44,9 @@ public class CacheHolderDetailFactory {
 	 * Method to parse a specific cache.xml file. It fills information on cache
 	 * details, hints, logs, notes and images.
 	 */
-	public CacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch,
+	public ICacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch,
 			File dir) throws IOException {
-		CacheHolderDetail chd = new CacheHolderDetail();
+		ICacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		String dummy;
 		ImageInfo imageInfo;
@@ -208,7 +209,7 @@ public class CacheHolderDetailFactory {
 	/**
 	 * Method to save a cache.xml file.
 	 */
-	public void saveCacheDetails(CacheHolderDetail chd, File dir) {
+	public void saveCacheDetails(ICacheHolderDetail chd, File dir) {
 		BufferedWriter detfile;
 
 		File cacheFile = new File(dir, chd.getParent().getWayPoint()

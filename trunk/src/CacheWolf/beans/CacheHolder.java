@@ -17,8 +17,8 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.ICacheHolder;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
@@ -29,8 +29,6 @@ import de.cachehound.types.Terrain;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
 import ewe.sys.Convert;
-import ewe.ui.FormBase;
-import ewe.ui.MessageBox;
 
 /**
  * A class to hold information on a cache.<br>
@@ -141,7 +139,7 @@ public class CacheHolder implements ICacheHolder {
 	private boolean hasSolver = false;
 	/** True if a note is entered for the cache */
 	private boolean hasNote = false;
-	private CacheHolderDetail details = null;
+	private ICacheHolderDetail details = null;
 
 	private long attributesYes = 0;
 	private long attributesNo = 0;
@@ -392,7 +390,7 @@ public class CacheHolder implements ICacheHolder {
 			// are already loaded. When they aren't loaded, then we assume
 			// that there is no change, so nothing to do.
 			if (this.detailsLoaded()) {
-				CacheHolderDetail chD = getCacheDetails(true, false);
+				ICacheHolderDetail chD = getCacheDetails(true, false);
 				if (chD != null) {
 					setRecommendationScore(chD.getCacheLogs()
 							.getRecommendationRating());
@@ -555,13 +553,10 @@ public class CacheHolder implements ICacheHolder {
 	 * @param maybenew
 	 *            If true and the cache file could not be read, then an empty
 	 *            detail object is returned.
-	 * @param alarmuser
-	 *            If true an error message will be displayed to the user, if the
-	 *            details could not be read, and the method returns null
 	 * @return The respective CacheHolderDetail, or null
 	 */
 
-	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
+	public ICacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
 		if (!detailsLoaded()) {
 			try {
 				this.details = CacheHolderDetailFactory.getInstance()
@@ -574,16 +569,6 @@ public class CacheHolder implements ICacheHolder {
 				if (!maybenew) {
 					logger.error("Could not read details for waypoint "
 							+ getWayPoint(), e);
-					if (alarmuser) {
-						// FIXME: put a message to languages file
-						(new MessageBox(
-								MyLocale.getMsg(31415, "Error"),
-								MyLocale
-										.getMsg(31415,
-												"Could not read cache details for cache: ")
-										+ this.getWayPoint(), FormBase.OKB))
-								.execute();
-					}
 					this.details = null;
 					this.setIncomplete(true);
 				}

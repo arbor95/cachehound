@@ -11,7 +11,7 @@ import CacheWolf.navi.MapImage;
 import CacheWolf.navi.MovingMap;
 import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -51,7 +51,7 @@ public class MainTab extends mTabbedPanel {
 	public SolverPanel solverP;
 	public String lastselected = "";
 	public CacheHolder ch = null, chMain = null;
-	CacheHolderDetail chD = null;
+	ICacheHolderDetail chD = null;
 	MainMenu mnuMain;
 	StatusBar statBar;
 	public MovingMap mm;

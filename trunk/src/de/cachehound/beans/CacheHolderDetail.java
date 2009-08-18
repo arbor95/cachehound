@@ -9,7 +9,7 @@ import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugList;
 import CacheWolf.util.MyLocale;
 
-public class CacheHolderDetail {
+public class CacheHolderDetail implements ICacheHolderDetail {
 
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
@@ -47,87 +47,134 @@ public class CacheHolderDetail {
 		// empty bean constructor
 	}
 
-	/**
-	 * Adds a user image to the cache data
-	 * 
-	 * @param profile
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#addUserImage(CacheWolf.beans.ImageInfo)
 	 */
 	public void addUserImage(ImageInfo userImage) {
 		this.getUserImages().add(userImage);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getAttributes()
+	 */
 	public Attributes getAttributes() {
 		return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getCacheLogs()
+	 */
 	public LogList getCacheLogs() {
 		return cacheLogs;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getCacheNotes()
+	 */
 	public String getCacheNotes() {
 		return this.cacheNotes;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getCountry()
+	 */
 	public String getCountry() {
 		return country;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getHints()
+	 */
 	public String getHints() {
 		return hints;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getImages()
+	 */
 	public CacheImages getImages() {
 		return images;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getLastUpdate()
+	 */
 	public String getLastUpdate() {
 		return lastUpdate;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getLogImages()
+	 */
 	public CacheImages getLogImages() {
 		return logImages;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getLongDescription()
+	 */
 	public String getLongDescription() {
 		return longDescription;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getOwnLog()
+	 */
 	public Log getOwnLog() {
 		return ownLog;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getOwnLogId()
+	 */
 	public String getOwnLogId() {
 		return ownLogId;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getParent()
+	 */
 	public CacheHolder getParent() {
 		return parent;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getSolver()
+	 */
 	public String getSolver() {
 		return this.solver;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getState()
+	 */
 	public String getState() {
 		return state;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getTravelbugs()
+	 */
 	public TravelbugList getTravelbugs() {
 		return travelbugs;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getUrl()
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#getUserImages()
+	 */
 	public CacheImages getUserImages() {
 		return userImages;
 	}
 
-	/**
-	 * Return true if this cache has additional info for some pictures
-	 * 
-	 * @return true if cache has additional info, false otherwise
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#hasImageInfo()
 	 */
 	public boolean hasImageInfo() {
 		for (int i = this.getImages().size() - 1; i >= 0; i--)
@@ -136,14 +183,23 @@ public class CacheHolderDetail {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#hasUnsavedChanges()
+	 */
 	public boolean hasUnsavedChanges() {
 		return unsavedChanges;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setAttributes(CacheWolf.beans.Attributes)
+	 */
 	public void setAttributes(Attributes attributes) {
 		this.attributes = attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#addCacheLogs(de.cachehound.beans.LogList)
+	 */
 	public void addCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must
@@ -154,6 +210,9 @@ public class CacheHolderDetail {
 		getParent().setNoFindLogs(cacheLogs.countNotFoundLogs());
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#stripLogsToMaximum(int)
+	 */
 	public void stripLogsToMaximum(int maxSize) {
 		boolean keepOwn = Global.getPref().alwaysKeepOwnLogs;
 		if (cacheLogs.purgeLogs(maxSize, keepOwn) > 0) {
@@ -162,6 +221,9 @@ public class CacheHolderDetail {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setCacheNotes(java.lang.String)
+	 */
 	public void setCacheNotes(String notes) {
 		if (!cacheNotes.equals(notes))
 			getParent().setUpdated(true);
@@ -169,28 +231,46 @@ public class CacheHolderDetail {
 		cacheNotes = notes;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setCountry(java.lang.String)
+	 */
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setHints(java.lang.String)
+	 */
 	public void setHints(String hints) {
 		if (!hints.equals(hints))
 			getParent().setUpdated(true);
 		this.hints = hints;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setImages(CacheWolf.beans.CacheImages)
+	 */
 	public void setImages(CacheImages images) {
 		this.images = images;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setLastUpdate(java.lang.String)
+	 */
 	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setLogImages(CacheWolf.beans.CacheImages)
+	 */
 	public void setLogImages(CacheImages logImages) {
 		this.logImages = logImages;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setLongDescription(java.lang.String)
+	 */
 	public void setLongDescription(String longDescription) {
 		if (longDescription.equals(""))
 			getParent().setNew(true);
@@ -200,18 +280,30 @@ public class CacheHolderDetail {
 		this.longDescription = longDescription;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setOwnLog(de.cachehound.beans.Log)
+	 */
 	public void setOwnLog(Log ownLog) {
 		this.ownLog = ownLog;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setOwnLogId(java.lang.String)
+	 */
 	public void setOwnLogId(String ownLogId) {
 		this.ownLogId = ownLogId;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setParent(CacheWolf.beans.CacheHolder)
+	 */
 	public void setParent(CacheHolder parent) {
 		this.parent = parent;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setSolver(java.lang.String)
+	 */
 	public void setSolver(String solver) {
 		if (!this.solver.equals(solver))
 			getParent().setUpdated(true);
@@ -219,22 +311,37 @@ public class CacheHolderDetail {
 		getParent().setHasSolver(!this.solver.trim().equals(""));
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setState(java.lang.String)
+	 */
 	public void setState(String state) {
 		this.state = state;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setTravelbugs(CacheWolf.beans.TravelbugList)
+	 */
 	public void setTravelbugs(TravelbugList travelbugs) {
 		this.travelbugs = travelbugs;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setUnsavedChanges(boolean)
+	 */
 	public void setUnsavedChanges(boolean unsavedChanges) {
 		this.unsavedChanges = unsavedChanges;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setUrl(java.lang.String)
+	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#setUserImages(CacheWolf.beans.CacheImages)
+	 */
 	public void setUserImages(CacheImages userImages) {
 		this.userImages = userImages;
 	}
@@ -249,15 +356,10 @@ public class CacheHolderDetail {
 		return sb.toString();
 	}
 
-	/**
-	 * Method to update an existing cache with new data. This is necessary to
-	 * avoid missing old logs. Called from GPX Importer
-	 * 
-	 * @param newCh
-	 *            new cache data
-	 * @return CacheHolder with updated data
+	/* (non-Javadoc)
+	 * @see de.cachehound.beans.ICacheHolderDetail#update(de.cachehound.beans.ICacheHolderDetail)
 	 */
-	public void update(CacheHolderDetail newCh) {
+	public void update(ICacheHolderDetail newCh) {
 		// flags
 		// TODO: nicht so toll hier, CacheStatus sollte zu eine Enum werden.
 		if (getParent().is_found() && getParent().getCacheStatus().equals("")) {
