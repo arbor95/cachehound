@@ -145,6 +145,7 @@ public class SpiderGC {
 			loginSuccess = p.getProp("loginSuccess");
 			nextPage = p.getProp("nextPage");
 		} catch (Exception ex) { // Tag not found in spider.def
+			logger.error("Tag noct found in spider.def", ex);
 			return ERR_LOGIN;
 		}
 		// Get password
@@ -177,7 +178,7 @@ public class SpiderGC {
 								.getMsg(5499,
 										"Error loading login page.%0aPlease check your internet connection."),
 						FormBase.OKB)).execute();
-				logger.debug("[login]:Could not fetch: gc.com login page");
+				logger.error("[login]:Could not fetch: gc.com login page");
 				return ERR_LOGIN;
 			}
 		} catch (Exception ex) {
@@ -409,6 +410,7 @@ public class SpiderGC {
 		try {
 			return getLatLon(completeWebPage);
 		} catch (Exception ex) {
+			logger.error("????", ex);
 			return "????";
 		}
 	}
@@ -595,6 +597,7 @@ public class SpiderGC {
 			lineRex = new Regex(p.getProp("lineRex")); // "<tr
 			// bgcolor=((?s).*?)</tr>"
 		} catch (Exception ex) {
+			logger.error("", ex);
 			infB.close(0);
 			Vm.showWait(false);
 			return;
@@ -773,13 +776,14 @@ public class SpiderGC {
 								.getProp("nextListPage"));
 					} catch (Exception ex) {
 						// Vm.debug("Couldn't get the next page");
-						logger.error("Error getting next page");
+						logger.error("Error getting next page", ex);
 					}
 				}
 				// Vm.debug("Distance is now: " + distance);
 				found_on_page = 0;
 			}
 		} catch (Exception ex) { // Some tag missing from spider.def
+			logger.error("Some tag missing from spider.def", ex);
 			infB.close(0);
 			Vm.showWait(false);
 			return;
@@ -1364,7 +1368,7 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the waypoint type (Tradi, Multi, etc.)
 	 */
-	private byte getType(String doc) throws Exception {
+	private byte getType(String doc) {
 		inRex = new Regex(p.getProp("cacheTypeRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
@@ -1517,7 +1521,7 @@ public class SpiderGC {
 					tb.setGuid(exGuid.findNext());
 					chD.getTravelbugs().add(tb);
 				} catch (Exception ex) {
-					logger.error("Could not fetch bug details");
+					logger.error("Could not fetch bug details", ex);
 				}
 			}
 			// Vm.debug("B: " + bug);
@@ -1568,6 +1572,7 @@ public class SpiderGC {
 			exImgBlock = new Extractor(longDesc, p.getProp("imgBlockExStart"),
 					p.getProp("imgBlockExEnd"), 0, false);
 		} catch (Exception ex) {// Missing property in spider.def
+			logger.error("Missing property in spider.def", ex);
 			return;
 		}
 		// Vm.debug("In getImages: Have longDesc" + longDesc);
@@ -1633,7 +1638,7 @@ public class SpiderGC {
 				} catch (IndexOutOfBoundsException e) {
 					// Vm.debug("IndexOutOfBoundsException not in image
 					// span"+e.toString()+"imgURL:"+imgUrl);
-					logger.error("Problem loading image. imgURL:" + imgUrl);
+					logger.error("Problem loading image. imgURL:" + imgUrl, e);
 				}
 			}
 			exImgSrc.setSource(exImgBlock.findNext());
@@ -1652,7 +1657,8 @@ public class SpiderGC {
 					.getProp("imgSrcExEnd"), 0, true);
 			exImgComment = new Extractor(tst, p.getProp("imgCommentExStart"), p
 					.getProp("imgCommentExEnd"), 0, true);
-		} catch (Exception ex) { // Missing property in spider .def
+		} catch (Exception ex) { // Missing property in spider.def
+			logger.error("Missing property in spider.def", ex);
 			return;
 		}
 		while (exImgSrc.endOfSearch() == false) {
@@ -1845,8 +1851,7 @@ public class SpiderGC {
 	 *            Found status of the cached (is inherited by the additional
 	 *            waypoints)
 	 */
-	private void getAddWaypoints(String doc, String wayPoint, boolean is_found)
-			throws Exception {
+	private void getAddWaypoints(String doc, String wayPoint, boolean is_found) {
 		Extractor exWayBlock = new Extractor(doc, p.getProp("wayBlockExStart"),
 				p.getProp("wayBlockExEnd"), 0, false);
 		String wayBlock = "";
@@ -2120,6 +2125,7 @@ public class SpiderGC {
 					Extractor.EXCLUDESTARTEND); // TODO Replace with spider.def
 			return exGuid.findNext();
 		} catch (Exception ex) {
+			logger.error("", ex);
 			return "";
 		}
 	}
@@ -2158,6 +2164,7 @@ public class SpiderGC {
 					Extractor.EXCLUDESTARTEND);
 			return exDetails.findNext();
 		} catch (Exception ex) {
+			logger.error("", ex);
 			return "";
 		}
 	}
@@ -2196,6 +2203,7 @@ public class SpiderGC {
 			TB.setName(exName.findNext());
 			return true;
 		} catch (Exception ex) {
+			logger.error("", ex);
 			return false;
 		}
 	}
