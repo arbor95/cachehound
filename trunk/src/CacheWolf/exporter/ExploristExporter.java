@@ -223,7 +223,7 @@ public class ExploristExporter {
 	 */
 	public String record(CacheHolder ch) {
 		try {
-			CacheHolderDetail det = ch.getExistingDetails();
+			CacheHolderDetail det = ch.getCacheDetails(false, true);
 			/*
 			 * static protected final int GC_AW_PARKING = 50; static protected
 			 * final int GC_AW_STAGE_OF_MULTI = 51; static protected final int

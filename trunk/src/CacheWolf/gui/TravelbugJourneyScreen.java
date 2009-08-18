@@ -114,8 +114,8 @@ public class TravelbugJourneyScreen extends Form {
 			cache = MyLocale.getMsg(6022, ": Current cache: ")
 					+ ch.getWayPoint() + " - " + ch.getCacheName();
 			waypoint = ch.getWayPoint();
-			chD = ch.getExistingDetails();
-			tblSrcCache = ch.getExistingDetails().getTravelbugs();
+			chD = ch.getCacheDetails(false, true);
+			tblSrcCache = ch.getCacheDetails(false, true).getTravelbugs();
 		}
 		title = "Travelbugs" + cache;
 		tcTbJourneyList = new tbListControl();

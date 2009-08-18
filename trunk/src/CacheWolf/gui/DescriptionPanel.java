@@ -63,19 +63,19 @@ public class DescriptionPanel extends CellPanel {
 			isHtml = cache.is_HTML();
 			if (cache.isAddiWpt()) {
 				isHtml = cache.getMainCache().is_HTML();
-				if (cache.getExistingDetails().getLongDescription() != null
-						&& cache.getExistingDetails().getLongDescription()
+				if (cache.getCacheDetails(false, true).getLongDescription() != null
+						&& cache.getCacheDetails(false, true).getLongDescription()
 								.length() > 0)
-					desc = cache.getExistingDetails().getLongDescription()
+					desc = cache.getCacheDetails(false, true).getLongDescription()
 							+ (isHtml ? "<hr>\n" : "\n")
-							+ cache.getMainCache().getExistingDetails()
+							+ cache.getMainCache().getCacheDetails(false, true)
 									.getLongDescription();
 				else
-					desc = cache.getMainCache().getExistingDetails()
+					desc = cache.getMainCache().getCacheDetails(false, true)
 							.getLongDescription();
 			} else
 				// not an addi-wpt
-				desc = cache.getExistingDetails().getLongDescription();
+				desc = cache.getCacheDetails(false, true).getLongDescription();
 		}
 		// HtmlDisplay does not show the <sup> tag correctly, so we need to
 		// replace with ^
@@ -96,7 +96,7 @@ public class DescriptionPanel extends CellPanel {
 				} else {
 					chImages = cache;
 				}
-				Images = chImages.getExistingDetails().getImages();
+				Images = chImages.getCacheDetails(false, true).getImages();
 				StringBuilder s = new StringBuilder(desc.length()
 						+ Images.size() * 100);
 				int start = 0;
@@ -141,7 +141,7 @@ public class DescriptionPanel extends CellPanel {
 					s.append(desc.substring(start));
 				desc = s.toString();
 				if (imageNo < Images.size()) {
-					desc += getPicDesc(imageNo, chImages.getExistingDetails());
+					desc += getPicDesc(imageNo, chImages.getCacheDetails(false, true));
 				}
 			}
 			// disp.setHtml(desc);

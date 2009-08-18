@@ -175,7 +175,7 @@ public class MainTab extends mTabbedPanel {
 			} else {
 				ch = cacheDB.get(tbP.getSelectedCache());
 				lastselected = ch.getWayPoint(); // Used in Parser.Skeleton
-				chD = ch.getCacheDetails(true);
+				chD = ch.getCacheDetails(true, true);
 			}
 		}
 		if (panelNo == 1) { // Leaving the Details Panel
@@ -208,7 +208,7 @@ public class MainTab extends mTabbedPanel {
 						tbP.tc.update(true);
 				} else {
 					boolean oldHasSolver = chMain.hasSolver();
-					chMain.getExistingDetails().setSolver(
+					chMain.getCacheDetails(false, true).setSolver(
 							solverP.getInstructions());
 					if (oldHasSolver != chMain.hasSolver())
 						tbP.tc.update(true);
@@ -246,14 +246,14 @@ public class MainTab extends mTabbedPanel {
 			break;
 		case 3: // Picture Panel
 			if (ch.isAddiWpt()) {
-				imageP.setImages(ch.getMainCache().getCacheDetails(true));
+				imageP.setImages(ch.getMainCache().getCacheDetails(true, true));
 			} else {
 				imageP.setImages(chD);
 			}
 			break;
 		case 4: // Log Hint Panel
 			if (ch.isAddiWpt()) {
-				hintLP.setText(ch.getMainCache().getCacheDetails(true));
+				hintLP.setText(ch.getMainCache().getCacheDetails(true, true));
 			} else {
 				hintLP.setText(chD);
 			}
@@ -348,7 +348,7 @@ public class MainTab extends mTabbedPanel {
 			lastselected = pCh.getWayPoint();
 		}
 		pCh.setCacheSize(CacheSize.NOT_CHOSEN);
-		chD = pCh.getCacheDetails(true);
+		chD = pCh.getCacheDetails(true, true);
 		this.ch = pCh;
 		cacheDB.add(pCh);
 		Global.getProfile().notifyUnsavedChanges(true); // Just to be sure
