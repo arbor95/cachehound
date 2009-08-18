@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
@@ -14,6 +13,7 @@ import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.comparators.DistanceComparator;
+import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedReader;
@@ -247,17 +247,17 @@ public class ExploristExporter {
 			sb.append(",");
 			String add = "";
 			if (ch.isAddiWpt()) {
-				if (ch.getType() == 50) {
+				if (ch.getType() == CacheType.PARKING) {
 					add = "Pa:";
-				} else if (ch.getType() == 51) {
+				} else if (ch.getType() == CacheType.STAGE) {
 					add = "St:";
-				} else if (ch.getType() == 52) {
+				} else if (ch.getType() == CacheType.QUESTION) {
 					add = "Qu:";
-				} else if (ch.getType() == 53) {
+				} else if (ch.getType() == CacheType.FINAL) {
 					add = "Fi:";
-				} else if (ch.getType() == 54) {
+				} else if (ch.getType() == CacheType.TRAILHEAD) {
 					add = "Tr:";
-				} else if (ch.getType() == 55) {
+				} else if (ch.getType() == CacheType.REFERENCE) {
 					add = "Re:";
 				}
 				sb.append(add).append(removeCommas(ch.getCacheName()));
@@ -272,10 +272,10 @@ public class ExploristExporter {
 
 			if (!add.equals("")) { // Set Picture in Explorist to Virtual
 				sb.append("Virtual Cache");
-			} else if (ch.getType() != CacheType.CW_TYPE_UNKNOWN) { // Rewrite
+			} else if (ch.getType() != CacheType.UNKNOWN) { // Rewrite
 				// Unknown
 				// Caches
-				sb.append(CacheType.cw2ExportString(ch.getType()));
+				sb.append(ch.getType().getGcGpxString());
 			} else {
 				sb.append("Mystery Cache");
 			}

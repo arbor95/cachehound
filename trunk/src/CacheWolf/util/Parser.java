@@ -47,13 +47,13 @@ package CacheWolf.util;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.navi.Metrics;
 import CacheWolf.navi.Navigate;
 
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import ewe.sys.Convert;
@@ -901,10 +901,10 @@ public class Parser {
 				String stage = MyLocale.formatLong(i, "00");
 				String stageWpt = "$" + stage + waypointName.substring(2);
 				String stageName = "Stage " + (i + 1);
-				byte type = CacheType.CW_TYPE_STAGE;
+				CacheType type = CacheType.STAGE;
 				if (i == nStages - 1) {
 					stageName = "Final";
-					type = CacheType.CW_TYPE_FINAL;
+					type = CacheType.FINAL;
 				}
 				didCreateWp |= createWptIfNeeded(stage
 						+ waypointName.substring(2), stageName, type);
@@ -1438,7 +1438,7 @@ public class Parser {
 		}
 	}
 
-	private boolean createWptIfNeeded(String wayPoint, String name, byte type) {
+	private boolean createWptIfNeeded(String wayPoint, String name, CacheType type) {
 		int ci = Global.getProfile().getCacheIndex(wayPoint);
 		if (ci >= 0)
 			return false;

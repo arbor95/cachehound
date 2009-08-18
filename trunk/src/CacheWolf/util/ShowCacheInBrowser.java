@@ -6,7 +6,6 @@ import java.net.URI;
 import CacheWolf.Global;
 import CacheWolf.beans.Attribute;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
@@ -272,18 +271,11 @@ public class ShowCacheInBrowser {
 							addis.put("NAME", ch.getCacheName());
 							addis.put("LATLON", ch.getLatLon());
 							addis.put("IMG", "<img src=\""
-									+ CacheType.typeImageForId(ch.getType())
+									+ ch.getType().getGuiImage()
 									+ "\">");
 							addis.put("LONGDESC", ch.getExistingDetails()
-									.getLongDescription()); // Do
-							// we
-							// need
-							// to
-							// treat
-							// longDesc
-							// as
-							// above
-							// ?
+									.getLongDescription()); 
+							// Do we need to treat longDesc as above?
 							addiVect.add(addis);
 						}
 						tpl.setParam("ADDIS", addiVect);

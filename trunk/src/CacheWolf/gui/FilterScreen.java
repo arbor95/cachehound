@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import CacheWolf.Global;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Filter;
 import CacheWolf.beans.FilterData;
 import CacheWolf.beans.Preferences;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.MyLocale;
 import de.cachehound.types.Bearing;
+import de.cachehound.types.CacheType;
 import de.cachehound.util.ListHelper;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -274,76 +274,76 @@ public class FilterScreen extends Form {
 		// ////////////////////////
 
 		addTitle(pnlCacheTypes, MyLocale.getMsg(719, "Cache types"));
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_TRADITIONAL)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.TRADITIONAL)));
 		pnlCacheTypes.addNext(chkTrad = new mCheckBox("Traditonal"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_MULTI)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.MULTI)));
 		pnlCacheTypes.addLast(chkMulti = new mCheckBox("Multi"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_VIRTUAL)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.VIRTUAL)));
 		pnlCacheTypes.addNext(chkVirtual = new mCheckBox("Virtual"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_LETTERBOX)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.LETTERBOX)));
 		pnlCacheTypes.addLast(chkLetter = new mCheckBox("Letterbox"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_EVENT)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.EVENT)));
 		pnlCacheTypes.addNext(chkEvent = new mCheckBox("Event"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_WEBCAM)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.WEBCAM)));
 		pnlCacheTypes.addLast(chkWebcam = new mCheckBox("Webcam"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_UNKNOWN)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.UNKNOWN)));
 		pnlCacheTypes.addNext(chkMystery = new mCheckBox("Mystery"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_EARTH)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.EARTH)));
 		pnlCacheTypes.addLast(chkEarth = new mCheckBox("Earth"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_LOCATIONLESS)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.LOCATIONLESS)));
 		pnlCacheTypes.addNext(chkLocless = new mCheckBox("Locationless"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_MEGA_EVENT)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.MEGA_EVENT)));
 		pnlCacheTypes.addLast(chkMega = new mCheckBox("Mega-Ev."),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_CITO)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.CITO)));
 		pnlCacheTypes.addNext(chkCito = new mCheckBox("Cito-Ev."),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
 		// pnlCacheTypes.addLast(addiWptChk = new mCheckBox("Add. Wpt"),
 		// CellConstants.DONTSTRETCH, CellConstants.FILL);
 		// pnlCacheTypes.addLast(new mLabel(""));
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_CUSTOM)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.CUSTOM)));
 		pnlCacheTypes.addLast(chkCustom = new mCheckBox("Custom"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_WHEREIGO)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.WHEREIGO)));
 		pnlCacheTypes.addNext(chkWherigo = new myChkBox("WherIGo"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
-		pnlCacheTypes.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_DRIVE_IN)));
+		pnlCacheTypes.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.DRIVE_IN)));
 		pnlCacheTypes.addNext(addiWptChk = new myChkBox("Add. Wpt"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 
@@ -352,28 +352,28 @@ public class FilterScreen extends Form {
 		// Panel 5 - Addi waypoints
 		// ////////////////////////
 		addTitle(pnlAddi, MyLocale.getMsg(726, "Additional waypoints"));
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_PARKING)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.PARKING)));
 		pnlAddi.addNext(chkParking = new mCheckBox("Parking"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_STAGE)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.STAGE)));
 		pnlAddi.addLast(chkStage = new mCheckBox("Stage"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_QUESTION)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.QUESTION)));
 		pnlAddi.addNext(chkQuestion = new mCheckBox("Question"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_FINAL)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.FINAL)));
 		pnlAddi.addLast(chkFinal = new mCheckBox("Final"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_TRAILHEAD)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.TRAILHEAD)));
 		pnlAddi.addNext(chkTrailhead = new mCheckBox("Trailhead"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
-		pnlAddi.addNext(addImg(GuiImageBroker
-				.getTypeImage(CacheType.CW_TYPE_REFERENCE)));
+		pnlAddi.addNext(addImg(GuiImageBroker.getInstance()
+				.getTypeImage(CacheType.REFERENCE)));
 		pnlAddi.addLast(chkReference = new mCheckBox("Reference"),
 				CellConstants.DONTSTRETCH, CellConstants.FILL);
 		pnlAddi.addLast(new mLabel(""), VSTRETCH, FILL);

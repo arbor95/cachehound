@@ -7,10 +7,10 @@ import java.util.List;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.util.MyLocale;
 import de.cachehound.comparators.CacheHolderComparatorFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import ewe.fx.Color;
 import ewe.fx.FontMetrics;
 import ewe.fx.IconAndText;
@@ -373,11 +373,11 @@ public class myTableModel extends TableModel {
 					else
 						return checkboxUnticked;
 				case 1: // Type
-					return GuiImageBroker.getTypeImage(ch.getType());
+					return GuiImageBroker.getInstance().getTypeImage(ch.getType());
 				case 2: // Difficulty;
 					// FIXME Needs optimizing when code is stable
 					if (ch.isAddiWpt()
-							|| ch.getType() == CacheType.CW_TYPE_CUSTOM) {
+							|| ch.getType() == CacheType.CUSTOM) {
 						return "";
 					} else {
 						return ch.getDifficulty().getFullRepresentation();
@@ -385,7 +385,7 @@ public class myTableModel extends TableModel {
 				case 3: // Terrain
 					// FIXME Needs optimizing when code is stable
 					if (ch.isAddiWpt()
-							|| ch.getType() == CacheType.CW_TYPE_CUSTOM) {
+							|| ch.getType() == CacheType.CUSTOM) {
 						return "";
 					} else {
 						return ch.getTerrain().getFullRepresentation();
@@ -439,7 +439,7 @@ public class myTableModel extends TableModel {
 					}
 				case 13: // OC number of recommendations
 					if (ch.isAddiWpt()
-							|| CacheType.CW_TYPE_CUSTOM == ch.getType())
+							|| CacheType.CUSTOM == ch.getType())
 						return null;
 					return Convert.formatInt(ch.getNumRecommended());
 				case 14: // OC rating

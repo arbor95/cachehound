@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
@@ -20,6 +19,7 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
+import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.sys.Convert;
@@ -110,13 +110,13 @@ public class HTMLExporter {
 					}
 					det = ch.getCacheDetails(false, false);
 					varParams = new Hashtable();
-					varParams.put("TYPE", CacheType.cw2ExportString(ch
-							.getType()));
+					varParams.put("TYPE", ch
+							.getType().getGcGpxString());
 					varParams.put("WAYPOINT", ch.getWayPoint());
 					varParams.put("NAME", ch.getCacheName());
 					varParams.put("OWNER", ch.getCacheOwner());
 					if (ch.isAddiWpt()
-							|| CacheType.CW_TYPE_CUSTOM == ch.getType()) {
+							|| ch.getType() == CacheType.CUSTOM) {
 						varParams.put("SIZE", "");
 						varParams.put("DIFFICULTY", "");
 						varParams.put("TERRAIN", "");

@@ -3,8 +3,8 @@ package CacheWolf.gui;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
+import de.cachehound.types.CacheType;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
 import ewe.fx.Font;
@@ -157,13 +157,13 @@ public class RadarPanel extends CellPanel {
 							iActP.addImage(aImg);
 						}
 					}
-					Image imgCache = GuiImageBroker.getTypeImage(holder
+					Image imgCache = GuiImageBroker.getInstance().getTypeImage(holder
 							.getType());
 					// If we have no image for the cache type use a question
 					// mark
 					if (imgCache == null)
-						imgCache = GuiImageBroker
-								.getTypeImage(CacheType.CW_TYPE_UNKNOWN);
+						imgCache = GuiImageBroker.getInstance().getTypeImage(
+								CacheType.UNKNOWN);
 					rpi = new RadarPanelImage(imgCache);
 					rpi.wayPoint = holder.getWayPoint();
 					rpi.rownum = i;

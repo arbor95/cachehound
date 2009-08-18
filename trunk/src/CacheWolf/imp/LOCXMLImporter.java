@@ -35,11 +35,11 @@ import java.io.Reader;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import de.cachehound.util.EweReader;
@@ -147,7 +147,7 @@ public class LOCXMLImporter extends MinML {
 			ch = new CacheHolder();
 			// TODO: once the cleanup is done, this should be move to
 			// CacheHolder constructor
-			ch.setType(CacheType.CW_TYPE_CUSTOM);
+			ch.setType(CacheType.CUSTOM);
 			ch.setTerrain(Terrain.TERRAIN_UNSET);
 			ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 			ch.setCacheSize(CacheSize.NOT_CHOSEN);

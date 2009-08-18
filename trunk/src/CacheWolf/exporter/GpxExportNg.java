@@ -5,7 +5,6 @@ import java.util.Iterator;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
@@ -16,6 +15,7 @@ import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.beans.Log;
 import de.cachehound.beans.LogList;
+import de.cachehound.types.CacheType;
 import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -193,10 +193,12 @@ public class GpxExportNg {
 
 			if (exportTarget == OUTPUT_POI) {
 				fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, Global
-						.getPref().getExportPath(expName + "-GPI").getAbsolutePath());
+						.getPref().getExportPath(expName + "-GPI")
+						.getAbsolutePath());
 			} else {
 				fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, Global
-						.getPref().getExportPath(expName + "-POI").getAbsolutePath());
+						.getPref().getExportPath(expName + "-POI")
+						.getAbsolutePath());
 			}
 
 			fc.setTitle("Select target directory:");
@@ -206,9 +208,11 @@ public class GpxExportNg {
 
 			outDir = fc.getChosenFile().getFullPath();
 			if (exportTarget == OUTPUT_POI) {
-				Global.getPref().setExportPath(expName + "-GPI", new java.io.File(outDir));
+				Global.getPref().setExportPath(expName + "-GPI",
+						new java.io.File(outDir));
 			} else {
-				Global.getPref().setExportPath(expName + "-POI", new java.io.File(outDir));
+				Global.getPref().setExportPath(expName + "-POI",
+						new java.io.File(outDir));
 			}
 
 			if ((new File(baseDir + "/garminmap.xml")).exists()) {
@@ -405,7 +409,8 @@ public class GpxExportNg {
 
 			if (!sendToGarmin) {
 				final FileChooser fc = new FileChooser(FileChooserBase.SAVE,
-						Global.getPref().getExportPath(expName + "-GPX").getAbsolutePath());
+						Global.getPref().getExportPath(expName + "-GPX")
+								.getAbsolutePath());
 
 				fc.setTitle("Select target GPX file:");
 				fc.addMask("*.gpx");
@@ -414,8 +419,8 @@ public class GpxExportNg {
 					return;
 
 				file = fc.getChosenFile();
-				Global.getPref()
-						.setExportPath(expName + "-GPX", new java.io.File(file.getFullPath()));
+				Global.getPref().setExportPath(expName + "-GPX",
+						new java.io.File(file.getFullPath()));
 			} else {
 				file = new File("").createTempFile("gpxexport", null, null);
 			}
@@ -591,14 +596,28 @@ public class GpxExportNg {
 								SafeXML.cleanGPX(ch.getWayPoint())).concat(
 								"</name>\n"));
 			} else {
-				ret.append("    <name>".concat(
-						SafeXML.cleanGPX(ch.getWayPoint()).concat(" ").concat(
-								CacheType.getExportShortId(ch.getType()))
-								.concat(String.valueOf(ch.getDifficulty())).concat(
-										String.valueOf(ch.getTerrain()))
-								.concat(ch.getCacheSize().getAsString()))
-						.concat(String.valueOf(ch.getNoFindLogs())).concat(
-								"</name>\n"));
+				ret
+						.append("    <name>"
+								.concat(
+										SafeXML
+												.cleanGPX(ch.getWayPoint())
+												.concat(" ")
+												.concat(
+														ch
+																.getType()
+																.getShortExport())
+												.concat(
+														String
+																.valueOf(ch
+																		.getDifficulty()))
+												.concat(
+														String.valueOf(ch
+																.getTerrain()))
+												.concat(
+														ch.getCacheSize()
+																.getAsString()))
+								.concat(String.valueOf(ch.getNoFindLogs()))
+								.concat("</name>\n"));
 			}
 		} else if (exportIds == WPNAME_NAME_SMART) {
 			// TBD
@@ -644,8 +663,8 @@ public class GpxExportNg {
 			ret.append("    <desc>".concat(
 					SafeXML.cleanGPX(ch.getCacheName().concat(" by ").concat(
 							ch.getCacheOwner()).concat(", ").concat(
-							CacheType.cw2ExportString(ch.getType())).concat(
-							" (").concat(ch.getDifficulty().getShortRepresentation())
+							ch.getType().getGcGpxString()).concat(" (").concat(
+							ch.getDifficulty().getShortRepresentation())
 							.concat("/").concat(
 									ch.getTerrain().getShortRepresentation())
 							.concat(")"))).concat("</desc>\n"));
@@ -666,10 +685,8 @@ public class GpxExportNg {
 					"</sym>\n"));
 		} else {
 			if (ch.isAddiWpt()) {
-				ret.append("    <sym>".concat(
-						CacheType.id2GpxStringBroken(ch.getType()).substring(
-								CacheType.id2GpxStringBroken(ch.getType())
-										.indexOf("|") + 1)).concat("</sym>\n"));
+				ret.append("    <sym>".concat(ch.getType().getGcGpxString())
+						.concat("</sym>\n"));
 			} else if (ch.isCustomWpt()) {
 				ret.append("    <sym>Custom</sym>\n");
 			} else if (ch.is_found()) {
@@ -680,9 +697,14 @@ public class GpxExportNg {
 		}
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
-			ret.append("    <type>".concat(
-					CacheType.id2GpxStringBroken(ch.getType())).concat(
-					"</type>\n"));
+			if (ch.isCacheWpt()) {
+				ret.append("    <type>Geocache|".concat(
+						ch.getType().getGcGpxString()).concat("</type>\n"));
+			} else {
+				ret.append("    <type>Waypoint|".concat(
+						ch.getType().getGcGpxString()).concat("</type>\n"));
+
+			}
 		}
 
 		return ret.toString();
@@ -719,7 +741,7 @@ public class GpxExportNg {
 				.concat("\">").concat(SafeXML.cleanGPX(ch.getCacheOwner()))
 				.concat("</groundspeak:owner>\n").concat(
 						"      <groundspeak:type>").concat(
-						CacheType.id2GpxStringBroken(ch.getType())).concat(
+						ch.getType().getGcGpxString()).concat(
 						"</groundspeak:type>\n").concat(
 						"      <groundspeak:container>").concat(
 						ch.getCacheSize().getAsString()).concat(

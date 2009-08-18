@@ -4,10 +4,10 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
+import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.File;
@@ -61,7 +61,8 @@ public class TomTomExporter {
 			if (fc.execute() == FormBase.IDCANCEL)
 				return;
 			dirName = fc.getChosen();
-			pref.setExportPath(expName, new java.io.File(fc.getChosenFile().getFullPath()));
+			pref.setExportPath(expName, new java.io.File(fc.getChosenFile()
+					.getFullPath()));
 			prefix = infoScreen.getPrefix();
 			writeOneFilePerType(fileFormat, dirName, prefix);
 		} else {
@@ -76,7 +77,8 @@ public class TomTomExporter {
 			if (fc.execute() == FormBase.IDCANCEL)
 				return;
 			fileName = fc.getChosen();
-			pref.setExportPathFromFileName(expName, new java.io.File(fc.getChosenFile().getFullPath()));
+			pref.setExportPathFromFileName(expName, new java.io.File(fc
+					.getChosenFile().getFullPath()));
 			writeSingleFile(fileFormat, fileName);
 		}
 	}
@@ -102,21 +104,21 @@ public class TomTomExporter {
 
 		try {
 			// loop through type
-			for (int j = 0; j < CacheType.guiTypeStrings().length; j++) {
-				String typeName = CacheType.guiTypeStrings()[j];
-				if (typeName.startsWith("Addi: ")) {
+			for (CacheType type : CacheType.values()) {
+				String typeName = type.getGuiString();
+				if (type.isAdditionalWaypoint()) {
 					typeName = typeName.substring(6);
 				}
 
-				fileName = dirName + "/" + prefix + typeName + ext;
+				fileName = dirName + java.io.File.separator + prefix + typeName
+						+ ext;
 				dfile = new File(fileName);
 				dfile.delete();
 				out = new RandomAccessFile(fileName, "rw");
 				for (int i = 0; i < cacheDB.size(); i++) {
 					holder = cacheDB.get(i);
 
-					if (holder.getType() == CacheType.guiSelect2Cw(j)
-							&& holder.isVisible() == true) {
+					if (holder.getType() == type && holder.isVisible() == true) {
 						currExp++;
 						h.progress = (float) currExp / (float) counter;
 						h.changed();
@@ -139,7 +141,8 @@ public class TomTomExporter {
 				if (dfile.length() == 0) {
 					dfile.delete();
 				} else {
-					copyIcon(j, dirName + "/" + prefix, typeName);
+					copyIcon(dirName + java.io.File.separator + prefix,
+							typeName);
 				}
 			}// for wayType
 			progressForm.exit(0);
@@ -188,7 +191,9 @@ public class TomTomExporter {
 				}// if
 			}// for
 			out.close();
-			copyIcon(0, fileName.substring(0, fileName.indexOf(".")), "");
+			// TODO: Der Aufruf hier ist eigentlich mist ... da wird nichts
+			// kopiert
+			copyIcon(fileName.substring(0, fileName.indexOf(".")), "");
 			pbf.exit(0);
 		} catch (Exception e) {
 			Vm.debug("Problem writing to file! " + fileName);
@@ -287,7 +292,7 @@ public class TomTomExporter {
 		return;
 	}
 
-	public void copyIcon(int intWayType, String prefix, String typeName) {
+	public void copyIcon(String prefix, String typeName) {
 		try {
 			ZipFile zif = new ZipFile(FileBase.getProgramDirectory()
 					+ FileBase.separator + "exporticons" + FileBase.separator

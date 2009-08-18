@@ -1,7 +1,7 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
+import de.cachehound.types.CacheType;
 
 /**
  * Class to export the cache database (index) to an CSV File which can bei easy
@@ -27,7 +27,7 @@ public class MSARCSVExporter extends Exporter {
 		StringBuilder str = new StringBuilder(200);
 		str.append("\"" + ch.getWayPoint() + " - " + ch.getCacheName() + "\";");
 		str.append(lat + ";" + lon + ";");
-		str.append("\"" + CacheType.cw2ExportString(ch.getType()) + "\";");
+		str.append("\"" + ch.getType().getGcGpxString() + "\";");
 		str.append("\"" + ch.getCacheSize().getAsString() + "\";");
 		str.append("\"" + ch.getWayPoint() + "\";");
 		str.append("\"" + ch.getDateHidden() + "\";");

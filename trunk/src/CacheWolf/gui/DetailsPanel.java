@@ -6,7 +6,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -18,6 +17,7 @@ import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 import ewe.filechooser.FileChooser;
@@ -67,7 +67,9 @@ public class DetailsPanel extends CellPanel {
 	mInput inpHidden = new mInput();
 	mInput inpOwner = new mInput();
 	mButton btnDelete, btnCenter, btnAddDateTime;
-	mChoice chcType = new mChoice(CacheType.guiTypeStrings(), 0);
+
+	private String[] cacheTypeGuiStrings;
+	mChoice chcType;
 	mChoice chcSize;
 
 	mComboBox chcStatus = new mComboBox(new String[] { "",
@@ -107,6 +109,18 @@ public class DetailsPanel extends CellPanel {
 	Profile profile;
 
 	public DetailsPanel() {
+
+		// No Error Type here
+		cacheTypeGuiStrings = new String[CacheType.values().length - 1];
+		int j = 0;
+		for (CacheType type : CacheType.values()) {
+			if (type != CacheType.ERROR) {
+				cacheTypeGuiStrings[j] = type.getGuiString();
+				j++;
+			}
+		}
+		chcType = new mChoice(cacheTypeGuiStrings, 0);
+
 		pref = Global.getPref();
 		profile = Global.getProfile();
 		cacheDB = profile.cacheDB;
@@ -331,7 +345,7 @@ public class DetailsPanel extends CellPanel {
 			if (ch.is_found() == true)
 				chcStatus.setText(MyLocale.getMsg(318, "Found"));
 		}
-		chcType.setInt(CacheType.cw2GuiSelect(ch.getType()));
+		chcType.setInt(ch.getType().ordinal());
 		if (ch.is_black()) {
 			btnBlack.image = imgBlack;
 		} else {
@@ -406,7 +420,7 @@ public class DetailsPanel extends CellPanel {
 	 */
 	public void createWptName() {
 		String wpt = inpWaypoint.getText().toUpperCase();
-		if (CacheType.isAddiWpt(CacheType.guiSelect2Cw(chcType.getInt()))
+		if (CacheType.values()[chcType.getInt()].isAdditionalWaypoint()
 				&& (Global.mainTab.mainCache.startsWith("GC")
 						|| Global.mainTab.mainCache.startsWith("OC") || Global.mainTab.mainCache
 						.startsWith("CW")) && wpt.startsWith("CW")) {
@@ -424,7 +438,7 @@ public class DetailsPanel extends CellPanel {
 			inpWaypoint.setText(Global.getProfile().getNewAddiWayPointName(
 					Global.mainTab.mainCache));
 		}
-		if (!CacheType.isAddiWpt(CacheType.guiSelect2Cw(chcType.getInt()))
+		if (!CacheType.values()[chcType.getInt()].isAdditionalWaypoint()
 				&& !(wpt.startsWith("GC") || wpt.startsWith("OC") || wpt
 						.startsWith("CW"))) {
 			inpWaypoint.setText(Global.getProfile().getNewWayPointName());
@@ -443,8 +457,7 @@ public class DetailsPanel extends CellPanel {
 				// file. how? where?
 			} else if (ev.target == chcType) {
 				createWptName();
-				if (CacheType.isCacheWpt(CacheType
-						.guiSelect2Cw(chcType.selectedIndex))) {
+				if (CacheType.values()[chcType.getInt()].isCacheWaypoint()) {
 					activateControl(btnTerr);
 					activateControl(btnDiff);
 					activateControl(chcSize);
@@ -569,7 +582,7 @@ public class DetailsPanel extends CellPanel {
 			} else if (ev.target == btnNewWpt) {
 				CacheHolder ch = new CacheHolder();
 				ch.setPos(new CWPoint(thisCache.getPos()));
-				ch.setType(CacheType.CW_TYPE_STAGE);
+				ch.setType(CacheType.STAGE);
 				ch.setDifficulty(Difficulty.DIFFICULTY_UNSET);
 				ch.setTerrain(Terrain.TERRAIN_UNSET);
 				ch.setCacheSize(CacheSize.NOT_CHOSEN);
@@ -650,10 +663,10 @@ public class DetailsPanel extends CellPanel {
 				}
 			} else if (ev.target == this.btnTerr) {
 				int returnValue;
-				TerrainForm tf = new TerrainForm(thisCache
-						.getTerrain());
+				TerrainForm tf = new TerrainForm(thisCache.getTerrain());
 				returnValue = tf.execute();
-				if (returnValue == 1 && tf.getTerrain() != thisCache.getTerrain()) {
+				if (returnValue == 1
+						&& tf.getTerrain() != thisCache.getTerrain()) {
 					// FIXME: do this when waypoint is checked for saving
 					thisCache.setTerrain(tf.getTerrain());
 					btnTerr.setText(MyLocale.getMsg(1001, "T") + ": "
@@ -662,13 +675,18 @@ public class DetailsPanel extends CellPanel {
 				}
 			} else if (ev.target == this.btnDiff) {
 				int returnValue;
-				DifficultyForm df = new DifficultyForm(thisCache.getDifficulty());
+				DifficultyForm df = new DifficultyForm(thisCache
+						.getDifficulty());
 				returnValue = df.execute();
-				if (returnValue == 1 && df.getDifficulty() != thisCache.getDifficulty()) {
+				if (returnValue == 1
+						&& df.getDifficulty() != thisCache.getDifficulty()) {
 					// FIXME: do this when waypoint is checked for saving
 					thisCache.setDifficulty(df.getDifficulty());
-					btnDiff.setText(MyLocale.getMsg(1000, "D") + ": "
-							+ thisCache.getDifficulty().getFullRepresentation());
+					btnDiff
+							.setText(MyLocale.getMsg(1000, "D")
+									+ ": "
+									+ thisCache.getDifficulty()
+											.getFullRepresentation());
 					dirty_details = true;
 				}
 			}
@@ -746,8 +764,8 @@ public class DetailsPanel extends CellPanel {
 			thisCache.setWayPoint(thisCache.getWayPoint() + " ");
 		thisCache.setCacheName(inpName.getText().trim());
 		thisCache.setDateHidden(inpHidden.getText().trim());
-		byte oldType = thisCache.getType();
-		thisCache.setType(CacheType.guiSelect2Cw(chcType.getInt()));
+		CacheType oldType = thisCache.getType();
+		thisCache.setType(CacheType.values()[chcType.getInt()]);
 		// thisCache.saveCacheDetails(profile.dataDir); // this is redundant,
 		// because all changes
 		// affecting the details are immediately saved
@@ -759,12 +777,13 @@ public class DetailsPanel extends CellPanel {
 		 * addi->normal or normal->addi - the old cachetype or the new cachetype
 		 * were 'addi' and the waypointname has changed
 		 */
-		if (CacheType.isAddiWpt(ch.getType()) != CacheType.isAddiWpt(oldType)
-				|| ((CacheType.isAddiWpt(ch.getType()) || CacheType
-						.isAddiWpt(oldType)) && !thisCache.getWayPoint()
+		if (ch.getType().isAdditionalWaypoint() != oldType
+				.isAdditionalWaypoint()
+				|| ((ch.getType().isAdditionalWaypoint() || oldType
+						.isAdditionalWaypoint()) && !thisCache.getWayPoint()
 						.equals(oldWaypoint))) {
 			// If we changed the type to addi, check that a parent exists
-			if (CacheType.isAddiWpt(ch.getType())) {
+			if (ch.getType().isAdditionalWaypoint()) {
 				int idx;
 				if (ch.getWayPoint().length() < 5)
 					idx = -1;
@@ -954,8 +973,7 @@ public class DetailsPanel extends CellPanel {
 		}
 
 		public Terrain getTerrain() {
-			return Terrain
-					.fromOldCWByte((byte) (mcDT.selectedIndex * 5 + 10));
+			return Terrain.fromOldCWByte((byte) (mcDT.selectedIndex * 5 + 10));
 		}
 	}
 

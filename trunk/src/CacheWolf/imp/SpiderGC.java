@@ -33,7 +33,6 @@ import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.CacheImages;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.ImageInfo;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
@@ -53,6 +52,7 @@ import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
@@ -1368,13 +1368,13 @@ public class SpiderGC {
 	 *            A previously fetched cachepage
 	 * @return the waypoint type (Tradi, Multi, etc.)
 	 */
-	private byte getType(String doc) {
+	private CacheType getType(String doc) throws Exception {
 		inRex = new Regex(p.getProp("cacheTypeRex"));
 		inRex.search(doc);
 		if (inRex.didMatch())
-			return CacheType.gcSpider2CwType(inRex.stringMatched(1));
+			return CacheType.fromGcWebsiteId(inRex.stringMatched(1));
 		else
-			return 0;
+			return CacheType.CUSTOM;
 	}
 
 	/**
@@ -1904,8 +1904,7 @@ public class SpiderGC {
 					hd.setPos(new CWPoint(koordRex.stringMatched(1)));
 				}
 				if (typeRex.didMatch())
-					hd.setType(CacheType.gpxType2CwType("Waypoint|"
-							+ typeRex.stringMatched(1)));
+					hd.setType(CacheType.fromGcGpxString(typeRex.stringMatched(1)));
 				rowBlock = exRowBlock.findNext();
 				descRex.search(rowBlock);
 				hd.getFreshDetails().setLongDescription(

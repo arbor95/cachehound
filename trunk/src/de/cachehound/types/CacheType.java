@@ -19,10 +19,10 @@ public enum CacheType {
 			"L", false, true, "no Oc Id", "5"),
 	/** event cache (OC,GC) */
 	EVENT((byte) 6, "typeEvent.png", "Event", "Event Cache", "X", false, true, "6", "6"),
-	/** quiz cache (OC) */
-	QUIZ((byte) 7, "typeUnknown.png", "Quiz", "Unknown Cache", "U", false, true, "7", "no GC Website ID"),
 	/** unknown cache (GC) */
 	UNKNOWN((byte) 8, "typeUnknown.png", "Mystery", "Unknown Cache", "U", false, true, "1", "8"),
+	/** quiz cache (OC) */
+	QUIZ((byte) 7, "typeUnknown.png", "Quiz", "Unknown Cache", "U", false, true, "7", "no GC Website ID"),
 	/** math cache (OC) */
 	MATH((byte) 108, "typeMath.png", "Math", "Unknown Cache", "U", false, true, "8", "no GC Website ID"),
 	/** moving cache (OC) */
@@ -38,22 +38,22 @@ public enum CacheType {
 	CITO((byte) 13, "typeCito.png", "CITO", "Cache In Trash Out Event", "X", false, true, "no Oc Id", "13"),
 	/** Additional Waypoint Parking (GC) */
 	PARKING((byte) 50, "typeParking.png", "Addi: Parking",
-			"Waypoint|Parking Area", "P", true, false, "no Oc Id", "no GC Website ID"),
+			"Parking Area", "P", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Stage of a Multi (GC) */
 	STAGE((byte) 51, "typeStage.png", "Addi: Stage", 
-			"Waypoint|Stages of a Multicache", "S", true, false, "no Oc Id", "no GC Website ID"),
+			"Stages of a Multicache", "S", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Question to answer (GC) */
 	QUESTION((byte) 52, "typeQuestion.png", "Addi: Question",
-			"Waypoint|Question to Answer", "Q", true, false, "no Oc Id", "no GC Website ID"),
+			"Question to Answer", "Q", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Final (GC) */
 	FINAL((byte) 53, "typeFinal.png", "Addi: Final",
-			"Waypoint|Final Coordinates", "F", true, false, "no Oc Id", "no GC Website ID"),
+			"Final Coordinates", "F", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Trailhead (GC) */
 	TRAILHEAD((byte) 54, "typeTrailhead.png", "Addi: Trailhead",
-			"Waypoint|Trailhead", "H", true, false, "no Oc Id", "no GC Website ID"),
+			"Trailhead", "H", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Reference (GC) */
 	REFERENCE((byte) 55, "typeReference.png", "Addi: Reference",
-			"Waypoint|Reference Point", "R", true, false, "no Oc Id", "no GC Website ID"),
+			"Reference Point", "R", true, false, "no Oc Id", "no GC Website ID"),
 	/** Mega Event Cache (GC) */
 	MEGA_EVENT((byte) 100, "typeMegaevent.png", "Mega Event",
 			"Mega-Event Cache", "X", false, true, "no Oc Id", "453"),
@@ -68,8 +68,9 @@ public enum CacheType {
 	EARTH((byte) 104, "typeEarth.png", "Earchcache", "Earthcache", "E", false, true, "no Oc Id", "137"),
 	/**
 	 * unrecognized cache type or missing information, should throw
-	 * IllegalArgumentExceptions when found
+	 * IllegalArgumentExceptions when found 
 	 */
+	// Should always be the last Element of this Enum
 	ERROR((byte) -1, "Error", "Error", "Error", "Error", false, false, "Error", "Error");
 
 	private static Logger logger = LoggerFactory.getLogger(CacheType.class);
@@ -110,12 +111,20 @@ public enum CacheType {
 		return guiImage;
 	}
 	
+	public String getGcGpxString() {
+		return gcGpxString;
+	}
+	
 	public boolean isAdditionalWaypoint() {
 		return additionalWaypoint;
 	}
 	
 	public boolean isCacheWaypoint() {
 		return cacheWaypoint;
+	}
+	
+	public String getGuiString() {
+		return guiString;
 	}
 	
 	public static CacheType fromGuiString(String guiString) {
@@ -130,8 +139,17 @@ public enum CacheType {
 	}
 	
 	public static CacheType fromGcGpxString(String gcGpxString) {
+		String typeString;
+		if (gcGpxString.startsWith("Geocache|")) {
+			typeString = gcGpxString.substring(9);
+		} else if (gcGpxString.startsWith("Waypoint|")) {
+			typeString = gcGpxString.substring(9);
+		}
+		else {
+			typeString = gcGpxString;
+		}
 		for (CacheType type : values()) {
-			if (type.gcGpxString.equals(gcGpxString)) {
+			if (type.gcGpxString.equals(typeString)) {
 				return type;
 			}
 		}

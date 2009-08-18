@@ -4,13 +4,13 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.CoordsScreen;
 import CacheWolf.gui.DetailsPanel;
 import CacheWolf.gui.MainTab;
 import CacheWolf.util.MyLocale;
+import de.cachehound.types.CacheType;
 import ewe.fx.Brush;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
@@ -537,7 +537,7 @@ public class GotoPanel extends CellPanel {
 			if (ev.target == btnSave) {
 				CacheHolder ch = new CacheHolder();
 				ch.setPos(new CWPoint(myNavigation.gpsPos));
-				ch.setType(CacheType.CW_TYPE_STAGE); // see
+				ch.setType(CacheType.STAGE); // see
 				// CacheType.GC_AW_STAGE_OF_MULTI
 				// // TODO unfertig
 				mainT.newWaypoint(ch);

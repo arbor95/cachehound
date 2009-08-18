@@ -13,6 +13,7 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import ewe.io.File;
 import ewe.io.FileNotFoundException;
 import ewe.io.FileReader;
@@ -404,43 +405,43 @@ public class Filter {
 				int cacheTypePattern = 0;
 				// As each cache can only have one type, we can use else if and
 				// set the type
-				if (ch.getType() == CacheType.CW_TYPE_CUSTOM)
+				if (ch.getType() == CacheType.CUSTOM)
 					cacheTypePattern = CUSTOM;
-				else if (ch.getType() == CacheType.CW_TYPE_TRADITIONAL)
+				else if (ch.getType() == CacheType.TRADITIONAL)
 					cacheTypePattern = TRADITIONAL;
-				else if (ch.getType() == CacheType.CW_TYPE_MULTI)
+				else if (ch.getType() == CacheType.MULTI)
 					cacheTypePattern = MULTI;
-				else if (ch.getType() == CacheType.CW_TYPE_VIRTUAL)
+				else if (ch.getType() == CacheType.VIRTUAL)
 					cacheTypePattern = VIRTUAL;
-				else if (ch.getType() == CacheType.CW_TYPE_LETTERBOX)
+				else if (ch.getType() == CacheType.LETTERBOX)
 					cacheTypePattern = LETTER;
-				else if (ch.getType() == CacheType.CW_TYPE_EVENT)
+				else if (ch.getType() == CacheType.EVENT)
 					cacheTypePattern = EVENT;
-				else if (ch.getType() == CacheType.CW_TYPE_UNKNOWN)
+				else if (ch.getType() == CacheType.UNKNOWN)
 					cacheTypePattern = MYSTERY;
-				else if (ch.getType() == CacheType.CW_TYPE_WEBCAM)
+				else if (ch.getType() == CacheType.WEBCAM)
 					cacheTypePattern = WEBCAM;
-				else if (ch.getType() == CacheType.CW_TYPE_LOCATIONLESS)
+				else if (ch.getType() == CacheType.LOCATIONLESS)
 					cacheTypePattern = LOCLESS;
-				else if (ch.getType() == CacheType.CW_TYPE_EARTH)
+				else if (ch.getType() == CacheType.EARTH)
 					cacheTypePattern = EARTH;
-				else if (ch.getType() == CacheType.CW_TYPE_MEGA_EVENT)
+				else if (ch.getType() == CacheType.MEGA_EVENT)
 					cacheTypePattern = MEGA;
-				else if (ch.getType() == CacheType.CW_TYPE_PARKING)
+				else if (ch.getType() == CacheType.PARKING)
 					cacheTypePattern = PARKING;
-				else if (ch.getType() == CacheType.CW_TYPE_STAGE)
+				else if (ch.getType() == CacheType.STAGE)
 					cacheTypePattern = STAGE;
-				else if (ch.getType() == CacheType.CW_TYPE_QUESTION)
+				else if (ch.getType() == CacheType.QUESTION)
 					cacheTypePattern = QUESTION;
-				else if (ch.getType() == CacheType.CW_TYPE_FINAL)
+				else if (ch.getType() == CacheType.FINAL)
 					cacheTypePattern = FINAL;
-				else if (ch.getType() == CacheType.CW_TYPE_TRAILHEAD)
+				else if (ch.getType() == CacheType.TRAILHEAD)
 					cacheTypePattern = TRAILHEAD;
-				else if (ch.getType() == CacheType.CW_TYPE_REFERENCE)
+				else if (ch.getType() == CacheType.REFERENCE)
 					cacheTypePattern = REFERENCE;
-				else if (ch.getType() == CacheType.CW_TYPE_CITO)
+				else if (ch.getType() == CacheType.CITO)
 					cacheTypePattern = CITO;
-				else if (ch.getType() == CacheType.CW_TYPE_WHEREIGO)
+				else if (ch.getType() == CacheType.WHEREIGO)
 					cacheTypePattern = WHERIGO;
 				if ((cacheTypePattern & typeMatchPattern) == 0) {
 					cacheFiltered = true;

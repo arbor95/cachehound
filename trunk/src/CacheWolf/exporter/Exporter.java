@@ -7,9 +7,9 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
+import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedWriter;
@@ -391,7 +391,7 @@ public abstract class Exporter {
 
 	public static String getShortDetails(CacheHolder ch) {
 		StringBuilder strBuf = new StringBuilder(7);
-		strBuf.append(CacheType.getExportShortId(ch.getType()).toLowerCase());
+		strBuf.append(ch.getType().getShortExport().toLowerCase());
 		if (!ch.isAddiWpt()) {
 			strBuf.append(ch.getDifficulty());
 			strBuf.append("/");

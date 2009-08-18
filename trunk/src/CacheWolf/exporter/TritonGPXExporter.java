@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.LogType;
 import ewe.sys.Time;
 
@@ -85,8 +85,7 @@ public class TritonGPXExporter extends Exporter {
 			if (!(ch.isAddiWpt())) {
 				strBuf.append("    <sym>Geocache</sym>\r\n");
 				strBuf.append("    <type>Geocache|").append(
-						CacheType.id2GpxString(ch.getType())).append(
-						"</type>\r\n");
+						ch.getType().getGcGpxString()).append("</type>\r\n");
 				String dummyAvailable = (ch.is_available()) ? "True" : "False";
 				String dummyArchived = (ch.is_archived()) ? "True" : "False";
 				strBuf
@@ -105,7 +104,7 @@ public class TritonGPXExporter extends Exporter {
 						SafeXML.cleanGPX(ch.getCacheOwner())).append(
 						"</groundspeak:placed_by>\r\n");
 				strBuf.append("      <groundspeak:type>").append(
-						CacheType.id2GpxString(ch.getType())).append(
+						ch.getType().getGcGpxString()).append(
 						"</groundspeak:type>\r\n");
 				strBuf.append("      <groundspeak:container>").append(
 						ch.getCacheSize().getAsString()).append(
@@ -196,12 +195,11 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("    <cmt>").append(
 						SafeXML.cleanGPX(chdetail.getLongDescription()))
 						.append("</cmt>\r\n");
-				strBuf.append("    <sym>").append(
-						CacheType.id2GpxString(ch.getType())).append(
-						"</sym>\r\n");
+				strBuf.append("    <sym>")
+						.append(ch.getType().getGcGpxString()).append(
+								"</sym>\r\n");
 				strBuf.append("    <type>Waypoint|").append(
-						CacheType.id2GpxString(ch.getType())).append(
-						"</type>\r\n");
+						ch.getType().getGcGpxString()).append("</type>\r\n");
 			}
 			strBuf.append("  </wpt>\r\n");
 		} catch (Exception e) {

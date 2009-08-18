@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.CacheType;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
@@ -48,6 +47,7 @@ import HTML.Template;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.ui.FormBase;
@@ -128,33 +128,22 @@ public class TPLExporter {
 						if (myFilter.badChars != null)
 							rex = new Regex("[" + myFilter.badChars + "]", "");
 						varParams = new Hashtable();
-						varParams.put("TYPE", CacheType.cw2ExportString(ch
-								.getType()));
-						varParams.put("SHORTTYPE", CacheType
-								.getExportShortId(ch.getType()));
+						varParams.put("TYPE", ch.getType().getGcGpxString());
+						varParams.put("SHORTTYPE", ch.getType()
+								.getShortExport());
 						varParams.put("SIZE", ch.getCacheSize().getAsString());
 						varParams.put("SHORTSIZE", ch.getCacheSize()
 								.getAsChar());
 						varParams.put("WAYPOINT", ch.getWayPoint());
 						varParams.put("OWNER", ch.getCacheOwner());
-						varParams
-								.put(
-										"DIFFICULTY",
-										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
-												.getType()) ? ""
-												: dec
-														.replaceAll(ch
-																.getDifficulty()
-																.getFullRepresentation()));
-						varParams
-								.put(
-										"TERRAIN",
-										(ch.isAddiWpt() || CacheType.CW_TYPE_CUSTOM == ch
-												.getType()) ? ""
-												: dec
-														.replaceAll(ch
-																.getTerrain()
-																.getFullRepresentation()));
+						varParams.put("DIFFICULTY", (ch.isAddiWpt() || ch
+								.getType() == CacheType.CUSTOM) ? "" : dec
+								.replaceAll(ch.getDifficulty()
+										.getFullRepresentation()));
+						varParams.put("TERRAIN", (ch.isAddiWpt() || ch
+								.getType() == CacheType.CUSTOM) ? "" : dec
+								.replaceAll(ch.getTerrain()
+										.getFullRepresentation()));
 						varParams.put("DISTANCE", dec.replaceAll(ch
 								.getDistance()));
 						varParams.put("BEARING", ch.getBearingAsString());
