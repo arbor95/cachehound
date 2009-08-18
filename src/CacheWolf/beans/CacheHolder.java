@@ -255,12 +255,12 @@ public class CacheHolder implements ICacheHolder {
 								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
 								Profile.CURRENTFILEFORMAT);
 				// forceload of details, creates waypoint.xml if missing
-				setDetails(getCacheDetails(true, false));
+				this.details = getCacheDetails(true, false);
 				// make sure details get (re)written in new format
-				getDetails().setUnsavedChanges(true);
+				details.setUnsavedChanges(true);
 				// update information on notes and solver info
-				setHasNote(!getDetails().getCacheNotes().equals(""));
-				setHasSolver(!getDetails().getSolver().equals(""));
+				setHasNote(!details.getCacheNotes().equals(""));
+				setHasSolver(!details.getSolver().equals(""));
 			}
 		} catch (Throwable ex) {
 			logger.error(
@@ -377,7 +377,8 @@ public class CacheHolder implements ICacheHolder {
 		this.setAttributesYes(ch.getAttributesYes());
 		this.setAttributesNo(ch.getAttributesNo());
 		if (ch.detailsLoaded()) {
-			this.getCacheDetails(true, false).update(ch.getCacheDetails(true, false));
+			this.getCacheDetails(true, false).update(
+					ch.getCacheDetails(true, false));
 		}
 	}
 
@@ -563,13 +564,13 @@ public class CacheHolder implements ICacheHolder {
 	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
 		if (!detailsLoaded()) {
 			try {
-				setDetails(CacheHolderDetailFactory.getInstance()
+				this.details = CacheHolderDetailFactory.getInstance()
 						.createCacheHolderDetailFromFile(this,
-								Global.getProfile().getDataDir()));
+								Global.getProfile().getDataDir());
 			} catch (IOException e) {
 				// create emtpy chd for later
-				setDetails(CacheHolderDetailFactory.getInstance()
-						.createEmptyCacheHolderDetail(this));
+				this.details = CacheHolderDetailFactory.getInstance()
+						.createEmptyCacheHolderDetail(this);
 				if (!maybenew) {
 					logger.error("Could not read details for waypoint "
 							+ getWayPoint(), e);
@@ -583,12 +584,12 @@ public class CacheHolder implements ICacheHolder {
 										+ this.getWayPoint(), FormBase.OKB))
 								.execute();
 					}
-					setDetails(null);
+					this.details = null;
 					this.setIncomplete(true);
 				}
 			}
 		}
-		return getDetails();
+		return details;
 	}
 
 	/**
@@ -597,14 +598,15 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	public void save() {
 		CacheHolderDetailFactory.getInstance().saveCacheDetails(
-				this.getCacheDetails(true, false), Global.getProfile().getDataDir());
+				this.getCacheDetails(true, false),
+				Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {
-		if (detailsLoaded() && getDetails().hasUnsavedChanges()) {
+		if (detailsLoaded() && details.hasUnsavedChanges()) {
 			save();
 		}
-		setDetails(null);
+		this.details = null;
 	}
 
 	/**
@@ -615,7 +617,7 @@ public class CacheHolder implements ICacheHolder {
 		CacheDB db = Global.getProfile().cacheDB;
 
 		for (CacheHolder ch : db) {
-			if (ch.detailsLoaded() && ch.getDetails().hasUnsavedChanges()) {
+			if (ch.detailsLoaded() && ch.details.hasUnsavedChanges()) {
 				ch.save();
 			}
 		}
@@ -897,8 +899,8 @@ public class CacheHolder implements ICacheHolder {
 		if (level != iconAndTextWPLevel || iconAndTextWP == null) {
 			switch (level) {
 			case 4:
-				iconAndTextWP = new IconAndText(GuiImageBroker.getInstance().getErrorImage(), this
-						.getWayPoint(), fm);
+				iconAndTextWP = new IconAndText(GuiImageBroker.getInstance()
+						.getErrorImage(), this.getWayPoint(), fm);
 				break;
 			case 3:
 				iconAndTextWP = new IconAndText(myTableModel.yellow, this
@@ -1463,13 +1465,5 @@ public class CacheHolder implements ICacheHolder {
 
 	public CacheHolder getMainCache() {
 		return mainCache;
-	}
-
-	private void setDetails(CacheHolderDetail details) {
-		this.details = details;
-	}
-
-	public CacheHolderDetail getDetails() {
-		return details;
 	}
 }
