@@ -536,7 +536,7 @@ public class CacheHolder implements ICacheHolder {
 	 * @return True when details object is present
 	 */
 	public boolean detailsLoaded() {
-		return getDetails() != null;
+		return details != null;
 	}
 
 	/**
@@ -571,7 +571,7 @@ public class CacheHolder implements ICacheHolder {
 	 */
 
 	public CacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
-		if (getDetails() == null) {
+		if (!detailsLoaded()) {
 			try {
 				setDetails(CacheHolderDetailFactory.getInstance()
 						.createCacheHolderDetailFromFile(this,
@@ -634,7 +634,7 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	public void releaseCacheDetails() {
-		if (getDetails() != null && getDetails().hasUnsavedChanges()) {
+		if (!detailsLoaded() && getDetails().hasUnsavedChanges()) {
 			save();
 		}
 		setDetails(null);
@@ -648,8 +648,7 @@ public class CacheHolder implements ICacheHolder {
 		CacheDB db = Global.getProfile().cacheDB;
 
 		for (CacheHolder ch : db) {
-			CacheHolderDetail chD = ch.getDetails();
-			if (chD != null && chD.hasUnsavedChanges()) {
+			if (!ch.detailsLoaded() && ch.getDetails().hasUnsavedChanges()) {
 				ch.save();
 			}
 		}
