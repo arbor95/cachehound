@@ -104,7 +104,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		if (holder == null) {
 			// always spider a published cache
 			holder = new CacheHolder(gcNumber);
-			holder.getCacheDetails(true, true); // work around
+			holder.getCacheDetails(true); // work around
 			profile.cacheDB.add(holder);
 		}
 		return updateCache(holder);
@@ -138,7 +138,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		if (holder == null) {
 			return false;
 		}
-		holder.getCacheDetails(true, false).getAttributes().add("firstaid-yes.gif");
+		holder.getCacheDetails(true).getAttributes().add("firstaid-yes.gif");
 		holder.setUpdated(true);
 		holder.save();
 		return addLogEntry(gcNumber, LogType.NEEDS_MAINTENANCE, text);
@@ -234,7 +234,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 			return false;
 		}
 		Log log = createLogEntry(logType, messageText);
-		holder.getCacheDetails(true, false).getCacheLogs().add(log);
+		holder.getCacheDetails(true).getCacheLogs().add(log);
 		holder.setLog_updated(true);
 		holder.save();
 		return true;
@@ -268,7 +268,7 @@ public class CacheWolfMailHandler implements IGCMailHandler {
 		CacheHolder holder = profile.cacheDB.get(gcNumber);
 		if (holder == null && spiderIfNotExists) {
 			holder = new CacheHolder(gcNumber);
-			holder.getCacheDetails(true, true); // work around
+			holder.getCacheDetails(true); // work around
 			profile.cacheDB.add(holder);
 			updateCache(holder);
 		}

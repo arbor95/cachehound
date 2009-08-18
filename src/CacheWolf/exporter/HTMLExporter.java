@@ -108,7 +108,7 @@ public class HTMLExporter {
 										+ ch.getWayPoint());
 						continue;
 					}
-					det = ch.getCacheDetails(false, false);
+					det = ch.getCacheDetails(false);
 					varParams = new Hashtable();
 					varParams.put("TYPE", ch
 							.getType().getGcGpxString());

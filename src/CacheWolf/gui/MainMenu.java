@@ -799,9 +799,9 @@ public class MainMenu extends MenuBar {
 					cwp.setPosition(i);
 					CacheHolder ch = cacheDB.get(i);
 					if (ch.getMainCache() == null) {
-						ch.setHasNote(!ch.getCacheDetails(true, false).getCacheNotes()
+						ch.setHasNote(!ch.getCacheDetails(true).getCacheNotes()
 								.equals(""));
-						ch.setHasSolver(!ch.getCacheDetails(true, false).getSolver()
+						ch.setHasSolver(!ch.getCacheDetails(true).getSolver()
 								.equals(""));
 					}
 					if (cwp.isClosed())

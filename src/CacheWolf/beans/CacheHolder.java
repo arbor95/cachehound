@@ -253,7 +253,7 @@ public class CacheHolder implements ICacheHolder {
 								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
 								Profile.CURRENTFILEFORMAT);
 				// forceload of details, creates waypoint.xml if missing
-				this.details = getCacheDetails(true, false);
+				this.details = getCacheDetails(true);
 				// make sure details get (re)written in new format
 				details.setUnsavedChanges(true);
 				// update information on notes and solver info
@@ -375,8 +375,8 @@ public class CacheHolder implements ICacheHolder {
 		this.setAttributesYes(ch.getAttributesYes());
 		this.setAttributesNo(ch.getAttributesNo());
 		if (ch.detailsLoaded()) {
-			this.getCacheDetails(true, false).update(
-					ch.getCacheDetails(true, false));
+			this.getCacheDetails(true).update(
+					ch.getCacheDetails(true));
 		}
 	}
 
@@ -390,7 +390,7 @@ public class CacheHolder implements ICacheHolder {
 			// are already loaded. When they aren't loaded, then we assume
 			// that there is no change, so nothing to do.
 			if (this.detailsLoaded()) {
-				ICacheHolderDetail chD = getCacheDetails(true, false);
+				ICacheHolderDetail chD = getCacheDetails(true);
 				if (chD != null) {
 					setRecommendationScore(chD.getCacheLogs()
 							.getRecommendationRating());
@@ -556,7 +556,7 @@ public class CacheHolder implements ICacheHolder {
 	 * @return The respective CacheHolderDetail, or null
 	 */
 
-	public ICacheHolderDetail getCacheDetails(boolean maybenew, boolean alarmuser) {
+	public ICacheHolderDetail getCacheDetails(boolean maybenew) {
 		if (!detailsLoaded()) {
 			try {
 				this.details = CacheHolderDetailFactory.getInstance()
@@ -583,7 +583,7 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	public void save() {
 		CacheHolderDetailFactory.getInstance().saveCacheDetails(
-				this.getCacheDetails(true, false),
+				this.getCacheDetails(true),
 				Global.getProfile().getDataDir());
 	}
 
