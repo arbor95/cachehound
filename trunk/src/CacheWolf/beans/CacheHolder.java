@@ -634,7 +634,7 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	public void releaseCacheDetails() {
-		if (!detailsLoaded() && getDetails().hasUnsavedChanges()) {
+		if (detailsLoaded() && getDetails().hasUnsavedChanges()) {
 			save();
 		}
 		setDetails(null);
@@ -648,7 +648,7 @@ public class CacheHolder implements ICacheHolder {
 		CacheDB db = Global.getProfile().cacheDB;
 
 		for (CacheHolder ch : db) {
-			if (!ch.detailsLoaded() && ch.getDetails().hasUnsavedChanges()) {
+			if (ch.detailsLoaded() && ch.getDetails().hasUnsavedChanges()) {
 				ch.save();
 			}
 		}
