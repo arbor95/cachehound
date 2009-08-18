@@ -103,24 +103,24 @@ public class ShowCacheInBrowser {
 						tpl.setParam("STATUS", chD.getCacheStatus());
 
 					// Cache attributes
-					if (chD.getCacheDetails(false, true).getAttributes().getCount() > 0) {
-						Vector attVect = new Vector(chD.getCacheDetails(false, true)
+					if (chD.getCacheDetails(false).getAttributes().getCount() > 0) {
+						Vector attVect = new Vector(chD.getCacheDetails(false)
 								.getAttributes().getCount() + 1);
-						for (int i = 0; i < chD.getCacheDetails(false, true)
+						for (int i = 0; i < chD.getCacheDetails(false)
 								.getAttributes().getCount(); i++) {
 							Hashtable atts = new Hashtable();
 							atts.put("IMAGE", "<img src=\"file://"
 									+ Attribute.getImageDir()
-									+ chD.getCacheDetails(false, true).getAttributes()
+									+ chD.getCacheDetails(false).getAttributes()
 											.getName(i)
 									+ "\" border=0 alt=\""
-									+ chD.getCacheDetails(false, true).getAttributes()
+									+ chD.getCacheDetails(false).getAttributes()
 											.getInfo(i) + "\">");
 							if (i % 5 == 4)
 								atts.put("BR", "<br/>");
 							else
 								atts.put("BR", "");
-							atts.put("INFO", chD.getCacheDetails(false, true)
+							atts.put("INFO", chD.getCacheDetails(false)
 									.getAttributes().getInfo(i));
 							attVect.add(atts);
 						}
@@ -128,37 +128,37 @@ public class ShowCacheInBrowser {
 					}
 
 					tpl.setParam("DATE", chD.getDateHidden());
-					tpl.setParam("URL", chD.getCacheDetails(false, true).getUrl());
-					if (chD.getCacheDetails(false, true).getTravelbugs().size() > 0)
-						tpl.setParam("BUGS", chD.getCacheDetails(false, true)
+					tpl.setParam("URL", chD.getCacheDetails(false).getUrl());
+					if (chD.getCacheDetails(false).getTravelbugs().size() > 0)
+						tpl.setParam("BUGS", chD.getCacheDetails(false)
 								.getTravelbugs().toHtml());
-					if (chD.getCacheDetails(false, true).getCacheNotes().trim()
+					if (chD.getCacheDetails(false).getCacheNotes().trim()
 							.length() > 0)
-						tpl.setParam("NOTES", chD.getCacheDetails(false, true)
+						tpl.setParam("NOTES", chD.getCacheDetails(false)
 								.getCacheNotes().replace("\n", "<br/>\n"));
-					if (chD.getCacheDetails(false, true).getSolver() != null
-							&& chD.getCacheDetails(false, true).getSolver().trim()
+					if (chD.getCacheDetails(false).getSolver() != null
+							&& chD.getCacheDetails(false).getSolver().trim()
 									.length() > 0)
-						tpl.setParam("SOLVER", chD.getCacheDetails(false, true)
+						tpl.setParam("SOLVER", chD.getCacheDetails(false)
 								.getSolver().replace("\n", "<br/>\n"));
 					// Look for images
 
-					StringBuilder s = new StringBuilder(chD.getCacheDetails(false, true).getLongDescription().length());
+					StringBuilder s = new StringBuilder(chD.getCacheDetails(false).getLongDescription().length());
 					int start = 0;
 					int pos;
 					int imageNo = 0;
 					Regex imgRex = new Regex(
 							"src=(?:\\s*[^\"|']*?)(?:\"|')(.*?)(?:\"|')");
 					while (start >= 0
-							&& (pos = chD.getCacheDetails(false, true)
+							&& (pos = chD.getCacheDetails(false)
 									.getLongDescription()
 									.indexOf("<img", start)) > 0) {
-						if (imageNo >= chD.getCacheDetails(false, true).getImages()
+						if (imageNo >= chD.getCacheDetails(false).getImages()
 								.size())
 							break;
-						s.append(chD.getCacheDetails(false, true).getLongDescription()
+						s.append(chD.getCacheDetails(false).getLongDescription()
 								.substring(start, pos));
-						imgRex.searchFrom(chD.getCacheDetails(false, true)
+						imgRex.searchFrom(chD.getCacheDetails(false)
 								.getLongDescription(), pos);
 						String imgUrl = imgRex.stringMatched(1);
 						// Vm.debug("imgUrl "+imgUrl);
@@ -174,19 +174,19 @@ public class ShowCacheInBrowser {
 									|| imgType.startsWith(".gif")) {
 								s.append("<img src=\"file://"
 										+ Global.getProfile().getDataDir()
-										+ chD.getCacheDetails(false, true).getImages()
+										+ chD.getCacheDetails(false).getImages()
 												.get(imageNo).getFilename()
 										+ "\">");
 								imageNo++;
 							}
 						}
-						start = chD.getCacheDetails(false, true).getLongDescription()
+						start = chD.getCacheDetails(false).getLongDescription()
 								.indexOf(">", pos);
 						if (start >= 0)
 							start++;
 					}
 					if (start >= 0)
-						s.append(chD.getCacheDetails(false, true).getLongDescription()
+						s.append(chD.getCacheDetails(false).getLongDescription()
 								.substring(start));
 					tpl.setParam("DESCRIPTION", s.toString());
 
@@ -194,25 +194,25 @@ public class ShowCacheInBrowser {
 					// body of text
 					// They will be hidden initially and can be displayed by
 					// clicking on a link
-					if (imageNo < chD.getCacheDetails(false, true).getImages().size()) {
-						Vector imageVect = new Vector(chD.getCacheDetails(false, true)
+					if (imageNo < chD.getCacheDetails(false).getImages().size()) {
+						Vector imageVect = new Vector(chD.getCacheDetails(false)
 								.getImages().size()
 								- imageNo);
-						for (; imageNo < chD.getCacheDetails(false, true).getImages()
+						for (; imageNo < chD.getCacheDetails(false).getImages()
 								.size(); imageNo++) {
 							Hashtable imgs = new Hashtable();
 							imgs.put("IMAGE", "<img src=\"file://"
 									+ Global.getProfile().getDataDir()
-									+ chD.getCacheDetails(false, true).getImages().get(
+									+ chD.getCacheDetails(false).getImages().get(
 											imageNo).getFilename()
 									+ "\" border=0>");
-							imgs.put("IMAGETEXT", chD.getCacheDetails(false, true)
+							imgs.put("IMAGETEXT", chD.getCacheDetails(false)
 									.getImages().get(imageNo).getTitle());
-							if (imageNo < chD.getCacheDetails(false, true).getImages()
+							if (imageNo < chD.getCacheDetails(false).getImages()
 									.size()
-									&& chD.getCacheDetails(false, true).getImages()
+									&& chD.getCacheDetails(false).getImages()
 											.get(imageNo).getComment() != null)
-								imgs.put("IMAGECOMMENT", chD.getCacheDetails(false, true).getImages().get(
+								imgs.put("IMAGECOMMENT", chD.getCacheDetails(false).getImages().get(
 												imageNo).getComment());
 							else
 								imgs.put("IMAGECOMMENT", "");
@@ -223,13 +223,13 @@ public class ShowCacheInBrowser {
 						tpl.setParam("IMAGES", imageVect);
 					}
 
-					Vector logVect = new Vector(chD.getCacheDetails(false, true)
+					Vector logVect = new Vector(chD.getCacheDetails(false)
 							.getCacheLogs().size());
-					for (int i = 0; i < chD.getCacheDetails(false, true).getCacheLogs()
+					for (int i = 0; i < chD.getCacheDetails(false).getCacheLogs()
 							.size(); i++) {
 						Hashtable logs = new Hashtable();
 						String log = LogFactory.getInstance().toHtml(
-								chD.getCacheDetails(false, true).getCacheLogs().getLog(
+								chD.getCacheDetails(false).getCacheLogs().getLog(
 										i)).replace(
 								"http://www.geocaching.com/images/icons/", "");
 						int posGt = log.indexOf('>'); // Find the icon which
@@ -256,8 +256,8 @@ public class ShowCacheInBrowser {
 					tpl.setParam("LOGS", logVect);
 					if (!chD.is_available())
 						tpl.setParam("UNAVAILABLE", "1");
-					if (!chD.getCacheDetails(false, true).getHints().equals("null"))
-						tpl.setParam("HINT", Common.rot13(chD.getCacheDetails(false, true).getHints()));
+					if (!chD.getCacheDetails(false).getHints().equals("null"))
+						tpl.setParam("HINT", Common.rot13(chD.getCacheDetails(false).getHints()));
 
 					if (chD.hasAddiWpt()) {
 						Vector addiVect = new Vector(chD.getAddiWpts().size());
@@ -270,7 +270,7 @@ public class ShowCacheInBrowser {
 							addis.put("IMG", "<img src=\""
 									+ ch.getType().getGuiImage()
 									+ "\">");
-							addis.put("LONGDESC", ch.getCacheDetails(false, true)
+							addis.put("LONGDESC", ch.getCacheDetails(false)
 									.getLongDescription()); 
 							// Do we need to treat longDesc as above?
 							addiVect.add(addis);

@@ -359,7 +359,7 @@ public class myTableControl extends TableControl {
 
 		if (selectedItem == miOpenOnline) {
 			ch = cacheDB.get(tbp.getSelectedCache());
-			ICacheHolderDetail chD = ch.getCacheDetails(false, true);
+			ICacheHolderDetail chD = ch.getCacheDetails(false);
 			if (chD != null) {
 
 				if (Desktop.isDesktopSupported()) {
