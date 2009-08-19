@@ -1,6 +1,5 @@
 package CacheWolf.beans;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.beans.CacheHolderDetailSoft;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.beans.LogList;
@@ -139,7 +139,7 @@ public class CacheHolder implements ICacheHolder {
 	private boolean hasSolver = false;
 	/** True if a note is entered for the cache */
 	private boolean hasNote = false;
-	private ICacheHolderDetail details = null;
+	private CacheHolderDetailSoft details = new CacheHolderDetailSoft(this);
 
 	private long attributesYes = 0;
 	private long attributesNo = 0;
@@ -252,13 +252,11 @@ public class CacheHolder implements ICacheHolder {
 						.warn(
 								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
 								Profile.CURRENTFILEFORMAT);
-				// forceload of details, creates waypoint.xml if missing
-				this.details = getCacheDetails(true);
 				// make sure details get (re)written in new format
-				details.setUnsavedChanges(true);
+				getCacheDetails(true).setUnsavedChanges(true);
 				// update information on notes and solver info
-				setHasNote(!details.getCacheNotes().equals(""));
-				setHasSolver(!details.getSolver().equals(""));
+				setHasNote(!getCacheDetails(true).getCacheNotes().equals(""));
+				setHasSolver(!getCacheDetails(true).getSolver().equals(""));
 			}
 		} catch (Throwable ex) {
 			logger.error(
@@ -374,10 +372,7 @@ public class CacheHolder implements ICacheHolder {
 
 		this.setAttributesYes(ch.getAttributesYes());
 		this.setAttributesNo(ch.getAttributesNo());
-		if (ch.detailsLoaded()) {
-			this.getCacheDetails(true).update(
-					ch.getCacheDetails(true));
-		}
+		this.getCacheDetails(true).update(ch.getCacheDetails(true));
 	}
 
 	/**
@@ -386,23 +381,11 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	private void calcRecommendationScore() {
 		if (getWayPoint().toLowerCase().startsWith("oc")) {
-			// Calculate recommendation score only when details
-			// are already loaded. When they aren't loaded, then we assume
-			// that there is no change, so nothing to do.
-			if (this.detailsLoaded()) {
-				ICacheHolderDetail chD = getCacheDetails(true);
-				if (chD != null) {
-					setRecommendationScore(chD.getCacheLogs()
-							.getRecommendationRating());
-					setNumFoundsSinceRecommendation(chD.getCacheLogs()
-							.getFoundsSinceRecommendation());
-					setNumRecommended(chD.getCacheLogs().getNumRecommended());
-				} else { // cache doesn't have details
-					setRecommendationScore(-1);
-					setNumFoundsSinceRecommendation(-1);
-					setNumRecommended(-1);
-				}
-			}
+			ICacheHolderDetail chD = getCacheDetails(true);
+			setRecommendationScore(chD.getCacheLogs().getRecommendationRating());
+			setNumFoundsSinceRecommendation(chD.getCacheLogs()
+					.getFoundsSinceRecommendation());
+			setNumRecommended(chD.getCacheLogs().getNumRecommended());
 		} else {
 			setRecommendationScore(-1);
 			setNumFoundsSinceRecommendation(-1);
@@ -530,16 +513,6 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	/**
-	 * Find out of detail object of Cache is loaded. Returns <code>true</code>
-	 * if this is the case.
-	 * 
-	 * @return True when details object is present
-	 */
-	public boolean detailsLoaded() {
-		return details != null;
-	}
-
-	/**
 	 * Gets the detail object of a cache. The detail object stores information
 	 * which is not needed for every cache instantaneously, but can be loaded if
 	 * the user decides to look at this cache. If the cache object is already
@@ -557,23 +530,6 @@ public class CacheHolder implements ICacheHolder {
 	 */
 
 	public ICacheHolderDetail getCacheDetails(boolean maybenew) {
-		if (!detailsLoaded()) {
-			try {
-				this.details = CacheHolderDetailFactory.getInstance()
-						.createCacheHolderDetailFromFile(this,
-								Global.getProfile().getDataDir());
-			} catch (IOException e) {
-				// create emtpy chd for later
-				this.details = CacheHolderDetailFactory.getInstance()
-						.createEmptyCacheHolderDetail(this);
-				if (!maybenew) {
-					logger.error("Could not read details for waypoint "
-							+ getWayPoint(), e);
-					this.details = null;
-					this.setIncomplete(true);
-				}
-			}
-		}
 		return details;
 	}
 
@@ -583,15 +539,13 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	public void save() {
 		CacheHolderDetailFactory.getInstance().saveCacheDetails(
-				this.getCacheDetails(true),
-				Global.getProfile().getDataDir());
+				this.getCacheDetails(true), Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {
-		if (detailsLoaded() && details.hasUnsavedChanges()) {
+		if (details.isDirty()) {
 			save();
 		}
-		this.details = null;
 	}
 
 	/**
@@ -602,9 +556,7 @@ public class CacheHolder implements ICacheHolder {
 		CacheDB db = Global.getProfile().cacheDB;
 
 		for (CacheHolder ch : db) {
-			if (ch.detailsLoaded() && ch.details.hasUnsavedChanges()) {
-				ch.save();
-			}
+			ch.releaseCacheDetails();
 		}
 	}
 

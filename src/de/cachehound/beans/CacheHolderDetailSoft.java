@@ -36,6 +36,11 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 
 	// Map: GCCode -> CHDs
 	private static Map<SoftReference<CacheHolderDetail>, CacheHolderDetail> dirtyObjects = new HashMap<SoftReference<CacheHolderDetail>, CacheHolderDetail>();
+	
+	public CacheHolderDetailSoft(CacheHolder parent) {
+		this.ref = new SoftReference<CacheHolderDetail>(null);
+		this.parent = parent;
+	}
 
 	public CacheHolderDetailSoft(CacheHolderDetail impl) {
 		this.ref = new SoftReference<CacheHolderDetail>(impl);
@@ -65,6 +70,10 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 
 	private void setDirty(CacheHolderDetail impl) {
 		dirtyObjects.put(ref, impl);
+	}
+	
+	public boolean isDirty() {
+		return dirtyObjects.containsKey(ref);
 	}
 
 	@Override
