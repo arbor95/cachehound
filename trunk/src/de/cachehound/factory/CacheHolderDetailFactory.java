@@ -44,9 +44,9 @@ public class CacheHolderDetailFactory {
 	 * Method to parse a specific cache.xml file. It fills information on cache
 	 * details, hints, logs, notes and images.
 	 */
-	public ICacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch,
+	public CacheHolderDetail createCacheHolderDetailFromFile(CacheHolder ch,
 			File dir) throws IOException {
-		ICacheHolderDetail chd = new CacheHolderDetail();
+		CacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		String dummy;
 		ImageInfo imageInfo;
