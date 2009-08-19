@@ -253,10 +253,10 @@ public class CacheHolder implements ICacheHolder {
 								"Unsupported Version of CacheWolf Profile. Please use a CacheWolf to convert it to Version {}.",
 								Profile.CURRENTFILEFORMAT);
 				// make sure details get (re)written in new format
-				getCacheDetails(true).setUnsavedChanges(true);
+				getCacheDetails().setUnsavedChanges(true);
 				// update information on notes and solver info
-				setHasNote(!getCacheDetails(true).getCacheNotes().equals(""));
-				setHasSolver(!getCacheDetails(true).getSolver().equals(""));
+				setHasNote(!getCacheDetails().getCacheNotes().equals(""));
+				setHasSolver(!getCacheDetails().getSolver().equals(""));
 			}
 		} catch (Throwable ex) {
 			logger.error(
@@ -372,7 +372,7 @@ public class CacheHolder implements ICacheHolder {
 
 		this.setAttributesYes(ch.getAttributesYes());
 		this.setAttributesNo(ch.getAttributesNo());
-		this.getCacheDetails(true).update(ch.getCacheDetails(true));
+		this.getCacheDetails().update(ch.getCacheDetails());
 	}
 
 	/**
@@ -381,7 +381,7 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	private void calcRecommendationScore() {
 		if (getWayPoint().toLowerCase().startsWith("oc")) {
-			ICacheHolderDetail chD = getCacheDetails(true);
+			ICacheHolderDetail chD = getCacheDetails();
 			setRecommendationScore(chD.getCacheLogs().getRecommendationRating());
 			setNumFoundsSinceRecommendation(chD.getCacheLogs()
 					.getFoundsSinceRecommendation());
@@ -529,7 +529,7 @@ public class CacheHolder implements ICacheHolder {
 	 * @return The respective CacheHolderDetail, or null
 	 */
 
-	public ICacheHolderDetail getCacheDetails(boolean maybenew) {
+	public ICacheHolderDetail getCacheDetails() {
 		return details;
 	}
 
@@ -539,7 +539,7 @@ public class CacheHolder implements ICacheHolder {
 	 */
 	public void save() {
 		CacheHolderDetailFactory.getInstance().saveCacheDetails(
-				this.getCacheDetails(true), Global.getProfile().getDataDir());
+				this.getCacheDetails(), Global.getProfile().getDataDir());
 	}
 
 	public void releaseCacheDetails() {

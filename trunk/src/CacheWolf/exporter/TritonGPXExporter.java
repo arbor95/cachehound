@@ -48,7 +48,7 @@ public class TritonGPXExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon) {
 		StringBuilder strBuf = new StringBuilder(1000);
-		ICacheHolderDetail chdetail = ch.getCacheDetails(false);
+		ICacheHolderDetail chdetail = ch.getCacheDetails();
 		try {
 			strBuf
 					.append("  <wpt lat=\"" + lat + "\" lon=\"" + lon

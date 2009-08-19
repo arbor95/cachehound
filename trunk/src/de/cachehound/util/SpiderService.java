@@ -60,7 +60,7 @@ public class SpiderService {
 		int index = Global.getProfile().cacheDB.getIndex(gcNumber);
 		if (index == -1) {
 			CacheHolder holder = new CacheHolder(gcNumber);
-			holder.getCacheDetails(true); // work around
+			holder.getCacheDetails(); // work around
 			Global.getProfile().cacheDB.add(holder);
 			index = Global.getProfile().cacheDB.getIndex(holder);
 		}
