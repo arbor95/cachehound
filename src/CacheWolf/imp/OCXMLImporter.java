@@ -522,7 +522,7 @@ public class OCXMLImporter extends MinML {
 		}
 
 		if (name.equals("language") && !atts.getValue("id").equals("DE")) {
-			if (holder.getCacheDetails(true).getLongDescription().length() > 0)
+			if (holder.getCacheDetails().getLongDescription().length() > 0)
 				ignoreDesc = true; // TODO "DE" in preferences adjustable
 			else
 				ignoreDesc = false;
@@ -582,12 +582,12 @@ public class OCXMLImporter extends MinML {
 			}
 			// clear data (picture, logs) if we do a complete Update
 			if (incUpdate == false) {
-				holder.getCacheDetails(true).getCacheLogs().clear();
-				holder.getCacheDetails(true).getImages().clear();
+				holder.getCacheDetails().getCacheLogs().clear();
+				holder.getCacheDetails().getImages().clear();
 			}
 
 			// save all
-			holder.getCacheDetails(true).setUnsavedChanges(true); // this makes
+			holder.getCacheDetails().setUnsavedChanges(true); // this makes
 			// CachHolder
 			// save the
 			// details in
@@ -603,7 +603,7 @@ public class OCXMLImporter extends MinML {
 		if (name.equals("id")) { // </id>
 			holder = getHolder(strData); // Allocate a new CacheHolder object
 			holder.setOcCacheID(strData);
-			holder.getCacheDetails(true).setUrl(ocSeekUrl + cacheID);
+			holder.getCacheDetails().setUrl(ocSeekUrl + cacheID);
 			return;
 		}
 
@@ -640,7 +640,7 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("country")) {
-			holder.getCacheDetails(true).setCountry(strData);
+			holder.getCacheDetails().setCountry(strData);
 			return;
 		}
 	}
@@ -666,7 +666,7 @@ public class OCXMLImporter extends MinML {
 					imgRegexUrl.setIgnoreCase(true);
 					int descIndex = 0;
 					int numDownloaded = 1;
-					while (imgRegexUrl.searchFrom(holder.getCacheDetails(true)
+					while (imgRegexUrl.searchFrom(holder.getCacheDetails()
 							.getLongDescription(), descIndex)) { // "img" found
 						imgTag = imgRegexUrl.stringMatched(1); // (1) enthält
 						// das gesamte
@@ -740,7 +740,7 @@ public class OCXMLImporter extends MinML {
 						getPic(fetchUrl, imgAltText);
 					}
 				}
-				holder.getCacheDetails(true).setUnsavedChanges(true); // saveCacheDetails(profile.dataDir);
+				holder.getCacheDetails().setUnsavedChanges(true); // saveCacheDetails(profile.dataDir);
 				return;
 			}
 
@@ -752,23 +752,23 @@ public class OCXMLImporter extends MinML {
 			}
 
 			if (name.equals("shortdesc")) {
-				holder.getCacheDetails(true).setLongDescription(strData);
+				holder.getCacheDetails().setLongDescription(strData);
 				return;
 			}
 
 			if (name.equals("desc")) { // </desc>
 				if (holder.is_HTML())
-					holder.getCacheDetails(true).setLongDescription(
-							holder.getCacheDetails(true).getLongDescription()
+					holder.getCacheDetails().setLongDescription(
+							holder.getCacheDetails().getLongDescription()
 									+ SafeXML.cleanback(strData));
 				else
-					holder.getCacheDetails(true).setLongDescription(
-							holder.getCacheDetails(true).getLongDescription()
+					holder.getCacheDetails().setLongDescription(
+							holder.getCacheDetails().getLongDescription()
 									+ strData);
 				return;
 			}
 			if (name.equals("hint")) {
-				holder.getCacheDetails(true).setHints(Common.rot13(strData));
+				holder.getCacheDetails().setHints(Common.rot13(strData));
 				return;
 			}
 		}
@@ -796,7 +796,7 @@ public class OCXMLImporter extends MinML {
 			ImageInfo imageInfo = new ImageInfo();
 			// add title
 			imageInfo.setTitle(picDesc);
-			holder.getCacheDetails(true).getImages().add(imageInfo);
+			holder.getCacheDetails().getImages().add(imageInfo);
 			try {
 				File ftest = new File(profile.getDataDir() + fileName);
 				if (ftest.exists()) {
@@ -861,24 +861,24 @@ public class OCXMLImporter extends MinML {
 			// String fileName = holder.wayPoint + "_" +
 			// picUrl.substring(picUrl.lastIndexOf("/")+1);
 			getPic(picUrl, picTitle);
-			holder.getCacheDetails(true).setUnsavedChanges(true); // saveCacheDetails(profile.dataDir);
+			holder.getCacheDetails().setUnsavedChanges(true); // saveCacheDetails(profile.dataDir);
 		}
 	}
 
 	private void endCacheLog(String name) {
 		if (name.equals("cachelog")) { // </cachelog>
-			holder.getCacheDetails(true).getCacheLogs().add(
+			holder.getCacheDetails().getCacheLogs().add(
 					LogFactory.getInstance().createLog(logType, logDate,
 							logFinder, logData, loggerRecommended));
 			if (pref.isMyAlias(logFinder) && logTypeOC == 1) {
 				holder.setCacheStatus(logDate);
 				holder.setFound(true);
-				holder.getCacheDetails(true).setOwnLogId(logId);
-				holder.getCacheDetails(true).setOwnLog(
+				holder.getCacheDetails().setOwnLogId(logId);
+				holder.getCacheDetails().setOwnLog(
 						LogFactory.getInstance().createLog(logType, logDate,
 								logFinder, logData, loggerRecommended));
 			}
-			holder.getCacheDetails(true).setUnsavedChanges(true); // chD.saveCacheDetails(profile.dataDir);
+			holder.getCacheDetails().setUnsavedChanges(true); // chD.saveCacheDetails(profile.dataDir);
 			return;
 		}
 

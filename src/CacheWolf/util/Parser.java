@@ -943,10 +943,10 @@ public class Parser {
 					op.append(addiWpt.getCacheName());
 					op.append("] = \" $");
 					op.append(addiWpt.getWayPoint());
-					if (addiWpt.getCacheDetails(false).getLongDescription()
+					if (addiWpt.getCacheDetails().getLongDescription()
 							.trim().length() > 0)
 						op.append("\n   \""
-								+ addiWpt.getCacheDetails(false)
+								+ addiWpt.getCacheDetails()
 										.getLongDescription().replace("\"",
 												"\"\"") + "\"");
 					op.append("\n   goto($");

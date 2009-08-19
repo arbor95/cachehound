@@ -30,7 +30,7 @@ public class MSARCSVExporter extends Exporter {
 		str.append("\"" + ch.getCacheSize().getAsString() + "\";");
 		str.append("\"" + ch.getWayPoint() + "\";");
 		str.append("\"" + ch.getDateHidden() + "\";");
-		str.append("\"" + ch.getCacheDetails(false).getUrl() + "\"\r\n");
+		str.append("\"" + ch.getCacheDetails().getUrl() + "\"\r\n");
 
 		return str.toString();
 	}

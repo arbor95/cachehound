@@ -117,7 +117,7 @@ public class TPLExporter {
 
 			for (int i = 0; i < counter; i++) {
 				ch = cacheDB.get(i);
-				det = ch.getCacheDetails(false);
+				det = ch.getCacheDetails();
 				h.progress = (float) i / (float) counter;
 				h.changed();
 				if (ch.isVisible()) {
