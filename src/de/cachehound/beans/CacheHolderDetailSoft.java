@@ -21,11 +21,11 @@ import de.cachehound.factory.CacheHolderDetailFactory;
  * {@code SoftReference}s. Nach aussen geschieht dies fast vollkommen
  * transparent: Beim Zugriff werden echte Objekte bei Bedarf von der Platte
  * gelesen. Bei Speichermangel werden unveränderte Objekte verworfen - geänderte
- * natürlich erst, nachtem save() aufgerufen wurde. Um OOM-Errors zu vermeiden,
- * sollte beim ändern von vielen Objekte (wie beim Import/Spidern) zeitnah
- * save() aufgerufen werden.
+ * natürlich erst, nachtem save() aufgerufen wurde.
  * 
- * (Jaja, das wird noch geändert!)
+ * Um OOM-Errors zu vermeiden, sollte beim ändern von vielen Objekte (wie beim
+ * Import/Spidern) zeitnah save() aufgerufen werden. (Jaja, das wird noch
+ * geändert!)
  */
 public class CacheHolderDetailSoft implements ICacheHolderDetail {
 	private static Logger logger = LoggerFactory
@@ -35,7 +35,7 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 	private SoftReference<CacheHolderDetail> ref;
 
 	// Map: GCCode -> CHDs
-	private static Map<String, CacheHolderDetail> dirtyObjects = new HashMap<String, CacheHolderDetail>();
+	private static Map<SoftReference<CacheHolderDetail>, CacheHolderDetail> dirtyObjects = new HashMap<SoftReference<CacheHolderDetail>, CacheHolderDetail>();
 
 	public CacheHolderDetailSoft(CacheHolderDetail impl) {
 		this.ref = new SoftReference<CacheHolderDetail>(impl);
@@ -43,8 +43,8 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 	}
 
 	private CacheHolderDetail getImpl() {
-		if (dirtyObjects.containsKey(parent.getWayPoint())) {
-			return dirtyObjects.get(parent.getWayPoint());
+		if (dirtyObjects.containsKey(ref)) {
+			return dirtyObjects.get(ref);
 		}
 
 		CacheHolderDetail impl = ref.get();
@@ -63,8 +63,8 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 		}
 	}
 
-	private static void setDirty(CacheHolderDetail impl) {
-		dirtyObjects.put(impl.getParent().getWayPoint(), impl);
+	private void setDirty(CacheHolderDetail impl) {
+		dirtyObjects.put(ref, impl);
 	}
 
 	@Override
