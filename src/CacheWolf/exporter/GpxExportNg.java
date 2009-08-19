@@ -15,6 +15,7 @@ import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.beans.Log;
 import de.cachehound.beans.LogList;
+import de.cachehound.types.CacheType;
 import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -517,6 +518,7 @@ public class GpxExportNg {
 			return "";
 
 		StringBuilder ret = new StringBuilder();
+		ch.getFreshDetails();
 
 		try {
 			ret.append(formatCompact(ch));
@@ -633,14 +635,14 @@ public class GpxExportNg {
 							SafeXML
 									.cleanGPX(ch.getCacheName()
 											+ " "
-											+ ch.getCacheDetails()
+											+ ch.getFreshDetails()
 													.getLongDescription()))
 							.concat("</cmt>\n"));
 				} else {
 					ret.append("    <cmt>".concat(
 							SafeXML.cleanGPX(ch.getCacheName()
 									+ " "
-									+ Common.rot13(ch.getCacheDetails()
+									+ Common.rot13(ch.getFreshDetails()
 											.getHints()))).concat("</cmt>\n"));
 				}
 			} else if (exportIds == WPNAME_NAME_SMART) {
@@ -648,7 +650,7 @@ public class GpxExportNg {
 			} else {
 				if (ch.isAddiWpt()) {
 					ret.append("    <cmt>".concat(
-							SafeXML.cleanGPX(ch.getCacheDetails()
+							SafeXML.cleanGPX(ch.getFreshDetails()
 									.getLongDescription())).concat("</cmt>\n"));
 				} // caches have no <cmt> in gc.com PQs
 			}
@@ -670,8 +672,8 @@ public class GpxExportNg {
 
 		if (exportStyle != STYLE_GPX_COMPACT) {
 			if (!ch.isCustomWpt()) {
-				ret.append("    <url>".concat(ch.getCacheDetails().getUrl())
-						.concat("</url>\n"));
+				ret.append("    <url>".concat(ch.getDetails().getUrl()).concat(
+						"</url>\n"));
 				ret.append("    <urlname>".concat(
 						SafeXML.cleanGPX(ch.getCacheName())).concat(
 						"</urlname>\n"));
@@ -751,11 +753,11 @@ public class GpxExportNg {
 						ch.getTerrain().getShortRepresentation()).concat(
 						"</groundspeak:terrain>\n").concat(
 						"      <groundspeak:country>").concat(
-						SafeXML.cleanGPX(ch.getCacheDetails().getCountry()))
-				.concat("</groundspeak:country>\n").concat(
+						SafeXML.cleanGPX(ch.getDetails().getCountry())).concat(
+						"</groundspeak:country>\n").concat(
 						"      <groundspeak:state>").concat(
-						SafeXML.cleanGPX(ch.getCacheDetails().getState()))
-				.concat("</groundspeak:state>\n").concat(
+						SafeXML.cleanGPX(ch.getDetails().getState())).concat(
+						"</groundspeak:state>\n").concat(
 						"      <groundspeak:short_description html=\"").concat(
 						ch.is_HTML() ? TRUE : FALSE).concat(
 						"\"></groundspeak:short_description>\n").concat(
@@ -764,8 +766,8 @@ public class GpxExportNg {
 						SafeXML.cleanGPX(formatLongDescription(ch))).concat(
 						"</groundspeak:long_description>\n").concat(
 						"      <groundspeak:encoded_hints>").concat(
-						SafeXML.cleanGPX(ch.getCacheDetails().getHints()))
-				.concat("</groundspeak:encoded_hints>\n").concat(
+						SafeXML.cleanGPX(ch.getDetails().getHints())).concat(
+						"</groundspeak:encoded_hints>\n").concat(
 						"      <groundspeak:logs>\n").concat(formatLogs(ch))
 				.concat("      </groundspeak:logs>\n").concat(
 						"      <groundspeak:travelbugs>\n")
@@ -796,7 +798,7 @@ public class GpxExportNg {
 	 * @return formatted logs or empty string if no logs are present
 	 */
 	public String formatLogs(CacheHolder ch) {
-		LogList logs = ch.getCacheDetails().getCacheLogs();
+		LogList logs = ch.getFreshDetails().getCacheLogs();
 		StringBuilder ret = new StringBuilder();
 		String fid = "";
 
@@ -874,11 +876,11 @@ public class GpxExportNg {
 	 */
 	public String formatLongDescription(CacheHolder ch) {
 		if (ch.isAddiWpt() || ch.isCustomWpt()) {
-			return ch.getCacheDetails().getLongDescription();
+			return ch.getDetails().getLongDescription();
 		} else {
 			StringBuilder ret = new StringBuilder();
 			String delim = "";
-			ret.append(ch.getCacheDetails().getLongDescription());
+			ret.append(ch.getDetails().getLongDescription());
 			if (ch.is_HTML()) {
 				delim = "<br />";
 			} else {
@@ -904,7 +906,7 @@ public class GpxExportNg {
 					trans.add(new Regex("@@ADDILAT@@", formatAddiLatLon(addi
 							.getPos())));
 					trans.add(new Regex("@@ADDILON@@", ""));
-					trans.add(new Regex("@@ADDILONG@@", addi.getCacheDetails()
+					trans.add(new Regex("@@ADDILONG@@", addi.getFreshDetails()
 							.getLongDescription()));
 					ret.append(trans.replaceAll(GPXADDIINMAIN));
 				}

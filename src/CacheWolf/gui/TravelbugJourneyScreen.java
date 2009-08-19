@@ -23,7 +23,7 @@ import CacheWolf.beans.TravelbugJourneyList;
 import CacheWolf.beans.TravelbugList;
 import CacheWolf.controller.TravelbugPickup;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.util.SpiderService;
 import ewe.fx.Color;
 import ewe.fx.Dimension;
@@ -97,7 +97,7 @@ public class TravelbugJourneyScreen extends Form {
 	private boolean chDmodified = false;
 
 	/** The current cache */
-	private ICacheHolderDetail chD;
+	private CacheHolderDetail chD;
 	/** The base data of the current cache */
 	private CacheHolder ch;
 	/** The name of the current waypoint */
@@ -114,8 +114,8 @@ public class TravelbugJourneyScreen extends Form {
 			cache = MyLocale.getMsg(6022, ": Current cache: ")
 					+ ch.getWayPoint() + " - " + ch.getCacheName();
 			waypoint = ch.getWayPoint();
-			chD = ch.getCacheDetails();
-			tblSrcCache = ch.getCacheDetails().getTravelbugs();
+			chD = ch.getExistingDetails();
+			tblSrcCache = ch.getExistingDetails().getTravelbugs();
 		}
 		title = "Travelbugs" + cache;
 		tcTbJourneyList = new tbListControl();

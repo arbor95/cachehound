@@ -267,6 +267,8 @@ public class myTableModel extends TableModel {
 						lineColorBG.set(COLOR_FOUND);
 					else if (ch.isIs_flaged())
 						lineColorBG.set(COLOR_FLAGED);
+					else if (Global.getPref().debug && ch.detailsLoaded())
+						lineColorBG.set(COLOR_DETAILS_LOADED);
 
 					if (ch.is_archived()) {
 						if (lineColorBG.equals(COLOR_WHITE)) {

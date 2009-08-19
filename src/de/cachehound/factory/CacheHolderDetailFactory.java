@@ -15,7 +15,6 @@ import CacheWolf.beans.ImageInfo;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.types.LogType;
 import de.cachehound.util.AllReader;
 
@@ -34,8 +33,8 @@ public class CacheHolderDetailFactory {
 		return instance;
 	}
 
-	public ICacheHolderDetail createEmptyCacheHolderDetail(CacheHolder ch) {
-		ICacheHolderDetail chd = new CacheHolderDetail();
+	public CacheHolderDetail createEmptyCacheHolderDetail(CacheHolder ch) {
+		CacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		return chd;
 	}
@@ -209,7 +208,7 @@ public class CacheHolderDetailFactory {
 	/**
 	 * Method to save a cache.xml file.
 	 */
-	public void saveCacheDetails(ICacheHolderDetail chd, File dir) {
+	public void saveCacheDetails(CacheHolderDetail chd, File dir) {
 		BufferedWriter detfile;
 
 		File cacheFile = new File(dir, chd.getParent().getWayPoint()

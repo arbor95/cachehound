@@ -7,7 +7,7 @@ import CacheWolf.util.MyLocale;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.fx.Font;
 import ewe.sys.Vm;
 import ewe.ui.CellConstants;
@@ -63,19 +63,19 @@ public class DescriptionPanel extends CellPanel {
 			isHtml = cache.is_HTML();
 			if (cache.isAddiWpt()) {
 				isHtml = cache.getMainCache().is_HTML();
-				if (cache.getCacheDetails().getLongDescription() != null
-						&& cache.getCacheDetails().getLongDescription()
+				if (cache.getExistingDetails().getLongDescription() != null
+						&& cache.getExistingDetails().getLongDescription()
 								.length() > 0)
-					desc = cache.getCacheDetails().getLongDescription()
+					desc = cache.getExistingDetails().getLongDescription()
 							+ (isHtml ? "<hr>\n" : "\n")
-							+ cache.getMainCache().getCacheDetails()
+							+ cache.getMainCache().getExistingDetails()
 									.getLongDescription();
 				else
-					desc = cache.getMainCache().getCacheDetails()
+					desc = cache.getMainCache().getExistingDetails()
 							.getLongDescription();
 			} else
 				// not an addi-wpt
-				desc = cache.getCacheDetails().getLongDescription();
+				desc = cache.getExistingDetails().getLongDescription();
 		}
 		// HtmlDisplay does not show the <sup> tag correctly, so we need to
 		// replace with ^
@@ -96,7 +96,7 @@ public class DescriptionPanel extends CellPanel {
 				} else {
 					chImages = cache;
 				}
-				Images = chImages.getCacheDetails().getImages();
+				Images = chImages.getExistingDetails().getImages();
 				StringBuilder s = new StringBuilder(desc.length()
 						+ Images.size() * 100);
 				int start = 0;
@@ -141,7 +141,7 @@ public class DescriptionPanel extends CellPanel {
 					s.append(desc.substring(start));
 				desc = s.toString();
 				if (imageNo < Images.size()) {
-					desc += getPicDesc(imageNo, chImages.getCacheDetails());
+					desc += getPicDesc(imageNo, chImages.getExistingDetails());
 				}
 			}
 			// disp.setHtml(desc);
@@ -171,7 +171,7 @@ public class DescriptionPanel extends CellPanel {
 	 *            again)
 	 * @param chD
 	 */
-	private String getPicDesc(int imagesShown, ICacheHolderDetail chD) {
+	private String getPicDesc(int imagesShown, CacheHolderDetail chD) {
 		StringBuilder sb = new StringBuilder(1000);
 		sb.append("<hr><font size=\"+1\" color=\"red\">").append(
 				MyLocale.getMsg(202, "IMAGES").toUpperCase()).append("</font>");

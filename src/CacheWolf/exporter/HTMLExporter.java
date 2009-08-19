@@ -17,7 +17,7 @@ import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
@@ -60,7 +60,7 @@ public class HTMLExporter {
 	}
 
 	public void doIt() {
-		ICacheHolderDetail det;
+		CacheHolderDetail det;
 		CacheHolder ch;
 		ProgressBarForm pbf = new ProgressBarForm();
 		Handle h = new Handle();
@@ -108,7 +108,7 @@ public class HTMLExporter {
 										+ ch.getWayPoint());
 						continue;
 					}
-					det = ch.getCacheDetails();
+					det = ch.getCacheDetails(false, false);
 					varParams = new Hashtable();
 					varParams.put("TYPE", ch
 							.getType().getGcGpxString());
@@ -376,7 +376,7 @@ public class HTMLExporter {
 	 *            CacheHolderDetail
 	 * @return The modified long description
 	 */
-	private String modifyLongDesc(ICacheHolderDetail chD) {
+	private String modifyLongDesc(CacheHolderDetail chD) {
 		StringBuilder s = new StringBuilder(chD.getLongDescription().length());
 		int start = 0;
 		int pos;

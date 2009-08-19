@@ -390,6 +390,7 @@ public class MainMenu extends MenuBar {
 				if (pref.selectProfile(profile,
 						Preferences.PROFILE_SELECTOR_FORCED_ON, false)) {
 					tbp.myMod.numRows = 0;
+					CacheHolder.removeAllDetails();
 					profile.cacheDB.clear();
 					InfoBox infB = new InfoBox("CacheWolf", MyLocale.getMsg(
 							5000, "Loading Cache-List"));
@@ -799,9 +800,9 @@ public class MainMenu extends MenuBar {
 					cwp.setPosition(i);
 					CacheHolder ch = cacheDB.get(i);
 					if (ch.getMainCache() == null) {
-						ch.setHasNote(!ch.getCacheDetails().getCacheNotes()
+						ch.setHasNote(!ch.getFreshDetails().getCacheNotes()
 								.equals(""));
-						ch.setHasSolver(!ch.getCacheDetails().getSolver()
+						ch.setHasSolver(!ch.getFreshDetails().getSolver()
 								.equals(""));
 					}
 					if (cwp.isClosed())
@@ -895,6 +896,14 @@ public class MainMenu extends MenuBar {
 				sb.append(MyLocale.getMsg(269, "Programme directory is:"));
 				sb.append(' ');
 				sb.append(FileBase.getProgramDirectory());
+				sb.append("<br>");
+				sb.append(MyLocale.getMsg(270, "Number of details in RAM is"));
+				sb.append(' ');
+				sb.append(CacheHolder.cachesWithLoadedDetails.size());
+				sb.append(' ');
+				sb.append(MyLocale.getMsg(271, "Max.:"));
+				sb.append(' ');
+				sb.append(Global.getPref().maxDetails);
 				sb.append("<br>");
 				sb.append(MyLocale.getMsg(272, "CacheWolf version:"));
 				sb.append(' ');

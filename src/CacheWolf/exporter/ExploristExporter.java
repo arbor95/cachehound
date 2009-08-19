@@ -11,7 +11,7 @@ import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.comparators.DistanceComparator;
 import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
@@ -223,7 +223,7 @@ public class ExploristExporter {
 	 */
 	public String record(CacheHolder ch) {
 		try {
-			ICacheHolderDetail det = ch.getCacheDetails();
+			CacheHolderDetail det = ch.getExistingDetails();
 			/*
 			 * static protected final int GC_AW_PARKING = 50; static protected
 			 * final int GC_AW_STAGE_OF_MULTI = 51; static protected final int

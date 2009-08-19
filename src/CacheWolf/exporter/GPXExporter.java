@@ -4,7 +4,8 @@ import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheType;
 import ewe.io.FileBase;
 import ewe.sys.Time;
 import ewe.sys.Vm;
@@ -52,7 +53,7 @@ public class GPXExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon, int counter) {
 		StringBuilder strBuf = new StringBuilder(1000);
-		ICacheHolderDetail det = ch.getCacheDetails();
+		CacheHolderDetail det = ch.getExistingDetails();
 		try {
 			strBuf
 					.append("  <wpt lat=\"" + lat + "\" lon=\"" + lon

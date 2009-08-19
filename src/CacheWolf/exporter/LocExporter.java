@@ -4,7 +4,7 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import ewe.io.File;
 import ewe.io.FileBase;
 
@@ -67,7 +67,7 @@ public class LocExporter extends Exporter {
 			if (!Global.getPref().addDetailsToWaypoint) {
 				strBuf.append(getShortDetails(ch));
 			}
-			ICacheHolderDetail det = ch.getCacheDetails();
+			CacheHolderDetail det = ch.getExistingDetails();
 			if ((!det.getHints().equals("null"))
 					&& (det.getHints().length() > 0)) {
 				strBuf.append(":");
