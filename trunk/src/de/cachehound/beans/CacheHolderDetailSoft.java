@@ -278,7 +278,11 @@ public class CacheHolderDetailSoft implements ICacheHolderDetail {
 	public void setUnsavedChanges(boolean unsavedChanges) {
 		CacheHolderDetail impl = getImpl();
 		impl.setUnsavedChanges(unsavedChanges);
-		setDirty(impl);
+		if (unsavedChanges) {
+			setDirty(impl);
+		} else {
+			dirtyObjects.remove(ref);
+		}
 	}
 
 	@Override
