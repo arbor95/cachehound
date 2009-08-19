@@ -1,6 +1,7 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
+import de.cachehound.types.CacheType;
 import ewe.io.File;
 import ewe.io.FileBase;
 

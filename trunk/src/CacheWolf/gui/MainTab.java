@@ -11,7 +11,7 @@ import CacheWolf.navi.MapImage;
 import CacheWolf.navi.MovingMap;
 import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -51,7 +51,7 @@ public class MainTab extends mTabbedPanel {
 	public SolverPanel solverP;
 	public String lastselected = "";
 	public CacheHolder ch = null, chMain = null;
-	ICacheHolderDetail chD = null;
+	CacheHolderDetail chD = null;
 	MainMenu mnuMain;
 	StatusBar statBar;
 	public MovingMap mm;
@@ -175,7 +175,7 @@ public class MainTab extends mTabbedPanel {
 			} else {
 				ch = cacheDB.get(tbP.getSelectedCache());
 				lastselected = ch.getWayPoint(); // Used in Parser.Skeleton
-				chD = ch.getCacheDetails();
+				chD = ch.getCacheDetails(true);
 			}
 		}
 		if (panelNo == 1) { // Leaving the Details Panel
@@ -208,7 +208,7 @@ public class MainTab extends mTabbedPanel {
 						tbP.tc.update(true);
 				} else {
 					boolean oldHasSolver = chMain.hasSolver();
-					chMain.getCacheDetails().setSolver(
+					chMain.getExistingDetails().setSolver(
 							solverP.getInstructions());
 					if (oldHasSolver != chMain.hasSolver())
 						tbP.tc.update(true);
@@ -246,14 +246,14 @@ public class MainTab extends mTabbedPanel {
 			break;
 		case 3: // Picture Panel
 			if (ch.isAddiWpt()) {
-				imageP.setImages(ch.getMainCache().getCacheDetails());
+				imageP.setImages(ch.getMainCache().getCacheDetails(true));
 			} else {
 				imageP.setImages(chD);
 			}
 			break;
 		case 4: // Log Hint Panel
 			if (ch.isAddiWpt()) {
-				hintLP.setText(ch.getMainCache().getCacheDetails());
+				hintLP.setText(ch.getMainCache().getCacheDetails(true));
 			} else {
 				hintLP.setText(chD);
 			}
@@ -348,7 +348,7 @@ public class MainTab extends mTabbedPanel {
 			lastselected = pCh.getWayPoint();
 		}
 		pCh.setCacheSize(CacheSize.NOT_CHOSEN);
-		chD = pCh.getCacheDetails();
+		chD = pCh.getCacheDetails(true);
 		this.ch = pCh;
 		cacheDB.add(pCh);
 		Global.getProfile().notifyUnsavedChanges(true); // Just to be sure

@@ -46,7 +46,7 @@ import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.CacheType;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -76,7 +76,7 @@ public class TPLExporter {
 	}
 
 	public void doIt() {
-		ICacheHolderDetail det;
+		CacheHolderDetail det;
 		CacheHolder ch;
 		ProgressBarForm pbf = new ProgressBarForm();
 		ewe.sys.Handle h = new ewe.sys.Handle();
@@ -117,7 +117,7 @@ public class TPLExporter {
 
 			for (int i = 0; i < counter; i++) {
 				ch = cacheDB.get(i);
-				det = ch.getCacheDetails();
+				det = ch.getExistingDetails();
 				h.progress = (float) i / (float) counter;
 				h.changed();
 				if (ch.isVisible()) {

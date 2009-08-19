@@ -5,7 +5,7 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.imp.SpiderGC;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 
 public class SpiderService {
 
@@ -60,7 +60,7 @@ public class SpiderService {
 		int index = Global.getProfile().cacheDB.getIndex(gcNumber);
 		if (index == -1) {
 			CacheHolder holder = new CacheHolder(gcNumber);
-			holder.getCacheDetails(); // work around
+			holder.getCacheDetails(true); // work around
 			Global.getProfile().cacheDB.add(holder);
 			index = Global.getProfile().cacheDB.getIndex(holder);
 		}
@@ -110,7 +110,7 @@ public class SpiderService {
 	 * @param chD
 	 *            The Cachedetails
 	 */
-	public void getImages(String doc, ICacheHolderDetail chD) {
+	public void getImages(String doc, CacheHolderDetail chD) {
 		checkSpiderGC();
 		spiderGC.getImages(doc, chD);
 	}
@@ -125,7 +125,7 @@ public class SpiderService {
 	 *            the Details for the asked geocache.
 	 * @throws Exception
 	 */
-	public void getAttributes(String doc, ICacheHolderDetail chD) {
+	public void getAttributes(String doc, CacheHolderDetail chD) {
 		checkSpiderGC();
 		spiderGC.getAttributes(doc, chD);
 	}

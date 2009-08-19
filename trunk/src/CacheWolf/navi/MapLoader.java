@@ -9,7 +9,7 @@ import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
 import ewe.io.File;
 import ewe.io.FileBase;
-import ewe.io.FileInputStream;
+import ewe.io.FileInputStream; //import ewe.io.FileOutputStream;
 import ewe.io.FileOutputStream;
 import ewe.io.IOException;
 import ewe.net.Socket;

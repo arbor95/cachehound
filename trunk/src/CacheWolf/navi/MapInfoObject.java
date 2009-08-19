@@ -11,8 +11,11 @@ import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import ewe.fx.Point;
+import ewe.io.BufferedWriter;
 import ewe.io.File;
+import ewe.io.FileWriter;
 import ewe.io.IOException;
+import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 
 /**

@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.LogType;
 import ewe.sys.Time;
 
@@ -48,7 +49,7 @@ public class TritonGPXExporter extends Exporter {
 
 	public String record(CacheHolder ch, String lat, String lon) {
 		StringBuilder strBuf = new StringBuilder(1000);
-		ICacheHolderDetail chdetail = ch.getCacheDetails();
+		CacheHolderDetail chdetail = ch.getExistingDetails();
 		try {
 			strBuf
 					.append("  <wpt lat=\"" + lat + "\" lon=\"" + lon
@@ -213,7 +214,7 @@ public class TritonGPXExporter extends Exporter {
 		return "</gpx>";
 	}
 
-	public String spoiler2GPX(ICacheHolderDetail ch) {
+	public String spoiler2GPX(CacheHolderDetail ch) {
 		String GPX = "";
 		String Type = "";
 		String GPXImages = "";

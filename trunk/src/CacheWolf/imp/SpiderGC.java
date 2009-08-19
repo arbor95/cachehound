@@ -48,7 +48,7 @@ import CacheWolf.util.SafeXML;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
@@ -357,15 +357,15 @@ public class SpiderGC {
 				ch.setNumRecommended(cacheInDB.getNumRecommended());
 				if (pref.downloadPics) {
 					// delete obsolete images when we have current set
-					CacheImages.cleanupOldImages(cacheInDB.getCacheDetails()
-							.getImages(), ch.getCacheDetails().getImages());
+					CacheImages.cleanupOldImages(cacheInDB.getExistingDetails()
+							.getImages(), ch.getFreshDetails().getImages());
 				} else {
 					// preserve images if not downloaded
 					// Änderung Florian für Mailupdate
 					// ch.getFreshDetails().images =
 					// cacheInDB.getExistingDetails().images;
-					ch.getCacheDetails().setImages(
-							cacheInDB.getCacheDetails().getImages());
+					ch.getFreshDetails().setImages(
+							cacheInDB.getFreshDetails().getImages());
 				}
 				cacheInDB.update(ch);
 				cacheInDB.save();
@@ -985,7 +985,7 @@ public class SpiderGC {
 						// int logsz = chD.CacheLogs.size();
 						// chD.CacheLogs.clear();
 						ch.getAddiWpts().clear();
-						ch.getCacheDetails().getImages().clear();
+						ch.getFreshDetails().getImages().clear();
 
 						if (completeWebPage.indexOf(p
 								.getProp("cacheUnavailable")) >= 0)
@@ -1000,7 +1000,7 @@ public class SpiderGC {
 						logger.debug("chD.pos: " + ch.getPos().toString());
 
 						logger.debug("Trying description");
-						ch.getCacheDetails().setLongDescription(
+						ch.getFreshDetails().setLongDescription(
 								getLongDesc(completeWebPage));
 						logger.debug("Got description");
 
@@ -1014,21 +1014,21 @@ public class SpiderGC {
 						if (location.length() != 0) {
 							int countryStart = location.indexOf(",");
 							if (countryStart > -1) {
-								ch.getCacheDetails().setCountry(
+								ch.getFreshDetails().setCountry(
 										SafeXML.cleanback(location.substring(
 												countryStart + 1).trim()));
-								ch.getCacheDetails().setState(
+								ch.getFreshDetails().setState(
 										SafeXML.cleanback(location.substring(0,
 												countryStart).trim()));
 							} else {
-								ch.getCacheDetails()
+								ch.getFreshDetails()
 										.setCountry(location.trim());
-								ch.getCacheDetails().setState("");
+								ch.getFreshDetails().setState("");
 							}
 							logger.debug("Got location (country/state)");
 						} else {
-							ch.getCacheDetails().setCountry("");
-							ch.getCacheDetails().setState("");
+							ch.getFreshDetails().setCountry("");
+							ch.getFreshDetails().setState("");
 							logger.debug("No location (country/state) found");
 						}
 
@@ -1047,10 +1047,10 @@ public class SpiderGC {
 						logger.debug("Hidden: " + ch.getDateHidden());
 
 						logger.debug("Trying hints");
-						ch.getCacheDetails()
+						ch.getFreshDetails()
 								.setHints(getHints(completeWebPage));
 						logger.debug("Hints: "
-								+ ch.getCacheDetails().getHints());
+								+ ch.getFreshDetails().getHints());
 
 						logger.debug("Trying size");
 						ch
@@ -1076,8 +1076,8 @@ public class SpiderGC {
 						// Logs
 						// ==========
 						logger.debug("Trying logs");
-						ch.getCacheDetails().addCacheLogs(
-								getLogs(completeWebPage, ch.getCacheDetails()));
+						ch.getFreshDetails().addCacheLogs(
+								getLogs(completeWebPage, ch.getFreshDetails()));
 						logger.debug("Found logs");
 
 						// If the switch is set to not store found caches and we
@@ -1096,8 +1096,8 @@ public class SpiderGC {
 						// As there may be several bugs, we check whether the
 						// user has aborted
 						if (!infB.isClosed && fetchTBs)
-							getBugs(ch.getCacheDetails(), completeWebPage);
-						ch.setHas_bugs(ch.getCacheDetails().getTravelbugs()
+							getBugs(ch.getFreshDetails(), completeWebPage);
+						ch.setHas_bugs(ch.getFreshDetails().getTravelbugs()
 								.size() > 0);
 
 						// ==========
@@ -1105,7 +1105,7 @@ public class SpiderGC {
 						// ==========
 						if (fetchImages) {
 							logger.debug("Trying images");
-							getImages(completeWebPage, ch.getCacheDetails());
+							getImages(completeWebPage, ch.getFreshDetails());
 							logger.debug("Got images");
 						}
 						// ==========
@@ -1121,7 +1121,7 @@ public class SpiderGC {
 						// Attributes
 						// ==========
 						logger.debug("Getting attributes");
-						getAttributes(completeWebPage, ch.getCacheDetails());
+						getAttributes(completeWebPage, ch.getFreshDetails());
 						logger.debug("Got attributes");
 						// if (ch.is_new()) ch.setUpdated(false);
 						// ==========
@@ -1386,7 +1386,7 @@ public class SpiderGC {
 	 *            Cache Details
 	 * @return A HTML string containing the logs
 	 */
-	private LogList getLogs(String doc, ICacheHolderDetail chD) {
+	private LogList getLogs(String doc, CacheHolderDetail chD) {
 		LogType type;
 		String name = "";
 		String logText = "";
@@ -1481,7 +1481,7 @@ public class SpiderGC {
 	 *            The previously fetched cachepage
 	 * @return A HTML formatted string with bug names and there purpose
 	 */
-	private void getBugs(ICacheHolderDetail chD, String doc) {
+	private void getBugs(CacheHolderDetail chD, String doc) {
 		Extractor exBlock = new Extractor(doc, p.getProp("blockExStart"), p
 				.getProp("blockExEnd"), 0, Extractor.EXCLUDESTARTEND);
 		String bugBlock = exBlock.findNext();
@@ -1540,7 +1540,7 @@ public class SpiderGC {
 	 * @param chD
 	 *            The Cachedetails
 	 */
-	public void getImages(String doc, ICacheHolderDetail chD) {
+	public void getImages(String doc, CacheHolderDetail chD) {
 		int imgCounter = 0;
 		int spiderCounter = 0;
 		String fileName, imgName, imgType, imgUrl, imgComment;
@@ -1554,7 +1554,7 @@ public class SpiderGC {
 		CacheHolder oldCh = Global.getProfile().cacheDB.get(chD.getParent()
 				.getWayPoint());
 		if (oldCh != null) {
-			lastImages = oldCh.getCacheDetails().getImages();
+			lastImages = oldCh.getFreshDetails().getImages();
 		}
 
 		// ========
@@ -1888,7 +1888,7 @@ public class SpiderGC {
 					// file
 					hd = new CacheHolder();
 					hd.setWayPoint(adWayPoint);
-					hd.getCacheDetails(); // Accessing Details reads file
+					hd.getExistingDetails(); // Accessing Details reads file
 					// if
 					// not yet done
 				} else {
@@ -1907,7 +1907,7 @@ public class SpiderGC {
 					hd.setType(CacheType.fromGcGpxString(typeRex.stringMatched(1)));
 				rowBlock = exRowBlock.findNext();
 				descRex.search(rowBlock);
-				hd.getCacheDetails().setLongDescription(
+				hd.getFreshDetails().setLongDescription(
 						descRex.stringMatched(1));
 				hd.setFound(is_found);
 				hd.setCacheSize(CacheSize.NOT_CHOSEN);
@@ -1934,7 +1934,7 @@ public class SpiderGC {
 		}
 	}
 
-	public void getAttributes(String doc, ICacheHolderDetail chD) {
+	public void getAttributes(String doc, CacheHolderDetail chD) {
 		Extractor attBlock = new Extractor(doc, p.getProp("attBlockExStart"), p
 				.getProp("attBlockExEnd"), 0, true);
 		String atts = attBlock.findNext();
