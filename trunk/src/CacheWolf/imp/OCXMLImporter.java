@@ -1,5 +1,8 @@
 package CacheWolf.imp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +39,6 @@ import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.util.ByteArray;
 import ewe.util.CharArray;
-import ewe.util.Hashtable;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
@@ -70,7 +72,7 @@ public class OCXMLImporter extends MinML {
 	private boolean incUpdate = true; // complete or incremental Update
 	private boolean ignoreDesc = false;
 	private boolean askForOptions = true;
-	private Hashtable DBindexID = new Hashtable();
+	private Map<String, Integer> DBindexID = new HashMap<String, Integer>();
 
 	private String ocSeekUrl = new String("http://" + OPENCACHING_HOST
 			+ "/viewcache.php?cacheid=");
@@ -102,7 +104,7 @@ public class OCXMLImporter extends MinML {
 		for (int i = 0; i < cacheDB.size(); i++) {
 			ch = cacheDB.get(i);
 			if (!ch.getOcCacheID().equals(""))
-				DBindexID.put(ch.getOcCacheID(), new Integer(i));
+				DBindexID.put(ch.getOcCacheID(), i);
 		}// for
 	}
 
@@ -577,7 +579,7 @@ public class OCXMLImporter extends MinML {
 				holder.setIncomplete(false);
 				cacheDB.get(index).update(holder);
 				// save ocCacheID, in case, the previous data is from GPX
-				DBindexID.put(holder.getOcCacheID(), new Integer(index));
+				DBindexID.put(holder.getOcCacheID(), index);
 			}
 			// clear data (picture, logs) if we do a complete Update
 			if (incUpdate == false) {
@@ -965,7 +967,7 @@ public class OCXMLImporter extends MinML {
 	 * value >= 0 if cacheID is found, else -1
 	 */
 	private int searchID(String cacxheID) {
-		Integer INTR = (Integer) DBindexID.get(cacxheID);
+		Integer INTR = DBindexID.get(cacxheID);
 		if (INTR != null) {
 			return INTR.intValue();
 		} else
