@@ -20,40 +20,12 @@ import ewe.util.Hashtable;
 import ewe.util.Vector;
 
 public class ShowCacheInBrowser {
-	String pd = FileBase.getProgramDirectory();
-	String saveTo = pd + "/temp.html";
-	static Hashtable diff = null;
-	static Hashtable terr = null;
-	static Hashtable args = null;
+	private String pd = FileBase.getProgramDirectory();
+	private String saveTo = pd + "/temp.html";
+	private static Hashtable args = null;
 
 	public ShowCacheInBrowser() {
-		if (diff == null) {
-			diff = new Hashtable(15);
-			String y = "<img src=\"file://" + pd + "/y.png\" border=0>";
-			String y2 = "<img src=\"file://" + pd + "/y2.png\" border=0>";
-			diff.put("1", y);
-			diff.put("1.5", y + y2);
-			diff.put("2", y + y);
-			diff.put("2.5", y + y + y2);
-			diff.put("3", y + y + y);
-			diff.put("3.5", y + y + y + y2);
-			diff.put("4", y + y + y + y);
-			diff.put("4.5", y + y + y + y + y2);
-			diff.put("5", y + y + y + y + y);
-
-			terr = new Hashtable(15);
-			String g = "<img src=\"file://" + pd + "/g.png\" border=0>";
-			String g2 = "<img src=\"file://" + pd + "/g2.png\" border=0>";
-			terr.put("1", g);
-			terr.put("1.5", g + g2);
-			terr.put("2", g + g);
-			terr.put("2.5", g + g + g2);
-			terr.put("3", g + g + g);
-			terr.put("3.5", g + g + g + g2);
-			terr.put("4", g + g + g + g);
-			terr.put("4.5", g + g + g + g + g2);
-			terr.put("5", g + g + g + g + g);
-
+		if (args == null) {
 			args = new Hashtable();
 			args.put("filename", pd + "/GCTemplate.html");
 			args.put("case_sensitive", "true");
@@ -76,7 +48,7 @@ public class ShowCacheInBrowser {
 					// else
 					tpl.setParam("TYPE", "\"file://"
 							+ FileBase.getProgramDirectory() + "/"
-							+ chD.getType() + ".gif\"");
+							+ chD.getType().getOldCWByte() + ".gif\"");
 					tpl.setParam("SIZE", chD.getCacheSize().getAsString());
 					tpl.setParam("WAYPOINT", chD.getWayPoint());
 					tpl.setParam("CACHE_NAME", chD.getCacheName());
