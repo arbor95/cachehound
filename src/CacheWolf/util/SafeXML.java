@@ -208,6 +208,7 @@ public class SafeXML {
 		int originalTextLength = text.length();
 		StringBuilder sb = new StringBuilder(originalTextLength * 110 / 100);
 		int charsToAppend = 0;
+		boolean isOrginal = true;
 		for (int i = 0; i < originalTextLength; i++) {
 			char c = text.charAt(i);
 			String entity = charToEntity(c);
@@ -216,6 +217,7 @@ public class SafeXML {
 				// than saving them up for a big append.
 				charsToAppend++;
 			} else {
+				isOrginal = false;
 				if (charsToAppend != 0) {
 					sb.append(text.substring(i - charsToAppend, i));
 					charsToAppend = 0;
@@ -224,6 +226,9 @@ public class SafeXML {
 			}
 		} // end for
 		// append chars to the right of the last entity.
+		if (isOrginal) {
+			return text;
+		}
 		if (charsToAppend != 0) {
 			sb.append(text.substring(originalTextLength - charsToAppend,
 					originalTextLength));

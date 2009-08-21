@@ -1,5 +1,8 @@
 package CacheWolf.imp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
@@ -8,7 +11,6 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
-import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
 import CacheWolf.util.UrlFetcher;
@@ -21,12 +23,10 @@ import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
-import ewe.io.BufferedReader;
+import de.cachehound.util.EweReader;
 import ewe.io.File;
-import ewe.io.FileOutputStream;
 import ewe.io.IO;
 import ewe.io.IOException;
-import ewe.io.InputStreamReader;
 import ewe.net.MalformedURLException;
 import ewe.net.URL;
 import ewe.sys.Convert;
@@ -37,11 +37,7 @@ import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.util.ByteArray;
 import ewe.util.CharArray;
-import ewe.util.Enumeration;
 import ewe.util.Hashtable;
-import ewe.util.zip.ZipEntry;
-import ewe.util.zip.ZipException;
-import ewe.util.zip.ZipFile;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
@@ -54,6 +50,9 @@ import ewesoft.xml.sax.AttributeList;
  * de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter extends MinML {
+	
+	private static Logger logger = LoggerFactory.getLogger(OCXMLImporter.class);
+	
 	private static final int STAT_INIT = 0;
 	private static final int STAT_CACHE = 1;
 	private static final int STAT_CACHE_DESC = 2;
@@ -261,9 +260,8 @@ public class OCXMLImporter extends MinML {
 	private boolean syncOC(String url) {
 		String finalMessage = new String();
 		boolean success = true;
-		File tmpFile = null;
-		BufferedReader r;
-		String file = new String();
+		java.io.File tmpFile = null;
+		java.io.BufferedReader r;
 
 		// inf = new InfoBox("Opencaching download",
 		// MyLocale.getMsg(1608,"downloading data\n from opencaching"),
@@ -272,49 +270,40 @@ public class OCXMLImporter extends MinML {
 		picCnt = 0;
 		try {
 			holder = null;
-			file = fetch(url, "dummy");
+			tmpFile = fetch(url, "dummy");
 
 			// parse
-			tmpFile = new FileBugfix(profile.getDataDir() + file);
-			if (tmpFile.getLength() == 0) {
-				throw new IOException("no updates available");
+			if (tmpFile.length() == 0) {
+				throw new java.io.IOException("no updates available");
 			}
 
-			ZipFile zif = new ZipFile(profile.getDataDir() + file);
-			ZipEntry zipEnt;
-			Enumeration zipEnum = zif.entries();
+			java.util.zip.ZipFile zif = new java.util.zip.ZipFile(tmpFile);
+			java.util.zip.ZipEntry zipEnt;
+			java.util.Enumeration<? extends java.util.zip.ZipEntry> zipEnum = zif.entries();
 			inf.setInfo("...unzipping update file");
 			while (zipEnum.hasMoreElements()) {
-				zipEnt = (ZipEntry) zipEnum.nextElement();
+				zipEnt = zipEnum.nextElement();
 				// skip over PRC-files and empty files
 				if (zipEnt.getSize() > 0 && zipEnt.getName().endsWith("xml")) {
-					r = new BufferedReader(new InputStreamReader(zif
-							.getInputStream(zipEnt), IO.JAVA_UTF8_CODEC));
-					parse(r);
+					r = new java.io.BufferedReader(new java.io.InputStreamReader(zif
+							.getInputStream(zipEnt), "UTF-8"));
+					parse(new EweReader(r));
 					r.close();
 				}
 			}
 			zif.close();
-		} catch (ZipException e) {
+		} catch (java.util.zip.ZipException e) {
 			finalMessage = MyLocale.getMsg(1614,
 					"Error while unzipping udpate file");
 			success = false;
-		} catch (IOException e) {
+		} catch (java.io.IOException e) {
 			if (e.getMessage().equalsIgnoreCase("no updates available")) {
 				finalMessage = "No updates available";
 				success = false;
 			} else {
 				if (e.getMessage().equalsIgnoreCase("could not connect")
-						|| e.getMessage().equalsIgnoreCase("unkown host")) { // is
-					// there
-					// a
-					// better
-					// way
-					// to
-					// find
-					// out
-					// what
-					// happened?
+						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+					// is there a better way to find out what happened?
 					finalMessage = MyLocale
 							.getMsg(1616,
 									"Error: could not download udpate file from opencaching.de");
@@ -323,6 +312,25 @@ public class OCXMLImporter extends MinML {
 				}
 				success = false;
 			}
+			logger.error("Exception at synchronize Opencaching", e);
+			// Doubled ...
+		} catch (IOException e) {
+			if (e.getMessage().equalsIgnoreCase("no updates available")) {
+				finalMessage = "No updates available";
+				success = false;
+			} else {
+				if (e.getMessage().equalsIgnoreCase("could not connect")
+						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+					// is there a better way to find out what happened?
+					finalMessage = MyLocale
+							.getMsg(1616,
+									"Error: could not download udpate file from opencaching.de");
+				} else {
+					finalMessage = "IOException: " + e.getMessage();
+				}
+				success = false;
+			}
+			logger.error("Exception at synchronize Opencaching", e);
 		} catch (IllegalArgumentException e) {
 			finalMessage = MyLocale
 					.getMsg(
@@ -346,7 +354,7 @@ public class OCXMLImporter extends MinML {
 					+ "   " + holder.getOcCacheID());
 			e.printStackTrace();
 		} finally {
-			if (tmpFile != null)
+			if (tmpFile != null && tmpFile.exists())
 				tmpFile.delete();
 		}
 		/*
@@ -798,15 +806,44 @@ public class OCXMLImporter extends MinML {
 			imageInfo.setTitle(picDesc);
 			holder.getFreshDetails().getImages().add(imageInfo);
 			try {
-				File ftest = new File(profile.getDataDir() + fileName);
+				File ftest = new File(profile.getDataDir() + java.io.File.separator +  fileName);
 				if (ftest.exists()) {
 					imageInfo.setFilename(fileName);
 				} else {
 					if (pref.downloadPics) {
-						imageInfo.setFilename(fetch(fetchURL, fileName));
+						imageInfo.setFilename(fetch(fetchURL, fileName).getName());
 					}
 				}
-			} catch (IOException e) {
+			} catch (java.io.IOException e) {
+				String ErrMessage = new String(MyLocale.getMsg(1618,
+						"Ignoring error in cache: ")
+						+ holder.getWayPoint()
+						+ ": ignoring IOException: "
+						+ e.getMessage()
+						+ " while downloading picture:"
+						+ fileName + " from URL:" + fetchURL);
+				if (e.getMessage().toLowerCase().equalsIgnoreCase(
+						"could not connect")
+						|| e.getMessage().equalsIgnoreCase("unkown host")) {
+					// is there a better way to find out what happened?
+					ErrMessage = MyLocale.getMsg(1618,
+							"Ignoring error in cache: ")
+							+ holder.getCacheName()
+							+ " ("
+							+ holder.getWayPoint()
+							+ ")"
+							+ MyLocale.getMsg(1619,
+									": could not download image from URL: ")
+							+ fetchURL;
+				}
+				inf.addWarning("\n" + ErrMessage);
+				// (new MessageBox(MyLocale.getMsg(144, "Warning"), ErrMessage,
+				// MessageBox.OKB)).exec();
+				pref.log(ErrMessage);
+				e.printStackTrace();
+			}
+			// Doubled
+			catch (IOException e) {
 				String ErrMessage = new String(MyLocale.getMsg(1618,
 						"Ignoring error in cache: ")
 						+ holder.getWayPoint()
@@ -903,7 +940,7 @@ public class OCXMLImporter extends MinML {
 
 	}
 
-	private String fetch(String addr, String fileName) throws IOException {
+	private java.io.File fetch(String addr, String fileName) throws java.io.IOException, IOException {
 		// Vm.debug("Redirect: " + redirect);
 		CharArray realurl = new CharArray();
 		ByteArray daten = UrlFetcher.fetchByteArray(addr, realurl);
@@ -919,11 +956,12 @@ public class OCXMLImporter extends MinML {
 		// save file
 		// Vm.debug("Save: " + myPref.mydatadir + fileName);
 		// Vm.debug("Daten: " + daten.length);
-		FileOutputStream outp = new FileOutputStream(profile.getDataDir()
-				+ fileName);
+		java.io.File file = new java.io.File(profile.getDataDir(), fileName);
+		java.io.FileOutputStream outp = new java.io.FileOutputStream(
+				file);
 		outp.write(daten.toBytes());
 		outp.close();
-		return fileName;
+		return file;
 	}
 
 	/**
