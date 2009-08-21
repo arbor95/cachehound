@@ -599,6 +599,12 @@ public class OCXMLImporter extends MinML {
 			// chD.saveCacheDetails(profile.dataDir);
 			// profile.saveIndex(pref,Profile.NO_SHOW_PROGRESS_BAR); // this is
 			// done after .xml is completly processed
+			
+			// because the CacheHolderDetails are not in the List of loaded Details
+			// they would never been saved. So releasing the Details
+			// will save them and after reading them again they will 
+			// be in the List of Loaded Details.
+			holder.releaseCacheDetails();
 			return;
 		}
 		if (name.equals("id")) { // </id>
