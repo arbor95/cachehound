@@ -25,7 +25,6 @@ import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
 import de.cachehound.util.EweReader;
 import ewe.io.File;
-import ewe.io.IO;
 import ewe.io.IOException;
 import ewe.net.MalformedURLException;
 import ewe.net.URL;
@@ -53,14 +52,10 @@ public class OCXMLImporter extends MinML {
 	
 	private static Logger logger = LoggerFactory.getLogger(OCXMLImporter.class);
 	
-	private static final int STAT_INIT = 0;
-	private static final int STAT_CACHE = 1;
-	private static final int STAT_CACHE_DESC = 2;
-	private static final int STAT_CACHE_LOG = 3;
-	private static final int STAT_PICTURE = 4;
-
+	private enum State { INIT, CACHE, CACHE_DESC, CACHE_LOG, PICTURE }
+	
 	private final static String OPENCACHING_HOST = "www.opencaching.de";
-	private int state = STAT_INIT;
+	private State state = State.INIT;
 	private int numCacheImported, numDescImported, numLogImported = 0;
 
 	private boolean debugGPX = false;
@@ -77,9 +72,6 @@ public class OCXMLImporter extends MinML {
 	private boolean askForOptions = true;
 	private Hashtable DBindexID = new Hashtable();
 
-	private String picUrl = new String();
-	private String picTitle = new String();
-	private String picID = new String();
 	private String ocSeekUrl = new String("http://" + OPENCACHING_HOST
 			+ "/viewcache.php?cacheid=");
 	private String cacheID = new String();
@@ -89,7 +81,6 @@ public class OCXMLImporter extends MinML {
 	private boolean loggerRecommended;
 	private int logTypeOC;
 	private String user;
-	private double longitude;
 
 	/**
 	 * true, if not the last syncdate shall be used, but the caches shall be
@@ -387,39 +378,39 @@ public class OCXMLImporter extends MinML {
 			// reduce time at 1 second to avoid sync problems
 			lastSync.setTime(lastSync.getTime() - 1000);
 			dateOfthisSync = lastSync;
-			state = STAT_INIT;
+			state = State.INIT;
 		}
 
 		// look for changes in the state
 		if (name.equals("cache")) {
-			state = STAT_CACHE;
+			state = State.CACHE;
 			numCacheImported++;
 		}
 		if (name.equals("cachedesc")) {
-			state = STAT_CACHE_DESC;
+			state = State.CACHE_DESC;
 			numDescImported++;
 		}
 		if (name.equals("cachelog")) {
-			state = STAT_CACHE_LOG;
+			state = State.CACHE_LOG;
 			numLogImported++;
 			logTypeOC = 0;
 		}
 		if (name.equals("picture")) {
-			state = STAT_PICTURE;
+			state = State.PICTURE;
 		}
 
 		// examine data
 		switch (state) {
-		case STAT_CACHE:
+		case CACHE:
 			startCache(name, atts);
 			break;
-		case STAT_CACHE_DESC:
+		case CACHE_DESC:
 			startCacheDesc(name, atts);
 			break;
-		case STAT_CACHE_LOG:
+		case CACHE_LOG:
 			startCacheLog(name, atts);
 			break;
-		case STAT_PICTURE:
+		case PICTURE:
 			startPicture(name, atts);
 			break;
 		}
@@ -429,29 +420,29 @@ public class OCXMLImporter extends MinML {
 	public void endElement(String name) {
 		// examine data
 		switch (state) {
-		case STAT_CACHE:
+		case CACHE:
 			endCache(name);
 			break;
-		case STAT_CACHE_DESC:
+		case CACHE_DESC:
 			endCacheDesc(name);
 			break;
-		case STAT_CACHE_LOG:
+		case CACHE_LOG:
 			endCacheLog(name);
 			break;
-		case STAT_PICTURE:
+		case PICTURE:
 			endPicture(name);
 			break;
 		}
 
 		// look for changes in the state
 		if (name.equals("cache"))
-			state = STAT_INIT;
+			state = State.INIT;
 		if (name.equals("cachedesc"))
-			state = STAT_INIT;
+			state = State.INIT;
 		if (name.equals("cachelog"))
-			state = STAT_INIT;
+			state = State.INIT;
 		if (name.equals("picture"))
-			state = STAT_INIT;
+			state = State.INIT;
 
 	}
 
@@ -627,6 +618,7 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 
+		double longitude = -361;
 		if (name.equals("longitude")) {
 			longitude = Common.parseDouble(strData);
 			return;
@@ -885,6 +877,10 @@ public class OCXMLImporter extends MinML {
 	}
 
 	private void endPicture(String name) {
+		String picUrl = new String();
+		String picTitle = new String();
+		String picID = new String();
+		
 		if (name.equals("id")) {
 			picID = strData;
 		} else if (name.equals("url")) {
