@@ -48,7 +48,6 @@ public class CacheHolderDetailFactory {
 		CacheHolderDetail chd = new CacheHolderDetail();
 		chd.setParent(ch);
 		String dummy;
-		ImageInfo imageInfo;
 		// If parent cache has empty waypoint then don't do anything. This might
 		// happen
 		// when a cache object is freshly created to serve as container for
@@ -111,7 +110,7 @@ public class CacheHolderDetailFactory {
 		ex = new Extractor(text, "<IMG>", "</IMG>", 0, true);
 		dummy = ex.findNext();
 		while (ex.endOfSearch() == false) {
-			imageInfo = new ImageInfo();
+			ImageInfo imageInfo = new ImageInfo();
 			int pos = dummy.indexOf("<URL>");
 			if (pos > 0) {
 				imageInfo.setFilename(SafeXML.strxmldecode(dummy.substring(0,
@@ -128,7 +127,7 @@ public class CacheHolderDetailFactory {
 		dummy = ex.findNext();
 		int imgNr = 0;
 		while (ex.endOfSearch() == false) {
-			imageInfo = chd.getImages().get(imgNr);
+			ImageInfo imageInfo = chd.getImages().get(imgNr);
 			int pos = dummy.indexOf("<DESC>");
 			if (pos > 0) {
 				imageInfo.setTitle(dummy.substring(0, pos));
@@ -145,7 +144,7 @@ public class CacheHolderDetailFactory {
 		ex = new Extractor(text, "<LOGIMG>", "</LOGIMG>", 0, true);
 		dummy = ex.findNext();
 		while (ex.endOfSearch() == false) {
-			imageInfo = new ImageInfo();
+			ImageInfo imageInfo = new ImageInfo();
 			imageInfo.setFilename(dummy);
 			chd.getLogImages().add(imageInfo);
 			dummy = ex.findNext();
@@ -154,7 +153,7 @@ public class CacheHolderDetailFactory {
 		dummy = ex.findNext();
 		imgNr = 0;
 		while (ex.endOfSearch() == false) {
-			imageInfo = chd.getLogImages().get(imgNr++);
+			ImageInfo imageInfo = chd.getLogImages().get(imgNr++);
 			imageInfo.setTitle(dummy);
 			dummy = ex.findNext();
 		}
@@ -163,7 +162,7 @@ public class CacheHolderDetailFactory {
 		ex = new Extractor(text, "<USERIMG>", "</USERIMG>", 0, true);
 		dummy = ex.findNext();
 		while (ex.endOfSearch() == false) {
-			imageInfo = new ImageInfo();
+			ImageInfo imageInfo = new ImageInfo();
 			imageInfo.setFilename(dummy);
 			chd.getUserImages().add(imageInfo);
 			dummy = ex.findNext();
@@ -172,7 +171,7 @@ public class CacheHolderDetailFactory {
 		dummy = ex.findNext();
 		imgNr = 0;
 		while (ex.endOfSearch() == false) {
-			imageInfo = chd.getUserImages().get(imgNr++);
+			ImageInfo imageInfo = chd.getUserImages().get(imgNr++);
 			imageInfo.setTitle(dummy);
 			dummy = ex.findNext();
 		}
