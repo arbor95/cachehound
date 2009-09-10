@@ -481,6 +481,7 @@ public class CacheHolder implements ICacheHolder {
 			setDegrees(toPoint.getBearing(getPos()));
 		} else {
 			setKilom(-1);
+			setDegrees(361);
 		}
 	}
 
