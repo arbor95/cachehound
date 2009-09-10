@@ -261,23 +261,23 @@ public class myTableModel extends TableModel {
 					// color.
 					// Selected lines are not considered, so far
 					CacheHolder ch = cacheDB.get(row);
-					if (ch.is_owned())
+					if (ch.isOwned())
 						lineColorBG.set(COLOR_OWNED);
-					else if (ch.is_found())
+					else if (ch.isFound())
 						lineColorBG.set(COLOR_FOUND);
-					else if (ch.isIs_flaged())
+					else if (ch.isFlaged())
 						lineColorBG.set(COLOR_FLAGED);
 					else if (Global.getPref().debug && ch.detailsLoaded())
 						lineColorBG.set(COLOR_DETAILS_LOADED);
 
-					if (ch.is_archived()) {
+					if (ch.isArchived()) {
 						if (lineColorBG.equals(COLOR_WHITE)) {
 							lineColorBG.set(COLOR_ARCHIVED);
 							ta.foreground = COLOR_WHITE;
 						} else {
 							ta.foreground = COLOR_ARCHIVED;
 						}
-					} else if (!ch.is_available()) {
+					} else if (!ch.isAvailable()) {
 						if (lineColorBG.equals(COLOR_WHITE)) {
 							lineColorBG.set(COLOR_AVAILABLE);
 						} else {
@@ -368,7 +368,7 @@ public class myTableModel extends TableModel {
 				// needed here??
 				switch (colMap[col]) { // Faster than using column names
 				case 0: // Checkbox
-					if (ch.isIs_Checked())
+					if (ch.isChecked())
 						return checkboxTicked;
 					else
 						return checkboxUnticked;
@@ -392,24 +392,24 @@ public class myTableModel extends TableModel {
 					}
 				case 4: // Waypoint
 					if (showExtraWptInfo) {
-						if (ch.is_incomplete())
+						if (ch.isIncomplete())
 							return ch.getIconAndTextWP(4, fm);
-						if (ch.is_new())
+						if (ch.isNew())
 							return ch.getIconAndTextWP(3, fm);
-						if (ch.is_updated())
+						if (ch.isUpdated())
 							return ch.getIconAndTextWP(2, fm);
-						if (ch.is_log_updated())
+						if (ch.isLogUpdated())
 							return ch.getIconAndTextWP(1, fm);
 					}
 					return ch.getWayPoint();
 				case 5: // Cachename
 					// Fast return for majority of case
 					if (!showExtraWptInfo
-							|| (ch.has_bugs() == false && ch.getNoFindLogs() == 0))
+							|| (ch.hasBugs() == false && ch.getNoFindLogs() == 0))
 						return ch.getCacheName();
 					// Now need more checks
 					IconAndText wpVal = new IconAndText();
-					if (ch.has_bugs() == true)
+					if (ch.hasBugs() == true)
 						wpVal.addColumn(bug);
 					if (ch.getNoFindLogs() > 0) {
 						if (ch.getNoFindLogs() > noFindLogs.length)
@@ -588,7 +588,7 @@ public class myTableModel extends TableModel {
 		boolean singleRow = from == to;
 		for (int j = from; j <= to; j++) {
 			ch = cacheDB.get(j);
-			ch.setIs_Checked(!ch.isIs_Checked());
+			ch.setIs_Checked(!ch.isChecked());
 			tcControl.repaintCell(j, x);
 			// set the ceckbox also for addi wpts
 			if (ch.hasAddiWpt() && singleRow) {
@@ -596,7 +596,7 @@ public class myTableModel extends TableModel {
 				int addiCount = ch.getAddiWpts().size();
 				for (int i = 0; i < addiCount; i++) {
 					addiWpt = ch.getAddiWpts().get(i);
-					addiWpt.setIs_Checked(ch.isIs_Checked());
+					addiWpt.setIs_Checked(ch.isChecked());
 					if (addiWpt.isVisible()) {
 						tcControl.repaintCell(cacheDB.getIndex(addiWpt), x);
 					}

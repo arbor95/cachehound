@@ -157,7 +157,7 @@ public class TPLExporter {
 						varParams.put("STATUS_TIME", ch.GetStatusTime());
 						varParams.put("DATE", ch.getDateHidden());
 						varParams.put("URL", det.getUrl());
-						varParams.put("GC_LOGTYPE", (ch.is_found() ? "Found it"
+						varParams.put("GC_LOGTYPE", (ch.isFound() ? "Found it"
 								: "Didn't find it"));
 						varParams.put("DESCRIPTION", det.getLongDescription());
 						if (myFilter.badChars != null) {

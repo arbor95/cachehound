@@ -60,9 +60,9 @@ public class DescriptionPanel extends CellPanel {
 		} else {
 			if (cache.hasSameMainCache(currCache))
 				scrollto = disp.getTopLine();
-			isHtml = cache.is_HTML();
+			isHtml = cache.isHTML();
 			if (cache.isAddiWpt()) {
-				isHtml = cache.getMainCache().is_HTML();
+				isHtml = cache.getMainCache().isHTML();
 				if (cache.getExistingDetails().getLongDescription() != null
 						&& cache.getExistingDetails().getLongDescription()
 								.length() > 0)

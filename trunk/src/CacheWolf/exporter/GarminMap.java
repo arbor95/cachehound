@@ -77,13 +77,13 @@ class GarminMap extends MinML {
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
-			match = match && ((icon.found == null) || ch.is_found());
+			match = match && ((icon.found == null) || ch.isFound());
 			if (match)
 				return icon.name;
 		}
 
 		// If it is not a mapped type, just use the standard mapping
-		if (ch.is_found())
+		if (ch.isFound())
 			return "Geocache Found";
 		else
 			return "Geocache";
@@ -114,7 +114,7 @@ class GarminMap extends MinML {
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
-			match = match && ((icon.found == null) || ch.is_found());
+			match = match && ((icon.found == null) || ch.isFound());
 			if (match)
 				return icon.poiId;
 		}
@@ -146,7 +146,7 @@ class GarminMap extends MinML {
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
 							.startsWith(icon.status));
-			match = match && ((icon.found == null) || ch.is_found());
+			match = match && ((icon.found == null) || ch.isFound());
 			if (match)
 				return icon.ozicolor;
 		}

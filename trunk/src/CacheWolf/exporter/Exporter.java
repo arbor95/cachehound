@@ -115,7 +115,7 @@ public abstract class Exporter {
 			for (int i = 0; i < cacheDB.size(); i++) {
 				ch = cacheDB.get(i);
 				if (ch.isVisible()) {
-					if (ch.is_incomplete()) {
+					if (ch.isIncomplete()) {
 						logger.warn("Skipping export of incomplete waypoint {}", ch.getWayPoint());
 						incompleteWaypoints++;
 						continue;

@@ -533,7 +533,7 @@ public class Profile {
 		boolean isAddi = false;
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			ch = cacheDB.get(i);
-			if (!onlyOfSelected || ch.isIs_Checked()) {
+			if (!onlyOfSelected || ch.isChecked()) {
 				if (ch.getPos() == null) { // this can not happen
 					tmpca.set(ch.getLatLon());
 					ch.setPos(new CWPoint(tmpca));

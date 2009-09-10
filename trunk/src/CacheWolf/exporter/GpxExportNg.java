@@ -265,7 +265,7 @@ public class GpxExportNg {
 					CacheHolder ch = Global.getProfile().cacheDB.get(i);
 					if (!ch.isVisible()) {
 						continue;
-					} else if (ch.is_incomplete()) {
+					} else if (ch.isIncomplete()) {
 						Global.getPref().log(
 								"skipping export of incomplete waypoint "
 										+ ch.getWayPoint());
@@ -446,7 +446,7 @@ public class GpxExportNg {
 					CacheHolder ch = Global.getProfile().cacheDB.get(i);
 					if (!ch.isVisible()) {
 						continue;
-					} else if (ch.is_incomplete()) {
+					} else if (ch.isIncomplete()) {
 						exportErrors++;
 						Global.getPref().log(
 								"GPX Export: skipping export of incomplete waypoint "
@@ -511,7 +511,7 @@ public class GpxExportNg {
 	private String formatCache(CacheHolder ch) {
 		// no addis or custom in MyFindsPq - and of course only finds
 		if ((STYLE_GPX_MYFINDS == exportStyle)
-				&& (ch.isCustomWpt() || ch.isAddiWpt() || !ch.is_found()))
+				&& (ch.isCustomWpt() || ch.isAddiWpt() || !ch.isFound()))
 			return "";
 
 		if (!ch.getPos().isValid())
@@ -689,7 +689,7 @@ public class GpxExportNg {
 						.concat("</sym>\n"));
 			} else if (ch.isCustomWpt()) {
 				ret.append("    <sym>Custom</sym>\n");
-			} else if (ch.is_found()) {
+			} else if (ch.isFound()) {
 				ret.append("    <sym>Geocache found</sym>\n");
 			} else {
 				ret.append("    <sym>Geocache</sym>\n");
@@ -726,9 +726,9 @@ public class GpxExportNg {
 		return "    <groundspeak:cache id=\""
 				.concat(ch.getCacheID())
 				.concat("\" available=\"")
-				.concat(ch.is_available() ? TRUE : FALSE)
+				.concat(ch.isAvailable() ? TRUE : FALSE)
 				.concat("\" archived=\"")
-				.concat(ch.is_archived() ? TRUE : FALSE)
+				.concat(ch.isArchived() ? TRUE : FALSE)
 				.concat(
 						"\" xmlns:groundspeak=\"http://www.groundspeak.com/cache/1/0\">\n")
 				.concat("      <groundspeak:name>").concat(
@@ -759,10 +759,10 @@ public class GpxExportNg {
 						SafeXML.cleanGPX(ch.getDetails().getState())).concat(
 						"</groundspeak:state>\n").concat(
 						"      <groundspeak:short_description html=\"").concat(
-						ch.is_HTML() ? TRUE : FALSE).concat(
+						ch.isHTML() ? TRUE : FALSE).concat(
 						"\"></groundspeak:short_description>\n").concat(
 						"      <groundspeak:long_description html=\"").concat(
-						ch.is_HTML() ? TRUE : FALSE).concat("\">").concat(
+						ch.isHTML() ? TRUE : FALSE).concat("\">").concat(
 						SafeXML.cleanGPX(formatLongDescription(ch))).concat(
 						"</groundspeak:long_description>\n").concat(
 						"      <groundspeak:encoded_hints>").concat(
@@ -881,7 +881,7 @@ public class GpxExportNg {
 			StringBuilder ret = new StringBuilder();
 			String delim = "";
 			ret.append(ch.getDetails().getLongDescription());
-			if (ch.is_HTML()) {
+			if (ch.isHTML()) {
 				delim = "<br />";
 			} else {
 				delim = "\n";
@@ -890,7 +890,7 @@ public class GpxExportNg {
 			// FIXME: cut Addis off in GPXimporter otherwise people who use GPX
 			// to feed CacheWolf have them doubled
 			if (ch.getAddiWpts().size() > 0 && exportStyle != STYLE_GPX_MYFINDS) {
-				if (ch.is_HTML()) {
+				if (ch.isHTML()) {
 					ret.append("\n\n<p>Additional Waypoints</p>");
 				} else {
 					ret.append("\n\nAdditional Waypoints\n");

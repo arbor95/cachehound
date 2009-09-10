@@ -101,7 +101,7 @@ public class HTMLExporter {
 
 				ch = cacheDB.get(i);
 				if (ch.isVisible()) {
-					if (ch.is_incomplete()) {
+					if (ch.isIncomplete()) {
 						exportErrors++;
 						Global.getPref().log(
 								"HTMLExport: skipping export of incomplete waypoint "
@@ -153,7 +153,7 @@ public class HTMLExporter {
 						page_tpl.setParam("STATUS", ch.getCacheStatus());
 						page_tpl.setParam("DATE", ch.getDateHidden());
 						if (det != null) {
-							if (ch.is_HTML()) {
+							if (ch.isHTML()) {
 								page_tpl.setParam("DESCRIPTION",
 										modifyLongDesc(det));
 							} else {

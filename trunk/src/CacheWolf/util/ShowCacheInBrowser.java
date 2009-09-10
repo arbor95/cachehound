@@ -228,7 +228,7 @@ public class ShowCacheInBrowser {
 						logVect.add(logs);
 					}
 					tpl.setParam("LOGS", logVect);
-					if (!chD.is_available())
+					if (!chD.isAvailable())
 						tpl.setParam("UNAVAILABLE", "1");
 					if (!chD.getExistingDetails().getHints().equals("null"))
 						tpl.setParam("HINT", Common.rot13(chD

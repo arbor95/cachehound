@@ -345,7 +345,7 @@ public class SpiderGC {
 			if (ret == SPIDER_OK) {
 				CacheHolder cacheInDB = cacheDB.get(number);
 				cacheInDB.initStates(false);
-				if (cacheInDB.is_found() && !ch.is_found() && !loadAllLogs) {
+				if (cacheInDB.isFound() && !ch.isFound() && !loadAllLogs) {
 					// If the number of logs to spider is 5 or less, then the
 					// "not found" information
 					// of the spidered cache is not credible. In this case it
@@ -544,9 +544,9 @@ public class SpiderGC {
 						cachesToUpdate.put(ch.getWayPoint(), ch);
 					}
 				} else {
-					if ((!ch.is_archived())
+					if ((!ch.isArchived())
 							&& (ch.getKilom() <= distanceInKm)
-							&& !(doNotgetFound && ch.is_found())
+							&& !(doNotgetFound && ch.isFound())
 							&& (ch.getWayPoint().substring(0, 2)
 									.equalsIgnoreCase("GC"))) {
 						cachesToUpdate.put(ch.getWayPoint(), ch);
@@ -694,18 +694,18 @@ public class SpiderGC {
 									.indexOf("<strike><font color=\"red\">") != -1;
 							boolean is_available_GC = lineRex.stringMatched(1)
 									.indexOf("<strike>") == -1;
-							if (ch.is_archived() != is_archived_GC) {
+							if (ch.isArchived() != is_archived_GC) {
 								// Update the database with the cache status
 								logger.debug("Updating status of "
 										+ waypoint
 										+ " to "
 										+ (is_archived_GC ? "archived"
 												: "not archived"));
-								if (ch.is_archived()) {
+								if (ch.isArchived()) {
 									cachesToUpdate.put(ch.getWayPoint(), ch);
 								}
 								ch.setArchived(is_archived_GC);
-							} else if (ch.is_available() != is_available_GC) {
+							} else if (ch.isAvailable() != is_available_GC) {
 								// Update the database with the cache status
 								logger.debug("Updating status of "
 										+ waypoint
@@ -713,7 +713,7 @@ public class SpiderGC {
 										+ (is_available_GC ? "available"
 												: "not available"));
 								ch.setAvailable(is_available_GC);
-							} else if (spiderAllFinds && !ch.is_found()) {
+							} else if (spiderAllFinds && !ch.isFound()) {
 								// Update the database with the cache status
 								logger.debug("Updating status of " + waypoint
 										+ " to found");
@@ -842,7 +842,7 @@ public class SpiderGC {
 				} else if (test == SPIDER_ERROR) {
 					spiderErrors++;
 				} else if (test == SPIDER_OK) {
-					if (!holder.is_found() || !doNotgetFound) {
+					if (!holder.isFound() || !doNotgetFound) {
 						cacheDB.add(holder);
 						holder.save();
 					}
@@ -1039,7 +1039,7 @@ public class SpiderGC {
 							ch.setOwned(true);
 						}
 						logger.debug("Owner: " + ch.getCacheOwner()
-								+ "; is_owned = " + ch.is_owned());
+								+ "; is_owned = " + ch.isOwned());
 
 						logger.debug("Trying date hidden");
 						ch.setDateHidden(DateFormat
@@ -1082,7 +1082,7 @@ public class SpiderGC {
 
 						// If the switch is set to not store found caches and we
 						// found the cache => return
-						if (ch.is_found() && doNotGetFound) {
+						if (ch.isFound() && doNotGetFound) {
 							if (infB.isClosed) {
 								return SPIDER_CANCEL;
 							} else {
@@ -1097,7 +1097,7 @@ public class SpiderGC {
 						// user has aborted
 						if (!infB.isClosed && fetchTBs)
 							getBugs(ch.getFreshDetails(), completeWebPage);
-						ch.setHas_bugs(ch.getFreshDetails().getTravelbugs()
+						ch.setHasBugs(ch.getFreshDetails().getTravelbugs()
 								.size() > 0);
 
 						// ==========
@@ -1114,7 +1114,7 @@ public class SpiderGC {
 
 						logger.debug("Getting additional waypoints");
 						getAddWaypoints(completeWebPage, ch.getWayPoint(), ch
-								.is_found());
+								.isFound());
 						logger.debug("Got additional waypoints");
 
 						// ==========
@@ -1456,7 +1456,7 @@ public class SpiderGC {
 			// We cannot simply stop if we have reached MAXLOGS just in case we
 			// are waiting for
 			// a log by our alias that happened earlier.
-			if (nLogs >= pref.maxLogsToSpider && chD.getParent().is_found()
+			if (nLogs >= pref.maxLogsToSpider && chD.getParent().isFound()
 					&& (chD.getOwnLogId().length() != 0)
 					&& (chD.getOwnLog() != null)
 					&& !(chD.getOwnLog().getDate().equals("1900-01-01")))
@@ -1918,7 +1918,7 @@ public class SpiderGC {
 					hd.save();
 				} else {
 					CacheHolder cx = cacheDB.get(idx);
-					if (cx.isIs_Checked() && // Only re-spider existing addi
+					if (cx.isChecked() && // Only re-spider existing addi
 							// waypoints that are ticked
 							cx.isVisible()) { // and are visible (i.e. not
 						// filtered)

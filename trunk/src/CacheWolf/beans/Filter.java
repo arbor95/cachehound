@@ -191,7 +191,7 @@ public class Filter {
 			} // for segments
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				if (ch.is_filtered() == false && ch.isIn_range() == false)
+				if (ch.isFiltered() == false && ch.isInRange() == false)
 					ch.setFiltered(true);
 			}
 		} catch (FileNotFoundException fnex) {
@@ -367,11 +367,11 @@ public class Filter {
 			if (!filterCache && ch.getMainCache() != null
 					&& ((typeMatchPattern & TYPE_MAIN) != 0)) {
 				if (examinedCaches.containsKey(ch.getMainCache())) {
-					filterCache = ch.getMainCache().is_filtered();
+					filterCache = ch.getMainCache().isFiltered();
 				} else {
 					ch.getMainCache().setFiltered(
 							excludedByFilter(ch.getMainCache()));
-					filterCache = ch.getMainCache().is_filtered();
+					filterCache = ch.getMainCache().isFiltered();
 					examinedCaches.put(ch.getMainCache(), null);
 				}
 			}
@@ -511,32 +511,32 @@ public class Filter {
 			// /////////////////////////////
 			// Filter criterium 6: Found by me
 			// /////////////////////////////
-			if ((ch.is_found() && !foundByMe)
-					|| (!ch.is_found() && !notFoundByMe)) {
+			if ((ch.isFound() && !foundByMe)
+					|| (!ch.isFound() && !notFoundByMe)) {
 				cacheFiltered = true;
 				break;
 			}
 			// /////////////////////////////
 			// Filter criterium 7: Owned by me
 			// /////////////////////////////
-			if ((ch.is_owned() && !ownedByMe)
-					|| (!ch.is_owned() && !notOwnedByMe)) {
+			if ((ch.isOwned() && !ownedByMe)
+					|| (!ch.isOwned() && !notOwnedByMe)) {
 				cacheFiltered = true;
 				break;
 			}
 			// /////////////////////////////
 			// Filter criterium 8: Archived
 			// /////////////////////////////
-			if ((ch.is_archived() && !archived)
-					|| (!ch.is_archived() && !notArchived)) {
+			if ((ch.isArchived() && !archived)
+					|| (!ch.isArchived() && !notArchived)) {
 				cacheFiltered = true;
 				break;
 			}
 			// /////////////////////////////
 			// Filter criterium 9: Unavailable
 			// /////////////////////////////
-			if ((ch.is_available() && !available)
-					|| (!ch.is_available() && !notAvailable)) {
+			if ((ch.isAvailable() && !available)
+					|| (!ch.isAvailable() && !notAvailable)) {
 				cacheFiltered = true;
 				break;
 			}

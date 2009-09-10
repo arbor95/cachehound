@@ -542,7 +542,7 @@ public class MovingMap extends Form {
 			CacheHolder ch;
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				ch = cacheDB.get(i);
-				if (ch.isIs_Checked() && ch.isVisible() && ch != mainT.ch) {
+				if (ch.isChecked() && ch.isVisible() && ch != mainT.ch) {
 					if (ch.getPos().isValid())
 						addSymbol(ch.getCacheName(), ch, GuiImageBroker.getInstance().getTypeImage(ch.getType()), ch.getPos());
 				}
@@ -572,7 +572,7 @@ public class MovingMap extends Form {
 			return;
 		if (markedCache != null) {
 			removeMapSymbol("selectedCache");
-			if (!markedCache.isIs_Checked())
+			if (!markedCache.isChecked())
 				removeMapSymbol(markedCache);
 		}
 		if (ch != null) {

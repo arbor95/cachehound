@@ -324,7 +324,7 @@ public class GPXImporter extends MinML {
 				// don't spider additional waypoints, so check
 				// if waypoint starts with "GC"
 				if (doSpider == true) {
-					if (spiderOK == true && holder.is_archived() == false) {
+					if (spiderOK == true && holder.isArchived() == false) {
 						if (holder.getLatLon().length() > 1) {
 							if (getMaps) {
 								ParseLatLon pll = new ParseLatLon(holder
@@ -400,7 +400,7 @@ public class GPXImporter extends MinML {
 		if (name.equals("groundspeak:name") && inBug) {
 			Travelbug tb = new Travelbug(strData);
 			holder.getFreshDetails().getTravelbugs().add(tb);
-			holder.setHas_bugs(true);
+			holder.setHasBugs(true);
 			return;
 		}
 
@@ -521,7 +521,7 @@ public class GPXImporter extends MinML {
 
 		if (name.equals("groundspeak:short_description")
 				|| name.equals("summary")) {
-			if (holder.is_HTML())
+			if (holder.isHTML())
 				holder.getFreshDetails().setLongDescription(
 						SafeXML.cleanback(strData) + "<br>"); // <br> needed
 			// because we
@@ -537,7 +537,7 @@ public class GPXImporter extends MinML {
 		if (name.equals("groundspeak:long_description")
 				|| name.equals("description")
 				|| name.equals("terra:description")) {
-			if (holder.is_HTML())
+			if (holder.isHTML())
 				holder.getFreshDetails().setLongDescription(
 						holder.getFreshDetails().getLongDescription()
 								+ SafeXML.cleanback(strData));
