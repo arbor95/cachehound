@@ -3,17 +3,26 @@ package de.cachehound.types;
 public enum CacheSize {
 
 	NOT_CHOSEN("Not chosen", "sizeNonPhysical.png", Integer.MIN_VALUE,
-			Integer.MIN_VALUE, 'n', (byte) 0, (byte) (0x01 << 5)), NONE("None",
-			"sizeNonPhysical.png", 7, Integer.MIN_VALUE, 'n', (byte) 7,
-			(byte) (0x01 << 5)), VIRTUAL("Virtual", "sizeNonPhysical.png",
-			Integer.MIN_VALUE, Integer.MIN_VALUE, 'n', (byte) 8,
-			(byte) (0x01 << 5)), OTHER("Other", "unset", 1, Integer.MIN_VALUE,
-			'n', (byte) 1, (byte) (0x01 << 5)), MICRO("Micro", "sizeMicro.png",
-			2, 1, 'm', (byte) 2, (byte) (0x01 << 0)), SMALL("Small",
-			"sizeSmall.png", 3, 2, 's', (byte) 3, (byte) (0x01 << 1)), REGULAR(
-			"Regular", "sizeReg.png", 4, 3, 'r', (byte) 4, (byte) (0x01 << 2)), LARGE(
-			"Large", "sizeLarge.png", 5, 4, 'l', (byte) 5, (byte) (0x01 << 3)), VERY_LARGE(
-			"Very large", "sizeVLarge.png", 6, Integer.MIN_VALUE, 'v',
+			Integer.MIN_VALUE, 'n', (byte) 0, (byte) (0x01 << 5)),
+
+	NONE("None", "sizeNonPhysical.png", 7, Integer.MIN_VALUE, 'n', (byte) 7,
+			(byte) (0x01 << 5)),
+
+	VIRTUAL("Virtual", "sizeNonPhysical.png", Integer.MIN_VALUE,
+			Integer.MIN_VALUE, 'n', (byte) 8, (byte) (0x01 << 5)),
+
+	OTHER("Other", "unset", 1, Integer.MIN_VALUE, 'n', (byte) 1,
+			(byte) (0x01 << 5)),
+
+	MICRO("Micro", "sizeMicro.png", 2, 1, 'm', (byte) 2, (byte) (0x01 << 0)),
+
+	SMALL("Small", "sizeSmall.png", 3, 2, 's', (byte) 3, (byte) (0x01 << 1)),
+
+	REGULAR("Regular", "sizeReg.png", 4, 3, 'r', (byte) 4, (byte) (0x01 << 2)),
+
+	LARGE("Large", "sizeLarge.png", 5, 4, 'l', (byte) 5, (byte) (0x01 << 3)),
+
+	VERY_LARGE("Very large", "sizeVLarge.png", 6, Integer.MIN_VALUE, 'v',
 			(byte) 6, (byte) (0x01 << 4));
 
 	/**
