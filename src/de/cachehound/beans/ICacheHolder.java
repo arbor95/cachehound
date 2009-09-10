@@ -13,4 +13,9 @@ public interface ICacheHolder {
 
 	public Difficulty getDifficulty();
 	public Terrain getTerrain();
+	
+	public boolean isArchived();
+	public boolean isAvailable();
+	public boolean isFound();
+	public boolean isOwned();
 }
