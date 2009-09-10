@@ -8,12 +8,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import de.cachehound.filter.AndFilter;
+import de.cachehound.filter.ArchivedFilter;
 import de.cachehound.filter.BearingFilter;
 import de.cachehound.filter.DifficultyFilter;
+import de.cachehound.filter.DisabledFilter;
 import de.cachehound.filter.DistanceFilter;
+import de.cachehound.filter.FoundFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.filter.NotFilter;
 import de.cachehound.filter.OrFilter;
+import de.cachehound.filter.OwnedFilter;
 import de.cachehound.filter.SizeFilter;
 import de.cachehound.filter.TerrainFilter;
 
@@ -53,6 +57,11 @@ public class FilterMenu extends JMenu {
 		add(createMenuItem("Bearing", new BearingFilter(), negated));
 		add(createMenuItem("Distance", new DistanceFilter(), negated));
 		add(createMenuItem("Size", new SizeFilter(), negated));
+		add(new JSeparator());
+		add(createMenuItem("Archived", new ArchivedFilter(), negated));
+		add(createMenuItem("Disabled", new DisabledFilter(), negated));
+		add(createMenuItem("Found", new FoundFilter(), negated));
+		add(createMenuItem("Owned", new OwnedFilter(), negated));
 	}
 	
 	private JMenuItem createMenuItem(String text, IFilter f, boolean negated) {

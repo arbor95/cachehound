@@ -34,4 +34,24 @@ public class CacheHolderDummy implements ICacheHolder {
 	public Terrain getTerrain() {
 		return null;
 	}
+
+	@Override
+	public boolean isArchived() {
+		return false;
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return false;
+	}
+
+	@Override
+	public boolean isFound() {
+		return false;
+	}
+
+	@Override
+	public boolean isOwned() {
+		return false;
+	}
 }
