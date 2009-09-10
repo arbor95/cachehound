@@ -102,14 +102,14 @@ public class CacheHolder implements ICacheHolder {
 	/** True if the cache is new */
 	private boolean newCache = false;
 	/** True if the cache is part of the results of a search */
-	private boolean is_flaged = false;
+	private boolean isFlaged = false;
 	/**
 	 * True if additional waypoints for this cache should be displayed
 	 * regardless of the filter settings
 	 */
 	private boolean showAddis = false;
 	/** True if the cache has been selected using the tick box in the list view */
-	private boolean is_Checked = false;
+	private boolean isChecked = false;
 	/** The unique OC cache ID */
 	private String ocCacheID = EMPTY;
 	/** The number of times this cache has not been found (max. 5) */
@@ -133,7 +133,7 @@ public class CacheHolder implements ICacheHolder {
 	 * in range is used by the route filter to identify caches in range of a
 	 * segment
 	 */
-	private boolean in_range = false;
+	private boolean inRange = false;
 	/** If this is an additional waypoint, this links back to the main waypoint */
 	private CacheHolder mainCache;
 	/** The date this cache was last synced with OC in format yyyyMMddHHmmss */
@@ -328,7 +328,7 @@ public class CacheHolder implements ICacheHolder {
 		this.setNumRecommended(ch.getNumRecommended());
 		if (overwrite) {
 			this.setCacheStatus(ch.getCacheStatus());
-			this.setFound(ch.is_found());
+			this.setFound(ch.isFound());
 			this.setPos(ch.getPos());
 		} else {
 			/*
@@ -339,12 +339,12 @@ public class CacheHolder implements ICacheHolder {
 			 * yyyy-mm-dd yes true yyyy-mm-dd yyyy-mm-dd no (or yes) true
 			 * yyyy-mm-dd hh:mm yyyy-mm-dd no any any empty no
 			 */
-			if (!this.is_found() || this.getCacheStatus().indexOf(":") < 0) {
+			if (!this.isFound() || this.getCacheStatus().indexOf(":") < 0) {
 				// don't overwrite with empty data
 				if (!ch.getCacheStatus().trim().equals("")) {
 					this.setCacheStatus(ch.getCacheStatus());
 				}
-				this.setFound(ch.is_found());
+				this.setFound(ch.isFound());
 			}
 			// Don't overwrite valid coordinates with invalid ones
 			if (ch.getPos().isValid() || !this.getPos().isValid()) {
@@ -362,17 +362,17 @@ public class CacheHolder implements ICacheHolder {
 		this.setDifficulty(ch.getDifficulty());
 		this.setTerrain(ch.getTerrain());
 		this.setType(ch.getType());
-		this.setArchived(ch.is_archived());
-		this.setAvailable(ch.is_available());
-		this.setOwned(ch.is_owned());
-		this.setFiltered(ch.is_filtered());
-		this.setIncomplete(ch.is_incomplete());
+		this.setArchived(ch.isArchived());
+		this.setAvailable(ch.isAvailable());
+		this.setOwned(ch.isOwned());
+		this.setFiltered(ch.isFiltered());
+		this.setIncomplete(ch.isIncomplete());
 		this.setAddiWpts(ch.getAddiWpts());
 		this.setMainCache(ch.getMainCache());
 		this.setOcCacheID(ch.getOcCacheID());
 		this.setNoFindLogs(ch.getNoFindLogs());
-		this.setHas_bugs(ch.has_bugs());
-		this.setHTML(ch.is_HTML());
+		this.setHasBugs(ch.hasBugs());
+		this.setHTML(ch.isHTML());
 		this.setLastSync(ch.getLastSync());
 
 		this.setAttributesYes(ch.getAttributesYes());
@@ -488,12 +488,12 @@ public class CacheHolder implements ICacheHolder {
 		CacheHolder mainCh = this.getMainCache();
 		this.setCacheOwner(mainCh.getCacheOwner());
 		this.setCacheStatus(mainCh.getCacheStatus());
-		this.setArchived(mainCh.is_archived());
-		this.setAvailable(mainCh.is_available());
-		this.setBlack(mainCh.is_black());
-		this.setOwned(mainCh.is_owned());
-		this.setNew(mainCh.is_new());
-		this.setFound(mainCh.is_found());
+		this.setArchived(mainCh.isArchived());
+		this.setAvailable(mainCh.isAvailable());
+		this.setBlack(mainCh.isBlack());
+		this.setOwned(mainCh.isOwned());
+		this.setNew(mainCh.isNew());
+		this.setFound(mainCh.isFound());
 	}
 
 	public void setAttributesToAddiWpts() {
@@ -697,7 +697,7 @@ public class CacheHolder implements ICacheHolder {
 	public String GetStatusDate() {
 		String statusDate = "";
 
-		if (is_found()) {
+		if (isFound()) {
 			Regex rexDate = new Regex("([0-9]{4}-[0-9]{2}-[0-9]{2})");
 			rexDate.search(getCacheStatus());
 			if (rexDate.stringMatched(1) != null) {
@@ -711,7 +711,7 @@ public class CacheHolder implements ICacheHolder {
 	public String GetStatusTime() {
 		String statusTime = "";
 
-		if (is_found()) {
+		if (isFound()) {
 			Regex rexTime = new Regex("([0-9]{1,2}:[0-9]{2})");
 			rexTime.search(getCacheStatus());
 			if (rexTime.stringMatched(1) != null) {
@@ -796,17 +796,17 @@ public class CacheHolder implements ICacheHolder {
 		// the property isVisible() is saved instead of is_filtered(), but at
 		// the place where is_filtered() is read.
 		long value = bool2BitMask(!this.isVisible(), 1)
-				| bool2BitMask(this.is_available(), 2)
-				| bool2BitMask(this.is_archived(), 3)
-				| bool2BitMask(this.has_bugs(), 4)
-				| bool2BitMask(this.is_black(), 5)
-				| bool2BitMask(this.is_owned(), 6)
-				| bool2BitMask(this.is_found(), 7)
-				| bool2BitMask(this.is_new(), 8)
-				| bool2BitMask(this.is_log_updated(), 9)
-				| bool2BitMask(this.is_updated(), 10)
-				| bool2BitMask(this.is_HTML(), 11)
-				| bool2BitMask(this.is_incomplete(), 12)
+				| bool2BitMask(this.isAvailable(), 2)
+				| bool2BitMask(this.isArchived(), 3)
+				| bool2BitMask(this.hasBugs(), 4)
+				| bool2BitMask(this.isBlack(), 5)
+				| bool2BitMask(this.isOwned(), 6)
+				| bool2BitMask(this.isFound(), 7)
+				| bool2BitMask(this.isNew(), 8)
+				| bool2BitMask(this.isLogUpdated(), 9)
+				| bool2BitMask(this.isUpdated(), 10)
+				| bool2BitMask(this.isHTML(), 11)
+				| bool2BitMask(this.isIncomplete(), 12)
 				| bool2BitMask(this.hasNote(), 13)
 				| bool2BitMask(this.hasSolver(), 14);
 		return value;
@@ -878,7 +878,7 @@ public class CacheHolder implements ICacheHolder {
 		this.setFiltered((value & this.bool2BitMask(true, 1)) != 0);
 		this.setAvailable((value & this.bool2BitMask(true, 2)) != 0);
 		this.setArchived((value & this.bool2BitMask(true, 3)) != 0);
-		this.setHas_bugs((value & this.bool2BitMask(true, 4)) != 0);
+		this.setHasBugs((value & this.bool2BitMask(true, 4)) != 0);
 		this.setBlack((value & this.bool2BitMask(true, 5)) != 0);
 		this.setOwned((value & this.bool2BitMask(true, 6)) != 0);
 		this.setFound((value & this.bool2BitMask(true, 7)) != 0);
@@ -887,7 +887,7 @@ public class CacheHolder implements ICacheHolder {
 		this.setUpdated((value & this.bool2BitMask(true, 10)) != 0);
 		this.setHTML((value & this.bool2BitMask(true, 11)) != 0);
 		this.setIncomplete(((value & this.bool2BitMask(true, 12)) != 0)
-				|| this.is_incomplete());
+				|| this.isIncomplete());
 		this.setHasNote((value & this.bool2BitMask(true, 13)) != 0);
 		this.setHasSolver((value & this.bool2BitMask(true, 14)) != 0);
 	}
@@ -939,10 +939,10 @@ public class CacheHolder implements ICacheHolder {
 	public boolean isVisible() {
 		Profile profile = Global.getProfile();
 		int filter = profile.getFilterActive();
-		boolean noShow = ((profile.showBlacklisted() != this.is_black())
-				|| (profile.showSearchResult() && !this.isIs_flaged())
+		boolean noShow = ((profile.showBlacklisted() != this.isBlack())
+				|| (profile.showSearchResult() && !this.isFlaged())
 				|| ((filter == Filter.FILTER_ACTIVE || filter == Filter.FILTER_MARKED_ONLY) && (this
-						.is_filtered())
+						.isFiltered())
 						^ profile.isFilterInverted()) || (filter == Filter.FILTER_CACHELIST)
 				&& !Global.mainForm.cacheList.contains(this.getWayPoint()));
 		boolean showAddi = this.showAddis() && this.getMainCache() != null
@@ -1108,7 +1108,7 @@ public class CacheHolder implements ICacheHolder {
 		this.type = type;
 	}
 
-	public boolean is_archived() {
+	public boolean isArchived() {
 		return archived;
 	}
 
@@ -1117,7 +1117,7 @@ public class CacheHolder implements ICacheHolder {
 		this.archived = is_archived;
 	}
 
-	public boolean is_available() {
+	public boolean isAvailable() {
 		return available;
 	}
 
@@ -1127,7 +1127,7 @@ public class CacheHolder implements ICacheHolder {
 		this.available = is_available;
 	}
 
-	public boolean is_owned() {
+	public boolean isOwned() {
 		return owned;
 	}
 
@@ -1136,7 +1136,7 @@ public class CacheHolder implements ICacheHolder {
 		this.owned = is_owned;
 	}
 
-	public boolean is_found() {
+	public boolean isFound() {
 		return found;
 	}
 
@@ -1213,7 +1213,7 @@ public class CacheHolder implements ICacheHolder {
 	 * 
 	 * @return <code>True</code> if filter criteria are matched
 	 */
-	public boolean is_filtered() {
+	public boolean isFiltered() {
 		return filtered;
 	}
 
@@ -1222,7 +1222,7 @@ public class CacheHolder implements ICacheHolder {
 		this.filtered = is_filtered;
 	}
 
-	public boolean is_log_updated() {
+	public boolean isLogUpdated() {
 		return log_updated;
 	}
 
@@ -1234,7 +1234,7 @@ public class CacheHolder implements ICacheHolder {
 		this.log_updated = is_log_updated;
 	}
 
-	public boolean is_updated() {
+	public boolean isUpdated() {
 		return cache_updated;
 	}
 
@@ -1246,7 +1246,7 @@ public class CacheHolder implements ICacheHolder {
 		this.cache_updated = is_updated;
 	}
 
-	public boolean is_incomplete() {
+	public boolean isIncomplete() {
 		return incomplete;
 	}
 
@@ -1315,7 +1315,7 @@ public class CacheHolder implements ICacheHolder {
 	 * 
 	 * @return <code>true</code> if he black status of the cache is set.
 	 */
-	public boolean is_black() {
+	public boolean isBlack() {
 		return black;
 	}
 
@@ -1324,7 +1324,7 @@ public class CacheHolder implements ICacheHolder {
 		this.black = is_black;
 	}
 
-	public boolean is_new() {
+	public boolean isNew() {
 		return newCache;
 	}
 
@@ -1376,16 +1376,16 @@ public class CacheHolder implements ICacheHolder {
 		this.numFoundsSinceRecommendation = numFoundsSinceRecommendation;
 	}
 
-	public boolean has_bugs() {
+	public boolean hasBugs() {
 		return bugs;
 	}
 
-	public void setHas_bugs(boolean has_bug) {
+	public void setHasBugs(boolean has_bug) {
 		Global.getProfile().notifyUnsavedChanges(has_bug != this.bugs);
 		this.bugs = has_bug;
 	}
 
-	public boolean is_HTML() {
+	public boolean isHTML() {
 		return html;
 	}
 
@@ -1491,19 +1491,19 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	public void setIs_flaged(boolean is_flaged) {
-		this.is_flaged = is_flaged;
+		this.isFlaged = is_flaged;
 	}
 
-	public boolean isIs_flaged() {
-		return is_flaged;
+	public boolean isFlaged() {
+		return isFlaged;
 	}
 
 	public void setIs_Checked(boolean is_Checked) {
-		this.is_Checked = is_Checked;
+		this.isChecked = is_Checked;
 	}
 
-	public boolean isIs_Checked() {
-		return is_Checked;
+	public boolean isChecked() {
+		return isChecked;
 	}
 
 	public void setRecommendationScore(int recommendationScore) {
@@ -1523,11 +1523,11 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	public void setIn_range(boolean in_range) {
-		this.in_range = in_range;
+		this.inRange = in_range;
 	}
 
-	public boolean isIn_range() {
-		return in_range;
+	public boolean isInRange() {
+		return inRange;
 	}
 
 	public void setMainCache(CacheHolder mainCache) {

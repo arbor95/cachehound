@@ -260,14 +260,14 @@ public class CacheHolderDetail {
 	public void update(CacheHolderDetail newCh) {
 		// flags
 		// TODO: nicht so toll hier, CacheStatus sollte zu eine Enum werden.
-		if (getParent().is_found() && getParent().getCacheStatus().equals("")) {
+		if (getParent().isFound() && getParent().getCacheStatus().equals("")) {
 			getParent().setCacheStatus(MyLocale.getMsg(318, "Found"));
 		}
 		// travelbugs:GPX-File contains all actual travelbugs but not the
 		// missions
 		// we need to check whether the travelbug is already in the existing
 		// list
-		getParent().setHas_bugs(newCh.getTravelbugs().size() > 0);
+		getParent().setHasBugs(newCh.getTravelbugs().size() > 0);
 		for (int i = newCh.getTravelbugs().size() - 1; i >= 0; i--) {
 			Travelbug tb = newCh.getTravelbugs().getTB(i);
 			Travelbug oldTB = this.getTravelbugs().find(tb.getName());

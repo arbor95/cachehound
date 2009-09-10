@@ -232,7 +232,7 @@ public class myTableControl extends TableControl {
 			boolean deleteFiltered = true; // Bisheriges Verhalten
 			for (int i = cacheDB.size() - 1; i >= 0; i--) {
 				CacheHolder currCache = cacheDB.get(i);
-				if (currCache.isIs_Checked()) {
+				if (currCache.isChecked()) {
 					allCount++;
 					if (!currCache.isVisible()) {
 						if (currCache.isAddiWpt()) {
@@ -286,7 +286,7 @@ public class myTableControl extends TableControl {
 						// each deleted
 						// cache
 						ch = cacheDB.get(i);
-						if (ch.isIs_Checked()
+						if (ch.isChecked()
 								&& (ch.isVisible() || deleteFiltered)) {
 							nDeleted++;
 							h.progress = ((float) nDeleted) / (float) allCount;

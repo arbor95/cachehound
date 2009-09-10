@@ -657,7 +657,7 @@ public class OCXMLImporter extends MinML {
 
 		if (!ignoreDesc) {
 			if (name.equals("cachedesc")) {
-				if (pref.downloadPics && holder.is_HTML()) {
+				if (pref.downloadPics && holder.isHTML()) {
 					String fetchUrl, imgTag, imgAltText;
 					Regex imgRegexUrl = new Regex(
 							"(<img[^>]*src=[\"\']([^>^\"^\']*)[^>]*>|<img[^>]*src=([^>^\"^\'^ ]*)[^>]*>)"); // Ergebnis
@@ -765,7 +765,7 @@ public class OCXMLImporter extends MinML {
 			}
 
 			if (name.equals("desc")) { // </desc>
-				if (holder.is_HTML())
+				if (holder.isHTML())
 					holder.getFreshDetails().setLongDescription(
 							holder.getFreshDetails().getLongDescription()
 									+ SafeXML.cleanback(strData));

@@ -711,7 +711,7 @@ public class MainMenu extends MenuBar {
 					// filter
 					// status and only adds the marked caches to the filtered
 					// set
-					if (ch.isIs_Checked() && ch.isVisible()) {
+					if (ch.isChecked() && ch.isVisible()) {
 						ch.setFiltered(true);
 						filterChanged = true;
 					}
@@ -731,7 +731,7 @@ public class MainMenu extends MenuBar {
 					ch = cacheDB.get(i);
 					// incremental filter. Keeps status of all marked caches and
 					// adds unmarked caches to filtered list
-					if (!ch.isIs_Checked() && ch.isVisible()) {
+					if (!ch.isChecked() && ch.isVisible()) {
 						ch.setFiltered(true);
 						filterChanged = true;
 					}
@@ -957,7 +957,7 @@ public class MainMenu extends MenuBar {
 		Vector cachesToUpdate = new Vector();
 		for (int i = 0; i < cacheDB.size(); i++) {
 			ch = cacheDB.get(i);
-			if (ch.isIs_Checked() == true && ch.isVisible()) {
+			if (ch.isChecked() == true && ch.isVisible()) {
 				if (ch.getWayPoint().length() > 1
 						&& (ch.getWayPoint().substring(0, 2).equalsIgnoreCase(
 								"GC") || ch.getWayPoint().substring(0, 2)
@@ -973,7 +973,7 @@ public class MainMenu extends MenuBar {
 					cachesToUpdate.add(new Integer(i));
 				} else {
 					if (ch.isAddiWpt() && ch.getMainCache() != null
-							&& !ch.getMainCache().isIs_Checked()
+							&& !ch.getMainCache().isChecked()
 							&& !alreadySaid2) { // Is
 						// the
 						// father

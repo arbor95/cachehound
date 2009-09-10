@@ -82,7 +82,7 @@ public class LocExporter extends Exporter {
 		if (gm != null) {
 			strBuf.append(gm.getIcon(ch));
 		} else {
-			if (ch.is_found())
+			if (ch.isFound())
 				strBuf.append("Geocache Found");
 			else
 				strBuf.append("Geocache");

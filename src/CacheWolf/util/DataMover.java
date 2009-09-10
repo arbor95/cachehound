@@ -115,9 +115,9 @@ public class DataMover {
 		int countAddiWP = 0;
 		// Count the number of caches to move/delete/copy
 		for (int i = 0; i < size; i++) {
-			if (srcDB.get(i).isIs_Checked() && !srcDB.get(i).isAddiWpt()) {
+			if (srcDB.get(i).isChecked() && !srcDB.get(i).isAddiWpt()) {
 				countMainWP++;
-			} else if (srcDB.get(i).isIs_Checked() && srcDB.get(i).isAddiWpt()) {
+			} else if (srcDB.get(i).isChecked() && srcDB.get(i).isAddiWpt()) {
 				countAddiWP++;
 			}
 		}
@@ -149,10 +149,10 @@ public class DataMover {
 		int countAddiWP = 0;
 		// Count the number of caches to move/delete/copy
 		for (int i = 0; i < size; i++) {
-			if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()
+			if (srcDB.get(i).isVisible() && srcDB.get(i).isChecked()
 					&& !srcDB.get(i).isAddiWpt()) {
 				countMainWP++;
-			} else if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()
+			} else if (srcDB.get(i).isVisible() && srcDB.get(i).isChecked()
 					&& srcDB.get(i).isAddiWpt()) {
 				countAddiWP++;
 			}
@@ -215,13 +215,13 @@ public class DataMover {
 				}
 				break;
 			case 1:
-				if (srcDB.get(i).isIs_Checked()) {
+				if (srcDB.get(i).isChecked()) {
 					count++;
 					processSet[i] = true;
 				}
 				break;
 			case 2:
-				if (srcDB.get(i).isVisible() && srcDB.get(i).isIs_Checked()) {
+				if (srcDB.get(i).isVisible() && srcDB.get(i).isChecked()) {
 					count++;
 					processSet[i] = true;
 				}

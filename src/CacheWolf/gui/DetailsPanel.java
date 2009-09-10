@@ -342,21 +342,21 @@ public class DetailsPanel extends CellPanel {
 			chcStatus.setText(ch.getCacheStatus());
 			// If the cache status contains a date, do not overwrite it with
 			// 'found' message
-			if (ch.is_found() == true)
+			if (ch.isFound() == true)
 				chcStatus.setText(MyLocale.getMsg(318, "Found"));
 		}
 		chcType.setInt(ch.getType().ordinal());
-		if (ch.is_black()) {
+		if (ch.isBlack()) {
 			btnBlack.image = imgBlack;
 		} else {
 			btnBlack.image = imgBlackNo;
 		}
-		blackStatus = ch.is_black();
+		blackStatus = ch.isBlack();
 		blackStatusChanged = false;
 		btnBlack.repaintNow();
 		if (inpWaypoint.getText().length() == 0)
 			createWptName();
-		if (ch.has_bugs() == true) {
+		if (ch.hasBugs() == true) {
 			// btnShowBug.modify(Control.Disabled,1);
 			btnShowBug.image = imgShowBug;
 		} else {
@@ -567,14 +567,14 @@ public class DetailsPanel extends CellPanel {
 							Global.getProfile().getDataDir());
 				}
 			} else if (ev.target == btnBlack) {
-				if (thisCache.is_black()) {
+				if (thisCache.isBlack()) {
 					thisCache.setBlack(false);
 					btnBlack.image = imgBlackNo;
 				} else {
 					thisCache.setBlack(true);
 					btnBlack.image = imgBlack;
 				}
-				blackStatus = thisCache.is_black();
+				blackStatus = thisCache.isBlack();
 				thisCache.setAttributesToAddiWpts();
 				btnBlack.repaintNow();
 				dirty_details = true;
@@ -729,7 +729,7 @@ public class DetailsPanel extends CellPanel {
 		} else {
 			thisCache.setCacheStatus(chcStatus.getText());
 		}
-		if (!thisCache.is_found() && thisCache.getCacheStatus().length() >= 10
+		if (!thisCache.isFound() && thisCache.getCacheStatus().length() >= 10
 				&& thisCache.getCacheStatus().charAt(4) == '-') {
 			// Use same heuristic condition as in setDetails(CacheHolder) to
 			// determine, if this
@@ -744,7 +744,7 @@ public class DetailsPanel extends CellPanel {
 		thisCache.setOwned(thisCache.getCacheStatus().equals(
 				MyLocale.getMsg(320, "Owner")));
 		// Avoid setting is_owned if alias is empty and username is empty
-		if (thisCache.is_owned() == false) {
+		if (thisCache.isOwned() == false) {
 			thisCache.setOwned(pref.isMyAlias(thisCache.getCacheOwner()));
 		}
 		thisCache.setBlack(blackStatus);
@@ -911,7 +911,7 @@ public class DetailsPanel extends CellPanel {
 						setHtml(thisCache.getCacheDetails(true).getTravelbugs()
 								.toHtml());
 						repaint();
-						thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+						thisCache.setHasBugs(thisCache.getCacheDetails(true)
 								.getTravelbugs().size() > 0);
 					}
 				} else if (selectedItem == mnuDropTB) {
@@ -929,7 +929,7 @@ public class DetailsPanel extends CellPanel {
 					}
 					tbjList.saveTravelbugsFile();
 					tbjList = null;
-					thisCache.setHas_bugs(thisCache.getCacheDetails(true)
+					thisCache.setHasBugs(thisCache.getCacheDetails(true)
 							.getTravelbugs().size() > 0);
 					setHtml(thisCache.getCacheDetails(true).getTravelbugs()
 							.toHtml());

@@ -41,7 +41,7 @@ public class DBStats {
 		int counter = 0;
 		for (int i = 0; i < cacheDB.size(); i++) {
 			holder = cacheDB.get(i);
-			if (holder.is_black() == false) {
+			if (holder.isBlack() == false) {
 				if (holder.getWayPoint().startsWith("GC")
 						|| holder.getWayPoint().startsWith("OC"))
 					counter++;
@@ -55,7 +55,7 @@ public class DBStats {
 		int counter = 0;
 		for (int i = 0; i < cacheDB.size(); i++) {
 			holder = cacheDB.get(i);
-			if (holder.is_found() == true) {
+			if (holder.isFound() == true) {
 				if (holder.getWayPoint().startsWith("GC")
 						|| holder.getWayPoint().startsWith("OC"))
 					counter++;

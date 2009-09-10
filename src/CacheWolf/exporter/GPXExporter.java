@@ -83,7 +83,7 @@ public class GPXExporter extends Exporter {
 					SafeXML.cleanGPX(ch.getCacheOwner())).append(
 					"</urlname>\r\n");
 			if (!ch.isAddiWpt()) {
-				if (ch.is_found()) {
+				if (ch.isFound()) {
 					strBuf.append("    <sym>Geocache Found</sym>\r\n");
 				} else {
 					strBuf.append("    <sym>Geocache</sym>\r\n");
@@ -91,9 +91,9 @@ public class GPXExporter extends Exporter {
 				strBuf.append("    <type>Geocache|").append(
 						ch.getType().getGcGpxString()).append(
 						"</type>\r\n");
-				String dummyAvailable = ch.is_available() ? STRING_TRUE
+				String dummyAvailable = ch.isAvailable() ? STRING_TRUE
 						: STRING_FALSE;
-				String dummyArchived = ch.is_archived() ? STRING_TRUE
+				String dummyArchived = ch.isArchived() ? STRING_TRUE
 						: STRING_FALSE;
 				strBuf
 						.append("    <groundspeak:cache id=\"")
@@ -137,7 +137,7 @@ public class GPXExporter extends Exporter {
 						SafeXML.cleanGPX(det.getState())
 								+ "</groundspeak:state>\r\n");
 
-				String dummyHTML = ch.is_HTML() ? STRING_TRUE : STRING_FALSE;
+				String dummyHTML = ch.isHTML() ? STRING_TRUE : STRING_FALSE;
 				strBuf.append("      <groundspeak:long_description html=\"")
 						.append(dummyHTML).append("\">\r\n");
 				strBuf.append("      ").append(
@@ -147,7 +147,7 @@ public class GPXExporter extends Exporter {
 						SafeXML.cleanGPX(Common.rot13(det.getHints()))).append(
 						"</groundspeak:encoded_hints>\r\n");
 				strBuf.append("      <groundspeak:logs>\r\n");
-				if (Global.getPref().exportGpxAsMyFinds && ch.is_found()) {
+				if (Global.getPref().exportGpxAsMyFinds && ch.isFound()) {
 					if (det.getOwnLogId().length() != 0) {
 						strBuf.append("        <groundspeak:log id=\"").append(
 								det.getOwnLogId()).append("\">\r\n");

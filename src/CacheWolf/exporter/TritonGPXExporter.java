@@ -86,8 +86,8 @@ public class TritonGPXExporter extends Exporter {
 				strBuf.append("    <sym>Geocache</sym>\r\n");
 				strBuf.append("    <type>Geocache|").append(
 						ch.getType().getGcGpxString()).append("</type>\r\n");
-				String dummyAvailable = (ch.is_available()) ? "True" : "False";
-				String dummyArchived = (ch.is_archived()) ? "True" : "False";
+				String dummyAvailable = (ch.isAvailable()) ? "True" : "False";
+				String dummyArchived = (ch.isArchived()) ? "True" : "False";
 				strBuf
 						.append("    <groundspeak:cache id=\"")
 						.append(ch.getCacheID())
