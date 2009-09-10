@@ -1,7 +1,6 @@
 package CacheWolf.exporter;
 
 import CacheWolf.beans.CacheHolder;
-import de.cachehound.types.CacheType;
 
 /**
  * Class to export the cache database (index) to an CSV File which can bei easy

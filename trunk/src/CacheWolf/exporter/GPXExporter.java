@@ -5,7 +5,6 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.types.CacheType;
 import ewe.io.FileBase;
 import ewe.sys.Time;
 import ewe.sys.Vm;

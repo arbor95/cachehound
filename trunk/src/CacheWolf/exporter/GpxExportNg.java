@@ -15,7 +15,6 @@ import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.beans.Log;
 import de.cachehound.beans.LogList;
-import de.cachehound.types.CacheType;
 import de.cachehound.util.GPSBabel;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;

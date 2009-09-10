@@ -11,7 +11,6 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
-import de.cachehound.types.CacheType;
 import de.cachehound.types.LogType;
 import ewe.sys.Time;
 
