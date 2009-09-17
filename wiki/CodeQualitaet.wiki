@@ -15,7 +15,7 @@ Für neuen oder stark überarbeiteten Code (etwa eine Reimplementierung auf Basi
  * *de.cachehound.exporter* Alles, mit dem Daten aus dem CacheHound exportiert werden
  * *de.cachehound.importer* Alles, was Daten in den CacheHound importiert
  * *de.cachehound.util* Hilfsklassen, die nicht zugeordnet werden können (wie etwa Algorithmen u.ä.)
- * *de.cachehound.gui.abstract* Interfaces oder abstrakte Klassen, die GuiElemente darstellen
+ * *de.cachehound.gui.interfaces* Interfaces oder abstrakte Klassen, die GuiElemente darstellen
  * *de.cachehound.gui.ewe* Implementierung von GuiElementen, die eventuell Implementierungen aus _abstract_ darstellen oder aber volle eigenständige Elemente sind.
 
 = Anforderungen an den Quellcode =
