@@ -10,8 +10,8 @@
 	<classpathentry kind="lib" path="lib/logback-core-0.9.16.jar"/>
 	<classpathentry kind="lib" path="lib/TableLayout.jar"/>
 	<classpathentry kind="lib" path="lib/ewe.jar" sourcepath="lib/src/Ewe149-Source-Java.zip"/>
-	<classpathentry kind="lib" path="lib/CompileEwe.zip" sourcepath="lib/JavaEwe.zip"/>
 	<classpathentry kind="lib" path="lib/ewe_misc.jar"/>
 	<classpathentry kind="lib" path="lib/openmap.jar" sourcepath="lib/src/openmap-4.6.5.zip"/>
+	<classpathentry kind="lib" path="lib/txw2.jar" sourcepath="lib/src/txw2-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
