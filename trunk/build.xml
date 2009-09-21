@@ -62,6 +62,7 @@
 		<pathelement location="./lib/junit-4.6.jar" />
 		<pathelement location="./lib/TableLayout.jar" />
 		<pathelement location="./lib/openmap.jar" />
+		<pathelement location="./lib/txw2.jar" />
 	</path>
 
 
