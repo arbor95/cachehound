@@ -1,5 +1,6 @@
 package de.cachehound.beans;
 
+import CacheWolf.beans.CWPoint;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.Difficulty;
@@ -53,5 +54,25 @@ public class CacheHolderDummy implements ICacheHolder {
 	@Override
 	public boolean isOwned() {
 		return false;
+	}
+
+	@Override
+	public String getWayPoint() {
+		return null;
+	}
+
+	@Override
+	public String getCacheName() {
+		return null;
+	}
+
+	@Override
+	public String getCacheOwner() {
+		return null;
+	}
+
+	@Override
+	public CWPoint getPos() {
+		return null;
 	}
 }
