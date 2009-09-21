@@ -386,8 +386,7 @@ public class CWPoint extends TrackPoint {
 	public String getLatDeg(int format) {
 		switch (format) {
 		case DD:
-			return MyLocale.formatDouble(this.latDec, "00.00000").replace(',',
-					'.');
+			return Double.toString(this.latDec);
 		case CW:
 		case DMM:
 		case DMS:
@@ -406,8 +405,7 @@ public class CWPoint extends TrackPoint {
 	public String getLonDeg(int format) {
 		switch (format) {
 		case DD:
-			return MyLocale.formatDouble(this.lonDec, "000.00000").replace(',',
-					'.');
+			return Double.toString(this.lonDec);
 		case CW:
 		case DMM:
 		case DMS:
