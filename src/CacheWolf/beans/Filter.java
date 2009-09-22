@@ -174,7 +174,7 @@ public class Filter {
 				// ... go through the current cache database
 				for (int i = cacheDB.size() - 1; i >= 0; i--) {
 					ch = cacheDB.get(i);
-					cwp = new CWPoint(ch.getLatLon(), CWPoint.CW);
+					cwp = new CWPoint(ch.getPos());
 					calcDistance = DistToSegment(fromPoint, toPoint, cwp);
 					calcDistance = (calcDistance * 180 * 60)
 							/ java.lang.Math.PI;

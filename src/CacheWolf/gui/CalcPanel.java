@@ -216,10 +216,7 @@ public class CalcPanel extends CellPanel {
 				inpDistance.setText("0");
 
 				currFormat = CWPoint.DMM;
-				if (ch.getLatLon().length() == 0)
-					coordInp.set(0, 0);
-				else
-					coordInp.set(ch.getLatLon(), CWPoint.CW);
+				coordInp.set(ch.getPos());
 				setFields(coordInp, CWPoint.DMM);
 			}
 		}

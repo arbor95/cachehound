@@ -311,7 +311,6 @@ public class MapLoaderGui extends Form {
 			mapLoader.downlaodTiles(mapsDir);
 		} else { // per cache
 			CacheHolder ch;
-			CWPoint tmpca = new CWPoint();
 			int numdownloaded = 0;
 			Global.getProfile().getSourroundingArea(onlySelected); // calculate
 			// numCachesInArea
@@ -320,8 +319,7 @@ public class MapLoaderGui extends Form {
 				ch = cacheDB.get(i);
 				if (!this.onlySelected || ch.isChecked()) {
 					if (ch.getPos() == null) { // this can not happen
-						tmpca.set(ch.getLatLon());
-						ch.setPos(new CWPoint(tmpca));
+						ch.setPos(ch.getPos());
 					}
 					if (ch.getPos().isValid() && ch.getPos().latDec != 0
 							&& ch.getPos().lonDec != 0) { // TODO != 0 sollte
