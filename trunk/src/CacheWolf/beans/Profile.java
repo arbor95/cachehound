@@ -505,9 +505,9 @@ public class Profile {
 
 	public String toString() {
 		return "Profile: Name=" + name + "\nCentre=" + centre.toString()
-				+ "\ndataDir=" + getDataDir().getAbsolutePath() + "\nlastSyncOC="
-				+ getLast_sync_opencaching() + "\ndistOC=" + getDistOC()
-				+ "\ndistGC=" + getDistGC();
+				+ "\ndataDir=" + getDataDir().getAbsolutePath()
+				+ "\nlastSyncOC=" + getLast_sync_opencaching() + "\ndistOC="
+				+ getDistOC() + "\ndistGC=" + getDistGC();
 	}
 
 	public void setSelectForAll(boolean selectStatus) {
@@ -528,15 +528,13 @@ public class Profile {
 		CacheHolder ch;
 		CWPoint topleft = null;
 		CWPoint bottomright = null;
-		CWPoint tmpca = new CWPoint();
 		numCachesInArea = 0;
 		boolean isAddi = false;
 		for (int i = cacheDB.size() - 1; i >= 0; i--) {
 			ch = cacheDB.get(i);
 			if (!onlyOfSelected || ch.isChecked()) {
 				if (ch.getPos() == null) { // this can not happen
-					tmpca.set(ch.getLatLon());
-					ch.setPos(new CWPoint(tmpca));
+					ch.setPos(ch.getPos());
 				}
 				if (ch.getPos().isValid()) { // done: && ch.pos.latDec != 0 &&
 					// ch.pos.lonDec != 0 TO-DO != 0 sollte
@@ -547,42 +545,13 @@ public class Profile {
 					if (!isAddi
 							|| (isAddi && ch.getMainCache() != null && ch
 									.getPos().getDistance(
-											ch.getMainCache().getPos()) < 1000)) { // test
-						// for
-						// plausiblity
-						// of
-						// coordinates
-						// of
-						// Additional
-						// Waypoints:
-						// more
-						// then
-						// 1000
-						// km
-						// away
-						// from
-						// main
-						// Waypoint
-						// is
-						// unplausible
-						// ->
-						// ignore
-						// it
-						// //
-						// &&
-						// ch.mainCache
-						// !=
-						// null
-						// is
-						// only
-						// necessary
-						// because
-						// the
-						// data
-						// base
-						// may
-						// be
-						// corrupted
+											ch.getMainCache().getPos()) < 1000)) {
+						// test for plausiblity of coordinates of Additional
+						// Waypoints: more then 1000 km away from main Waypoint
+						// is unplausible -> ignore it
+						// 
+						// && ch.mainCache != null is only necessary because the
+						// data base may be corrupted
 						if (topleft == null)
 							topleft = new CWPoint(ch.getPos());
 						if (bottomright == null)

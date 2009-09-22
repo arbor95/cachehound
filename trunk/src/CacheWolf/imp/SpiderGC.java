@@ -997,7 +997,6 @@ public class SpiderGC {
 						// ==========
 						ch.setPos(new CWPoint(latLon));
 						logger.debug("LatLon: " + ch.getLatLon());
-						logger.debug("chD.pos: " + ch.getPos().toString());
 
 						logger.debug("Trying description");
 						ch.getFreshDetails().setLongDescription(

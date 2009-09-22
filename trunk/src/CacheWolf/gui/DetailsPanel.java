@@ -506,7 +506,7 @@ public class DetailsPanel extends CellPanel {
 								.toHtml(), "Travelbugs");
 				ts.execute(this.getFrame(), Gui.CENTER_FRAME);
 			} else if (ev.target == btnCenter) {
-				CWPoint cp = new CWPoint(thisCache.getLatLon());
+				CWPoint cp = new CWPoint(thisCache.getPos());
 				if (!cp.isValid()) {
 					MessageBox tmpMB = new MessageBox(
 							MyLocale.getMsg(312, "Error"),
