@@ -14,6 +14,7 @@ import de.cachehound.filter.DifficultyFilter;
 import de.cachehound.filter.DisabledFilter;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.FoundFilter;
+import de.cachehound.filter.HasCoordinatesFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.filter.NotFilter;
 import de.cachehound.filter.OrFilter;
@@ -62,6 +63,8 @@ public class FilterMenu extends JMenu {
 		add(createMenuItem("Disabled", new DisabledFilter(), negated));
 		add(createMenuItem("Found", new FoundFilter(), negated));
 		add(createMenuItem("Owned", new OwnedFilter(), negated));
+		add(new JSeparator());
+		add(createMenuItem("Has coordinates", new HasCoordinatesFilter(), negated));
 	}
 	
 	private JMenuItem createMenuItem(String text, IFilter f, boolean negated) {
@@ -69,8 +72,9 @@ public class FilterMenu extends JMenu {
 		IFilter filter;
 		if (negated) {
 			filter = new NotFilter(f);
-		} else
+		} else {
 			filter = f;
+		}
 		item.addActionListener(new MyActionListener(filter));
 		return item;
 	}
