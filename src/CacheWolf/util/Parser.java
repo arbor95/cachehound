@@ -48,7 +48,6 @@ import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.navi.Metrics;
-import CacheWolf.navi.Navigate;
 
 import com.stevesoft.ewe_pat.Regex;
 
@@ -478,10 +477,6 @@ public class Parser {
 		}
 	}
 
-	private String funcCp() {
-		return Global.mainTab.nav.gpsPos.toString();
-	}
-
 	/**
 	 * Crosstotal: Works for both strings and numbers. For strings any
 	 * non-numeric character is ignored Warning: When the number is non-integer
@@ -598,39 +593,6 @@ public class Parser {
 					.getMsg(1713,
 							"Invalid coordinate format. Allowed are CW/DD/DMM/DMS/UTM/GK"));
 		return cwPt.toString(fmt);
-	}
-
-	/**
-	 * Implements a goto command goto(coordinate,optionalWaypointName).
-	 */
-	private void funcGoto(int nargs) throws Exception {
-		Navigate nav = Global.mainTab.nav;
-		String waypointName = null;
-		if (nargs == 2)
-			waypointName = popCalcStackAsString();
-		String coord = popCalcStackAsString();
-		if (!isValidCoord(coord))
-			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);
-		// Don't want to switch to goto panel, just set the values
-		nav.setDestination(coord);
-		if (nargs == 2) { // Now set the value of the addi waypoint (it must
-			// exist already)
-			cwPt.set(coord);
-			CacheHolder ch = Global.getProfile().cacheDB.get(waypointName);
-			if (ch == null) {
-				err(MyLocale.getMsg(1714, "Goto: Waypoint does not exist: ")
-						+ waypointName);
-				return;
-			}
-			ch.setPos(cwPt);
-			ch.calcDistance(Global.getPref().curCentrePt); // Update
-			// distance/bearing
-			nav.setDestination(ch);
-			Global.getProfile().selectionChanged = true; // Tell moving map
-			// to
-			// updated displayed
-			// waypoints
-		}
 	}
 
 	/** Display or change the case sensitivity of variable names */
@@ -1358,8 +1320,6 @@ public class Parser {
 					.cos(makeRadiant(popCalcStackAsNumber(0)))));
 		else if (funcDef.alias.equals("count"))
 			funcCount();
-		else if (funcDef.alias.equals("cp"))
-			calcStack.add(funcCp());
 		else if (funcDef.alias.equals("ct"))
 			calcStack.add(new java.lang.Double(funcCrossTotal(nargs)));
 		else if (funcDef.alias.equals("deg"))
@@ -1372,8 +1332,6 @@ public class Parser {
 			calcStack.add(funcEncode());
 		else if (funcDef.alias.equals("format"))
 			calcStack.add(funcFormat(nargs));
-		else if (funcDef.alias.equals("goto"))
-			funcGoto(nargs);
 		else if (funcDef.alias.equals("ic"))
 			funcIgnoreVariableCase(nargs);
 		else if (funcDef.alias.equals("instr"))

@@ -57,7 +57,7 @@ public class CalcPanel extends CellPanel {
 	mChoice chcDistUnit;
 	mInput inpBearing, inpDistance, inpText;
 	TextDisplay txtOutput;
-	mButton btnCalc, btnClear, btnSave, btnGoto, btnParse;
+	mButton btnCalc, btnClear, btnSave, btnParse;
 	BearingDistance bd = new BearingDistance();
 	CWPoint coordInp = new CWPoint();
 	CWPoint coordOut = new CWPoint();
@@ -143,9 +143,6 @@ public class CalcPanel extends CellPanel {
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		BottomP.addNext(btnClear = new mButton("Clear"),
-				CellConstants.DONTSTRETCH,
-				(CellConstants.DONTFILL | CellConstants.WEST));
-		BottomP.addNext(btnGoto = new mButton("Goto"),
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
 		BottomP.addLast(btnSave = new mButton(MyLocale.getMsg(311,
@@ -255,12 +252,6 @@ public class CalcPanel extends CellPanel {
 				ch.setPos(coordOut);
 				ch.setType(CacheType.STAGE); // TODO unfertig
 				mainT.newWaypoint(ch);
-			}
-
-			if (ev.target == btnGoto) {
-				readFields(coordInp, bd, currFormat);
-				coordOut = coordInp.project(bd.degrees, bd.distance);
-				mainT.gotoP.setDestinationAndSwitch(coordOut);
 			}
 			if (ev.target == btnChangeLatLon) {
 				CoordsScreen cs = new CoordsScreen();
