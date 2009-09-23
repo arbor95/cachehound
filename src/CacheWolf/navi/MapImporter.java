@@ -1,6 +1,8 @@
 package CacheWolf.navi;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
@@ -40,7 +42,6 @@ import ewe.ui.ScrollBarPanel;
 import ewe.ui.mButton;
 import ewe.ui.mLabel;
 import ewe.util.ByteArray;
-import ewe.util.Vector;
 import ewe.util.mString;
 
 /**
@@ -54,7 +55,7 @@ public class MapImporter extends Form {
 	public String selectedMap = new String();
 	CellPanel infPanel;
 	mLabel infLabel = new mLabel("                          ");
-	Vector GCPs = new Vector();
+	private List<GCPoint> GCPs = new ArrayList<GCPoint>();
 	MapInfoObject wfl = new MapInfoObject();
 	mButton infButton;
 	ScrollBarPanel scp;
