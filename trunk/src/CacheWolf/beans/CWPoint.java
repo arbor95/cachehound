@@ -21,7 +21,7 @@ import ewe.sys.Convert;
  */
 public class CWPoint extends TrackPoint {
 	private MGRSPoint utm = new MGRSPoint();
-	public boolean utmValid = false;
+	private boolean utmValid = false;
 
 	public static final int DD = 0;
 	public static final int DMM = 1;
