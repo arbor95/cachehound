@@ -2,7 +2,6 @@ package CacheWolf.gui;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
-import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
 import de.cachehound.util.SpiderService;
 import ewe.fx.Dimension;
@@ -38,7 +37,7 @@ public class CoordsScreen extends Form {
 	mInput inpNSDeg, inpNSm, inpNSs, inpEWDeg, inpEWm, inpEWs;
 	mInput inpUTMZone, inpUTMNorthing, inpUTMEasting;
 	mInput inpText;
-	mButton btnCancel, btnApply, btnCopy, btnPaste, btnParse, btnGps, btnClear;
+	mButton btnCancel, btnApply, btnCopy, btnPaste, btnParse, btnClear;
 	CWPoint coordInp = new CWPoint();
 	CellPanel topLinePanel = new CellPanel();
 	CellPanel mainPanel = new CellPanel();
@@ -141,9 +140,6 @@ public class CoordsScreen extends Form {
 		mainPanel.addNext(inpUTMNorthing = new mInput(),
 				CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
-		mainPanel.addLast(btnGps = new mButton("GPS"), CellConstants.HSTRETCH,
-				(CellConstants.HFILL));
-
 		mainPanel.addLast(
 				new mLabel(MyLocale.getMsg(1405,
 						"To load coordinates from GC, enter GCxxxxx below")),
@@ -425,16 +421,6 @@ public class CoordsScreen extends Form {
 					setFields(coord, currFormat);
 					activateFields(currFormat);
 					this.repaintNow();
-				}
-			}
-
-			if (ev.target == btnGps) {
-				Navigate nav = Global.mainTab.nav;
-				if (nav.gpsPos.isValid()) {
-					CWPoint coord = nav.gpsPos;
-					currFormat = chkFormat.getSelectedIndex();
-					setFields(coord, currFormat);
-					activateFields(currFormat);
 				}
 			}
 

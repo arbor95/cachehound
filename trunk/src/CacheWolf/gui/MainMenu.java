@@ -32,9 +32,6 @@ import CacheWolf.imp.OCXMLImporter;
 import CacheWolf.imp.OCXMLImporterScreen;
 import CacheWolf.imp.Rating;
 import CacheWolf.imp.SpiderGC;
-import CacheWolf.navi.MapImporter;
-import CacheWolf.navi.MapLoaderGui;
-import CacheWolf.navi.SelectMap;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.Rebuild;
@@ -80,7 +77,6 @@ public class MainMenu extends MenuBar {
 
 	private MenuItem preferences, mnuContext, loadcaches, loadOC, /* savenexit, */
 	savenoxit, exit, search, searchAll, searchClr;
-	private MenuItem downloadmap, kalibmap, importmap;
 	private MenuItem spider, spiderAllFinds, update, chkVersion;
 	private MenuItem about, wolflang, sysinfo, legend;
 	private MenuItem exportGpxNg, exporthtml, exporttop50, exportGPX,
@@ -172,24 +168,12 @@ public class MainMenu extends MenuBar {
 
 		Menu exportMenu = new Menu(exitems, MyLocale.getMsg(107, "Export"));
 
-		// /////////////////////////////////////////////////////////////////////
-		// subMenu for maps, part of "Application" menu below
-		// /////////////////////////////////////////////////////////////////////
-		MenuItem[] mapMenuItems = new MenuItem[3];
-		mapMenuItems[0] = downloadmap = new MenuItem(MyLocale.getMsg(162,
-				"Download calibrated"));
-		mapMenuItems[1] = importmap = new MenuItem(MyLocale.getMsg(150,
-				"Import"));
-		mapMenuItems[2] = kalibmap = new MenuItem(MyLocale.getMsg(151,
-				"Calibrate"));
-		Menu mapsMenu = new Menu(mapMenuItems, null);
-
 		// Now we start with the horizontal menu bar "Application", "Search",
 		// "Filter", "Organise", "About"
 		// /////////////////////////////////////////////////////////////////////
 		// Create the "Application" pulldown menu
 		// /////////////////////////////////////////////////////////////////////
-		MenuItem[] appMenuItems = new MenuItem[11];
+		MenuItem[] appMenuItems = new MenuItem[10];
 		appMenuItems[0] = new MenuItem(MyLocale.getMsg(121, "Profile"), 0,
 				profileMenu);
 		appMenuItems[1] = preferences = new MenuItem(MyLocale.getMsg(108,
@@ -203,13 +187,11 @@ public class MainMenu extends MenuBar {
 				importMenu);
 		appMenuItems[6] = new MenuItem(MyLocale.getMsg(107, "Export"), 0,
 				exportMenu);
-		appMenuItems[7] = new MenuItem(MyLocale.getMsg(149, "Maps"), 0,
-				mapsMenu);
-		appMenuItems[8] = mnuSeparator;
-		appMenuItems[9] = savenoxit = new MenuItem(MyLocale.getMsg(127, "Save"));
+		appMenuItems[7] = mnuSeparator;
+		appMenuItems[8] = savenoxit = new MenuItem(MyLocale.getMsg(127, "Save"));
 		// appMenuItems[10] = savenexit = new
 		// MenuItem(MyLocale.getMsg(110,"Save & Exit"));
-		appMenuItems[10] = exit = new MenuItem(MyLocale.getMsg(111, "Exit"));
+		appMenuItems[9] = exit = new MenuItem(MyLocale.getMsg(111, "Exit"));
 		this.addMenu(new PullDownMenu(MyLocale.getMsg(120, "Application"),
 				new Menu(appMenuItems, null)));
 
@@ -605,37 +587,6 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == exportTriton) {
 				TritonGPXExporter mag = new TritonGPXExporter();
 				mag.doIt();
-			}
-			// /////////////////////////////////////////////////////////////////////
-			// subMenu for maps, part of "Application" menu
-			// /////////////////////////////////////////////////////////////////////
-			if (mev.selectedItem == downloadmap) {
-				MapLoaderGui mLG = new MapLoaderGui(cacheDB);
-				mLG.exec(); // .execute doesn't work because the tcp-socket uses
-				// another thread which cannot be startet if here
-				// .execute() is used!
-			}
-			if (mev.selectedItem == importmap) {
-
-				MapImporter map = new MapImporter(pref);
-				map.importMap();
-			}
-			if (mev.selectedItem == kalibmap) {
-				SelectMap sM = new SelectMap();
-				sM.execute();
-				if ((sM.getSelectedMap()).length() > 0) {
-					try {
-						MapImporter map = new MapImporter(pref, sM
-								.getSelectedMap(), sM.worldfileexists);
-						map.execute(null, Gui.CENTER_FRAME);
-					} catch (java.lang.OutOfMemoryError e) {
-						MessageBox tmpMB = new MessageBox(MyLocale.getMsg(312,
-								"Error"), MyLocale.getMsg(156,
-								"Out of memory error, map to big"),
-								FormBase.OKB);
-						tmpMB.exec();
-					}
-				}
 			}
 			// /////////////////////////////////////////////////////////////////////
 			// "Application" pulldown menu

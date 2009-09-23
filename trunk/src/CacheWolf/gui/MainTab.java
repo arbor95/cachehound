@@ -1,15 +1,10 @@
 package CacheWolf.gui;
 
 import CacheWolf.Global;
-import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
-import CacheWolf.navi.GotoPanel;
-import CacheWolf.navi.MapImage;
-import CacheWolf.navi.MovingMap;
-import CacheWolf.navi.Navigate;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.CacheSize;
@@ -22,7 +17,6 @@ import ewe.fx.mImage;
 import ewe.sys.Vm;
 import ewe.ui.Card;
 import ewe.ui.Event;
-import ewe.ui.FormBase;
 import ewe.ui.MessageBox;
 import ewe.ui.MultiPanelEvent;
 import ewe.ui.TableEvent;
@@ -45,7 +39,6 @@ public class MainTab extends mTabbedPanel {
 	CalcPanel calcP;
 	Preferences pref;
 	Profile profile;
-	GotoPanel gotoP;
 	public RadarPanel radarP = new RadarPanel();
 	ImagePanel imageP;
 	public SolverPanel solverP;
@@ -54,8 +47,6 @@ public class MainTab extends mTabbedPanel {
 	CacheHolderDetail chD = null;
 	MainMenu mnuMain;
 	StatusBar statBar;
-	public MovingMap mm;
-	public Navigate nav;
 	public String mainCache = "";
 	int oldCard = 0;
 	boolean cacheDirty = false;
@@ -104,11 +95,6 @@ public class MainTab extends mTabbedPanel {
 		mImage imgCalc = new mImage("projecttab" + imagesize + ".gif");
 		imgCalc.transparentColor = new Color(0, 255, 0);
 		c.iconize(imgCalc, true);
-
-		nav = new Navigate();
-		c = this.addCard(gotoP = new GotoPanel(nav), "Goto", null);
-		c.iconize(new Image("goto" + imagesize + ".gif"), true);
-		nav.setGotoPanel(gotoP);
 
 		c = this.addCard(radarP, "Radar", null);
 		radarP.setMainTab(this);
@@ -361,86 +347,6 @@ public class MainTab extends mTabbedPanel {
 		detP.setNeedsTableUpdate(true);
 		// tbP.refreshTable(); // moved this instruction to onLeavingPanel
 
-	}
-
-	/**
-	 * sets posCircle Lat/Lon to centerTo
-	 * 
-	 * @param centerTo
-	 *            true: centers centerTo on the screen and disconnects MovingMap
-	 *            from GPS if Gps-pos is not on the loaded map
-	 * @param forceCenter
-	 */
-	public void SwitchToMovingMap(CWPoint centerTo, boolean forceCenter) {
-		try {
-			if (!centerTo.isValid()) {
-				(new MessageBox("Error", "No valid coordinates", FormBase.OKB))
-						.execute();
-				return;
-			}
-			if (mm == null) {
-				mm = new MovingMap(nav, profile.cacheDB);
-				nav.setMovingMap(mm);
-			}
-			if (forceCenter)
-				mm.setGpsStatus(MovingMap.noGPS); // disconnect movingMap from
-			// GPS TODO only if GPS-pos
-			// is not on the screen
-			mm.updatePosition(centerTo);
-			mm.myExec();
-			if (forceCenter) {
-				try {
-					int i = 0;
-					while (MapImage.screenDim.width == 0 && i < 10 * 60) {
-						i++;
-						ewe.sys.mThread.sleep(100);
-					} // wait until the window size of the moving map is known
-					// note: ewe.sys.sleep() will pause the whole vm - no
-					// other thread will run
-					if (i >= 10 * 60) {
-						(new MessageBox(
-								"Error",
-								"MovingMap cannot be displayed - this is most likely a bug - plaese report it on www.geoclub.de",
-								FormBase.OKB)).execute();
-						return;
-					}
-					mm.setCenterOfScreen(centerTo, false); // this can only be
-					// executed if mm
-					// knows its window
-					// size that's why
-					// myExec must be
-					// executed before
-					mm.updatePosition(centerTo);
-					/*
-					 * if(!mm.posCircle.isOnScreen()) { // TODO this doesn't
-					 * work because lat lon is set to the wished pos and not to
-					 * gps anymore mm.setGpsStatus(MovingMap.noGPS); //
-					 * disconnect movingMap from GPS if GPS-pos is not on the
-					 * screen mm.setResModus(MovingMap.HIGHEST_RESOLUTION);
-					 * mm.updatePosition(centerTo.latDec, centerTo.lonDec);
-					 * mm.setCenterOfScreen(centerTo, true); }
-					 */// TODO what to do, if there is a map at centerTo, but
-					// it
-					// is not loaded because of mapSwitchMode == dest &
-					// cuurpos und dafür gibt es keine Karte
-				} catch (InterruptedException e) {
-					Global.getPref()
-							.log(
-									"Error starting mavoing map (1): "
-											+ e.getMessage(), e, true);
-					(new MessageBox(
-							"Error",
-							"This must not happen please report to pfeffer how to produce this error message",
-							FormBase.OKB)).execute();
-				}
-			}
-		} catch (Exception e) { // TODO swith waiting indication clock off
-			Global.getPref()
-					.log("Error starting moving map (2): " + e.getMessage(), e,
-							true);
-			(new MessageBox("Error", "Error starting moving map: "
-					+ e.getMessage(), FormBase.OKB)).execute();
-		}
 	}
 
 	public void updatePendingChanges() {

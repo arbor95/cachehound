@@ -79,7 +79,7 @@ public class DetailsPanel extends CellPanel {
 			MyLocale.getMsg(319, "Not Found"), MyLocale.getMsg(320, "Owner") },
 			0);
 
-	mButton btnNewWpt, btnShowBug, btnShowMap, btnGoto, btnAddPicture,
+	mButton btnNewWpt, btnShowBug, btnAddPicture,
 			btnBlack, btnNotes, btnSave, btnCancel;
 	mButton btnFoundDate, btnHiddenDate;
 	CellPanel pnlTools = new CellPanel();
@@ -146,24 +146,12 @@ public class DetailsPanel extends CellPanel {
 		btnNewWpt.setToolTip(MyLocale.getMsg(311, "Create Waypoint"));
 		PenEvent.wantPenMoved(btnNewWpt, PenEvent.WANT_PEN_MOVED_ONOFF, true);
 		imgNewWpt.transparentColor = new Color(255, 0, 0);
-		// Button 2: Goto
-		pnlTools.addNext(btnGoto = new mButton(imgGoto = new mImage("goto"
-				+ imagesize + ".png")));// Goto.gif
-		// funzt
-		// manchmal
-		// nicht
-		imgGoto.transparentColor = Color.White;
-		btnGoto.setToolTip(MyLocale.getMsg(345, "Goto these coordinates"));
 		// Button 3: Travelbugs
 		imgShowBug = new mImage("bug" + imagesize + ".gif");
 		imgShowBugNo = new mImage("bug_no" + imagesize + ".gif");
 		pnlTools.addNext(btnShowBug = new mButton(imgShowBugNo));
 		// btnShowBug.modify(Control.Disabled,0);
 		btnShowBug.setToolTip(MyLocale.getMsg(346, "Show travelbugs"));
-		// Button 4: Show Map
-		pnlTools.addNext(btnShowMap = new mButton(imgShowMaps = new mImage(
-				"globe_small" + imagesize + ".gif")));
-		btnShowMap.setToolTip(MyLocale.getMsg(347, "Show map"));
 		// Button 5: Add images
 		pnlTools.addNext(btnAddPicture = new mButton(imgAddImages = new mImage(
 				"images" + imagesize + ".gif")));
@@ -486,16 +474,6 @@ public class DetailsPanel extends CellPanel {
 				if (isBigScreen)
 					mNotes.setText(thisCache.getCacheDetails(true)
 							.getCacheNotes());
-			} else if (ev.target == btnShowMap) {
-				Global.mainTab.SwitchToMovingMap(thisCache.getPos(), true);
-				/*
-				 * try { MapDetailForm mdf = new
-				 * MapDetailForm(thisCache.wayPoint, pref, profile);
-				 * mdf.execute(); } catch (IllegalArgumentException e) {
-				 * MessageBox tmp = new MessageBox(MyLocale.getMsg(321,"Error"),
-				 * MyLocale.getMsg(322,"Kann Bild/Karte nicht finden")+":
-				 * "+e.getMessage(), MessageBox.OKB); tmp.exec(); }
-				 */
 			} else if (ev.target == btnShowBug) {
 				// InfoScreen is = new InfoScreen(thisCache.Travelbugs.toHtml(),
 				// "Travelbugs",
@@ -587,9 +565,6 @@ public class DetailsPanel extends CellPanel {
 				ch.setTerrain(Terrain.TERRAIN_UNSET);
 				ch.setCacheSize(CacheSize.NOT_CHOSEN);
 				Global.mainTab.newWaypoint(ch);
-			} else if (ev.target == btnGoto) {
-				// FIXME: if something changed saveDirtyWaypoint();
-				Global.mainTab.gotoP.setDestinationAndSwitch(thisCache);
 			} else if (ev.target == btnWayLoc) {
 				CWPoint coords = new CWPoint(btnWayLoc.getText(), CWPoint.CW);
 				CoordsScreen cs = new CoordsScreen(true);
