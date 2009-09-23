@@ -520,61 +520,6 @@ public class Profile {
 		}
 	}
 
-	public int numCachesInArea; // only valid after calling getSourroundingArea
-
-	public Area getSourroundingArea(boolean onlyOfSelected) {
-		if (cacheDB == null || cacheDB.size() == 0)
-			return null;
-		CacheHolder ch;
-		CWPoint topleft = null;
-		CWPoint bottomright = null;
-		numCachesInArea = 0;
-		boolean isAddi = false;
-		for (int i = cacheDB.size() - 1; i >= 0; i--) {
-			ch = cacheDB.get(i);
-			if (!onlyOfSelected || ch.isChecked()) {
-				if (ch.getPos() == null) { // this can not happen
-					ch.setPos(ch.getPos());
-				}
-				if (ch.getPos().isValid()) { // done: && ch.pos.latDec != 0 &&
-					// ch.pos.lonDec != 0 TO-DO != 0 sollte
-					// rausgenommen werden sobald in der
-					// Liste vernünftig mit nicht gesetzten
-					// pos umgegangen wird
-					isAddi = ch.isAddiWpt();
-					if (!isAddi
-							|| (isAddi && ch.getMainCache() != null && ch
-									.getPos().getDistance(
-											ch.getMainCache().getPos()) < 1000)) {
-						// test for plausiblity of coordinates of Additional
-						// Waypoints: more then 1000 km away from main Waypoint
-						// is unplausible -> ignore it
-						// 
-						// && ch.mainCache != null is only necessary because the
-						// data base may be corrupted
-						if (topleft == null)
-							topleft = new CWPoint(ch.getPos());
-						if (bottomright == null)
-							bottomright = new CWPoint(ch.getPos());
-						if (topleft.latDec < ch.getPos().latDec)
-							topleft.latDec = ch.getPos().latDec;
-						if (topleft.lonDec > ch.getPos().lonDec)
-							topleft.lonDec = ch.getPos().lonDec;
-						if (bottomright.latDec > ch.getPos().latDec)
-							bottomright.latDec = ch.getPos().latDec;
-						if (bottomright.lonDec < ch.getPos().lonDec)
-							bottomright.lonDec = ch.getPos().lonDec;
-						numCachesInArea++;
-					}
-				}
-			}
-		}
-		if (topleft != null && bottomright != null)
-			return new Area(topleft, bottomright);
-		else
-			return null;
-	}
-
 	/**
 	 * Method to calculate bearing and distance of a cache in the index list.
 	 * 
