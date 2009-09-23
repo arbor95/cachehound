@@ -325,19 +325,6 @@ public class GPXImporter extends MinML {
 				// if waypoint starts with "GC"
 				if (doSpider == true) {
 					if (spiderOK == true && holder.isArchived() == false) {
-						if (holder.getLatLon().length() > 1) {
-							if (getMaps) {
-								ParseLatLon pll = new ParseLatLon(holder
-										.getLatLon(), ".");
-								pll.parse();
-								// MapLoader mpl = new MapLoader(pref.myproxy,
-								// pref.myproxyport);
-								// mpl.loadTo(profile.dataDir + "/" +
-								// holder.wayPoint + "_map.gif", "3");
-								// mpl.loadTo(profile.dataDir + "/" +
-								// holder.wayPoint + "_map_2.gif", "10");
-							}
-						}
 						if (holder.getWayPoint().startsWith("GC") || fromTC) {
 							// spiderImages();
 							spiderImagesUsingSpider();
