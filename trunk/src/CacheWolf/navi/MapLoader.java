@@ -1,5 +1,8 @@
 package CacheWolf.navi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
@@ -893,7 +896,6 @@ class WebMapService extends OnlineMapService {
 					+ MyLocale.getMsg(4823, " not covered by service:") + " "
 					+ name + MyLocale.getMsg(4824, ", service area:") + " "
 					+ boundingBox.toString());
-		Vector georef = new Vector(4);
 
 		// calculate a rectangle in the according coordinate reference system
 		CWPoint buttomleft = new CWPoint(maparea.buttomright.latDec,
@@ -944,12 +946,14 @@ class WebMapService extends OnlineMapService {
 			buttomright.shift(metersperpixalhorizontal, 0);
 			topright = new CWPoint(topleft.latDec, buttomright.lonDec);
 			buttomleft = new CWPoint(buttomright.latDec, topleft.lonDec);
-		} else
+		} else {
 			throw new IllegalArgumentException(
 					MyLocale
 							.getMsg(4831,
 									"getMapInfoObject: Coordinate system not supported by cachewolf:")
 							+ " " + coordinateReferenceSystem);
+		}
+		List<GCPoint> georef = new ArrayList<GCPoint>();
 		georef.add(new GCPoint(topleft, new Point(0, 0)));
 		georef
 				.add(new GCPoint(buttomright, new Point(pixelsize.x,

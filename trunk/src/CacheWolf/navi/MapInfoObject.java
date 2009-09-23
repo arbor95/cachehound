@@ -1,6 +1,7 @@
 package CacheWolf.navi;
 
 import java.io.BufferedReader;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -250,7 +251,7 @@ public class MapInfoObject extends Area {
 		origAffineUpperLeft = new CWPoint(affineTopleft);
 	}
 
-	public void evalGCP(ewe.util.Vector GCPs, int imageWidth, int imageHeight)
+	public void evalGCP(List<GCPoint> GCPs, int imageWidth, int imageHeight)
 			throws IllegalArgumentException {
 		evalGCP(GCPs, imageWidth, imageHeight, 0);
 	}
@@ -263,7 +264,7 @@ public class MapInfoObject extends Area {
 	 *             when less than 3 georeferenced points were given in GCPs
 	 */
 
-	public void evalGCP(ewe.util.Vector GCPs, int imageWidth, int imageHeight,
+	public void evalGCP(List<GCPoint> GCPs, int imageWidth, int imageHeight,
 			int epsg_code) throws IllegalArgumentException {
 		// N 48 16.000 E 11 32.000
 		// N 48 16.000 E 11 50.000
@@ -277,7 +278,7 @@ public class MapInfoObject extends Area {
 		Matrix X = new Matrix(GCPs.size(), 3);
 		Matrix trg = new Matrix(GCPs.size(), 1);
 		for (int i = 0; i < GCPs.size(); i++) {
-			gcp = (GCPoint) GCPs.get(i);
+			gcp = GCPs.get(i);
 			X.matrix[i][0] = 1;
 			X.matrix[i][1] = gcp.bitMapX;
 			X.matrix[i][2] = gcp.bitMapY;
@@ -301,7 +302,7 @@ public class MapInfoObject extends Area {
 		X = new Matrix(GCPs.size(), 3);
 		trg = new Matrix(GCPs.size(), 1);
 		for (int i = 0; i < GCPs.size(); i++) {
-			gcp = (GCPoint) GCPs.get(i);
+			gcp = GCPs.get(i);
 			X.matrix[i][0] = 1;
 			X.matrix[i][1] = gcp.bitMapX;
 			X.matrix[i][2] = gcp.bitMapY;
