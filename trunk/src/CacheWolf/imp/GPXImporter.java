@@ -22,7 +22,6 @@ import CacheWolf.gui.InfoBox;
 import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
-import CacheWolf.util.ParseLatLon;
 import CacheWolf.util.SafeXML;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
