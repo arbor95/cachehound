@@ -52,7 +52,7 @@
 
 
 	<path id="libraries">
-		<pathelement location="./lib/CompileEwe.zip" />
+		<pathelement location="./lib/JavaEwe.zip" />
 		<pathelement location="./lib/mail.jar" />
 		<pathelement location="./lib/slf4j-api-1.5.8.jar" />
 		<pathelement location="./lib/slf4j-ext-1.5.8.jar" />
@@ -100,7 +100,6 @@
 
 		<jar jarfile="${assemble.dir}/CacheHound.jar" basedir="${classes.dir}" />
 
-		<copy file="lib/java_ewe.dll" todir="${assemble.dir}" />
 		<copy todir="${assemble.dir}" failonerror="true" verbose="${verbose.mode}">
 			<fileset dir="lib" includes="*.jar" />
 		</copy>
