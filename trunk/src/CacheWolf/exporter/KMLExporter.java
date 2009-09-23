@@ -40,15 +40,15 @@ public class KMLExporter extends Exporter {
 	private static final String COLOR_AVAILABLE = "ffffffff";
 	private static final String COLOR_NOT_AVAILABLE = "ff0000ff";
 
-	static final int AVAILABLE = 0;
-	static final int FOUND = 1;
-	static final int OWNED = 2;
-	static final int NOT_AVAILABLE = 3;
-	static final int UNKNOWN = 4;
+	private static final int AVAILABLE = 0;
+	private static final int FOUND = 1;
+	private static final int OWNED = 2;
+	private static final int NOT_AVAILABLE = 3;
+	private static final int UNKNOWN = 4;
 
-	String[] categoryNames = { "Available", "Found", "Owned", "Not Available",
+	private String[] categoryNames = { "Available", "Found", "Owned", "Not Available",
 			"UNKNOWN" };
-	Hashtable[] outCacheDB = new Hashtable[categoryNames.length];
+	private Hashtable[] outCacheDB = new Hashtable[categoryNames.length];
 
 	public KMLExporter() {
 		super();

@@ -29,9 +29,9 @@ public class CWPoint extends TrackPoint {
 	public static final int UTM = 3;
 	public static final int GK = 4;
 	public static final int CW = 5;
-	public static final int REGEX = 6;
-	public static final int LAT_LON = 7;
-	public static final int LON_LAT = 8;
+	private static final int REGEX = 6;
+	private static final int LAT_LON = 7;
+	private static final int LON_LAT = 8;
 
 	/**
 	 * Create CWPoint by using lat and lon
@@ -296,29 +296,6 @@ public class CWPoint extends TrackPoint {
 		if (strLonEW.trim().equals("W") && this.lonDec > 0)
 			this.lonDec *= -1;
 		this.utmValid = false;
-	}
-
-	/**
-	 * shift the point
-	 * 
-	 * @param meters
-	 *            positiv to north (east), negativ to south (west)
-	 * @param direction
-	 *            0 north-south, 1 east-west
-	 */
-	public void shift(double meters, int direction) {
-		double meters2deglon = 1 / (1000 * (new CWPoint(0, 0))
-				.getDistance(new CWPoint(1, 0)));
-		switch (direction) { // TODO use ellipsoid distance calculations for
-		// better accuracy
-		case 0:
-			latDec += meters * meters2deglon;
-			return;
-		case 1:
-			lonDec += meters
-					* (meters2deglon / Math.cos(latDec / 180 * Math.PI));
-			return;
-		}
 	}
 
 	/**
@@ -635,17 +612,6 @@ public class CWPoint extends TrackPoint {
 	public double getDistance(CWPoint dest) {
 		return GeodeticCalculator.calculateDistance(TransformCoordinates.WGS84,
 				this, dest) / 1000.0;
-	}
-
-	/**
-	 * Method to calculate the distance to a waypoint
-	 * 
-	 * @param dest
-	 *            lat, lon
-	 * @return distance to waypoint in KM
-	 */
-	public double getDistance(double latDecD, double lonDecD) {
-		return getDistance(new CWPoint(latDecD, lonDecD));
 	}
 
 	/**
