@@ -12,11 +12,11 @@ import ewe.ui.CellPanel;
 import ewe.ui.mLabel;
 
 public class AttributesViewer extends CellPanel {
-	protected static int TILESIZE = Attribute.getImageWidth() + 2;
-	protected final static int ICONS_PER_ROW = MyLocale.getScreenWidth()
+	private static int TILESIZE = Attribute.getImageWidth() + 2;
+	private final static int ICONS_PER_ROW = MyLocale.getScreenWidth()
 			/ TILESIZE < Attributes.MAXATTRIBS ? MyLocale.getScreenWidth()
 			/ TILESIZE : Attributes.MAXATTRIBS;
-	protected final static int ICONROWS = (Attributes.MAXATTRIBS
+	private final static int ICONROWS = (Attributes.MAXATTRIBS
 			+ ICONS_PER_ROW - 1)
 			/ ICONS_PER_ROW;
 	protected mLabel mInfo;

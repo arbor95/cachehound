@@ -40,18 +40,18 @@ import ewe.util.Vector;
  */
 public class HTMLExporter {
 	// TODO Exportanzahl anpassen: Bug: 7351
-	CacheDB cacheDB;
-	Preferences pref;
-	Profile profile;
-	String[] template_init_index = { "filename",
+	private CacheDB cacheDB;
+	private Preferences pref;
+	private Profile profile;
+	private String[] template_init_index = { "filename",
 			"templates" + File.separator + "index.tpl", "case_sensitive",
 			"true", "max_includes", "5"
 	// ,"debug", "true"
 	};
-	String[] template_init_page = { "filename",
+	private String[] template_init_page = { "filename",
 			"templates" + File.separator + "page.tpl", "case_sensitive",
 			"true", "max_includes", "5" };
-	public final static String expName = "HTML";
+	private final static String expName = "HTML";
 
 	public HTMLExporter(Preferences p, Profile prof) {
 		pref = p;

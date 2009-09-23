@@ -17,12 +17,11 @@ import ewe.ui.mInput;
 import ewe.ui.mLabel;
 
 public class InfoBox extends Form {
-	TextMessage msgArea;
-	mCheckBox mCB;
-	TextMessage warnings;
-	public boolean mCB_state = false;
-	mButton mB = new mButton("OK");
-	mButton mC = new mButton("Cancel");
+	private TextMessage msgArea;
+	private mCheckBox mCB;
+	private TextMessage warnings;
+	private mButton mB = new mButton("OK");
+	private mButton mC = new mButton("Cancel");
 	public mInput feedback = new mInput();
 	public final static int CHECKBOX = 1;
 	public final static int INPUT = 2;
@@ -172,8 +171,6 @@ public class InfoBox extends Form {
 	public void onEvent(Event ev) {
 		if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
 			if (ev.target == mB) {
-				if (type == CHECKBOX)
-					mCB_state = mCB.getState();
 				this.close(FormBase.IDOK);
 			}
 			if (ev.target == mC) {
