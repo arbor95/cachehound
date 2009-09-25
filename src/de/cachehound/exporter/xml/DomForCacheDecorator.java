@@ -1,7 +1,6 @@
 package de.cachehound.exporter.xml;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 import de.cachehound.beans.ICacheHolder;
 
