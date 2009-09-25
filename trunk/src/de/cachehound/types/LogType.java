@@ -6,24 +6,29 @@ import org.slf4j.LoggerFactory;
 public enum LogType {
 
 	PUBLISH {
+		@Override
 		public String toIconString() {
 			return "icon_greenlight.gif";
 		}
 
+		@Override
 		public String toGcComType() {
 			return "Publish Listing";
 		}
 	},
 	FOUND {
+		@Override
 		public String toIconString() {
 			return "icon_smile.gif";
 		}
 
+		@Override
 		public String toGcComType() {
 			return "Found it";
 		}
 	},
 	DID_NOT_FOUND {
+		@Override
 		public String toIconString() {
 			return "icon_sad.gif";
 		}
@@ -34,6 +39,7 @@ public enum LogType {
 		}
 	},
 	MAINTENANCE_DONE {
+		@Override
 		public String toIconString() {
 			return "icon_maint.gif";
 		}
@@ -45,6 +51,7 @@ public enum LogType {
 	},
 
 	NOTE {
+		@Override
 		public String toIconString() {
 			return "icon_note.gif";
 		}
@@ -55,6 +62,7 @@ public enum LogType {
 		}
 	},
 	REVIEWER_NOTE {
+		@Override
 		public String toIconString() {
 			return "big_smile.gif";
 		}
@@ -65,33 +73,40 @@ public enum LogType {
 		}
 	},
 	ENABLE_LISTING {
+		@Override
 		public String toIconString() {
 			return "icon_enabled.gif";
 		}
 
+		@Override
 		public String toGcComType() {
 			return "Enable Listing";
 		}
 	},
 	DISABLE_LISTING {
+		@Override
 		public String toIconString() {
 			return "icon_disabled.gif";
 		}
 
+		@Override
 		public String toGcComType() {
 			return "Temporarily Disable Listing";
 		}
 	},
 	NEEDS_MAINTENANCE {
+		@Override
 		public String toIconString() {
 			return "icon_needsmaint.gif";
 		}
 
+		@Override
 		public String toGcComType() {
 			return "Needs Maintenance";
 		}
 	},
 	NEEDS_ARCHIVED {
+		@Override
 		public String toIconString() {
 			return "icon_remove.gif";
 		}
@@ -102,6 +117,7 @@ public enum LogType {
 		}
 	},
 	ARCHIVE {
+		@Override
 		public String toIconString() {
 			return "traffic_cone.gif";
 		}
@@ -112,6 +128,7 @@ public enum LogType {
 		}
 	},
 	UNARCHIVE {
+		@Override
 		public String toIconString() {
 			return "traffic_cone.gif";
 		}
@@ -122,6 +139,7 @@ public enum LogType {
 		}
 	},
 	RETRACT {
+		@Override
 		public String toIconString() {
 			return "icon_redlight.gif";
 		}
@@ -132,6 +150,7 @@ public enum LogType {
 		}
 	},
 	PHOTO_TAKEN {
+		@Override
 		public String toIconString() {
 			return "icon_camera.gif";
 		}
@@ -142,6 +161,7 @@ public enum LogType {
 		}
 	},
 	WILL_ATTEND {
+		@Override
 		public String toIconString() {
 			return "icon_rsvp.gif";
 		}
@@ -152,6 +172,7 @@ public enum LogType {
 		}
 	},
 	ATTENDED {
+		@Override
 		public String toIconString() {
 			return "icon_attended.gif";
 		}
@@ -162,6 +183,7 @@ public enum LogType {
 		}
 	},
 	UPDATE_COORDINATES {
+		@Override
 		public String toIconString() {
 			return "coord_update.gif";
 		}
@@ -172,6 +194,7 @@ public enum LogType {
 		}
 	},
 	UNKNOWN {
+		@Override
 		public String toIconString() {
 			return "unknown Type";
 		}

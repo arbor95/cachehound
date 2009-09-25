@@ -24,6 +24,7 @@ public class SimpleFilterTreeNode extends AbstractFilterTreeNode {
 		return f;
 	}
 	
+	@Override
 	public String toString() {
 		return f.toString();
 	}

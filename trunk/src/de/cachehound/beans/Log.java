@@ -62,6 +62,7 @@ public class Log {
 		return recommended;
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Log) {
 			Log log = (Log) o;
@@ -74,6 +75,7 @@ public class Log {
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return ((date.hashCode() + logger.hashCode() * 17) + message.hashCode()
 				* 17 + logType.hashCode());

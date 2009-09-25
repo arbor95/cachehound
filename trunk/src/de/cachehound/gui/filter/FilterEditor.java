@@ -57,6 +57,7 @@ public class FilterEditor extends JDialog {
 	 */
 	private void initComponents(IFilter f) {
 		addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent evt) {
 				closeDialog();
 			}
@@ -228,6 +229,7 @@ public class FilterEditor extends JDialog {
 			public void run() {
 				FilterEditor dialog = new FilterEditor(f, new JFrame(), true);
 				dialog.addWindowListener(new WindowAdapter() {
+					@Override
 					public void windowClosing(WindowEvent e) {
 						System.exit(0);
 					}

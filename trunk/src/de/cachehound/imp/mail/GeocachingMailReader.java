@@ -204,6 +204,7 @@ public class GeocachingMailReader {
 
 		private boolean active = true;
 
+		@Override
 		public void run() {
 			while (active) {
 				try {

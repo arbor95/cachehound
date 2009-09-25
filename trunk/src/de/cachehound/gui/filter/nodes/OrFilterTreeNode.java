@@ -21,6 +21,7 @@ public class OrFilterTreeNode extends AbstractFilterTreeNode {
 		return ret;
 	}
 	
+	@Override
 	public String toString() {
 		return "OR";
 	}

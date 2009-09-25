@@ -14,6 +14,7 @@ public abstract class ListFilter implements List<IFilter>, IFilter {
 
 	private static Logger logger = LoggerFactory.getLogger(ListFilter.class);
 
+	@Override
 	public ListFilter clone() {
 		try {
 			ListFilter ret = (ListFilter) super.clone();
@@ -57,6 +58,7 @@ public abstract class ListFilter implements List<IFilter>, IFilter {
 		return list.containsAll(c);
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		return list.equals(o);
 	}
@@ -65,6 +67,7 @@ public abstract class ListFilter implements List<IFilter>, IFilter {
 		return list.get(index);
 	}
 
+	@Override
 	public int hashCode() {
 		return list.hashCode();
 	}
