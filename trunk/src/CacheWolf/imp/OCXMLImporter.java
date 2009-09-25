@@ -51,11 +51,13 @@ import ewesoft.xml.sax.AttributeList;
  * de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter extends MinML {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(OCXMLImporter.class);
-	
-	private enum State { INIT, CACHE, CACHE_DESC, CACHE_LOG, PICTURE }
-	
+
+	private enum State {
+		INIT, CACHE, CACHE_DESC, CACHE_LOG, PICTURE
+	}
+
 	private final static String OPENCACHING_HOST = "www.opencaching.de";
 	private State state = State.INIT;
 	private int numCacheImported, numDescImported, numLogImported = 0;
@@ -83,6 +85,11 @@ public class OCXMLImporter extends MinML {
 	private boolean loggerRecommended;
 	private int logTypeOC;
 	private String user;
+
+	// Diese Variable wird nur in endCache(String) benötigt, ist aber trotzdem
+	// eine Instanzvariable, da in einem Aufruf von endCache der Wert gesetzt
+	// wird, der im nächsten Aufruf benötigt wird.
+	private double longitude = -361;
 
 	/**
 	 * true, if not the last syncdate shall be used, but the caches shall be
@@ -272,14 +279,16 @@ public class OCXMLImporter extends MinML {
 
 			java.util.zip.ZipFile zif = new java.util.zip.ZipFile(tmpFile);
 			java.util.zip.ZipEntry zipEnt;
-			java.util.Enumeration<? extends java.util.zip.ZipEntry> zipEnum = zif.entries();
+			java.util.Enumeration<? extends java.util.zip.ZipEntry> zipEnum = zif
+					.entries();
 			inf.setInfo("...unzipping update file");
 			while (zipEnum.hasMoreElements()) {
 				zipEnt = zipEnum.nextElement();
 				// skip over PRC-files and empty files
 				if (zipEnt.getSize() > 0 && zipEnt.getName().endsWith("xml")) {
-					r = new java.io.BufferedReader(new java.io.InputStreamReader(zif
-							.getInputStream(zipEnt), "UTF-8"));
+					r = new java.io.BufferedReader(
+							new java.io.InputStreamReader(zif
+									.getInputStream(zipEnt), "UTF-8"));
 					parse(new EweReader(r));
 					r.close();
 				}
@@ -295,7 +304,7 @@ public class OCXMLImporter extends MinML {
 				success = false;
 			} else {
 				if (e.getMessage().equalsIgnoreCase("could not connect")
-						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+						|| e.getMessage().equalsIgnoreCase("unkown host")) {
 					// is there a better way to find out what happened?
 					finalMessage = MyLocale
 							.getMsg(1616,
@@ -313,7 +322,7 @@ public class OCXMLImporter extends MinML {
 				success = false;
 			} else {
 				if (e.getMessage().equalsIgnoreCase("could not connect")
-						|| e.getMessage().equalsIgnoreCase("unkown host")) { 
+						|| e.getMessage().equalsIgnoreCase("unkown host")) {
 					// is there a better way to find out what happened?
 					finalMessage = MyLocale
 							.getMsg(1616,
@@ -599,10 +608,11 @@ public class OCXMLImporter extends MinML {
 			// chD.saveCacheDetails(profile.dataDir);
 			// profile.saveIndex(pref,Profile.NO_SHOW_PROGRESS_BAR); // this is
 			// done after .xml is completly processed
-			
-			// because the CacheHolderDetails are not in the List of loaded Details
+
+			// because the CacheHolderDetails are not in the List of loaded
+			// Details
 			// they would never been saved. So releasing the Details
-			// will save them and after reading them again they will 
+			// will save them and after reading them again they will
 			// be in the List of Loaded Details.
 			holder.releaseCacheDetails();
 			return;
@@ -626,7 +636,6 @@ public class OCXMLImporter extends MinML {
 			return;
 		}
 
-		double longitude = -361;
 		if (name.equals("longitude")) {
 			longitude = Common.parseDouble(strData);
 			return;
@@ -806,12 +815,14 @@ public class OCXMLImporter extends MinML {
 			imageInfo.setTitle(picDesc);
 			holder.getFreshDetails().getImages().add(imageInfo);
 			try {
-				File ftest = new File(profile.getDataDir() + java.io.File.separator +  fileName);
+				File ftest = new File(profile.getDataDir()
+						+ java.io.File.separator + fileName);
 				if (ftest.exists()) {
 					imageInfo.setFilename(fileName);
 				} else {
 					if (pref.downloadPics) {
-						imageInfo.setFilename(fetch(fetchURL, fileName).getName());
+						imageInfo.setFilename(fetch(fetchURL, fileName)
+								.getName());
 					}
 				}
 			} catch (java.io.IOException e) {
@@ -888,7 +899,7 @@ public class OCXMLImporter extends MinML {
 		String picUrl = new String();
 		String picTitle = new String();
 		String picID = new String();
-		
+
 		if (name.equals("id")) {
 			picID = strData;
 		} else if (name.equals("url")) {
@@ -944,7 +955,8 @@ public class OCXMLImporter extends MinML {
 
 	}
 
-	private java.io.File fetch(String addr, String fileName) throws java.io.IOException, IOException {
+	private java.io.File fetch(String addr, String fileName)
+			throws java.io.IOException, IOException {
 		// Vm.debug("Redirect: " + redirect);
 		CharArray realurl = new CharArray();
 		ByteArray daten = UrlFetcher.fetchByteArray(addr, realurl);
@@ -961,8 +973,7 @@ public class OCXMLImporter extends MinML {
 		// Vm.debug("Save: " + myPref.mydatadir + fileName);
 		// Vm.debug("Daten: " + daten.length);
 		java.io.File file = new java.io.File(profile.getDataDir(), fileName);
-		java.io.FileOutputStream outp = new java.io.FileOutputStream(
-				file);
+		java.io.FileOutputStream outp = new java.io.FileOutputStream(file);
 		outp.write(daten.toBytes());
 		outp.close();
 		return file;
