@@ -44,6 +44,7 @@ public enum Difficulty {
 		return fullRepresentation;
 	}
 	
+	@Override
 	public String toString() {
 		return shortRepresenation;
 	}

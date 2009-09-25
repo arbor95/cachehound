@@ -21,6 +21,7 @@ public class AndFilterTreeNode extends AbstractFilterTreeNode {
 		return ret;
 	}
 
+	@Override
 	public String toString() {
 		return "AND";
 	}

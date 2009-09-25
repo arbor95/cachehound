@@ -15,6 +15,7 @@ public class NotFilterTreeNode extends AbstractFilterTreeNode {
 				.getFilter());
 	}
 
+	@Override
 	public String toString() {
 		return "NOT";
 	}

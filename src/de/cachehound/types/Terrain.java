@@ -45,6 +45,7 @@ public enum Terrain {
 		return fullRepresentation;
 	}
 
+	@Override
 	public String toString() {
 		return shortRepresenation;
 	}
