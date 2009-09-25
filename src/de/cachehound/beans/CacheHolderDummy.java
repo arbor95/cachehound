@@ -3,6 +3,7 @@ package de.cachehound.beans;
 import CacheWolf.beans.CWPoint;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 
@@ -27,6 +28,11 @@ public class CacheHolderDummy implements ICacheHolder {
 	}
 
 	@Override
+	public CacheType getType() {
+		return null;
+	}
+
+	@Override
 	public Difficulty getDifficulty() {
 		return null;
 	}
@@ -35,7 +41,7 @@ public class CacheHolderDummy implements ICacheHolder {
 	public Terrain getTerrain() {
 		return null;
 	}
-
+	
 	@Override
 	public boolean isArchived() {
 		return false;

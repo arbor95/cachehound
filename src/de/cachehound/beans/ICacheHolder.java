@@ -3,6 +3,7 @@ package de.cachehound.beans;
 import CacheWolf.beans.CWPoint;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
+import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
 
@@ -11,7 +12,7 @@ public interface ICacheHolder {
 	public double getKilom();
 
 	public CacheSize getCacheSize();
-
+	public CacheType getType();
 	public Difficulty getDifficulty();
 	public Terrain getTerrain();
 	
