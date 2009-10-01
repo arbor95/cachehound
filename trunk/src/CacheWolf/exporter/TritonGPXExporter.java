@@ -115,9 +115,6 @@ public class TritonGPXExporter extends Exporter {
 				// <groundspeak:terrain>").append(ch.terrain.replace(',',
 				// '.')).append("</groundspeak:terrain>\r\n");
 
-				String s = "abbc";
-				s.replace("bb", "b");
-
 				String diff = ch.getDifficulty().getShortRepresentation();
 				strBuf.append("      <groundspeak:difficulty>").append(diff)
 						.append("</groundspeak:difficulty>\r\n");
