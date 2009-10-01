@@ -17,7 +17,7 @@ public class ProgressBar implements IProgressBar {
 
 	@Override
 	public void tick(String status) {
-		System.out.println(String.format("(%i/%i) %s", ++current, max, status));
+		System.out.println(String.format("(%d/%d) %s", ++current, max, status));
 	}
 
 	private int max, current;
