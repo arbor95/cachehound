@@ -7,8 +7,8 @@ import org.w3c.dom.Text;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class LocDomForCacheGroundspeak extends DomForCacheDecorator {
-	public LocDomForCacheGroundspeak(IDomForCache decoratee) {
+public class LocDecoratorGroundspeak extends DomForCacheDecorator {
+	public LocDecoratorGroundspeak(IDomForCache decoratee) {
 		super(decoratee);
 	}
 

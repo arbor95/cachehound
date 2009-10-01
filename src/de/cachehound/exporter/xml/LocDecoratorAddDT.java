@@ -6,8 +6,8 @@ import org.w3c.dom.NodeList;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class LocDomForCacheAddDT extends DomForCacheDecorator {
-	public LocDomForCacheAddDT(IDomForCache decoratee) {
+public class LocDecoratorAddDT extends DomForCacheDecorator {
+	public LocDecoratorAddDT(IDomForCache decoratee) {
 		super(decoratee);
 	}
 
