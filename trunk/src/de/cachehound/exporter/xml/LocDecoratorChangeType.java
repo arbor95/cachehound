@@ -11,10 +11,10 @@ import org.w3c.dom.Text;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.filter.IFilter;
 
-public class LocDomForCacheChangeType extends DomForCacheDecorator {
+public class LocDecoratorChangeType extends DomForCacheDecorator {
 	private Map<IFilter, String> types;
 
-	public LocDomForCacheChangeType(Map<IFilter, String> types,
+	public LocDecoratorChangeType(Map<IFilter, String> types,
 			IDomForCache decoratee) {
 		super(decoratee);
 

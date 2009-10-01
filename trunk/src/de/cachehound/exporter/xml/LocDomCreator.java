@@ -13,7 +13,7 @@ import org.w3c.dom.Text;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class LocDomForCache implements IDomForCache {
+public class LocDomCreator implements IDomForCache {
 	private static Logger logger = LoggerFactory.getLogger(LocExporter.class);
 
 	@Override

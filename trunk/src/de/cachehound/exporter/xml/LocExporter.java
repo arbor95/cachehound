@@ -192,8 +192,8 @@ public class LocExporter {
 		mappings.put(new CacheTypeFilter(multis), "Multi");
 
 		StringWriter sw = new StringWriter();
-		LocExporter exp = new LocExporter(new LocDomForCacheChangeType(
-				mappings, new LocDomForCacheAddDT(new LocDomForCache())), sw);
+		LocExporter exp = new LocExporter(new LocDecoratorChangeType(
+				mappings, new LocDecoratorAddDT(new LocDomCreator())), sw);
 		try {
 			exp.doit(caches);
 		} catch (IOException e) {
