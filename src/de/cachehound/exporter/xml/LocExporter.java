@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -25,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
+import de.cachehound.filter.CacheTypeFilter;
+import de.cachehound.filter.IFilter;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -68,7 +72,7 @@ public class LocExporter {
 	public void doit(Collection<ICacheHolder> caches) throws IOException {
 		w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		w.write("<loc version=\"1.0\" src=\"CacheHound\">\n");
-		
+
 		try {
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
@@ -86,7 +90,7 @@ public class LocExporter {
 		} catch (TransformerException e) {
 			logger.error("Error while transforming DOM tree", e);
 		}
-		
+
 		w.write("</loc>");
 	}
 
@@ -114,22 +118,22 @@ public class LocExporter {
 			public CWPoint getPos() {
 				return new CWPoint(53.12345678, 10.12345678);
 			}
-			
+
 			@Override
 			public Difficulty getDifficulty() {
 				return Difficulty.DIFFICULTY_1_0;
 			}
-			
+
 			@Override
 			public Terrain getTerrain() {
 				return Terrain.TERRAIN_1_0;
 			}
-			
+
 			@Override
 			public CacheType getType() {
 				return CacheType.TRADITIONAL;
 			}
-			
+
 			@Override
 			public CacheSize getCacheSize() {
 				return CacheSize.MICRO;
@@ -155,22 +159,22 @@ public class LocExporter {
 			public CWPoint getPos() {
 				return new CWPoint(53.12345678, 10.12345678);
 			}
-			
+
 			@Override
 			public Difficulty getDifficulty() {
 				return Difficulty.DIFFICULTY_4_0;
 			}
-			
+
 			@Override
 			public Terrain getTerrain() {
 				return Terrain.TERRAIN_4_0;
 			}
-			
+
 			@Override
 			public CacheType getType() {
 				return CacheType.UNKNOWN;
 			}
-			
+
 			@Override
 			public CacheSize getCacheSize() {
 				return CacheSize.REGULAR;
@@ -180,9 +184,16 @@ public class LocExporter {
 		caches.add(cache);
 		caches.add(cache2);
 
+		LinkedHashMap<IFilter, String> mappings = new LinkedHashMap<IFilter, String>();
+		
+		EnumSet<CacheType> tradis = EnumSet.of(CacheType.TRADITIONAL);
+		mappings.put(new CacheTypeFilter(tradis), "Traditional");
+		EnumSet<CacheType> multis = EnumSet.of(CacheType.MULTI);
+		mappings.put(new CacheTypeFilter(multis), "Multi");
+
 		StringWriter sw = new StringWriter();
-		LocExporter exp = new LocExporter(new LocDomForCacheAddDT(
-				new LocDomForCache()), sw);
+		LocExporter exp = new LocExporter(new LocDomForCacheChangeType(
+				mappings, new LocDomForCacheAddDT(new LocDomForCache())), sw);
 		try {
 			exp.doit(caches);
 		} catch (IOException e) {

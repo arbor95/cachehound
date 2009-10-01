@@ -17,12 +17,6 @@ public class LocDomForCacheGroundspeak extends DomForCacheDecorator {
 		Document doc = super.getDomForCache(cache);
 		Node root = doc.getFirstChild();
 
-		Element type = doc.createElement("type");
-		root.appendChild(type);
-
-		Text typeText = doc.createTextNode("Geocache");
-		type.appendChild(typeText);
-
 		Element link = doc.createElement("link");
 		root.appendChild(link);
 
