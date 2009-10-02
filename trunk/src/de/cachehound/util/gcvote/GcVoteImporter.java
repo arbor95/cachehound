@@ -5,9 +5,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.cachehound.beans.CacheHolderDummy;
+import de.cachehound.beans.ICacheHolder;
+import de.cachehound.types.CacheType;
+
+import CacheWolf.beans.CacheHolder;
 
 public class GcVoteImporter {
 
@@ -23,6 +32,19 @@ public class GcVoteImporter {
 	private static String SET_VOTE = VOTE_SERVER_BASE + "/setVote.php";
 	private static String LIST_VOTES = VOTE_SERVER_BASE + "/listUserVotes.php";
 
+	private void refreshVotes(Collection<ICacheHolder> caches) {
+		ArrayList<String> ids = new ArrayList<String>();
+		int i = 0;
+		for (ICacheHolder cache : caches) {
+			if (cache.isCacheWpt()) {
+				ids.add(cache.getWayPoint());
+			}
+		}
+		
+		// tmporär
+		System.out.println(getVoting(ids.toArray(new String[] {})));
+	}
+	
 	private String getVoting(String[] gcNumbers) {
 
 		StringBuilder sb = new StringBuilder();
@@ -38,10 +60,6 @@ public class GcVoteImporter {
 					+ sb.toString() + "&password=" + password;
 //			data = URLEncoder.encode(data, "UTF-8");
 
-			//data = "version=2.0b&userName=undefined&waypoints=GC11XJD,GC13YE0,GC13ZX6,GC14WFG,GC163K1,GC17N9N,GC1NZPP,GC1RQB4,GC1XRJ3&password=vote4ever";
-			
-			System.out.println("data:\n" + data);
-			
 			// Send data
 			URL url = new URL(GET_VOTES);
 			URLConnection conn = url.openConnection();
@@ -69,6 +87,19 @@ public class GcVoteImporter {
 	
 	public static void main(String[] args) {
 		GcVoteImporter importer = new GcVoteImporter();
+		
+		ICacheHolder ch = new CacheHolderDummy() {
+			public String getWayPoint() {
+				return "GC1KHXZ";
+			}
+			public boolean isCacheWpt() {
+				return true;
+			}
+		}; 
+
+		List<ICacheHolder> list = new ArrayList<ICacheHolder>();
+		list.add(ch);
+		importer.refreshVotes(list);
 		
 		System.out.println( importer.getVoting(new String[] {"GC1KHXZ", "GC1PQ47", "GC2A58A"}));
 		
