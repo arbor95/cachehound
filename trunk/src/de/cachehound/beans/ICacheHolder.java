@@ -20,6 +20,7 @@ public interface ICacheHolder {
 	public boolean isAvailable();
 	public boolean isFound();
 	public boolean isOwned();
+	public boolean isCacheWpt();
 	
 	public String getWayPoint();
 	public String getCacheName();
