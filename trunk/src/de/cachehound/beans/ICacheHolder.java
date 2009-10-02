@@ -26,5 +26,8 @@ public interface ICacheHolder {
 	public String getCacheName();
 	public String getCacheOwner();
 	
+	public GcVote getGcVote();
+	public void setGcVote(GcVote gcVote);
+	
 	public CWPoint getPos();
 }

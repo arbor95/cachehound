@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.Preferences;
 import CacheWolf.util.MyLocale;
 import de.cachehound.comparators.CacheHolderComparatorFactory;
 import de.cachehound.types.CacheSize;
@@ -31,6 +35,9 @@ import ewe.ui.TableModel;
  * scrolling, Used MyLocale
  */
 public class myTableModel extends TableModel {
+	
+	private static Logger logger = LoggerFactory.getLogger(TableModel.class);
+
 
 	// Colors for Cache status (BG unless otherwise stated)
 	private static final Color COLOR_FLAGED = new Color(255, 255, 0);
@@ -48,15 +55,16 @@ public class myTableModel extends TableModel {
 	private int lastRow = -2;
 	private CacheDB cacheDB;
 	/** The max number of columns in the list view */
-	public static final int N_COLUMNS = 20;
+	public static final int N_COLUMNS = 23;
 	/**
 	 * How the columns are mapped onto the list view. If colMap[i]=j, it means
 	 * that the element j (as per the list below) is visible in column i.
 	 * [0]TickBox, [1]Type, [2]Distance, [3]Terrain, [4]waypoint, [5]name,
 	 * [6]coordinates, [7]owner, [8]datehidden, [9]status, [10]distance,
 	 * [11]bearing, [12] Size, [13] # of OC recommend. [14] OC index, [15]
-	 * Solver exists, [16] Note exists, [17] # Additionals, [18] # DNF [19] Last
-	 * Sync Date
+	 * Solver exists, [16] Note exists, [17] # Additionals, [18] # DNF, [19]
+	 * Last Sync Date, [20] GcVote MyVote, [21] GcVote Average, [22] GcVote
+	 * Median
 	 * 
 	 * Attention: When adding columns here, also add a default width in
 	 * Preferences.listColWidth
@@ -73,7 +81,7 @@ public class myTableModel extends TableModel {
 			MyLocale.getMsg(1026, "#Rec"), MyLocale.getMsg(1027, "OC-IDX"),
 			MyLocale.getMsg(1038, "S"), MyLocale.getMsg(1040, "N"),
 			MyLocale.getMsg(1047, "A"), MyLocale.getMsg(1049, "DNF"),
-			MyLocale.getMsg(1051, "Last synced") };
+			MyLocale.getMsg(1051, "Last synced"), "MyVote", "Average", "Median" };
 
 	private static Image noFindLogs[] = new Image[4];
 	public static mImage red, blue, yellow; // skull, green
@@ -373,19 +381,18 @@ public class myTableModel extends TableModel {
 					else
 						return checkboxUnticked;
 				case 1: // Type
-					return GuiImageBroker.getInstance().getTypeImage(ch.getType());
+					return GuiImageBroker.getInstance().getTypeImage(
+							ch.getType());
 				case 2: // Difficulty;
 					// FIXME Needs optimizing when code is stable
-					if (ch.isAddiWpt()
-							|| ch.getType() == CacheType.CUSTOM) {
+					if (ch.isAddiWpt() || ch.getType() == CacheType.CUSTOM) {
 						return "";
 					} else {
 						return ch.getDifficulty().getFullRepresentation();
 					}
 				case 3: // Terrain
 					// FIXME Needs optimizing when code is stable
-					if (ch.isAddiWpt()
-							|| ch.getType() == CacheType.CUSTOM) {
+					if (ch.isAddiWpt() || ch.getType() == CacheType.CUSTOM) {
 						return "";
 					} else {
 						return ch.getTerrain().getFullRepresentation();
@@ -438,8 +445,7 @@ public class myTableModel extends TableModel {
 						return sizePics[ch.getCacheSize().ordinal()];
 					}
 				case 13: // OC number of recommendations
-					if (ch.isAddiWpt()
-							|| CacheType.CUSTOM == ch.getType())
+					if (ch.isAddiWpt() || CacheType.CUSTOM == ch.getType())
 						return null;
 					return Convert.formatInt(ch.getNumRecommended());
 				case 14: // OC rating
@@ -485,6 +491,15 @@ public class myTableModel extends TableModel {
 					} else {
 						return "";
 					}
+				case 20: // GcVote my votes
+					return ch.getGcVote().getMyVote();
+				case 21: // GcVote Average
+					return ch.getGcVote().getAverage();
+				case 22: // GcVote Median
+					return ch.getGcVote().getMedian();
+				default:
+					logger.error("The tableModel was called with column index which doesn't exists (colMap[col]): {}", colMap[col]);
+					return null;
 				} // Switch
 			} // if
 		} catch (Exception e) {

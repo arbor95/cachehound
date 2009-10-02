@@ -212,7 +212,7 @@ public class Preferences extends MinML {
 	/** The list of visible columns in the list view */
 	public String listColMap = "0,1,2,3,4,5,6,7,8,9,10,11,12";
 	/** The widths for each column in list view */
-	public String listColWidth = "15,20,20,25,92,177,144,83,60,105,50,104,22,30,30,30,30,30,30,30";
+	public String listColWidth = "15,20,20,25,92,177,144,83,60,105,50,104,22,30,30,30,30,30,30,30,30,30,30";
 	/**
 	 * The columns which are to be displayed in TravelbugsJourneyScreen. See
 	 * also TravelbugJourney
@@ -296,8 +296,6 @@ public class Preferences extends MinML {
 	public boolean downloadTBs = true;
 	/** Last mode select in the DataMover for processing cache */
 	public int processorMode = 0;
-	/** external Cacherating software */
-	public String rater;
 	/** maximum number of logs to store in cache details */
 	public int maxLogsToKeep = DEFAULT_MAX_LOGS_TO_SPIDER;
 	/** keep own logs even when excessing <code>maxLogsToKeep</code> */
@@ -549,8 +547,6 @@ public class Preferences extends MinML {
 				exportGpxAsMyFinds = Boolean.valueOf(tmp).booleanValue();
 		} else if (name.equals("locale")) {
 			language = atts.getValue("language");
-		} else if (name.equals("rater")) {
-			rater = SafeXML.strxmldecode(atts.getValue("tool"));
 		} else if (name.equals("FILTERDATA")) {
 			// Creating a filter object and reading the saved data
 			String id = SafeXML.strxmldecode(atts.getValue("id"));
@@ -785,9 +781,6 @@ public class Preferences extends MinML {
 						+ SafeXML.strxmlencode(entry.getValue()
 								.getAbsolutePath()) + "\"/>\n");
 			}
-			if (rater != null)
-				outp.print("    <rater tool=\"".concat(
-						SafeXML.strxmlencode(rater)).concat("\"/>\n"));
 			outp.print("    <logkeeping maximum=\""
 					+ SafeXML.strxmlencode(maxLogsToKeep) + "\" keepown=\""
 					+ SafeXML.strxmlencode(alwaysKeepOwnLogs) + "\" />\n");

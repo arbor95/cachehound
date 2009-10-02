@@ -30,7 +30,6 @@ import CacheWolf.imp.GPXImporter;
 import CacheWolf.imp.LOCXMLImporter;
 import CacheWolf.imp.OCXMLImporter;
 import CacheWolf.imp.OCXMLImporterScreen;
-import CacheWolf.imp.Rating;
 import CacheWolf.imp.SpiderGC;
 import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
@@ -41,6 +40,7 @@ import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
 import de.cachehound.util.GPSBabel;
 import de.cachehound.util.SpiderService;
+import de.cachehound.util.gcvote.GcVoteImporter;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Font;
@@ -88,7 +88,7 @@ public class MainMenu extends MenuBar {
 			filtNonSelected, filtBlack, filtApply;
 	private MenuItem exportLOC, exportGPS, mnuSeparator;
 	private MenuItem orgNewWP, orgCopy, orgMove, orgDelete, orgRebuild,
-			orgCheckNotesAndSolver, orgRater;
+			orgCheckNotesAndSolver, orgGcVote;
 	public MenuItem cacheTour, orgTravelbugs, mnuForceLogin;
 	private MenuItem mnuNewProfile, mnuOpenProfile, mnuEditCenter;
 	private Form father;
@@ -281,9 +281,7 @@ public class MainMenu extends MenuBar {
 				"Rebuild Index"));
 		organiseMenuItems[6] = orgCheckNotesAndSolver = new MenuItem(MyLocale
 				.getMsg(220, "Check Notes/Solver"));
-		organiseMenuItems[7] = orgRater = new MenuItem("Rater");
-		if (null == Global.getPref().rater)
-			orgRater.modifiers = MenuItem.Disabled;
+		organiseMenuItems[7] = orgGcVote = new MenuItem("GcVote");
 		organiseMenuItems[8] = mnuSeparator;
 		organiseMenuItems[9] = orgTravelbugs = new MenuItem(MyLocale.getMsg(
 				139, "Manage travelbugs"));
@@ -772,9 +770,12 @@ public class MainMenu extends MenuBar {
 				cacheTour.modifiers ^= MenuItem.Checked;
 				Global.mainForm.toggleCacheListVisible();
 			}
-			if (mev.selectedItem == orgRater) {
-				Rating rater = new Rating();
-				rater.run();
+			if (mev.selectedItem == orgGcVote) {
+				Vm.showWait(true);
+				GcVoteImporter gcVoteImporter = GcVoteImporter.getInstance();
+				gcVoteImporter.refreshVotes(Global.getProfile().cacheDB.toList());
+				tbp.resetModel();
+				Vm.showWait(false);
 			}
 
 			// /////////////////////////////////////////////////////////////////////

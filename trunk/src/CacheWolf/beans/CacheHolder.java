@@ -18,6 +18,7 @@ import CacheWolf.util.SafeXML;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.beans.GcVote;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.LogList;
 import de.cachehound.factory.CacheHolderDetailFactory;
@@ -149,13 +150,15 @@ public class CacheHolder implements ICacheHolder {
 
 	private IconAndText iconAndTextWP = null;
 	private int iconAndTextWPLevel = 0;
-
+	
 	private static char decSep, notDecSep;
 	static {
 		decSep = MyLocale.getDigSeparator().charAt(0);
 		notDecSep = decSep == '.' ? ',' : '.';
 	}
 
+	private GcVote gcVote;
+	
 	public CacheHolder() { // Just a public constructor
 	}
 
@@ -1546,4 +1549,13 @@ public class CacheHolder implements ICacheHolder {
 	public CacheHolderDetail getDetails() {
 		return details;
 	}
+	
+	public GcVote getGcVote() {
+		return gcVote;
+	}
+	
+	public void setGcVote(GcVote gcVote) {
+		this.gcVote = gcVote;
+	}
+	
 }
