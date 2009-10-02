@@ -81,4 +81,9 @@ public class CacheHolderDummy implements ICacheHolder {
 	public CWPoint getPos() {
 		return null;
 	}
+
+	@Override
+	public boolean isCacheWpt() {
+		return false;
+	}
 }
