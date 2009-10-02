@@ -7,27 +7,28 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import CacheWolf.Global;
 import CacheWolf.util.SafeXML;
-import ewe.util.Comparer;
-import ewe.util.Utils;
-import ewe.util.Vector;
+import de.cachehound.util.ComparatorHelper;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
 public class TravelbugJourneyList extends MinML {
 
 	/** The Vector holdin the travelbug journeys */
-	private Vector tbJourneyList = new Vector(10);
-
+	private List<TravelbugJourney> tbJourneyList = new ArrayList<TravelbugJourney>();
 
 	public TravelbugJourneyList() { // Public constructor
 	}
-	
+
 	/** Return a TravelbugJourney */
 	public TravelbugJourney getTBJourney(int i) {
-		return (TravelbugJourney) tbJourneyList.elementAt(i);
+		return tbJourneyList.get(i);
 	}
 
 	/** Number of TravelbugJourneys in list */
@@ -47,7 +48,7 @@ public class TravelbugJourneyList extends MinML {
 
 	/** Remove an element of the list */
 	public void remove(int i) {
-		tbJourneyList.removeElementAt(i);
+		tbJourneyList.remove(i);
 	}
 
 	/** Add e Travelbug pick-up to the list (creating a new Journey) */
@@ -87,7 +88,6 @@ public class TravelbugJourneyList extends MinML {
 		return count;
 	}
 
-
 	/**
 	 * Return a list of the travelbugs still in my possession
 	 * 
@@ -115,7 +115,8 @@ public class TravelbugJourneyList extends MinML {
 	 */
 	public boolean readTravelbugsFile() {
 		try {
-			java.io.File file = new java.io.File(Global.getPref().getBaseDir(), "travelbugs.xml");
+			java.io.File file = new java.io.File(Global.getPref().getBaseDir(),
+					"travelbugs.xml");
 			ewe.io.Reader r = new ewe.io.InputStreamReader(
 					new ewe.io.FileInputStream(file.getAbsolutePath()));
 			parse(r);
@@ -175,8 +176,9 @@ public class TravelbugJourneyList extends MinML {
 			java.io.File backup = new java.io.File(baseDir, "travelbugs.bak");
 			if (backup.exists())
 				backup.delete();
-			java.io.File travelbugs = new java.io.File(baseDir, "travelbugs.xml");
-			travelbugs.renameTo(new java.io.File(baseDir,"travelbugs.bak"));
+			java.io.File travelbugs = new java.io.File(baseDir,
+					"travelbugs.xml");
+			travelbugs.renameTo(new java.io.File(baseDir, "travelbugs.bak"));
 		} catch (Exception ex) {
 			Global.getPref().log(
 					"Error deleting backup or renaming travelbugs.xml");
@@ -189,18 +191,26 @@ public class TravelbugJourneyList extends MinML {
 			outp.print("<travelbugJourneys>\n");
 			int size = tbJourneyList.size();
 			for (int i = 0; i < size; i++)
-				outp.print(((TravelbugJourney) tbJourneyList.elementAt(i))
-						.toXML());
+				outp.print(tbJourneyList.get(i).toXML());
 			outp.print("</travelbugJourneys>\n");
 			outp.close();
 		} catch (Exception e) {
-			Global.getPref().log("Problem saving: " + file.getAbsolutePath(), e, true);
+			Global.getPref().log("Problem saving: " + file.getAbsolutePath(),
+					e, true);
 		}
 	}
 
 	/** Sort the list of travelbug journeys by any column */
 	public void sort(int column, boolean ascending) {
-		tbJourneyList.sort(new tbjComparer(column), ascending);
+		Comparator<TravelbugJourney> comp;
+		
+		if (ascending) {
+			comp = new tbjComparer(column);
+		} else {
+			comp = ComparatorHelper
+					.invert(new tbjComparer(column));
+		}
+		Collections.sort(tbJourneyList, comp);
 	}
 
 	/**
@@ -216,26 +226,28 @@ public class TravelbugJourneyList extends MinML {
 	 *            Number of elements to sort
 	 */
 	public void sortFirstHalf(int column, boolean ascending, int nElem) {
-		Object[] no = new Object[nElem];
-		for (int i = 0; i < nElem; i++)
-			no[i] = tbJourneyList.elementAt(i);
-		Utils.sort(null, no, new tbjComparer(column), ascending);
-		for (int i = 0; i < nElem; i++)
-			tbJourneyList.set(i, no[i]);
+		Comparator<TravelbugJourney> comp;
+		
+		if (ascending) {
+			comp = new tbjComparer(column);
+		} else {
+			comp = ComparatorHelper
+					.invert(new tbjComparer(column));
+		}
+		Collections.sort(tbJourneyList.subList(0, nElem), comp);
 	}
 
-	private class tbjComparer implements Comparer {
+	private class tbjComparer implements Comparator<TravelbugJourney> {
 		private int col;
 
 		tbjComparer(int column) {
 			col = column;
 		}
 
-		public int compare(Object o1, Object o2) {
-			Object oo1 = ((TravelbugJourney) o1).getElementByNumber(col);
-			Object oo2 = ((TravelbugJourney) o2).getElementByNumber(col);
+		public int compare(TravelbugJourney o1, TravelbugJourney o2) {
+			Object oo1 = o1.getElementByNumber(col);
+			Object oo2 = o2.getElementByNumber(col);
 			return oo1.toString().compareTo(oo2.toString());
 		}
 	}
-
 }
