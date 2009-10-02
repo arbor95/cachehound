@@ -51,6 +51,12 @@ public class CacheHolderComparatorFactory {
 			return new NumberOfDNFsComparator();
 		case 19:
 			return new LastSyncComparator();
+		case 20:
+			return new GcVoteMyVoteComparator();
+		case 21:
+			return new GcVoteAverageComparator();
+		case 22:
+			return new GcVoteMedianComparator();
 		default:
 			throw new IllegalArgumentException();
 		}

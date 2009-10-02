@@ -86,4 +86,13 @@ public class CacheHolderDummy implements ICacheHolder {
 	public boolean isCacheWpt() {
 		return false;
 	}
+
+	@Override
+	public GcVote getGcVote() {
+		return null;
+	}
+
+	@Override
+	public void setGcVote(GcVote gcVote) {
+	}
 }
