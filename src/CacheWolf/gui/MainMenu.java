@@ -42,6 +42,8 @@ import de.cachehound.beans.ICacheHolder;
 import de.cachehound.exporter.xml.LocDecoratorGroundspeak;
 import de.cachehound.filter.FilterHelper;
 import de.cachehound.filter.HasCoordinatesFilter;
+import de.cachehound.gui.GuiFactory;
+import de.cachehound.gui.interfaces.IProgressBar;
 import de.cachehound.imp.mail.CacheWolfMailHandler;
 import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
@@ -807,11 +809,14 @@ public class MainMenu extends MenuBar {
 				Global.mainForm.toggleCacheListVisible();
 			}
 			if (mev.selectedItem == orgGcVote) {
-				Vm.showWait(true);
+				//Vm.showWait(true);
 				GcVoteImporter gcVoteImporter = GcVoteImporter.getInstance();
+				IProgressBar progressBar = GuiFactory.getInstance().getProgressBar(gcVoteImporter);
+				progressBar.show();
 				gcVoteImporter.refreshVotes(Global.getProfile().cacheDB.toList());
+				progressBar.close();
 				tbp.resetModel();
-				Vm.showWait(false);
+				//Vm.showWait(false);
 			}
 
 			// /////////////////////////////////////////////////////////////////////
