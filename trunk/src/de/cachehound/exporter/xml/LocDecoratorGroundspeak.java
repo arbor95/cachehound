@@ -9,7 +9,7 @@ import de.cachehound.beans.ICacheHolder;
 
 public class LocDecoratorGroundspeak implements IDomDecorator {
 	@Override
-	public Document getDomForCache(Document doc, ICacheHolder cache) {
+	public void decorateDomTree(Document doc, ICacheHolder cache) {
 		Node root = doc.getFirstChild();
 
 		Element link = doc.createElement("link");
@@ -19,7 +19,5 @@ public class LocDecoratorGroundspeak implements IDomDecorator {
 				.createTextNode("http://www.geocaching.com/seek/cache_details.aspx?wp="
 						+ cache.getWayPoint());
 		link.appendChild(linkText);
-
-		return doc;
 	}
 }
