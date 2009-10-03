@@ -60,6 +60,58 @@ public class GarminWaypointExporter {
 				"Custom 7");
 		mappings.put(mysteriesFilter, "Custom 6");
 
+		EnumSet<CacheType> events = EnumSet.of(CacheType.EVENT, CacheType.MEGA_EVENT);
+		IFilter eventsFilter = new CacheTypeFilter(events);
+		mappings.put(new AndFilter(new FoundFilter(), eventsFilter),
+				"Custom 9");
+		mappings.put(eventsFilter, "Custom 8");
+
+		EnumSet<CacheType> citos = EnumSet.of(CacheType.CITO);
+		IFilter citossFilter = new CacheTypeFilter(citos);
+		mappings.put(new AndFilter(new FoundFilter(), citossFilter),
+				"Custom 11");
+		mappings.put(citossFilter, "Custom 10");
+
+		EnumSet<CacheType> virtuals = EnumSet.of(CacheType.VIRTUAL);
+		IFilter vitualsFilter = new CacheTypeFilter(virtuals);
+		mappings.put(vitualsFilter, "Custom 12");
+
+		EnumSet<CacheType> webcams = EnumSet.of(CacheType.WEBCAM);
+		IFilter webcamsFilter = new CacheTypeFilter(webcams);
+		mappings.put(webcamsFilter, "Custom 13");
+
+		EnumSet<CacheType> locationless = EnumSet.of(CacheType.LOCATIONLESS);
+		IFilter locationlessFilter = new CacheTypeFilter(locationless);
+		mappings.put(locationlessFilter, "Custom 14");
+
+		EnumSet<CacheType> earthcaches = EnumSet.of(CacheType.EARTH);
+		IFilter earthcachesFilter = new CacheTypeFilter(earthcaches);
+		mappings.put(earthcachesFilter, "Custom 15");
+
+		EnumSet<CacheType> finals = EnumSet.of(CacheType.FINAL);
+		IFilter finalsFilter = new CacheTypeFilter(finals);
+		mappings.put(finalsFilter, "Custom 16");
+
+		EnumSet<CacheType> parkings = EnumSet.of(CacheType.PARKING);
+		IFilter parkingFilter = new CacheTypeFilter(parkings);
+		mappings.put(parkingFilter, "Custom 17");
+
+		EnumSet<CacheType> qtas = EnumSet.of(CacheType.QUESTION);
+		IFilter qtasFilter = new CacheTypeFilter(qtas);
+		mappings.put(qtasFilter, "Custom 18");
+
+		EnumSet<CacheType> soams = EnumSet.of(CacheType.STAGE);
+		IFilter soamsFilter = new CacheTypeFilter(soams);
+		mappings.put(soamsFilter, "Custom 19");
+
+		EnumSet<CacheType> trailheads = EnumSet.of(CacheType.TRAILHEAD);
+		IFilter trailheadsFilter = new CacheTypeFilter(trailheads);
+		mappings.put(trailheadsFilter, "Custom 20");
+
+		EnumSet<CacheType> refpoints = EnumSet.of(CacheType.REFERENCE);
+		IFilter refpointsFilter = new CacheTypeFilter(refpoints);
+		mappings.put(refpointsFilter, "Custom 21");
+
 		return mappings;
 	}
 
