@@ -3,7 +3,6 @@ package de.cachehound.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class AndFilterTest {
@@ -12,61 +11,47 @@ public class AndFilterTest {
 
 	private AndFilter andFilter;
 
-	@Before
-	public void setUp() {
-		andFilter = new AndFilter();
-	}
-
 	@Test
 	public void testEmptyAndFilterSucceeds() {
+		andFilter = new AndFilter();
 		assertTrue(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testOneElementTrue() {
-		andFilter.add(alwaysTrue);
+		andFilter = new AndFilter(alwaysTrue);
 		assertTrue(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testOneElementFalse() {
-		andFilter.add(alwaysFalse);
+		andFilter = new AndFilter(alwaysFalse);
 		assertFalse(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testTwoElementsTrueFalse() {
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysFalse);
+		andFilter = new AndFilter(alwaysTrue, alwaysFalse);
 		assertFalse(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testTwoElementsFalseTrue() {
-		andFilter.add(alwaysFalse);
-		andFilter.add(alwaysTrue);
+		andFilter = new AndFilter(alwaysFalse, alwaysTrue);
 		assertFalse(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testTwoElementsTrueTrue() {
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
+		andFilter = new AndFilter(alwaysTrue, alwaysTrue);
 		assertTrue(andFilter.cacheIsVisible(null));
 	}
 
 	@Test
 	public void testTenElements() {
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysTrue);
-		andFilter.add(alwaysFalse);
+		andFilter = new AndFilter(alwaysTrue, alwaysTrue, alwaysTrue,
+				alwaysTrue, alwaysTrue, alwaysTrue, alwaysTrue, alwaysTrue,
+				alwaysTrue, alwaysFalse);
 		assertFalse(andFilter.cacheIsVisible(null));
 	}
 }

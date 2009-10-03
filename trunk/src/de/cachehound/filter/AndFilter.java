@@ -1,8 +1,17 @@
 package de.cachehound.filter;
 
+import java.util.Collection;
+
 import de.cachehound.beans.ICacheHolder;
 
 public class AndFilter extends ListFilter {
+	public AndFilter(IFilter... filters) {
+		super(filters);
+	}
+	
+	public AndFilter(Collection<? extends IFilter> filters) {
+		super(filters);
+	}
 
 	@Override
 	public boolean cacheIsVisible(ICacheHolder ch) {

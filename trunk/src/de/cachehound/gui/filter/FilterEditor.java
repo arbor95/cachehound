@@ -96,11 +96,11 @@ public class FilterEditor extends JDialog {
 
 		return treePanel;
 	}
-	
+
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-		
-		final JPopupMenu addMenu = (new FilterMenu("Add...", new IMenuAction(){
+
+		final JPopupMenu addMenu = (new FilterMenu("Add...", new IMenuAction() {
 			@Override
 			public void execute(IFilter f) {
 				treePanel.addNode((new FilterTreeNodeFactory()).doCreate(f));
@@ -117,12 +117,15 @@ public class FilterEditor extends JDialog {
 		});
 		buttonPanel.add(addButton);
 
-		final JPopupMenu replaceMenu = (new FilterMenu("Replace...", new IMenuAction(){
-			@Override
-			public void execute(IFilter f) {
-				treePanel.replaceSelectionWithNode((new FilterTreeNodeFactory()).doCreate(f));
-			}
-		})).getPopupMenu();
+		final JPopupMenu replaceMenu = (new FilterMenu("Replace...",
+				new IMenuAction() {
+					@Override
+					public void execute(IFilter f) {
+						treePanel
+								.replaceSelectionWithNode((new FilterTreeNodeFactory())
+										.doCreate(f));
+					}
+				})).getPopupMenu();
 
 		JButton replaceButton = new JButton();
 		replaceButton.setText("Replace...");
@@ -218,12 +221,13 @@ public class FilterEditor extends JDialog {
 	 *            the command line arguments
 	 */
 	public static void main(String args[]) {
-		final ListFilter f = new AndFilter();
-		f.add(new OrFilter());
-		f.add(new BearingFilter(EnumSet.noneOf(Bearing.class)));
-		((ListFilter) f.get(0)).add(new NotFilter(new DistanceFilter(5)));
-		((ListFilter) f.get(0)).add(new SizeFilter(EnumSet
-				.noneOf(CacheSize.class)));
+		// Kommentare, um Auto-Formatter auszutricksen
+		final ListFilter f = new AndFilter(//
+				new OrFilter(//
+						new NotFilter(//
+								new DistanceFilter(5)),//
+						new SizeFilter(EnumSet.noneOf(CacheSize.class))),//
+				new BearingFilter(EnumSet.noneOf(Bearing.class)));
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
