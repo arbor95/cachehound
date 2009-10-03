@@ -15,7 +15,7 @@ import CacheWolf.navi.Metrics;
 import CacheWolf.util.MyLocale;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheType;
-import de.cachehound.util.ListHelper;
+import de.cachehound.util.collections.ListHelper;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;

@@ -14,7 +14,7 @@ import java.util.List;
 
 import CacheWolf.Global;
 import CacheWolf.util.SafeXML;
-import de.cachehound.util.ComparatorHelper;
+import de.cachehound.util.collections.ComparatorHelper;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 

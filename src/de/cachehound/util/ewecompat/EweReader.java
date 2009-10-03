@@ -1,4 +1,4 @@
-package de.cachehound.util;
+package de.cachehound.util.ewecompat;
 
 import java.io.IOException;
 import java.io.Reader;

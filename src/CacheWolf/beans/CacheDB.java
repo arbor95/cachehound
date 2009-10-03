@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import de.cachehound.util.ComparatorHelper;
+import de.cachehound.util.collections.ComparatorHelper;
 
 /**
  * @author torsti
