@@ -33,15 +33,12 @@ public class GPSBabel {
 		return true;
 	}
 
-	@Deprecated
 	private static void convert(String intype, String infile, String outtype,
-			String outfile, String... opts) throws IOException {
-		// FIXME: Find a better way to do this.
+			String outfile) throws IOException {
 
 		List<String> args = new ArrayList<String>();
 
 		args.add("gpsbabel");
-		args.addAll(Arrays.asList(opts));
 		for (String arg : Arrays.asList(Global.getPref().garminGPSBabelOptions
 				.split(" +"))) {
 			// FIXME: pref.garminGPSBabelOptions should really be an array
@@ -85,9 +82,9 @@ public class GPSBabel {
 		}
 	}
 
-	public static void convert(IBabelFormat in, IBabelFormat out,
-			String... opts) throws IOException {
+	public static void convert(IBabelFormat in, IBabelFormat out)
+			throws IOException {
 		convert(in.getType(), in.getFileName(), out.getType(), out
-				.getFileName(), opts);
+				.getFileName());
 	}
 }
