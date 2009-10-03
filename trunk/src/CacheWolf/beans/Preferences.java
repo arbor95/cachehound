@@ -25,7 +25,7 @@ import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
-import de.cachehound.util.EweReader;
+import de.cachehound.util.ewecompat.EweReader;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.sys.Convert;

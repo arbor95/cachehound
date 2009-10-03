@@ -6,7 +6,7 @@ import java.util.Set;
 
 import CacheWolf.util.SafeXML;
 import de.cachehound.types.Bearing;
-import de.cachehound.util.ListHelper;
+import de.cachehound.util.collections.ListHelper;
 
 /**
  * This class represents the settings of the filter that can be done when the

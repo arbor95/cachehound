@@ -42,7 +42,7 @@ import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
-import de.cachehound.util.EweReader;
+import de.cachehound.util.ewecompat.EweReader;
 import ewe.sys.Vm;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;

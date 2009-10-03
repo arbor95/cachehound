@@ -1,4 +1,4 @@
-package de.cachehound.util;
+package de.cachehound.util.collections;
 
 import static org.junit.Assert.assertEquals;
 

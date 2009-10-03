@@ -26,7 +26,7 @@ import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
-import de.cachehound.util.EweReader;
+import de.cachehound.util.ewecompat.EweReader;
 import ewe.io.File;
 import ewe.io.IOException;
 import ewe.net.MalformedURLException;
