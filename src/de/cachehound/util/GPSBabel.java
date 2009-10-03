@@ -1,6 +1,7 @@
 package de.cachehound.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class GPSBabel {
 		return true;
 	}
 
+	@Deprecated
 	public static void convert(String intype, String infile, String outtype,
 			String outfile, String... opts) throws IOException {
 		// FIXME: Find a better way to do this.
@@ -88,9 +90,22 @@ public class GPSBabel {
 		}
 	}
 
+	@Deprecated
 	public static void convert(Filetype intype, String infile,
 			Filetype outtype, String outfile, String... opts)
 			throws IOException {
 		convert(intype.toString(), infile, outtype.toString(), outfile, opts);
+	}
+	
+	public static void convert(Filetype intype, File infile,
+			Filetype outtype, File outfile, String... opts)
+			throws IOException {
+		convert(intype, infile.getPath(), outtype, outfile.getParent(), opts);
+	}
+	
+	public static void convert(Filetype intype, File infile,
+			Filetype outtype, String outfile, String... opts)
+			throws IOException {
+		convert(intype, infile.getPath(), outtype, outfile, opts);
 	}
 }
