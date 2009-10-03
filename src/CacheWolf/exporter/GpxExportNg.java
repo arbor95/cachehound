@@ -15,7 +15,10 @@ import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.beans.Log;
 import de.cachehound.beans.LogList;
-import de.cachehound.util.GPSBabel;
+import de.cachehound.util.gpsbabel.GPSBabel;
+import de.cachehound.util.gpsbabel.GPXFile;
+import de.cachehound.util.gpsbabel.GarminDevice;
+import de.cachehound.util.gpsbabel.GarminPOI;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Sound;
@@ -347,15 +350,17 @@ public class GpxExportNg {
 
 						if (exportTarget == OUTPUT_POI) {
 							try {
-								GPSBabel.convert("gpx", tempDir
-										+ FileBase.separator + prefix + key
-										+ ".gpx",
-										"garmin_gpi,sleep=1,category=" + prefix
-												+ key + ",bitmap=" + tempDir
+								GPXFile inFile = new GPXFile(new java.io.File(
+										tempDir, prefix + key + ".gpx"));
+								GarminPOI outFile = new GarminPOI(
+										new java.io.File(outDir
 												+ FileBase.separator + prefix
-												+ key + ".bmp", outDir
-												+ FileBase.separator + prefix
-												+ key + ".gpi");
+												+ key + ".gpi"));
+								outFile.setSleep(1);
+								outFile.setCategory(prefix + key);
+								outFile.setBitmap(new java.io.File(tempDir,
+										prefix + key + ".bmp"));
+								GPSBabel.convert(inFile, outFile);
 							} catch (java.io.IOException e) {
 								exportErrors++;
 							}
@@ -484,9 +489,9 @@ public class GpxExportNg {
 
 			if (sendToGarmin) {
 				try {
-					GPSBabel.convert(GPSBabel.Filetype.gpx, file
-							.getCreationName(), GPSBabel.Filetype.garmin,
-							Global.getPref().garminConn.concat(":"));
+					GPSBabel.convert(new GPXFile(new java.io.File(file
+							.getCreationName())), new GarminDevice(Global
+							.getPref().garminConn.concat(":")));
 				} catch (java.io.IOException e) {
 					// already handled by GPSBabel class
 				}
