@@ -39,6 +39,7 @@ import CacheWolf.util.MyLocale;
 import CacheWolf.util.Rebuild;
 import CacheWolf.util.SearchCache;
 import de.cachehound.beans.ICacheHolder;
+import de.cachehound.exporter.GarminWaypointExporter;
 import de.cachehound.exporter.xml.LocDecoratorGroundspeak;
 import de.cachehound.filter.FilterHelper;
 import de.cachehound.filter.HasCoordinatesFilter;
@@ -180,7 +181,9 @@ public class MainMenu extends MenuBar {
 		exitems[16] = mnuSeparator;
 		exitems[17] = exportGarminNoEwe = new MenuItem(
 				"to Garmin (as Waypoints)");
-		exportGarminNoEwe.modifiers = MenuItem.Disabled;
+		if (!GarminWaypointExporter.isActive()) {
+			exportGarminNoEwe.modifiers = MenuItem.Disabled;
+		}
 
 		Menu exportMenu = new Menu(exitems, MyLocale.getMsg(107, "Export"));
 
@@ -613,7 +616,8 @@ public class MainMenu extends MenuBar {
 						Collection<ICacheHolder> caches = FilterHelper
 								.applyFilter(new HasCoordinatesFilter(), Global
 										.getProfile().cacheDB.toList());
-						de.cachehound.exporter.xml.LocExporter exp = new de.cachehound.exporter.xml.LocExporter(new java.io.File(fc.getChosenFile()
+						de.cachehound.exporter.xml.LocExporter exp = new de.cachehound.exporter.xml.LocExporter(
+								new java.io.File(fc.getChosenFile()
 										.getAbsolutePath()));
 						exp.addDecorator(new LocDecoratorGroundspeak());
 						exp.doit(caches);
@@ -622,6 +626,14 @@ public class MainMenu extends MenuBar {
 					} catch (IOException e) {
 						logger.error("Exception thrown during export", e);
 					}
+				}
+			}
+			if (mev.selectedItem == exportGarminNoEwe) {
+				GarminWaypointExporter exp = new GarminWaypointExporter();
+				try {
+					exp.doit(Global.getProfile().cacheDB.toList());
+				} catch (IOException e) {
+					logger.error("Exception thrown during export", e);
 				}
 			}
 			// /////////////////////////////////////////////////////////////////////
@@ -809,14 +821,16 @@ public class MainMenu extends MenuBar {
 				Global.mainForm.toggleCacheListVisible();
 			}
 			if (mev.selectedItem == orgGcVote) {
-				//Vm.showWait(true);
+				// Vm.showWait(true);
 				GcVoteImporter gcVoteImporter = GcVoteImporter.getInstance();
-				IProgressBar progressBar = GuiFactory.getInstance().getProgressBar(gcVoteImporter);
+				IProgressBar progressBar = GuiFactory.getInstance()
+						.getProgressBar(gcVoteImporter);
 				progressBar.show();
-				gcVoteImporter.refreshVotes(Global.getProfile().cacheDB.toList());
+				gcVoteImporter.refreshVotes(Global.getProfile().cacheDB
+						.toList());
 				progressBar.close();
 				tbp.resetModel();
-				//Vm.showWait(false);
+				// Vm.showWait(false);
 			}
 
 			// /////////////////////////////////////////////////////////////////////

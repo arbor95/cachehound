@@ -173,6 +173,7 @@ public class LocExporter {
 		// Wir haben das Wurzelement von Hand aufgemacht, also müssen wir es
 		// auch von Hand schliessen.
 		w.write("</loc>");
+		w.flush();
 	}
 
 	/**
