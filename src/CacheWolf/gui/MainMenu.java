@@ -1,6 +1,9 @@
 package CacheWolf.gui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +38,10 @@ import CacheWolf.util.DataMover;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.Rebuild;
 import CacheWolf.util.SearchCache;
+import de.cachehound.beans.ICacheHolder;
+import de.cachehound.exporter.xml.LocDecoratorGroundspeak;
+import de.cachehound.filter.FilterHelper;
+import de.cachehound.filter.HasCoordinatesFilter;
 import de.cachehound.imp.mail.CacheWolfMailHandler;
 import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
@@ -83,6 +90,7 @@ public class MainMenu extends MenuBar {
 			exportASC, exportTomTom, exportMSARCSV;
 	private MenuItem exportOZI, exportKML, exportTPL, exportExplorist,
 			exportTriton;
+	private MenuItem exportLOCNoEwe, exportGarminNoEwe;
 	private MenuItem importMail;
 	private MenuItem filtCreate, filtClear, filtInvert, filtSelected,
 			filtNonSelected, filtBlack, filtApply;
@@ -138,7 +146,7 @@ public class MainMenu extends MenuBar {
 		// /////////////////////////////////////////////////////////////////////
 		// subMenu for export, part of "Application" menu below
 		// /////////////////////////////////////////////////////////////////////
-		MenuItem[] exitems = new MenuItem[14];
+		MenuItem[] exitems = new MenuItem[18];
 		// Vm.debug("Hi in MainMenu "+lr);
 		exitems[0] = exporthtml = new MenuItem(MyLocale.getMsg(100, "to HTML"));
 		exitems[1] = exportGpxNg = new MenuItem(MyLocale.getMsg(101,
@@ -165,6 +173,12 @@ public class MainMenu extends MenuBar {
 				"via Template"));
 		exitems[13] = exportTriton = new MenuItem(MyLocale.getMsg(138,
 				"GPX for VantagePoint (Triton)"));
+		exitems[14] = mnuSeparator;
+		exitems[15] = exportLOCNoEwe = new MenuItem("to LOC");
+		exitems[16] = mnuSeparator;
+		exitems[17] = exportGarminNoEwe = new MenuItem(
+				"to Garmin (as Waypoints)");
+		exportGarminNoEwe.modifiers = MenuItem.Disabled;
 
 		Menu exportMenu = new Menu(exitems, MyLocale.getMsg(107, "Export"));
 
@@ -417,12 +431,14 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == loadcaches) {
 				File dir = pref.getImporterPath("LocGpxImporter");
 				FileChooser fc = new FileChooser(FileChooserBase.OPEN
-						| FileChooserBase.MULTI_SELECT, (dir == null? null : dir.getAbsolutePath()));
+						| FileChooserBase.MULTI_SELECT, (dir == null ? null
+						: dir.getAbsolutePath()));
 				fc.addMask("*.gpx,*.zip,*.loc");
 				fc.setTitle(MyLocale.getMsg(909, "Select file(s)"));
 				if (fc.execute() != FormBase.IDCANCEL) {
 					dir = new File(fc.getChosenDirectory().getFullPath());
-					pref.setImporterPath("LocGpxImporter", new File(fc.getChosenDirectory().getFullPath()));
+					pref.setImporterPath("LocGpxImporter", new File(fc
+							.getChosenDirectory().getFullPath()));
 					String files[] = fc.getAllChosen();
 					/*
 					 * int how = GPXImporter.DOIT_ASK; if (files.length > 0){
@@ -573,8 +589,8 @@ public class MainMenu extends MenuBar {
 				fc.addMask("*.tpl");
 				fc.setTitle(MyLocale.getMsg(910, "Select Template file"));
 				if (fc.execute() != FormBase.IDCANCEL) {
-					TPLExporter tpl = new TPLExporter(pref, profile, new File(fc
-							.getChosenFile().getFullPath()));
+					TPLExporter tpl = new TPLExporter(pref, profile, new File(
+							fc.getChosenFile().getFullPath()));
 					tpl.doIt();
 				}
 			}
@@ -585,6 +601,26 @@ public class MainMenu extends MenuBar {
 			if (mev.selectedItem == exportTriton) {
 				TritonGPXExporter mag = new TritonGPXExporter();
 				mag.doIt();
+			}
+			if (mev.selectedItem == exportLOCNoEwe) {
+				FileChooser fc = new FileChooser(FileChooserBase.SAVE, FileBase
+						.getProgramDirectory());
+				fc.addMask("*.loc");
+				if (fc.execute() != FormBase.IDCANCEL) {
+					try {
+						Collection<ICacheHolder> caches = FilterHelper
+								.applyFilter(new HasCoordinatesFilter(), Global
+										.getProfile().cacheDB.toList());
+						de.cachehound.exporter.xml.LocExporter exp = new de.cachehound.exporter.xml.LocExporter(new java.io.File(fc.getChosenFile()
+										.getAbsolutePath()));
+						exp.addDecorator(new LocDecoratorGroundspeak());
+						exp.doit(caches);
+					} catch (FileNotFoundException e) {
+						logger.error("Exception thrown during export", e);
+					} catch (IOException e) {
+						logger.error("Exception thrown during export", e);
+					}
+				}
 			}
 			// /////////////////////////////////////////////////////////////////////
 			// "Application" pulldown menu
@@ -925,8 +961,7 @@ public class MainMenu extends MenuBar {
 					cachesToUpdate.add(new Integer(i));
 				} else {
 					if (ch.isAddiWpt() && ch.getMainCache() != null
-							&& !ch.getMainCache().isChecked()
-							&& !alreadySaid2) { // Is
+							&& !ch.getMainCache().isChecked() && !alreadySaid2) { // Is
 						// the
 						// father
 						// ticked?

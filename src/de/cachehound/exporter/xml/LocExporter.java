@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -23,6 +28,10 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import CacheWolf.beans.CWPoint;
 import de.cachehound.beans.CacheHolderDummy;
@@ -44,9 +53,9 @@ public class LocExporter {
 	 * 
 	 * @param w
 	 */
-	public LocExporter(IDomForCache cacheHandler, Writer w) {
-		this.cacheHandler = cacheHandler;
+	public LocExporter(Writer w) {
 		this.w = w;
+		this.decorators = new LinkedList<IDomDecorator>();
 	}
 
 	/**
@@ -59,17 +68,52 @@ public class LocExporter {
 	 * @throws FileNotFoundException
 	 *             wenn der OutputStreamWriter diese wirft.
 	 */
-	public LocExporter(IDomForCache cacheHandler, File f)
-			throws FileNotFoundException {
-		this.cacheHandler = cacheHandler;
+	public LocExporter(File f) throws FileNotFoundException {
 		try {
 			this.w = new OutputStreamWriter(new FileOutputStream(f), "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			logger.error("utf-8 is unsupported", e);
 		}
+		this.decorators = new LinkedList<IDomDecorator>();
 	}
 
-	public void doit(Collection<ICacheHolder> caches) throws IOException {
+	private Document getBaseDom(ICacheHolder ch) {
+		try {
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+
+			Element root = doc.createElement("waypoint");
+			doc.appendChild(root);
+
+			Element name = doc.createElement("name");
+			name.setAttribute("id", ch.getWayPoint());
+			root.appendChild(name);
+
+			CDATASection nameData = doc.createCDATASection(ch.getCacheName()
+					+ " by " + ch.getCacheOwner());
+			name.appendChild(nameData);
+
+			Element coord = doc.createElement("coord");
+			coord.setAttribute("lat", Double.toString(ch.getPos().latDec));
+			coord.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+			root.appendChild(coord);
+
+			Element type = doc.createElement("type");
+			root.appendChild(type);
+
+			Text typeText = doc.createTextNode("Geocache");
+			type.appendChild(typeText);
+
+			return doc;
+		} catch (ParserConfigurationException e) {
+			logger.error("Error while creating DOM tree", e);
+			return null;
+		}
+	}
+
+	public void doit(Collection<? extends ICacheHolder> caches)
+			throws IOException {
 		w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		w.write("<loc version=\"1.0\" src=\"CacheHound\">\n");
 
@@ -81,8 +125,13 @@ public class LocExporter {
 
 			StreamResult result = new StreamResult(w);
 			for (ICacheHolder ch : caches) {
-				DOMSource source = new DOMSource(cacheHandler
-						.getDomForCache(ch));
+				Document doc = getBaseDom(ch);
+				
+				for (IDomDecorator dec : decorators) {
+					doc = dec.getDomForCache(doc, ch);
+				}
+				
+				DOMSource source = new DOMSource(doc);
 				trans.transform(source, result);
 			}
 		} catch (TransformerConfigurationException e) {
@@ -93,9 +142,13 @@ public class LocExporter {
 
 		w.write("</loc>");
 	}
+	
+	public void addDecorator(IDomDecorator dec) {
+		decorators.add(dec);
+	}
 
-	private IDomForCache cacheHandler;
 	private Writer w;
+	private List<IDomDecorator> decorators;
 
 	public static void main(String... args) {
 		ICacheHolder cache = new CacheHolderDummy() {
@@ -185,15 +238,18 @@ public class LocExporter {
 		caches.add(cache2);
 
 		LinkedHashMap<IFilter, String> mappings = new LinkedHashMap<IFilter, String>();
-		
+
 		EnumSet<CacheType> tradis = EnumSet.of(CacheType.TRADITIONAL);
 		mappings.put(new CacheTypeFilter(tradis), "Traditional");
 		EnumSet<CacheType> multis = EnumSet.of(CacheType.MULTI);
 		mappings.put(new CacheTypeFilter(multis), "Multi");
 
 		StringWriter sw = new StringWriter();
-		LocExporter exp = new LocExporter(new LocDecoratorChangeType(
-				mappings, new LocDecoratorAddDT(new LocDomCreator())), sw);
+		LocExporter exp = new LocExporter(sw);
+		
+		exp.addDecorator(new LocDecoratorAddDT());
+		exp.addDecorator(new LocDecoratorChangeType(mappings));
+		
 		try {
 			exp.doit(caches);
 		} catch (IOException e) {

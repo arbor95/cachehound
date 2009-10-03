@@ -24,7 +24,7 @@ public class GPSBabel {
 			ProcessBuilder pb = new ProcessBuilder("gpsbabel", "-V");
 			Process p = pb.start();
 			p.waitFor();
-		} catch (java.io.IOException e) {
+		} catch (IOException e) {
 			// this is expected if gpsbabel is not found.
 			return false;
 		} catch (InterruptedException e) {

@@ -11,13 +11,10 @@ import org.w3c.dom.Text;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.filter.IFilter;
 
-public class LocDecoratorChangeType extends DomForCacheDecorator {
+public class LocDecoratorChangeType implements IDomDecorator {
 	private Map<IFilter, String> types;
 
-	public LocDecoratorChangeType(Map<IFilter, String> types,
-			IDomForCache decoratee) {
-		super(decoratee);
-
+	public LocDecoratorChangeType(Map<IFilter, String> types) {
 		this.types = new LinkedHashMap<IFilter, String>(types);
 	}
 
@@ -31,8 +28,7 @@ public class LocDecoratorChangeType extends DomForCacheDecorator {
 	}
 
 	@Override
-	public Document getDomForCache(ICacheHolder cache) {
-		Document doc = super.getDomForCache(cache);
+	public Document getDomForCache(Document doc, ICacheHolder cache) {
 		Node root = doc.getFirstChild();
 
 		NodeList types = doc.getElementsByTagName("type");
