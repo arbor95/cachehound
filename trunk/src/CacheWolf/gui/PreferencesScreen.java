@@ -8,7 +8,6 @@ import CacheWolf.imp.SpiderGC;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
-import CacheWolf.util.GPSPortOptions;
 import CacheWolf.util.HttpConnection;
 import CacheWolf.util.MyLocale;
 import ewe.filechooser.FileChooser;
@@ -21,12 +20,10 @@ import ewe.sys.Convert;
 import ewe.ui.CellConstants;
 import ewe.ui.CellPanel;
 import ewe.ui.ControlEvent;
-import ewe.ui.Editor;
 import ewe.ui.Event;
 import ewe.ui.Form;
 import ewe.ui.FormBase;
 import ewe.ui.Frame;
-import ewe.ui.Gui;
 import ewe.ui.IKeys;
 import ewe.ui.ScrollBarPanel;
 import ewe.ui.UIConstants;
@@ -44,7 +41,7 @@ import ewe.ui.mTabbedPanel;
  * are saved immediatly when the user presses "Apply". Class ID=600
  */
 public class PreferencesScreen extends Form {
-	mButton cancelB, applyB, brwBt, gpsB;
+	mButton cancelB, applyB, brwBt;
 	mChoice inpLanguage, inpMetric, inpSpiderUpdates;
 	mInput DataDir, Proxy, ProxyPort, Alias, nLogs, fontSize, inpLogsPerPage,
 			inpMaxLogsToSpider, inpPassword;
@@ -147,11 +144,6 @@ public class PreferencesScreen extends Form {
 								"Password is optional here.\nEnter only if you want to store it in pref.xml"));
 		inpPassword.isPassword = true;
 		pnlGeneral.addLast(pnlBrowser, HSTRETCH, HFILL);
-
-		pnlGeneral.addLast(gpsB = new mButton("GPS: "
-				+ (pref.useGPSD ? "gpsd " + pref.gpsdHost : pref.mySPO.portName
-						+ "/" + pref.mySPO.baudRate)), CellConstants.HSTRETCH,
-				(CellConstants.HFILL | CellConstants.WEST));
 
 		// Garmin and GPSBabel
 		pnlGeneral.addNext(lblGarmin = new mLabel(MyLocale.getMsg(173,
@@ -554,45 +546,6 @@ public class PreferencesScreen extends Form {
 				fc.setTitle(MyLocale.getMsg(616, "Select directory"));
 				if (fc.execute() != FormBase.IDCANCEL)
 					DataDir.setText(fc.getChosen() + "/");
-			}
-			if (ev.target == gpsB) {
-				GPSPortOptions gpo = new GPSPortOptions();
-				gpo.portName = pref.mySPO.portName;
-				gpo.baudRate = pref.mySPO.baudRate;
-				Editor s = gpo.getEditor();
-				gpo.forwardGpsChkB.setState(pref.forwardGPS);
-				gpo.inputBoxForwardHost.setText(pref.forwardGpsHost);
-				gpo.gpsdChkB.setState(pref.useGPSD);
-				if (pref.gpsdPort != pref.DEFAULT_GPSD_PORT) {
-					gpo.inputBoxGpsdHost.setText(pref.gpsdHost + ":"
-							+ Convert.toString(pref.gpsdPort));
-				} else {
-					gpo.inputBoxGpsdHost.setText(pref.gpsdHost);
-				}
-				gpo.logGpsChkB.setState(pref.logGPS);
-				gpo.inputBoxLogTimer.setText(pref.logGPSTimer);
-				Gui.setOKCancel(s);
-				if (s.execute() == FormBase.IDOK) {
-					pref.mySPO.portName = gpo.portName;
-					pref.mySPO.baudRate = gpo.baudRate;
-					pref.forwardGPS = gpo.forwardGpsChkB.getState();
-					pref.forwardGpsHost = gpo.inputBoxForwardHost.getText();
-					pref.useGPSD = gpo.gpsdChkB.getState();
-					String gpsdHostString = gpo.inputBoxGpsdHost.getText(); // hostname[:port]
-					int posColon = gpsdHostString.indexOf(':');
-					if (posColon >= 0) {
-						pref.gpsdHost = gpsdHostString.substring(0, posColon);
-						pref.gpsdPort = Convert.toInt(gpsdHostString
-								.substring(posColon + 1));
-					} else {
-						pref.gpsdHost = gpsdHostString;
-						pref.gpsdPort = pref.DEFAULT_GPSD_PORT;
-					}
-					pref.logGPS = gpo.logGpsChkB.getState();
-					pref.logGPSTimer = gpo.inputBoxLogTimer.getText();
-					gpsB.setText("GPS: " + pref.mySPO.portName + "/"
-							+ pref.mySPO.baudRate);
-				}
 			}
 		}
 		super.onEvent(ev);
