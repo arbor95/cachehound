@@ -1,7 +1,6 @@
-package de.cachehound.util;
+package de.cachehound.util.gpsbabel;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,10 +14,6 @@ import CacheWolf.Global;
 
 public class GPSBabel {
 	private static Logger logger = LoggerFactory.getLogger(GPSBabel.class);
-
-	public enum Filetype {
-		geo, gpx, garmin;
-	}
 
 	public static boolean isPresent() {
 		try {
@@ -39,7 +34,7 @@ public class GPSBabel {
 	}
 
 	@Deprecated
-	public static void convert(String intype, String infile, String outtype,
+	private static void convert(String intype, String infile, String outtype,
 			String outfile, String... opts) throws IOException {
 		// FIXME: Find a better way to do this.
 
@@ -90,22 +85,9 @@ public class GPSBabel {
 		}
 	}
 
-	@Deprecated
-	public static void convert(Filetype intype, String infile,
-			Filetype outtype, String outfile, String... opts)
-			throws IOException {
-		convert(intype.toString(), infile, outtype.toString(), outfile, opts);
-	}
-	
-	public static void convert(Filetype intype, File infile,
-			Filetype outtype, File outfile, String... opts)
-			throws IOException {
-		convert(intype, infile.getPath(), outtype, outfile.getParent(), opts);
-	}
-	
-	public static void convert(Filetype intype, File infile,
-			Filetype outtype, String outfile, String... opts)
-			throws IOException {
-		convert(intype, infile.getPath(), outtype, outfile, opts);
+	public static void convert(IBabelFormat in, IBabelFormat out,
+			String... opts) throws IOException {
+		convert(in.getType(), in.getFileName(), out.getType(), out
+				.getFileName(), opts);
 	}
 }

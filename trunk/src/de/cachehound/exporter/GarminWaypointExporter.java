@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import CacheWolf.Global;
-
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.exporter.xml.LocDecoratorAddDT;
 import de.cachehound.exporter.xml.LocDecoratorChangeType;
@@ -20,7 +19,9 @@ import de.cachehound.filter.FoundFilter;
 import de.cachehound.filter.HasCoordinatesFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.types.CacheType;
-import de.cachehound.util.GPSBabel;
+import de.cachehound.util.gpsbabel.GPSBabel;
+import de.cachehound.util.gpsbabel.GarminDevice;
+import de.cachehound.util.gpsbabel.LocFile;
 
 public class GarminWaypointExporter {
 	/**
@@ -79,7 +80,7 @@ public class GarminWaypointExporter {
 
 		exp.doit(FilterHelper.applyFilter(new HasCoordinatesFilter(), caches));
 
-		GPSBabel.convert(GPSBabel.Filetype.geo, temp, GPSBabel.Filetype.garmin,
-				Global.getPref().garminConn + ":");
+		GPSBabel.convert(new LocFile(temp), new GarminDevice(
+				Global.getPref().garminConn + ":"));
 	}
 }

@@ -48,9 +48,11 @@ import de.cachehound.gui.interfaces.IProgressBar;
 import de.cachehound.imp.mail.CacheWolfMailHandler;
 import de.cachehound.imp.mail.GeocachingMailReader;
 import de.cachehound.imp.mail.IGCMailHandler;
-import de.cachehound.util.GPSBabel;
 import de.cachehound.util.SpiderService;
 import de.cachehound.util.gcvote.GcVoteImporter;
+import de.cachehound.util.gpsbabel.GPSBabel;
+import de.cachehound.util.gpsbabel.GarminDevice;
+import de.cachehound.util.gpsbabel.LocFile;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Font;
@@ -570,8 +572,8 @@ public class MainMenu extends MenuBar {
 				ProgressBarForm.display(MyLocale.getMsg(950, "Transfer"),
 						MyLocale.getMsg(951, "Sending to GPS"), null);
 				try {
-					GPSBabel.convert(GPSBabel.Filetype.geo, tmpFileName,
-							GPSBabel.Filetype.garmin, pref.garminConn + ":");
+					GPSBabel.convert(new LocFile(new java.io.File(tmpFileName)),
+							new GarminDevice(pref.garminConn + ":"));
 				} catch (java.io.IOException e) {
 					(new MessageBox("Error", "Garmin export unsuccessful",
 							FormBase.OKB)).execute();
