@@ -12,10 +12,10 @@ public class FilterHelper {
 	 * f.cacheIsVisible() wahr ist.
 	 */
 	public static List<ICacheHolder> applyFilter(IFilter f,
-			Collection<? extends ICacheHolder> c) {
+			Collection<? extends ICacheHolder> caches) {
 		List<ICacheHolder> ret = new ArrayList<ICacheHolder>();
 
-		for (ICacheHolder ch : c) {
+		for (ICacheHolder ch : caches) {
 			if (f.cacheIsVisible(ch)) {
 				ret.add(ch);
 			}
