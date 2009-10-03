@@ -77,8 +77,18 @@ public class LocExporter {
 		this.decorators = new LinkedList<IDomDecorator>();
 	}
 
+	/**
+	 * Erstellt einen rudimentären Dom-Tree zu einem Cache.
+	 * 
+	 * Das <waypoint>-Tag enthält dabei nur die Untertags <name>, <coord> und
+	 * <type> - letzteres ist immer "Geocache".
+	 * 
+	 * Alle weiteren Ergänzungen sollten über jeweils einen IDomDecorator
+	 * erfolgen.
+	 */
 	private Document getBaseDom(ICacheHolder ch) {
 		try {
+			// Man kanns mit'm Factory-Pattern auch übertreiben...
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
@@ -112,25 +122,45 @@ public class LocExporter {
 		}
 	}
 
+	/**
+	 * Schreibt ein .loc bestehend aus den übergebenen Caches auf den im
+	 * Konstruktor übergebenen Stream bzw. in die übergebene Datei.
+	 * 
+	 * @param caches
+	 * @throws IOException
+	 */
 	public void doit(Collection<? extends ICacheHolder> caches)
 			throws IOException {
+		/*
+		 * Ein DomTree für die gesamte .loc-Datei kann (zu) gross werden. Also
+		 * generieren wir für jeden Cache einen einzelnen DomTree und schreiben
+		 * diese hintereinander weg. Damit das ganze wieder ein gültiges
+		 * XML-Dokument wird, müssen wir uns um das Wurzelelement selber
+		 * kümmern.
+		 */
 		w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		w.write("<loc version=\"1.0\" src=\"CacheHound\">\n");
 
 		try {
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
+			// Wir transformieren nur Teilbäume, also soll nicht für jeden
+			// Teilbaum eine XML-Deklaration erzeugt werden.
 			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			// Aber hübsch solls sein!
 			trans.setOutputProperty(OutputKeys.INDENT, "yes");
 
 			StreamResult result = new StreamResult(w);
 			for (ICacheHolder ch : caches) {
+				// DomTree erzeugen.
 				Document doc = getBaseDom(ch);
-				
+
+				// Jeder Decorator darf was dran ändern
 				for (IDomDecorator dec : decorators) {
 					dec.decorateDomTree(doc, ch);
 				}
-				
+
+				// Und das Ergebnis ausgeben.
 				DOMSource source = new DOMSource(doc);
 				trans.transform(source, result);
 			}
@@ -140,9 +170,14 @@ public class LocExporter {
 			logger.error("Error while transforming DOM tree", e);
 		}
 
+		// Wir haben das Wurzelement von Hand aufgemacht, also müssen wir es
+		// auch von Hand schliessen.
 		w.write("</loc>");
 	}
-	
+
+	/**
+	 * Decorator hinzufügen.
+	 */
 	public void addDecorator(IDomDecorator dec) {
 		decorators.add(dec);
 	}
@@ -150,6 +185,7 @@ public class LocExporter {
 	private Writer w;
 	private List<IDomDecorator> decorators;
 
+	// Ab hier ist manueller Testcode - zum ausprobieren.
 	public static void main(String... args) {
 		ICacheHolder cache = new CacheHolderDummy() {
 			@Override
@@ -246,10 +282,10 @@ public class LocExporter {
 
 		StringWriter sw = new StringWriter();
 		LocExporter exp = new LocExporter(sw);
-		
+
 		exp.addDecorator(new LocDecoratorAddDT());
 		exp.addDecorator(new LocDecoratorChangeType(mappings));
-		
+
 		try {
 			exp.doit(caches);
 		} catch (IOException e) {
