@@ -49,7 +49,7 @@ public class PreferencesScreen extends Form {
 			inputMailInbox, inputMailMovetoBox;
 	mCheckBox chkMailMoveMessages, chkMailMarkMessages, chkMailDeleteMessages;
 	mCheckBox chkAutoLoad, chkShowDeletedImg, chkMenuAtTop, chkTabsAtTop,
-			chkShowStatus, chkHasCloseButton, chkSynthShort, chkProxyActive,
+			chkShowStatus, chkSynthShort, chkProxyActive,
 			chkDescShowImg, chkAddDetailsToWaypoint, chkAddDetailsToName;
 
 	mTabbedPanel mTab;
@@ -189,11 +189,6 @@ public class PreferencesScreen extends Form {
 		frmScreen.addLast(pnlScreen, HSTRETCH, HFILL);
 		fontSize.setText(Convert.toString(pref.fontSize));
 
-		frmScreen.addLast(chkHasCloseButton = new mCheckBox(MyLocale.getMsg(
-				631, "PDA has close Button")), CellConstants.DONTSTRETCH,
-				(CellConstants.DONTFILL | CellConstants.WEST));
-		// lblTitle.setTag(INSETS,new Insets(2,0,0,0));
-		chkHasCloseButton.setState(pref.hasCloseButton);
 		frmScreen.addNext(chkMenuAtTop = new mCheckBox(MyLocale.getMsg(626,
 				"Menu top")), CellConstants.DONTSTRETCH,
 				(CellConstants.DONTFILL | CellConstants.WEST));
@@ -512,7 +507,6 @@ public class PreferencesScreen extends Form {
 				pref.menuAtTop = chkMenuAtTop.getState();
 				pref.tabsAtTop = chkTabsAtTop.getState();
 				pref.showStatus = chkShowStatus.getState();
-				pref.hasCloseButton = chkHasCloseButton.getState();
 				pref.travelbugColMap = tccBugs.getSelectedCols();
 				pref.listColMap = tccList.getSelectedCols();
 				pref.descShowImg = chkDescShowImg.getState();
