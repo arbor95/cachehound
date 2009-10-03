@@ -28,7 +28,7 @@ public class LocDecoratorChangeType implements IDomDecorator {
 	}
 
 	@Override
-	public Document getDomForCache(Document doc, ICacheHolder cache) {
+	public void decorateDomTree(Document doc, ICacheHolder cache) {
 		Node root = doc.getFirstChild();
 
 		NodeList types = doc.getElementsByTagName("type");
@@ -43,7 +43,5 @@ public class LocDecoratorChangeType implements IDomDecorator {
 
 		Text typeText = doc.createTextNode(getType(cache));
 		type.appendChild(typeText);
-
-		return doc;
 	}
 }

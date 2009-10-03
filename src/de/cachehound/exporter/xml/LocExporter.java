@@ -128,7 +128,7 @@ public class LocExporter {
 				Document doc = getBaseDom(ch);
 				
 				for (IDomDecorator dec : decorators) {
-					doc = dec.getDomForCache(doc, ch);
+					dec.decorateDomTree(doc, ch);
 				}
 				
 				DOMSource source = new DOMSource(doc);

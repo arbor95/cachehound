@@ -8,7 +8,7 @@ import de.cachehound.beans.ICacheHolder;
 
 public class LocDecoratorAddDT implements IDomDecorator {
 	@Override
-	public Document getDomForCache(Document doc, ICacheHolder cache) {
+	public void decorateDomTree(Document doc, ICacheHolder cache) {
 		NodeList names = doc.getElementsByTagName("name");
 		// sollte eigentlich nur genau 1x vorkommen, aber man weiss ja nie...
 
@@ -25,7 +25,5 @@ public class LocDecoratorAddDT implements IDomDecorator {
 							"")
 					+ cache.getCacheSize().getAsChar());
 		}
-
-		return doc;
 	}
 }
