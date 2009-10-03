@@ -175,15 +175,7 @@ public class Preferences extends MinML {
 	public boolean tabsAtTop = true;
 	/** True if the status bar is to be displayed (hidden if false) */
 	public boolean showStatus = true;
-	// public boolean noTabs=false;
-	/**
-	 * True if the application can be closed by clicking on the close button in
-	 * the top line. This can be set to avoid accidental closing of the
-	 * application
-	 */
-	public boolean hasCloseButton = true;
-	/** True if the SIP is always visible */
-	public boolean fixSIP = false;
+
 	/** The list of visible columns in the list view */
 	public String listColMap = "0,1,2,3,4,5,6,7,8,9,10,11,12";
 	/** The widths for each column in list view */
@@ -359,12 +351,8 @@ public class Preferences extends MinML {
 		// Vm.debug("name = "+name);
 		lastName = name;
 		String tmp;
-		if (name.equals("browser"))
+		if (name.equals("browser")) {
 			browser = atts.getValue("name");
-		else if (name.equals("fixedsip")) {
-			if (atts.getValue("state").equals("true")) {
-				fixSIP = true;
-			}
 		} else if (name.equals("font"))
 			fontSize = Convert.toInt(atts.getValue("size"));
 		else if (name.equals("alias")) {
@@ -429,9 +417,6 @@ public class Preferences extends MinML {
 					.booleanValue();
 			showStatus = Boolean.valueOf(atts.getValue("showstatus"))
 					.booleanValue();
-			if (atts.getValue("hasclosebutton") != null)
-				hasCloseButton = Boolean.valueOf(
-						atts.getValue("hasclosebutton")).booleanValue();
 			if (atts.getValue("h") != null) {
 				myAppHeight = Convert.toInt(atts.getValue("h"));
 				myAppWidth = Convert.toInt(atts.getValue("w"));
@@ -627,11 +612,9 @@ public class Preferences extends MinML {
 					+ "\"/>\n");
 			outp.print("    <screen menuattop=\"" + menuAtTop
 					+ "\" tabsattop=\"" + tabsAtTop + "\" showstatus=\""
-					+ showStatus + "\" hasclosebutton=\"" + hasCloseButton
+					+ showStatus 
 					+ "\" h=\"" + myAppHeight + "\" w=\"" + myAppWidth
 					+ "\" />\n");
-			outp.print("    <fixedsip state = \""
-					+ SafeXML.strxmlencode(fixSIP) + "\"/>\n");
 			outp.print("    <listview colmap=\""
 					+ SafeXML.strxmlencode(listColMap) + "\" colwidths=\""
 					+ SafeXML.strxmlencode(listColWidth) + "\" />\n");
