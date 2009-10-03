@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.GcVote;
 import de.cachehound.beans.ICacheHolder;
+import de.cachehound.gui.interfaces.AbstractProgressTask;
 
 /**
  * This class Imports the Data from gcvote.com.
@@ -39,7 +40,7 @@ import de.cachehound.beans.ICacheHolder;
  *
  */
 
-public class GcVoteImporter {
+public class GcVoteImporter extends AbstractProgressTask {
 
 	private static Logger logger = LoggerFactory
 	.getLogger(GcVoteImporter.class);
@@ -57,6 +58,7 @@ public class GcVoteImporter {
 
 	private GcVoteImporter() {
 		// singleton
+		setHeadLine("GcVote Import");
 	}
 	
 	public static GcVoteImporter getInstance() {
@@ -69,7 +71,9 @@ public class GcVoteImporter {
 	 * @param caches
 	 */
 	public void refreshVotes(Collection<? extends ICacheHolder> caches) {
+		setProgress(0);
 		logger.debug("Refreshing GcVote Data ...");
+		setText("Preparing Request ...");
 		HashMap<String, ICacheHolder> cacheMap = new HashMap<String, ICacheHolder>();
 		for (ICacheHolder cache : caches) {
 			if (cache.isCacheWpt()) {
@@ -78,6 +82,7 @@ public class GcVoteImporter {
 		}
 		InputStream inXml;
 		try {
+			setText("Asking gcVote Server ...");
 			inXml = getVoting(cacheMap.keySet());
 			parseXML(inXml, cacheMap);
 		} catch (IOException e) {
@@ -136,7 +141,8 @@ public class GcVoteImporter {
 	 */
 	private void parseXML(InputStream in, Map<String, ICacheHolder> geoCaches)
 			throws ParserConfigurationException, SAXException, IOException {
-
+		setText("Parsing GcVote data ...");
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(in);
@@ -178,6 +184,7 @@ public class GcVoteImporter {
 
 		// a loop for every Cache in the voting results
 		for (int i = 0; i < votes.getLength(); i++) {
+			setProgress(((double) i) / votes.getLength());
 			vote = votes.item(i);
 
 			gcNumber = vote.getAttributes().getNamedItem("waypoint")
