@@ -4,6 +4,6 @@ import org.w3c.dom.Document;
 
 import de.cachehound.beans.ICacheHolder;
 
-public interface IDomForCache {
-	Document getDomForCache(ICacheHolder cache);
+public interface IDomDecorator {
+	Document getDomForCache(Document d, ICacheHolder cache);
 }

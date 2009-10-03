@@ -7,14 +7,9 @@ import org.w3c.dom.Text;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class LocDecoratorGroundspeak extends DomForCacheDecorator {
-	public LocDecoratorGroundspeak(IDomForCache decoratee) {
-		super(decoratee);
-	}
-
+public class LocDecoratorGroundspeak implements IDomDecorator {
 	@Override
-	public Document getDomForCache(ICacheHolder cache) {
-		Document doc = super.getDomForCache(cache);
+	public Document getDomForCache(Document doc, ICacheHolder cache) {
 		Node root = doc.getFirstChild();
 
 		Element link = doc.createElement("link");

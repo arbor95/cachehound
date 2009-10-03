@@ -6,15 +6,9 @@ import org.w3c.dom.NodeList;
 
 import de.cachehound.beans.ICacheHolder;
 
-public class LocDecoratorAddDT extends DomForCacheDecorator {
-	public LocDecoratorAddDT(IDomForCache decoratee) {
-		super(decoratee);
-	}
-
+public class LocDecoratorAddDT implements IDomDecorator {
 	@Override
-	public Document getDomForCache(ICacheHolder cache) {
-		Document doc = super.getDomForCache(cache);
-
+	public Document getDomForCache(Document doc, ICacheHolder cache) {
 		NodeList names = doc.getElementsByTagName("name");
 		// sollte eigentlich nur genau 1x vorkommen, aber man weiss ja nie...
 
