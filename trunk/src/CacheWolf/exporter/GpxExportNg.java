@@ -5,7 +5,6 @@ import java.util.Iterator;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.util.Common;
 import CacheWolf.util.FileBugfix;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
@@ -15,6 +14,7 @@ import com.stevesoft.ewe_pat.Transformer;
 
 import de.cachehound.beans.Log;
 import de.cachehound.beans.LogList;
+import de.cachehound.util.Rot13;
 import de.cachehound.util.gpsbabel.GPSBabel;
 import de.cachehound.util.gpsbabel.GPXFile;
 import de.cachehound.util.gpsbabel.GarminDevice;
@@ -646,7 +646,7 @@ public class GpxExportNg {
 					ret.append("    <cmt>".concat(
 							SafeXML.cleanGPX(ch.getCacheName()
 									+ " "
-									+ Common.rot13(ch.getFreshDetails()
+									+ Rot13.encodeRot13(ch.getFreshDetails()
 											.getHints()))).concat("</cmt>\n"));
 				}
 			} else if (exportIds == WPNAME_NAME_SMART) {

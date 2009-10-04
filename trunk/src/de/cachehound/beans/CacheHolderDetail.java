@@ -17,6 +17,7 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 	 */
 	private CacheHolder parent = null;
 	private String longDescription = CacheHolder.EMPTY;
+	private String shortDescription = CacheHolder.EMPTY;
 	private String lastUpdate = CacheHolder.EMPTY;
 	private String hints = CacheHolder.EMPTY;
 	private LogList cacheLogs = new LogList();
@@ -144,6 +145,14 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 		this.attributes = attributes;
 	}
 
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+	
 	public void addCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must

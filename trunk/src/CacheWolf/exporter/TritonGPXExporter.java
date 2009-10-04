@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.LogType;
+import de.cachehound.util.Rot13;
 import ewe.sys.Time;
 
 public class TritonGPXExporter extends Exporter {
@@ -140,8 +140,8 @@ public class TritonGPXExporter extends Exporter {
 
 				if (!(chdetail.getHints().length() == 0))
 					strBuf.append(" ######HINT!####### \r\n").append(
-							SafeXML.removeHtml(SafeXML.strxmldecode(Common
-									.rot13(chdetail.getHints()))));
+							SafeXML.removeHtml(SafeXML.strxmldecode(Rot13
+									.encodeRot13(chdetail.getHints()))));
 
 				strBuf.append("\r\n ######LOGS!###### \r\n");
 				int logCount = chdetail.getCacheLogs().size();

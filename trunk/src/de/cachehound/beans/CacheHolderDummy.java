@@ -101,4 +101,14 @@ public class CacheHolderDummy implements ICacheHolder {
 	public ICacheHolderDetail getDetails() {
 		return null;
 	}
+
+	@Override
+	public String getCacheID() {
+		return null;
+	}
+
+	@Override
+	public boolean isHTML() {
+		return false;
+	}
 }

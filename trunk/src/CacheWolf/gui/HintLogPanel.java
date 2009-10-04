@@ -1,10 +1,10 @@
 package CacheWolf.gui;
 
 import CacheWolf.Global;
-import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
+import de.cachehound.util.Rot13;
 import ewe.fx.Dimension;
 import ewe.fx.Graphics;
 import ewe.fx.Image;
@@ -225,9 +225,9 @@ public class HintLogPanel extends CellPanel {
 		if (hint.getText().length() > 0) {
 			Object selection = hint.getSelection();
 			if (selection != null)
-				hint.replaceSelection(Common.rot13(selection.toString()));
+				hint.replaceSelection(Rot13.encodeRot13(selection.toString()));
 			else
-				hint.setText(Common.rot13(hint.getText()));
+				hint.setText(Rot13.encodeRot13(hint.getText()));
 			decodeButton.setText(this.encodeCaption);
 			hintIsDecoded = true;
 		}
