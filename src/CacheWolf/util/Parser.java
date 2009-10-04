@@ -55,6 +55,7 @@ import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
+import de.cachehound.util.Rot13;
 import ewe.sys.Convert;
 import ewe.util.Hashtable;
 import ewe.util.Iterator;
@@ -1355,7 +1356,7 @@ public class Parser {
 		else if (funcDef.alias.equals("reverse"))
 			calcStack.add(funcReverse(popCalcStackAsString()));
 		else if (funcDef.alias.equals("rot13"))
-			calcStack.add(Common.rot13(popCalcStackAsString()));
+			calcStack.add(Rot13.encodeRot13(popCalcStackAsString()));
 		// else if (funcDef.alias.equals("rs")) funcRequireSemicolon(nargs);
 		else if (funcDef.alias.equals("show")) {
 			// seams to be nothing to to on the stack, or implemenation failure?

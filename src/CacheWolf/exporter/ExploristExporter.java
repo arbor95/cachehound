@@ -9,11 +9,11 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.gui.InfoBox;
-import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.comparators.DistanceComparator;
 import de.cachehound.types.CacheType;
+import de.cachehound.util.Rot13;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.BufferedReader;
@@ -267,7 +267,7 @@ public class ExploristExporter {
 			sb.append(",");
 			sb.append(removeCommas(ch.getCacheOwner()));
 			sb.append(",");
-			sb.append(removeCommas(Common.rot13(det.getHints())));
+			sb.append(removeCommas(Rot13.encodeRot13(det.getHints())));
 			sb.append(",");
 
 			if (!add.equals("")) { // Set Picture in Explorist to Virtual

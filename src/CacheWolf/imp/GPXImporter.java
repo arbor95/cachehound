@@ -29,6 +29,7 @@ import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
+import de.cachehound.util.Rot13;
 import de.cachehound.util.SpiderService;
 import de.cachehound.util.ewecompat.EweReader;
 import ewe.sys.Time;
@@ -535,7 +536,7 @@ public class GPXImporter extends MinML {
 			return;
 		}
 		if (name.equals("groundspeak:encoded_hints") || name.equals("hints")) {
-			holder.getFreshDetails().setHints(Common.rot13(strData));
+			holder.getFreshDetails().setHints(Rot13.encodeRot13(strData));
 			return;
 		}
 
@@ -544,7 +545,7 @@ public class GPXImporter extends MinML {
 			int indexTrash = strData.indexOf("&lt;br&gt;<br>");
 			if (indexTrash > 0)
 				holder.getFreshDetails().setHints(
-						Common.rot13(strData.substring(0, indexTrash)));
+						Rot13.encodeRot13(strData.substring(0, indexTrash)));
 			return;
 		}
 

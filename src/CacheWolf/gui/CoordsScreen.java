@@ -1,6 +1,5 @@
 package CacheWolf.gui;
 
-import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.util.MyLocale;
 import de.cachehound.util.SpiderService;

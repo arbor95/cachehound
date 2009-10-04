@@ -20,6 +20,7 @@ import com.stevesoft.ewe_pat.Regex;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheType;
+import de.cachehound.util.Rot13;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.sys.Convert;
@@ -162,8 +163,7 @@ public class HTMLExporter {
 												"<br>"));
 							}
 							page_tpl.setParam("HINTS", det.getHints());
-							page_tpl.setParam("DECRYPTEDHINTS", Common
-									.rot13(det.getHints()));
+							page_tpl.setParam("DECRYPTEDHINTS", Rot13.encodeRot13(det.getHints()));
 
 							StringBuilder sb = new StringBuilder(2000);
 							for (int j = 0; j < det.getCacheLogs().size(); j++) {

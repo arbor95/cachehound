@@ -21,6 +21,7 @@ public interface ICacheHolder {
 	public boolean isFound();
 	public boolean isOwned();
 	public boolean isCacheWpt();
+	public boolean isHTML();
 	
 	public String getWayPoint();
 	public String getCacheName();
@@ -32,4 +33,6 @@ public interface ICacheHolder {
 	public CWPoint getPos();
 	
 	public ICacheHolderDetail getDetails();
+	
+	public String getCacheID();
 }

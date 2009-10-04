@@ -41,13 +41,13 @@ import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
-import CacheWolf.util.Common;
 import HTML.Template;
 
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.types.CacheType;
+import de.cachehound.util.Rot13;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.ui.FormBase;
@@ -168,12 +168,12 @@ public class TPLExporter {
 							varParams.put("HINTS", rex.replaceAll(det
 									.getHints()));
 							varParams.put("DECRYPTEDHINTS", rex
-									.replaceAll(Common.rot13(det.getHints())));
+									.replaceAll(Rot13.encodeRot13(det.getHints())));
 						} else {
 							varParams.put("NAME", ch.getCacheName());
 							varParams.put("NOTES", det.getCacheNotes());
 							varParams.put("HINTS", det.getHints());
-							varParams.put("DECRYPTEDHINTS", Common.rot13(det
+							varParams.put("DECRYPTEDHINTS", Rot13.encodeRot13(det
 									.getHints()));
 						}
 						cache_index.add(varParams);

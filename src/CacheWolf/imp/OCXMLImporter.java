@@ -26,6 +26,7 @@ import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
+import de.cachehound.util.Rot13;
 import de.cachehound.util.ewecompat.EweReader;
 import ewe.io.File;
 import ewe.io.IOException;
@@ -785,7 +786,7 @@ public class OCXMLImporter extends MinML {
 				return;
 			}
 			if (name.equals("hint")) {
-				holder.getFreshDetails().setHints(Common.rot13(strData));
+				holder.getFreshDetails().setHints(Rot13.encodeRot13(strData));
 				return;
 			}
 		}

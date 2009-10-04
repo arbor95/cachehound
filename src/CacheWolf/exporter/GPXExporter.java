@@ -2,9 +2,9 @@ package CacheWolf.exporter;
 
 import CacheWolf.Global;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.util.Common;
 import CacheWolf.util.SafeXML;
 import de.cachehound.beans.CacheHolderDetail;
+import de.cachehound.util.Rot13;
 import ewe.io.FileBase;
 import ewe.sys.Time;
 import ewe.sys.Vm;
@@ -143,7 +143,7 @@ public class GPXExporter extends Exporter {
 						SafeXML.cleanGPX(det.getLongDescription()));
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
 				strBuf.append("	  <groundspeak:encoded_hints>").append(
-						SafeXML.cleanGPX(Common.rot13(det.getHints()))).append(
+						SafeXML.cleanGPX(Rot13.encodeRot13(det.getHints()))).append(
 						"</groundspeak:encoded_hints>\r\n");
 				strBuf.append("      <groundspeak:logs>\r\n");
 				if (Global.getPref().exportGpxAsMyFinds && ch.isFound()) {

@@ -39,19 +39,22 @@ import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
+import de.cachehound.util.Rot13;
 
 /**
  * Diese Klasse dient dazu die Caches und Waypoints als (Groundspeak-kompatible)
  * Gpx-Datei zu exportieren.
  * 
- * //Todo: - Das Time
  * 
- * 
+ * Probleme können sein: 
  * 
  * @author tweety
  * 
  */
-// Todo: Das Time-Attribut in Waypoints wird beim import schon nicht gesetzt
+// TODO: Das Time Tag kann nur mit aktuelle Zeit gefüllt werden - wird bisher nicht gespeichert.
+// TODO: Beim Import müssten sowohl short als auch Long Description gefüllt werden - bisher wird alles in Long Description geschrieben.  
+
+
 public class GpxExporter {
 	private static Logger logger = LoggerFactory.getLogger(GpxExporter.class);
 
@@ -128,8 +131,7 @@ public class GpxExporter {
 				// DomTree erzeugen.
 				Document doc;
 				if (ch.isCacheWpt()) {
-					// TODO: Naja, ne zweite Methode ...
-					doc = getDomForWaypoint(ch);
+					doc = getDomForGeocache(ch);
 				} else {
 					doc = getDomForWaypoint(ch);
 				}
@@ -187,8 +189,8 @@ public class GpxExporter {
 		w.write("<time>" + sdf.format(new Date()) + "</time>\n");
 		w.write("<keywords>cache, geocache, groundspeak</keywords>\n");
 
-		double minLat = 180;
-		double maxLat = -180;
+		double minLat = 90;
+		double maxLat = -90;
 		double minLon = 180;
 		double maxLon = -180;
 		for (ICacheHolder cache : caches) {
@@ -242,13 +244,13 @@ public class GpxExporter {
 			root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
 			doc.appendChild(root);
 
-	
+			// TODO: Auf korrektes Datum stellen
 			SimpleDateFormat sdf = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss.S");
+					"yyyy-MM-dd'T'HH:mm:ss.S");
 			Element time = doc.createElement("time");
 			time.setTextContent(sdf.format(new Date()));
 			root.appendChild(time);
-	
+
 			Element name = doc.createElement("name");
 			name.setTextContent(ch.getWayPoint());
 			root.appendChild(name);
@@ -256,25 +258,87 @@ public class GpxExporter {
 			Element cmt = doc.createElement("cmt");
 			cmt.setTextContent(ch.getDetails().getLongDescription());
 			root.appendChild(cmt);
-			
+
 			Element desc = doc.createElement("desc");
 			desc.setTextContent(ch.getCacheName());
 			root.appendChild(desc);
-			
+
 			Element url = doc.createElement("url");
 			url.setTextContent(ch.getDetails().getUrl());
 			root.appendChild(url);
-			
+
 			Element urlName = doc.createElement("urlname");
 			urlName.setTextContent(ch.getCacheName());
 			root.appendChild(urlName);
-			
+
 			Element sym = doc.createElement("sym");
 			sym.setTextContent(ch.getType().getGcGpxString());
 			root.appendChild(sym);
-			
+
 			Element type = doc.createElement("type");
 			type.setTextContent("Waypoint|" + ch.getType().getGcGpxString());
+			root.appendChild(type);
+
+			return doc;
+		} catch (ParserConfigurationException e) {
+			logger.error("Error while creating DOM tree", e);
+			return null;
+		}
+	}
+
+	/**
+	 * Erstellt einen rudimentären Dom-Tree zu einem WayPoint.
+	 * 
+	 * Das <wpt>-Tag enthält dabei nur die Untertags <time>, <name>, <cmt>,
+	 * <desc>, <url>, <urlname>, <sym> und <type>
+	 * 
+	 * Alle weiteren Ergänzungen sollten über jeweils einen IDomDecorator
+	 * erfolgen.
+	 */
+	private Document getDomForGeocache(ICacheHolder ch) {
+		try {
+			// Man kanns mit'm Factory-Pattern auch übertreiben...
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+
+			// Allgemeiner Waypoint-Header:			
+			Element root = doc.createElement("wpt");
+			root.setAttribute("lat", Double.toString(ch.getPos().latDec));
+			root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+			doc.appendChild(root);
+
+			// TODO: Auf korrektes Datum stellen
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T00:00:00'");
+			Element time = doc.createElement("time");
+			time.setTextContent(sdf.format(new Date()));
+			root.appendChild(time);
+
+			Element name = doc.createElement("name");
+			name.setTextContent(ch.getWayPoint());
+			root.appendChild(name);
+
+			Element desc = doc.createElement("desc");
+			desc.setTextContent(ch.getCacheName() + " by " + ch.getCacheOwner()
+					+ ", " + ch.getType().getGcGpxString() + " ("
+					+ ch.getDifficulty().getShortRepresentation() + "/"
+					+ ch.getTerrain().getShortRepresentation() + ")");
+			root.appendChild(desc);
+
+			Element url = doc.createElement("url");
+			url.setTextContent(ch.getDetails().getUrl());
+			root.appendChild(url);
+
+			Element urlName = doc.createElement("urlname");
+			urlName.setTextContent(ch.getCacheName());
+			root.appendChild(urlName);
+
+			Element sym = doc.createElement("sym");
+			sym.setTextContent("Geocache");
+			root.appendChild(sym);
+
+			Element type = doc.createElement("type");
+			type.setTextContent("Geocache|" + ch.getType().getGcGpxString());
 			root.appendChild(type);
 			
 			return doc;
@@ -314,20 +378,35 @@ public class GpxExporter {
 
 			@Override
 			public Terrain getTerrain() {
-				return Terrain.TERRAIN_1_0;
+				return Terrain.TERRAIN_1_5;
 			}
 
 			@Override
 			public CacheType getType() {
-				return CacheType.PARKING;
+				return CacheType.MULTI;
 			}
 
+			@Override
+			public String getCacheID() {
+				return "1234567";
+			}
+			
+			@Override
+			public boolean isCacheWpt() {
+				return true;
+			}
+			
 			@Override
 			public CacheSize getCacheSize() {
 				return CacheSize.MICRO;
 			}
+
+			@Override
+			public boolean isHTML() {
+				return true;
+			}
 			
-			@Override 
+			@Override
 			public ICacheHolderDetail getDetails() {
 				return new ICacheHolderDetail() {
 					@Override
@@ -338,6 +417,25 @@ public class GpxExporter {
 					@Override
 					public String getUrl() {
 						return "http://www.geocaching.com/seek/wpt.aspx?WID=a70708a9-dd9a-4375-8b57-afec8d547ae0";
+					}
+					@Override
+					public String getCountry() {
+						return "Germany";
+					}
+
+					@Override
+					public String getState() {
+						return "Hamburg";
+					}
+
+					@Override
+					public String getShortDescription() {
+						return "<br/> Short <br/>";
+					}
+
+					@Override
+					public String getHints() {
+						return "[Stage1]NOPQRST";
 					}
 					
 				};
@@ -383,19 +481,38 @@ public class GpxExporter {
 			public CacheSize getCacheSize() {
 				return CacheSize.REGULAR;
 			}
-			
-			@Override 
+
+			@Override
 			public ICacheHolderDetail getDetails() {
 				return new ICacheHolderDetail() {
 					@Override
 					public String getLongDescription() {
 						return "Mal <ganz ganz fieser C&de! in Däütsch";
 					}
+
 					@Override
 					public String getUrl() {
 						return "http://www.öpnv-karte.de";
 					}
-					
+					@Override
+					public String getCountry() {
+						return "Germany";
+					}
+
+					@Override
+					public String getState() {
+						return "Hamburg";
+					}
+
+					@Override
+					public String getShortDescription() {
+						return null;
+					}
+
+					@Override
+					public String getHints() {
+						return null;
+					}
 				};
 			}
 		};
@@ -409,7 +526,6 @@ public class GpxExporter {
 		try {
 			exp.doit(caches);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(sw.toString());

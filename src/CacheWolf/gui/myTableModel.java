@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.Global;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
-import CacheWolf.beans.Preferences;
 import CacheWolf.util.MyLocale;
 import de.cachehound.comparators.CacheHolderComparatorFactory;
 import de.cachehound.types.CacheSize;

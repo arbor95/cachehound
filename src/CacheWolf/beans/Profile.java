@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import CacheWolf.Global;
 import CacheWolf.gui.InfoBox;
-import CacheWolf.navi.Area;
 import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;

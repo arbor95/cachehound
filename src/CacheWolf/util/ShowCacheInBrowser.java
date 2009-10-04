@@ -11,6 +11,7 @@ import HTML.Template;
 import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.factory.LogFactory;
+import de.cachehound.util.Rot13;
 import ewe.io.BufferedWriter;
 import ewe.io.FileBase;
 import ewe.io.FileWriter;
@@ -231,7 +232,7 @@ public class ShowCacheInBrowser {
 					if (!chD.isAvailable())
 						tpl.setParam("UNAVAILABLE", "1");
 					if (!chD.getExistingDetails().getHints().equals("null"))
-						tpl.setParam("HINT", Common.rot13(chD
+						tpl.setParam("HINT", Rot13.encodeRot13(chD
 								.getExistingDetails().getHints()));
 
 					if (chD.hasAddiWpt()) {
