@@ -32,39 +32,42 @@ import de.cachehound.gui.interfaces.AbstractProgressTask;
 /**
  * This class Imports the Data from gcvote.com.
  * 
- * Because it's needing no internal state, it's made with a singleton pattern like a common service.
+ * Because it's needing no internal state, it's made with a singleton pattern
+ * like a common service.
  * 
  * It's based on the gcvote 2.0b Version.
  * 
  * @author tweety
- *
+ * 
  */
 
 public class GcVoteImporter extends AbstractProgressTask {
 
 	private static Logger logger = LoggerFactory
-	.getLogger(GcVoteImporter.class);
-	
+			.getLogger(GcVoteImporter.class);
+
 	private static GcVoteImporter instance = new GcVoteImporter();
-	
+
 	private String user = "undefined";
 	private String password = "";
 
 	// connection to server
 	private static String VOTE_SERVER_BASE = "http://dosensuche.de/GCVote";
 	private static String GET_VOTES = VOTE_SERVER_BASE + "/getVotes.php";
-//	private static String SET_VOTE = VOTE_SERVER_BASE + "/setVote.php";
-//	private static String LIST_VOTES = VOTE_SERVER_BASE + "/listUserVotes.php";
+
+	// private static String SET_VOTE = VOTE_SERVER_BASE + "/setVote.php";
+	// private static String LIST_VOTES = VOTE_SERVER_BASE +
+	// "/listUserVotes.php";
 
 	private GcVoteImporter() {
 		// singleton
 		setHeadLine("GcVote Import");
 	}
-	
+
 	public static GcVoteImporter getInstance() {
 		return instance;
 	}
-	
+
 	/**
 	 * Refreshes the data from GcVote for all caches in the collection.
 	 * 
@@ -88,9 +91,9 @@ public class GcVoteImporter extends AbstractProgressTask {
 		} catch (IOException e) {
 			logger.error("Failre at receiving gcVote.", e);
 		} catch (ParserConfigurationException e) {
-			logger.error("Failure at parsing gcVote.", e); 
+			logger.error("Failure at parsing gcVote.", e);
 		} catch (SAXException e) {
-			logger.error("Failure at parsing gcVote.", e); 
+			logger.error("Failure at parsing gcVote.", e);
 		}
 		logger.debug("... GcVote data refreshed.");
 	}
@@ -130,9 +133,10 @@ public class GcVoteImporter extends AbstractProgressTask {
 	}
 
 	/**
-	 * This method parses the InputStream from GcVote with DOM an looks for errors.
-	 * If there is no error it calls parseVotings to get all the voting datas.
-	 *    
+	 * This method parses the InputStream from GcVote with DOM an looks for
+	 * errors. If there is no error it calls parseVotings to get all the voting
+	 * datas.
+	 * 
 	 * @param in
 	 * @param geoCaches
 	 * @throws ParserConfigurationException
@@ -142,7 +146,7 @@ public class GcVoteImporter extends AbstractProgressTask {
 	private void parseXML(InputStream in, Map<String, ICacheHolder> geoCaches)
 			throws ParserConfigurationException, SAXException, IOException {
 		setText("Parsing GcVote data ...");
-		
+
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(in);
@@ -161,7 +165,9 @@ public class GcVoteImporter extends AbstractProgressTask {
 	}
 
 	/**
-	 * This Method parses the votings in the given (DOM)-Dokument an fills the geoCaches with them.
+	 * This Method parses the votings in the given (DOM)-Dokument an fills the
+	 * geoCaches with them.
+	 * 
 	 * @param document
 	 * @param geoCaches
 	 */
@@ -218,23 +224,25 @@ public class GcVoteImporter extends AbstractProgressTask {
 	}
 
 	/**
-	 * Just a small test and learn method for this class. 
+	 * Just a small test and learn method for this class.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
 		ICacheHolder ch = new CacheHolderDummy() {
+			@Override
 			public String getWayPoint() {
 				return "GC1KHXZ";
 			}
 
+			@Override
 			public boolean isCacheWpt() {
 				return true;
 			}
 		};
 		List<ICacheHolder> list = new ArrayList<ICacheHolder>();
 		list.add(ch);
-		
+
 		GcVoteImporter importer = GcVoteImporter.getInstance();
 		importer.refreshVotes(list);
 	}

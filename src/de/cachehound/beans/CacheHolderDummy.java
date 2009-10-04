@@ -94,5 +94,6 @@ public class CacheHolderDummy implements ICacheHolder {
 
 	@Override
 	public void setGcVote(GcVote gcVote) {
+		// Dummy
 	}
 }
