@@ -30,4 +30,6 @@ public interface ICacheHolder {
 	public void setGcVote(GcVote gcVote);
 	
 	public CWPoint getPos();
+	
+	public ICacheHolderDetail getDetails();
 }

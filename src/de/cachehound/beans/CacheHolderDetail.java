@@ -9,7 +9,7 @@ import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugList;
 import CacheWolf.util.MyLocale;
 
-public class CacheHolderDetail {
+public class CacheHolderDetail implements ICacheHolderDetail {
 
 	/**
 	 * CacheHolder which holds the detail. <b>Only</b> set by CacheHolder when
