@@ -43,8 +43,8 @@ public class EweProgressBar implements ITaskListener, IProgressBar {
 
 	@Override
 	public void setProgressTask(IProgressTask task) {
-		if (task != null) {
-			task.removeTaskListener(this);
+		if (this.task != null) {
+			this.task.removeTaskListener(this);
 		}
 		this.task = task;
 		task.addTaskListener(this);
