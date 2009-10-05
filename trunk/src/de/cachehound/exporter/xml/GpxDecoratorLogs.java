@@ -13,7 +13,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import CacheWolf.beans.CWPoint;
-
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
@@ -25,7 +24,6 @@ import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
-import de.cachehound.util.Rot13;
 
 public class GpxDecoratorLogs implements IDomDecorator {
 

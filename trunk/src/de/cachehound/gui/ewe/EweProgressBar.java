@@ -1,9 +1,9 @@
 package de.cachehound.gui.ewe;
 
+import CacheWolf.gui.InfoBox;
 import de.cachehound.gui.interfaces.IProgressBar;
 import de.cachehound.gui.interfaces.IProgressTask;
 import de.cachehound.gui.interfaces.ITaskListener;
-import CacheWolf.gui.InfoBox;
 
 public class EweProgressBar implements ITaskListener, IProgressBar {
 
