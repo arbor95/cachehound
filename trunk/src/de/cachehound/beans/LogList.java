@@ -1,12 +1,15 @@
 package de.cachehound.beans;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.LogType;
 
-public class LogList {
+public class LogList implements Iterable<Log> {
 	/**
 	 * The List containing the Log objects. The list is always sorted in
 	 * descending order of the Logdate
@@ -210,6 +213,11 @@ public class LogList {
 			}
 		}
 		return purgedLogs;
+	}
+
+	@Override
+	public Iterator<Log> iterator() {
+		return Collections.unmodifiableList(logList).iterator();
 	}
 
 }

@@ -12,6 +12,6 @@ public interface ICacheHolderDetail {
 	
 	public String getState();
 
-	
+	public LogList getCacheLogs();
 	
 }

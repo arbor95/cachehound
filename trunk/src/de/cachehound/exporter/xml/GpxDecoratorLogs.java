@@ -27,98 +27,64 @@ import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
 import de.cachehound.util.Rot13;
 
-/**
- * This class adds to the generated Dom-Tree the groundspeak:cache Tag. It
- * doesn't contains the logs or Travelbugs - there for other Decorators should
- * be used.
- * 
- * @author tweety
- */
-public class GpxDecoratorGroundspeak implements IDomDecorator {
+public class GpxDecoratorLogs implements IDomDecorator {
 
 	private static Logger logger = LoggerFactory
-			.getLogger(GpxDecoratorGroundspeak.class);
-
+			.getLogger(GpxDecoratorLogs.class);
+	
 	@Override
 	public void decorateDomTree(Document doc, ICacheHolder ch) {
 		// Guard: Only works for Caches, not for Waypoints
 		if (!ch.isCacheWpt()) {
 			return;
 		}
-		NodeList nodeList = doc.getElementsByTagName("wpt");
+		NodeList nodeList = doc.getElementsByTagName("groundspeak:cache");
 		if (nodeList.getLength() != 1) {
 			logger
-					.error("GpxDecoratorGroundspeak doesn't find exacly one wpt-Node");
+					.error("GpxDecoratorLogs doesn't find exacly one groundspeak:cache-Node");
 			throw new RuntimeException(
-					"GpxDecoratorGroundspeak doesn't find exacly one wpt-Node");
+					"GpxDecoratorLogs doesn't find exacly one groundspeak:cache-Node");
 		}
-		Node gpx = nodeList.item(0);
+		Node cache = nodeList.item(0);
 
-		// groundspeak:cache tags:
-		Element cache = doc.createElement("groundspeak:cache");
-		cache.setAttribute("id", ch.getCacheID());
-		cache.setAttribute("xmlns:groundspeak",
-				"http://www.groundspeak.com/cache/1/0");
-		cache.setAttribute("available", ch.isAvailable() ? "True" : "False");
-		cache.setAttribute("archived", ch.isArchived() ? "True" : "False");
-		gpx.appendChild(cache);
-
-		Element gName = doc.createElement("groundspeak:name");
-		gName.setTextContent(ch.getCacheName());
-		cache.appendChild(gName);
-
-		Element gPlaced = doc.createElement("groundspeak:placed_by");
-		gPlaced.setTextContent(ch.getCacheOwner());
-		cache.appendChild(gPlaced);
-
-		Element gOwner = doc.createElement("groundspeak:owner");
-		gOwner.setTextContent(ch.getCacheOwner());
-		// Todo: hier müsste die orginal Id rein
-		gOwner.setAttribute("id", "123456");
-		cache.appendChild(gOwner);
-
-		Element gType = doc.createElement("groundspeak:type");
-		gType.setTextContent(ch.getType().getGcGpxString());
-		cache.appendChild(gType);
-
-		Element gContainer = doc.createElement("groundspeak:container");
-		gContainer.setTextContent(ch.getCacheSize().getAsString());
-		cache.appendChild(gContainer);
-
-		Element gDifficulty = doc.createElement("groundspeak:difficulty");
-		gDifficulty.setTextContent(ch.getDifficulty().getShortRepresentation());
-		cache.appendChild(gDifficulty);
-
-		Element gTerrain = doc.createElement("groundspeak:terrain");
-		gTerrain.setTextContent(ch.getTerrain().getShortRepresentation());
-		cache.appendChild(gTerrain);
-
-		Element gCountry = doc.createElement("groundspeak:country");
-		gCountry.setTextContent(ch.getDetails().getCountry());
-		cache.appendChild(gCountry);
-
-		Element gState = doc.createElement("groundspeak:state");
-		gState.setTextContent(ch.getDetails().getState());
-		cache.appendChild(gState);
-
-		Element gShortDescription = doc
-				.createElement("groundspeak:short_description");
-		gShortDescription.setTextContent(ch.getDetails().getShortDescription());
-		gShortDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.appendChild(gShortDescription);
-
-		Element gLongDescription = doc
-				.createElement("groundspeak:long_description");
-		gLongDescription.setTextContent(ch.getDetails().getLongDescription());
-		gLongDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.appendChild(gLongDescription);
-
-		Element gEncodedHints = doc.createElement("groundspeak:encoded_hints");
-		gEncodedHints.setTextContent(Rot13.encodeRot13(ch.getDetails()
-				.getHints()));
-		cache.appendChild(gEncodedHints);
+		Element gLogs = doc.createElement("groundspeak:logs");
+		cache.appendChild(gLogs);
+		
+		for (Log log : ch.getDetails().getCacheLogs()) {
+			Element gLog = doc.createElement("groundspeak:log");
+			if ("".equals(log.getId())) {
+				gLog.setAttribute("id", "123456");
+			} else {
+				gLog.setAttribute("id", log.getId());	
+			}
+			gLogs.appendChild(gLog);
+			
+			Element gDate = doc.createElement("groundspeak:date");
+			gDate.setTextContent(log.getDate());
+			gLog.appendChild(gDate);
+			
+			Element gType = doc.createElement("groundspeak:type");
+			gType.setTextContent(log.getLogType().toGcComType());
+			gLog.appendChild(gType);
+			
+			Element gFinder = doc.createElement("groundspeak:finder");
+			gFinder.setTextContent(log.getLogger());
+			// TODO: LoggerId noch richtig setzen.
+			if (log.getLoggerId().equals("")) {
+				gFinder.setAttribute("id", "123456");	
+			} else {
+				gFinder.setAttribute("id", log.getLoggerId());
+			}
+			
+			gLog.appendChild(gFinder);
+			
+			Element gText = doc.createElement("groundspeak:text");
+			gText.setTextContent(log.getMessage());
+			// TODO: Naja, Alle Logs sind halt nicht verschlüsselt ... ist ja auch nicht wirklich "schlimm" 
+			gText.setAttribute("encoded", "False");
+			gLog.appendChild(gText);
+		}
 	}
-	
 	
 	// Ab hier ist manueller Testcode - zum ausprobieren.
 	public static void main(String... args) {
@@ -212,8 +178,14 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 
 					@Override
 					public LogList getCacheLogs() {
-						// TODO Auto-generated method stub
-						return null;
+						LogList logList = new LogList();
+						Log log1 = LogFactory.getInstance().createLog(LogType.FOUND,
+								"2009-06-09T19:00:00", "CacherAAA", "Ich bin der Log text.", "1234", "5678");
+						logList.add(log1);
+						Log log2 = LogFactory.getInstance().createLog(LogType.DID_NOT_FOUND,
+								"2009-06-09T19:00:00", "CacherBBB", "Ich bin nicht gefunden.", "12345", "67890");
+						logList.add(log2);
+						return logList;
 					}
 
 				};
@@ -308,6 +280,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 		StringWriter sw = new StringWriter();
 		GpxExporter exp = new GpxExporter(sw);
 		exp.addDecorator(new GpxDecoratorGroundspeak());
+		exp.addDecorator(new GpxDecoratorLogs());
 
 		try {
 			exp.doit(caches);
@@ -316,5 +289,5 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 		}
 		System.out.println(sw.toString());
 	}
-
+	
 }
