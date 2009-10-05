@@ -3,6 +3,7 @@ package de.cachehound.filter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,6 +50,6 @@ public abstract class ListFilter implements Iterable<IFilter>, IFilter {
 	}
 
 	public Iterator<IFilter> iterator() {
-		return list.iterator();
+		return Collections.unmodifiableList(list).iterator();
 	}
 }
