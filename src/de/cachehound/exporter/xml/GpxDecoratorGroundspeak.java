@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
@@ -208,7 +209,11 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 
 					@Override
 					public LogList getCacheLogs() {
-						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public TravelbugList getTravelbugs() {
 						return null;
 					}
 
@@ -291,6 +296,11 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 
 					@Override
 					public LogList getCacheLogs() {
+						return null;
+					}
+
+					@Override
+					public TravelbugList getTravelbugs() {
 						return null;
 					}
 				};

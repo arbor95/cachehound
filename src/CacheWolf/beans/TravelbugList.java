@@ -4,20 +4,29 @@ package CacheWolf.beans;
  * A list of GC travelbugs
  * @author salzkammergut
  */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import CacheWolf.Global;
 import ewe.io.StringReader;
-import ewe.util.Vector;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
-public class TravelbugList extends MinML {
+public class TravelbugList extends MinML implements Iterable<Travelbug>{
 
 	/** The Vector containing the Travelbug objects */
-	private Vector tbList = new Vector(10);
+	private List<Travelbug> tbList = new ArrayList<Travelbug>(1);
 
+	@Override
+	public Iterator<Travelbug> iterator() {
+		return Collections.unmodifiableList(tbList).iterator();
+	}
+	
 	/** Get the travelbug at a certain position in the list */
 	public Travelbug getTB(int i) {
-		return (Travelbug) tbList.elementAt(i);
+		return tbList.get(i);
 	}
 
 	/** Return the size of the list */
@@ -37,7 +46,7 @@ public class TravelbugList extends MinML {
 
 	/** Remove a travelbug from the list */
 	public void remove(int i) {
-		tbList.removeElementAt(i);
+		tbList.remove(i);
 	}
 
 	/** Replace a travelbug in the list */
@@ -140,7 +149,7 @@ public class TravelbugList extends MinML {
 				Global.getPref().log("Error reading cache-travelbug list: ", e);
 		}
 	}
-
+	
 	/**
 	 * Method that gets called when a new element has been identified
 	 */
@@ -167,5 +176,7 @@ public class TravelbugList extends MinML {
 			xmlElement.delete(0, xmlElement.length());
 		}
 	}
+
+
 
 }
