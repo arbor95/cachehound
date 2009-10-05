@@ -110,6 +110,18 @@ public class LogFactory {
 		log.setMessage(message);
 		return log;
 	}
+	
+	public Log createLog(LogType logType, String date, String logger,
+			String message, String id, String loggerId) {
+		Log log = new Log();
+		log.setLogType(logType);
+		log.setDate(date);
+		log.setLogger(logger);
+		log.setMessage(message);
+		log.setId(id);
+		log.setLoggerId(loggerId);
+		return log;
+	}
 
 	public Log createLog(LogType logType, String date, String logger,
 			String message, boolean recommended) {
@@ -119,6 +131,8 @@ public class LogFactory {
 		log.setLogger(logger);
 		log.setMessage(message);
 		log.setRecommended(recommended);
+		log.setId("123");
+		log.setLoggerId("123");
 		return log;
 	}
 

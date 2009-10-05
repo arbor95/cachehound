@@ -13,6 +13,10 @@ public class Log {
 	private String message;
 	/** true, if the logger recommended the cache */
 	private boolean recommended = false;
+	/** The id from the gpx-Files */
+	private String id = "";
+	/** The id from the logger */
+	private String loggerId = "";
 
 	public void setLogType(LogType logType) {
 		this.logType = logType;
@@ -79,5 +83,21 @@ public class Log {
 	public int hashCode() {
 		return ((date.hashCode() + logger.hashCode() * 17) + message.hashCode()
 				* 17 + logType.hashCode());
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setLoggerId(String loggerId) {
+		this.loggerId = loggerId;
+	}
+
+	public String getLoggerId() {
+		return loggerId;
 	}
 }

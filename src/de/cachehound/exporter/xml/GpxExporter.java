@@ -35,11 +35,11 @@ import CacheWolf.beans.CWPoint;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
+import de.cachehound.beans.LogList;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
 import de.cachehound.types.Terrain;
-import de.cachehound.util.Rot13;
 
 /**
  * Diese Klasse dient dazu die Caches und Waypoints als (Groundspeak-kompatible)
@@ -53,7 +53,8 @@ import de.cachehound.util.Rot13;
  */
 // TODO: Das Time Tag kann nur mit aktuelle Zeit gefüllt werden - wird bisher nicht gespeichert.
 // TODO: Beim Import müssten sowohl short als auch Long Description gefüllt werden - bisher wird alles in Long Description geschrieben.  
-
+// TODO: LoggerId noch richtig setzen.
+// TODO: Log ID auch nocht nicht richtig gesetzt.
 
 public class GpxExporter {
 	private static Logger logger = LoggerFactory.getLogger(GpxExporter.class);
@@ -437,6 +438,12 @@ public class GpxExporter {
 					public String getHints() {
 						return "[Stage1]NOPQRST";
 					}
+
+					@Override
+					public LogList getCacheLogs() {
+						// TODO Auto-generated method stub
+						return null;
+					}
 					
 				};
 			}
@@ -511,6 +518,12 @@ public class GpxExporter {
 
 					@Override
 					public String getHints() {
+						return null;
+					}
+
+					@Override
+					public LogList getCacheLogs() {
+						// TODO Auto-generated method stub
 						return null;
 					}
 				};
