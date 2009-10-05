@@ -59,7 +59,7 @@
 		<pathelement location="./lib/logback-core-0.9.16.jar" />
 		<pathelement location="./logback-classic-0.9.16.jar" />
 		<pathelement location="./lib/ewe_misc.jar" />
-		<pathelement location="./lib/junit-4.6.jar" />
+		<pathelement location="./lib/junit-4.7.jar" />
 		<pathelement location="./lib/TableLayout.jar" />
 		<pathelement location="./lib/openmap.jar" />
 		<pathelement location="./lib/txw2.jar" />
