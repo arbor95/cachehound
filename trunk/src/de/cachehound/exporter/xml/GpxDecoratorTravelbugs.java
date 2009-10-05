@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
@@ -26,18 +27,18 @@ import de.cachehound.types.Difficulty;
 import de.cachehound.types.LogType;
 import de.cachehound.types.Terrain;
 
-public class GpxDecoratorLogs implements IDomDecorator {
+public class GpxDecoratorTravelbugs implements IDomDecorator {
 
 	private static Logger logger = LoggerFactory
-			.getLogger(GpxDecoratorLogs.class);
+			.getLogger(GpxDecoratorTravelbugs.class);
 	
 	private int countLogs;
 	
-	public GpxDecoratorLogs() {
+	public GpxDecoratorTravelbugs() {
 		setCountLogs(5);
 	}
 	
-	public GpxDecoratorLogs(int countLogs) {
+	public GpxDecoratorTravelbugs(int countLogs) {
 		this.setCountLogs(countLogs);
 	}
 	
@@ -56,48 +57,28 @@ public class GpxDecoratorLogs implements IDomDecorator {
 		}
 		Node cache = nodeList.item(0);
 
-		Element gLogs = doc.createElement("groundspeak:logs");
-		cache.appendChild(gLogs);
+		Element gTravelbugs = doc.createElement("groundspeak:travelbugs");
+		cache.appendChild(gTravelbugs);
 		
-		int logCount = 0;
-		for (Log log : ch.getDetails().getCacheLogs()) {
-			logCount++;
-			if (logCount > countLogs ) {
-				break;
-			}
-			
-			Element gLog = doc.createElement("groundspeak:log");
-			if ("".equals(log.getId())) {
-				gLog.setAttribute("id", "123456");
+		for (Travelbug tb : ch.getDetails().getTravelbugs()) {
+						
+			Element gTravelbug = doc.createElement("groundspeak:travelbug");
+			if ("".equals(tb.getGuid())) {
+				gTravelbug.setAttribute("ref", "UNKNOWN");
 			} else {
-				gLog.setAttribute("id", log.getId());	
+				gTravelbug.setAttribute("ref", tb.getGuid());	
 			}
-			gLogs.appendChild(gLog);
-			
-			Element gDate = doc.createElement("groundspeak:date");
-			gDate.setTextContent(log.getDate());
-			gLog.appendChild(gDate);
-			
-			Element gType = doc.createElement("groundspeak:type");
-			gType.setTextContent(log.getLogType().toGcComType());
-			gLog.appendChild(gType);
-			
-			Element gFinder = doc.createElement("groundspeak:finder");
-			gFinder.setTextContent(log.getLogger());
-			// TODO: LoggerId noch richtig setzen.
-			if (log.getLoggerId().equals("")) {
-				gFinder.setAttribute("id", "123456");	
+			if ("".equals(tb.getTrackingNo())) {
+				gTravelbug.setAttribute("id", "111111");
 			} else {
-				gFinder.setAttribute("id", log.getLoggerId());
+				gTravelbug.setAttribute("id", tb.getTrackingNo());	
 			}
+			gTravelbugs.appendChild(gTravelbug);
 			
-			gLog.appendChild(gFinder);
+			Element gName = doc.createElement("groundspeak:name");
+			gName.setTextContent(tb.getName());
+			gTravelbugs.appendChild(gName);
 			
-			Element gText = doc.createElement("groundspeak:text");
-			gText.setTextContent(log.getMessage());
-			// TODO: Naja, Alle Logs sind halt nicht verschlüsselt ... ist ja auch nicht wirklich "schlimm" 
-			gText.setAttribute("encoded", "False");
-			gLog.appendChild(gText);
 		}
 	}
 	
@@ -205,7 +186,14 @@ public class GpxDecoratorLogs implements IDomDecorator {
 
 					@Override
 					public TravelbugList getTravelbugs() {
-						return null;
+						TravelbugList tbList = new TravelbugList();
+						Travelbug tb = new Travelbug("TB1234", "Travelbug 1", "Nach Hause Telefonieren");
+						tb.setTrackingNo("123456");
+						tbList.add(tb);
+						tb = new Travelbug("COABCD", "Coinchen", "Nach Hause fahren");
+						tb.setTrackingNo("654321");
+						tbList.add(tb);
+						return tbList;
 					}
 
 				};
@@ -306,6 +294,7 @@ public class GpxDecoratorLogs implements IDomDecorator {
 		GpxExporter exp = new GpxExporter(sw);
 		exp.addDecorator(new GpxDecoratorGroundspeak());
 		exp.addDecorator(new GpxDecoratorLogs());
+		exp.addDecorator(new GpxDecoratorTravelbugs());
 
 		try {
 			exp.doit(caches);

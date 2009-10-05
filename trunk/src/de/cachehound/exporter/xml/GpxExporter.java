@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
@@ -441,7 +442,11 @@ public class GpxExporter {
 
 					@Override
 					public LogList getCacheLogs() {
-						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public TravelbugList getTravelbugs() {
 						return null;
 					}
 					
@@ -523,7 +528,11 @@ public class GpxExporter {
 
 					@Override
 					public LogList getCacheLogs() {
-						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public TravelbugList getTravelbugs() {
 						return null;
 					}
 				};
