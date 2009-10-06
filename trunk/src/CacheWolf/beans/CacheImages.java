@@ -5,6 +5,8 @@ package CacheWolf.beans;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import CacheWolf.Global;
@@ -15,7 +17,7 @@ import CacheWolf.Global;
  * @author torsti
  * 
  */
-public class CacheImages {
+public class CacheImages implements Iterable<ImageInfo> {
 
 	/**
 	 * Lazy initialization of the vector: It is created only when needed. If it
@@ -252,6 +254,11 @@ public class CacheImages {
 			url = "http://img.geocaching.com/" + url.substring(27);
 		}
 		return url;
+	}
+
+	@Override
+	public Iterator<ImageInfo> iterator() {
+		return Collections.unmodifiableList(vector).iterator();
 	}
 
 }

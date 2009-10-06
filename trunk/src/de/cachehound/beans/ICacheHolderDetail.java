@@ -1,5 +1,6 @@
 package de.cachehound.beans;
 
+import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.TravelbugList;
 
 public interface ICacheHolderDetail {
@@ -17,4 +18,6 @@ public interface ICacheHolderDetail {
 	public LogList getCacheLogs();
 	
 	public TravelbugList getTravelbugs();
+	
+	public CacheImages getImages();
 }
