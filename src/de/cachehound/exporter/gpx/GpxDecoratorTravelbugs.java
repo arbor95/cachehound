@@ -45,7 +45,7 @@ public class GpxDecoratorTravelbugs implements IGpxDecorator {
 
 		Element gTravelbugs = new Element("travelbugs",
 				GpxDecoratorGroundspeak.groundspeak);
-		cache.getChildren().add(gTravelbugs);
+		cache.addContent(gTravelbugs);
 
 		for (Travelbug tb : ch.getDetails().getTravelbugs()) {
 
@@ -61,12 +61,12 @@ public class GpxDecoratorTravelbugs implements IGpxDecorator {
 			} else {
 				gTravelbug.setAttribute("id", tb.getTrackingNo());
 			}
-			gTravelbugs.getChildren().add(gTravelbug);
+			gTravelbugs.addContent(gTravelbug);
 
 			Element gName = new Element("name",
 					GpxDecoratorGroundspeak.groundspeak);
 			gName.setText(tb.getName());
-			gTravelbugs.getChildren().add(gName);
+			gTravelbugs.addContent(gName);
 
 		}
 	}

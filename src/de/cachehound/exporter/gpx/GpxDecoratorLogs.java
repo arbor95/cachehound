@@ -42,7 +42,7 @@ public class GpxDecoratorLogs implements IGpxDecorator {
 		Element cache = doc.getChild("cache",
 				GpxDecoratorGroundspeak.groundspeak);
 		Element gLogs = new Element("logs", GpxDecoratorGroundspeak.groundspeak);
-		cache.getChildren().add(gLogs);
+		cache.addContent(gLogs);
 
 		int logCount = 0;
 		for (Log log : ch.getDetails().getCacheLogs()) {
@@ -58,17 +58,17 @@ public class GpxDecoratorLogs implements IGpxDecorator {
 			} else {
 				gLog.setAttribute("id", log.getId());
 			}
-			gLogs.getChildren().add(gLog);
+			gLogs.addContent(gLog);
 
 			Element gDate = new Element("date",
 					GpxDecoratorGroundspeak.groundspeak);
 			gDate.setText(log.getDate() + "T19:00:00");
-			gLog.getChildren().add(gDate);
+			gLog.addContent(gDate);
 
 			Element gType = new Element("type",
 					GpxDecoratorGroundspeak.groundspeak);
 			gType.setText(log.getLogType().toGcComType());
-			gLog.getChildren().add(gType);
+			gLog.addContent(gType);
 
 			Element gFinder = new Element("finder",
 					GpxDecoratorGroundspeak.groundspeak);
@@ -80,7 +80,7 @@ public class GpxDecoratorLogs implements IGpxDecorator {
 				gFinder.setAttribute("id", log.getLoggerId());
 			}
 
-			gLog.getChildren().add(gFinder);
+			gLog.addContent(gFinder);
 
 			Element gText = new Element("text",
 					GpxDecoratorGroundspeak.groundspeak);
@@ -88,7 +88,7 @@ public class GpxDecoratorLogs implements IGpxDecorator {
 			// TODO: Naja, Alle Logs sind halt nicht verschlüsselt ... ist ja
 			// auch nicht wirklich "schlimm"
 			gText.setAttribute("encoded", "False");
-			gLog.getChildren().add(gText);
+			gLog.addContent(gText);
 		}
 	}
 

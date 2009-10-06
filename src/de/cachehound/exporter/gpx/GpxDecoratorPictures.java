@@ -45,14 +45,14 @@ public class GpxDecoratorPictures implements IGpxDecorator {
 			} else {
 				logger.warn("Unknown Type of Image: {}" + image.getFilename());
 			}
-			wpt.getChildren().add(multimedia);
+			wpt.addContent(multimedia);
 
 			Element data = new Element("data");
 			File file = new File(Global.getProfile().getDataDir(), image
 					.getFilename());
 			CDATA cdata = new CDATA(getFileInBase64(file));
-			data.getChildren().add(cdata);
-			multimedia.getChildren().add(data);
+			data.addContent(cdata);
+			multimedia.addContent(data);
 		}
 	}
 
