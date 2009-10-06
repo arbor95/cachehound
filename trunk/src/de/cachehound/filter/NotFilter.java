@@ -16,12 +16,6 @@ public class NotFilter implements IFilter {
 	}
 
 	@Override
-	public NotFilter clone() {
-		// Immutable, also brauchen wir keine Kopie zu erstellen.
-		return this;
-	}
-
-	@Override
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return !child.cacheIsVisible(ch);
 	}

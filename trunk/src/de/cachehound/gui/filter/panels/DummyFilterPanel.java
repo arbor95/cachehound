@@ -7,13 +7,13 @@ public class DummyFilterPanel extends AbstractFilterPanel<IFilter> {
 
 	@Override
 	public IFilter getFilter() {
-		return filter.clone();
+		return filter;
 	}
 
 	@Override
 	public void setState(IFilter old) {
 		if (old != null) {
-			filter = old.clone();
+			filter = old;
 		}
 	}
 
