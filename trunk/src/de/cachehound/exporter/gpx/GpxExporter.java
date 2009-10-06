@@ -1,4 +1,4 @@
-package de.cachehound.exporter.xml;
+package de.cachehound.exporter.gpx;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,21 +15,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheHolder;
@@ -49,13 +39,15 @@ import de.cachehound.types.Terrain;
  * Gpx-Datei zu exportieren.
  * 
  * 
- * Probleme können sein: 
+ * Probleme können sein:
  * 
  * @author tweety
  * 
  */
-// TODO: Das Time Tag kann nur mit aktuelle Zeit gefüllt werden - wird bisher nicht gespeichert.
-// TODO: Beim Import müssten sowohl short als auch Long Description gefüllt werden - bisher wird alles in Long Description geschrieben.  
+// TODO: Das Time Tag kann nur mit aktuelle Zeit gefüllt werden - wird bisher
+// nicht gespeichert.
+// TODO: Beim Import müssten sowohl short als auch Long Description gefüllt
+// werden - bisher wird alles in Long Description geschrieben.
 // TODO: LoggerId noch richtig setzen.
 // TODO: Log ID auch nocht nicht richtig gesetzt.
 
@@ -63,7 +55,7 @@ public class GpxExporter {
 	private static Logger logger = LoggerFactory.getLogger(GpxExporter.class);
 
 	private Writer w;
-	private List<IDomDecorator> decorators;
+	private List<IGpxDecorator> decorators;
 
 	/**
 	 * Erstellt einen GpxExporter, der auf den übergebenen Writer schreibt.
@@ -74,7 +66,7 @@ public class GpxExporter {
 	 */
 	public GpxExporter(Writer w) {
 		this.w = w;
-		this.decorators = new LinkedList<IDomDecorator>();
+		this.decorators = new LinkedList<IGpxDecorator>();
 	}
 
 	/**
@@ -93,13 +85,13 @@ public class GpxExporter {
 		} catch (UnsupportedEncodingException e) {
 			logger.error("utf-8 is unsupported", e);
 		}
-		this.decorators = new LinkedList<IDomDecorator>();
+		this.decorators = new LinkedList<IGpxDecorator>();
 	}
 
 	/**
 	 * Decorator hinzufügen.
 	 */
-	public void addDecorator(IDomDecorator dec) {
+	public void addDecorator(IGpxDecorator dec) {
 		decorators.add(dec);
 	}
 
@@ -121,38 +113,24 @@ public class GpxExporter {
 		 */
 		createHeader(caches);
 
-		try {
-			TransformerFactory transfac = TransformerFactory.newInstance();
-			Transformer trans = transfac.newTransformer();
-			// Wir transformieren nur Teilbäume, also soll nicht für jeden
-			// Teilbaum eine XML-Deklaration erzeugt werden.
-			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			// Aber hübsch solls sein!
-			trans.setOutputProperty(OutputKeys.INDENT, "yes");
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 
-			StreamResult result = new StreamResult(w);
-			for (ICacheHolder ch : caches) {
-				// DomTree erzeugen.
-				Document doc;
-				if (ch.isCacheWpt()) {
-					doc = getDomForGeocache(ch);
-				} else {
-					doc = getDomForWaypoint(ch);
-				}
-
-				// Jeder Decorator darf was dran ändern
-				for (IDomDecorator dec : decorators) {
-					dec.decorateDomTree(doc, ch);
-				}
-
-				// Und das Ergebnis ausgeben.
-				DOMSource source = new DOMSource(doc);
-				trans.transform(source, result);
+		for (ICacheHolder ch : caches) {
+			// DomTree erzeugen.
+			Element waypoint;
+			if (ch.isCacheWpt()) {
+				waypoint = getDomForGeocache(ch);
+			} else {
+				waypoint = getDomForWaypoint(ch);
 			}
-		} catch (TransformerConfigurationException e) {
-			logger.error("Error while transforming DOM tree", e);
-		} catch (TransformerException e) {
-			logger.error("Error while transforming DOM tree", e);
+
+			// Jeder Decorator darf was dran ändern
+			for (IGpxDecorator dec : decorators) {
+				dec.decorateDomTree(waypoint, ch);
+			}
+
+			// Und das Ergebnis ausgeben.
+			outputter.output(waypoint, w);
 		}
 
 		// Wir haben das Wurzelement von Hand aufgemacht, also müssen wir es
@@ -176,7 +154,7 @@ public class GpxExporter {
 			throws IOException {
 		w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		w
-				.write("<gpx xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+				.write("<gpx xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
 						+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
 						+ "version=\"1.0\" creator=\"Groundspeak Pocket Query\" "
 						+ "xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd "
@@ -236,58 +214,46 @@ public class GpxExporter {
 	 * Alle weiteren Ergänzungen sollten über jeweils einen IDomDecorator
 	 * erfolgen.
 	 */
-	private Document getDomForWaypoint(ICacheHolder ch) {
-		try {
-			// Man kanns mit'm Factory-Pattern auch übertreiben...
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-			Document doc = docBuilder.newDocument();
+	private Element getDomForWaypoint(ICacheHolder ch) {
+		Element root = new Element("wpt");
+		root.setAttribute("lat", Double.toString(ch.getPos().latDec));
+		root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
 
-			Element root = doc.createElement("wpt");
-			root.setAttribute("lat", Double.toString(ch.getPos().latDec));
-			root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
-			doc.appendChild(root);
+		// TODO: Auf korrektes Datum stellen
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
+		Element time = new Element("time");
+		time.setText(sdf.format(new Date()));
+		root.getChildren().add(time);
 
-			// TODO: Auf korrektes Datum stellen
-			SimpleDateFormat sdf = new SimpleDateFormat(
-					"yyyy-MM-dd'T'HH:mm:ss.S");
-			Element time = doc.createElement("time");
-			time.setTextContent(sdf.format(new Date()));
-			root.appendChild(time);
+		Element name = new Element("name");
+		name.setText(ch.getWayPoint());
+		root.getChildren().add(name);
 
-			Element name = doc.createElement("name");
-			name.setTextContent(ch.getWayPoint());
-			root.appendChild(name);
+		Element cmt = new Element("cmt");
+		cmt.setText(ch.getDetails().getLongDescription());
+		root.getChildren().add(cmt);
 
-			Element cmt = doc.createElement("cmt");
-			cmt.setTextContent(ch.getDetails().getLongDescription());
-			root.appendChild(cmt);
+		Element desc = new Element("desc");
+		desc.setText(ch.getCacheName());
+		root.getChildren().add(desc);
 
-			Element desc = doc.createElement("desc");
-			desc.setTextContent(ch.getCacheName());
-			root.appendChild(desc);
+		Element url = new Element("url");
+		url.setText(ch.getDetails().getUrl());
+		root.getChildren().add(url);
 
-			Element url = doc.createElement("url");
-			url.setTextContent(ch.getDetails().getUrl());
-			root.appendChild(url);
+		Element urlName = new Element("urlname");
+		urlName.setText(ch.getCacheName());
+		root.getChildren().add(urlName);
 
-			Element urlName = doc.createElement("urlname");
-			urlName.setTextContent(ch.getCacheName());
-			root.appendChild(urlName);
+		Element sym = new Element("sym");
+		sym.setText(ch.getType().getGcGpxString());
+		root.getChildren().add(sym);
 
-			Element sym = doc.createElement("sym");
-			sym.setTextContent(ch.getType().getGcGpxString());
-			root.appendChild(sym);
+		Element type = new Element("type");
+		type.setText("Waypoint|" + ch.getType().getGcGpxString());
+		root.getChildren().add(type);
 
-			Element type = doc.createElement("type");
-			type.setTextContent("Waypoint|" + ch.getType().getGcGpxString());
-			root.appendChild(type);
-
-			return doc;
-		} catch (ParserConfigurationException e) {
-			logger.error("Error while creating DOM tree", e);
-			return null;
-		}
+		return root;
 	}
 
 	/**
@@ -299,62 +265,51 @@ public class GpxExporter {
 	 * Alle weiteren Ergänzungen sollten über jeweils einen IDomDecorator
 	 * erfolgen.
 	 */
-	private Document getDomForGeocache(ICacheHolder ch) {
-		try {
-			// TODO: Eklig ... just for Testing.
-			if (ch instanceof CacheHolder) {
-				((CacheHolder) ch).getFreshDetails();
-			}
-			
-			// Man kanns mit'm Factory-Pattern auch übertreiben...
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-			Document doc = docBuilder.newDocument();
-
-			// Allgemeiner Waypoint-Header:			
-			Element root = doc.createElement("wpt");
-			root.setAttribute("lat", Double.toString(ch.getPos().latDec));
-			root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
-			doc.appendChild(root);
-
-			// TODO: Auf korrektes Datum stellen
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T00:00:00'");
-			Element time = doc.createElement("time");
-			time.setTextContent(sdf.format(new Date()));
-			root.appendChild(time);
-
-			Element name = doc.createElement("name");
-			name.setTextContent(ch.getWayPoint());
-			root.appendChild(name);
-
-			Element desc = doc.createElement("desc");
-			desc.setTextContent(ch.getCacheName() + " by " + ch.getCacheOwner()
-					+ ", " + ch.getType().getGcGpxString() + " ("
-					+ ch.getDifficulty().getShortRepresentation() + "/"
-					+ ch.getTerrain().getShortRepresentation() + ")");
-			root.appendChild(desc);
-
-			Element url = doc.createElement("url");
-			url.setTextContent(ch.getDetails().getUrl());
-			root.appendChild(url);
-
-			Element urlName = doc.createElement("urlname");
-			urlName.setTextContent(ch.getCacheName());
-			root.appendChild(urlName);
-
-			Element sym = doc.createElement("sym");
-			sym.setTextContent("Geocache");
-			root.appendChild(sym);
-
-			Element type = doc.createElement("type");
-			type.setTextContent("Geocache|" + ch.getType().getGcGpxString());
-			root.appendChild(type);
-			
-			return doc;
-		} catch (ParserConfigurationException e) {
-			logger.error("Error while creating DOM tree", e);
-			return null;
+	private Element getDomForGeocache(ICacheHolder ch) {
+		// TODO: Eklig ... just for Testing.
+		if (ch instanceof CacheHolder) {
+			((CacheHolder) ch).getFreshDetails();
 		}
+
+		// Allgemeiner Waypoint-Header:
+		Element root = new Element("wpt");
+		root.setAttribute("lat", Double.toString(ch.getPos().latDec));
+		root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+
+		// TODO: Auf korrektes Datum stellen
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T00:00:00'");
+		Element time = new Element("time");
+		time.setText(sdf.format(new Date()));
+		root.getChildren().add(time);
+
+		Element name = new Element("name");
+		name.setText(ch.getWayPoint());
+		root.getChildren().add(name);
+
+		Element desc = new Element("desc");
+		desc.setText(ch.getCacheName() + " by " + ch.getCacheOwner() + ", "
+				+ ch.getType().getGcGpxString() + " ("
+				+ ch.getDifficulty().getShortRepresentation() + "/"
+				+ ch.getTerrain().getShortRepresentation() + ")");
+		root.getChildren().add(desc);
+
+		Element url = new Element("url");
+		url.setText(ch.getDetails().getUrl());
+		root.getChildren().add(url);
+
+		Element urlName = new Element("urlname");
+		urlName.setText(ch.getCacheName());
+		root.getChildren().add(urlName);
+
+		Element sym = new Element("sym");
+		sym.setText("Geocache");
+		root.getChildren().add(sym);
+
+		Element type = new Element("type");
+		type.setText("Geocache|" + ch.getType().getGcGpxString());
+		root.getChildren().add(type);
+
+		return root;
 	}
 
 	// Ab hier ist manueller Testcode - zum ausprobieren.
@@ -399,12 +354,12 @@ public class GpxExporter {
 			public String getCacheID() {
 				return "1234567";
 			}
-			
+
 			@Override
 			public boolean isCacheWpt() {
 				return true;
 			}
-			
+
 			@Override
 			public CacheSize getCacheSize() {
 				return CacheSize.MICRO;
@@ -414,7 +369,7 @@ public class GpxExporter {
 			public boolean isHTML() {
 				return true;
 			}
-			
+
 			@Override
 			public ICacheHolderDetail getDetails() {
 				return new ICacheHolderDetail() {
@@ -427,6 +382,7 @@ public class GpxExporter {
 					public String getUrl() {
 						return "http://www.geocaching.com/seek/wpt.aspx?WID=a70708a9-dd9a-4375-8b57-afec8d547ae0";
 					}
+
 					@Override
 					public String getCountry() {
 						return "Germany";
@@ -461,7 +417,7 @@ public class GpxExporter {
 					public CacheImages getImages() {
 						return null;
 					}
-					
+
 				};
 			}
 		};
@@ -518,6 +474,7 @@ public class GpxExporter {
 					public String getUrl() {
 						return "http://www.öpnv-karte.de";
 					}
+
 					@Override
 					public String getCountry() {
 						return "Germany";
