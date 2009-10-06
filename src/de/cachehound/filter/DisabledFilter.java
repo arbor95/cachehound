@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 public class DisabledFilter extends SimpleFilter {
@@ -14,5 +16,10 @@ public class DisabledFilter extends SimpleFilter {
 	@Override
 	public String toString() {
 		return "Disabled";
+	}
+
+	@Override
+	public Element toXML() {
+		return new Element("disabled");
 	}
 }

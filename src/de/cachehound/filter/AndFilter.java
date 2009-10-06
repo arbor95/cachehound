@@ -32,6 +32,10 @@ public class AndFilter extends ListFilter {
 		}
 		ret.append("]");
 		return ret.toString();
-//		return "AND";
+	}
+
+	@Override
+	protected String xmlElementName() {
+		return "and";
 	}
 }

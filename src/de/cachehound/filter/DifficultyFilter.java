@@ -24,4 +24,9 @@ public class DifficultyFilter extends AbstractEnumBasedFilter<Difficulty> {
 	public String toString() {
 		return "Difficulty is one of " + super.toString();
 	}
+
+	@Override
+	protected String xmlElementName() {
+		return "difficulty";
+	}
 }

@@ -24,4 +24,9 @@ public class TerrainFilter extends AbstractEnumBasedFilter<Terrain> {
 	public String toString() {
 		return "Terrain is one of " + super.toString();
 	}
+
+	@Override
+	protected String xmlElementName() {
+		return "terrain";
+	}
 }

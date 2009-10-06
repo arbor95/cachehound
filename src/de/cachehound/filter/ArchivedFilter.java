@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 public class ArchivedFilter extends SimpleFilter {
@@ -11,5 +13,10 @@ public class ArchivedFilter extends SimpleFilter {
 	@Override
 	public String toString() {
 		return "Archived";
+	}
+
+	@Override
+	public Element toXML() {
+		return new Element("archieved");
 	}
 }

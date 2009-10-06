@@ -32,6 +32,10 @@ public class OrFilter extends ListFilter {
 		}
 		ret.append("]");
 		return ret.toString();
-//		return "OR";
+	}
+
+	@Override
+	protected String xmlElementName() {
+		return "or";
 	}
 }

@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 /**
@@ -28,5 +30,14 @@ public class TrivialFilter extends SimpleFilter {
 		} else {
 			return "No Caches";
 		}
+	}
+
+	@Override
+	public Element toXML() {
+		Element ret = new Element("trivial");
+		
+		ret.setAttribute("value", Boolean.toString(result));
+
+		return ret;
 	}
 }

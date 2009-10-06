@@ -1,11 +1,14 @@
 package de.cachehound.filter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,5 +75,21 @@ public class SizeFilterTest {
 		assertTrue(filter.cacheIsVisible(chSmall));
 		assertFalse(filter.cacheIsVisible(chRegular));
 		assertFalse(filter.cacheIsVisible(chLarge));
+	}
+
+	@Test
+	public void testToXML() {
+		mask.add(CacheSize.MICRO);
+		mask.add(CacheSize.SMALL);
+		SizeFilter filter = new SizeFilter(mask);
+
+		Element expected = new Element("size");
+		expected.addContent((new Element("enabled")).addContent(CacheSize.MICRO
+				.toString()));
+		expected.addContent((new Element("enabled")).addContent(CacheSize.SMALL
+				.toString()));
+
+		assertEquals((new XMLOutputter()).outputString(expected),
+				(new XMLOutputter()).outputString(filter.toXML()));
 	}
 }

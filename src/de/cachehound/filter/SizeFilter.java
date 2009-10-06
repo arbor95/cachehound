@@ -24,4 +24,9 @@ public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	public String toString() {
 		return "Size: is one of " + super.toString();
 	}
+
+	@Override
+	protected String xmlElementName() {
+		return "size";
+	}
 }
