@@ -41,12 +41,12 @@ import CacheWolf.util.Rebuild;
 import CacheWolf.util.SearchCache;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.exporter.GarminWaypointExporter;
+import de.cachehound.exporter.loc.LocDecoratorGroundspeak;
 import de.cachehound.exporter.xml.GpxDecoratorGroundspeak;
 import de.cachehound.exporter.xml.GpxDecoratorLogs;
 import de.cachehound.exporter.xml.GpxDecoratorPictures;
 import de.cachehound.exporter.xml.GpxDecoratorTravelbugs;
 import de.cachehound.exporter.xml.GpxExporter;
-import de.cachehound.exporter.xml.LocDecoratorGroundspeak;
 import de.cachehound.filter.FilterHelper;
 import de.cachehound.filter.HasCoordinatesFilter;
 import de.cachehound.gui.GuiFactory;
@@ -626,7 +626,7 @@ public class MainMenu extends MenuBar {
 						Collection<ICacheHolder> caches = FilterHelper
 								.applyFilter(new HasCoordinatesFilter(), Global
 										.getProfile().cacheDB.toList());
-						de.cachehound.exporter.xml.LocExporter exp = new de.cachehound.exporter.xml.LocExporter(
+						de.cachehound.exporter.loc.LocExporter exp = new de.cachehound.exporter.loc.LocExporter(
 								new java.io.File(fc.getChosenFile()
 										.getAbsolutePath()));
 						exp.addDecorator(new LocDecoratorGroundspeak());
