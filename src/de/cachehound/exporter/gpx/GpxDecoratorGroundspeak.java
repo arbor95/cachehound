@@ -1,20 +1,17 @@
-package de.cachehound.exporter.xml;
+package de.cachehound.exporter.gpx;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jdom.Element;
+import org.jdom.Namespace;
 
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.TravelbugList;
+
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
@@ -32,97 +29,85 @@ import de.cachehound.util.Rot13;
  * 
  * @author tweety
  */
-public class GpxDecoratorGroundspeak implements IDomDecorator {
-
-	private static Logger logger = LoggerFactory
-			.getLogger(GpxDecoratorGroundspeak.class);
+public class GpxDecoratorGroundspeak implements IGpxDecorator {
+	public static final Namespace groundspeak = Namespace.getNamespace(
+			"groundspeak", "http://www.groundspeak.com/cache/1/0");
 
 	@Override
-	public void decorateDomTree(Document doc, ICacheHolder ch) {
+	public void decorateDomTree(Element doc, ICacheHolder ch) {
 		// Guard: Only works for Caches, not for Waypoints
 		if (!ch.isCacheWpt()) {
 			return;
 		}
-		NodeList nodeList = doc.getElementsByTagName("wpt");
-		if (nodeList.getLength() != 1) {
-			logger
-					.error("GpxDecoratorGroundspeak doesn't find exacly one wpt-Node");
-			throw new RuntimeException(
-					"GpxDecoratorGroundspeak doesn't find exacly one wpt-Node");
-		}
-		Node gpx = nodeList.item(0);
+		Element gpx = doc;
 
 		// groundspeak:cache tags:
-		Element cache = doc.createElement("groundspeak:cache");
+		Element cache = new Element("cache", groundspeak);
 		cache.setAttribute("id", ch.getCacheID());
-		cache.setAttribute("xmlns:groundspeak",
-				"http://www.groundspeak.com/cache/1/0");
+
 		cache.setAttribute("available", ch.isAvailable() ? "True" : "False");
 		cache.setAttribute("archived", ch.isArchived() ? "True" : "False");
-		gpx.appendChild(cache);
+		gpx.getChildren().add(cache);
 
-		Element gName = doc.createElement("groundspeak:name");
-		gName.setTextContent(ch.getCacheName());
-		cache.appendChild(gName);
+		Element gName = new Element("name", groundspeak);
+		gName.setText(ch.getCacheName());
+		cache.getChildren().add(gName);
 
-		Element gPlaced = doc.createElement("groundspeak:placed_by");
-		gPlaced.setTextContent(ch.getCacheOwner());
-		cache.appendChild(gPlaced);
+		Element gPlaced = new Element("placed_by", groundspeak);
+		gPlaced.setText(ch.getCacheOwner());
+		cache.getChildren().add(gPlaced);
 
-		Element gOwner = doc.createElement("groundspeak:owner");
-		gOwner.setTextContent(ch.getCacheOwner());
+		Element gOwner = new Element("owner", groundspeak);
+		gOwner.setText(ch.getCacheOwner());
 		// Todo: hier müsste die orginal Id rein
 		gOwner.setAttribute("id", "123456");
-		cache.appendChild(gOwner);
+		cache.getChildren().add(gOwner);
 
-		Element gType = doc.createElement("groundspeak:type");
-		gType.setTextContent(ch.getType().getGcGpxString());
-		cache.appendChild(gType);
+		Element gType = new Element("type", groundspeak);
+		gType.setText(ch.getType().getGcGpxString());
+		cache.getChildren().add(gType);
 
-		Element gContainer = doc.createElement("groundspeak:container");
-		gContainer.setTextContent(ch.getCacheSize().getAsString());
-		cache.appendChild(gContainer);
+		Element gContainer = new Element("container", groundspeak);
+		gContainer.setText(ch.getCacheSize().getAsString());
+		cache.getChildren().add(gContainer);
 
-		Element gDifficulty = doc.createElement("groundspeak:difficulty");
-		gDifficulty.setTextContent(ch.getDifficulty().getShortRepresentation());
-		cache.appendChild(gDifficulty);
+		Element gDifficulty = new Element("difficulty", groundspeak);
+		gDifficulty.setText(ch.getDifficulty().getShortRepresentation());
+		cache.getChildren().add(gDifficulty);
 
-		Element gTerrain = doc.createElement("groundspeak:terrain");
-		gTerrain.setTextContent(ch.getTerrain().getShortRepresentation());
-		cache.appendChild(gTerrain);
+		Element gTerrain = new Element("terrain", groundspeak);
+		gTerrain.setText(ch.getTerrain().getShortRepresentation());
+		cache.getChildren().add(gTerrain);
 
-		Element gCountry = doc.createElement("groundspeak:country");
-		gCountry.setTextContent(ch.getDetails().getCountry());
-		cache.appendChild(gCountry);
+		Element gCountry = new Element("country", groundspeak);
+		gCountry.setText(ch.getDetails().getCountry());
+		cache.getChildren().add(gCountry);
 
-		Element gState = doc.createElement("groundspeak:state");
-		gState.setTextContent(ch.getDetails().getState());
-		cache.appendChild(gState);
+		Element gState = new Element("state", groundspeak);
+		gState.setText(ch.getDetails().getState());
+		cache.getChildren().add(gState);
 
-		Element gShortDescription = doc
-				.createElement("groundspeak:short_description");
+		Element gShortDescription = new Element("short_description",
+				groundspeak);
 		if ("".equals(ch.getDetails().getShortDescription())) {
-			gShortDescription.setTextContent("\n");
+			gShortDescription.setText("\n");
 		} else {
-			gShortDescription.setTextContent(ch.getDetails().getShortDescription());
+			gShortDescription.setText(ch.getDetails().getShortDescription());
 		}
-		
+
 		gShortDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.appendChild(gShortDescription);
+		cache.getChildren().add(gShortDescription);
 
-		Element gLongDescription = doc
-				.createElement("groundspeak:long_description");
-		gLongDescription.setTextContent(ch.getDetails().getLongDescription());
+		Element gLongDescription = new Element("long_description", groundspeak);
+		gLongDescription.setText(ch.getDetails().getLongDescription());
 		gLongDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.appendChild(gLongDescription);
+		cache.getChildren().add(gLongDescription);
 
-		Element gEncodedHints = doc.createElement("groundspeak:encoded_hints");
-		gEncodedHints.setTextContent(Rot13.encodeRot13(ch.getDetails()
-				.getHints()));
-		cache.appendChild(gEncodedHints);
+		Element gEncodedHints = new Element("encoded_hints", groundspeak);
+		gEncodedHints.setText(Rot13.encodeRot13(ch.getDetails().getHints()));
+		cache.getChildren().add(gEncodedHints);
 	}
-	
-	
+
 	// Ab hier ist manueller Testcode - zum ausprobieren.
 	public static void main(String... args) {
 		ICacheHolder cache = new CacheHolderDummy() {
@@ -165,12 +150,12 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 			public String getCacheID() {
 				return "1234567";
 			}
-			
+
 			@Override
 			public boolean isCacheWpt() {
 				return true;
 			}
-			
+
 			@Override
 			public CacheSize getCacheSize() {
 				return CacheSize.MICRO;
@@ -180,7 +165,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 			public boolean isHTML() {
 				return true;
 			}
-			
+
 			@Override
 			public ICacheHolderDetail getDetails() {
 				return new ICacheHolderDetail() {
@@ -193,6 +178,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 					public String getUrl() {
 						return "http://www.geocaching.com/seek/wpt.aspx?WID=a70708a9-dd9a-4375-8b57-afec8d547ae0";
 					}
+
 					@Override
 					public String getCountry() {
 						return "Germany";
@@ -231,7 +217,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 				};
 			}
 		};
-		
+
 		ICacheHolder cache2 = new CacheHolderDummy() {
 			@Override
 			public String getCacheName() {
@@ -285,6 +271,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 					public String getUrl() {
 						return "http://www.öpnv-karte.de";
 					}
+
 					@Override
 					public String getCountry() {
 						return "Germany";
@@ -322,7 +309,7 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 				};
 			}
 		};
-		
+
 		Collection<ICacheHolder> caches = new ArrayList<ICacheHolder>();
 		caches.add(cache2);
 		caches.add(cache);
