@@ -207,27 +207,6 @@ public class HTMLExporter {
 							}
 							page_tpl.setParam("cacheImg", cacheImg);
 
-							// Log images
-							logImg.clear();
-							for (int j = 0; j < det.getLogImages().size(); j++) {
-								logImgParams = new Hashtable();
-								String logImgFile = det.getLogImages().get(j)
-										.getFilename();
-								logImgParams.put("FILE", logImgFile);
-								logImgParams.put("TEXT", det.getLogImages()
-										.get(j).getTitle());
-								if (DataMover
-										.copy(new java.io.File(profile
-												.getDataDir(), logImgFile),
-												new java.io.File(targetDir,
-														logImgFile))) {
-									logImg.add(logImgParams);
-								} else {
-									exportErrors++;
-								}
-							}
-							page_tpl.setParam("logImg", logImg);
-
 							// User images
 							usrImg.clear();
 							for (int j = 0; j < det.getUserImages().size(); j++) {

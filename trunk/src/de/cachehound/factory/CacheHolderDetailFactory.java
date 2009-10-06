@@ -139,25 +139,6 @@ public class CacheHolderDetailFactory {
 			dummy = ex.findNext();
 			imgNr = imgNr + 1;
 		}
-		// Logimages
-		chd.getLogImages().clear();
-		ex = new Extractor(text, "<LOGIMG>", "</LOGIMG>", 0, true);
-		dummy = ex.findNext();
-		while (ex.endOfSearch() == false) {
-			ImageInfo imageInfo = new ImageInfo();
-			imageInfo.setFilename(dummy);
-			chd.getLogImages().add(imageInfo);
-			dummy = ex.findNext();
-		}
-		ex = new Extractor(text, "<LOGIMGTEXT>", "</LOGIMGTEXT>", 0, true);
-		dummy = ex.findNext();
-		imgNr = 0;
-		while (ex.endOfSearch() == false) {
-			ImageInfo imageInfo = chd.getLogImages().get(imgNr++);
-			imageInfo.setTitle(dummy);
-			dummy = ex.findNext();
-		}
-
 		chd.getUserImages().clear();
 		ex = new Extractor(text, "<USERIMG>", "</USERIMG>", 0, true);
 		dummy = ex.findNext();
@@ -299,16 +280,6 @@ public class CacheHolderDetailFactory {
 					}
 				}
 
-				for (int i = 0; i < chd.getLogImages().size(); i++) {
-					stbuf = chd.getLogImages().get(i).getFilename();
-					detfile.write("    <LOGIMG>" + stbuf + "</LOGIMG>");
-					detfile.newLine();
-				}
-				for (int i = 0; i < chd.getLogImages().size(); i++) {
-					stbuf = chd.getLogImages().get(i).getTitle();
-					detfile.write("    <LOGIMGTEXT>" + stbuf + "</LOGIMGTEXT>");
-					detfile.newLine();
-				}
 				for (int i = 0; i < chd.getUserImages().size(); i++) {
 					stbuf = chd.getUserImages().get(i).getFilename();
 					detfile.write("    <USERIMG>" + stbuf + "</USERIMG>");

@@ -23,7 +23,6 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 	private LogList cacheLogs = new LogList();
 	private String cacheNotes = CacheHolder.EMPTY;
 	private CacheImages images = new CacheImages();
-	private CacheImages logImages = new CacheImages();
 	private CacheImages userImages = new CacheImages();
 	private Attributes attributes = new Attributes();
 	private TravelbugList travelbugs = new TravelbugList();
@@ -85,10 +84,6 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 		return lastUpdate;
 	}
 
-	public CacheImages getLogImages() {
-		return logImages;
-	}
-
 	public String getLongDescription() {
 		return longDescription;
 	}
@@ -123,18 +118,6 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 
 	public CacheImages getUserImages() {
 		return userImages;
-	}
-
-	/**
-	 * Return true if this cache has additional info for some pictures
-	 * 
-	 * @return true if cache has additional info, false otherwise
-	 */
-	public boolean hasImageInfo() {
-		for (int i = this.getImages().size() - 1; i >= 0; i--)
-			if (this.getImages().get(i).getComment() != null)
-				return true;
-		return false;
 	}
 
 	public boolean hasUnsavedChanges() {
@@ -196,10 +179,6 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public void setLogImages(CacheImages logImages) {
-		this.logImages = logImages;
-	}
-
 	public void setLongDescription(String longDescription) {
 		if (longDescription.equals(""))
 			getParent().setNew(true);
@@ -252,8 +231,9 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 		StringBuilder sb = new StringBuilder(desc.length());
 		for (int i = 0; i < desc.length(); i++) {
 			char c = desc.charAt(i);
-			if (c > ' ')
+			if (c > ' ') {
 				sb.append(c);
+			}
 		}
 		return sb.toString();
 	}
