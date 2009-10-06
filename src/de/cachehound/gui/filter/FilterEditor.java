@@ -49,7 +49,7 @@ public class FilterEditor extends JDialog {
 	}
 
 	public IFilter getFilter() {
-		return treePanel.getRoot().getFilter().clone();
+		return treePanel.getRoot().getFilter();
 	}
 
 	/**
