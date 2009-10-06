@@ -80,7 +80,7 @@ public class LocExporter {
 
 		Element name = new Element("name");
 		name.setAttribute("id", ch.getWayPoint());
-		waypoint.getChildren().add(name);
+		waypoint.addContent(name);
 
 		CDATA nameData = new CDATA(ch.getCacheName() + " by "
 				+ ch.getCacheOwner());
@@ -89,11 +89,11 @@ public class LocExporter {
 		Element coord = new Element("coord");
 		coord.setAttribute("lat", Double.toString(ch.getPos().latDec));
 		coord.setAttribute("lon", Double.toString(ch.getPos().lonDec));
-		waypoint.getChildren().add(coord);
+		waypoint.addContent(coord);
 
 		Element type = new Element("type");
 		type.setText("Geocache");
-		waypoint.getChildren().add(type);
+		waypoint.addContent(type);
 
 		return waypoint;
 	}

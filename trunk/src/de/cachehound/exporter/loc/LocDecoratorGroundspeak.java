@@ -10,6 +10,6 @@ public class LocDecoratorGroundspeak implements ILocDecorator {
 		Element link = new Element("link");
 		link.setText("http://www.geocaching.com/seek/cache_details.aspx?wp="
 						+ cache.getWayPoint());
-		doc.getChildren().add(link);
+		doc.addContent(link);
 	}
 }

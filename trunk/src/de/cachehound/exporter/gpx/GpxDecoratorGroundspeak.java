@@ -47,45 +47,45 @@ public class GpxDecoratorGroundspeak implements IGpxDecorator {
 
 		cache.setAttribute("available", ch.isAvailable() ? "True" : "False");
 		cache.setAttribute("archived", ch.isArchived() ? "True" : "False");
-		gpx.getChildren().add(cache);
+		gpx.addContent(cache);
 
 		Element gName = new Element("name", groundspeak);
 		gName.setText(ch.getCacheName());
-		cache.getChildren().add(gName);
+		cache.addContent(gName);
 
 		Element gPlaced = new Element("placed_by", groundspeak);
 		gPlaced.setText(ch.getCacheOwner());
-		cache.getChildren().add(gPlaced);
+		cache.addContent(gPlaced);
 
 		Element gOwner = new Element("owner", groundspeak);
 		gOwner.setText(ch.getCacheOwner());
 		// Todo: hier müsste die orginal Id rein
 		gOwner.setAttribute("id", "123456");
-		cache.getChildren().add(gOwner);
+		cache.addContent(gOwner);
 
 		Element gType = new Element("type", groundspeak);
 		gType.setText(ch.getType().getGcGpxString());
-		cache.getChildren().add(gType);
+		cache.addContent(gType);
 
 		Element gContainer = new Element("container", groundspeak);
 		gContainer.setText(ch.getCacheSize().getAsString());
-		cache.getChildren().add(gContainer);
+		cache.addContent(gContainer);
 
 		Element gDifficulty = new Element("difficulty", groundspeak);
 		gDifficulty.setText(ch.getDifficulty().getShortRepresentation());
-		cache.getChildren().add(gDifficulty);
+		cache.addContent(gDifficulty);
 
 		Element gTerrain = new Element("terrain", groundspeak);
 		gTerrain.setText(ch.getTerrain().getShortRepresentation());
-		cache.getChildren().add(gTerrain);
+		cache.addContent(gTerrain);
 
 		Element gCountry = new Element("country", groundspeak);
 		gCountry.setText(ch.getDetails().getCountry());
-		cache.getChildren().add(gCountry);
+		cache.addContent(gCountry);
 
 		Element gState = new Element("state", groundspeak);
 		gState.setText(ch.getDetails().getState());
-		cache.getChildren().add(gState);
+		cache.addContent(gState);
 
 		Element gShortDescription = new Element("short_description",
 				groundspeak);
@@ -96,16 +96,16 @@ public class GpxDecoratorGroundspeak implements IGpxDecorator {
 		}
 
 		gShortDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.getChildren().add(gShortDescription);
+		cache.addContent(gShortDescription);
 
 		Element gLongDescription = new Element("long_description", groundspeak);
 		gLongDescription.setText(ch.getDetails().getLongDescription());
 		gLongDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
-		cache.getChildren().add(gLongDescription);
+		cache.addContent(gLongDescription);
 
 		Element gEncodedHints = new Element("encoded_hints", groundspeak);
 		gEncodedHints.setText(Rot13.encodeRot13(ch.getDetails().getHints()));
-		cache.getChildren().add(gEncodedHints);
+		cache.addContent(gEncodedHints);
 	}
 
 	// Ab hier ist manueller Testcode - zum ausprobieren.

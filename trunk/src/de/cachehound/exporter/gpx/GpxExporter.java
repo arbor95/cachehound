@@ -223,35 +223,35 @@ public class GpxExporter {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 		Element time = new Element("time");
 		time.setText(sdf.format(new Date()));
-		root.getChildren().add(time);
+		root.addContent(time);
 
 		Element name = new Element("name");
 		name.setText(ch.getWayPoint());
-		root.getChildren().add(name);
+		root.addContent(name);
 
 		Element cmt = new Element("cmt");
 		cmt.setText(ch.getDetails().getLongDescription());
-		root.getChildren().add(cmt);
+		root.addContent(cmt);
 
 		Element desc = new Element("desc");
 		desc.setText(ch.getCacheName());
-		root.getChildren().add(desc);
+		root.addContent(desc);
 
 		Element url = new Element("url");
 		url.setText(ch.getDetails().getUrl());
-		root.getChildren().add(url);
+		root.addContent(url);
 
 		Element urlName = new Element("urlname");
 		urlName.setText(ch.getCacheName());
-		root.getChildren().add(urlName);
+		root.addContent(urlName);
 
 		Element sym = new Element("sym");
 		sym.setText(ch.getType().getGcGpxString());
-		root.getChildren().add(sym);
+		root.addContent(sym);
 
 		Element type = new Element("type");
 		type.setText("Waypoint|" + ch.getType().getGcGpxString());
-		root.getChildren().add(type);
+		root.addContent(type);
 
 		return root;
 	}
@@ -280,34 +280,34 @@ public class GpxExporter {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T00:00:00'");
 		Element time = new Element("time");
 		time.setText(sdf.format(new Date()));
-		root.getChildren().add(time);
+		root.addContent(time);
 
 		Element name = new Element("name");
 		name.setText(ch.getWayPoint());
-		root.getChildren().add(name);
+		root.addContent(name);
 
 		Element desc = new Element("desc");
 		desc.setText(ch.getCacheName() + " by " + ch.getCacheOwner() + ", "
 				+ ch.getType().getGcGpxString() + " ("
 				+ ch.getDifficulty().getShortRepresentation() + "/"
 				+ ch.getTerrain().getShortRepresentation() + ")");
-		root.getChildren().add(desc);
+		root.addContent(desc);
 
 		Element url = new Element("url");
 		url.setText(ch.getDetails().getUrl());
-		root.getChildren().add(url);
+		root.addContent(url);
 
 		Element urlName = new Element("urlname");
 		urlName.setText(ch.getCacheName());
-		root.getChildren().add(urlName);
+		root.addContent(urlName);
 
 		Element sym = new Element("sym");
 		sym.setText("Geocache");
-		root.getChildren().add(sym);
+		root.addContent(sym);
 
 		Element type = new Element("type");
 		type.setText("Geocache|" + ch.getType().getGcGpxString());
-		root.getChildren().add(type);
+		root.addContent(type);
 
 		return root;
 	}
