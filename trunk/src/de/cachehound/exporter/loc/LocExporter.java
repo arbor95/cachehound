@@ -1,4 +1,4 @@
-package de.cachehound.exporter.xml;
+package de.cachehound.exporter.loc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,23 +15,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
+import org.jdom.CDATA;
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 import CacheWolf.beans.CWPoint;
 import de.cachehound.beans.CacheHolderDummy;
@@ -55,7 +44,7 @@ public class LocExporter {
 	 */
 	public LocExporter(Writer w) {
 		this.w = w;
-		this.decorators = new LinkedList<IDomDecorator>();
+		this.decorators = new LinkedList<ILocDecorator>();
 	}
 
 	/**
@@ -74,7 +63,7 @@ public class LocExporter {
 		} catch (UnsupportedEncodingException e) {
 			logger.error("utf-8 is unsupported", e);
 		}
-		this.decorators = new LinkedList<IDomDecorator>();
+		this.decorators = new LinkedList<ILocDecorator>();
 	}
 
 	/**
@@ -86,40 +75,27 @@ public class LocExporter {
 	 * Alle weiteren Ergänzungen sollten über jeweils einen IDomDecorator
 	 * erfolgen.
 	 */
-	private Document getBaseDom(ICacheHolder ch) {
-		try {
-			// Man kanns mit'm Factory-Pattern auch übertreiben...
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-			Document doc = docBuilder.newDocument();
+	private Element getBaseDom(ICacheHolder ch) {
+		Element waypoint = new Element("waypoint");
 
-			Element root = doc.createElement("waypoint");
-			doc.appendChild(root);
+		Element name = new Element("name");
+		name.setAttribute("id", ch.getWayPoint());
+		waypoint.getChildren().add(name);
 
-			Element name = doc.createElement("name");
-			name.setAttribute("id", ch.getWayPoint());
-			root.appendChild(name);
+		CDATA nameData = new CDATA(ch.getCacheName() + " by "
+				+ ch.getCacheOwner());
+		name.addContent(nameData);
 
-			CDATASection nameData = doc.createCDATASection(ch.getCacheName()
-					+ " by " + ch.getCacheOwner());
-			name.appendChild(nameData);
+		Element coord = new Element("coord");
+		coord.setAttribute("lat", Double.toString(ch.getPos().latDec));
+		coord.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+		waypoint.getChildren().add(coord);
 
-			Element coord = doc.createElement("coord");
-			coord.setAttribute("lat", Double.toString(ch.getPos().latDec));
-			coord.setAttribute("lon", Double.toString(ch.getPos().lonDec));
-			root.appendChild(coord);
+		Element type = new Element("type");
+		type.setText("Geocache");
+		waypoint.getChildren().add(type);
 
-			Element type = doc.createElement("type");
-			root.appendChild(type);
-
-			Text typeText = doc.createTextNode("Geocache");
-			type.appendChild(typeText);
-
-			return doc;
-		} catch (ParserConfigurationException e) {
-			logger.error("Error while creating DOM tree", e);
-			return null;
-		}
+		return waypoint;
 	}
 
 	/**
@@ -141,33 +117,19 @@ public class LocExporter {
 		w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		w.write("<loc version=\"1.0\" src=\"CacheHound\">\n");
 
-		try {
-			TransformerFactory transfac = TransformerFactory.newInstance();
-			Transformer trans = transfac.newTransformer();
-			// Wir transformieren nur Teilbäume, also soll nicht für jeden
-			// Teilbaum eine XML-Deklaration erzeugt werden.
-			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			// Aber hübsch solls sein!
-			trans.setOutputProperty(OutputKeys.INDENT, "yes");
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 
-			StreamResult result = new StreamResult(w);
-			for (ICacheHolder ch : caches) {
-				// DomTree erzeugen.
-				Document doc = getBaseDom(ch);
+		for (ICacheHolder ch : caches) {
+			// DomTree erzeugen.
+			Element waypoint = getBaseDom(ch);
 
-				// Jeder Decorator darf was dran ändern
-				for (IDomDecorator dec : decorators) {
-					dec.decorateDomTree(doc, ch);
-				}
-
-				// Und das Ergebnis ausgeben.
-				DOMSource source = new DOMSource(doc);
-				trans.transform(source, result);
+			// Jeder Decorator darf was dran ändern
+			for (ILocDecorator dec : decorators) {
+				dec.decorateDomTree(waypoint, ch);
 			}
-		} catch (TransformerConfigurationException e) {
-			logger.error("Error while transforming DOM tree", e);
-		} catch (TransformerException e) {
-			logger.error("Error while transforming DOM tree", e);
+
+			// Und das Ergebnis ausgeben.
+			outputter.output(waypoint, w);
 		}
 
 		// Wir haben das Wurzelement von Hand aufgemacht, also müssen wir es
@@ -179,12 +141,12 @@ public class LocExporter {
 	/**
 	 * Decorator hinzufügen.
 	 */
-	public void addDecorator(IDomDecorator dec) {
+	public void addDecorator(ILocDecorator dec) {
 		decorators.add(dec);
 	}
 
 	private Writer w;
-	private List<IDomDecorator> decorators;
+	private List<ILocDecorator> decorators;
 
 	// Ab hier ist manueller Testcode - zum ausprobieren.
 	public static void main(String... args) {
@@ -286,6 +248,7 @@ public class LocExporter {
 
 		exp.addDecorator(new LocDecoratorAddDT());
 		exp.addDecorator(new LocDecoratorChangeType(mappings));
+		exp.addDecorator(new LocDecoratorGroundspeak());
 
 		try {
 			exp.doit(caches);

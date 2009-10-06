@@ -9,9 +9,9 @@ import java.util.Map;
 
 import CacheWolf.Global;
 import de.cachehound.beans.ICacheHolder;
-import de.cachehound.exporter.xml.LocDecoratorAddDT;
-import de.cachehound.exporter.xml.LocDecoratorChangeType;
-import de.cachehound.exporter.xml.LocExporter;
+import de.cachehound.exporter.loc.LocDecoratorAddDT;
+import de.cachehound.exporter.loc.LocDecoratorChangeType;
+import de.cachehound.exporter.loc.LocExporter;
 import de.cachehound.filter.AndFilter;
 import de.cachehound.filter.CacheTypeFilter;
 import de.cachehound.filter.FilterHelper;
