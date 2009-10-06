@@ -2,6 +2,7 @@ package CacheWolf.gui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -40,6 +41,11 @@ import CacheWolf.util.Rebuild;
 import CacheWolf.util.SearchCache;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.exporter.GarminWaypointExporter;
+import de.cachehound.exporter.xml.GpxDecoratorGroundspeak;
+import de.cachehound.exporter.xml.GpxDecoratorLogs;
+import de.cachehound.exporter.xml.GpxDecoratorPictures;
+import de.cachehound.exporter.xml.GpxDecoratorTravelbugs;
+import de.cachehound.exporter.xml.GpxExporter;
 import de.cachehound.exporter.xml.LocDecoratorGroundspeak;
 import de.cachehound.filter.FilterHelper;
 import de.cachehound.filter.HasCoordinatesFilter;
@@ -95,7 +101,7 @@ public class MainMenu extends MenuBar {
 			exportASC, exportTomTom, exportMSARCSV;
 	private MenuItem exportOZI, exportKML, exportTPL, exportExplorist,
 			exportTriton;
-	private MenuItem exportLOCNoEwe, exportGarminNoEwe;
+	private MenuItem exportLOCNoEwe, exportGarminNoEwe, exportGpxDom;
 	private MenuItem importMail;
 	private MenuItem filtCreate, filtClear, filtInvert, filtSelected,
 			filtNonSelected, filtBlack, filtApply;
@@ -151,7 +157,7 @@ public class MainMenu extends MenuBar {
 		// /////////////////////////////////////////////////////////////////////
 		// subMenu for export, part of "Application" menu below
 		// /////////////////////////////////////////////////////////////////////
-		MenuItem[] exitems = new MenuItem[18];
+		MenuItem[] exitems = new MenuItem[19];
 		// Vm.debug("Hi in MainMenu "+lr);
 		exitems[0] = exporthtml = new MenuItem(MyLocale.getMsg(100, "to HTML"));
 		exitems[1] = exportGpxNg = new MenuItem(MyLocale.getMsg(101,
@@ -183,6 +189,7 @@ public class MainMenu extends MenuBar {
 		exitems[16] = mnuSeparator;
 		exitems[17] = exportGarminNoEwe = new MenuItem(
 				"to Garmin (as Waypoints)");
+		exitems[18] = exportGpxDom = new MenuItem("Gpx with DOM");
 		if (!GarminWaypointExporter.isActive()) {
 			exportGarminNoEwe.modifiers = MenuItem.Disabled;
 		}
@@ -572,7 +579,8 @@ public class MainMenu extends MenuBar {
 				ProgressBarForm.display(MyLocale.getMsg(950, "Transfer"),
 						MyLocale.getMsg(951, "Sending to GPS"), null);
 				try {
-					GPSBabel.convert(new LocFile(new java.io.File(tmpFileName)),
+					GPSBabel.convert(
+							new LocFile(new java.io.File(tmpFileName)),
 							new GarminDevice(pref.garminConn + ":"));
 				} catch (java.io.IOException e) {
 					(new MessageBox("Error", "Garmin export unsuccessful",
@@ -636,6 +644,29 @@ public class MainMenu extends MenuBar {
 					exp.doit(Global.getProfile().cacheDB.toList());
 				} catch (IOException e) {
 					logger.error("Exception thrown during export", e);
+				}
+			}
+
+			if (mev.selectedItem == exportGpxDom) {
+				FileChooser fc = new FileChooser(FileChooserBase.SAVE, FileBase
+						.getProgramDirectory());
+				fc.addMask("*.gpx");
+				if (fc.execute() != FormBase.IDCANCEL) {
+					try {
+						Vm.showWait(true);
+						FileWriter writer = new FileWriter(new java.io.File(fc.getChosenFile()
+										.getAbsolutePath()));
+						GpxExporter exp = new GpxExporter(writer);
+						exp.addDecorator(new GpxDecoratorGroundspeak());
+						exp.addDecorator(new GpxDecoratorLogs());
+						exp.addDecorator(new GpxDecoratorTravelbugs());
+						exp.addDecorator(new GpxDecoratorPictures());
+						exp.doit(Global.getProfile().cacheDB.toList());
+						writer.close();
+						Vm.showWait(false);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			// /////////////////////////////////////////////////////////////////////

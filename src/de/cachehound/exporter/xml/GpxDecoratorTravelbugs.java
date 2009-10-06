@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
@@ -196,6 +197,11 @@ public class GpxDecoratorTravelbugs implements IDomDecorator {
 						return tbList;
 					}
 
+					@Override
+					public CacheImages getImages() {
+						return null;
+					}
+
 				};
 			}
 		};
@@ -280,6 +286,11 @@ public class GpxDecoratorTravelbugs implements IDomDecorator {
 
 					@Override
 					public TravelbugList getTravelbugs() {
+						return null;
+					}
+
+					@Override
+					public CacheImages getImages() {
 						return null;
 					}
 				};

@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
@@ -100,7 +101,12 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 
 		Element gShortDescription = doc
 				.createElement("groundspeak:short_description");
-		gShortDescription.setTextContent(ch.getDetails().getShortDescription());
+		if ("".equals(ch.getDetails().getShortDescription())) {
+			gShortDescription.setTextContent("\n");
+		} else {
+			gShortDescription.setTextContent(ch.getDetails().getShortDescription());
+		}
+		
 		gShortDescription.setAttribute("html", ch.isHTML() ? "True" : "False");
 		cache.appendChild(gShortDescription);
 
@@ -217,6 +223,11 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 						return null;
 					}
 
+					@Override
+					public CacheImages getImages() {
+						return null;
+					}
+
 				};
 			}
 		};
@@ -301,6 +312,11 @@ public class GpxDecoratorGroundspeak implements IDomDecorator {
 
 					@Override
 					public TravelbugList getTravelbugs() {
+						return null;
+					}
+
+					@Override
+					public CacheImages getImages() {
 						return null;
 					}
 				};

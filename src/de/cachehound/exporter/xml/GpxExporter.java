@@ -32,6 +32,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import CacheWolf.beans.CWPoint;
+import CacheWolf.beans.CacheHolder;
+import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.TravelbugList;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
@@ -299,6 +301,11 @@ public class GpxExporter {
 	 */
 	private Document getDomForGeocache(ICacheHolder ch) {
 		try {
+			// TODO: Eklig ... just for Testing.
+			if (ch instanceof CacheHolder) {
+				((CacheHolder) ch).getFreshDetails();
+			}
+			
 			// Man kanns mit'm Factory-Pattern auch übertreiben...
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -449,6 +456,11 @@ public class GpxExporter {
 					public TravelbugList getTravelbugs() {
 						return null;
 					}
+
+					@Override
+					public CacheImages getImages() {
+						return null;
+					}
 					
 				};
 			}
@@ -533,6 +545,11 @@ public class GpxExporter {
 
 					@Override
 					public TravelbugList getTravelbugs() {
+						return null;
+					}
+
+					@Override
+					public CacheImages getImages() {
 						return null;
 					}
 				};
