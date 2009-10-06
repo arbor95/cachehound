@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 public class NotFilter implements IFilter {
@@ -52,5 +54,14 @@ public class NotFilter implements IFilter {
 		} else if (!child.equals(other.child))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Element toXML() {
+		Element ret = new Element("not");
+		
+		ret.addContent(child.toXML());
+		
+		return ret;
 	}
 }

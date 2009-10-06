@@ -1,8 +1,11 @@
 package de.cachehound.filter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,5 +45,14 @@ public class DistanceFilterTest {
 	@Test
 	public void testOutside() {
 		assertFalse(filter.cacheIsVisible(outside));
+	}
+	
+	@Test
+	public void testToXML() {
+		Element expected = new Element("distance");
+		expected.setAttribute("maxdistance", "5.0");
+		
+		assertEquals((new XMLOutputter()).outputString(expected),
+				(new XMLOutputter()).outputString(filter.toXML()));
 	}
 }

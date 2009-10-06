@@ -1,8 +1,11 @@
 package de.cachehound.filter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.junit.Test;
 
 public class OrFilterTest {
@@ -53,5 +56,17 @@ public class OrFilterTest {
 				alwaysFalse, alwaysFalse, alwaysFalse, alwaysFalse,
 				alwaysFalse, alwaysFalse, alwaysTrue);
 		assertTrue(orFilter.cacheIsVisible(null));
+	}
+	
+	@Test
+	public void testToXML() {
+		orFilter = new OrFilter(alwaysTrue, alwaysFalse);
+
+		Element expected = new Element("or");
+		expected.addContent(alwaysTrue.toXML());
+		expected.addContent(alwaysFalse.toXML());
+
+		assertEquals((new XMLOutputter()).outputString(expected),
+				(new XMLOutputter()).outputString(orFilter.toXML()));
 	}
 }

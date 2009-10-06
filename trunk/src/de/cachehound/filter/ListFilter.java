@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jdom.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public abstract class ListFilter implements Iterable<IFilter>, IFilter {
 		try {
 			ListFilter ret = (ListFilter) super.clone();
 			ret.list = new ArrayList<IFilter>();
-			for (IFilter f : this.list) {
+			for (IFilter f : this) {
 				ret.list.add(f.clone());
 			}
 			return ret;
@@ -52,4 +53,17 @@ public abstract class ListFilter implements Iterable<IFilter>, IFilter {
 	public Iterator<IFilter> iterator() {
 		return Collections.unmodifiableList(list).iterator();
 	}
+	
+	@Override
+	public Element toXML() {
+		Element ret = new Element(xmlElementName());
+		
+		for (IFilter f : this) {
+			ret.addContent(f.toXML());
+		}
+		
+		return ret;
+	}
+	
+	protected abstract String xmlElementName();
 }

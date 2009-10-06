@@ -24,4 +24,9 @@ public class BearingFilter extends AbstractEnumBasedFilter<Bearing> {
 	public String toString() {
 		return "Bearing: is one of " + super.toString();
 	}
+
+	@Override
+	protected String xmlElementName() {
+		return "bearing";
+	}
 }

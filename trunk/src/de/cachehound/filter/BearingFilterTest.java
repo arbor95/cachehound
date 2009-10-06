@@ -1,11 +1,14 @@
 package de.cachehound.filter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,5 +75,21 @@ public class BearingFilterTest {
 		assertTrue(filter.cacheIsVisible(chSouth));
 		assertFalse(filter.cacheIsVisible(chEast));
 		assertFalse(filter.cacheIsVisible(chWest));
+	}
+
+	@Test
+	public void testToXML() {
+		mask.add(Bearing.N);
+		mask.add(Bearing.S);
+		BearingFilter filter = new BearingFilter(mask);
+
+		Element expected = new Element("bearing");
+		expected.addContent((new Element("enabled")).addContent(Bearing.N
+				.toString()));
+		expected.addContent((new Element("enabled")).addContent(Bearing.S
+				.toString()));
+
+		assertEquals((new XMLOutputter()).outputString(expected),
+				(new XMLOutputter()).outputString(filter.toXML()));
 	}
 }

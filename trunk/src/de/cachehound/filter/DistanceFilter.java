@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 public class DistanceFilter extends SimpleFilter {
@@ -50,5 +52,14 @@ public class DistanceFilter extends SimpleFilter {
 				.doubleToLongBits(other.limit))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Element toXML() {
+		Element ret = new Element("distance");
+		
+		ret.setAttribute("maxdistance", Double.toString(limit));
+
+		return ret;
 	}
 }

@@ -3,6 +3,8 @@ package de.cachehound.filter;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 /**
@@ -12,7 +14,7 @@ import de.cachehound.beans.ICacheHolder;
 public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 		SimpleFilter {
 	private Set<T> mask;
-	
+
 	protected AbstractEnumBasedFilter(Set<T> mask) {
 		this.mask = EnumSet.copyOf(mask);
 	}
@@ -39,7 +41,7 @@ public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 	public int hashCode() {
 		return this.getClass().hashCode() + this.getMask().hashCode();
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder ret = new StringBuilder();
@@ -49,4 +51,17 @@ public abstract class AbstractEnumBasedFilter<T extends Enum<T>> extends
 		}
 		return ret.toString();
 	}
+
+	@Override
+	public Element toXML() {
+		Element ret = new Element(xmlElementName());
+
+		for (T b : getMask()) {
+			ret.addContent((new Element("enabled")).setText(b.toString()));
+		}
+
+		return ret;
+	}
+
+	protected abstract String xmlElementName();
 }

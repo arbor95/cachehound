@@ -1,5 +1,7 @@
 package de.cachehound.filter;
 
+import org.jdom.Element;
+
 import de.cachehound.beans.ICacheHolder;
 
 /**
@@ -13,4 +15,6 @@ public interface IFilter extends Cloneable {
 	public boolean cacheIsVisible(ICacheHolder ch);
 	
 	public IFilter clone();
+	
+	public Element toXML();
 }

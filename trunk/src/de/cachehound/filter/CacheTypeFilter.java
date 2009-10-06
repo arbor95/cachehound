@@ -24,4 +24,9 @@ public class CacheTypeFilter extends AbstractEnumBasedFilter<CacheType> {
 	public String toString() {
 		return "CacheType: is one of " + super.toString();
 	}
+
+	@Override
+	protected String xmlElementName() {
+		return "cachetype";
+	}
 }
