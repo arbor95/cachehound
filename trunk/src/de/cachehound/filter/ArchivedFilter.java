@@ -17,6 +17,6 @@ public class ArchivedFilter extends SimpleFilter {
 
 	@Override
 	public Element toXML() {
-		return new Element("archieved");
+		return new Element("archived");
 	}
 }
