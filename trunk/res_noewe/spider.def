@@ -29,6 +29,7 @@
 # Version 4.5 - 20090315 strings for spidering country/state/logId
 # Version 4.6 - 20090406 Fix for country/state (did not work with US caches)
 # Version 4.7 - 20090521 Strings for single cache types added
+# Version 5.0 - 20091105 adaption to new GC-design (November 2009)
 #============================================================
 # A suffix of Rex indicates a regular expression
 # A suffix of ExStart indicates the start of an Extractor search pattern
@@ -46,7 +47,7 @@ waypoint           = http://www.geocaching.com/seek/cache_details.aspx?wp=
 #Section1: First page with list of caches
 #--------------------------------------
 firstPage          = http://www.geocaching.com/seek/nearest.aspx?lat=
-firstPage2         = &lon=
+firstPage2         = &lng=
 firstPageFinds     = http://www.geocaching.com/seek/nearest.aspx?ul=
 # Regex to search for cachenames
 listBlockRex       = <table id="ctl00_ContentBody_dlResults"((?s).*?)</table>
@@ -55,7 +56,8 @@ distRex            = <br\ />(.*?)(?:km|mi)(?:\\s*)</td>
 waypointRex        = \\(GC(.*?)\\)<br\ />
 showOnlyFound      = &f=1
 maxDistance        = &dist=
-firstLine          = http://www.geocaching.com/seek/nearest.aspx?
+firstLine          = http://www.geocaching.com/seek/nearest.aspx?lat=
+firstLine2         = &lng=
 nextListPage       = /seek/nearest.aspx
 
 onlyWherigo         = &tx=0544fa55-772d-4e5c-96a9-36a51ebcf5c9
@@ -126,7 +128,7 @@ icon_attended      = icon_attended.gif
 #--------------------------------------
 # blockEx extrahiert zunächst den Bugbereich aus der gesamten Seite
 blockExStart       = >&nbsp;<b>Inventory</b>
-blockExEnd         = What\ is\ a\ Travel\ Bug?
+blockExEnd         = What\ are\ Trackable\ Items?
 # bugEx extrahiert die Namen der einzelnen Bugs aus dem Bugbereich
 bugExStart         = <a\ href='
 bugExEnd           = </a></strong></td>
