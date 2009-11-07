@@ -1,12 +1,12 @@
 #============================================================
 # spider.def - Definition file for reading caches from GC.COM
 # Version 1.0 - 20070526 skg
-# Version 2.0 - 20070531 nach GC Änderungen
-# Version 2.1 - 20070601 TB Anpassung an GC Änderung
-# Version 2.2 - 20070602 firstLine ergänzt. Damit funktionieren jetzt auch die nächsten Seiten.
-# Version 2.3 - 20070602 sizeRex an GC Änderungen angepasst
+# Version 2.0 - 20070531 nach GC �nderungen
+# Version 2.1 - 20070601 TB Anpassung an GC �nderung
+# Version 2.2 - 20070602 firstLine erg�nzt. Damit funktionieren jetzt auch die n�chsten Seiten.
+# Version 2.3 - 20070602 sizeRex an GC �nderungen angepasst
 # Version 2.4 - 20070616 neu: Attribute
-# Version 2.5 - 20070629 Anpassungen an Listenänderung bei GC
+# Version 2.5 - 20070629 Anpassungen an Listen�nderung bei GC
 # Version 2.6 - 20070701 Bugfix: Wenn Zentrum exakt in Cachekoordinaten liegt wurde der Cache nicht gespidert
 # Version 2.7 - 20070811 Bugfix fuer verschluesselte Logs
 # Version 2.8 - 20070814 Findet jetzt auch Addi Wpts in eigenen Caches
@@ -29,7 +29,11 @@
 # Version 4.5 - 20090315 strings for spidering country/state/logId
 # Version 4.6 - 20090406 Fix for country/state (did not work with US caches)
 # Version 4.7 - 20090521 Strings for single cache types added
-# Version 5.0 - 20091105 adaption to new GC-design (November 2009)
+# Version 4.8 - 20090805 More specific unavailability detection
+# Version 4.9 - 20091018 Should work now with proxies and cachetypes as background
+# Version 4.10- 20091021 Tags in Description are now correctly closed
+# Version 4.11- 20091023 Reverted last change, because it doesn't work with EWE/EXE
+# Version 5.0 - 20091105 adaption to new GC-design
 #============================================================
 # A suffix of Rex indicates a regular expression
 # A suffix of ExStart indicates the start of an Extractor search pattern
@@ -80,10 +84,12 @@ onlyGPSAdventure    = &tx=72e69af2-7986-4990-afd9-bc16cbbb4ce3
 #--------------------------------------
 getPageByName      = http://www.geocaching.com/seek/cache_details.aspx?wp=
 fetchAllLogs       = &log=y
-cacheUnavailable   = This\ cache\ is\ temporarily\ unavailable
+cacheUnavailable   = <ul><font\ color="red"><li>This\ cache\ is\ temporarily\ unavailable.\ Read\ the\ logs\ below\ to\ read\ the\ status\ for\ this\ cache.</li></font></ul>
 cacheArchived      = This cache\ has\ been\ archived
 latLonRex          = <span\ id="LatLon"\ style="font-weight:bold;">((?s).*?)</span>
 shortDescRex       = <span\ id="ShortDescription">((?s).*?)</span>
+#This version doesn't work with EWE/EXE, so we trim the tags in code
+#longDescRex        = <span\ id="LongDescription">((?s).*?)</span>(?:\\s*)<br\ />(?:\\s*)</p>(?:\\s*)<p>(?:\\s*)<strong>Additional\ Hints&nbsp;\\(</strong>
 longDescRex        = <span\ id="LongDescription">((?s).*?)<strong>Additional\ Hints&nbsp;\\(</strong>
 cacheNameRex       = <span\ id="CacheName">((?s).*?)</span>
 cacheOwnerRex      = <span\ id="CacheOwner">by\ <a\ href=(?:(?s).*?)>((?s).*?)</a></span>
@@ -92,14 +98,14 @@ hintsRex           = <span\ id="Hints"\ class="displayMe">((?s).*?)</span>
 sizeRex            = alt="Size:\ ((?s).*?)"\ title="Size:
 difficultyRex      = <span\ id="Difficulty">.*?alt="(.*?)\ out\ of
 terrainRex         = <span\ id="Terrain">.*?alt="(.*?)\ out\ of
-cacheTypeRex       = \\./images/WptTypes/(.*?)\\.gif
+cacheTypeRex       = /images/WptTypes/(.*?)\\.gif"\ ALT="
 cacheLocationRex   = <span\ id="Location">In\ ([^<]*?)<
 premiumCachepage   = Sorry, the owner of this listing has made it viewable to subscribers only.
 
 #--------------------------------------
 #Section2a: Logs
 #--------------------------------------
-# blockRex extrahiert zunächst aus der gesamten Seite den Logbereich
+# blockRex extrahiert zun�chst aus der gesamten Seite den Logbereich
 blockRex           = <span\ id="CacheLogs">((?s).*?)</span>
 # singleLogEx extrahiert in einer Schleife alle Logs aus dem Logbereich
 singleLogExStart   = <STRONG>
@@ -126,7 +132,7 @@ icon_attended      = icon_attended.gif
 #--------------------------------------
 #Section2b: Bugs
 #--------------------------------------
-# blockEx extrahiert zunächst den Bugbereich aus der gesamten Seite
+# blockEx extrahiert zun�chst den Bugbereich aus der gesamten Seite
 blockExStart       = >&nbsp;<b>Inventory</b>
 blockExEnd         = What\ are\ Trackable\ Items?
 # bugEx extrahiert die Namen der einzelnen Bugs aus dem Bugbereich
@@ -183,3 +189,4 @@ attBlockExStart = &nbsp;<b>Attributes</b><br/><table
 attBlockExEnd  = </td></tr></table>
 attExStart = /images/attributes/
 attExEnd = " Alt="
+
