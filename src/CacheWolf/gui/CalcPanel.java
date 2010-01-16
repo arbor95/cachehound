@@ -9,6 +9,7 @@ import CacheWolf.beans.Profile;
 import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheType;
 import ewe.fx.Dimension;
 import ewe.fx.FontMetrics;
@@ -59,8 +60,8 @@ public class CalcPanel extends CellPanel {
 	TextDisplay txtOutput;
 	mButton btnCalc, btnClear, btnSave, btnParse;
 	BearingDistance bd = new BearingDistance();
-	CWPoint coordInp = new CWPoint();
-	CWPoint coordOut = new CWPoint();
+	private CWPoint coordInp = CWPointFactory.getInstance().createInvalid();
+	private CWPoint coordOut = CWPointFactory.getInstance().createInvalid();
 	// Needed for creation of new waypoint
 	CacheDB cacheDB;
 	MainTab mainT;
