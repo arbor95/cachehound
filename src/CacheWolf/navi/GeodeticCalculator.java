@@ -52,7 +52,7 @@ public class GeodeticCalculator {
 		double aSquared = a * a;
 		double bSquared = b * b;
 		double f = ellipsoid.getFlattening();
-		double phi1 = start.latDec * PiOver180;
+		double phi1 = start.getLatDec() * PiOver180;
 		double alpha1 = startBearing * PiOver180;
 		double cosAlpha1 = Math.cos(alpha1);
 		double sinAlpha1 = Math.sin(alpha1);
@@ -153,7 +153,7 @@ public class GeodeticCalculator {
 
 		// build result
 		double latitude = phi2 / PiOver180;
-		double longitude = start.lonDec + (L / PiOver180);
+		double longitude = start.getLonDec() + (L / PiOver180);
 
 		if ((endBearing != null) && (endBearing.length > 0)) {
 			endBearing[0] = alpha2 / PiOver180;
@@ -211,10 +211,10 @@ public class GeodeticCalculator {
 		double f = ellipsoid.getFlattening();
 
 		// get parameters as radians
-		double phi1 = start.latDec * PiOver180;
-		double lambda1 = start.lonDec * PiOver180;
-		double phi2 = end.latDec * PiOver180;
-		double lambda2 = end.lonDec * PiOver180;
+		double phi1 = start.getLatDec() * PiOver180;
+		double lambda1 = start.getLonDec() * PiOver180;
+		double phi2 = end.getLatDec() * PiOver180;
+		double lambda2 = end.getLonDec() * PiOver180;
 
 		// calculations
 		double a2 = a * a;

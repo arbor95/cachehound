@@ -86,7 +86,7 @@ public class TransformCoordinatesProperties extends Properties {
 		if (ret == null) {
 			int region = TransformCoordinates.getGkRegion(epsgCode);
 			if (region > 0) {
-				GkPoint xy = new GkPoint(p.lonDec, p.latDec,
+				GkPoint xy = new GkPoint(p.getLonDec(), p.getLatDec(),
 						TransformCoordinates.getGkRegion(epsgCode));
 				ret = TransformCoordinates.GkToWgs84(xy, region);
 			} else {

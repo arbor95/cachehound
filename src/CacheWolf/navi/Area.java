@@ -17,9 +17,9 @@ public class Area {
 	}
 
 	public boolean isInBound(TrackPoint p) {
-		if (topleft.latDec >= p.latDec && topleft.lonDec <= p.lonDec
-				&& buttomright.latDec <= p.latDec
-				&& buttomright.lonDec >= p.lonDec)
+		if (topleft.getLatDec() >= p.getLatDec() && topleft.getLonDec() <= p.getLonDec()
+				&& buttomright.getLatDec() <= p.getLatDec()
+				&& buttomright.getLonDec() >= p.getLonDec())
 			return true;
 		else
 			return false;

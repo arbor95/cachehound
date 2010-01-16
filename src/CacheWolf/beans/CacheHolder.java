@@ -430,9 +430,9 @@ public class CacheHolder implements ICacheHolder {
 		sb.append("\" owner = \"");
 		sb.append(SafeXML.clean(getCacheOwner()));
 		sb.append("\" lat = \"");
-		sb.append(getPos().latDec);
+		sb.append(getPos().getLatDec());
 		sb.append("\" lon = \"");
-		sb.append(getPos().lonDec);
+		sb.append(getPos().getLonDec());
 		sb.append("\" hidden = \"");
 		sb.append(getDateHidden());
 		sb.append("\" wayp = \"");
