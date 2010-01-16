@@ -494,7 +494,7 @@ public class DetailsPanel extends CellPanel {
 							FormBase.OKB);
 					tmpMB.exec();
 				} else {
-					pref.curCentrePt.set(cp);
+					pref.setCurCenter(cp);
 					Global.mainTab.updateBearDist();
 				}
 			} else if (ev.target == btnAddDateTime) {
@@ -579,7 +579,7 @@ public class DetailsPanel extends CellPanel {
 					btnWayLoc.setText(coords.toString());
 					// If the current centre is valid, calculate the distance
 					// and bearing to it
-					CWPoint centre = Global.getPref().curCentrePt;
+					CWPoint centre = Global.getPref().getCurCenter();
 					if (centre.isValid())
 						thisCache.calcDistance(centre);
 				}

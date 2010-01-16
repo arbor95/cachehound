@@ -435,12 +435,12 @@ public class Parser {
 	/** Get or set the current centre */
 	private void funcCenter(int nargs) throws Exception {
 		if (nargs == 0) {
-			calcStack.add(Global.getPref().curCentrePt.toString());
+			calcStack.add(Global.getPref().getCurCenter().toString());
 		} else {
 			String coordA = popCalcStackAsString();
 			if (!isValidCoord(coordA))
 				err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
-			Global.getPref().curCentrePt.set(coordA);
+			Global.getPref().setCurCenter(new CWPoint(coordA));
 			Global.getProfile().updateBearingDistance();
 		}
 	}
@@ -1128,19 +1128,13 @@ public class Parser {
 				// Check whether new coordinates are valid
 				String coord = popCalcStackAsString();
 				cwPt.set(coord);
-				if (cwPt.isValid() || coord.equals("")) { // Can clear coord
-					// with empty string
+				if (cwPt.isValid() || coord.equals("")) {
+					// Can clear coord with empty string
 					ch.setPos(cwPt);
-					ch.calcDistance(Global.getPref().curCentrePt); // Update
-					// distance
-					// and
-					// bearing
-					Global.getProfile().selectionChanged = true; // Tell
-					// moving
-					// map to
-					// updated
-					// displayed
-					// waypoints
+					ch.calcDistance(Global.getPref().getCurCenter());
+					// Update distance and bearing
+					Global.getProfile().selectionChanged = true;
+					// Tell moving map to updated displayed waypoints
 					return;
 				} else
 					err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);

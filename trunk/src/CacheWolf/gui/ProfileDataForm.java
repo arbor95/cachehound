@@ -40,7 +40,7 @@ public class ProfileDataForm extends Form {
 		// defaultTags.set(this.INSETS,new Insets(2,2,2,2));
 		title = MyLocale.getMsg(1118, "Profile") + ": " + profile.name;
 		content.addNext(new mLabel(MyLocale.getMsg(1116, "Current")));
-		content.addLast(btnCurrentCentre = new mButton(pref.curCentrePt
+		content.addLast(btnCurrentCentre = new mButton(pref.getCurCenter()
 				.toString()), HSTRETCH, HFILL | LEFT);
 		content.addNext(new mLabel("      "), HSTRETCH, HFILL);
 		content.addNext(btnCur2Prof = new mButton("   v   "), DONTSTRETCH,
@@ -72,10 +72,10 @@ public class ProfileDataForm extends Form {
 			}
 			if (ev.target == btnCurrentCentre) {
 				CoordsScreen cs = new CoordsScreen();
-				cs.setFields(pref.curCentrePt, CWPoint.CW);
+				cs.setFields(pref.getCurCenter(), CWPoint.CW);
 				if (cs.execute() == FormBase.IDOK) {
-					pref.curCentrePt.set(cs.getCoords());
-					btnCurrentCentre.setText(pref.curCentrePt.toString());
+					pref.setCurCenter(cs.getCoords());
+					btnCurrentCentre.setText(pref.getCurCenter().toString());
 					Global.getProfile().updateBearingDistance();
 				}
 			}
@@ -90,14 +90,14 @@ public class ProfileDataForm extends Form {
 				}
 			}
 			if (ev.target == btnCur2Prof) {
-				profile.notifyUnsavedChanges(pref.curCentrePt
+				profile.notifyUnsavedChanges(pref.getCurCenter()
 						.equals(profile.getCenter()));
-				profile.getCenter().set(pref.curCentrePt);
+				profile.setCenter(pref.getCurCenter());
 				btnProfileCentre.setText(profile.getCenter().toString());
 			}
 			if (ev.target == btnProf2Cur) {
-				pref.curCentrePt.set(profile.getCenter());
-				btnCurrentCentre.setText(pref.curCentrePt.toString());
+				pref.setCurCenter(profile.getCenter());
+				btnCurrentCentre.setText(pref.getCurCenter().toString());
 				Global.getProfile().updateBearingDistance();
 			}
 		}

@@ -386,7 +386,7 @@ public class MainMenu extends MenuBar {
 			// /////////////////////////////////////////////////////////////////////
 			if (mev.selectedItem == mnuNewProfile) {
 				if (NewProfileWizard.startNewProfileWizard(getFrame())) {
-					pref.curCentrePt = new CWPoint(profile.getCenter());
+					pref.setCurCenter(new CWPoint(profile.getCenter()));
 					filtBlack.modifiers = Global.getProfile().showBlacklisted() ? filtBlack.modifiers
 							| MenuItem.Checked
 							: filtBlack.modifiers & ~MenuItem.Checked;
@@ -407,7 +407,7 @@ public class MainMenu extends MenuBar {
 					Vm.showWait(infB, true);
 					profile.readIndex(infB);
 					Vm.showWait(infB, false);
-					pref.curCentrePt.set(profile.getCenter());
+					pref.getCurCenter().set(profile.getCenter());
 					filtBlack.modifiers = Global.getProfile().showBlacklisted() ? filtBlack.modifiers
 							| MenuItem.Checked
 							: filtBlack.modifiers & ~MenuItem.Checked;

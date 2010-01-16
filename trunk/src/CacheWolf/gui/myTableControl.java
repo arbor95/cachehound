@@ -325,7 +325,7 @@ public class myTableControl extends TableControl {
 						FormBase.OKB);
 				tmpMB.execute();
 			} else {
-				pref.curCentrePt.set(cp);
+				pref.setCurCenter(cp);
 				Global.mainTab.updateBearDist(); // Update the distances with
 				// a
 				// warning message

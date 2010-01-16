@@ -95,7 +95,7 @@ public class StatusBar extends CellPanel {
 		// This can happen even on bigger screens with big fonts
 		if ((MyLocale.getScreenWidth() >= 320)
 				&& !(MobileVGA && (pref.fontSize > 20)))
-			strCenter = "  \u00a4 " + pref.curCentrePt.toString();
+			strCenter = "  \u00a4 " + pref.getCurCenter().toString();
 
 		lblCenter.setText(strCenter);
 		relayout(true); // in case the numbers increased and need more space

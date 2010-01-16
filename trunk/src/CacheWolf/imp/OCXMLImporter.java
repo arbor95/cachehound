@@ -186,8 +186,8 @@ public class OCXMLImporter extends MinML {
 		String url = new String();
 
 		String lastS = profile.getLast_sync_opencaching();
-		CWPoint centre = pref.curCentrePt; // No need to clone curCentrePt as
-		// centre is only read
+		CWPoint centre = pref.getCurCenter();
+		// No need to clone curCentrePt as centre is only read
 		if (!centre.isValid()) {
 			(new MessageBox("Error", "Coordinates for centre must be set",
 					FormBase.OKB)).execute();
