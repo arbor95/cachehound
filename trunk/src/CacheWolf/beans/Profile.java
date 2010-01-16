@@ -269,7 +269,6 @@ public class Profile {
 		File index = new File(getDataDir(), "index.xml");
 		try {
 			selectionChanged = true;
-			boolean fmtDec = false;
 			String mainInfoText = MyLocale.getMsg(5000, "Loading Cache-List");
 			int wptNo = 1;
 			int lastShownWpt = 0;
@@ -279,8 +278,6 @@ public class Profile {
 			indexXmlVersion = 1; // Initial guess
 			in.readLine(); // <?xml version= ...
 			String text = in.readLine(); // <CACHELIST>
-			if (text != null && text.indexOf("decimal") > 0)
-				fmtDec = true;
 			Extractor ex = new Extractor(null, " = \"", "\" ", 0, true);
 
 			// ewe.sys.Time startT=new ewe.sys.Time();
@@ -312,27 +309,16 @@ public class Profile {
 					CacheHolder ch = new CacheHolder(text, indexXmlVersion);
 					cacheDB.add(ch);
 				} else if (text.indexOf("<CENTRE") >= 0) { // lat= lon=
-					if (fmtDec) {
-						int start = text.indexOf("lat=\"") + 5;
-						String lat = text.substring(start,
-								text.indexOf("\"", start)).replace(notDecSep,
-								decSep);
-						start = text.indexOf("lon=\"") + 5;
-						String lon = text.substring(start,
-								text.indexOf("\"", start)).replace(notDecSep,
-								decSep);
-						centre.set(Convert.parseDouble(lat), Convert
-								.parseDouble(lon));
-					} else {
-						int start = text.indexOf("lat=\"") + 5;
-						String lat = SafeXML.cleanback(text.substring(start,
-								text.indexOf("\"", start)));
-						start = text.indexOf("long=\"") + 6;
-						String lon = SafeXML.cleanback(text.substring(start,
-								text.indexOf("\"", start)));
-						centre.set(lat + " " + lon, CWPoint.CW); // Fast
-						// parse
-					}
+					int start = text.indexOf("lat=\"") + 5;
+					String lat = text.substring(start,
+							text.indexOf("\"", start)).replace(notDecSep,
+							decSep);
+					start = text.indexOf("lon=\"") + 5;
+					String lon = text.substring(start,
+							text.indexOf("\"", start)).replace(notDecSep,
+							decSep);
+					centre.set(Convert.parseDouble(lat), Convert
+							.parseDouble(lon));
 				} else if (text.indexOf("<VERSION") >= 0) {
 					int start = text.indexOf("value = \"") + 9;
 					indexXmlVersion = Integer.valueOf(
