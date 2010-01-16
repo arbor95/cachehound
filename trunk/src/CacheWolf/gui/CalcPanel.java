@@ -208,7 +208,7 @@ public class CalcPanel extends CellPanel {
 				inpDistance.setText("0");
 
 				currFormat = CWPoint.DMM;
-				coordInp.set(ch.getPos());
+				coordInp = new CWPoint(ch.getPos());
 				setFields(coordInp, CWPoint.DMM);
 			}
 		}
@@ -255,7 +255,7 @@ public class CalcPanel extends CellPanel {
 				if (cs.execute() == FormBase.IDOK) {
 					btnChangeLatLon
 							.setText(cs.getCoords().toString(currFormat));
-					coordInp.set(cs.getCoords());
+					coordInp = new CWPoint(cs.getCoords());
 				}
 			}
 
