@@ -88,7 +88,7 @@ public class ExploristExporter {
 				pref.setExportPath(expName + "Dir", new java.io.File(fc
 						.getChosenFile().getFullPath()));
 
-				CWPoint centre = profile.centre;
+				CWPoint centre = profile.getCenter();
 				try {
 					LineNumberReader reader = new LineNumberReader(
 							new BufferedReader(new FileReader(configFile)));

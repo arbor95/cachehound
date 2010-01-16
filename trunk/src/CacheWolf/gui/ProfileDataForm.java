@@ -49,7 +49,7 @@ public class ProfileDataForm extends Form {
 		content.addLast(btnProf2Cur = new mButton("   ^   "), DONTSTRETCH,
 				DONTFILL | RIGHT);
 		content.addNext(new mLabel(MyLocale.getMsg(1118, "Profile")));
-		content.addLast(btnProfileCentre = new mButton(profile.centre
+		content.addLast(btnProfileCentre = new mButton(profile.getCenter()
 				.toString()), HSTRETCH, HFILL | LEFT);
 		addLast(content, HSTRETCH, HFILL);
 		addLast(new mLabel(""), VSTRETCH, FILL);
@@ -81,22 +81,22 @@ public class ProfileDataForm extends Form {
 			}
 			if (ev.target == btnProfileCentre) {
 				CoordsScreen cs = new CoordsScreen();
-				cs.setFields(profile.centre, CWPoint.CW);
+				cs.setFields(profile.getCenter(), CWPoint.CW);
 				if (cs.execute() == FormBase.IDOK) {
 					profile.notifyUnsavedChanges(cs.getCoords().equals(
-							profile.centre));
-					profile.centre.set(cs.getCoords());
-					btnProfileCentre.setText(profile.centre.toString());
+							profile.getCenter()));
+					profile.getCenter().set(cs.getCoords());
+					btnProfileCentre.setText(profile.getCenter().toString());
 				}
 			}
 			if (ev.target == btnCur2Prof) {
 				profile.notifyUnsavedChanges(pref.curCentrePt
-						.equals(profile.centre));
-				profile.centre.set(pref.curCentrePt);
-				btnProfileCentre.setText(profile.centre.toString());
+						.equals(profile.getCenter()));
+				profile.getCenter().set(pref.curCentrePt);
+				btnProfileCentre.setText(profile.getCenter().toString());
 			}
 			if (ev.target == btnProf2Cur) {
-				pref.curCentrePt.set(profile.centre);
+				pref.curCentrePt.set(profile.getCenter());
 				btnCurrentCentre.setText(pref.curCentrePt.toString());
 				Global.getProfile().updateBearingDistance();
 			}

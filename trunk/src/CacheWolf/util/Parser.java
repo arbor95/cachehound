@@ -653,12 +653,12 @@ public class Parser {
 	/** Get or set the profile centre */
 	private void funcPz(int nargs) throws Exception {
 		if (nargs == 0) {
-			calcStack.add(Global.getProfile().centre.toString());
+			calcStack.add(Global.getProfile().getCenter().toString());
 		} else {
 			String coordA = popCalcStackAsString();
 			if (!isValidCoord(coordA))
 				err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
-			Global.getProfile().centre.set(coordA);
+			Global.getProfile().getCenter().set(coordA);
 		}
 	}
 

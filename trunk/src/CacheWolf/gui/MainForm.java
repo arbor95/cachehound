@@ -112,7 +112,7 @@ public class MainForm extends Editor {
 			infB.exec();
 			infB.waitUntilPainted(100);
 			profile.readIndex(infB);
-			pref.curCentrePt.set(profile.centre);
+			pref.curCentrePt.set(profile.getCenter());
 			profile.updateBearingDistance();
 			setTitle("CacheHound " + Version.getRelease() + " - "
 					+ profile.name);
