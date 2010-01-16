@@ -150,7 +150,7 @@ public class CacheHolder implements ICacheHolder {
 
 	private IconAndText iconAndTextWP = null;
 	private int iconAndTextWPLevel = 0;
-	
+
 	private static char decSep, notDecSep;
 	static {
 		decSep = MyLocale.getDigSeparator().charAt(0);
@@ -158,7 +158,7 @@ public class CacheHolder implements ICacheHolder {
 	}
 
 	private GcVote gcVote;
-	
+
 	public CacheHolder() { // Just a public constructor
 	}
 
@@ -755,8 +755,7 @@ public class CacheHolder implements ICacheHolder {
 			}
 
 			if (base == 31) {
-				gcId += java.lang.Math.pow(16, 4) - 16
-						* java.lang.Math.pow(31, 3);
+				gcId += 16 * 16 * 16 * 16 - 16 * 31 * 31 * 31;
 			}
 
 			result = Integer.toString(gcId);
@@ -974,8 +973,8 @@ public class CacheHolder implements ICacheHolder {
 		if (level != iconAndTextWPLevel || iconAndTextWP == null) {
 			switch (level) {
 			case 4:
-				iconAndTextWP = new IconAndText(GuiImageBroker.getInstance().getErrorImage(), this
-						.getWayPoint(), fm);
+				iconAndTextWP = new IconAndText(GuiImageBroker.getInstance()
+						.getErrorImage(), this.getWayPoint(), fm);
 				break;
 			case 3:
 				iconAndTextWP = new IconAndText(myTableModel.yellow, this
@@ -1549,13 +1548,13 @@ public class CacheHolder implements ICacheHolder {
 	public CacheHolderDetail getDetails() {
 		return details;
 	}
-	
+
 	public GcVote getGcVote() {
 		return gcVote;
 	}
-	
+
 	public void setGcVote(GcVote gcVote) {
 		this.gcVote = gcVote;
 	}
-	
+
 }
