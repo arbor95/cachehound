@@ -30,18 +30,18 @@ import ewe.ui.mLabel;
 
 public class CoordsScreen extends Form {
 
-	mCheckBox chkDMM, chkDMS, chkDD, chkUTM, chkGK;
-	CheckBoxGroup chkFormat = new CheckBoxGroup();
-	mChoice chcNS, chcEW;
-	mInput inpNSDeg, inpNSm, inpNSs, inpEWDeg, inpEWm, inpEWs;
-	mInput inpUTMZone, inpUTMNorthing, inpUTMEasting;
-	mInput inpText;
-	mButton btnCancel, btnApply, btnCopy, btnPaste, btnParse, btnClear;
-	CWPoint coordInp = new CWPoint();
-	CellPanel topLinePanel = new CellPanel();
-	CellPanel mainPanel = new CellPanel();
-	int exitKeys[] = { 75009 };
-	int currFormat;
+	private mCheckBox chkDMM, chkDMS, chkDD, chkUTM, chkGK;
+	private CheckBoxGroup chkFormat = new CheckBoxGroup();
+	private mChoice chcNS, chcEW;
+	private mInput inpNSDeg, inpNSm, inpNSs, inpEWDeg, inpEWm, inpEWs;
+	private mInput inpUTMZone, inpUTMNorthing, inpUTMEasting;
+	private mInput inpText;
+	private mButton btnCancel, btnApply, btnCopy, btnPaste, btnParse, btnClear;
+	private CWPoint coordInp = new CWPoint();
+	private CellPanel topLinePanel = new CellPanel();
+	private CellPanel mainPanel = new CellPanel();
+	private int exitKeys[] = { 75009 };
+	private int currFormat;
 
 	private boolean allowInvalid = false;
 
