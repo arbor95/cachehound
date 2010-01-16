@@ -79,19 +79,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * Set CWPoint by using a CWPoint
-	 * 
-	 * @param CWPoint
-	 *            cwPointt
-	 */
-
-	public void set(TrackPoint cwPoint) {
-		this.setLatDec(cwPoint.getLatDec());
-		this.setLonDec(cwPoint.getLonDec());
-		this.utmValid = false;
-	}
-
-	/**
 	 * set lat and lon by using coordinates in "CacheWolf" format
 	 * 
 	 * @param coord
