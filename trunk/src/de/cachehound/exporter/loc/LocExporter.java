@@ -87,8 +87,8 @@ public class LocExporter {
 		name.addContent(nameData);
 
 		Element coord = new Element("coord");
-		coord.setAttribute("lat", Double.toString(ch.getPos().latDec));
-		coord.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+		coord.setAttribute("lat", Double.toString(ch.getPos().getLatDec()));
+		coord.setAttribute("lon", Double.toString(ch.getPos().getLonDec()));
 		waypoint.addContent(coord);
 
 		Element type = new Element("type");

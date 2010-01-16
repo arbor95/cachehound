@@ -64,7 +64,7 @@ public class CWPoint extends TrackPoint {
 	 */
 
 	public CWPoint(TrackPoint cwPoint) {
-		super(cwPoint.latDec, cwPoint.lonDec);
+		super(cwPoint.getLatDec(), cwPoint.getLonDec());
 		this.utmValid = false;
 	}
 
@@ -104,8 +104,8 @@ public class CWPoint extends TrackPoint {
 	 *            Longitude as decimal
 	 */
 	public void set(double lat, double lon) {
-		this.latDec = lat;
-		this.lonDec = lon;
+		this.setLatDec(lat);
+		this.setLonDec(lon);
 		this.utmValid = false;
 	}
 
@@ -117,8 +117,8 @@ public class CWPoint extends TrackPoint {
 	 */
 
 	public void set(TrackPoint cwPoint) {
-		this.latDec = cwPoint.latDec;
-		this.lonDec = cwPoint.lonDec;
+		this.setLatDec(cwPoint.getLatDec());
+		this.setLonDec(cwPoint.getLonDec());
 		this.utmValid = false;
 	}
 
@@ -138,11 +138,11 @@ public class CWPoint extends TrackPoint {
 				ParseLatLon pll = new ParseLatLon(coord);
 				try {
 					pll.parse();
-					this.latDec = pll.lat2;
-					this.lonDec = pll.lon2;
+					this.setLatDec(pll.lat2);
+					this.setLonDec(pll.lon2);
 				} catch (Exception e) {
-					this.latDec = 91;
-					this.lonDec = 361;
+					this.setLatDec(91);
+					this.setLonDec(361);
 					break;
 				}
 			case REGEX:
@@ -150,12 +150,12 @@ public class CWPoint extends TrackPoint {
 				break;
 
 			default:
-				this.latDec = 91;
-				this.lonDec = 361;
+				this.setLatDec(91);
+				this.setLonDec(361);
 			}
 		} else {
-			this.latDec = 91;
-			this.lonDec = 361;
+			this.setLatDec(91);
+			this.setLonDec(361);
 		}
 		this.utmValid = false;
 	}
@@ -198,9 +198,9 @@ public class CWPoint extends TrackPoint {
 						+ ")|(?:"
 						+ "[Rr]:?\\s*([+-]?[0-9]{1,7})\\s+[Hh]:?\\s*([+-]?[0-9]{1,7})"
 						+ ")");
-		this.latDec = -91; // return unset / unvalid values if parsing was not
+		this.setLatDec(-91); // return unset / unvalid values if parsing was not
 		// successfull
-		this.lonDec = -361;
+		this.setLonDec(-361);
 		rex.search(coord);
 		if (rex.stringMatched(1) != null) { // Std format
 			// Handle "E" oder "O" for longitiude
@@ -267,34 +267,34 @@ public class CWPoint extends TrackPoint {
 			String strLonMin, String strLonSec, int format) {
 		switch (format) {
 		case DD:
-			this.latDec = Common.parseDouble(strLatDeg);
-			this.lonDec = Common.parseDouble(strLonDeg);
+			this.setLatDec(Common.parseDouble(strLatDeg));
+			this.setLonDec(Common.parseDouble(strLonDeg));
 			break;
 		case DMM:
-			this.latDec = Math.abs(Common.parseDouble(strLatDeg))
-					+ Math.abs((Common.parseDouble(strLatMin) / 60));
-			this.lonDec = Math.abs(Common.parseDouble(strLonDeg))
-					+ Math.abs((Common.parseDouble(strLonMin) / 60));
+			this.setLatDec(Math.abs(Common.parseDouble(strLatDeg))
+					+ Math.abs((Common.parseDouble(strLatMin) / 60)));
+			this.setLonDec(Math.abs(Common.parseDouble(strLonDeg))
+					+ Math.abs((Common.parseDouble(strLonMin) / 60)));
 			break;
 		case DMS:
-			this.latDec = Math.abs(Common.parseDouble(strLatDeg))
+			this.setLatDec(Math.abs(Common.parseDouble(strLatDeg))
 					+ Math.abs((Common.parseDouble(strLatMin) / 60))
-					+ Math.abs((Common.parseDouble(strLatSec) / 3600));
-			this.lonDec = Math.abs(Common.parseDouble(strLonDeg))
+					+ Math.abs((Common.parseDouble(strLatSec) / 3600)));
+			this.setLonDec(Math.abs(Common.parseDouble(strLonDeg))
 					+ Math.abs((Common.parseDouble(strLonMin) / 60))
-					+ Math.abs((Common.parseDouble(strLonSec) / 3600));
+					+ Math.abs((Common.parseDouble(strLonSec) / 3600)));
 			break;
 
 		default:
-			this.latDec = 91;
-			this.lonDec = 361;
+			this.setLatDec(91);
+			this.setLonDec(361);
 		}
 		// makeValid();
 		// To avoid changing sign twice if we have something like W -34.2345
-		if (strLatNS.trim().equals("S") && this.latDec > 0)
-			this.latDec *= -1;
-		if (strLonEW.trim().equals("W") && this.lonDec > 0)
-			this.lonDec *= -1;
+		if (strLatNS.trim().equals("S") && this.getLatDec() > 0)
+			this.setLatDec(this.getLatDec() * (-1));
+		if (strLonEW.trim().equals("W") && this.getLonDec() > 0)
+			this.setLonDec(this.getLonDec() * (-1));
 		this.utmValid = false;
 	}
 
@@ -303,8 +303,8 @@ public class CWPoint extends TrackPoint {
 	 * 
 	 */
 	public void makeInvalid() {
-		latDec = -361;
-		lonDec = 91;
+		setLatDec(-361);
+		setLonDec(91);
 	}
 
 	/**
@@ -329,11 +329,11 @@ public class CWPoint extends TrackPoint {
 		ll = utm.toLatLonPoint(); // returns null if unvalit UTM-coordinates
 		if (ll != null) {
 			this.utmValid = true;
-			this.latDec = ll.getLatitude();
-			this.lonDec = ll.getLongitude();
+			this.setLatDec(ll.getLatitude());
+			this.setLonDec(ll.getLongitude());
 		} else {
-			this.latDec = 91;
-			this.lonDec = 361;
+			this.setLatDec(91);
+			this.setLonDec(361);
 		}
 	}
 
@@ -349,8 +349,8 @@ public class CWPoint extends TrackPoint {
 		GkPoint gk = new GkPoint(Common.parseDouble(strEasting), Common
 				.parseDouble(strNorthing), GkPoint.GERMAN_GK);
 
-		this.latDec = TransformCoordinates.germanGkToWgs84(gk).latDec;
-		this.lonDec = TransformCoordinates.germanGkToWgs84(gk).lonDec;
+		this.setLatDec(TransformCoordinates.germanGkToWgs84(gk).getLatDec());
+		this.setLonDec(TransformCoordinates.germanGkToWgs84(gk).getLonDec());
 		this.utmValid = false;
 	}
 
@@ -363,11 +363,11 @@ public class CWPoint extends TrackPoint {
 	public String getLatDeg(int format) {
 		switch (format) {
 		case DD:
-			return Double.toString(this.latDec);
+			return Double.toString(this.getLatDec());
 		case CW:
 		case DMM:
 		case DMS:
-			return getDMS(latDec, 0, format);
+			return getDMS(getLatDec(), 0, format);
 		default:
 			return "";
 		}
@@ -382,12 +382,12 @@ public class CWPoint extends TrackPoint {
 	public String getLonDeg(int format) {
 		switch (format) {
 		case DD:
-			return Double.toString(this.lonDec);
+			return Double.toString(this.getLonDec());
 		case CW:
 		case DMM:
 		case DMS:
-			return (((lonDec < 100.0) && (lonDec > -100.0)) ? "0" : "")
-					+ getDMS(lonDec, 0, format);
+			return (((getLonDec() < 100.0) && (getLonDec() > -100.0)) ? "0" : "")
+					+ getDMS(getLonDec(), 0, format);
 		default:
 			return "";
 		}
@@ -400,7 +400,7 @@ public class CWPoint extends TrackPoint {
 	 *            Format: DD, DMM, DMS,
 	 */
 	public String getLatMin(int format) {
-		return getDMS(latDec, 1, format);
+		return getDMS(getLatDec(), 1, format);
 	}
 
 	/**
@@ -410,7 +410,7 @@ public class CWPoint extends TrackPoint {
 	 *            Format: DD, DMM, DMS,
 	 */
 	public String getLonMin(int format) {
-		return getDMS(lonDec, 1, format);
+		return getDMS(getLonDec(), 1, format);
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class CWPoint extends TrackPoint {
 	 *            Format: DD, DMM, DMS,
 	 */
 	public String getLatSec(int format) {
-		return getDMS(latDec, 2, format);
+		return getDMS(getLatDec(), 2, format);
 	}
 
 	/**
@@ -430,7 +430,7 @@ public class CWPoint extends TrackPoint {
 	 *            Format: DD, DMM, DMS,
 	 */
 	public String getLonSec(int format) {
-		return getDMS(lonDec, 2, format);
+		return getDMS(getLonDec(), 2, format);
 	}
 
 	/**
@@ -501,7 +501,7 @@ public class CWPoint extends TrackPoint {
 	 */
 	public String getNSLetter() {
 		String result = "N";
-		if (this.latDec >= -90 && this.latDec < 0) {
+		if (this.getLatDec() >= -90 && this.getLatDec() < 0) {
 			result = "S";
 		}
 		return result;
@@ -512,7 +512,7 @@ public class CWPoint extends TrackPoint {
 	 */
 	public String getEWLetter() {
 		String result = "E";
-		if (this.lonDec >= -180 && this.lonDec < 0) {
+		if (this.getLonDec() >= -180 && this.getLonDec() < 0) {
 			result = "W";
 		}
 		return result;
@@ -657,11 +657,11 @@ public class CWPoint extends TrackPoint {
 			return getUTMZone() + " E " + getUTMEasting() + " N "
 					+ getUTMNorthing();
 		case LON_LAT:
-			return Common.DoubleToString(lonDec, 8) + ","
-					+ Common.DoubleToString(latDec, 8);
+			return Common.DoubleToString(getLonDec(), 8) + ","
+					+ Common.DoubleToString(getLatDec(), 8);
 		case LAT_LON:
-			return Common.DoubleToString(latDec, 8) + ","
-					+ Common.DoubleToString(lonDec, 8);
+			return Common.DoubleToString(getLatDec(), 8) + ","
+					+ Common.DoubleToString(getLonDec(), 8);
 		case GK:
 			return getGermanGkCoordinates();
 		default:
@@ -678,7 +678,7 @@ public class CWPoint extends TrackPoint {
 		if (this.utmValid)
 			return;
 		this.utm = MGRSPoint
-				.LLtoMGRS(new LatLonPoint(this.latDec, this.lonDec));
+				.LLtoMGRS(new LatLonPoint(this.getLatDec(), this.getLonDec()));
 		this.utmValid = true;
 	}
 }

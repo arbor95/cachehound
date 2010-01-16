@@ -176,17 +176,17 @@ public class GpxExporter {
 		double minLon = 180;
 		double maxLon = -180;
 		for (ICacheHolder cache : caches) {
-			if (cache.getPos().latDec < minLat) {
-				minLat = cache.getPos().latDec;
+			if (cache.getPos().getLatDec() < minLat) {
+				minLat = cache.getPos().getLatDec();
 			}
-			if (cache.getPos().latDec > maxLat) {
-				maxLat = cache.getPos().latDec;
+			if (cache.getPos().getLatDec() > maxLat) {
+				maxLat = cache.getPos().getLatDec();
 			}
-			if (cache.getPos().lonDec < minLon) {
-				minLon = cache.getPos().lonDec;
+			if (cache.getPos().getLonDec() < minLon) {
+				minLon = cache.getPos().getLonDec();
 			}
-			if (cache.getPos().lonDec > maxLon) {
-				maxLon = cache.getPos().lonDec;
+			if (cache.getPos().getLonDec() > maxLon) {
+				maxLon = cache.getPos().getLonDec();
 			}
 		}
 		w
@@ -216,8 +216,8 @@ public class GpxExporter {
 	 */
 	private Element getDomForWaypoint(ICacheHolder ch) {
 		Element root = new Element("wpt");
-		root.setAttribute("lat", Double.toString(ch.getPos().latDec));
-		root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+		root.setAttribute("lat", Double.toString(ch.getPos().getLatDec()));
+		root.setAttribute("lon", Double.toString(ch.getPos().getLonDec()));
 
 		// TODO: Auf korrektes Datum stellen
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
@@ -273,8 +273,8 @@ public class GpxExporter {
 
 		// Allgemeiner Waypoint-Header:
 		Element root = new Element("wpt");
-		root.setAttribute("lat", Double.toString(ch.getPos().latDec));
-		root.setAttribute("lon", Double.toString(ch.getPos().lonDec));
+		root.setAttribute("lat", Double.toString(ch.getPos().getLatDec()));
+		root.setAttribute("lon", Double.toString(ch.getPos().getLonDec()));
 
 		// TODO: Auf korrektes Datum stellen
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T00:00:00'");

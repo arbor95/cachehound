@@ -8,8 +8,8 @@ package CacheWolf.navi;
  */
 
 public class TrackPoint {
-	public double latDec;
-	public double lonDec;
+	private double latDec;
+	private double lonDec;
 
 	public TrackPoint() {
 		latDec = -91;
@@ -39,4 +39,19 @@ public class TrackPoint {
 				&& lonDec >= -360;
 	}
 
+	protected void setLatDec(double latDec) {
+		this.latDec = latDec;
+	}
+
+	public double getLatDec() {
+		return latDec;
+	}
+
+	protected void setLonDec(double lonDec) {
+		this.lonDec = lonDec;
+	}
+
+	public double getLonDec() {
+		return lonDec;
+	}
 }

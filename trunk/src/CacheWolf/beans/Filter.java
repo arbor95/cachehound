@@ -220,12 +220,12 @@ public class Filter {
 		 * -crs_AB)); return java.lang.Math.abs(XTD);
 		 */
 		double dist = 0;
-		double px = cwp.lonDec * pi180;
-		double py = cwp.latDec * pi180;
-		double X1 = fromPoint.lonDec * pi180;
-		double Y1 = fromPoint.latDec * pi180;
-		double X2 = toPoint.lonDec * pi180;
-		double Y2 = toPoint.latDec * pi180;
+		double px = cwp.getLonDec() * pi180;
+		double py = cwp.getLatDec() * pi180;
+		double X1 = fromPoint.getLonDec() * pi180;
+		double Y1 = fromPoint.getLatDec() * pi180;
+		double X2 = toPoint.getLonDec() * pi180;
+		double Y2 = toPoint.getLatDec() * pi180;
 		double dx = X2 - X1;
 		double dy = Y2 - Y1;
 		if (dx == 0 && dy == 0) {

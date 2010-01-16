@@ -189,7 +189,7 @@ public class Profile {
 		}
 		CWPoint savedCentre = centre;
 		if (centre == null || !centre.isValid()
-				|| (savedCentre.latDec == 0.0 && savedCentre.lonDec == 0.0))
+				|| (savedCentre.getLatDec() == 0.0 && savedCentre.getLonDec() == 0.0))
 			savedCentre = pref.curCentrePt;
 
 		try {
@@ -197,8 +197,8 @@ public class Profile {
 			detfile.print("<CACHELIST format=\"decimal\">\n");
 			detfile.print("    <VERSION value = \"3\"/>\n");
 			if (savedCentre.isValid())
-				detfile.print("    <CENTRE lat=\"" + savedCentre.latDec
-						+ "\" lon=\"" + savedCentre.lonDec + "\"/>\n");
+				detfile.print("    <CENTRE lat=\"" + savedCentre.getLatDec()
+						+ "\" lon=\"" + savedCentre.getLonDec() + "\"/>\n");
 			if (getLast_sync_opencaching() == null
 					|| getLast_sync_opencaching().endsWith("null")
 					|| getLast_sync_opencaching().equals("")) {

@@ -290,11 +290,11 @@ public class TransformCoordinates {
 		if (FORMER_GDR.isInBound(ll))
 			return GK_GERMANY_2001; // exlcude former GDR from the splitting
 		// germany in north/middel/south
-		if (ll.latDec <= 55 && ll.latDec >= 52.33333334)
+		if (ll.getLatDec() <= 55 && ll.getLatDec() >= 52.33333334)
 			return GK_NORD_GERMANY;
-		if (ll.latDec <= 52.33333334 && ll.latDec >= 50.33333334)
+		if (ll.getLatDec() <= 52.33333334 && ll.getLatDec() >= 50.33333334)
 			return GK_MID_GERMANY;
-		if (ll.latDec <= 50.33333334 && ll.latDec >= 47)
+		if (ll.getLatDec() <= 50.33333334 && ll.getLatDec() >= 47)
 			return GK_SOUTH_GERMANY;
 		return GK_GERMANY_2001;
 	}
@@ -446,14 +446,14 @@ public class TransformCoordinates {
 				/ (ellipsoid.a * ellipsoid.a);
 		double N = ellipsoid.a
 				/ Math.sqrt(1 - e2
-						* Math.pow(Math.sin(ll.latDec / 180 * Math.PI), 2));
+						* Math.pow(Math.sin(ll.getLatDec() / 180 * Math.PI), 2));
 		XyzCoordinates ret = new XyzCoordinates(0, 0, 0);
-		ret.x = (N + alt) * Math.cos(ll.latDec / 180 * Math.PI)
-				* Math.cos(ll.lonDec / 180 * Math.PI);
-		ret.y = (N + alt) * Math.cos(ll.latDec / 180 * Math.PI)
-				* Math.sin(ll.lonDec / 180 * Math.PI);
+		ret.x = (N + alt) * Math.cos(ll.getLatDec() / 180 * Math.PI)
+				* Math.cos(ll.getLonDec() / 180 * Math.PI);
+		ret.y = (N + alt) * Math.cos(ll.getLatDec() / 180 * Math.PI)
+				* Math.sin(ll.getLonDec() / 180 * Math.PI);
 		ret.z = (N * Math.pow(ellipsoid.b, 2) / Math.pow(ellipsoid.a, 2) + alt)
-				* Math.sin(ll.latDec / 180 * Math.PI);
+				* Math.sin(ll.getLatDec() / 180 * Math.PI);
 		return ret;
 	}
 
@@ -502,9 +502,7 @@ public class TransformCoordinates {
 		// not used: double N = ellipsoid.a / Math.sqrt(1 - e2 *
 		// Math.pow(Math.sin(B),2));
 		// not used: double h = s / Math.cos(B)- N;
-		CWPoint ret = new CWPoint();
-		ret.latDec = B * 180 / Math.PI;
-		ret.lonDec = L * 180 / Math.PI;
+		CWPoint ret = new CWPoint(B * 180 / Math.PI, L * 180 / Math.PI);
 		// ret.alt = h;
 		return ret;
 	}
@@ -515,7 +513,7 @@ public class TransformCoordinates {
 		if (!latlon.isValid())
 			throw new IllegalArgumentException(
 					"projectLatlon2GK: lat-lon not valid");
-		double lonDec = latlon.lonDec;
+		double lonDec = latlon.getLonDec();
 		lonDec -= degreeOfStripe0;
 		if (lonDec < 0)
 			lonDec += 360;
@@ -540,9 +538,9 @@ public class TransformCoordinates {
 			float degreeOfStripe0, double scale) {
 		double e2 = (ellipsoid.a * ellipsoid.a - ellipsoid.b * ellipsoid.b)
 				/ (ellipsoid.a * ellipsoid.a);
-		double l = (latlon.lonDec - degreeOfStripe0 - stripe * stripewidth)
+		double l = (latlon.getLonDec() - degreeOfStripe0 - stripe * stripewidth)
 				/ 180 * Math.PI;
-		double B = latlon.latDec / 180 * Math.PI;
+		double B = latlon.getLatDec() / 180 * Math.PI;
 		double N = ellipsoid.a / Math.sqrt(1 - e2 * Math.pow(Math.sin(B), 2));
 		double nue = Math.sqrt(Math.pow(ellipsoid.a, 2)
 				/ Math.pow(ellipsoid.b, 2) * e2 * Math.pow(Math.cos(B), 2));
