@@ -407,7 +407,7 @@ public class MainMenu extends MenuBar {
 					Vm.showWait(infB, true);
 					profile.readIndex(infB);
 					Vm.showWait(infB, false);
-					pref.getCurCenter().set(profile.getCenter());
+					pref.setCurCenter(profile.getCenter());
 					filtBlack.modifiers = Global.getProfile().showBlacklisted() ? filtBlack.modifiers
 							| MenuItem.Checked
 							: filtBlack.modifiers & ~MenuItem.Checked;

@@ -1127,7 +1127,7 @@ public class Preferences extends MinML {
 	}
 
 	public void setCurCenter(CWPoint curCenter) {
-		this.curCenter = curCenter;
+		this.curCenter = new CWPoint(curCenter);
 	}
 
 	public CWPoint getCurCenter() {
