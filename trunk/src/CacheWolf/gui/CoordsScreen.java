@@ -456,7 +456,7 @@ public class CoordsScreen extends Form {
 			}
 
 			if (ev.target == btnClear) {
-				CWPoint coord = new CWPoint(91, 361);
+				CWPoint coord = CWPointFactory.getInstance().createInvalid();
 				currFormat = chkFormat.getSelectedIndex();
 				setFields(coord, currFormat);
 				activateFields(currFormat);

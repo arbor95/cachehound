@@ -1,5 +1,6 @@
 package CacheWolf.navi;
 
+import de.cachehound.factory.CWPointFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Matrix;
 import CacheWolf.util.MyLocale;
@@ -78,8 +79,9 @@ public class TransformCoordinates {
 	 */
 	public static final TransformParameters GK_SOUTH_GERMANY = GK_SOUTH_GERMANY_TO_WGS84;
 
-	public static Area FORMER_GDR = new Area(new CWPoint(54.923414, 10.503013),
-			new CWPoint(50.402578, 14.520637));
+	public static Area FORMER_GDR = new Area(CWPointFactory.getInstance()
+			.fromD(54.923414, 10.503013), CWPointFactory.getInstance().fromD(
+			50.402578, 14.520637));
 
 	// taken from
 	// http://www.lverma.nrw.de/produkte/druckschriften/verwaltungsvorschriften/images/gps/TrafopsNRW.pdf
@@ -131,8 +133,8 @@ public class TransformCoordinates {
 	// static final Area ITALY_PENINSULAR = new Area(new CWPoint());
 	public static final TransformParameters GB_ITALIAN_SARDINIA_TO_WGS84 = new TransformParameters(
 			-168.6, -34.0, 38.6, 0.374, 0.679, 1.379, -9.48);
-	static final Area ITALY_SARDINIA = new Area(new CWPoint(42, 6),
-			new CWPoint(38, 11));
+	static final Area ITALY_SARDINIA = new Area(CWPointFactory.getInstance()
+			.fromD(42, 6), CWPointFactory.getInstance().fromD(38, 11));
 	static final Area ITALY_SARDINIA_GK = new Area(wgs84ToGaussKrueger(
 			ITALY_SARDINIA.topleft, EPSG_ITALIAN_GB_EW1).toTrackPoint(
 			GkPoint.ITALIAN_GB), wgs84ToGaussKrueger(
@@ -141,8 +143,8 @@ public class TransformCoordinates {
 
 	public static final TransformParameters GB_ITALIAN_SICILIA_TO_WGS84 = new TransformParameters(
 			-50.2, -50.4, 84.8, 0.690, 2.012, -0.459, -28.08);
-	static final Area ITALY_SICILIA = new Area(new CWPoint(39, 12),
-			new CWPoint(36.3, 15.6));
+	static final Area ITALY_SICILIA = new Area(CWPointFactory.getInstance()
+			.fromD(39, 12), CWPointFactory.getInstance().fromD(36.3, 15.6));
 	static final Area ITALY_SICILIA_GK = new Area(wgs84ToGaussKrueger(
 			ITALY_SICILIA.topleft, EPSG_ITALIAN_GB_EW2).toTrackPoint(
 			GkPoint.ITALIAN_GB), wgs84ToGaussKrueger(ITALY_SICILIA.buttomright,
@@ -445,8 +447,11 @@ public class TransformCoordinates {
 		double e2 = (ellipsoid.a * ellipsoid.a - ellipsoid.b * ellipsoid.b)
 				/ (ellipsoid.a * ellipsoid.a);
 		double N = ellipsoid.a
-				/ Math.sqrt(1 - e2
-						* Math.pow(Math.sin(ll.getLatDec() / 180 * Math.PI), 2));
+				/ Math
+						.sqrt(1
+								- e2
+								* Math.pow(Math.sin(ll.getLatDec() / 180
+										* Math.PI), 2));
 		XyzCoordinates ret = new XyzCoordinates(0, 0, 0);
 		ret.x = (N + alt) * Math.cos(ll.getLatDec() / 180 * Math.PI)
 				* Math.cos(ll.getLonDec() / 180 * Math.PI);
@@ -502,7 +507,8 @@ public class TransformCoordinates {
 		// not used: double N = ellipsoid.a / Math.sqrt(1 - e2 *
 		// Math.pow(Math.sin(B),2));
 		// not used: double h = s / Math.cos(B)- N;
-		CWPoint ret = new CWPoint(B * 180 / Math.PI, L * 180 / Math.PI);
+		CWPoint ret = CWPointFactory.getInstance().fromD(B * 180 / Math.PI,
+				L * 180 / Math.PI);
 		// ret.alt = h;
 		return ret;
 	}
@@ -632,7 +638,7 @@ public class TransformCoordinates {
 		double lo2 = 1 / Math.pow(Nf, 3) / Math.cos(Bf)
 				* (-1 - tf * tf * 2 - nuef * nuef) * Math.pow(y, 3) / 6;
 		double lon = L0 + (lo1 + lo2) * 180 / Math.PI;
-		return new CWPoint(lat, lon);
+		return CWPointFactory.getInstance().fromD(lat, lon);
 	}
 
 }
