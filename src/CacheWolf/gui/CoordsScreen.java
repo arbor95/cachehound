@@ -407,7 +407,7 @@ public class CoordsScreen extends Form {
 				} else {
 					coord = new CWPoint(inp);
 				}
-				if (coord.getLatDec() == -91 && coord.getLonDec() == -361) {
+				if (!coord.isValid()) {
 					MessageBox tmpMB = new MessageBox(
 							MyLocale.getMsg(321, "Error"),
 							MyLocale
