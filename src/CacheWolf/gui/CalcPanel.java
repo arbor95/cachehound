@@ -73,7 +73,7 @@ public class CalcPanel extends CellPanel {
 
 	String lastWaypoint = "";
 
-	int currFormat;
+	private int currFormat;
 	mButton btnChangeLatLon;
 
 	public CalcPanel() {
@@ -166,7 +166,7 @@ public class CalcPanel extends CellPanel {
 
 	}
 
-	public void readFields(CWPoint coords, BearingDistance degKm, int format) {
+	private void readFields(CWPoint coords, BearingDistance degKm) {
 		coords.set(btnChangeLatLon.getText());
 		currFormat = chkFormat.getSelectedIndex();
 		degKm.degrees = Common.parseDouble(inpBearing.getText());
@@ -220,7 +220,7 @@ public class CalcPanel extends CellPanel {
 		}
 	}
 
-	public void setFields(CWPoint coords, int format) {
+	private void setFields(CWPoint coords, int format) {
 		if (format == CWPoint.CW)
 			format = CWPoint.DMM;
 		btnChangeLatLon.setText(coords.toString(format));
@@ -232,13 +232,13 @@ public class CalcPanel extends CellPanel {
 		// Vm.debug(ev.toString());
 		if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
 			if (ev.target == chkFormat) {
-				readFields(coordInp, bd, currFormat);
+				readFields(coordInp, bd);
 				setFields(coordInp, currFormat);
 				this.repaintNow();
 			}
 
 			if (ev.target == btnCalc) {
-				readFields(coordInp, bd, currFormat);
+				readFields(coordInp, bd);
 				coordOut = coordInp.project(bd.degrees, bd.distance);
 				txtOutput
 						.appendText(coordOut.toString(currFormat) + "\n", true);
@@ -248,7 +248,7 @@ public class CalcPanel extends CellPanel {
 			}
 			if (ev.target == btnSave) {
 				CacheHolder ch = new CacheHolder();
-				readFields(coordInp, bd, currFormat);
+				readFields(coordInp, bd);
 				coordOut = coordInp.project(bd.degrees, bd.distance);
 				ch.setPos(coordOut);
 				ch.setType(CacheType.STAGE); // TODO unfertig
@@ -256,7 +256,7 @@ public class CalcPanel extends CellPanel {
 			}
 			if (ev.target == btnChangeLatLon) {
 				CoordsScreen cs = new CoordsScreen();
-				readFields(coordInp, bd, currFormat);
+				readFields(coordInp, bd);
 				cs.setFields(coordInp, currFormat);
 				if (cs.execute() == FormBase.IDOK) {
 					btnChangeLatLon
