@@ -2,6 +2,7 @@ package CacheWolf.gui;
 
 import CacheWolf.beans.CWPoint;
 import CacheWolf.util.MyLocale;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.util.SpiderService;
 import ewe.fx.Dimension;
 import ewe.sys.Vm;
@@ -22,6 +23,11 @@ import ewe.ui.mCheckBox;
 import ewe.ui.mChoice;
 import ewe.ui.mInput;
 import ewe.ui.mLabel;
+
+import static de.cachehound.factory.CWPointFactory.EWHemisphere.W;
+import static de.cachehound.factory.CWPointFactory.NSHemisphere.S;
+import static de.cachehound.factory.CWPointFactory.EWHemisphere.E;
+import static de.cachehound.factory.CWPointFactory.NSHemisphere.N;
 
 /**
  * Class for entering coordinates<br>
@@ -270,22 +276,42 @@ public class CoordsScreen extends Form {
 	}
 
 	private CWPoint readFields(int format) {
-		CWPoint coords = new CWPoint();
-		String NS, EW;
-		if (format == CWPoint.UTM)
-			coords.set(inpUTMZone.getText(), inpUTMNorthing.getText(),
-					inpUTMEasting.getText());
-		else if (format == CWPoint.GK) {
-			coords.set(inpUTMEasting.getText(), inpUTMNorthing.getText());
-		} else {
-			NS = chcNS.getInt() == 0 ? "N" : "S";
-			EW = chcEW.getInt() == 0 ? "E" : "W";
-			coords.set(NS, inpNSDeg.getText(), inpNSm.getText(), inpNSs
-					.getText(), EW, inpEWDeg.getText(), inpEWm.getText(),
-					inpEWs.getText(), format);
+		switch (format) {
+		case CWPoint.DD:
+			return CWPointFactory.getInstance().fromHD(
+					chcNS.getInt() == 0 ? N : S,
+					Double.parseDouble(inpNSDeg.getText()),
+					chcEW.getInt() == 0 ? E : W,
+					Double.parseDouble(inpEWDeg.getText()));
+		case CWPoint.DMM:
+			return CWPointFactory.getInstance().fromHDM(
+					chcNS.getInt() == 0 ? N : S,
+					Integer.parseInt(inpNSDeg.getText()),
+					Double.parseDouble(inpNSm.getText()),
+					chcEW.getInt() == 0 ? E : W,
+					Integer.parseInt(inpEWDeg.getText()),
+					Double.parseDouble(inpEWm.getText()));
+		case CWPoint.DMS:
+			return CWPointFactory.getInstance().fromHDMS(
+					chcNS.getInt() == 0 ? N : S,
+					Integer.parseInt(inpNSDeg.getText()),
+					Integer.parseInt(inpNSm.getText()),
+					Double.parseDouble(inpNSs.getText()),
+					chcEW.getInt() == 0 ? E : W,
+					Integer.parseInt(inpEWDeg.getText()),
+					Integer.parseInt(inpEWm.getText()),
+					Double.parseDouble(inpEWs.getText()));
+		case CWPoint.UTM:
+			return CWPointFactory.getInstance().fromUTM(inpUTMZone.getText(),
+					Double.parseDouble(inpUTMEasting.getText()),
+					Double.parseDouble(inpUTMNorthing.getText()));
+		case CWPoint.GK:
+			return CWPointFactory.getInstance().fromGermanGK(
+					Double.parseDouble(inpUTMEasting.getText()),
+					Double.parseDouble(inpUTMNorthing.getText()));
+		default:
+			throw new IllegalArgumentException("CoordsScreen: unknown format. This shouldn't happen.");
 		}
-
-		return coords;
 	}
 
 	public void setFields(CWPoint coords, int format) {
