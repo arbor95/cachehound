@@ -1,6 +1,7 @@
 package CacheWolf.gui;
 
 import CacheWolf.Global;
+import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Version;
@@ -112,7 +113,7 @@ public class MainForm extends Editor {
 			infB.exec();
 			infB.waitUntilPainted(100);
 			profile.readIndex(infB);
-			pref.curCentrePt.set(profile.getCenter());
+			pref.setCurCenter(new CWPoint(profile.getCenter()));
 			profile.updateBearingDistance();
 			setTitle("CacheHound " + Version.getRelease() + " - "
 					+ profile.name);

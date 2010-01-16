@@ -197,7 +197,7 @@ public class Profile {
 				|| !savedCentre.isValid()
 				//TODO: Warum die Sonderbehandlung für (0,0)?
 				|| (savedCentre.getLatDec() == 0.0 && savedCentre.getLonDec() == 0.0))
-			savedCentre = pref.curCentrePt;
+			savedCentre = pref.getCurCenter();
 
 		try {
 			detfile.print("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
@@ -519,12 +519,8 @@ public class Profile {
 	 * @see Extractor
 	 */
 	public void updateBearingDistance() {
-		CWPoint centerPoint = new CWPoint(Global.getPref().curCentrePt); // Clone
-		// current
-		// centre
-		// to
-		// be
-		// sure
+		CWPoint centerPoint = new CWPoint(Global.getPref().getCurCenter());
+		// Clone current centre to be sure
 		int anz = cacheDB.size();
 		CacheHolder ch;
 		// Jetzt durch die CacheDaten schleifen

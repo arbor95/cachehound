@@ -426,8 +426,8 @@ public class SpiderGC {
 		String postStr, dummy, ln, wpt;
 		Regex lineRex;
 		CacheHolder holder;
-		CWPoint origin = pref.curCentrePt; // No need to copy curCentrePt as it
-		// is only read and not written
+		CWPoint origin = pref.getCurCenter();
+		// No need to copy curCentrePt as it is only read and not written
 		if (!spiderAllFinds && !origin.isValid()) {
 			(new MessageBox(MyLocale.getMsg(5500, "Error"), MyLocale.getMsg(
 					5509, "Coordinates for centre must be set"), FormBase.OKB))

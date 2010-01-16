@@ -224,7 +224,7 @@ public class Preferences extends MinML {
 	 * The currently used centre point, can be different from the profile's
 	 * centrepoint. This is used for spidering
 	 */
-	public CWPoint curCentrePt = CWPointFactory.getInstance().createInvalid();
+	private CWPoint curCenter = CWPointFactory.getInstance().createInvalid();
 	/** True if a login screen is displayed on each spider operation */
 	public boolean forceLogin = true;
 	/** True if the goto panel is North centered */
@@ -368,8 +368,9 @@ public class Preferences extends MinML {
 		else if (name.equals("gcmemberid"))
 			gcMemberId = atts.getValue("name");
 		else if (name.equals("location")) {
-			curCentrePt.set(Double.parseDouble(atts.getValue("lat")), Double
-					.parseDouble(atts.getValue("long")));
+			setCurCenter(CWPointFactory.getInstance().fromD(
+					Double.parseDouble(atts.getValue("lat")),
+					Double.parseDouble(atts.getValue("long"))));
 		} else if (name.equals("lastprofile")) {
 			collectElement = new StringBuilder(50);
 			if (atts.getValue("autoreload").equals("true"))
@@ -652,9 +653,11 @@ public class Preferences extends MinML {
 			outp.print("    <opencaching downloadMissing=\""
 					+ SafeXML.strxmlencode(downloadmissingOC) + "\"/>\n");
 			outp.print("    <location lat = \""
-					+ SafeXML.strxmlencode(curCentrePt.getLatDeg(CWPoint.DD))
+					+ SafeXML
+							.strxmlencode(getCurCenter().getLatDeg(CWPoint.DD))
 					+ "\" long = \""
-					+ SafeXML.strxmlencode(curCentrePt.getLonDeg(CWPoint.DD))
+					+ SafeXML
+							.strxmlencode(getCurCenter().getLonDeg(CWPoint.DD))
 					+ "\"/>\n");
 			outp.print("    <spider forcelogin=\""
 					+ SafeXML.strxmlencode(forceLogin) + "\" spiderUpdates=\""
@@ -748,7 +751,8 @@ public class Preferences extends MinML {
 
 	// TODO: Muss das auskommentierte wieder rein?
 	private static final String mapsPath = "maps"; // + File.separator +
-													// "standard";
+
+	// "standard";
 
 	/**
 	 * custom = set by the user
@@ -1120,5 +1124,13 @@ public class Preferences extends MinML {
 
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
+	}
+
+	public void setCurCenter(CWPoint curCenter) {
+		this.curCenter = curCenter;
+	}
+
+	public CWPoint getCurCenter() {
+		return curCenter;
 	}
 }
