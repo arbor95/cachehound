@@ -316,8 +316,8 @@ public class Preferences extends MinML {
 	public void readPrefFile() {
 		// TODO: parsing without EWE stuff ...
 		try {
-			Reader r = new InputStreamReader(
-					new FileInputStream(configFile.getAbsolutePath()));
+			Reader r = new InputStreamReader(new FileInputStream(configFile
+					.getAbsolutePath()));
 			parse(new EweReader(r));
 			r.close();
 		} catch (IOException e) {
@@ -332,8 +332,9 @@ public class Preferences extends MinML {
 							+ configFile.getAbsolutePath(), FormBase.OKB))
 					.execute();
 		} catch (NullPointerException e) {
-			logger.error("Error reading pref.xml: NullPointerException in Element "
-					+ lastName + ". Wrong attribute?", e);
+			logger.error(
+					"Error reading pref.xml: NullPointerException in Element "
+							+ lastName + ". Wrong attribute?", e);
 		} catch (Exception e) {
 			logger.error("Error reading pref.xml in path " + configFile, e);
 		}
@@ -366,7 +367,8 @@ public class Preferences extends MinML {
 		else if (name.equals("gcmemberid"))
 			gcMemberId = atts.getValue("name");
 		else if (name.equals("location")) {
-			curCentrePt.set(atts.getValue("lat") + " " + atts.getValue("long"));
+			curCentrePt.set(Double.parseDouble(atts.getValue("lat")), Double
+					.parseDouble(atts.getValue("long")));
 		} else if (name.equals("lastprofile")) {
 			collectElement = new StringBuilder(50);
 			if (atts.getValue("autoreload").equals("true"))
@@ -612,9 +614,8 @@ public class Preferences extends MinML {
 					+ "\"/>\n");
 			outp.print("    <screen menuattop=\"" + menuAtTop
 					+ "\" tabsattop=\"" + tabsAtTop + "\" showstatus=\""
-					+ showStatus 
-					+ "\" h=\"" + myAppHeight + "\" w=\"" + myAppWidth
-					+ "\" />\n");
+					+ showStatus + "\" h=\"" + myAppHeight + "\" w=\""
+					+ myAppWidth + "\" />\n");
 			outp.print("    <listview colmap=\""
 					+ SafeXML.strxmlencode(listColMap) + "\" colwidths=\""
 					+ SafeXML.strxmlencode(listColWidth) + "\" />\n");
@@ -693,8 +694,7 @@ public class Preferences extends MinML {
 			// switch if it
 			// is set
 			// save last path of different exporters
-			Set<Map.Entry<String, File>> expEntrys = exporterPaths
-					.entrySet();
+			Set<Map.Entry<String, File>> expEntrys = exporterPaths.entrySet();
 			for (Map.Entry<String, File> entry : expEntrys) {
 				outp.print("    <expPath key = \""
 						+ SafeXML.strxmlencode(entry.getKey().toString())
@@ -746,7 +746,8 @@ public class Preferences extends MinML {
 	// ////////////////////////////////////////////////////////////////////////////////////
 
 	// TODO: Muss das auskommentierte wieder rein?
-	private static final String mapsPath = "maps";  // + File.separator + "standard";
+	private static final String mapsPath = "maps"; // + File.separator +
+													// "standard";
 
 	/**
 	 * custom = set by the user
@@ -778,7 +779,6 @@ public class Preferences extends MinML {
 		return getCustomMapsPath();
 	}
 
-	
 	/**
 	 * @param create
 	 *            if true the directory if it doesn't exist will be created
@@ -789,7 +789,7 @@ public class Preferences extends MinML {
 		File mapsDir = new File(baseDir, mapsPath);
 		if (create && !(mapsDir.isDirectory())) { // dir
 			// exists?
-			if (! mapsDir.mkdirs()) {// dir creation
+			if (!mapsDir.mkdirs()) {// dir creation
 				// failed?
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
@@ -804,20 +804,20 @@ public class Preferences extends MinML {
 	 * to this path the automatically downloaded maps are saved
 	 */
 	public File getMapDownloadSavePath(String mapkind) {
-		//String subdir = Global.getProfile().getDataDir().getAbsolutePath()
-		//		.substring(Global.getPref().baseDir.length())
-		//		.replace('\\', '/');
-		//String mapsDir = Global.getPref().baseDir + "maps/"
-		//		+ Common.ClearForFileName(mapkind) + "/" + subdir;
-		File mapsDir = new File(new File(new File(baseDir, "maps"), Common.ClearForFileName(mapkind)), Global.getProfile().name);   
+		// String subdir = Global.getProfile().getDataDir().getAbsolutePath()
+		// .substring(Global.getPref().baseDir.length())
+		// .replace('\\', '/');
+		// String mapsDir = Global.getPref().baseDir + "maps/"
+		// + Common.ClearForFileName(mapkind) + "/" + subdir;
+		File mapsDir = new File(new File(new File(baseDir, "maps"), Common
+				.ClearForFileName(mapkind)), Global.getProfile().name);
 		if (!mapsDir.isDirectory()) { // dir exists?
 			if (!mapsDir.mkdirs()) // dir creation
 			// failed?
 			{
 				(new MessageBox(MyLocale.getMsg(321, "Error"), MyLocale.getMsg(
 						172, "Error: cannot create maps directory: \n")
-						+ mapsDir.getAbsolutePath(), FormBase.OKB))
-						.exec();
+						+ mapsDir.getAbsolutePath(), FormBase.OKB)).exec();
 				return null;
 			}
 		}

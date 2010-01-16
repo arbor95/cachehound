@@ -317,7 +317,7 @@ public class Profile {
 					String lon = text.substring(start,
 							text.indexOf("\"", start)).replace(notDecSep,
 							decSep);
-					centre.set(Convert.parseDouble(lat), Convert
+					centre.set(Double.parseDouble(lat), Double
 							.parseDouble(lon));
 				} else if (text.indexOf("<VERSION") >= 0) {
 					int start = text.indexOf("value = \"") + 9;
