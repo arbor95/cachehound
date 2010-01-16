@@ -69,19 +69,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * Create CWPoint by using coordinates in "CacheWolf" format
-	 * 
-	 * @param coord
-	 *            String of type N 49° 33.167 E 011° 21.608
-	 * @param format
-	 *            only CWPoint.CW or CWPoint.REGEX is supported
-	 */
-	public CWPoint(String coord, int format) {
-		super(-361, -361);
-		set(coord, format);
-	}
-
-	/**
 	 * set lat and lon by parsing coordinates with Regex
 	 * 
 	 * @param coord
