@@ -37,7 +37,6 @@ public class CoordsScreen extends Form {
 	private mInput inpUTMZone, inpUTMNorthing, inpUTMEasting;
 	private mInput inpText;
 	private mButton btnCancel, btnApply, btnCopy, btnPaste, btnParse, btnClear;
-	private CWPoint coordInp = new CWPoint();
 	private CellPanel topLinePanel = new CellPanel();
 	private CellPanel mainPanel = new CellPanel();
 	private int exitKeys[] = { 75009 };
@@ -178,7 +177,7 @@ public class CoordsScreen extends Form {
 		chcNS.takeFocus(ControlConstants.ByKeyboard);
 	}
 
-	public void activateFields(int format) {
+	private void activateFields(int format) {
 		inpEWDeg.wantReturn = false;
 		inpEWm.wantReturn = false;
 		inpEWs.wantReturn = false;
@@ -270,7 +269,8 @@ public class CoordsScreen extends Form {
 		c.modify(ControlConstants.Disabled, ControlConstants.TakesKeyFocus);
 	}
 
-	public void readFields(CWPoint coords, int format) {
+	private CWPoint readFields(int format) {
+		CWPoint coords = new CWPoint();
 		String NS, EW;
 		if (format == CWPoint.UTM)
 			coords.set(inpUTMZone.getText(), inpUTMNorthing.getText(),
@@ -285,7 +285,7 @@ public class CoordsScreen extends Form {
 					inpEWs.getText(), format);
 		}
 
-		return;
+		return coords;
 	}
 
 	public void setFields(CWPoint coords, int format) {
@@ -323,7 +323,7 @@ public class CoordsScreen extends Form {
 	}
 
 	public CWPoint getCoords() {
-		return coordInp;
+		return readFields(currFormat);
 	}
 
 	public void onEvent(Event ev) {
@@ -353,7 +353,7 @@ public class CoordsScreen extends Form {
 					|| ((ControlEvent) ev).target == inpUTMNorthing)
 				Gui.takeFocus(btnApply, ControlConstants.ByKeyboard);
 			if (ev.target == chkFormat) {
-				readFields(coordInp, currFormat);
+				CWPoint coordInp = readFields(currFormat);
 				currFormat = chkFormat.getSelectedIndex();
 				setFields(coordInp, currFormat);
 				activateFields(currFormat);
@@ -366,7 +366,7 @@ public class CoordsScreen extends Form {
 
 			if (ev.target == btnApply) {
 				currFormat = chkFormat.getSelectedIndex();
-				readFields(coordInp, currFormat);
+				CWPoint coordInp = readFields(currFormat);
 				if (coordInp.isValid())
 					this.close(IDOK);
 				else {
@@ -392,7 +392,7 @@ public class CoordsScreen extends Form {
 
 			if (ev.target == btnCopy) {
 				currFormat = chkFormat.getSelectedIndex();
-				readFields(coordInp, currFormat);
+				CWPoint coordInp = readFields(currFormat);
 				Vm.setClipboardText(coordInp.toString(chkFormat
 						.getSelectedIndex()));
 			}
