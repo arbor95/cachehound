@@ -147,7 +147,7 @@ public class Profile {
 
 	public void setCenter(CWPoint coords) {
 		this.notifyUnsavedChanges(coords.equals(this.center));
-		this.center.set(coords);
+		this.center = new CWPoint(coords);
 	}
 
 	/**

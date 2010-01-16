@@ -85,7 +85,7 @@ public class ProfileDataForm extends Form {
 				if (cs.execute() == FormBase.IDOK) {
 					profile.notifyUnsavedChanges(cs.getCoords().equals(
 							profile.getCenter()));
-					profile.getCenter().set(cs.getCoords());
+					profile.setCenter(cs.getCoords());
 					btnProfileCentre.setText(profile.getCenter().toString());
 				}
 			}
