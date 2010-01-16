@@ -20,6 +20,7 @@ import CacheWolf.util.UrlFetcher;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
@@ -638,11 +639,12 @@ public class OCXMLImporter extends MinML {
 		}
 
 		if (name.equals("longitude")) {
-			longitude = Common.parseDouble(strData);
+			longitude = java.lang.Double.parseDouble(strData);
 			return;
 		}
 		if (name.equals("latitude")) {
-			holder.setPos(new CWPoint(Common.parseDouble(strData), longitude));
+			holder.setPos(CWPointFactory.getInstance().fromD(
+					java.lang.Double.parseDouble(strData), longitude));
 			return;
 		}
 		if (name.equals("difficulty")) {

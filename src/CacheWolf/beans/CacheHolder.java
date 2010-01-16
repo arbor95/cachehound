@@ -191,7 +191,7 @@ public class CacheHolder implements ICacheHolder {
 				end = xmlString.indexOf('"', start + 1);
 				double lon = Convert.parseDouble(xmlString.substring(start + 1,
 						end).replace(notDecSep, decSep));
-				setPos(new CWPoint(lat, lon));
+				setPos(CWPointFactory.getInstance().fromD(lat, lon));
 
 				start = xmlString.indexOf('"', end + 1);
 				end = xmlString.indexOf('"', start + 1);

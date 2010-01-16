@@ -11,6 +11,7 @@ import CacheWolf.util.Common;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
@@ -155,7 +156,7 @@ public class Filter {
 								|| rex.stringMatched(6).equals("w"))
 							lon = -lon;
 
-						cwp = new CWPoint(lat, lon);
+						cwp = CWPointFactory.getInstance().fromD(lat, lon);
 
 						wayPoints.add(cwp);
 					}

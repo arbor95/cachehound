@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import CacheWolf.beans.CWPoint;
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.filter.CacheTypeFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.types.CacheSize;
@@ -168,7 +169,8 @@ public class LocExporter {
 
 			@Override
 			public CWPoint getPos() {
-				return new CWPoint(53.12345678, 10.12345678);
+				return CWPointFactory.getInstance().fromD(53.12345678,
+						10.12345678);
 			}
 
 			@Override
@@ -209,7 +211,8 @@ public class LocExporter {
 
 			@Override
 			public CWPoint getPos() {
-				return new CWPoint(53.12345678, 10.12345678);
+				return CWPointFactory.getInstance().fromD(53.12345678,
+						10.12345678);
 			}
 
 			@Override

@@ -16,6 +16,7 @@ import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;
 import de.cachehound.beans.LogList;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -128,7 +129,7 @@ public class GpxDecoratorGroundspeak implements IGpxDecorator {
 
 			@Override
 			public CWPoint getPos() {
-				return new CWPoint(-52.1, 8.12345678);
+				return CWPointFactory.getInstance().fromD(-52.1, 8.12345678);
 			}
 
 			@Override
@@ -236,7 +237,8 @@ public class GpxDecoratorGroundspeak implements IGpxDecorator {
 
 			@Override
 			public CWPoint getPos() {
-				return new CWPoint(53.12345678, 10.12345678);
+				return CWPointFactory.getInstance().fromD(53.12345678,
+						10.12345678);
 			}
 
 			@Override

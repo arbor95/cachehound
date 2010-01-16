@@ -38,6 +38,7 @@ import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.util.Common;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -98,8 +99,9 @@ public class LOCXMLImporter extends MinML {
 			return;
 		}
 		if (name.equals("coord")) {
-			holder.setPos(new CWPoint(Common.parseDouble(atts.getValue("lat")),
-					Common.parseDouble(atts.getValue("lon"))));
+			holder.setPos(CWPointFactory.getInstance().fromD(
+					Double.parseDouble(atts.getValue("lat")),
+					Double.parseDouble(atts.getValue("lon"))));
 			return;
 		}
 	}

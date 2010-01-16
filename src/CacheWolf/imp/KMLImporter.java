@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import CacheWolf.beans.CWPoint;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.util.ewecompat.EweReader;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
@@ -91,8 +92,8 @@ public class KMLImporter extends MinML {
 			// Vm.debug(numbers.nextToken());
 			String lon = numbers.nextToken();
 			String lat = numbers.nextToken();
-			points.add(new CWPoint(Convert.parseDouble(lat), Convert
-					.parseDouble(lon)));
+			points.add(CWPointFactory.getInstance().fromD(
+					Double.parseDouble(lat), Double.parseDouble(lon)));
 		}
 	}
 }

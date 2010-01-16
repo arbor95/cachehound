@@ -23,6 +23,7 @@ import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
@@ -189,8 +190,9 @@ public class GPXImporter extends MinML {
 		}
 		if (name.equals("wpt")) {
 			holder = new CacheHolder();
-			holder.setPos(new CWPoint(Common.parseDouble(atts.getValue("lat")),
-					Common.parseDouble(atts.getValue("lon"))));
+			holder.setPos(CWPointFactory.getInstance().fromD(
+					Double.parseDouble(atts.getValue("lat")),
+					Double.parseDouble(atts.getValue("lon"))));
 			inWpt = true;
 			inLogs = false;
 			inBug = false;
