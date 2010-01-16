@@ -276,41 +276,47 @@ public class CoordsScreen extends Form {
 	}
 
 	private CWPoint readFields(int format) {
-		switch (format) {
-		case CWPoint.DD:
-			return CWPointFactory.getInstance().fromHD(
-					chcNS.getInt() == 0 ? N : S,
-					Double.parseDouble(inpNSDeg.getText()),
-					chcEW.getInt() == 0 ? E : W,
-					Double.parseDouble(inpEWDeg.getText()));
-		case CWPoint.DMM:
-			return CWPointFactory.getInstance().fromHDM(
-					chcNS.getInt() == 0 ? N : S,
-					Integer.parseInt(inpNSDeg.getText()),
-					Double.parseDouble(inpNSm.getText()),
-					chcEW.getInt() == 0 ? E : W,
-					Integer.parseInt(inpEWDeg.getText()),
-					Double.parseDouble(inpEWm.getText()));
-		case CWPoint.DMS:
-			return CWPointFactory.getInstance().fromHDMS(
-					chcNS.getInt() == 0 ? N : S,
-					Integer.parseInt(inpNSDeg.getText()),
-					Integer.parseInt(inpNSm.getText()),
-					Double.parseDouble(inpNSs.getText()),
-					chcEW.getInt() == 0 ? E : W,
-					Integer.parseInt(inpEWDeg.getText()),
-					Integer.parseInt(inpEWm.getText()),
-					Double.parseDouble(inpEWs.getText()));
-		case CWPoint.UTM:
-			return CWPointFactory.getInstance().fromUTM(inpUTMZone.getText(),
-					Double.parseDouble(inpUTMEasting.getText()),
-					Double.parseDouble(inpUTMNorthing.getText()));
-		case CWPoint.GK:
-			return CWPointFactory.getInstance().fromGermanGK(
-					Double.parseDouble(inpUTMEasting.getText()),
-					Double.parseDouble(inpUTMNorthing.getText()));
-		default:
-			throw new IllegalArgumentException("CoordsScreen: unknown format. This shouldn't happen.");
+		try {
+			switch (format) {
+			case CWPoint.DD:
+				return CWPointFactory.getInstance().fromHD(
+						chcNS.getInt() == 0 ? N : S,
+						Double.parseDouble(inpNSDeg.getText()),
+						chcEW.getInt() == 0 ? E : W,
+						Double.parseDouble(inpEWDeg.getText()));
+			case CWPoint.DMM:
+				return CWPointFactory.getInstance().fromHDM(
+						chcNS.getInt() == 0 ? N : S,
+						Integer.parseInt(inpNSDeg.getText()),
+						Double.parseDouble(inpNSm.getText()),
+						chcEW.getInt() == 0 ? E : W,
+						Integer.parseInt(inpEWDeg.getText()),
+						Double.parseDouble(inpEWm.getText()));
+			case CWPoint.DMS:
+				return CWPointFactory.getInstance().fromHDMS(
+						chcNS.getInt() == 0 ? N : S,
+						Integer.parseInt(inpNSDeg.getText()),
+						Integer.parseInt(inpNSm.getText()),
+						Double.parseDouble(inpNSs.getText()),
+						chcEW.getInt() == 0 ? E : W,
+						Integer.parseInt(inpEWDeg.getText()),
+						Integer.parseInt(inpEWm.getText()),
+						Double.parseDouble(inpEWs.getText()));
+			case CWPoint.UTM:
+				return CWPointFactory.getInstance().fromUTM(
+						inpUTMZone.getText(),
+						Double.parseDouble(inpUTMEasting.getText()),
+						Double.parseDouble(inpUTMNorthing.getText()));
+			case CWPoint.GK:
+				return CWPointFactory.getInstance().fromGermanGK(
+						Double.parseDouble(inpUTMEasting.getText()),
+						Double.parseDouble(inpUTMNorthing.getText()));
+			default:
+				throw new IllegalArgumentException(
+						"CoordsScreen: unknown format. This shouldn't happen.");
+			}
+		} catch (NumberFormatException e) {
+			return CWPointFactory.getInstance().createInvalid();
 		}
 	}
 
