@@ -50,7 +50,7 @@ public class Profile {
 	 * The centre point of this group of caches. Read from ans stored to
 	 * index.xml file
 	 */
-	public CWPoint centre = CWPointFactory.getInstance().createInvalid();
+	private CWPoint center = CWPointFactory.getInstance().createInvalid();
 	/**
 	 * The name of the profile. The baseDir in preferences is appended this name
 	 * to give the dataDir where the index.xml and cache files live. (Excuse the
@@ -132,7 +132,7 @@ public class Profile {
 	public void clearProfile() {
 		CacheHolder.removeAllDetails();
 		cacheDB.clear();
-		centre.set(-361, -361);
+		center = CWPointFactory.getInstance().createInvalid();
 		name = "";
 		setDataDir(null);
 		setLast_sync_opencaching("");
@@ -141,9 +141,13 @@ public class Profile {
 		resetUnsavedChanges();
 	}
 
-	public void setCenterCoords(CWPoint coords) {
-		this.notifyUnsavedChanges(coords.equals(this.centre));
-		this.centre.set(coords);
+	public CWPoint getCenter() {
+		return center;
+	}
+
+	public void setCenter(CWPoint coords) {
+		this.notifyUnsavedChanges(coords.equals(this.center));
+		this.center.set(coords);
 	}
 
 	/**
@@ -188,8 +192,10 @@ public class Profile {
 					+ "\nFilename=" + getDataDir() + "index.xml");
 			return;
 		}
-		CWPoint savedCentre = centre;
-		if (centre == null || !centre.isValid()
+		CWPoint savedCentre = getCenter();
+		if (savedCentre == null
+				|| !savedCentre.isValid()
+				//TODO: Warum die Sonderbehandlung für (0,0)?
 				|| (savedCentre.getLatDec() == 0.0 && savedCentre.getLonDec() == 0.0))
 			savedCentre = pref.curCentrePt;
 
@@ -318,8 +324,8 @@ public class Profile {
 					String lon = text.substring(start,
 							text.indexOf("\"", start)).replace(notDecSep,
 							decSep);
-					centre.set(Double.parseDouble(lat), Double
-							.parseDouble(lon));
+					center = CWPointFactory.getInstance().fromD(
+							Double.parseDouble(lat), Double.parseDouble(lon));
 				} else if (text.indexOf("<VERSION") >= 0) {
 					int start = text.indexOf("value = \"") + 9;
 					indexXmlVersion = Integer.valueOf(
@@ -490,7 +496,7 @@ public class Profile {
 	}
 
 	public String toString() {
-		return "Profile: Name=" + name + "\nCentre=" + centre.toString()
+		return "Profile: Name=" + name + "\nCentre=" + getCenter().toString()
 				+ "\ndataDir=" + getDataDir().getAbsolutePath()
 				+ "\nlastSyncOC=" + getLast_sync_opencaching() + "\ndistOC="
 				+ getDistOC() + "\ndistGC=" + getDistGC();

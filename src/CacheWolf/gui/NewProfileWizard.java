@@ -29,7 +29,7 @@ public class NewProfileWizard {
 			cs.setFields(CWPointFactory.getInstance().createInvalid(),
 					CWPoint.CW);
 			if (cs.execute() == FormBase.IDOK) {
-				profile.setCenterCoords(cs.getCoords());
+				profile.setCenter(cs.getCoords());
 			}
 			Global.mainForm.setTitle("Cachewolf " + Version.getRelease()
 					+ " - " + profile.name);
