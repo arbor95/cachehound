@@ -78,24 +78,6 @@ public class CWPoint extends TrackPoint {
 		set(coord);
 	}
 
-	/*
-	 * public boolean equals (CWPoint p) { return super.equals(p); }
-	 */
-
-	/**
-	 * Set lat and lon
-	 * 
-	 * @param lat
-	 *            Latitude as decimal
-	 * @param lon
-	 *            Longitude as decimal
-	 */
-	public void set(double lat, double lon) {
-		this.setLatDec(lat);
-		this.setLonDec(lon);
-		this.utmValid = false;
-	}
-
 	/**
 	 * Set CWPoint by using a CWPoint
 	 * 
