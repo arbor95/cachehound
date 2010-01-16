@@ -139,7 +139,6 @@ public class Parser {
 			new fnType("ucase", "uc", 2), new fnType("val", "val", 2),
 			new fnType("zentrum", "center", 3) };
 	private static int scanpos = 0;
-	private CWPoint cwPt = CWPointFactory.getInstance().createInvalid();
 	Vector calcStack = new Vector();
 	Hashtable symbolTable = new Hashtable(50);
 	TokenObj thisToken = new TokenObj();
@@ -226,8 +225,7 @@ public class Parser {
 	}
 
 	private boolean isValidCoord(String coord) {
-		cwPt.set(coord);
-		return cwPt.isValid();
+		return new CWPoint(coord).isValid();
 	}
 
 	private Object getVariable(String varName) throws Exception {
@@ -236,9 +234,8 @@ public class Parser {
 					.substring(1));
 			if (ch != null) { // Found it!
 				// Check whether coordinates are valid
-				cwPt.set(ch.getPos());
-				if (cwPt.isValid())
-					return cwPt.toString();
+				if (ch.getPos().isValid())
+					return ch.getPos().toString();
 				else
 					return ""; // Convert invalid coordinates (N 0 0.0 E 0 0.0)
 				// into empty string
@@ -425,8 +422,7 @@ public class Parser {
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
 		if (!isValidCoord(coordB))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordB);
-		cwPt.set(coordA);
-		double angleDeg = cwPt.getBearing(new CWPoint(coordB));
+		double angleDeg = (new CWPoint(coordA)).getBearing(new CWPoint(coordB));
 		// getBearing returns a result in degrees
 		return Global.getPref().solverDegMode ? angleDeg : angleDeg
 				* java.lang.Math.PI / 180.0;
@@ -529,8 +525,7 @@ public class Parser {
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
 		if (!isValidCoord(coordB))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordB);
-		cwPt.set(coordA);
-		double distKM = cwPt.getDistance(new CWPoint(coordB));
+		double distKM = new CWPoint(coordA).getDistance(new CWPoint(coordB));
 		result = distKM * 1000.0;
 		if (Global.getPref().metricSystem == Metrics.IMPERIAL) {
 			result = Metrics.convertUnit(distKM, Metrics.KILOMETER,
@@ -578,7 +573,7 @@ public class Parser {
 		String coord = popCalcStackAsString();
 		if (!isValidCoord(coord))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);
-		cwPt.set(coord);
+		CWPoint cwPt = new CWPoint(coord);
 		int fmt = CWPoint.CW;
 		if (fmtStr.equals("dd"))
 			fmt = CWPoint.DD;
@@ -794,14 +789,13 @@ public class Parser {
 		String coord = popCalcStackAsString();
 		if (!isValidCoord(coord))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);
-		cwPt.set(coord);
 		if (Global.getPref().metricSystem == Metrics.IMPERIAL) {
 			distance = Metrics.convertUnit(distance, Metrics.YARDS,
 					Metrics.KILOMETER);
 		} else {
 			distance = distance / 1000.0;
 		}
-		return cwPt.project(degrees, distance).toString();
+		return new CWPoint(coord).project(degrees, distance).toString();
 	}
 
 	/** Convert Radiants into degrees */
@@ -1127,7 +1121,7 @@ public class Parser {
 			if (ch != null) { // Yes, is a coordinate
 				// Check whether new coordinates are valid
 				String coord = popCalcStackAsString();
-				cwPt.set(coord);
+				CWPoint cwPt = new CWPoint(coord);
 				if (cwPt.isValid() || coord.equals("")) {
 					// Can clear coord with empty string
 					ch.setPos(cwPt);
