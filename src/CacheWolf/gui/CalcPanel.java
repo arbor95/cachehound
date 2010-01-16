@@ -53,34 +53,28 @@ class BearingDistance {
 
 public class CalcPanel extends CellPanel {
 
-	mCheckBox chkDMM, chkDMS, chkDD, chkUTM, chkGK;
-	CheckBoxGroup chkFormat = new CheckBoxGroup();
-	mChoice chcDistUnit;
-	mInput inpBearing, inpDistance, inpText;
-	TextDisplay txtOutput;
-	mButton btnCalc, btnClear, btnSave, btnParse;
-	BearingDistance bd = new BearingDistance();
+	private mCheckBox chkDMM, chkDMS, chkDD, chkUTM, chkGK;
+	private CheckBoxGroup chkFormat = new CheckBoxGroup();
+	private mChoice chcDistUnit;
+	private mInput inpBearing, inpDistance;
+	private TextDisplay txtOutput;
+	private mButton btnCalc, btnClear, btnSave;
+	private BearingDistance bd = new BearingDistance();
 	private CWPoint coordInp = CWPointFactory.getInstance().createInvalid();
 	private CWPoint coordOut = CWPointFactory.getInstance().createInvalid();
 	// Needed for creation of new waypoint
-	CacheDB cacheDB;
-	MainTab mainT;
-	Preferences pref;
-	Profile profile;
+	private MainTab mainT;
 	// different panels to avoid spanning
-	CellPanel TopP = new CellPanel();
-	CellPanel BottomP = new CellPanel();
+	private CellPanel TopP = new CellPanel();
+	private CellPanel BottomP = new CellPanel();
 
-	String lastWaypoint = "";
+	private String lastWaypoint = "";
 
 	private int currFormat;
-	mButton btnChangeLatLon;
+	private mButton btnChangeLatLon;
 
 	public CalcPanel() {
-		pref = Global.getPref();
-		profile = Global.getProfile();
 		mainT = Global.mainTab;
-		cacheDB = profile.cacheDB;
 
 		TopP.addNext(chkDD = new mCheckBox("d.d°"), CellConstants.DONTSTRETCH,
 				CellConstants.WEST);
@@ -166,40 +160,40 @@ public class CalcPanel extends CellPanel {
 
 	}
 
-	private void readFields(CWPoint coords, BearingDistance degKm) {
-		coords.set(btnChangeLatLon.getText());
+	private void readFields() {
+		coordInp = new CWPoint(btnChangeLatLon.getText());
 		currFormat = chkFormat.getSelectedIndex();
-		degKm.degrees = Common.parseDouble(inpBearing.getText());
+		bd.degrees = Common.parseDouble(inpBearing.getText());
 
 		double rawDistance = Common.parseDouble(inpDistance.getText());
 		switch (chcDistUnit.getInt()) {
 		case 0:
 			// meter
-			degKm.distance = rawDistance / 1000.0;
+			bd.distance = rawDistance / 1000.0;
 			break;
 		case 1:
 			// kilometer
-			degKm.distance = rawDistance;
+			bd.distance = rawDistance;
 			break;
 		case 2:
 			// steps
-			degKm.distance = rawDistance * 0.00063;
+			bd.distance = rawDistance * 0.00063;
 			break;
 		case 3:
 			// feet
-			degKm.distance = rawDistance * 0.0003048;
+			bd.distance = rawDistance * 0.0003048;
 			break;
 		case 4:
 			// yards
-			degKm.distance = rawDistance * 0.0009144;
+			bd.distance = rawDistance * 0.0009144;
 			break;
 		case 5:
 			// miles
-			degKm.distance = rawDistance * 1.609344;
+			bd.distance = rawDistance * 1.609344;
 			break;
 		default:
 			// meter
-			degKm.distance = rawDistance / 1000.0;
+			bd.distance = rawDistance / 1000.0;
 			break;
 		}
 		return;
@@ -232,13 +226,13 @@ public class CalcPanel extends CellPanel {
 		// Vm.debug(ev.toString());
 		if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
 			if (ev.target == chkFormat) {
-				readFields(coordInp, bd);
+				readFields();
 				setFields(coordInp, currFormat);
 				this.repaintNow();
 			}
 
 			if (ev.target == btnCalc) {
-				readFields(coordInp, bd);
+				readFields();
 				coordOut = coordInp.project(bd.degrees, bd.distance);
 				txtOutput
 						.appendText(coordOut.toString(currFormat) + "\n", true);
@@ -248,7 +242,7 @@ public class CalcPanel extends CellPanel {
 			}
 			if (ev.target == btnSave) {
 				CacheHolder ch = new CacheHolder();
-				readFields(coordInp, bd);
+				readFields();
 				coordOut = coordInp.project(bd.degrees, bd.distance);
 				ch.setPos(coordOut);
 				ch.setType(CacheType.STAGE); // TODO unfertig
@@ -256,7 +250,7 @@ public class CalcPanel extends CellPanel {
 			}
 			if (ev.target == btnChangeLatLon) {
 				CoordsScreen cs = new CoordsScreen();
-				readFields(coordInp, bd);
+				readFields();
 				cs.setFields(coordInp, currFormat);
 				if (cs.execute() == FormBase.IDOK) {
 					btnChangeLatLon
