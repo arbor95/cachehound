@@ -21,6 +21,7 @@ import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.Bearing;
 import ewe.sys.Convert;
 import ewe.sys.Handle;
@@ -49,7 +50,7 @@ public class Profile {
 	 * The centre point of this group of caches. Read from ans stored to
 	 * index.xml file
 	 */
-	public CWPoint centre = new CWPoint();
+	public CWPoint centre = CWPointFactory.getInstance().createInvalid();
 	/**
 	 * The name of the profile. The baseDir in preferences is appended this name
 	 * to give the dataDir where the index.xml and cache files live. (Excuse the

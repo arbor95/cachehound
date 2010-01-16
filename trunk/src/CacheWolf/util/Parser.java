@@ -51,6 +51,7 @@ import CacheWolf.navi.Metrics;
 
 import com.stevesoft.ewe_pat.Regex;
 
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
 import de.cachehound.types.Difficulty;
@@ -138,7 +139,7 @@ public class Parser {
 			new fnType("ucase", "uc", 2), new fnType("val", "val", 2),
 			new fnType("zentrum", "center", 3) };
 	private static int scanpos = 0;
-	CWPoint cwPt = new CWPoint();
+	private CWPoint cwPt = CWPointFactory.getInstance().createInvalid();
 	Vector calcStack = new Vector();
 	Hashtable symbolTable = new Hashtable(50);
 	TokenObj thisToken = new TokenObj();

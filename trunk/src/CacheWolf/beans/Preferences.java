@@ -25,6 +25,7 @@ import CacheWolf.navi.Metrics;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.util.ewecompat.EweReader;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
@@ -223,7 +224,7 @@ public class Preferences extends MinML {
 	 * The currently used centre point, can be different from the profile's
 	 * centrepoint. This is used for spidering
 	 */
-	public CWPoint curCentrePt = new CWPoint();
+	public CWPoint curCentrePt = CWPointFactory.getInstance().createInvalid();
 	/** True if a login screen is displayed on each spider operation */
 	public boolean forceLogin = true;
 	/** True if the goto panel is North centered */

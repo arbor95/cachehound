@@ -21,6 +21,7 @@ import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.GcVote;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.LogList;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.factory.CacheHolderDetailFactory;
 import de.cachehound.types.Bearing;
 import de.cachehound.types.CacheSize;
@@ -64,7 +65,7 @@ public class CacheHolder implements ICacheHolder {
 	/** The alias of the owner */
 	private String cacheOwner = EMPTY;
 	/** The coordinates of the cache */
-	private CWPoint pos = new CWPoint();
+	private CWPoint pos = CWPointFactory.getInstance().createInvalid();
 	/** The date when the cache was hidden in format yyyy-mm-dd */
 	private String dateHidden = EMPTY;
 	/** The size of the cache (as per GC cache sizes Micro, Small, ....) */

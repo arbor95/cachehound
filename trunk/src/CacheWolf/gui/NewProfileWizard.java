@@ -1,5 +1,6 @@
 package CacheWolf.gui;
 
+import de.cachehound.factory.CWPointFactory;
 import CacheWolf.Global;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Preferences;
@@ -25,7 +26,8 @@ public class NewProfileWizard {
 			profile.setDataDir(f.getProfileDir());
 
 			CoordsScreen cs = new CoordsScreen();
-			cs.setFields(new CWPoint(), CWPoint.CW);
+			cs.setFields(CWPointFactory.getInstance().createInvalid(),
+					CWPoint.CW);
 			if (cs.execute() == FormBase.IDOK) {
 				profile.setCenterCoords(cs.getCoords());
 			}
