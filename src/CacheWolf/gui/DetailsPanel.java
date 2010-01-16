@@ -566,7 +566,7 @@ public class DetailsPanel extends CellPanel {
 				ch.setCacheSize(CacheSize.NOT_CHOSEN);
 				Global.mainTab.newWaypoint(ch);
 			} else if (ev.target == btnWayLoc) {
-				CWPoint coords = new CWPoint(btnWayLoc.getText(), CWPoint.CW);
+				CWPoint coords = new CWPoint(thisCache.getPos());
 				CoordsScreen cs = new CoordsScreen(true);
 				cs.setFields(coords, CWPoint.CW);
 				if (cs.execute() == FormBase.IDOK) {
@@ -575,7 +575,7 @@ public class DetailsPanel extends CellPanel {
 					Global.getProfile().notifyUnsavedChanges(
 							!thisCache.getPos().toString().equals(
 									coords.toString()));
-					thisCache.getPos().set(coords);
+					thisCache.setPos(coords);
 					btnWayLoc.setText(coords.toString());
 					// If the current centre is valid, calculate the distance
 					// and bearing to it
