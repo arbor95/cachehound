@@ -29,7 +29,7 @@ import ewe.util.mString;
 
 public class DateTimeChooser extends Editor {
 
-	MultiPanel panels = new CardPanel();
+	private MultiPanel panels = new CardPanel();
 
 	public int year;
 	public String monthName;
@@ -39,16 +39,16 @@ public class DateTimeChooser extends Editor {
 	public int minute;
 	public String time;
 
-	public boolean autoAdvance = true;
-	public boolean didAll = false;
+	private boolean autoAdvance = true;
+	private boolean didAll = false;
 
-	TableControl dayChooser, monthChooser, yearChooser, timeChooser;
-	public Locale locale = Vm.getLocale();
+	private TableControl dayChooser, monthChooser, yearChooser, timeChooser;
+	private Locale locale = Vm.getLocale();
 
-	Control dayDisplay;
-	Control monthDisplay;
-	Control yearDisplay;
-	Control timeDisplay;
+	private Control dayDisplay;
+	private Control monthDisplay;
+	private Control yearDisplay;
+	private Control timeDisplay;
 
 	// Control minuteDisplay;
 

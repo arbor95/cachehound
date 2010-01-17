@@ -12,8 +12,8 @@ import ewe.ui.ScrollBarPanel;
  * the image is larger than the available app size.
  */
 public class ImageDetailForm extends Form {
-	ImageInteractivePanel ipp = new ImageInteractivePanel();
-	ScrollBarPanel scp;
+	private ImageInteractivePanel ipp = new ImageInteractivePanel();
+	private ScrollBarPanel scp;
 
 	public ImageDetailForm(String imgLoc, Preferences p) {
 		scp = new MyScrollBarPanel(ipp);

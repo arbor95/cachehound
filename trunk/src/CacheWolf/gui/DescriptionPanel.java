@@ -23,12 +23,12 @@ import ewe.ui.mButton;
  * GC19DDX -
  */
 public class DescriptionPanel extends CellPanel {
-	HtmlDisplay disp = new HtmlDisplay();
-	mButton btnPlus, btnMinus;
-	CacheHolder currCache;
+	private HtmlDisplay disp = new HtmlDisplay();
+	private mButton btnPlus, btnMinus;
+	private CacheHolder currCache;
 
-	CellPanel buttonP = new CellPanel();
-	CellPanel descP = new CellPanel();
+	private CellPanel buttonP = new CellPanel();
+	private CellPanel descP = new CellPanel();
 
 	private String desc;
 

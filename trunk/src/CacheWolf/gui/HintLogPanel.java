@@ -40,19 +40,19 @@ import ewe.ui.mTextPad;
  * Class ID=400
  */
 public class HintLogPanel extends CellPanel {
-	int crntLogPosition = 0;
-	CacheHolderDetail currCache;
+	private int crntLogPosition = 0;
+	private CacheHolderDetail currCache;
 	private final int DEFAULT_STRINGBUFFER_SIZE = 8000;
-	mTextPad hint = new mTextPad();
+	private mTextPad hint = new mTextPad();
 	// mTextPad logs = new mTextPad();
-	HtmlDisplay logs = new HtmlDisplay();
-	AniImage htmlTxtImage;
-	fastScrollText htmlImagDisp = new fastScrollText();
+	private HtmlDisplay logs = new HtmlDisplay();
+	private AniImage htmlTxtImage;
+	private fastScrollText htmlImagDisp = new fastScrollText();
 	private String decodeCaption = MyLocale.getMsg(400, "Decode");
 	private String encodeCaption = MyLocale.getMsg(401, "Encode");
-	mButton decodeButton = new mButton(this.decodeCaption);
-	mButton moreBt = new mButton(">>");
-	mButton prevBt = new mButton("<<");
+	private mButton decodeButton = new mButton(this.decodeCaption);
+	private mButton moreBt = new mButton(">>");
+	private mButton prevBt = new mButton("<<");
 	private MyScrollBarPanel sbplog;
 	private int lastScrollbarWidth = 0;
 	private boolean hintIsDecoded = false;
