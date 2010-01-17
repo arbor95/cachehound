@@ -79,44 +79,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * set lat and lon by using coordinates in "CacheWolf" format
-	 * 
-	 * @param coord
-	 *            String of type N 49° 33.167 E 011° 21.608
-	 * @param format
-	 *            only CWPoint.CW is supported
-	 */
-	public void set(String coord, int format) {
-
-		if (coord != null) {
-			switch (format) {
-			case CW:
-				ParseLatLon pll = new ParseLatLon(coord);
-				try {
-					pll.parse();
-					this.setLatDec(pll.lat2);
-					this.setLonDec(pll.lon2);
-				} catch (Exception e) {
-					this.setLatDec(91);
-					this.setLonDec(361);
-					break;
-				}
-			case REGEX:
-				set(coord);
-				break;
-
-			default:
-				this.setLatDec(91);
-				this.setLonDec(361);
-			}
-		} else {
-			this.setLatDec(91);
-			this.setLonDec(361);
-		}
-		this.utmValid = false;
-	}
-
-	/**
 	 * set lat and lon by parsing coordinates with regular expression
 	 * 
 	 * @param coord
