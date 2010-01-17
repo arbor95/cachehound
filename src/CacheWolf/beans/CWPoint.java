@@ -178,7 +178,7 @@ public class CWPoint extends TrackPoint {
 	 * @param format
 	 *            Format: DD, DMM, DMS
 	 */
-	public void set(String strLatNS, String strLatDeg, String strLatMin,
+	private void set(String strLatNS, String strLatDeg, String strLatMin,
 			String strLatSec, String strLonEW, String strLonDeg,
 			String strLonMin, String strLonSec, int format) {
 		switch (format) {
@@ -233,7 +233,7 @@ public class CWPoint extends TrackPoint {
 	 * @param strEasting
 	 *            Easting component
 	 */
-	public void set(String strZone, String strNorthing, String strEasting) {
+	private void set(String strZone, String strNorthing, String strEasting) {
 		LatLonPoint ll = new LatLonPoint();
 
 		utm.zone_letter = strZone.charAt(strZone.length() - 1);
@@ -261,7 +261,7 @@ public class CWPoint extends TrackPoint {
 	 * @param strNorthing
 	 *            Northing component
 	 */
-	public void set(String strEasting, String strNorthing) {
+	private void set(String strEasting, String strNorthing) {
 		GkPoint gk = new GkPoint(Common.parseDouble(strEasting), Common
 				.parseDouble(strNorthing), GkPoint.GERMAN_GK);
 
