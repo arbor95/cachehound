@@ -6,7 +6,6 @@ import CacheWolf.navi.TrackPoint;
 import CacheWolf.navi.TransformCoordinates;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
-import CacheWolf.util.ParseLatLon;
 
 import com.bbn.openmap.LatLonPoint;
 import com.bbn.openmap.proj.coords.MGRSPoint;
@@ -29,7 +28,6 @@ public class CWPoint extends TrackPoint {
 	public static final int UTM = 3;
 	public static final int GK = 4;
 	public static final int CW = 5;
-	private static final int REGEX = 6;
 	private static final int LAT_LON = 7;
 	private static final int LON_LAT = 8;
 
