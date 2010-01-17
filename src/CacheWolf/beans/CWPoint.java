@@ -215,15 +215,6 @@ public class CWPoint extends TrackPoint {
 	}
 
 	/**
-	 * mark the Point as invalid
-	 * 
-	 */
-	public void makeInvalid() {
-		setLatDec(-361);
-		setLonDec(91);
-	}
-
-	/**
 	 * set lat and lon by using UTM coordinates
 	 * 
 	 * @param strZone
