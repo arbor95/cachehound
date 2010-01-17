@@ -43,8 +43,8 @@ public class ImagePanel extends InteractivePanel {
 	 */
 	private final int LONG_PEN_DOWN_DURATION = 500;
 
-	Preferences pref;
-	Profile profile;
+	private Preferences pref;
+	private Profile profile;
 	// private final int thumb_max_size = 300;
 	// private final int thumb_min_size = 100;
 	private final int padding = 20;

@@ -7,17 +7,15 @@ import ewe.graphics.AniImage;
 import ewe.graphics.InteractivePanel;
 import ewe.ui.ControlEvent;
 import ewe.ui.Menu;
-import ewe.ui.ScrollBarPanel;
 
 /**
  * This class handles the resizing im images
  */
 public class ImageInteractivePanel extends InteractivePanel {
-	int state = -1; // 0 = nothing, -1 = scaled to window, 1 = scaled to
+	private int state = -1; // 0 = nothing, -1 = scaled to window, 1 = scaled to
 	// original size
-	ScrollBarPanel scp;
-	String imgLoc = new String();
-	AniImage pic = null;
+	private String imgLoc = new String();
+	private AniImage pic = null;
 	private Menu mClose = new Menu(new String[] { "Close" }, "");
 
 	public ImageInteractivePanel() {

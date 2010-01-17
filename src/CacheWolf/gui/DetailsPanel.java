@@ -61,16 +61,16 @@ import ewe.ui.mTextPad;
  */
 public class DetailsPanel extends CellPanel {
 
-	mInput inpWaypoint = new mInput();
-	mInput inpName = new mInput();
-	mButton btnWayLoc = new mButton();
-	mInput inpHidden = new mInput();
-	mInput inpOwner = new mInput();
-	mButton btnDelete, btnCenter, btnAddDateTime;
+	private mInput inpWaypoint = new mInput();
+	private mInput inpName = new mInput();
+	private mButton btnWayLoc = new mButton();
+	private mInput inpHidden = new mInput();
+	private mInput inpOwner = new mInput();
+	private mButton btnCenter, btnAddDateTime;
 
 	private String[] cacheTypeGuiStrings;
-	mChoice chcType;
-	mChoice chcSize;
+	private mChoice chcType;
+	private mChoice chcSize;
 
 	mComboBox chcStatus = new mComboBox(new String[] { "",
 			MyLocale.getMsg(313, "Flag 1"), MyLocale.getMsg(314, "Flag 2"),

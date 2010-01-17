@@ -12,11 +12,9 @@ import ewe.ui.mCheckBox;
 import ewe.ui.mLabel;
 
 public class DataMoverForm extends Form {
-	mCheckBox ticked, visible, tickedVisible;
-	CheckBoxGroup chkFormat = new CheckBoxGroup();
-	mButton yesButton;
-	mButton noButton;
-	mLabel firstLine;
+	private mCheckBox ticked, visible, tickedVisible;
+	private CheckBoxGroup chkFormat = new CheckBoxGroup();
+	private mLabel firstLine;
 
 	public DataMoverForm() {
 		title = MyLocale.getMsg(144, "Warning");
