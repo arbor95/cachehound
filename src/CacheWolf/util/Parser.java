@@ -653,7 +653,7 @@ public class Parser {
 			String coordA = popCalcStackAsString();
 			if (!isValidCoord(coordA))
 				err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
-			Global.getProfile().getCenter().set(coordA);
+			Global.getProfile().setCenter(new CWPoint(coordA));
 		}
 	}
 
