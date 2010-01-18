@@ -30,7 +30,21 @@ public class CWPointFactory {
 	}
 
 	public enum EWHemisphere {
-		E, W
+		E, W;
+
+		public static EWHemisphere fromString(String s) {
+			String s_ = s.toUpperCase();
+			if (s_.equals("W")) {
+				return W;
+			} else if (s_.equals("E")) {
+				return E;
+			} else if (s_.equals("O")) {
+				return E;
+			} else {
+				throw new IllegalArgumentException(s
+						+ " is not a valid EWHemisphere.");
+			}
+		}
 	}
 
 	public static CWPointFactory getInstance() {
@@ -88,9 +102,9 @@ public class CWPointFactory {
 			return createInvalid();
 		}
 	}
-	
+
 	private static Pattern hdmPattern = Pattern.compile("\\s*([NSns])\\s*"
-			// Hemisphere
+	// Hemisphere
 			+ "([0-9]{1,2})\\s*[°\\p{Space}]\\s*"
 			// Degrees
 			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*['’]?\\s*"
@@ -113,8 +127,8 @@ public class CWPointFactory {
 					NSHemisphere.valueOf(matcher.group(1).toUpperCase()),
 					Integer.parseInt(matcher.group(2)), Double
 							.parseDouble(matcher.group(3).replace(',', '.')),
-					EWHemisphere.valueOf(matcher.group(4).toUpperCase()),
-					Integer.parseInt(matcher.group(5)), Double
+					EWHemisphere.fromString(matcher.group(4)), Integer
+							.parseInt(matcher.group(5)), Double
 							.parseDouble(matcher.group(6).replace(',', '.')));
 		}
 
