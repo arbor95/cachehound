@@ -2,6 +2,10 @@ package de.cachehound.factory;
 
 import static de.cachehound.factory.CWPointFactory.EWHemisphere.W;
 import static de.cachehound.factory.CWPointFactory.NSHemisphere.S;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import CacheWolf.beans.CWPoint;
 import CacheWolf.navi.GkPoint;
 import CacheWolf.navi.TransformCoordinates;
@@ -45,7 +49,7 @@ public class CWPointFactory {
 			double lon) {
 		double latmul = ns == S ? -1 : 1;
 		double lonmul = ew == W ? -1 : 1;
-		
+
 		return fromD(lat * latmul, lon * lonmul);
 	}
 
@@ -83,5 +87,37 @@ public class CWPointFactory {
 		} else {
 			return createInvalid();
 		}
+	}
+	
+	private static Pattern hdmPattern = Pattern.compile("\\s*([NSns])\\s*"
+			// Hemisphere
+			+ "([0-9]{1,2})\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*['’]?\\s*"
+			// Minutes
+			+ "[,./_;+:-]*\\s*"
+			// allow N xx xx.xxx / E xxx xx.xxx
+			+ "([EWewOo])\\s*"
+			// Hemisphere
+			+ "([0-9]{1,3})\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*['’]?\\s*"
+			// Minutes
+			+ "");
+
+	public CWPoint fromHDMString(String in) {
+		Matcher matcher = hdmPattern.matcher(in);
+
+		if (matcher.find()) {
+			return fromHDM(
+					NSHemisphere.valueOf(matcher.group(1).toUpperCase()),
+					Integer.parseInt(matcher.group(2)), Double
+							.parseDouble(matcher.group(3).replace(',', '.')),
+					EWHemisphere.valueOf(matcher.group(4).toUpperCase()),
+					Integer.parseInt(matcher.group(5)), Double
+							.parseDouble(matcher.group(6).replace(',', '.')));
+		}
+
+		return createInvalid();
 	}
 }
