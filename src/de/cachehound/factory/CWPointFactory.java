@@ -41,15 +41,12 @@ public class CWPointFactory {
 		return new CWPoint(lat, lon);
 	}
 
-	public CWPoint fromHD(NSHemisphere ns, double lat, EWHemisphere es,
+	public CWPoint fromHD(NSHemisphere ns, double lat, EWHemisphere ew,
 			double lon) {
-		if (ns == S) {
-			lat *= -1;
-		}
-		if (es == W) {
-			lon *= -1;
-		}
-		return fromD(lat, lon);
+		double latmul = ns == S ? -1 : 1;
+		double lonmul = ew == W ? -1 : 1;
+		
+		return fromD(lat * latmul, lon * lonmul);
 	}
 
 	public CWPoint fromHDM(NSHemisphere ns, int latdec, double latmin,
