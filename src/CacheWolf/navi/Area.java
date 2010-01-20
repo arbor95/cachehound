@@ -3,11 +3,6 @@ package CacheWolf.navi;
 import CacheWolf.beans.CWPoint;
 
 public class Area {
-	public static double edgeTolerance = 3 * 360 / 40000000; // approx 3m
-	// will
-	// be seen as
-	// the same
-
 	CWPoint topleft;
 	CWPoint buttomright;
 
