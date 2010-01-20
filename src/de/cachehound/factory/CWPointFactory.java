@@ -102,6 +102,33 @@ public class CWPointFactory {
 			return createInvalid();
 		}
 	}
+	
+	private static Pattern hdPattern = Pattern.compile("\\s*([NSns])\\s*"
+	// Hemisphere
+			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "[,./_;+:-]*\\s*"
+			// Different possible dividers
+			+ "([EWewOo])\\s*"
+			// Hemisphere
+			+ "([0-9]{1,3}(?:[,.][0-9]{1,8})?)\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "");
+
+	public CWPoint fromHDString(String in) {
+		Matcher matcher = hdPattern.matcher(in);
+
+		if (matcher.find()) {
+			return fromHD(
+			// Trick Eclipse Autoformatter into sane line breaks
+					NSHemisphere.valueOf(matcher.group(1).toUpperCase()), //
+					Double.parseDouble(matcher.group(2).replace(',', '.')), //
+					EWHemisphere.fromString(matcher.group(3)), //
+					Double.parseDouble(matcher.group(4).replace(',', '.')));
+		}
+
+		return createInvalid();
+	}
 
 	private static Pattern hdmPattern = Pattern.compile("\\s*([NSns])\\s*"
 	// Hemisphere
@@ -110,7 +137,7 @@ public class CWPointFactory {
 			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*['’]?\\s*"
 			// Minutes
 			+ "[,./_;+:-]*\\s*"
-			// allow N xx xx.xxx / E xxx xx.xxx
+			// Different possible dividers
 			+ "([EWewOo])\\s*"
 			// Hemisphere
 			+ "([0-9]{1,3})\\s*[°\\p{Space}]\\s*"
@@ -124,12 +151,52 @@ public class CWPointFactory {
 
 		if (matcher.find()) {
 			return fromHDM(
-					NSHemisphere.valueOf(matcher.group(1).toUpperCase()),
-					Integer.parseInt(matcher.group(2)), Double
-							.parseDouble(matcher.group(3).replace(',', '.')),
-					EWHemisphere.fromString(matcher.group(4)), Integer
-							.parseInt(matcher.group(5)), Double
-							.parseDouble(matcher.group(6).replace(',', '.')));
+			// Trick Eclipse Autoformatter into sane line breaks
+					NSHemisphere.valueOf(matcher.group(1).toUpperCase()), //
+					Integer.parseInt(matcher.group(2)), //
+					Double.parseDouble(matcher.group(3).replace(',', '.')), //
+					EWHemisphere.fromString(matcher.group(4)), //
+					Integer.parseInt(matcher.group(5)), //
+					Double.parseDouble(matcher.group(6).replace(',', '.')));
+		}
+
+		return createInvalid();
+	}
+
+	private static Pattern hdmsPattern = Pattern.compile("\\s*([NSns])\\s*"
+	// Hemisphere
+			+ "([0-9]{1,2})\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "([0-9]{1,2})\\s*['’\\p{Space}]\\s*"
+			// Minutes
+			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*(?:''|’’|\"|\\s)?\\s*"
+			// Seconds
+			+ "[,./_;+:-]*\\s*"
+			// Different possible dividers
+			+ "([EWewOo])\\s*"
+			// Hemisphere
+			+ "([0-9]{1,3})\\s*[°\\p{Space}]\\s*"
+			// Degrees
+			+ "([0-9]{1,2})\\s*['’\\p{Space}]\\s*"
+			// Minutes
+			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*(?:''|’’|\"|\\s)?\\s*"
+			// Seconds
+			+ "");
+
+	public CWPoint fromHDMSString(String in) {
+		Matcher matcher = hdmsPattern.matcher(in);
+
+		if (matcher.find()) {
+			return fromHDMS(
+			// Trick Eclipse Autoformatter into sane line breaks
+					NSHemisphere.valueOf(matcher.group(1).toUpperCase()), //
+					Integer.parseInt(matcher.group(2)), //
+					Integer.parseInt(matcher.group(3)), //
+					Double.parseDouble(matcher.group(4).replace(',', '.')), //
+					EWHemisphere.fromString(matcher.group(5)), //
+					Integer.parseInt(matcher.group(6)), //
+					Integer.parseInt(matcher.group(7)), //
+					Double.parseDouble(matcher.group(8).replace(',', '.')));
 		}
 
 		return createInvalid();

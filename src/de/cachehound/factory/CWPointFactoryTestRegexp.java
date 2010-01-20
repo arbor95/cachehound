@@ -57,4 +57,36 @@ public class CWPointFactoryTestRegexp {
 		assertEquals(53.595683, p.getLatDec(), 0.000001);
 		assertEquals(9.957217, p.getLonDec(), 0.000001);
 	}
+	
+	@Test
+	public void testHDMS() {
+		CWPoint p = f.fromHDMSString("N 53° 35' 44.46\" E 9° 57' 25.98\"");
+		assertTrue(p.isValid());
+		assertEquals(53.595683, p.getLatDec(), 0.000001);
+		assertEquals(9.957217, p.getLonDec(), 0.000001);
+	}
+	
+	@Test
+	public void testHDMSShort() {
+		CWPoint p = f.fromHDMSString("N53°35'44.46\"/E9°57'25.98\"");
+		assertTrue(p.isValid());
+		assertEquals(53.595683, p.getLatDec(), 0.000001);
+		assertEquals(9.957217, p.getLonDec(), 0.000001);
+	}
+	
+	@Test
+	public void testHDMSDifferentSecondsSigns() {
+		CWPoint p = f.fromHDMSString("N 53° 35' 44.46'' E 9° 57' 25.98’’");
+		assertTrue(p.isValid());
+		assertEquals(53.595683, p.getLatDec(), 0.000001);
+		assertEquals(9.957217, p.getLonDec(), 0.000001);
+	}
+
+	@Test
+	public void testHD() {
+		CWPoint p = f.fromHDString("N 53.595683° E 9.957217°");
+		assertTrue(p.isValid());
+		assertEquals(53.595683, p.getLatDec(), 0.000001);
+		assertEquals(9.957217, p.getLonDec(), 0.000001);
+	}
 }
