@@ -118,7 +118,7 @@ public class ProfilesForm extends Form {
 		// exclude the "maps" directory which will contain the moving maps
 		Arrays.sort(existingProfiles);
 		for (File f : existingProfiles)
-			if (! f.getName().equalsIgnoreCase("maps")) {
+			if (!f.getName().equalsIgnoreCase("maps")) {
 				choice.addItem(f.getName());
 			}
 		// Highlight the profile that was used last

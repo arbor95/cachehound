@@ -6,11 +6,11 @@ import de.cachehound.beans.ICacheHolder;
 
 public class NotFilter implements IFilter {
 	private IFilter child;
-	
+
 	public NotFilter(IFilter filter) {
 		this.child = filter;
 	}
-	
+
 	public IFilter getChild() {
 		return child;
 	}
@@ -19,7 +19,7 @@ public class NotFilter implements IFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return !child.cacheIsVisible(ch);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "NOT " + child.toString();
@@ -53,9 +53,9 @@ public class NotFilter implements IFilter {
 	@Override
 	public Element toXML() {
 		Element ret = new Element("not");
-		
+
 		ret.addContent(child.toXML());
-		
+
 		return ret;
 	}
 }

@@ -69,10 +69,12 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+					&& ((icon.terrain == null)
+							|| ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+					&& ((icon.difficulty == null)
+							|| ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
 							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
@@ -106,10 +108,12 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+					&& ((icon.terrain == null)
+							|| ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+					&& ((icon.difficulty == null)
+							|| ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
 							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()
@@ -138,10 +142,12 @@ class GarminMap extends MinML {
 							.equalsIgnoreCase(""
 									+ ch.getCacheSize().getAsChar()));
 			match = match
-					&& ((icon.terrain == null) || ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
+					&& ((icon.terrain == null)
+							|| ch.getTerrain() == Terrain.TERRAIN_UNSET || icon.terrain
 							.equals(ch.getTerrain().getShortRepresentation()));
 			match = match
-					&& ((icon.difficulty == null) || ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
+					&& ((icon.difficulty == null)
+							|| ch.getDifficulty() == Difficulty.DIFFICULTY_UNSET || icon.difficulty
 							.equals(ch.getDifficulty().getShortRepresentation()));
 			match = match
 					&& ((icon.status == null) || ch.getCacheStatus()

@@ -2,7 +2,7 @@ package de.cachehound.util.gpsbabel;
 
 public class GarminDevice implements IBabelFormat {
 	private String port;
-	
+
 	public GarminDevice(String port) {
 		this.port = port;
 	}

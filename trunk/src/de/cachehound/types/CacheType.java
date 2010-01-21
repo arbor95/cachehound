@@ -60,7 +60,7 @@ public enum CacheType {
 	/** Additional Waypoint Final (GC) */
 	FINAL((byte) 53, "typeFinal.png", "Addi: Final", "Final Location", "F",
 			true, false, "no Oc Id", "no GC Website ID"),
-			// Old, but the new one should be correct (for Website and gpx-files)
+	// Old, but the new one should be correct (for Website and gpx-files)
 	// FINAL((byte) 53, "typeFinal.png", "Addi: Final",
 	// "Final Coordinates", "F", true, false, "no Oc Id", "no GC Website ID"),
 	/** Additional Waypoint Trailhead (GC) */

@@ -10,7 +10,7 @@ public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	public SizeFilter() {
 		super(EnumSet.noneOf(CacheSize.class));
 	}
-	
+
 	public SizeFilter(Set<CacheSize> mask) {
 		super(mask);
 	}
@@ -19,7 +19,7 @@ public class SizeFilter extends AbstractEnumBasedFilter<CacheSize> {
 	protected CacheSize getProperty(ICacheHolder ch) {
 		return ch.getCacheSize();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Size: is one of " + super.toString();

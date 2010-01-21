@@ -10,22 +10,22 @@ public class FilterTreeNodeFactory {
 	public AbstractFilterTreeNode doCreate(IFilter f) {
 		if (f instanceof AndFilter) {
 			AbstractFilterTreeNode node = new AndFilterTreeNode();
-			for (IFilter childFilter : (AndFilter)f) {
+			for (IFilter childFilter : (AndFilter) f) {
 				node.add(doCreate(childFilter));
 			}
 			return node;
 		} else if (f instanceof OrFilter) {
 			AbstractFilterTreeNode node = new OrFilterTreeNode();
-			for (IFilter childFilter : (OrFilter)f) {
+			for (IFilter childFilter : (OrFilter) f) {
 				node.add(doCreate(childFilter));
 			}
 			return node;
 		} else if (f instanceof NotFilter) {
 			AbstractFilterTreeNode node = new NotFilterTreeNode();
-			node.add(doCreate(((NotFilter)f).getChild()));
+			node.add(doCreate(((NotFilter) f).getChild()));
 			return node;
 		} else {
-			return new SimpleFilterTreeNode((SimpleFilter)f);
+			return new SimpleFilterTreeNode((SimpleFilter) f);
 		}
 	}
 }

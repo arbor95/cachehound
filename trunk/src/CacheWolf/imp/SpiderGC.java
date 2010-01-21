@@ -1006,7 +1006,8 @@ public class SpiderGC {
 						// ==========
 						// General Cache Data
 						// ==========
-						ch.setPos(CWPointFactory.getInstance().fromString(latLon));
+						ch.setPos(CWPointFactory.getInstance().fromString(
+								latLon));
 						logger.debug("LatLon: " + ch.getLatLon());
 
 						logger.debug("Trying description");

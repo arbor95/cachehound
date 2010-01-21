@@ -9,7 +9,6 @@ import java.util.StringTokenizer;
 import CacheWolf.beans.CWPoint;
 import de.cachehound.factory.CWPointFactory;
 import de.cachehound.util.ewecompat.EweReader;
-import ewe.sys.Convert;
 import ewe.sys.Vm;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;

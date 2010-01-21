@@ -9,7 +9,7 @@ public class FoundFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return ch.isFound();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Found";

@@ -22,7 +22,7 @@ public class TrivialFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return result;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (result) {
@@ -35,7 +35,7 @@ public class TrivialFilter extends SimpleFilter {
 	@Override
 	public Element toXML() {
 		Element ret = new Element("trivial");
-		
+
 		ret.setAttribute("value", Boolean.toString(result));
 
 		return ret;

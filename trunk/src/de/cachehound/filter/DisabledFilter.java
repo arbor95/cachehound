@@ -12,7 +12,7 @@ public class DisabledFilter extends SimpleFilter {
 		// DisabledFilter zu haben.
 		return !ch.isAvailable();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Disabled";

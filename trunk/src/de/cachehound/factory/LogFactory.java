@@ -18,8 +18,7 @@ import de.cachehound.types.LogType;
  */
 public class LogFactory {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(LogFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(LogFactory.class);
 
 	private static LogFactory logFactory = new LogFactory();
 
@@ -110,7 +109,7 @@ public class LogFactory {
 		log.setMessage(message);
 		return log;
 	}
-	
+
 	public Log createLog(LogType logType, String date, String logger,
 			String message, String id, String loggerId) {
 		Log log = new Log();

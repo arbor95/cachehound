@@ -37,14 +37,14 @@ public class FilterMenu extends JMenu {
 	}
 
 	private IMenuAction action;
-	
-	public FilterMenu(String text, IMenuAction action ) {
+
+	public FilterMenu(String text, IMenuAction action) {
 		this(text, action, false);
 	}
 
 	private FilterMenu(String text, IMenuAction action, boolean negated) {
 		super(text);
-		
+
 		this.action = action;
 
 		add(createMenuItem("AND", new AndFilter(), negated));
@@ -64,9 +64,10 @@ public class FilterMenu extends JMenu {
 		add(createMenuItem("Found", new FoundFilter(), negated));
 		add(createMenuItem("Owned", new OwnedFilter(), negated));
 		add(new JSeparator());
-		add(createMenuItem("Has coordinates", new HasCoordinatesFilter(), negated));
+		add(createMenuItem("Has coordinates", new HasCoordinatesFilter(),
+				negated));
 	}
-	
+
 	private JMenuItem createMenuItem(String text, IFilter f, boolean negated) {
 		JMenuItem item = new JMenuItem(text);
 		IFilter filter;

@@ -88,8 +88,7 @@ public class GPXExporter extends Exporter {
 					strBuf.append("    <sym>Geocache</sym>\r\n");
 				}
 				strBuf.append("    <type>Geocache|").append(
-						ch.getType().getGcGpxString()).append(
-						"</type>\r\n");
+						ch.getType().getGcGpxString()).append("</type>\r\n");
 				String dummyAvailable = ch.isAvailable() ? STRING_TRUE
 						: STRING_FALSE;
 				String dummyArchived = ch.isArchived() ? STRING_TRUE
@@ -143,8 +142,8 @@ public class GPXExporter extends Exporter {
 						SafeXML.cleanGPX(det.getLongDescription()));
 				strBuf.append("      \n</groundspeak:long_description>\r\n");
 				strBuf.append("	  <groundspeak:encoded_hints>").append(
-						SafeXML.cleanGPX(Rot13.encodeRot13(det.getHints()))).append(
-						"</groundspeak:encoded_hints>\r\n");
+						SafeXML.cleanGPX(Rot13.encodeRot13(det.getHints())))
+						.append("</groundspeak:encoded_hints>\r\n");
 				strBuf.append("      <groundspeak:logs>\r\n");
 				if (Global.getPref().exportGpxAsMyFinds && ch.isFound()) {
 					if (det.getOwnLogId().length() != 0) {
@@ -241,12 +240,11 @@ public class GPXExporter extends Exporter {
 				strBuf.append("    </groundspeak:cache>\r\n");
 			} else {
 				// there is no HTML in the description of addi wpts
-				strBuf.append("    <sym>").append(
-						ch.getType().getGcGpxString()).append(
-						"</sym>\r\n");
+				strBuf.append("    <sym>")
+						.append(ch.getType().getGcGpxString()).append(
+								"</sym>\r\n");
 				strBuf.append("    <type>Waypoint|").append(
-						ch.getType().getGcGpxString()).append(
-						"</type>\r\n");
+						ch.getType().getGcGpxString()).append("</type>\r\n");
 			}
 			strBuf.append("  </wpt>\r\n");
 		} catch (Exception e) {

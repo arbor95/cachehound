@@ -60,10 +60,11 @@ public class GarminWaypointExporter {
 				"Custom 7");
 		mappings.put(mysteriesFilter, "Custom 6");
 
-		EnumSet<CacheType> events = EnumSet.of(CacheType.EVENT, CacheType.MEGA_EVENT);
+		EnumSet<CacheType> events = EnumSet.of(CacheType.EVENT,
+				CacheType.MEGA_EVENT);
 		IFilter eventsFilter = new CacheTypeFilter(events);
-		mappings.put(new AndFilter(new FoundFilter(), eventsFilter),
-				"Custom 9");
+		mappings
+				.put(new AndFilter(new FoundFilter(), eventsFilter), "Custom 9");
 		mappings.put(eventsFilter, "Custom 8");
 
 		EnumSet<CacheType> citos = EnumSet.of(CacheType.CITO);

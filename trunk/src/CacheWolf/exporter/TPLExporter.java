@@ -168,13 +168,14 @@ public class TPLExporter {
 							varParams.put("HINTS", rex.replaceAll(det
 									.getHints()));
 							varParams.put("DECRYPTEDHINTS", rex
-									.replaceAll(Rot13.encodeRot13(det.getHints())));
+									.replaceAll(Rot13.encodeRot13(det
+											.getHints())));
 						} else {
 							varParams.put("NAME", ch.getCacheName());
 							varParams.put("NOTES", det.getCacheNotes());
 							varParams.put("HINTS", det.getHints());
-							varParams.put("DECRYPTEDHINTS", Rot13.encodeRot13(det
-									.getHints()));
+							varParams.put("DECRYPTEDHINTS", Rot13
+									.encodeRot13(det.getHints()));
 						}
 						cache_index.add(varParams);
 					} catch (Exception e) {

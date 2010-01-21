@@ -16,8 +16,7 @@ public class AttributesViewer extends CellPanel {
 	private final static int ICONS_PER_ROW = MyLocale.getScreenWidth()
 			/ TILESIZE < Attributes.MAXATTRIBS ? MyLocale.getScreenWidth()
 			/ TILESIZE : Attributes.MAXATTRIBS;
-	private final static int ICONROWS = (Attributes.MAXATTRIBS
-			+ ICONS_PER_ROW - 1)
+	private final static int ICONROWS = (Attributes.MAXATTRIBS + ICONS_PER_ROW - 1)
 			/ ICONS_PER_ROW;
 	protected mLabel mInfo;
 

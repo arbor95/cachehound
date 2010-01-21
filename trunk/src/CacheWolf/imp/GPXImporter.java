@@ -11,7 +11,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import CacheWolf.Global;
-import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Filter;
@@ -19,7 +18,6 @@ import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
 import CacheWolf.beans.Travelbug;
 import CacheWolf.gui.InfoBox;
-import CacheWolf.util.Common;
 import CacheWolf.util.Extractor;
 import CacheWolf.util.MyLocale;
 import CacheWolf.util.SafeXML;

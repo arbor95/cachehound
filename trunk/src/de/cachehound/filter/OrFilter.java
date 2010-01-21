@@ -8,7 +8,7 @@ public class OrFilter extends ListFilter {
 	public OrFilter(IFilter... filters) {
 		super(filters);
 	}
-	
+
 	public OrFilter(Collection<? extends IFilter> filters) {
 		super(filters);
 	}

@@ -8,7 +8,7 @@ public class OrFilterTreeNode extends ListFilterTreeNode {
 	public IFilter getFilter() {
 		return new OrFilter(getChildFilter());
 	}
-	
+
 	@Override
 	public String toString() {
 		return "OR";

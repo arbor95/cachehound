@@ -57,7 +57,7 @@ public class OrFilterTest {
 				alwaysFalse, alwaysFalse, alwaysTrue);
 		assertTrue(orFilter.cacheIsVisible(null));
 	}
-	
+
 	@Test
 	public void testToXML() {
 		orFilter = new OrFilter(alwaysTrue, alwaysFalse);

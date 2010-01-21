@@ -1,11 +1,10 @@
 package de.cachehound.factory;
 
+import static de.cachehound.factory.CWPointFactory.EWHemisphere.E;
+import static de.cachehound.factory.CWPointFactory.NSHemisphere.N;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import static de.cachehound.factory.CWPointFactory.NSHemisphere.N;
-import static de.cachehound.factory.CWPointFactory.EWHemisphere.E;
 
 import org.junit.Test;
 
@@ -13,7 +12,7 @@ import CacheWolf.beans.CWPoint;
 
 public class CWPointFactoryTest {
 	private CWPointFactory f = CWPointFactory.getInstance();
-	
+
 	@Test
 	public void testCreateInvalid() {
 		CWPoint p = f.createInvalid();

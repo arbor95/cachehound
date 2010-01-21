@@ -40,7 +40,7 @@ public enum Terrain {
 	public String getShortRepresentation() {
 		return shortRepresenation;
 	}
-	
+
 	public String getFullRepresentation() {
 		return fullRepresentation;
 	}
@@ -53,7 +53,7 @@ public enum Terrain {
 	public boolean isValid() {
 		return valid;
 	}
-	
+
 	public byte getOldCWValue() {
 		return oldCWValue;
 	}
@@ -68,15 +68,15 @@ public enum Terrain {
 		throw new IllegalArgumentException("Error mapping terrainy. Found: "
 				+ value);
 	}
-	
+
 	public static Terrain fromOldCWByte(byte value) {
 		for (Terrain actualValue : values()) {
 			if (actualValue.oldCWValue == value) {
 				return actualValue;
 			}
 		}
-		throw new IllegalArgumentException("Error mapping Terrain. Found byte: "
-				+ value);
+		throw new IllegalArgumentException(
+				"Error mapping Terrain. Found byte: " + value);
 	}
 
 }

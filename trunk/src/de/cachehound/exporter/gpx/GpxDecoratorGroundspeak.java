@@ -11,7 +11,6 @@ import org.jdom.Namespace;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheImages;
 import CacheWolf.beans.TravelbugList;
-
 import de.cachehound.beans.CacheHolderDummy;
 import de.cachehound.beans.ICacheHolder;
 import de.cachehound.beans.ICacheHolderDetail;

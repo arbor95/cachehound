@@ -1,5 +1,9 @@
 package CacheWolf.gui;
 
+import static de.cachehound.factory.CWPointFactory.EWHemisphere.E;
+import static de.cachehound.factory.CWPointFactory.EWHemisphere.W;
+import static de.cachehound.factory.CWPointFactory.NSHemisphere.N;
+import static de.cachehound.factory.CWPointFactory.NSHemisphere.S;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.util.MyLocale;
 import de.cachehound.factory.CWPointFactory;
@@ -23,11 +27,6 @@ import ewe.ui.mCheckBox;
 import ewe.ui.mChoice;
 import ewe.ui.mInput;
 import ewe.ui.mLabel;
-
-import static de.cachehound.factory.CWPointFactory.EWHemisphere.W;
-import static de.cachehound.factory.CWPointFactory.NSHemisphere.S;
-import static de.cachehound.factory.CWPointFactory.EWHemisphere.E;
-import static de.cachehound.factory.CWPointFactory.NSHemisphere.N;
 
 /**
  * Class for entering coordinates<br>
@@ -435,7 +434,8 @@ public class CoordsScreen extends Form {
 				String inp = inpText.getText().trim().toUpperCase();
 				if (inp.startsWith("GC")) {
 					SpiderService spider = SpiderService.getInstance();
-					coord = CWPointFactory.getInstance().fromString(spider.getCacheCoordinates(inp));
+					coord = CWPointFactory.getInstance().fromString(
+							spider.getCacheCoordinates(inp));
 				} else {
 					coord = CWPointFactory.getInstance().fromString(inp);
 				}

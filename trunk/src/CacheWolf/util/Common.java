@@ -44,8 +44,6 @@ public final class Common {
 		}
 	}
 
-
-
 	public static String stringToHex(String str) {
 		StringBuilder strBuf = new StringBuilder();
 		StringBuilder strHex = new StringBuilder();
@@ -79,7 +77,7 @@ public final class Common {
 		String[] t = { ".png", ".gif", ".jpg", ".bmp", ".jpeg" };
 		int i;
 		for (i = 0; i < t.length; i++) {
-			file =new File(namePrefix + t[i]); 
+			file = new File(namePrefix + t[i]);
 			if (file.exists())
 				return file;
 		}

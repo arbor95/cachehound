@@ -25,7 +25,8 @@ public class Rebuild {
 		pbf.setTask(h, MyLocale.getMsg(209, "Rebuilding index"));
 		pbf.exec();
 
-		FileBugfix file = new FileBugfix(Global.getProfile().getDataDir().getAbsolutePath());
+		FileBugfix file = new FileBugfix(Global.getProfile().getDataDir()
+				.getAbsolutePath());
 		xmlFiles = file.list("*.xml", 0);
 		int orphans = 0; // xml Files without entry in database
 		int nAdded = 0; // caches added to database
@@ -52,7 +53,8 @@ public class Rebuild {
 				if (xmlFiles[i] != null) {
 					h.progress = ((float) nProcessed++) / (float) (orphans);
 					h.changed();
-					String details = getCacheDetails(prof.getDataDir() + xmlFiles[i]);
+					String details = getCacheDetails(prof.getDataDir()
+							+ xmlFiles[i]);
 					if (details != null) { // In older Versions of CW the
 						// <CACHE... /> line was not stored
 						// in the cache.xml

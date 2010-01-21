@@ -10,11 +10,11 @@ public class DistanceFilter extends SimpleFilter {
 	public DistanceFilter() {
 		this.limit = 5;
 	}
-	
+
 	public DistanceFilter(double d) {
 		this.limit = d;
 	}
-	
+
 	public double getLimit() {
 		return limit;
 	}
@@ -23,12 +23,12 @@ public class DistanceFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return ch.getKilom() < limit;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Cache is nearer than " + limit + "km.";
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,7 +57,7 @@ public class DistanceFilter extends SimpleFilter {
 	@Override
 	public Element toXML() {
 		Element ret = new Element("distance");
-		
+
 		ret.setAttribute("maxdistance", Double.toString(limit));
 
 		return ret;

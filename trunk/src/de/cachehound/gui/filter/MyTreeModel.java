@@ -14,7 +14,7 @@ public class MyTreeModel extends DefaultTreeModel {
 			newNode.setParent(null);
 			setRoot(newNode);
 		} else {
-			MutableTreeNode parent = (MutableTreeNode)oldNode.getParent();
+			MutableTreeNode parent = (MutableTreeNode) oldNode.getParent();
 			int index = parent.getIndex(oldNode);
 			removeNodeFromParent(oldNode);
 			insertNodeInto(newNode, parent, index);

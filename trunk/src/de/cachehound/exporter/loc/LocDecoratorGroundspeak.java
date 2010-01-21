@@ -9,7 +9,7 @@ public class LocDecoratorGroundspeak implements ILocDecorator {
 	public void decorateDomTree(Element doc, ICacheHolder cache) {
 		Element link = new Element("link");
 		link.setText("http://www.geocaching.com/seek/cache_details.aspx?wp="
-						+ cache.getWayPoint());
+				+ cache.getWayPoint());
 		doc.addContent(link);
 	}
 }

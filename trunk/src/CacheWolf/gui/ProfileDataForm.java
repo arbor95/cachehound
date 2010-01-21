@@ -90,8 +90,8 @@ public class ProfileDataForm extends Form {
 				}
 			}
 			if (ev.target == btnCur2Prof) {
-				profile.notifyUnsavedChanges(pref.getCurCenter()
-						.equals(profile.getCenter()));
+				profile.notifyUnsavedChanges(pref.getCurCenter().equals(
+						profile.getCenter()));
 				profile.setCenter(pref.getCurCenter());
 				btnProfileCentre.setText(profile.getCenter().toString());
 			}
