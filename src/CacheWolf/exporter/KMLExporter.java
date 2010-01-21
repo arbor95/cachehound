@@ -32,9 +32,9 @@ import ewe.util.zip.ZipFile;
  * 
  */
 public class KMLExporter extends Exporter {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(KMLExporter.class);
-	
+
 	private static final String COLOR_FOUND = "ff98fb98";
 	private static final String COLOR_OWNED = "ffffaa55";
 	private static final String COLOR_AVAILABLE = "ffffffff";
@@ -46,8 +46,8 @@ public class KMLExporter extends Exporter {
 	private static final int NOT_AVAILABLE = 3;
 	private static final int UNKNOWN = 4;
 
-	private String[] categoryNames = { "Available", "Found", "Owned", "Not Available",
-			"UNKNOWN" };
+	private String[] categoryNames = { "Available", "Found", "Owned",
+			"Not Available", "UNKNOWN" };
 	private Hashtable[] outCacheDB = new Hashtable[categoryNames.length];
 
 	public KMLExporter() {
@@ -102,8 +102,8 @@ public class KMLExporter extends Exporter {
 					// skip over empty cachetypes
 					if (tmp.size() == 0)
 						continue;
-					outp.print(startFolder(((CacheType) entry
-									.getKey()).getGcGpxString()));
+					outp.print(startFolder(((CacheType) entry.getKey())
+							.getGcGpxString()));
 
 					for (int i = 0; i < tmp.size(); i++) {
 						ch = (CacheHolder) tmp.get(i);
@@ -189,19 +189,15 @@ public class KMLExporter extends Exporter {
 			// ganz...
 			if (ch.isVisible() && !ch.isAddiWpt()) {
 				if (ch.isFound()) {
-					tmp = (Vector) outCacheDB[FOUND].get(ch
-							.getType());
+					tmp = (Vector) outCacheDB[FOUND].get(ch.getType());
 				} else if (ch.isOwned()) {
-					tmp = (Vector) outCacheDB[OWNED].get(ch
-							.getType());
+					tmp = (Vector) outCacheDB[OWNED].get(ch.getType());
 				} else if (ch.isArchived() || !ch.isAvailable()) {
 					tmp = (Vector) outCacheDB[NOT_AVAILABLE].get(ch.getType());
 				} else if (ch.isAvailable()) {
-					tmp = (Vector) outCacheDB[AVAILABLE].get(ch
-							.getType());
+					tmp = (Vector) outCacheDB[AVAILABLE].get(ch.getType());
 				} else {
-					tmp = (Vector) outCacheDB[UNKNOWN].get(ch
-							.getType());
+					tmp = (Vector) outCacheDB[UNKNOWN].get(ch.getType());
 				}
 
 				tmp.add(ch);
@@ -316,8 +312,8 @@ public class KMLExporter extends Exporter {
 		strBuf.append("         <Icon>\r\n");
 		// strBuf.append(" <href>"+ File.getProgramDirectory()+ "/" +
 		// CacheType.type2pic(Convert.parseInt(ch.type))+ "</href>\r\n");
-		strBuf.append("            <href>"
-				+ ch.getType().getGuiImage() + "</href>\r\n");
+		strBuf.append("            <href>" + ch.getType().getGuiImage()
+				+ "</href>\r\n");
 		// Die Grafiken sind eigentlich schöner, aber leider nicht alle
 		// verfügbar bzw. müssten korrekt kopiert werden.
 		// strBuf.append("            <href>"

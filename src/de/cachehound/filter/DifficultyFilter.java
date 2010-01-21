@@ -19,7 +19,7 @@ public class DifficultyFilter extends AbstractEnumBasedFilter<Difficulty> {
 	protected Difficulty getProperty(ICacheHolder ch) {
 		return ch.getDifficulty();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Difficulty is one of " + super.toString();

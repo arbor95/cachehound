@@ -9,7 +9,7 @@ public class OwnedFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return ch.isOwned();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Owned";

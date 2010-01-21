@@ -34,10 +34,14 @@ public class InfoScreen extends Form {
 	private mButton closeButton;
 
 	/**
-	 * Shows the given html-Fil on the screen 
-	 * @param text The (html-formated) File to show
-	 * @param title The WindowTitle
-	 * @param pref The Preferences of CacheWolf
+	 * Shows the given html-Fil on the screen
+	 * 
+	 * @param text
+	 *            The (html-formated) File to show
+	 * @param title
+	 *            The WindowTitle
+	 * @param pref
+	 *            The Preferences of CacheWolf
 	 */
 	public InfoScreen(File file, String title, Preferences pref) {
 		String myText;
@@ -46,7 +50,8 @@ public class InfoScreen extends Form {
 			myText = in.readAll();
 			in.close();
 		} catch (Exception ex) {
-			logger.error("Can't open " + file.getAbsolutePath() + " in InfoScreen.", ex);
+			logger.error("Can't open " + file.getAbsolutePath()
+					+ " in InfoScreen.", ex);
 			myText = "Failure at opening " + file.getAbsolutePath()
 					+ " for this InfoScreen";
 		}
@@ -54,20 +59,28 @@ public class InfoScreen extends Form {
 	}
 
 	/**
-	 *  Shows the given String on the screen 
-	 * @param text The (html-formated) Text to show
-	 * @param title The WindowTitle
-	 * @param pref The Preferences of CacheWolf
+	 * Shows the given String on the screen
+	 * 
+	 * @param text
+	 *            The (html-formated) Text to show
+	 * @param title
+	 *            The WindowTitle
+	 * @param pref
+	 *            The Preferences of CacheWolf
 	 */
 	public InfoScreen(String text, String title, Preferences prefs) {
 		buildWindow(text, title, prefs);
 	}
 
 	/**
-	 *  Shows the given String on the screen 
-	 * @param text The (html-formated) Text to show
-	 * @param title The WindowTitle
-	 * @param pref The Preferences of CacheWolf
+	 * Shows the given String on the screen
+	 * 
+	 * @param text
+	 *            The (html-formated) Text to show
+	 * @param title
+	 *            The WindowTitle
+	 * @param pref
+	 *            The Preferences of CacheWolf
 	 */
 	private void buildWindow(String text, String title, Preferences pref) {
 		this.setTitle(title);

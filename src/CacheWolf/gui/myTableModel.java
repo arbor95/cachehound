@@ -34,9 +34,8 @@ import ewe.ui.TableModel;
  * scrolling, Used MyLocale
  */
 public class myTableModel extends TableModel {
-	
-	private static Logger logger = LoggerFactory.getLogger(TableModel.class);
 
+	private static Logger logger = LoggerFactory.getLogger(TableModel.class);
 
 	// Colors for Cache status (BG unless otherwise stated)
 	private static final Color COLOR_FLAGED = new Color(255, 255, 0);
@@ -497,7 +496,10 @@ public class myTableModel extends TableModel {
 				case 22: // GcVote Median
 					return ch.getGcVote().getMedian();
 				default:
-					logger.error("The tableModel was called with column index which doesn't exists (colMap[col]): {}", colMap[col]);
+					logger
+							.error(
+									"The tableModel was called with column index which doesn't exists (colMap[col]): {}",
+									colMap[col]);
 					return null;
 				} // Switch
 			} // if

@@ -203,12 +203,11 @@ public class TravelbugJourneyList extends MinML {
 	/** Sort the list of travelbug journeys by any column */
 	public void sort(int column, boolean ascending) {
 		Comparator<TravelbugJourney> comp;
-		
+
 		if (ascending) {
 			comp = new tbjComparer(column);
 		} else {
-			comp = ComparatorHelper
-					.invert(new tbjComparer(column));
+			comp = ComparatorHelper.invert(new tbjComparer(column));
 		}
 		Collections.sort(tbJourneyList, comp);
 	}
@@ -227,12 +226,11 @@ public class TravelbugJourneyList extends MinML {
 	 */
 	public void sortFirstHalf(int column, boolean ascending, int nElem) {
 		Comparator<TravelbugJourney> comp;
-		
+
 		if (ascending) {
 			comp = new tbjComparer(column);
 		} else {
-			comp = ComparatorHelper
-					.invert(new tbjComparer(column));
+			comp = ComparatorHelper.invert(new tbjComparer(column));
 		}
 		Collections.sort(tbJourneyList.subList(0, nElem), comp);
 	}

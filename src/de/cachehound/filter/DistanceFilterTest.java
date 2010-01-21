@@ -46,12 +46,12 @@ public class DistanceFilterTest {
 	public void testOutside() {
 		assertFalse(filter.cacheIsVisible(outside));
 	}
-	
+
 	@Test
 	public void testToXML() {
 		Element expected = new Element("distance");
 		expected.setAttribute("maxdistance", "5.0");
-		
+
 		assertEquals((new XMLOutputter()).outputString(expected),
 				(new XMLOutputter()).outputString(filter.toXML()));
 	}

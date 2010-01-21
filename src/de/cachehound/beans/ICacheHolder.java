@@ -9,30 +9,42 @@ import de.cachehound.types.Terrain;
 
 public interface ICacheHolder {
 	public Bearing getBearing();
+
 	public double getKilom();
 
 	public CacheSize getCacheSize();
+
 	public CacheType getType();
+
 	public Difficulty getDifficulty();
+
 	public Terrain getTerrain();
-	
+
 	public boolean isArchived();
+
 	public boolean isAvailable();
+
 	public boolean isFound();
+
 	public boolean isOwned();
+
 	public boolean isCacheWpt();
+
 	public boolean isHTML();
-	
+
 	public String getWayPoint();
+
 	public String getCacheName();
+
 	public String getCacheOwner();
-	
+
 	public GcVote getGcVote();
+
 	public void setGcVote(GcVote gcVote);
-	
+
 	public CWPoint getPos();
-	
+
 	public ICacheHolderDetail getDetails();
-	
+
 	public String getCacheID();
 }

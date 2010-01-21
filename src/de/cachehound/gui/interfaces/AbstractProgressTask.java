@@ -9,7 +9,7 @@ public class AbstractProgressTask implements IProgressTask {
 	private String headLine;
 	private String text;
 	private double progress;
-	
+
 	public AbstractProgressTask() {
 		listeners = new LinkedList<ITaskListener>();
 		headLine = "";
@@ -21,7 +21,6 @@ public class AbstractProgressTask implements IProgressTask {
 	public void addTaskListener(ITaskListener listener) {
 		listeners.add(listener);
 	}
-	
 
 	@Override
 	public void removeTaskListener(ITaskListener listener) {
@@ -34,21 +33,21 @@ public class AbstractProgressTask implements IProgressTask {
 			listener.updateHeadLine(headLine);
 		}
 	}
-	
+
 	protected void setText(String text) {
 		this.text = text;
 		for (ITaskListener listener : listeners) {
 			listener.updateText(text);
 		}
 	}
-	
+
 	protected void setProgress(double progress) {
 		this.progress = progress;
 		for (ITaskListener listener : listeners) {
 			listener.updateProgress(progress);
 		}
 	}
-	
+
 	@Override
 	public String getHeadLine() {
 		return headLine;
@@ -63,5 +62,5 @@ public class AbstractProgressTask implements IProgressTask {
 	public String getText() {
 		return text;
 	}
-	
+
 }

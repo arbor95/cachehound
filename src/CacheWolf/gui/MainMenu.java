@@ -654,8 +654,8 @@ public class MainMenu extends MenuBar {
 				if (fc.execute() != FormBase.IDCANCEL) {
 					try {
 						Vm.showWait(true);
-						FileWriter writer = new FileWriter(new java.io.File(fc.getChosenFile()
-										.getAbsolutePath()));
+						FileWriter writer = new FileWriter(new java.io.File(fc
+								.getChosenFile().getAbsolutePath()));
 						GpxExporter exp = new GpxExporter(writer);
 						exp.addDecorator(new GpxDecoratorGroundspeak());
 						exp.addDecorator(new GpxDecoratorLogs());

@@ -33,7 +33,7 @@ import ewe.util.Hashtable;
 public abstract class Exporter {
 
 	private static Logger logger = LoggerFactory.getLogger(Exporter.class);
-	
+
 	// starts with no ui for file selection
 	final static int TMP_FILE = 0;
 	// brings up a screen to select a file
@@ -115,7 +115,9 @@ public abstract class Exporter {
 				ch = cacheDB.get(i);
 				if (ch.isVisible()) {
 					if (ch.isIncomplete()) {
-						logger.warn("Skipping export of incomplete waypoint {}", ch.getWayPoint());
+						logger.warn(
+								"Skipping export of incomplete waypoint {}", ch
+										.getWayPoint());
 						incompleteWaypoints++;
 						continue;
 					}

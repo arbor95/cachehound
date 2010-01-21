@@ -9,7 +9,7 @@ public class ArchivedFilter extends SimpleFilter {
 	public boolean cacheIsVisible(ICacheHolder ch) {
 		return ch.isArchived();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Archived";

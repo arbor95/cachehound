@@ -16,7 +16,7 @@ import de.cachehound.types.Difficulty;
 
 public class DifficultyFilterPanel extends
 		AbstractFilterPanel<DifficultyFilter> {
-	
+
 	public DifficultyFilterPanel() {
 		initComponents();
 		setState(new DifficultyFilter(EnumSet.noneOf(Difficulty.class)));
@@ -51,7 +51,7 @@ public class DifficultyFilterPanel extends
 		Dimension size = this.getPreferredSize();
 		size.width = size.width * 10 / 6;
 		this.setPreferredSize(size);
-		
+
 		boxes = new EnumMap<Difficulty, JCheckBox>(Difficulty.class);
 
 		for (Difficulty b : Difficulty.values()) {

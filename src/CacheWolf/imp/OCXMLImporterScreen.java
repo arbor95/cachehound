@@ -63,12 +63,18 @@ public class OCXMLImporterScreen extends Form {
 			// TODO: Ist das nicht mist? Nur diese Typen?
 			this.addLast(chcType = new mChoice(new String[] {
 					MyLocale.getMsg(1627, "All caches"),
-					CacheType.TRADITIONAL.getGuiString() , CacheType.MULTI.getGuiString(),
-					CacheType.VIRTUAL.getGuiString(), CacheType.LETTERBOX.getGuiString(),
-					CacheType.EVENT.getGuiString(), CacheType.MEGA_EVENT.getGuiString(),
-					CacheType.WEBCAM.getGuiString(), CacheType.UNKNOWN.getGuiString(),
-					CacheType.CITO.getGuiString(), CacheType.EARTH.getGuiString(),
-					CacheType.WHEREIGO.getGuiString() }, 0), CellConstants.STRETCH,
+					CacheType.TRADITIONAL.getGuiString(),
+					CacheType.MULTI.getGuiString(),
+					CacheType.VIRTUAL.getGuiString(),
+					CacheType.LETTERBOX.getGuiString(),
+					CacheType.EVENT.getGuiString(),
+					CacheType.MEGA_EVENT.getGuiString(),
+					CacheType.WEBCAM.getGuiString(),
+					CacheType.UNKNOWN.getGuiString(),
+					CacheType.CITO.getGuiString(),
+					CacheType.EARTH.getGuiString(),
+					CacheType.WHEREIGO.getGuiString() }, 0),
+					CellConstants.STRETCH,
 					(CellConstants.FILL | CellConstants.WEST));
 		}
 

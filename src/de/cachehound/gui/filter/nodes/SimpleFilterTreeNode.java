@@ -5,11 +5,11 @@ import de.cachehound.filter.SimpleFilter;
 
 public class SimpleFilterTreeNode extends AbstractFilterTreeNode {
 	private SimpleFilter f;
-	
+
 	SimpleFilterTreeNode(SimpleFilter f) {
 		this.f = f;
 	}
-	
+
 	@Override
 	public boolean isLeaf() {
 		return true;
@@ -23,7 +23,7 @@ public class SimpleFilterTreeNode extends AbstractFilterTreeNode {
 	public IFilter getFilter() {
 		return f;
 	}
-	
+
 	@Override
 	public String toString() {
 		return f.toString();

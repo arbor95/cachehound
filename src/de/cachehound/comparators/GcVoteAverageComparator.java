@@ -16,7 +16,7 @@ public class GcVoteAverageComparator implements Comparator<CacheHolder> {
 		if (o2.getGcVote() != null) {
 			d2 = o2.getGcVote().getAverage();
 		}
-		return Double.compare(d2,d1);
+		return Double.compare(d2, d1);
 	}
 
 }

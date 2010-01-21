@@ -11,7 +11,7 @@ public class Extractor {
 	private String start;
 	private String end;
 	private boolean betweenonly;
-	
+
 	public static boolean INCLUDESTARTEND = false;
 	public static boolean EXCLUDESTARTEND = true;
 
@@ -88,9 +88,11 @@ public class Extractor {
 				if (idxEnd + end.length() >= searchText.length())
 					result = searchText.substring(idxStart);
 				else
-					result = searchText.substring(idxStart, idxEnd + end.length());
+					result = searchText.substring(idxStart, idxEnd
+							+ end.length());
 			} else {
-				result = searchText.substring(idxStart + start.length(), idxEnd);
+				result = searchText
+						.substring(idxStart + start.length(), idxEnd);
 			}
 		} else {
 			startOffset = searchText.length();

@@ -15,7 +15,7 @@ public abstract class ListFilter implements Iterable<IFilter>, IFilter {
 	public ListFilter(IFilter... filters) {
 		this(Arrays.asList(filters));
 	}
-	
+
 	public ListFilter(Collection<? extends IFilter> filters) {
 		this.list = new ArrayList<IFilter>(filters);
 	}
@@ -33,17 +33,17 @@ public abstract class ListFilter implements Iterable<IFilter>, IFilter {
 	public Iterator<IFilter> iterator() {
 		return Collections.unmodifiableList(list).iterator();
 	}
-	
+
 	@Override
 	public Element toXML() {
 		Element ret = new Element(xmlElementName());
-		
+
 		for (IFilter f : this) {
 			ret.addContent(f.toXML());
 		}
-		
+
 		return ret;
 	}
-	
+
 	protected abstract String xmlElementName();
 }

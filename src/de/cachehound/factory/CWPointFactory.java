@@ -232,7 +232,7 @@ public class CWPointFactory {
 	 * use this one.
 	 */
 	public CWPoint fromString(String in) {
-		//FIXME: Re-add support for UTM, GK...
+		// FIXME: Re-add support for UTM, GK...
 		CWPoint ret = fromHDMString(in);
 		if (ret.isValid()) {
 			return ret;

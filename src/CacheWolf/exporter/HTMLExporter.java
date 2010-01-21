@@ -111,20 +111,19 @@ public class HTMLExporter {
 					}
 					det = ch.getCacheDetails(false, false);
 					varParams = new Hashtable();
-					varParams.put("TYPE", ch
-							.getType().getGcGpxString());
+					varParams.put("TYPE", ch.getType().getGcGpxString());
 					varParams.put("WAYPOINT", ch.getWayPoint());
 					varParams.put("NAME", ch.getCacheName());
 					varParams.put("OWNER", ch.getCacheOwner());
-					if (ch.isAddiWpt()
-							|| ch.getType() == CacheType.CUSTOM) {
+					if (ch.isAddiWpt() || ch.getType() == CacheType.CUSTOM) {
 						varParams.put("SIZE", "");
 						varParams.put("DIFFICULTY", "");
 						varParams.put("TERRAIN", "");
 					} else {
 						varParams.put("SIZE", ch.getCacheSize().getAsString());
-						varParams.put("DIFFICULTY", ch.getDifficulty().isValid() ? ch
-								.getDifficulty().getFullRepresentation() : "");
+						varParams.put("DIFFICULTY", ch.getDifficulty()
+								.isValid() ? ch.getDifficulty()
+								.getFullRepresentation() : "");
 						varParams.put("TERRAIN", ch.getTerrain().isValid() ? ch
 								.getTerrain().getFullRepresentation() : "");
 					}
@@ -163,7 +162,8 @@ public class HTMLExporter {
 												"<br>"));
 							}
 							page_tpl.setParam("HINTS", det.getHints());
-							page_tpl.setParam("DECRYPTEDHINTS", Rot13.encodeRot13(det.getHints()));
+							page_tpl.setParam("DECRYPTEDHINTS", Rot13
+									.encodeRot13(det.getHints()));
 
 							StringBuilder sb = new StringBuilder(2000);
 							for (int j = 0; j < det.getCacheLogs().size(); j++) {

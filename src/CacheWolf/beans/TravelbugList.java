@@ -14,7 +14,7 @@ import ewe.io.StringReader;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
-public class TravelbugList extends MinML implements Iterable<Travelbug>{
+public class TravelbugList extends MinML implements Iterable<Travelbug> {
 
 	/** The Vector containing the Travelbug objects */
 	private List<Travelbug> tbList = new ArrayList<Travelbug>(1);
@@ -23,7 +23,7 @@ public class TravelbugList extends MinML implements Iterable<Travelbug>{
 	public Iterator<Travelbug> iterator() {
 		return Collections.unmodifiableList(tbList).iterator();
 	}
-	
+
 	/** Get the travelbug at a certain position in the list */
 	public Travelbug getTB(int i) {
 		return tbList.get(i);
@@ -149,7 +149,7 @@ public class TravelbugList extends MinML implements Iterable<Travelbug>{
 				Global.getPref().log("Error reading cache-travelbug list: ", e);
 		}
 	}
-	
+
 	/**
 	 * Method that gets called when a new element has been identified
 	 */
@@ -176,7 +176,5 @@ public class TravelbugList extends MinML implements Iterable<Travelbug>{
 			xmlElement.delete(0, xmlElement.length());
 		}
 	}
-
-
 
 }

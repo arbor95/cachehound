@@ -16,11 +16,12 @@ import ewe.fx.Image;
 
 public final class GuiImageBroker {
 
-	private static Logger logger = LoggerFactory.getLogger(GuiImageBroker.class);
-	
+	private static Logger logger = LoggerFactory
+			.getLogger(GuiImageBroker.class);
+
 	// singleton
 	private static GuiImageBroker instance = new GuiImageBroker();
-	
+
 	// TODO: check with Image and mImage
 
 	/** image to be displayed in case of error */
@@ -43,7 +44,7 @@ public final class GuiImageBroker {
 			i++;
 		}
 	}
-	
+
 	public static GuiImageBroker getInstance() {
 		return instance;
 	}
@@ -62,7 +63,7 @@ public final class GuiImageBroker {
 	public Image getErrorImage() {
 		return imageError;
 	}
-	
+
 	/**
 	 * Replaces the build-in symbols by images stored in /symbols: If the sub
 	 * directory symbols exists in CW-directory *.png-files are read in and
@@ -76,22 +77,22 @@ public final class GuiImageBroker {
 		if (dir.isDirectory()) {
 			logger.error("Customized Symbols are right now not Supported!");
 			// 
-//			int id;
-//			String name = "";
-//			String[] pngFiles;
-//			pngFiles = dir.list("*.png", 0);
-//			for (int i = 0; i < pngFiles.length; i++) {
-//				name = pngFiles[i].substring(0, pngFiles[i].length() - 4);
-//				try {
-//					id = Integer.parseInt(name);
-//				} catch (Exception E) {
-//					id = -1; // filename invalid for symbols
-//				}
-//				if (0 <= id && id <= typeImages.length) {
-//					typeImages[id] = new Image(FileBase.getProgramDirectory()
-//							+ "/symbols/" + pngFiles[i]);
-//				}
-//			}
+			// int id;
+			// String name = "";
+			// String[] pngFiles;
+			// pngFiles = dir.list("*.png", 0);
+			// for (int i = 0; i < pngFiles.length; i++) {
+			// name = pngFiles[i].substring(0, pngFiles[i].length() - 4);
+			// try {
+			// id = Integer.parseInt(name);
+			// } catch (Exception E) {
+			// id = -1; // filename invalid for symbols
+			// }
+			// if (0 <= id && id <= typeImages.length) {
+			// typeImages[id] = new Image(FileBase.getProgramDirectory()
+			// + "/symbols/" + pngFiles[i]);
+			// }
+			// }
 		}
 	}
 

@@ -19,8 +19,7 @@ public class NewProfileForm extends Form {
 	private mInput inpDir;
 	private TextMessage description;
 	private File profileDir;
-	
-	
+
 	private File baseDir;
 
 	// private Profile profile;
@@ -86,7 +85,7 @@ public class NewProfileForm extends Form {
 		}
 		super.onEvent(ev);
 	}
-	
+
 	public File getProfileDir() {
 		return profileDir;
 	}

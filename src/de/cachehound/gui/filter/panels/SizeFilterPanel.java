@@ -50,7 +50,7 @@ public class SizeFilterPanel extends AbstractFilterPanel<SizeFilter> {
 		Dimension size = this.getPreferredSize();
 		size.width = size.width * 10 / 6;
 		this.setPreferredSize(size);
-		
+
 		boxes = new EnumMap<CacheSize, JCheckBox>(CacheSize.class);
 
 		for (CacheSize b : CacheSize.values()) {

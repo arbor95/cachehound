@@ -167,7 +167,8 @@ public class ImagePanel extends InteractivePanel {
 		AniImage AimgText;
 		locCounter = 0;
 		for (int i = 0; i < pImages.size(); i++) {
-			java.io.File locationFile = new java.io.File(profile.getDataDir(), pImages.get(i).getFilename());
+			java.io.File locationFile = new java.io.File(profile.getDataDir(),
+					pImages.get(i).getFilename());
 			location = locationFile.getAbsolutePath();
 			if (!locationFile.exists()) {
 				location = NO_IMAGE;

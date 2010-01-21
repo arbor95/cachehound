@@ -10,17 +10,16 @@ import javax.swing.event.ChangeListener;
 import de.cachehound.filter.DistanceFilter;
 import de.cachehound.filter.IFilter;
 
-public class DistanceFilterPanel extends
-		AbstractFilterPanel<DistanceFilter> {
+public class DistanceFilterPanel extends AbstractFilterPanel<DistanceFilter> {
 
 	public DistanceFilterPanel() {
 		initComponents();
 		setState(new DistanceFilter(0));
 	}
-	
+
 	@Override
 	public DistanceFilter getFilter() {
-		return new DistanceFilter(((Number)model.getValue()).doubleValue());
+		return new DistanceFilter(((Number) model.getValue()).doubleValue());
 	}
 
 	@Override
@@ -35,7 +34,7 @@ public class DistanceFilterPanel extends
 
 	private void initComponents() {
 		model = new SpinnerNumberModel(5d, 0, 1000, 1);
-		
+
 		add(new JLabel("Show only caches nearer than"));
 		JSpinner spinner = new JSpinner(model);
 		add(spinner);
@@ -46,6 +45,6 @@ public class DistanceFilterPanel extends
 			}
 		});
 	}
-	
+
 	private SpinnerModel model;
 }

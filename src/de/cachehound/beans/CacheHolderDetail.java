@@ -135,7 +135,7 @@ public class CacheHolderDetail implements ICacheHolderDetail {
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
 	}
-	
+
 	public void addCacheLogs(LogList newLogs) {
 		int size = newLogs.size();
 		for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must

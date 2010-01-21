@@ -287,8 +287,7 @@ public class TransformCoordinates {
 		}
 	}
 
-	public static TransformParameters getGermanGkTransformParameters(
-			CWPoint ll) {
+	public static TransformParameters getGermanGkTransformParameters(CWPoint ll) {
 		if (FORMER_GDR.isInBound(ll))
 			return GK_GERMANY_2001; // exlcude former GDR from the splitting
 		// germany in north/middel/south
@@ -301,8 +300,7 @@ public class TransformCoordinates {
 		return GK_GERMANY_2001;
 	}
 
-	public static TransformParameters getItalianGkTransformParameters(
-			CWPoint ll) {
+	public static TransformParameters getItalianGkTransformParameters(CWPoint ll) {
 		if (ITALY_SARDINIA.isInBound(ll))
 			return GB_ITALIAN_SARDINIA_TO_WGS84;
 		if (ITALY_SICILIA.isInBound(ll))

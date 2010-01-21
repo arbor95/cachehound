@@ -108,7 +108,8 @@ public class CWPoint {
 		case CW:
 		case DMM:
 		case DMS:
-			return (((getLonDec() < 100.0) && (getLonDec() > -100.0)) ? "0" : "")
+			return (((getLonDec() < 100.0) && (getLonDec() > -100.0)) ? "0"
+					: "")
 					+ getDMS(getLonDec(), 0, format);
 		default:
 			return "";
@@ -412,8 +413,8 @@ public class CWPoint {
 	private void checkUTMvalid() {
 		if (this.utmValid)
 			return;
-		this.utm = MGRSPoint
-				.LLtoMGRS(new LatLonPoint(this.getLatDec(), this.getLonDec()));
+		this.utm = MGRSPoint.LLtoMGRS(new LatLonPoint(this.getLatDec(), this
+				.getLonDec()));
 		this.utmValid = true;
 	}
 }

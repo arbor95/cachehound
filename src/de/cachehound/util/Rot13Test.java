@@ -28,17 +28,17 @@ public class Rot13Test {
 		assertEquals('[', Rot13.encodeRot13('['));
 		assertEquals(']', Rot13.encodeRot13(']'));
 	}
-	
+
 	@Test
 	public void testBaum() {
 		assertEquals("Onhz", Rot13.encodeRot13("Baum"));
 	}
-	
+
 	@Test
 	public void testMagnetisch() {
 		assertEquals("zntargvfpu", Rot13.encodeRot13("magnetisch"));
 	}
-	
+
 	@Test
 	public void testPlainText() {
 		// Alles was zwischen [] steht, wird NICHT dekodiert.

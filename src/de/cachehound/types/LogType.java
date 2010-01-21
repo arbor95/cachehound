@@ -206,7 +206,7 @@ public enum LogType {
 	};
 
 	private static Logger logger = LoggerFactory.getLogger(LogType.class);
-	
+
 	public abstract String toIconString();
 
 	public abstract String toGcComType();
@@ -248,10 +248,11 @@ public enum LogType {
 			return LogType.UPDATE_COORDINATES;
 		if (image.equals("icon_remove.gif"))
 			return LogType.NEEDS_ARCHIVED;
-		if (image.equals("icon_redlight.gif")) 
+		if (image.equals("icon_redlight.gif"))
 			return LogType.RETRACT;
 		// TODO: Fehler loggen
-		throw new RuntimeException("Fehler bei der Umwandlung der Logtype. Gefunden: " + image);
+		throw new RuntimeException(
+				"Fehler bei der Umwandlung der Logtype. Gefunden: " + image);
 	}
 
 	public static LogType getLogTypeFromGcTypeText(String typeText) {
@@ -293,8 +294,10 @@ public enum LogType {
 			return LogType.UPDATE_COORDINATES;
 		if (typeText.equals("Retract Listing"))
 			return LogType.RETRACT;
-		logger.error(
-				"GPX Import: warning, unknown logtype: '{}'. Set Log-Type to Unknown.", typeText);
+		logger
+				.error(
+						"GPX Import: warning, unknown logtype: '{}'. Set Log-Type to Unknown.",
+						typeText);
 		return LogType.UNKNOWN;
 	}
 

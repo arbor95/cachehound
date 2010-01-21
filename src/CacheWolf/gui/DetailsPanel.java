@@ -79,8 +79,8 @@ public class DetailsPanel extends CellPanel {
 			MyLocale.getMsg(319, "Not Found"), MyLocale.getMsg(320, "Owner") },
 			0);
 
-	mButton btnNewWpt, btnShowBug, btnAddPicture,
-			btnBlack, btnNotes, btnSave, btnCancel;
+	mButton btnNewWpt, btnShowBug, btnAddPicture, btnBlack, btnNotes, btnSave,
+			btnCancel;
 	mButton btnFoundDate, btnHiddenDate;
 	CellPanel pnlTools = new CellPanel();
 	mTextPad mNotes;

@@ -128,12 +128,13 @@ public class Filter {
 		double lat, lon, calcDistance = 0;
 		try {
 			if ((routeFile.getFullPath()).indexOf(".kml") > 0) {
-				KMLImporter kml = new KMLImporter(new java.io.File(routeFile.getFullPath()));
+				KMLImporter kml = new KMLImporter(new java.io.File(routeFile
+						.getFullPath()));
 				kml.importFile();
 				wayPoints = kml.getPoints();
 			} else {
 				wayPoints = new ArrayList<CWPoint>();
-				
+
 				FileReader in = new FileReader(routeFile);
 				String line;
 				while ((line = in.readLine()) != null) {

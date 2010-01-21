@@ -46,9 +46,9 @@ public class GeodeticCalculator {
 	 *            populated with the result
 	 * @return
 	 */
-	static public CWPoint calculateEndingGlobalCoordinates(
-			Ellipsoid ellipsoid, CWPoint start, double startBearing,
-			double distance, double[] endBearing) {
+	static public CWPoint calculateEndingGlobalCoordinates(Ellipsoid ellipsoid,
+			CWPoint start, double startBearing, double distance,
+			double[] endBearing) {
 		double a = ellipsoid.getSemiMajorAxis();
 		double b = ellipsoid.getSemiMinorAxis();
 		double aSquared = a * a;
@@ -179,9 +179,8 @@ public class GeodeticCalculator {
 	 *            distance to travel (meters)
 	 * @return
 	 */
-	static public CWPoint calculateEndingGlobalCoordinates(
-			Ellipsoid ellipsoid, CWPoint start, double startBearing,
-			double distance) {
+	static public CWPoint calculateEndingGlobalCoordinates(Ellipsoid ellipsoid,
+			CWPoint start, double startBearing, double distance) {
 		return calculateEndingGlobalCoordinates(ellipsoid, start, startBearing,
 				distance, null);
 	}
@@ -383,13 +382,13 @@ public class GeodeticCalculator {
 		return s;
 	}
 
-	static public double calculateDistance(Ellipsoid ellipsoid,
-			CWPoint start, CWPoint end) {
+	static public double calculateDistance(Ellipsoid ellipsoid, CWPoint start,
+			CWPoint end) {
 		return calculateDistanceAndBearing(ellipsoid, start, end, null);
 	}
 
-	static public double calculateBearing(Ellipsoid ellipsoid,
-			CWPoint start, CWPoint end) {
+	static public double calculateBearing(Ellipsoid ellipsoid, CWPoint start,
+			CWPoint end) {
 		double bearing[] = { 0.0 };
 		calculateDistanceAndBearing(ellipsoid, start, end, bearing);
 		return bearing[0];

@@ -10,7 +10,7 @@ public class CacheTypeFilter extends AbstractEnumBasedFilter<CacheType> {
 	public CacheTypeFilter() {
 		super(EnumSet.noneOf(CacheType.class));
 	}
-	
+
 	public CacheTypeFilter(Set<CacheType> mask) {
 		super(mask);
 	}
@@ -19,7 +19,7 @@ public class CacheTypeFilter extends AbstractEnumBasedFilter<CacheType> {
 	protected CacheType getProperty(ICacheHolder ch) {
 		return ch.getType();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "CacheType: is one of " + super.toString();

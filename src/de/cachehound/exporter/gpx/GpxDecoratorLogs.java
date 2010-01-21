@@ -232,7 +232,8 @@ public class GpxDecoratorLogs implements IGpxDecorator {
 
 			@Override
 			public CWPoint getPos() {
-				return CWPointFactory.getInstance().fromD(53.12345678, 10.12345678);
+				return CWPointFactory.getInstance().fromD(53.12345678,
+						10.12345678);
 			}
 
 			@Override

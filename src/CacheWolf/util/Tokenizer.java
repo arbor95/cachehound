@@ -307,8 +307,7 @@ public class Tokenizer {
 					formatString();
 				else if (newLineIsSeparator && (look == '\\' || look == '_')) {
 					// nothing to to, so ignore
-				}
-				else
+				} else
 					err(MyLocale.getMsg(1732, "Invalid character"));
 			}
 		} catch (Exception e) {

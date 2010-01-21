@@ -71,7 +71,9 @@ public class LocExporter extends Exporter {
 			if ((!det.getHints().equals("null"))
 					&& (det.getHints().length() > 0)) {
 				strBuf.append(":");
-				strBuf.append(simplifyString(Rot13.encodeRot13(det.getHints())));
+				strBuf
+						.append(simplifyString(Rot13
+								.encodeRot13(det.getHints())));
 			}
 		}
 		strBuf.append("]]></name>\r\n   <coord lat=\"");

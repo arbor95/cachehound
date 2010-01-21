@@ -289,8 +289,8 @@ public class myTableControl extends TableControl {
 							h.progress = ((float) nDeleted) / (float) allCount;
 							h.changed();
 							cacheDB.removeElementAt(i);
-							dm.deleteCacheFiles(ch.getWayPoint(),
-									profile.getDataDir());
+							dm.deleteCacheFiles(ch.getWayPoint(), profile
+									.getDataDir());
 							ch = null;
 							if (pbf.isClosed)
 								break;
@@ -449,7 +449,8 @@ public class myTableControl extends TableControl {
 			wayPoint = ch.getWayPoint();
 			// Vm.debug("Waypoint : "+ch.wayPoint);
 			imgDrag = new IconAndText();
-			imgDrag.addColumn(GuiImageBroker.getInstance().getTypeImage(ch.getType()));
+			imgDrag.addColumn(GuiImageBroker.getInstance().getTypeImage(
+					ch.getType()));
 			imgDrag.addColumn(ch.getWayPoint());
 			dc.dragData = dc.startImageDrag(imgDrag, new Point(8, 8), this);
 		} else

@@ -15,8 +15,7 @@ import de.cachehound.filter.BearingFilter;
 import de.cachehound.filter.IFilter;
 import de.cachehound.types.Bearing;
 
-public class BearingFilterPanel extends
-		AbstractFilterPanel<BearingFilter> {
+public class BearingFilterPanel extends AbstractFilterPanel<BearingFilter> {
 
 	public BearingFilterPanel() {
 		initComponents();

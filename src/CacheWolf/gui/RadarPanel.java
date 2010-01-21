@@ -157,8 +157,8 @@ public class RadarPanel extends CellPanel {
 							iActP.addImage(aImg);
 						}
 					}
-					Image imgCache = GuiImageBroker.getInstance().getTypeImage(holder
-							.getType());
+					Image imgCache = GuiImageBroker.getInstance().getTypeImage(
+							holder.getType());
 					// If we have no image for the cache type use a question
 					// mark
 					if (imgCache == null)

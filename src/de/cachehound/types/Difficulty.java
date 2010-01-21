@@ -29,7 +29,8 @@ public enum Difficulty {
 	private byte oldCWValue;
 	private boolean valid;
 
-	private Difficulty(String shortRepresenation, String fullRepresentation, byte oldCWValue, boolean valid) {
+	private Difficulty(String shortRepresenation, String fullRepresentation,
+			byte oldCWValue, boolean valid) {
 		this.shortRepresenation = shortRepresenation;
 		this.fullRepresentation = fullRepresentation;
 		this.oldCWValue = oldCWValue;
@@ -43,7 +44,7 @@ public enum Difficulty {
 	public String getFullRepresentation() {
 		return fullRepresentation;
 	}
-	
+
 	@Override
 	public String toString() {
 		return shortRepresenation;
@@ -52,11 +53,11 @@ public enum Difficulty {
 	public boolean isValid() {
 		return valid;
 	}
-	
+
 	public byte getOldCWValue() {
 		return oldCWValue;
 	}
-	
+
 	public static Difficulty fromString(String value) {
 		for (Difficulty actualValue : values()) {
 			if (actualValue.fullRepresentation.equals(value)
@@ -74,8 +75,8 @@ public enum Difficulty {
 				return actualValue;
 			}
 		}
-		throw new IllegalArgumentException("Error mapping Difficulty. Found byte: "
-				+ value);
+		throw new IllegalArgumentException(
+				"Error mapping Difficulty. Found byte: " + value);
 	}
-	
+
 }

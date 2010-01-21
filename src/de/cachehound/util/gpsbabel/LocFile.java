@@ -4,7 +4,7 @@ import java.io.File;
 
 public class LocFile implements IBabelFormat {
 	private File file;
-	
+
 	public LocFile(File file) {
 		this.file = file;
 	}

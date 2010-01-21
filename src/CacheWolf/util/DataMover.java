@@ -264,8 +264,8 @@ public class DataMover {
 
 	public File selectTargetDir() {
 		// Select destination directory
-		FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT,
-				pref.getBaseDir().getAbsolutePath());
+		FileChooser fc = new FileChooser(FileChooserBase.DIRECTORY_SELECT, pref
+				.getBaseDir().getAbsolutePath());
 		fc.setTitle(MyLocale.getMsg(148, "Select Target directory"));
 		if (fc.execute() != FormBase.IDCANCEL) {
 			return new File(fc.getChosen());

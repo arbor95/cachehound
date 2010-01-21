@@ -47,7 +47,7 @@ public class MyLocale {
 	 */
 	static String resourceLanguage;
 	static boolean inInit = false;
-	
+
 	private static File getLocaleFile(String languageshort) {
 		return new File("languages" + File.separator
 				+ languageshort.toUpperCase() + ".cfg");
@@ -88,8 +88,6 @@ public class MyLocale {
 		// v1.49
 		resourceLanguage = language;
 	}
-
-
 
 	private static void init() throws IllegalThreadStateException {
 		if (inInit) {

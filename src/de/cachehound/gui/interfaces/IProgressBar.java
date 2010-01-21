@@ -19,29 +19,32 @@ public interface IProgressBar {
 	/**
 	 * Erhöht den aktuellen Wert des Fortschrittsanzeigers um 1 und setzt den
 	 * Statustext.
-	 * @param status	Der neue Statustext
+	 * 
+	 * @param status
+	 *            Der neue Statustext
 	 */
-	//void tick(String status);
+	// void tick(String status);
 	// Eventuell brauchen wir sowas noch
 	// IProgressBar createSubProgressBar(int max);
 	// IProgressBar createSubProgressBar(int min, int max);
-	
+
 	/**
 	 * Diese Methode zeigt die ProgressBar auf dem Monitor.
 	 * 
 	 * Vorbedingung: Es muss ein Task gesetzt werden.
 	 */
 	public void show();
-	
+
 	/**
 	 * Diese Methode schließt die ProgressBar.
 	 */
 	public void close();
-	
+
 	/**
 	 * Setzt den Task, den diese ProgressBar darstellen soll.
+	 * 
 	 * @param task
 	 */
 	public void setProgressTask(IProgressTask task);
-	
+
 }

@@ -15,6 +15,6 @@ public interface IFilter {
 	 *         sonst.
 	 */
 	public boolean cacheIsVisible(ICacheHolder ch);
-	
+
 	public Element toXML();
 }

@@ -8,7 +8,7 @@ public class AndFilter extends ListFilter {
 	public AndFilter(IFilter... filters) {
 		super(filters);
 	}
-	
+
 	public AndFilter(Collection<? extends IFilter> filters) {
 		super(filters);
 	}

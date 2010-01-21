@@ -195,7 +195,7 @@ public class Profile {
 		CWPoint savedCentre = getCenter();
 		if (savedCentre == null
 				|| !savedCentre.isValid()
-				//TODO: Warum die Sonderbehandlung für (0,0)?
+				// TODO: Warum die Sonderbehandlung für (0,0)?
 				|| (savedCentre.getLatDec() == 0.0 && savedCentre.getLonDec() == 0.0))
 			savedCentre = pref.getCurCenter();
 

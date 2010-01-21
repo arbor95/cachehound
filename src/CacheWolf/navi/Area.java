@@ -12,7 +12,8 @@ public class Area {
 	}
 
 	public boolean isInBound(CWPoint p) {
-		if (topleft.getLatDec() >= p.getLatDec() && topleft.getLonDec() <= p.getLonDec()
+		if (topleft.getLatDec() >= p.getLatDec()
+				&& topleft.getLonDec() <= p.getLonDec()
 				&& buttomright.getLatDec() <= p.getLatDec()
 				&& buttomright.getLonDec() >= p.getLonDec())
 			return true;

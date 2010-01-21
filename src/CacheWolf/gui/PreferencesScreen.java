@@ -49,8 +49,8 @@ public class PreferencesScreen extends Form {
 			inputMailInbox, inputMailMovetoBox;
 	mCheckBox chkMailMoveMessages, chkMailMarkMessages, chkMailDeleteMessages;
 	mCheckBox chkAutoLoad, chkShowDeletedImg, chkMenuAtTop, chkTabsAtTop,
-			chkShowStatus, chkSynthShort, chkProxyActive,
-			chkDescShowImg, chkAddDetailsToWaypoint, chkAddDetailsToName;
+			chkShowStatus, chkSynthShort, chkProxyActive, chkDescShowImg,
+			chkAddDetailsToWaypoint, chkAddDetailsToName;
 
 	mTabbedPanel mTab;
 	mChoice chcGarminPort;
@@ -426,11 +426,9 @@ public class PreferencesScreen extends Form {
 				MyLocale.getMsg(1041, "Note exists"),
 				MyLocale.getMsg(1046, "# Additionals"),
 				MyLocale.getMsg(1048, "# DNF Logs"),
-				MyLocale.getMsg(1051, "Last sync date"),
-				"GcVote MyVote", 
-				"GcVote Average", 
-				"GcVote Median"}, pref.listColMap),
-				MyLocale.getMsg(595, "List"), null);
+				MyLocale.getMsg(1051, "Last sync date"), "GcVote MyVote",
+				"GcVote Average", "GcVote Median" }, pref.listColMap), MyLocale
+				.getMsg(595, "List"), null);
 
 		mTab.addCard(tccBugs = new TableColumnChooser(new String[] {
 				MyLocale.getMsg(6000, "Guid"), MyLocale.getMsg(6001, "Name"),
@@ -496,9 +494,9 @@ public class PreferencesScreen extends Form {
 				pref.myproxyport = ProxyPort.getText();
 				pref.proxyActive = chkProxyActive.getState();
 				HttpConnection.setProxy(pref.myproxy, Common
-						.parseInt(pref.myproxyport), pref.proxyActive); 
+						.parseInt(pref.myproxyport), pref.proxyActive);
 				// TODO generate an error message if proxy port is not a number
-				
+
 				// myPreferences.nLogs = Convert.parseInt(nLogs.getText());
 				pref.autoReloadLastProfile = chkAutoLoad.getState();
 				pref.showDeletedImages = chkShowDeletedImg.getState();

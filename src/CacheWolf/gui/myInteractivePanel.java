@@ -84,8 +84,8 @@ public class myInteractivePanel extends InteractivePanel {
 		CacheHolder ch = cacheDB.get(imgRP.rownum);
 		wayPoint = ch.getWayPoint();
 		String s = wayPoint + "  " + ch.getCacheSize().getAsChar() + " / "
-				+ strDifficulty + "=" + ch.getDifficulty() + "  " + strTerrain + "="
-				+ ch.getTerrain();
+				+ strDifficulty + "=" + ch.getDifficulty() + "  " + strTerrain
+				+ "=" + ch.getTerrain();
 		String s1 = ch.getCacheName();
 		if (s1.length() > 40)
 			s1 = s1.substring(0, 40);
@@ -140,7 +140,8 @@ public class myInteractivePanel extends InteractivePanel {
 		CacheHolder ch = Global.getProfile().cacheDB.get(wayPoint);
 		if (ch != null) {
 			IconAndText icnDrag = new IconAndText();
-			icnDrag.addColumn(GuiImageBroker.getInstance().getTypeImage(ch.getType()));
+			icnDrag.addColumn(GuiImageBroker.getInstance().getTypeImage(
+					ch.getType()));
 			icnDrag.addColumn(ch.getWayPoint());
 			dc.dragData = dc.startImageDrag(icnDrag, new Point(8, 8), this);
 			// if (dc instanceof ImageDragContext)

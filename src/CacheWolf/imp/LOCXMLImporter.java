@@ -32,12 +32,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 
-import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.CacheDB;
 import CacheWolf.beans.CacheHolder;
 import CacheWolf.beans.Preferences;
 import CacheWolf.beans.Profile;
-import CacheWolf.util.Common;
 import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;

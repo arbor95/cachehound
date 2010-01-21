@@ -14,7 +14,8 @@ public class EweProgressBar implements ITaskListener, IProgressBar {
 		if (infoBox != null) {
 			infoBox.close(0);
 		}
-		infoBox = new InfoBox(task.getHeadLine(), task.getText() + "\n\n" + (int) (task.getProgress() * 100) + " %", 4);
+		infoBox = new InfoBox(task.getHeadLine(), task.getText() + "\n\n"
+				+ (int) (task.getProgress() * 100) + " %", 4);
 		infoBox.exec();
 		infoBox.waitUntilPainted(100);
 	}
@@ -25,7 +26,7 @@ public class EweProgressBar implements ITaskListener, IProgressBar {
 		}
 		task.removeTaskListener(this);
 	}
-	
+
 	@Override
 	public void updateHeadLine(String headLine) {
 		infoBox.setTitle(headLine);
@@ -33,12 +34,15 @@ public class EweProgressBar implements ITaskListener, IProgressBar {
 
 	@Override
 	public void updateProgress(double progress) {
-		infoBox.setInfo(task.getText() + "\n\n" + (int) (progress * 100) + " %");
+		infoBox
+				.setInfo(task.getText() + "\n\n" + (int) (progress * 100)
+						+ " %");
 	}
 
 	@Override
 	public void updateText(String statusText) {
-		infoBox.setInfo(statusText + "\n\n" + (int) (task.getProgress() * 100) + " %");
+		infoBox.setInfo(statusText + "\n\n" + (int) (task.getProgress() * 100)
+				+ " %");
 	}
 
 	@Override
@@ -48,6 +52,6 @@ public class EweProgressBar implements ITaskListener, IProgressBar {
 		}
 		this.task = task;
 		task.addTaskListener(this);
-	}	
-	
+	}
+
 }
