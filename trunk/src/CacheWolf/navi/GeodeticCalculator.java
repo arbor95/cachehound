@@ -8,6 +8,8 @@
 //package org.gavaghan.geodesy;
 package CacheWolf.navi;
 
+import CacheWolf.beans.CWPoint;
+
 /**
  * <p>
  * Implementation of Thaddeus Vincenty's algorithms to solve the direct and
@@ -44,8 +46,8 @@ public class GeodeticCalculator {
 	 *            populated with the result
 	 * @return
 	 */
-	static public TrackPoint calculateEndingGlobalCoordinates(
-			Ellipsoid ellipsoid, TrackPoint start, double startBearing,
+	static public CWPoint calculateEndingGlobalCoordinates(
+			Ellipsoid ellipsoid, CWPoint start, double startBearing,
 			double distance, double[] endBearing) {
 		double a = ellipsoid.getSemiMajorAxis();
 		double b = ellipsoid.getSemiMinorAxis();
@@ -159,7 +161,7 @@ public class GeodeticCalculator {
 			endBearing[0] = alpha2 / PiOver180;
 		}
 
-		return new TrackPoint(latitude, longitude);
+		return new CWPoint(latitude, longitude);
 	}
 
 	/**
@@ -177,8 +179,8 @@ public class GeodeticCalculator {
 	 *            distance to travel (meters)
 	 * @return
 	 */
-	static public TrackPoint calculateEndingGlobalCoordinates(
-			Ellipsoid ellipsoid, TrackPoint start, double startBearing,
+	static public CWPoint calculateEndingGlobalCoordinates(
+			Ellipsoid ellipsoid, CWPoint start, double startBearing,
 			double distance) {
 		return calculateEndingGlobalCoordinates(ellipsoid, start, startBearing,
 				distance, null);
@@ -197,9 +199,9 @@ public class GeodeticCalculator {
 	 * @return
 	 */
 	// public GeodeticCurve calculateGeodeticCurve(Ellipsoid ellipsoid,
-	// TrackPoint start, TrackPoint end)
+	// CWPoint start, CWPoint end)
 	static public double calculateDistanceAndBearing(Ellipsoid ellipsoid,
-			TrackPoint start, TrackPoint end, double[] bearing) {
+			CWPoint start, CWPoint end, double[] bearing) {
 		//
 		// All equation numbers refer back to Vincenty's publication:
 		// See http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
@@ -382,12 +384,12 @@ public class GeodeticCalculator {
 	}
 
 	static public double calculateDistance(Ellipsoid ellipsoid,
-			TrackPoint start, TrackPoint end) {
+			CWPoint start, CWPoint end) {
 		return calculateDistanceAndBearing(ellipsoid, start, end, null);
 	}
 
 	static public double calculateBearing(Ellipsoid ellipsoid,
-			TrackPoint start, TrackPoint end) {
+			CWPoint start, CWPoint end) {
 		double bearing[] = { 0.0 };
 		calculateDistanceAndBearing(ellipsoid, start, end, bearing);
 		return bearing[0];
