@@ -11,16 +11,6 @@ public class TrackPoint {
 	private double latDec;
 	private double lonDec;
 
-	public TrackPoint() {
-		latDec = -91;
-		lonDec = -361;
-	}
-
-	public TrackPoint(TrackPoint t) {
-		latDec = t.latDec;
-		lonDec = t.lonDec;
-	}
-
 	public TrackPoint(double lat, double lon) {
 		latDec = lat;
 		lonDec = lon;
