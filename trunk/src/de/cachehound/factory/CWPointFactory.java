@@ -15,6 +15,9 @@ import com.bbn.openmap.proj.coords.MGRSPoint;
 
 import ewe.sys.Convert;
 
+/**
+ * This class has numerous methods to create CWPoints.
+ */
 public class CWPointFactory {
 	// private static Logger logger = LoggerFactory
 	// .getLogger(CWPointFactory.class);
@@ -51,10 +54,24 @@ public class CWPointFactory {
 		return cwPointFactory;
 	}
 
+	/**
+	 * Creates an invalid CWPoint.
+	 */
+	// TODO: wouldn't simply using null suffice?
 	public CWPoint createInvalid() {
 		return new CWPoint();
 	}
 
+	/**
+	 * Creates a CWPoint from it's latitude and longitude. Passing in invalid
+	 * values to create an invalid CWPoint is deprecated, use createInvalid()
+	 * instead.
+	 * 
+	 * @param lat
+	 *            the latitude (between -90 and 90)
+	 * @param lon
+	 *            the longitude (between -180 and 180)
+	 */
 	public CWPoint fromD(double lat, double lon) {
 		return new CWPoint(lat, lon);
 	}
@@ -102,7 +119,7 @@ public class CWPointFactory {
 			return createInvalid();
 		}
 	}
-	
+
 	private static Pattern hdPattern = Pattern.compile("\\s*([NSns])\\s*"
 	// Hemisphere
 			+ "([0-9]{1,2}(?:[,.][0-9]{1,8})?)\\s*[°\\p{Space}]\\s*"
@@ -146,6 +163,14 @@ public class CWPointFactory {
 			// Minutes
 			+ "");
 
+	/**
+	 * Creates a CWPoint from a string. The string should contain the
+	 * coordinates in HDDD MM.MMM format. That is: hemisphere, full degrees and
+	 * decimal minutes.
+	 * 
+	 * If you _know_ that your String is in that format, use this method.
+	 * Otherwise, use fromString() instead.
+	 */
 	public CWPoint fromHDMString(String in) {
 		Matcher matcher = hdmPattern.matcher(in);
 
@@ -199,6 +224,27 @@ public class CWPointFactory {
 					Double.parseDouble(matcher.group(8).replace(',', '.')));
 		}
 
+		return createInvalid();
+	}
+
+	/**
+	 * Creates a CWPoint from a String. If you're unsure which method to use,
+	 * use this one.
+	 */
+	public CWPoint fromString(String in) {
+		//FIXME: Re-add support for UTM, GK...
+		CWPoint ret = fromHDMString(in);
+		if (ret.isValid()) {
+			return ret;
+		}
+		ret = fromHDString(in);
+		if (ret.isValid()) {
+			return ret;
+		}
+		ret = fromHDMSString(in);
+		if (ret.isValid()) {
+			return ret;
+		}
 		return createInvalid();
 	}
 }
