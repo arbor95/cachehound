@@ -2,7 +2,6 @@ package CacheWolf.beans;
 
 import CacheWolf.navi.GeodeticCalculator;
 import CacheWolf.navi.GkPoint;
-import CacheWolf.navi.TrackPoint;
 import CacheWolf.navi.TransformCoordinates;
 import CacheWolf.util.Common;
 import CacheWolf.util.MyLocale;
@@ -17,7 +16,10 @@ import ewe.sys.Convert;
  * projection and calculation of bearing and distance
  * 
  */
-public class CWPoint extends TrackPoint {
+public class CWPoint {
+	private double latDec;
+	private double lonDec;
+
 	private MGRSPoint utm = new MGRSPoint();
 	private boolean utmValid = false;
 
@@ -39,7 +41,8 @@ public class CWPoint extends TrackPoint {
 	 *            Longitude as decimal
 	 */
 	public CWPoint(double lat, double lon) {
-		super(lat, lon);
+		latDec = lat;
+		lonDec = lon;
 		this.utmValid = false;
 	}
 
@@ -48,7 +51,7 @@ public class CWPoint extends TrackPoint {
 	 */
 
 	public CWPoint() {
-		super(-361, -361); // construct with unvalid == unset lat/lon
+		this(-361, -361); // construct with unvalid == unset lat/lon
 		this.utmValid = false;
 
 	}
@@ -60,9 +63,17 @@ public class CWPoint extends TrackPoint {
 	 *            LatLonPoint
 	 */
 
-	public CWPoint(TrackPoint cwPoint) {
-		super(cwPoint.getLatDec(), cwPoint.getLonDec());
+	public CWPoint(CWPoint cwPoint) {
+		this(cwPoint.getLatDec(), cwPoint.getLonDec());
 		this.utmValid = false;
+	}
+
+	public double getLatDec() {
+		return latDec;
+	}
+
+	public double getLonDec() {
+		return lonDec;
 	}
 
 	/**
@@ -380,6 +391,19 @@ public class CWPoint extends TrackPoint {
 
 		}
 
+	}
+
+	public boolean equals(CWPoint tp) {
+		return (Math.abs(latDec - tp.latDec) < 1e-10)
+				&& (Math.abs(lonDec - tp.lonDec) < 1e-10);
+	}
+
+	/**
+	 * Returns true if the coordinates are valid
+	 */
+	public boolean isValid() {
+		return latDec <= 90.0 && latDec >= -90.0 && lonDec <= 360
+				&& lonDec >= -360;
 	}
 
 	/**

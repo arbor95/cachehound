@@ -1,5 +1,7 @@
 package CacheWolf.navi;
 
+import CacheWolf.beans.CWPoint;
+
 /**
  * Point in Gauß-Krüger Format
  * 
@@ -99,8 +101,8 @@ public class GkPoint {
 		return stripe;
 	}
 
-	public TrackPoint toTrackPoint(int region) {
-		return new TrackPoint(northing, getGkEasting(region));
+	public CWPoint toCWPoint(int region) {
+		return new CWPoint(northing, getGkEasting(region));
 	}
 
 	/**

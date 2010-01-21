@@ -46,8 +46,8 @@ public class TransformCoordinatesProperties extends Properties {
 	 * @param ll
 	 * @return
 	 */
-	public static TrackPoint fromWgs84(TrackPoint ll, int epsgCode) {
-		TrackPoint ret = null;
+	public static CWPoint fromWgs84(CWPoint ll, int epsgCode) {
+		CWPoint ret = null;
 		switch (epsgCode) {
 		case TransformCoordinates.EPSG_WGS84:
 		case TransformCoordinates.EPSG_ETRS89:
@@ -58,7 +58,7 @@ public class TransformCoordinatesProperties extends Properties {
 			if (region > 0) {
 				GkPoint xy = TransformCoordinates.wgs84ToGaussKrueger(ll,
 						epsgCode);
-				ret = xy.toTrackPoint(region);
+				ret = xy.toCWPoint(region);
 			} else {
 				throw new IllegalArgumentException(MyLocale.getMsg(4923,
 						"fromWgs84: EPSG code ")

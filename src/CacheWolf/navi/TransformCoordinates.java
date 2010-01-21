@@ -1,9 +1,9 @@
 package CacheWolf.navi;
 
-import de.cachehound.factory.CWPointFactory;
 import CacheWolf.beans.CWPoint;
 import CacheWolf.beans.Matrix;
 import CacheWolf.util.MyLocale;
+import de.cachehound.factory.CWPointFactory;
 
 /**
  * Class to transform coordinates and shift datums it uses the 7 parameter
@@ -136,9 +136,9 @@ public class TransformCoordinates {
 	static final Area ITALY_SARDINIA = new Area(CWPointFactory.getInstance()
 			.fromD(42, 6), CWPointFactory.getInstance().fromD(38, 11));
 	static final Area ITALY_SARDINIA_GK = new Area(wgs84ToGaussKrueger(
-			ITALY_SARDINIA.topleft, EPSG_ITALIAN_GB_EW1).toTrackPoint(
+			ITALY_SARDINIA.topleft, EPSG_ITALIAN_GB_EW1).toCWPoint(
 			GkPoint.ITALIAN_GB), wgs84ToGaussKrueger(
-			ITALY_SARDINIA.buttomright, EPSG_ITALIAN_GB_EW1).toTrackPoint(
+			ITALY_SARDINIA.buttomright, EPSG_ITALIAN_GB_EW1).toCWPoint(
 			GkPoint.ITALIAN_GB));
 
 	public static final TransformParameters GB_ITALIAN_SICILIA_TO_WGS84 = new TransformParameters(
@@ -146,9 +146,9 @@ public class TransformCoordinates {
 	static final Area ITALY_SICILIA = new Area(CWPointFactory.getInstance()
 			.fromD(39, 12), CWPointFactory.getInstance().fromD(36.3, 15.6));
 	static final Area ITALY_SICILIA_GK = new Area(wgs84ToGaussKrueger(
-			ITALY_SICILIA.topleft, EPSG_ITALIAN_GB_EW2).toTrackPoint(
+			ITALY_SICILIA.topleft, EPSG_ITALIAN_GB_EW2).toCWPoint(
 			GkPoint.ITALIAN_GB), wgs84ToGaussKrueger(ITALY_SICILIA.buttomright,
-			EPSG_ITALIAN_GB_EW2).toTrackPoint(GkPoint.ITALIAN_GB));
+			EPSG_ITALIAN_GB_EW2).toCWPoint(GkPoint.ITALIAN_GB));
 
 	private TransformCoordinates() {
 		// as all members are static, so avoid instantiation
@@ -229,10 +229,10 @@ public class TransformCoordinates {
 	}
 
 	public static CWPoint italianGkToWgs84(GkPoint gk) {
-		if (ITALY_SARDINIA_GK.isInBound(gk.toTrackPoint(GkPoint.ITALIAN_GB)))
+		if (ITALY_SARDINIA_GK.isInBound(gk.toCWPoint(GkPoint.ITALIAN_GB)))
 			return gkToWgs84(gk, HAYFORD1909, GB_ITALIAN_SARDINIA_TO_WGS84,
 					0.9996);
-		if (ITALY_SICILIA_GK.isInBound(gk.toTrackPoint(GkPoint.ITALIAN_GB)))
+		if (ITALY_SICILIA_GK.isInBound(gk.toCWPoint(GkPoint.ITALIAN_GB)))
 			return gkToWgs84(gk, HAYFORD1909, GB_ITALIAN_SICILIA_TO_WGS84,
 					0.9996);
 		else
@@ -272,7 +272,7 @@ public class TransformCoordinates {
 	 *            e.g. GkPoint.GERMAN_GK
 	 * @return
 	 */
-	public static GkPoint wgs84ToGk(TrackPoint ll, int region) {
+	public static GkPoint wgs84ToGk(CWPoint ll, int region) {
 		switch (region) {
 		case GkPoint.GERMAN_GK:
 			return wgs84ToGk(ll, BESSEL, getGermanGkTransformParameters(ll),
@@ -288,7 +288,7 @@ public class TransformCoordinates {
 	}
 
 	public static TransformParameters getGermanGkTransformParameters(
-			TrackPoint ll) {
+			CWPoint ll) {
 		if (FORMER_GDR.isInBound(ll))
 			return GK_GERMANY_2001; // exlcude former GDR from the splitting
 		// germany in north/middel/south
@@ -302,7 +302,7 @@ public class TransformCoordinates {
 	}
 
 	public static TransformParameters getItalianGkTransformParameters(
-			TrackPoint ll) {
+			CWPoint ll) {
 		if (ITALY_SARDINIA.isInBound(ll))
 			return GB_ITALIAN_SARDINIA_TO_WGS84;
 		if (ITALY_SICILIA.isInBound(ll))
@@ -349,7 +349,7 @@ public class TransformCoordinates {
 	 * @return
 	 */
 	// TODO find out what about the Krassowski in former GDR?
-	public static GkPoint wgs84ToGk(TrackPoint ll, Ellipsoid forgk,
+	public static GkPoint wgs84ToGk(CWPoint ll, Ellipsoid forgk,
 			TransformParameters gk2wgs84, int stripe, int stripewidth,
 			int degreeOfStripe0, double scale) {
 		XyzCoordinates wgsxyz = latLon2xyz(ll, 0, WGS84);
@@ -394,7 +394,7 @@ public class TransformCoordinates {
 	 * @throws IllegalArgumentException
 	 *             if EPSG code is not supported GK or unsupported
 	 */
-	public static GkPoint wgs84ToGaussKrueger(TrackPoint wgs84, int epsgcode)
+	public static GkPoint wgs84ToGaussKrueger(CWPoint wgs84, int epsgcode)
 			throws IllegalArgumentException {
 		switch (getGkRegion(epsgcode)) {
 		case GkPoint.GERMAN_GK:
@@ -440,7 +440,7 @@ public class TransformCoordinates {
 		return stripe;
 	}
 
-	private static XyzCoordinates latLon2xyz(TrackPoint ll, double alt,
+	private static XyzCoordinates latLon2xyz(CWPoint ll, double alt,
 			Ellipsoid ellipsoid) {
 		if (!ll.isValid())
 			throw new IllegalArgumentException("latLon2xyz: invalid lat-lon");
