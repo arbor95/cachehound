@@ -435,9 +435,9 @@ public class CoordsScreen extends Form {
 				String inp = inpText.getText().trim().toUpperCase();
 				if (inp.startsWith("GC")) {
 					SpiderService spider = SpiderService.getInstance();
-					coord = new CWPoint(spider.getCacheCoordinates(inp));
+					coord = CWPointFactory.getInstance().fromString(spider.getCacheCoordinates(inp));
 				} else {
-					coord = new CWPoint(inp);
+					coord = CWPointFactory.getInstance().fromString(inp);
 				}
 				if (!coord.isValid()) {
 					MessageBox tmpMB = new MessageBox(

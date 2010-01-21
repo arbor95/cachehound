@@ -39,16 +39,8 @@ public class TrackPoint {
 				&& lonDec >= -360;
 	}
 
-	protected void setLatDec(double latDec) {
-		this.latDec = latDec;
-	}
-
 	public double getLatDec() {
 		return latDec;
-	}
-
-	protected void setLonDec(double lonDec) {
-		this.lonDec = lonDec;
 	}
 
 	public double getLonDec() {

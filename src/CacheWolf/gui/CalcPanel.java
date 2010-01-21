@@ -158,7 +158,8 @@ public class CalcPanel extends CellPanel {
 	}
 
 	private void readFields() {
-		coordInp = new CWPoint(btnChangeLatLon.getText());
+		coordInp = CWPointFactory.getInstance().fromString(
+				btnChangeLatLon.getText());
 		currFormat = chkFormat.getSelectedIndex();
 		bd.degrees = Common.parseDouble(inpBearing.getText());
 

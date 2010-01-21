@@ -50,6 +50,7 @@ import com.stevesoft.ewe_pat.Regex;
 
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.beans.LogList;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.factory.LogFactory;
 import de.cachehound.types.CacheSize;
 import de.cachehound.types.CacheType;
@@ -737,14 +738,14 @@ public class SpiderGC {
 				if (spiderAllFinds) {
 					postStr = p.getProp("firstLine");
 				} else {
-//					postStr = p.getProp("firstLine") + "lat="
-//							+ origin.getLatDeg(CWPoint.DD) + "&lng="
-//							+ origin.getLonDeg(CWPoint.DD)
-//							+ p.getProp("maxDistance")
-//							+ Integer.toString((int) saveDistanceInMiles);
-					postStr = p.getProp("firstLine") 
-							+ origin.getLatDeg(CWPoint.DD) 
-							+ p.getProp("firstLine2") 
+					// postStr = p.getProp("firstLine") + "lat="
+					// + origin.getLatDeg(CWPoint.DD) + "&lng="
+					// + origin.getLonDeg(CWPoint.DD)
+					// + p.getProp("maxDistance")
+					// + Integer.toString((int) saveDistanceInMiles);
+					postStr = p.getProp("firstLine")
+							+ origin.getLatDeg(CWPoint.DD)
+							+ p.getProp("firstLine2")
 							+ origin.getLonDeg(CWPoint.DD)
 							+ p.getProp("maxDistance")
 							+ Integer.toString((int) saveDistanceInMiles);
@@ -769,7 +770,8 @@ public class SpiderGC {
 					doc = URL.encodeURL("__EVENTTARGET", false) + "="
 							+ URL.encodeURL(strNextPage, false) + "&"
 							+ URL.encodeURL("__EVENTARGUMENT", false) + "="
-							+ URL.encodeURL("", false) + "&"
+							+ URL.encodeURL("", false)
+							+ "&"
 							// + URL.encodeURL("__VIEWSTATEFIELDCOUNT", false) +
 							// "=2"
 							+ "&" + URL.encodeURL("__VIEWSTATE", false) + "="
@@ -1004,7 +1006,7 @@ public class SpiderGC {
 						// ==========
 						// General Cache Data
 						// ==========
-						ch.setPos(new CWPoint(latLon));
+						ch.setPos(CWPointFactory.getInstance().fromString(latLon));
 						logger.debug("LatLon: " + ch.getLatLon());
 
 						logger.debug("Trying description");
@@ -1909,7 +1911,8 @@ public class SpiderGC {
 				typeRex.search(rowBlock);
 				hd.setCacheName(nameRex.stringMatched(1));
 				if (koordRex.didMatch()) {
-					hd.setPos(new CWPoint(koordRex.stringMatched(1)));
+					hd.setPos(CWPointFactory.getInstance().fromHDMString(
+							koordRex.stringMatched(1)));
 				}
 				if (typeRex.didMatch())
 					hd.setType(CacheType.fromGcGpxString(typeRex
