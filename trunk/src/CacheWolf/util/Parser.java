@@ -225,7 +225,7 @@ public class Parser {
 	}
 
 	private boolean isValidCoord(String coord) {
-		return new CWPoint(coord).isValid();
+		return CWPointFactory.getInstance().fromString(coord).isValid();
 	}
 
 	private Object getVariable(String varName) throws Exception {
@@ -422,7 +422,8 @@ public class Parser {
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
 		if (!isValidCoord(coordB))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordB);
-		double angleDeg = (new CWPoint(coordA)).getBearing(new CWPoint(coordB));
+		double angleDeg = (CWPointFactory.getInstance().fromString(coordA))
+				.getBearing(CWPointFactory.getInstance().fromString(coordB));
 		// getBearing returns a result in degrees
 		return Global.getPref().solverDegMode ? angleDeg : angleDeg
 				* java.lang.Math.PI / 180.0;
@@ -436,7 +437,8 @@ public class Parser {
 			String coordA = popCalcStackAsString();
 			if (!isValidCoord(coordA))
 				err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
-			Global.getPref().setCurCenter(new CWPoint(coordA));
+			Global.getPref().setCurCenter(
+					CWPointFactory.getInstance().fromString(coordA));
 			Global.getProfile().updateBearingDistance();
 		}
 	}
@@ -525,7 +527,8 @@ public class Parser {
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
 		if (!isValidCoord(coordB))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordB);
-		double distKM = new CWPoint(coordA).getDistance(new CWPoint(coordB));
+		double distKM = CWPointFactory.getInstance().fromString(coordA)
+				.getDistance(CWPointFactory.getInstance().fromString(coordB));
 		result = distKM * 1000.0;
 		if (Global.getPref().metricSystem == Metrics.IMPERIAL) {
 			result = Metrics.convertUnit(distKM, Metrics.KILOMETER,
@@ -573,7 +576,7 @@ public class Parser {
 		String coord = popCalcStackAsString();
 		if (!isValidCoord(coord))
 			err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coord);
-		CWPoint cwPt = new CWPoint(coord);
+		CWPoint cwPt = CWPointFactory.getInstance().fromString(coord);
 		int fmt = CWPoint.CW;
 		if (fmtStr.equals("dd"))
 			fmt = CWPoint.DD;
@@ -653,7 +656,8 @@ public class Parser {
 			String coordA = popCalcStackAsString();
 			if (!isValidCoord(coordA))
 				err(MyLocale.getMsg(1712, "Invalid coordinate: ") + coordA);
-			Global.getProfile().setCenter(new CWPoint(coordA));
+			Global.getProfile().setCenter(
+					CWPointFactory.getInstance().fromString(coordA));
 		}
 	}
 
@@ -693,8 +697,8 @@ public class Parser {
 		double rBN = Global.getPref().solverDegMode ? degrees2 / 180.0
 				* java.lang.Math.PI : degrees2;
 
-		CWPoint point1 = new CWPoint(coordinates1);
-		CWPoint point2 = new CWPoint(coordinates2);
+		CWPoint point1 = CWPointFactory.getInstance().fromString(coordinates1);
+		CWPoint point2 = CWPointFactory.getInstance().fromString(coordinates2);
 
 		// check Parameters: bearings to project must be different from the
 		// bearing between point1 and point2
@@ -795,7 +799,8 @@ public class Parser {
 		} else {
 			distance = distance / 1000.0;
 		}
-		return new CWPoint(coord).project(degrees, distance).toString();
+		return CWPointFactory.getInstance().fromString(coord).project(degrees,
+				distance).toString();
 	}
 
 	/** Convert Radiants into degrees */
@@ -1121,7 +1126,7 @@ public class Parser {
 			if (ch != null) { // Yes, is a coordinate
 				// Check whether new coordinates are valid
 				String coord = popCalcStackAsString();
-				CWPoint cwPt = new CWPoint(coord);
+				CWPoint cwPt = CWPointFactory.getInstance().fromString(coord);
 				if (cwPt.isValid() || coord.equals("")) {
 					// Can clear coord with empty string
 					ch.setPos(cwPt);
@@ -1386,7 +1391,8 @@ public class Parser {
 		}
 	}
 
-	private boolean createWptIfNeeded(String wayPoint, String name, CacheType type) {
+	private boolean createWptIfNeeded(String wayPoint, String name,
+			CacheType type) {
 		int ci = Global.getProfile().getCacheIndex(wayPoint);
 		if (ci >= 0)
 			return false;

@@ -12,6 +12,7 @@ import CacheWolf.gui.InfoBox;
 import CacheWolf.util.MyLocale;
 import de.cachehound.beans.CacheHolderDetail;
 import de.cachehound.comparators.DistanceComparator;
+import de.cachehound.factory.CWPointFactory;
 import de.cachehound.types.CacheType;
 import de.cachehound.util.Rot13;
 import ewe.filechooser.FileChooser;
@@ -99,7 +100,8 @@ public class ExploristExporter {
 						fileName = targetDir + tokenizer.nextToken().trim()
 								+ ".gs";
 						coordinate = tokenizer.nextToken().trim();
-						CWPoint point = new CWPoint(coordinate);
+						CWPoint point = CWPointFactory.getInstance()
+								.fromString(coordinate);
 						DistanceComparator dc = new DistanceComparator(point);
 						cacheDB.sort(dc, false);
 						doIt(fileName);
